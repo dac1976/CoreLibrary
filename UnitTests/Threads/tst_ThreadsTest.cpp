@@ -209,6 +209,61 @@ private:
     }
 };
 
+
+class QueuedThread2 final : public core_lib::threads::ThreadBase
+{
+public:
+    QueuedThread2(core_lib::threads::ConcurrentQueue<char>& queue)
+        : ThreadBase()
+        , m_queue(queue)
+        , m_counter(0)
+    {
+        //Do this last in constructor.
+        Start();
+    }
+
+    virtual ~QueuedThread2()
+    {
+        //Do this first in destructor.
+        Stop();
+    }
+
+    size_t GetCounter() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_counter;
+    }
+
+private:
+    core_lib::threads::ConcurrentQueue<char>& m_queue;
+    mutable std::mutex m_mutex;
+    size_t m_counter;
+
+    virtual void ThreadIteration()
+    {
+        size_t size;
+        char* message = m_queue.Pop(&size);
+
+        if (message && (size > 0))
+        {
+            if (size > 1)
+                delete [] message;
+            else
+                delete message;
+
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_counter = m_counter == std::numeric_limits<size_t>::max()
+                        ? 0
+                        : m_counter + 1;
+        }
+    }
+
+    virtual void ProcessTerminationConditions()
+    {
+        m_queue.PushNull();
+    }
+};
+
 // ****************************************************************************
 // Unit test wrapper
 // ****************************************************************************
@@ -660,6 +715,21 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 void ThreadsTest::testCase_ConcurrentQueue3()
 {
     core_lib::threads::ConcurrentQueue<char> m_queue;
+    QueuedThread2 qt1(m_queue);
+    QueuedThread2 qt2(m_queue);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    m_queue.Push(new char[10], 10);
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    QVERIFY(qt1.GetCounter() > 0);
+    QVERIFY(qt2.GetCounter() > 0);
 }
 
 QTEST_APPLESS_MAIN(ThreadsTest)
