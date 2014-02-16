@@ -297,7 +297,6 @@ private Q_SLOTS:
     void testCase_ThreadBase();
     void testCase_ConcurrentQueue1();
     void testCase_ConcurrentQueue2();
-    void testCase_ConcurrentQueue3();
 };
 
 ThreadsTest::ThreadsTest()
@@ -552,7 +551,7 @@ void ThreadsTest::testCase_SyncEvent7()
     QVERIFY(helper.GetEventSignalledState(tId));
     t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
     tId = t->get_id();
-    QVERIFY(helper.GetEventSignalledState(tId));
+    QVERIFY(!helper.GetEventSignalledState(tId));
     tg.JoinAll();
     tg.RemoveThread(t);
     delete t;
@@ -710,26 +709,6 @@ void ThreadsTest::testCase_ConcurrentQueue2()
     }
 
     QVERIFY(correctException);
-}
-
-void ThreadsTest::testCase_ConcurrentQueue3()
-{
-    core_lib::threads::ConcurrentQueue<char> m_queue;
-    QueuedThread2 qt1(m_queue);
-    QueuedThread2 qt2(m_queue);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    m_queue.Push(new char[10], 10);
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    QVERIFY(qt1.GetCounter() > 0);
-    QVERIFY(qt2.GetCounter() > 0);
 }
 
 QTEST_APPLESS_MAIN(ThreadsTest)
