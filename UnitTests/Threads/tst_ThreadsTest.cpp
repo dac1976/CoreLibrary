@@ -551,7 +551,7 @@ void ThreadsTest::testCase_SyncEvent7()
     QVERIFY(helper.GetEventSignalledState(tId));
     t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
     tId = t->get_id();
-    QVERIFY(!helper.GetEventSignalledState(tId));
+    QVERIFY(helper.GetEventSignalledState(tId));
     tg.JoinAll();
     tg.RemoveThread(t);
     delete t;

@@ -1,6 +1,7 @@
 #include <QString>
 #include <QtTest>
 #include "../../StringUtils.hpp"
+#include "boost/predef.h"
 
 class StringUtilsTest : public QObject
 {
@@ -227,10 +228,11 @@ void StringUtilsTest::Case12_FormatFloatString_3()
     float value = 1234.123;
     std::string result;
     core_lib::string_utils::FormatFloatString(result, value, 15, core_lib::string_utils::eFloatStringFormat::scientific);
-    size_t sz = result.size();
-    const char* str = result.c_str();
-    //on windows this needs to be 22U not 21U???
+#if BOOST_OS_WINDOWS
     QVERIFY(result.size() == 22U);
+#else
+    QVERIFY(result.size() == 21U);
+#endif
     QCOMPARE(result.substr(0, 8).c_str(), "1.234123");
 }
 
@@ -257,8 +259,11 @@ void StringUtilsTest::Case15_FormatFloatString_6()
     double value = 1234.123;
     std::string result;
     core_lib::string_utils::FormatFloatString(result, value, 15, core_lib::string_utils::eFloatStringFormat::scientific);
-    //on windows this needs to be 22U not 21U???
+#if BOOST_OS_WINDOWS
     QVERIFY(result.size() == 22U);
+#else
+    QVERIFY(result.size() == 21U);
+#endif
     QCOMPARE(result.substr(0, 8).c_str(), "1.234123");
 }
 
