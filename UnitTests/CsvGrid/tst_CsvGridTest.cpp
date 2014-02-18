@@ -3,6 +3,7 @@
 #include "../../CsvGrid.hpp"
 #include <limits>
 #include <fstream>
+#include "boost/predef.h"
 
 class CsvGridTest : public QObject
 {
@@ -769,7 +770,11 @@ void CsvGridTest::Case59_CsvGrid_FileConstructor_SimpleCells()
 {
     try
     {
+#if BOOST_OS_WINDOWS
+        core_lib::csv_grid::CsvGrid grid("../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#else
         core_lib::csv_grid::CsvGrid grid("../../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#endif
         QCOMPARE(grid.GetRowCount(), static_cast<size_t>(1000));
         QCOMPARE(grid[0].GetSize(), static_cast<size_t>(130));
         QCOMPARE(grid[999].GetSize(), static_cast<size_t>(130));
@@ -788,7 +793,11 @@ void CsvGridTest::Case60_CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130
     {
         QBENCHMARK
         {
+#if BOOST_OS_WINDOWS
+            core_lib::csv_grid::CsvGrid grid("../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#else
             core_lib::csv_grid::CsvGrid grid("../../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#endif
         }
     }
     catch(...)
@@ -801,7 +810,11 @@ void CsvGridTest::Case61_CsvGrid_FileConstructor_DoubleQuotedCells()
 {
     try
     {
+#if BOOST_OS_WINDOWS
+        core_lib::csv_grid::CsvGrid grid("../testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
+#else
         core_lib::csv_grid::CsvGrid grid("../../testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
+#endif
         QCOMPARE(grid.GetRowCount(), static_cast<size_t>(1000));
         QCOMPARE(grid[0].GetSize(), static_cast<size_t>(130));
         QCOMPARE(grid[999].GetSize(), static_cast<size_t>(130));
@@ -820,7 +833,11 @@ void CsvGridTest::Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_100
     {
         QBENCHMARK
         {
+#if BOOST_OS_WINDOWS
+            core_lib::csv_grid::CsvGrid grid("../testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
+#else
             core_lib::csv_grid::CsvGrid grid("../../testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
+#endif
         }
     }
     catch(...)
@@ -1068,7 +1085,11 @@ void CsvGridTest::Case71_CsvGrid_LoadFromCSVFile_2()
     core_lib::csv_grid::CsvGrid grid;
     try
     {
+#if BOOST_OS_WINDOWS
+        grid.LoadFromCSVFile("../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#else
         grid.LoadFromCSVFile("../../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#endif
 
         QCOMPARE(grid.GetRowCount(), static_cast<size_t>(1000));
         QCOMPARE(grid[0].GetSize(), static_cast<size_t>(130));
@@ -1103,7 +1124,11 @@ void CsvGridTest::Case72_CsvGrid_LoadFromCSVFile_3()
 
     try
     {
+#if BOOST_OS_WINDOWS
+        grid.LoadFromCSVFile("../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#else
         grid.LoadFromCSVFile("../../testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+#endif
 
         QCOMPARE(grid.GetRowCount(), static_cast<size_t>(1000));
         QCOMPARE(grid[0].GetSize(), static_cast<size_t>(130));
