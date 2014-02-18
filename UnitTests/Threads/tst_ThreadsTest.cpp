@@ -11,6 +11,7 @@
 #include "../../ThreadGroup.hpp"
 #include "../../ConcurrentQueue.hpp"
 #include "../../MessageQueueThread.hpp"
+#include "../../BoundedBuffer.hpp"
 
 // ****************************************************************************
 // Helper classes for tests
@@ -264,6 +265,111 @@ private:
     }
 };
 
+class BoundedBufThread final : public core_lib::threads::ThreadBase
+{
+public:
+    BoundedBufThread(core_lib::threads::BoundedBuffer<int>& buf)
+        : ThreadBase()
+        , m_buf(buf)
+        , m_blocked(false)
+    {
+        //Do this last in constructor.
+        Start();
+    }
+
+    virtual ~BoundedBufThread()
+    {
+        //Do this first in destructor.
+        Stop();
+    }
+
+    bool GetBlocked() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_blocked;
+    }
+
+private:
+    core_lib::threads::BoundedBuffer<int>& m_buf;
+    mutable std::mutex m_mutex;
+    bool m_blocked;
+
+    virtual void ThreadIteration()
+    {
+        SetBlocked(true);
+        int temp;
+        m_buf.PopBack(temp);
+        SetBlocked(false);
+    }
+
+    virtual void ProcessTerminationConditions()
+    {
+        if (GetBlocked())
+        {
+            m_buf.PushFront(0);
+        }
+    }
+
+    void SetBlocked(bool blocked)
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_blocked = blocked;
+    }
+};
+
+class BoundedBufThread2 final : public core_lib::threads::ThreadBase
+{
+public:
+    BoundedBufThread2(core_lib::threads::BoundedBuffer<int>& buf)
+        : ThreadBase()
+        , m_buf(buf)
+        , m_blocked(false)
+    {
+        //Do this last in constructor.
+        Start();
+    }
+
+    virtual ~BoundedBufThread2()
+    {
+        //Do this first in destructor.
+        Stop();
+    }
+
+    bool GetBlocked() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_blocked;
+    }
+
+private:
+    core_lib::threads::BoundedBuffer<int>& m_buf;
+    mutable std::mutex m_mutex;
+    bool m_blocked;
+
+    virtual void ThreadIteration()
+    {
+        SetBlocked(true);
+        m_buf.PushFront(6);
+        SetBlocked(false);
+    }
+
+    virtual void ProcessTerminationConditions()
+    {
+        if (GetBlocked())
+        {
+            int temp;
+            m_buf.PopBack(temp);
+            (void)temp;
+        }
+    }
+
+    void SetBlocked(bool blocked)
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_blocked = blocked;
+    }
+};
+
 // ****************************************************************************
 // Unit test wrapper
 // ****************************************************************************
@@ -297,6 +403,9 @@ private Q_SLOTS:
     void testCase_ThreadBase();
     void testCase_ConcurrentQueue1();
     void testCase_ConcurrentQueue2();
+    void testCase_BoundedBuffer1();
+    void testCase_BoundedBuffer2();
+    void testCase_BoundedBuffer3();
 };
 
 ThreadsTest::ThreadsTest()
@@ -718,6 +827,54 @@ void ThreadsTest::testCase_ConcurrentQueue2()
     }
 
     QVERIFY(correctException);
+}
+
+void ThreadsTest::testCase_BoundedBuffer1()
+{
+    core_lib::threads::BoundedBuffer<int> bb(10);
+    bb.PushFront(6);
+    int item;
+    bb.PopBack(item);
+    QVERIFY(item == 6);
+}
+
+void ThreadsTest::testCase_BoundedBuffer2()
+{
+    core_lib::threads::BoundedBuffer<int> bb(10);
+    BoundedBufThread bt(bb);
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    QVERIFY(bt.GetBlocked());
+    bb.PushFront(1);
+    bb.PushFront(2);
+    bb.PushFront(3);
+    bb.PushFront(4);
+    bb.PushFront(5);
+    bb.PushFront(6);
+    bb.PushFront(7);
+    bb.PushFront(8);
+    bb.PushFront(9);
+    bb.PushFront(10);
+}
+
+void ThreadsTest::testCase_BoundedBuffer3()
+{
+    core_lib::threads::BoundedBuffer<int> bb(10);
+    bb.PushFront(1);
+    bb.PushFront(2);
+    bb.PushFront(3);
+    bb.PushFront(4);
+    bb.PushFront(5);
+    bb.PushFront(6);
+    bb.PushFront(7);
+    bb.PushFront(8);
+    bb.PushFront(9);
+    bb.PushFront(10);
+    BoundedBufThread2 bt(bb);
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    QVERIFY(bt.GetBlocked());
+    int item;
+    bb.PopBack(item);
+    QVERIFY(item == 1);
 }
 
 QTEST_APPLESS_MAIN(ThreadsTest)

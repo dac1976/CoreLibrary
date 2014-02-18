@@ -1,16 +1,15 @@
 #ifndef BOUNDED_BUFFER_HPP
 #define BOUNDED_BUFFER_HPP
-//-----------------------------------------------------------------------------
+
 #include <mutex>
 #include <condition_variable>
 #include <functional>
 #include "boost/circular_buffer.hpp"
 #include "boost/call_traits.hpp"
-//-----------------------------------------------------------------------------
+
 namespace core_lib {
-//-----------------------------------------------------------------------------
 namespace threads {
-//-----------------------------------------------------------------------------
+
 template<typename T>
 class BoundedBuffer
 {
@@ -18,8 +17,6 @@ public:
     typedef boost::circular_buffer<T> container_type;
     typedef typename container_type::size_type size_type;
     typedef typename container_type::value_type value_type;
-    // param_type represents the "best" way to pass a 
-    // parameter of type value_type to a method...
     typedef typename boost::call_traits<value_type>::param_type param_type;
 
     explicit BoundedBuffer(size_type capacity)
@@ -54,7 +51,7 @@ public:
 
     // pop item off back of circular buffer - blocks if buffer
     // empty until there is a filled slot...
-    void PopBack(value_type* pItem)
+    void PopBack(value_type& item)
     {
         {
             // lock access - reduced scope...
@@ -64,7 +61,7 @@ public:
                     std::bind(&BoundedBuffer<value_type>::IsNotEmpty,
                             this));
             // retrieve item...
-            *pItem = m_container[--m_unreadCount];
+            item = m_container[--m_unreadCount];
         }
 
         // notify pushFront condition variable...
