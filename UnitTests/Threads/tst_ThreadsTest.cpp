@@ -442,6 +442,7 @@ void ThreadsTest::testCase_SyncEvent1()
     ThreadTestHelper2 helper(event);
     core_lib::threads::ThreadGroup tg;
     std::thread* t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
     QVERIFY(!helper.GetEventSignalledState(tId));
     event.Signal();
@@ -457,6 +458,7 @@ void ThreadsTest::testCase_SyncEvent2()
     ThreadTestHelper2 helper(event);
     core_lib::threads::ThreadGroup tg;
     std::thread* t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
     tg.JoinAll();
     QVERIFY(helper.GetEventSignalledState(tId));
@@ -468,6 +470,7 @@ void ThreadsTest::testCase_SyncEvent3()
     ThreadTestHelper2 helper(event);
     core_lib::threads::ThreadGroup tg;
     std::thread* t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction2, &helper));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
     QVERIFY(!helper.GetEventSignalledState(tId));
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -482,6 +485,7 @@ void ThreadsTest::testCase_SyncEvent4()
     ThreadTestHelper2 helper(event);
     core_lib::threads::ThreadGroup tg;
     std::thread* t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction2, &helper));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
     QVERIFY(!helper.GetEventSignalledState(tId));
     tg.JoinAll();
@@ -500,6 +504,7 @@ void ThreadsTest::testCase_SyncEvent5()
     for(size_t i = 0; i < 10; ++i)
     {
         tIds.push_back(tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper))->get_id());
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         QVERIFY(!helper.GetEventSignalledState(tIds[i]));
     }
 
@@ -526,6 +531,7 @@ void ThreadsTest::testCase_SyncEvent6()
         tIds.push_back(tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper))->get_id());
     }
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     tg.JoinAll();
 
     for(size_t i = 0; i < 10; ++i)
@@ -542,6 +548,7 @@ void ThreadsTest::testCase_SyncEvent7()
     ThreadTestHelper2 helper(event);
     core_lib::threads::ThreadGroup tg;
     std::thread* t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
     QVERIFY(!helper.GetEventSignalledState(tId));
     event.Signal();
@@ -550,6 +557,7 @@ void ThreadsTest::testCase_SyncEvent7()
     delete t;
     QVERIFY(helper.GetEventSignalledState(tId));
     t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     tId = t->get_id();
     QVERIFY(helper.GetEventSignalledState(tId));
     tg.JoinAll();
@@ -558,6 +566,7 @@ void ThreadsTest::testCase_SyncEvent7()
     event.Reset();
     helper.Clear();
     t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
     tId = t->get_id();
     QVERIFY(!helper.GetEventSignalledState(tId));
     event.Signal();
