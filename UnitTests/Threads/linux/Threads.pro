@@ -45,4 +45,5 @@ HEADERS += \
     ../../../MessageQueueThread.hpp \
     ../../../SyncEvent.hpp \
     ../../../ThreadBase.hpp \
-    ../../../ThreadGroup.hpp
+    ../../../ThreadGroup.hpp \
+    ../../../BoundedBuffer.hpp
