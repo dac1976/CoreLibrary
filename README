@@ -1,0 +1,8 @@
+This library (CoreLibrary) is a collection of useful utility classes to assist
+with multithreading, logging, netowrking and so on.
+
+It is licensed under the GNU Lesser General Public License and the relevant
+documentation for this can be foun d at the top of each source file and in the 
+files COPYING and COPYING.LESSER.
+
+The code is the work of Duncan Crutchley (duncan.crutchely+corelibrary.com).

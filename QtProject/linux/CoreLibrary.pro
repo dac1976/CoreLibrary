@@ -43,7 +43,8 @@ HEADERS +=                              \
     ../../ConcurrentQueue.hpp \
     ../../ThreadBase.hpp \
     ../../ThreadGroup.hpp \
-    ../../MessageQueueThread.hpp
+    ../../MessageQueueThread.hpp \
+    ../../BoundedBuffer.hpp
 
 SOURCES +=                              \
     ../../StringUtils/StringUtils.cpp      \
