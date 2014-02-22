@@ -88,9 +88,11 @@ public:
      * \param [IN] Number of objects of type MessageType pointed to by msg.
      * \return Unique ID of the message to be processed.
      *
-     * The decoder function should not throw any exceptions.
+     * The decoder function should not throw any exceptions. If the message
+     * is a signel item and not and array of items of type MessageType
+     * the the length will be the special value of -1.
      */
-    typedef std::function< MessageId (const MessageType*, size_t length) > msg_id_decoder;
+    typedef std::function< MessageId (const MessageType*, int length) > msg_id_decoder;
     /*!
      * \brief Default constructor.
      * \param [IN] Function object that returns the message ID for a message.
@@ -116,9 +118,11 @@ public:
      * \param [IN] Number of objects of type MessageType pointed to by msg.
      * \return True if message can be deleted, false otherwise.
      *
-     * The handler function should not throw any exceptions.
+     * The decoder function should not throw any exceptions. If the message
+     * is a signel item and not and array of items of type MessageType
+     * the the length will be the special value of -1.
      */
-    typedef std::function< bool (MessageType*, size_t length) > msg_handler;
+    typedef std::function< bool (MessageType*, int length) > msg_handler;
     /*!
      * \brief Register a function to handle a particular message.
      * \param [IN] Message ID.
@@ -136,11 +140,26 @@ public:
         m_msgHandlerMap[messageID] = messageHandler;
     }
     /*!
-     * \brief Put a message onto this threads queue.
+     * \brief Push a message onto this thread's queue.
+     * \param [IN] Pointer to message.
+     *
+     * Messages pushed on using this function will be deleted
+     * with delete.
+     */
+    void Push(MessageType* msg)
+    {
+        m_messageQueue.Push(msg);
+    }
+
+    /*!
+     * \brief Push a message as an array of items onto this thread's queue.
      * \param [IN] Pointer to message.
      * \param [IN] Number of objects of type MessageType pointed to by msg.
+     *
+     * Messages pushed on using this function will be deleted
+     * with delete[] if length > 0.
      */
-    void PutMessage(MessageType* msg, size_t length)
+    void Push(MessageType* msg, int length)
     {
         m_messageQueue.Push(msg, length);
     }
@@ -157,10 +176,10 @@ private:
     /*! \brief Execute a single iteration of the thread. */
     virtual void ThreadIteration()
     {
-        size_t length;
+        int length;
         MessageType* msg = m_messageQueue.Pop(&length);
 
-        if (msg && (length > 0))
+        if (msg && (length != 0))
         {
             bool deleteMsg;
 
@@ -192,18 +211,18 @@ private:
     virtual void ProcessTerminationConditions()
     {
         // Make sure we break out of m_messageQueue.Pop();
-        m_messageQueue.PushNull();
+        m_messageQueue.Push();
     }
     /*!
      * \brief Delete a processed message.
      * \param [IN] Pointer to message.
      * \param [IN] Number of objects of type MessageType pointed to by msg.
      */
-    static void DeleteMessage(const MessageType* msg, size_t length)
+    void DeleteMessage(const MessageType* msg, int length)
     {
         if (msg)
         {
-            if (length > 1)
+            if (length > 0)
                 delete [] msg;
             else
                 delete msg;

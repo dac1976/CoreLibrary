@@ -122,9 +122,28 @@ public:
     /*!
      * \brief Push an item onto the queue.
      * \param [IN] Pointer to object of type T to push into queue.
-     * \param [IN] Number of items of type T pointed to by pItem.
+     *
+     * An item pushed on with this function will be deleted with
+     * delete.
      */
-    void Push(T* pItem, size_t size)
+    void Push(T* pItem)
+    {
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_queue.push_back(QueueItem(pItem));
+        }
+
+        m_itemEvent.Signal();
+    }
+    /*!
+     * \brief Push an array items onto the queue.
+     * \param [IN] Pointer to object of type T to push into queue.
+     * \param [IN] Number of items of type T pointed to by pItem.
+     *
+     * Items pushed on with this function will be deleted with
+     * delete[].
+     */
+    void Push(T* pItem, int size)
     {
         {
             std::lock_guard<std::mutex> lock(m_mutex);
@@ -135,26 +154,25 @@ public:
     }
     /*!
      * \brief Push a null item onto the queue.
-     * \param [IN] Null pointer f type T.
      *
      * Useful to force a call to Wait or WaitForTime to return.
      */
-    void PushNull()
+    void Push()
     {
         Push(nullptr, 0);
     }
     /*!
      * \brief Pop an item off the queue if there are any else wait.
-     * \param [OUT] Number of items of type T pointed to by returned pointer.
+     * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
      * \return The popped item.
      *
      * Function will block forever or until an item is placed on the
      * queue.
      */
-    T* Pop(size_t* size = nullptr)
+    T* Pop(int* size = nullptr)
     {
         m_itemEvent.Wait();
-        size_t tempSize;
+        int tempSize;
         T* pItem = PopNow(tempSize);
 
         if (size)
@@ -165,16 +183,16 @@ public:
     /*!
      * \brief Pop an item off the queue but only wait for a given amount of time.
      * \param [IN] Amount of time to wait.
-     * \param [OUT] Number of objects of type T pointed to by returned pointer.
+     * \param [OUT] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
      * \return The popped item.
      *
      * If no items have been put onto the queue after the specified amount to time
      * then a nullptr is returned.
      */
-    T* TimedPop(unsigned int timeoutMilliseconds, size_t* size = nullptr)
+    T* TimedPop(unsigned int timeoutMilliseconds, int* size = nullptr)
     {
         T* pItem = nullptr;
-        size_t tempSize = 0;
+        int tempSize = 0;
 
         if (m_itemEvent.WaitForTime(timeoutMilliseconds))
             pItem = PopNow(tempSize);
@@ -187,18 +205,18 @@ public:
     /*!
      * \brief Pop an item off the queue but only wait for a given amount of time.
      * \param [IN] Amount of time to wait.
-     * \param [OUT] Number of objects of type T pointed to by returned pointer.
+     * \param [OUT] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
      * \return The popped item.
      *
      * If no items have been put onto the queue after the specified amount to time
      * then a xQueuePopTimeoutError exception is throw.
      */
-    T* TimedPopThrow(unsigned int timeoutMilliseconds, size_t* size = nullptr)
+    T* TimedPopThrow(unsigned int timeoutMilliseconds, int* size = nullptr)
     {
         if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
             BOOST_THROW_EXCEPTION(xQueuePopTimeoutError());
 
-        size_t tempSize;
+        int tempSize;
         T* pItem = PopNow(tempSize);
 
         if (size)
@@ -217,7 +235,7 @@ public:
      * or if there is a single consumer but the function is called from a different
      * thread to the consumer.
      */
-    const T* Peek(size_t index, size_t* size = nullptr) const
+    const T* Peek(size_t index, int* size = nullptr) const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         const T* pItem = nullptr;
@@ -234,7 +252,7 @@ public:
 
             if (size)
                 *size = queueItem.Size();
-        }        
+        }
 
         return pItem;
     }
@@ -275,10 +293,24 @@ private:
         { }
         /*!
          * \brief Initialising constuctor.
-         * \param [IN] Pointer to actual item.
-         * \param [IN] Number of objects of type T pointed to by returned pointer.
+         * \param [IN] Pointer to an item.
+         *
+         * Items created with this constructor will
+         * be deleted with delete. And their size will
+         * be stored as the special value of -1.
          */
-        QueueItem(T* pItem, size_t size)
+        QueueItem(T* pItem)
+            : m_pItem(pItem), m_size(-1)
+        {  }
+        /*!
+         * \brief Initialising constuctor.
+         * \param [IN] Pointer to an array of items.
+         * \param [IN] Number of objects of type T pointed to by returned pointer.
+         *
+         * Items created with this constructor will
+         * be deleted with delete[] if size is > 0.
+         */
+        QueueItem(T* pItem, int size)
             : m_pItem(pItem), m_size(size)
         {  }
         /*! \brief Copy constructor. */
@@ -296,7 +328,7 @@ private:
         {
             if (m_pItem)
             {
-                if (m_size > 1)
+                if (m_size > 0)
                     delete [] m_pItem;
                 else
                     delete m_pItem;
@@ -336,7 +368,7 @@ private:
             return m_pItem;
         }
         /*! \brief Get size in terms of number of items of type T. */
-        size_t Size() const
+        int Size() const
         {
             return m_size;
         }
@@ -345,7 +377,7 @@ private:
         /*! \brief Pointer to item. */
         T* m_pItem;
         /*! \brief Number of objects of type T pointer to by m_item. */
-        size_t m_size;
+        int m_size;
     };
     /*! \brief Synchronization mutex. */
     mutable std::mutex m_mutex;
@@ -361,7 +393,7 @@ private:
      * \param [OUT] Number of items of type T pointed to by returned pointer.
      * \return The popped item or null if there is a problem.
      */
-    T* PopNow(size_t& size)
+    T* PopNow(int& size)
     {
         T* pItem = nullptr;
         size = 0;

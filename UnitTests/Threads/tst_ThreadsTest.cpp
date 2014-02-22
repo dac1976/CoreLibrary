@@ -175,9 +175,14 @@ public:
         return m_counter;
     }
 
-    void Push(char* item, size_t size)
+    void Push(char* item, int size)
     {
         m_queue.Push(item, size);
+    }
+
+    void Push(char* item)
+    {
+        m_queue.Push(item);
     }
 
 private:
@@ -187,12 +192,12 @@ private:
 
     virtual void ThreadIteration()
     {
-        size_t size;
+        int size;
         char* message = m_queue.Pop(&size);
 
-        if (message && (size > 0))
+        if (message && (size != 0))
         {
-            if (size > 1)
+            if (size > 0)
                 delete [] message;
             else
                 delete message;
@@ -206,10 +211,9 @@ private:
 
     virtual void ProcessTerminationConditions()
     {
-        m_queue.PushNull();
+        m_queue.Push();
     }
 };
-
 
 class QueuedThread2 final : public core_lib::threads::ThreadBase
 {
@@ -242,12 +246,12 @@ private:
 
     virtual void ThreadIteration()
     {
-        size_t size;
+        int size;
         char* message = m_queue.Pop(&size);
 
-        if (message && (size > 0))
+        if (message && (size != 0))
         {
-            if (size > 1)
+            if (size > 0)
                 delete [] message;
             else
                 delete message;
@@ -261,7 +265,7 @@ private:
 
     virtual void ProcessTerminationConditions()
     {
-        m_queue.PushNull();
+        m_queue.Push();
     }
 };
 
@@ -404,13 +408,13 @@ public:
     {
     }
 
-    void PutMessage(MessageIds id)
+    void PushMessageId(MessageIds id)
     {
         Message* message = new Message{id};
-        m_mqt.PutMessage(message, 1);
+        m_mqt.Push(message);
     }
 
-    size_t CountMessage(MessageIds id)
+    size_t CountMessageId(MessageIds id)
     {
         return m_countMap[id];
     }
@@ -419,7 +423,7 @@ private:
     core_lib::threads::MessageQueueThread<int, Message> m_mqt;
     std::map<int, size_t> m_countMap;
 
-    int MessageDecoder(const Message* message, size_t length)
+    int MessageDecoder(const Message* message, int length)
     {
         if (!message || (length == 0))
         {
@@ -429,7 +433,7 @@ private:
         return message->id;
     }
 
-    bool MessageHandler(Message* message, size_t length)
+    bool MessageHandler(Message* message, int length)
     {
         if (!message || (length == 0))
         {
@@ -437,7 +441,6 @@ private:
         }
 
         m_countMap[message->id] = m_countMap[message->id] + 1;
-
         return true;
     }
 
@@ -835,8 +838,9 @@ void ThreadsTest::testCase_ConcurrentQueue1()
     qt.Push(new char[10], 10);
     qt.Push(new char[5], 5);
     qt.Push(new char[1], 1);
+    qt.Push(new char);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    QVERIFY(qt.GetCounter() == 3);
+    QVERIFY(qt.GetCounter() == 4);
 }
 
 void ThreadsTest::testCase_ConcurrentQueue2()
@@ -846,9 +850,9 @@ void ThreadsTest::testCase_ConcurrentQueue2()
     m_queue.Push(new char[2], 2);
     m_queue.Push(new char[3], 3);
     m_queue.Push(new char[4], 4);
-    m_queue.PushNull();
+    m_queue.Push();
     QVERIFY(m_queue.Size() == 4);
-    size_t size;
+    int size;
     const char* item = m_queue.Peek(0, &size);
     QVERIFY(item != nullptr);
     QVERIFY(size == 2);
@@ -962,26 +966,26 @@ void ThreadsTest::testCase_BoundedBuffer3()
 void ThreadsTest::testCase_MessageQueuetThread1()
 {
     MessageQueueThreadTest mqtt;
-    mqtt.PutMessage(MessageQueueThreadTest::M1);
-    mqtt.PutMessage(MessageQueueThreadTest::M2);
-    mqtt.PutMessage(MessageQueueThreadTest::M3);
+    mqtt.PushMessageId(MessageQueueThreadTest::M1);
+    mqtt.PushMessageId(MessageQueueThreadTest::M2);
+    mqtt.PushMessageId(MessageQueueThreadTest::M3);
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M1) == 1);
-    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M2) == 1);
-    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M3) == 1);
+    QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M1) == 1);
+    QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M2) == 1);
+    QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M3) == 1);
 
     for (size_t i = 0; i < 10; ++i)
     {
-        mqtt.PutMessage(MessageQueueThreadTest::M1);
-        mqtt.PutMessage(MessageQueueThreadTest::M2);
-        mqtt.PutMessage(MessageQueueThreadTest::M3);
+        mqtt.PushMessageId(MessageQueueThreadTest::M1);
+        mqtt.PushMessageId(MessageQueueThreadTest::M2);
+        mqtt.PushMessageId(MessageQueueThreadTest::M3);
     }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M1) == 11);
-    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M2) == 11);
-    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M3) == 11);
+    QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M1) == 11);
+    QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M2) == 11);
+    QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M3) == 11);
 }
 
 QTEST_APPLESS_MAIN(ThreadsTest)
