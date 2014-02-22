@@ -158,16 +158,28 @@ private:
     virtual void ThreadIteration()
     {
         size_t length;
-        MessageType* msg = m_messageQueue.Pop(length);
+        MessageType* msg = m_messageQueue.Pop(&length);
 
         if (msg && (length > 0))
         {
-            bool deleteMsg = true;
-            MessageId messageId = m_msgIdDecoder(msg, length);
+            bool deleteMsg;
 
-            if (m_msgHandlerMap.count(messageId) > 0)
+            try
             {
-                deleteMsg = m_msgHandlerMap[messageId](msg, length);
+                MessageId messageId = m_msgIdDecoder(msg, length);
+
+                if (m_msgHandlerMap.count(messageId) > 0)
+                {
+                    deleteMsg = m_msgHandlerMap[messageId](msg, length);
+                }
+                else
+                {
+                    deleteMsg = queueOptions == eQueueOptions::autoDelete;
+                }
+            }
+            catch(...)
+            {
+                deleteMsg = queueOptions == eQueueOptions::autoDelete;
             }
 
             if (deleteMsg)

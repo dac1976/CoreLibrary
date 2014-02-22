@@ -370,6 +370,79 @@ private:
     }
 };
 
+class MessageQueueThreadTest final
+{
+public:
+    struct Message
+    {
+        int id;
+    };
+
+    enum MessageIds
+    {
+        M1,
+        M2,
+        M3
+    };
+
+    MessageQueueThreadTest()
+        : m_mqt(std::bind(&MessageQueueThreadTest::MessageDecoder, this
+                          , std::placeholders::_1, std::placeholders::_2))
+    {
+        m_mqt.RegisterMessageHandler(M1, std::bind(&MessageQueueThreadTest::MessageHandler, this
+                                                 , std::placeholders::_1, std::placeholders::_2));
+        m_mqt.RegisterMessageHandler(M2, std::bind(&MessageQueueThreadTest::MessageHandler, this
+                                                 , std::placeholders::_1, std::placeholders::_2));
+        m_mqt.RegisterMessageHandler(M3, std::bind(&MessageQueueThreadTest::MessageHandler, this
+                                                 , std::placeholders::_1, std::placeholders::_2));
+        m_countMap[M1] = 0;
+        m_countMap[M2] = 0;
+        m_countMap[M3] = 0;
+    }
+
+    ~MessageQueueThreadTest()
+    {
+    }
+
+    void PutMessage(MessageIds id)
+    {
+        Message* message = new Message{id};
+        m_mqt.PutMessage(message, 1);
+    }
+
+    size_t CountMessage(MessageIds id)
+    {
+        return m_countMap[id];
+    }
+
+private:
+    core_lib::threads::MessageQueueThread<int, Message> m_mqt;
+    std::map<int, size_t> m_countMap;
+
+    int MessageDecoder(const Message* message, size_t length)
+    {
+        if (!message || (length == 0))
+        {
+            throw std::runtime_error("invalid message");
+        }
+
+        return message->id;
+    }
+
+    bool MessageHandler(Message* message, size_t length)
+    {
+        if (!message || (length == 0))
+        {
+            throw std::runtime_error("invalid message");
+        }
+
+        m_countMap[message->id] = m_countMap[message->id] + 1;
+
+        return true;
+    }
+
+};
+
 // ****************************************************************************
 // Unit test wrapper
 // ****************************************************************************
@@ -406,6 +479,7 @@ private Q_SLOTS:
     void testCase_BoundedBuffer1();
     void testCase_BoundedBuffer2();
     void testCase_BoundedBuffer3();
+    void testCase_MessageQueuetThread1();
 };
 
 ThreadsTest::ThreadsTest()
@@ -829,6 +903,10 @@ void ThreadsTest::testCase_ConcurrentQueue2()
     QVERIFY(correctException);
 }
 
+// ****************************************************************************
+// BoundedBuffer tests
+// ****************************************************************************
+
 void ThreadsTest::testCase_BoundedBuffer1()
 {
     core_lib::threads::BoundedBuffer<int> bb(10);
@@ -875,6 +953,35 @@ void ThreadsTest::testCase_BoundedBuffer3()
     int item;
     bb.PopBack(item);
     QVERIFY(item == 1);
+}
+
+// ****************************************************************************
+// MessageQueuetThread tests
+// ****************************************************************************
+
+void ThreadsTest::testCase_MessageQueuetThread1()
+{
+    MessageQueueThreadTest mqtt;
+    mqtt.PutMessage(MessageQueueThreadTest::M1);
+    mqtt.PutMessage(MessageQueueThreadTest::M2);
+    mqtt.PutMessage(MessageQueueThreadTest::M3);
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M1) == 1);
+    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M2) == 1);
+    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M3) == 1);
+
+    for (size_t i = 0; i < 10; ++i)
+    {
+        mqtt.PutMessage(MessageQueueThreadTest::M1);
+        mqtt.PutMessage(MessageQueueThreadTest::M2);
+        mqtt.PutMessage(MessageQueueThreadTest::M3);
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M1) == 11);
+    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M2) == 11);
+    QVERIFY(mqtt.CountMessage(MessageQueueThreadTest::M3) == 11);
 }
 
 QTEST_APPLESS_MAIN(ThreadsTest)
