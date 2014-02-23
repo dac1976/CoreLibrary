@@ -58,44 +58,87 @@ public:
     virtual ~xLogMsgHandlerError();
 };
 
+enum class eLogMessageLevel
+{
+    not_defined = 0,
+    trace,
+    debug,
+    performance,
+    info,
+    warning,
+    error,
+    fatal
+};
+
+/*! \brief The message namespace. */
+namespace message {
+
+class LogQueueMessage
+{
+public:
+    static const int MESSAGE_ID = 1;
+
+    LogQueueMessage();
+    LogQueueMessage(const std::string& Message,
+                    time_t TimeStamp,
+                    const std::string& File,
+                    const std::string& Function,
+                    int LineNo,
+                    std::thread::id ThreadID,
+                    eLogMessageLevel ErrorLevel);
+    LogQueueMessage(const LogQueueMessage& Msg);
+    LogQueueMessage(LogQueueMessage&& Msg);
+    LogQueueMessage& operator=(const LogQueueMessage& Msg);
+    LogQueueMessage& operator=(LogQueueMessage&& Msg);
+
+    const std::string& Message() const;
+    time_t TimeStamp() const;
+    const std::string& File() const;
+    const std::string& Function() const;
+    int LineNo() const;
+    std::thread::id ThreadID() const;
+    eLogMessageLevel ErrorLevel() const;
+
+private:
+    std::string m_message;
+    time_t m_timeStamp;
+    std::string m_file;
+    std::string m_function;
+    int m_lineNo;
+    std::thread::id m_threadID;
+    eLogMessageLevel m_errorLevel;
+};
+
+} // namespace message
+
 template<typename Formatter,
          typename OutputStream = std::ofstream,
          size_t maxSizeInBytes = 5242880 >
 class DebugLog final
 {
 public:
-    enum eLogMessageLevel
-    {
-        not_defined = 0,
-        trace,
-        debug,
-        performance,
-        info,
-        warning,
-        error,
-        fatal
-    };
-
     DebugLog()
         : m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
                                         , this
                                         , std::placeholders::_1
-                                        , std::placeholders::_2))
+                                        , std::placeholders::_2)
+                              , threads::eOnDestroyOptions::processRemainingItems)
     {
         RegisterLogQueueMessageId();
     }
 
-    explicit DebugLog(const std::string& softwareVersion, /*e.g. "1.0.0.1"*/)
+    explicit DebugLog(const std::string& softwareVersion)
         : m_softwareVersion(softwareVersion)
         , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
                                         , this
                                         , std::placeholders::_1
-                                        , std::placeholders::_2))
+                                        , std::placeholders::_2)
+                              , threads::eOnDestroyOptions::processRemainingItems)
     {
         RegisterLogQueueMessageId();
     }
 
-    DebugLog(const std::string& softwareVersion, /*e.g. "1.0.0.1"*/
+    DebugLog(const std::string& softwareVersion,
              const std::string& logFolderPath,
              const std::string& logName)
         : m_softwareVersion(softwareVersion)
@@ -104,7 +147,8 @@ public:
         , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
                                         , this
                                         , std::placeholders::_1
-                                        , std::placeholders::_2))
+                                        , std::placeholders::_2)
+                              , threads::eOnDestroyOptions::processRemainingItems)
     {
         RegisterLogQueueMessageId();
     }
@@ -114,69 +158,33 @@ public:
     }
 
 private:
-    class LogQueueMessage
-    {
-    public:
-        static const int MESSAGE_ID = 1;
-
-        LogQueueMessage();
-        LogQueueMessage(const std::string& Message,
-                        time_t TimeStamp,
-                        const std::string& File,
-                        const std::string& Function,
-                        int LineNo,
-                        std::thread::id ThreadID,
-                        eLogMessageLevel ErrorLevel);
-        LogQueueMessage(const LogQueueMessage& Msg);
-        LogQueueMessage(LogQueueMessage&& Msg);
-        LogQueueMessage& operator=(const LogQueueMessage& Msg);
-        LogQueueMessage& operator=(LogQueueMessage&& Msg);
-
-        const std::string& Message() const;
-        time_t TimeStamp() const;
-        const std::string& File() const;
-        const std::string& Function() const;
-        int LineNo() const;
-        std::thread::id ThreadID() const;
-        eLogMessageLevel ErrorLevel() const;
-
-    private:
-        std::string m_message;
-        time_t m_timeStamp;
-        std::string m_file;
-        std::string m_function;
-        int m_lineNo;
-        std::thread::id m_threadID;
-        eLogMessageLevel m_errorLevel;
-    };
-
     Formatter m_logFormatter;
     OutputStream m_outputStream;
     const std::string m_softwareVersion;
     const std::string m_logFolderPath;
     const std::string m_logName;
-    core_lib::threads::MessageQueueThread<int, LogQueueMessage> m_logMsgQueueThread;
+    threads::MessageQueueThread<int, message::LogQueueMessage> m_logMsgQueueThread;
 
     void RegisterLogQueueMessageId()
     {
-        m_logMsgQueueThread.RegisterMessageHandler(LogQueueMessage::MESSAGE_ID
+        m_logMsgQueueThread.RegisterMessageHandler(message::LogQueueMessage::MESSAGE_ID
                                                    , std::bind(&DebugLog::MessageHandler
                                                                , this
                                                                , std::placeholders::_1
                                                                , std::placeholders::_2));
     }
 
-    int MessageDecoder(const LogQueueMessage* message, int length)
+    int MessageDecoder(const message::LogQueueMessage* message, int length)
     {
         if (!message || (length == 0))
         {
             BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageDecoder"));
         }
 
-        return LogQueueMessage::MESSAGE_ID;
+        return message::LogQueueMessage::MESSAGE_ID;
     }
 
-    bool MessageHandler(LogQueueMessage* message, int length)
+    bool MessageHandler(message::LogQueueMessage* message, int length)
     {
         if (!message || (length == 0))
         {

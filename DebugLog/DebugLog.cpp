@@ -28,9 +28,7 @@
 #include "../DebugLog.hpp"
 #include <utility>
 
-/*! \brief The core_lib namespace. */
 namespace core_lib {
-/*! \brief The log namespace. */
 namespace log {
 
 // ****************************************************************************
@@ -50,23 +48,25 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 {
 }
 
-DebugLog::LogQueueMessage::LogQueueMessage()
+namespace message {
+
+// ****************************************************************************
+// 'class LogQueueMessage' definition
+// ****************************************************************************
+LogQueueMessage::LogQueueMessage()
     : m_timeStamp(0)
     , m_lineNo(0)
-    , m_errorLevel(DebugLog::not_defined)
+    , m_errorLevel(eLogMessageLevel::not_defined)
 {
 }
 
-// ****************************************************************************
-// 'class DebugLog::LogQueueMessage' definition
-// ******************************B*********************************************
-DebugLog::LogQueueMessage::LogQueueMessage(const std::string& message,
-                                           time_t timeStamp,
-                                           const std::string& file,
-                                           const std::string& function,
-                                           int lineNo,
-                                           std::thread::id threadID,
-                                           DebugLog::eLogMessageLevel errorLevel)
+LogQueueMessage::LogQueueMessage(const std::string& message,
+                                 time_t timeStamp,
+                                 const std::string& file,
+                                 const std::string& function,
+                                 int lineNo,
+                                 std::thread::id threadID,
+                                 eLogMessageLevel errorLevel)
     : m_message(message)
     , m_timeStamp(timeStamp)
     , m_file(file)
@@ -75,9 +75,9 @@ DebugLog::LogQueueMessage::LogQueueMessage(const std::string& message,
     , m_threadID(threadID)
     , m_errorLevel(errorLevel)
 {
-}   
-    
-DebugLog::LogQueueMessage::LogQueueMessage(const LogQueueMessage& msg)
+}
+
+LogQueueMessage::LogQueueMessage(const LogQueueMessage& msg)
     : m_message(msg.m_message)
     , m_timeStamp(msg.m_timeStamp)
     , m_file(msg.m_file)
@@ -88,15 +88,15 @@ DebugLog::LogQueueMessage::LogQueueMessage(const LogQueueMessage& msg)
 {
 }
 
-DebugLog::LogQueueMessage::LogQueueMessage(LogQueueMessage&& msg)
+LogQueueMessage::LogQueueMessage(LogQueueMessage&& msg)
     : m_timeStamp(0)
     , m_lineNo(0)
-    , m_errorLevel(not_defined)
+    , m_errorLevel(eLogMessageLevel::not_defined)
 {
     *this = std::move(msg);
 }
 
-DebugLog::LogQueueMessage::LogQueueMessage& operator=(const LogQueueMessage& msg)
+LogQueueMessage& LogQueueMessage::operator=(const LogQueueMessage& msg)
 {
     if (this != &msg)
     {
@@ -108,11 +108,11 @@ DebugLog::LogQueueMessage::LogQueueMessage& operator=(const LogQueueMessage& msg
         m_threadID = msg.m_threadID;
         m_errorLevel = msg.m_errorLevel;
     }
-    
+
     return *this;
 }
 
-DebugLog::LogQueueMessage::LogQueueMessage& operator=(LogQueueMessage&& msg)
+LogQueueMessage& LogQueueMessage::operator=(LogQueueMessage&& msg)
 {
     m_message.swap(msg.m_message);
     std::swap(m_timeStamp, msg.m_timeStamp);
@@ -124,42 +124,41 @@ DebugLog::LogQueueMessage::LogQueueMessage& operator=(LogQueueMessage&& msg)
     return *this;
 }
 
-const std::string& DebugLog::LogQueueMessage::Message() const
+const std::string& LogQueueMessage::Message() const
 {
     return m_message;
 }
 
-time_t DebugLog::LogQueueMessage::TimeStamp() const
+time_t LogQueueMessage::TimeStamp() const
 {
     return m_timeStamp;
 }
 
-const std::string& DebugLog::LogQueueMessage::File() const
+const std::string& LogQueueMessage::File() const
 {
     return m_file;
 }
 
-const std::string& DebugLog::LogQueueMessage::Function() const
+const std::string& LogQueueMessage::Function() const
 {
     return m_function;
 }
 
-int DebugLog::LogQueueMessage::LineNo() const
+int LogQueueMessage::LineNo() const
 {
     return m_lineNo;
 }
 
-std::thread::id DebugLog::LogQueueMessage::ThreadID() const
+std::thread::id LogQueueMessage::ThreadID() const
 {
     return m_threadID;
 }
 
-DebugLog::eLogMessageLevel DebugLog::LogQueueMessage::ErrorLevel() const
+eLogMessageLevel LogQueueMessage::ErrorLevel() const
 {
     return m_errorLevel;
-}   
+}
 
+} // namespace message
 } // namespace log
 } // namespace core_lib
-
-#endif // DEBUGLOG_HPP

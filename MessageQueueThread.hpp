@@ -57,7 +57,14 @@ public:
     /*! \brief Virtual destructor. */
     virtual ~xMsgHandlerError();
 };
-
+/*!
+ * \brief Control how messages get destroyed in destructor.
+ */
+enum class eOnDestroyOptions
+{
+    deleteRemainingItems,
+    processRemainingItems
+};
 /*!
  * \brief Message Queue Thread.
  *
@@ -97,9 +104,12 @@ public:
      * \brief Default constructor.
      * \param [IN] Function object that returns the message ID for a message.
      */
-    explicit MessageQueueThread(const msg_id_decoder& messageIdDecoder)
+    explicit MessageQueueThread(const msg_id_decoder& messageIdDecoder
+                                , eOnDestroyOptions destroyOptions
+                                     = eOnDestroyOptions::deleteRemainingItems)
         : ThreadBase()
         , m_msgIdDecoder(messageIdDecoder)
+        , m_destroyOptions(destroyOptions)
     {
         Start();
     }
@@ -111,6 +121,14 @@ public:
     virtual ~MessageQueueThread()
     {
         Stop();
+
+        if (m_destroyOptions == eOnDestroyOptions::processRemainingItems)
+        {
+            while (!m_messageQueue.Empty())
+            {
+                ProcessNextMessage();
+            }
+        }
     }
     /*!
      * \brief Typedef defining message handler function.
@@ -167,6 +185,9 @@ public:
 private:
     /*! \brief Message ID decoder function object. */
     msg_id_decoder m_msgIdDecoder;
+    /*! \brief Control the destruction of the queue items. */
+    const eOnDestroyOptions m_destroyOptions;
+    /*! \brief Typedef for message map type. */
     typedef std::map< MessageId, msg_handler > msg_map;
     /*! \brief Message handler function Map. */
     msg_map m_msgHandlerMap;
@@ -175,6 +196,19 @@ private:
 
     /*! \brief Execute a single iteration of the thread. */
     virtual void ThreadIteration()
+    {
+        ProcessNextMessage();
+    }
+    /*! \brief Perform any special termination actions.*/
+    virtual void ProcessTerminationConditions()
+    {
+        // Make sure we break out of m_messageQueue.Pop();
+        m_messageQueue.Push();
+    }
+    /*!
+     * \brief Process next message.
+     */
+    void ProcessNextMessage()
     {
         int length;
         MessageType* msg = m_messageQueue.Pop(&length);
@@ -203,29 +237,11 @@ private:
 
             if (deleteMsg)
             {
-                DeleteMessage(msg, length);
+                if (length > 0)
+                    delete [] msg;
+                else
+                    delete msg;
             }
-        }
-    }
-    /*! \brief Perform any special termination actions.*/
-    virtual void ProcessTerminationConditions()
-    {
-        // Make sure we break out of m_messageQueue.Pop();
-        m_messageQueue.Push();
-    }
-    /*!
-     * \brief Delete a processed message.
-     * \param [IN] Pointer to message.
-     * \param [IN] Number of objects of type MessageType pointed to by msg.
-     */
-    void DeleteMessage(const MessageType* msg, int length)
-    {
-        if (msg)
-        {
-            if (length > 0)
-                delete [] msg;
-            else
-                delete msg;
         }
     }
 };
