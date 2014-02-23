@@ -51,7 +51,7 @@ public:
     xMsgHandlerError();
     /*!
      * \brief Initializing constructor.
-     * \param [IN] A user specifed message string.
+     * \param [IN] A user specified message string.
      */
     explicit xMsgHandlerError(const std::string& message);
     /*! \brief Virtual destructor. */

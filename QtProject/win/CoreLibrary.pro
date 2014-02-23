@@ -44,7 +44,8 @@ HEADERS +=                              \
     ../../ThreadBase.hpp \
     ../../ThreadGroup.hpp \
     ../../MessageQueueThread.hpp \
-    ../../BoundedBuffer.hpp
+    ../../BoundedBuffer.hpp \
+    ../../DebugLog.hpp
 
 SOURCES +=                              \
     ../../StringUtils/StringUtils.cpp      \
@@ -55,4 +56,5 @@ SOURCES +=                              \
     ../../Threads/ConcurrentQueue.cpp \
     ../../Threads/ThreadBase.cpp \
     ../../Threads/ThreadGroup.cpp \
-    ../../Threads/MessageQueueThread.cpp
+    ../../Threads/MessageQueueThread.cpp \
+    ../../DebugLog/DebugLog.cpp
