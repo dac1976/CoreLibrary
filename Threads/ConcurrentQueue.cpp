@@ -21,8 +21,8 @@
 
 
 /*!
- * \file SyncEvent.cpp
- * \brief File containing definition of SyncEvent class.
+ * \file ConcurrentQueue.cpp
+ * \brief File containing concurrent queue definition.
  */
 
 #include "../ConcurrentQueue.hpp"

@@ -96,11 +96,15 @@ void SplitString(std::string& subStr1, std::string& subStr2,
                  : boost::token_compress_off);
 
     if (splitVec.size() <= 1U)
+    {
         BOOST_THROW_EXCEPTION(
             xSplitStringBadDelim(std::string("cannot find delimter in string: ") +
                                       toSplit));
+    }
     else if (splitVec.size() > 2U)
+    {
         BOOST_THROW_EXCEPTION(xSplitStringTooManySubstrings());
+    }
 
     subStr1 = splitVec[0];
     subStr2 = splitVec[1];

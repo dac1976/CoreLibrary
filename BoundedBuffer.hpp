@@ -22,7 +22,7 @@
 
 /*!
  * \file BoundedBuffer.hpp
- * \brief File containing bounded buffer definition.
+ * \brief File containing bounded buffer declaration.
  */
 
 #ifndef BOUNDEDBUFFER_HPP

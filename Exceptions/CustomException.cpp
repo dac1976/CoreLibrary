@@ -20,9 +20,9 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 
-/**
- * @file ExceptionsBase.hpp
- * @brief File containing definitions relating to custom exception handling.
+/*!
+ * \file ExceptionsBase.hpp
+ * \brief File containing definitions relating to custom exception handling.
  */
 
 #include "../CustomException.hpp"

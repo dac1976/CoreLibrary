@@ -208,7 +208,10 @@ public:
     template <typename TIterator>
     static void Sort(TIterator begin, TIterator end)
     {
-        if (begin >= end) return;
+        if (begin >= end)
+        {
+            return;
+        }
 
         // choose pivot
         TIterator pivot = begin + ((end - begin) / 2);
@@ -331,7 +334,10 @@ public:
                      , const bucket_definitions& bucketDefinitions
                      , bucket_values& bucketValues)
     {
-        if (begin >= end) return;
+        if (begin >= end)
+        {
+            return;
+        }
 
         PutIntoBuckets(begin, end, bucketDefinitions, bucketValues);
         WriteBackBuckets(begin, bucketValues);

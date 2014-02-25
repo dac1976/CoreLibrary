@@ -62,7 +62,9 @@ void SyncEvent::Wait()
     m_signalCondVar.wait(lock, [this]{ return m_signalFlag; });
 
     if (m_autoReset && m_signalFlag)
+    {
         m_signalFlag = false;
+    }
 }
 
 bool SyncEvent::WaitForTime(size_t milliseconds)
@@ -76,7 +78,9 @@ bool SyncEvent::WaitForTime(size_t milliseconds)
     //    m_signalFlag = true;
 
     if (m_autoReset && m_signalFlag)
+    {
         m_signalFlag = false;
+    }
 
     return result;
 }
@@ -89,9 +93,13 @@ void SyncEvent::Signal()
     }
 
     if (m_signalAllThreads)
+    {
         m_signalCondVar.notify_all();
+    }
     else
+    {
         m_signalCondVar.notify_one();
+    }
 }
 
 void SyncEvent::Reset()
@@ -99,7 +107,9 @@ void SyncEvent::Reset()
     std::lock_guard<std::mutex> lock(m_signalMutex);
 
     if (!m_autoReset)
+    {
         m_signalFlag = false;
+    }
 }
 
 } // namespace threads

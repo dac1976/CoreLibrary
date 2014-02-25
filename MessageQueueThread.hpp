@@ -153,7 +153,9 @@ public:
                                 , const msg_handler& messageHandler)
     {
         if (m_msgHandlerMap.count(messageID) > 0)
+        {
             BOOST_THROW_EXCEPTION(xMsgHandlerError("message handler already defined"));
+        }
 
         m_msgHandlerMap[messageID] = messageHandler;
     }
@@ -238,9 +240,13 @@ private:
             if (deleteMsg)
             {
                 if (length > 0)
+                {
                     delete [] msg;
+                }
                 else
+                {
                     delete msg;
+                }
             }
         }
     }

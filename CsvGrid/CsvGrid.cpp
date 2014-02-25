@@ -20,9 +20,9 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 
-/**
- * @file CsvGrid.cpp
- * @brief File containing definitions relating the CSVGrid class.
+/*!
+ * \file CsvGrid.cpp
+ * \brief File containing definitions relating the CSVGrid class.
  */
 
 #include "../CsvGrid.hpp"
@@ -157,7 +157,10 @@ Cell::~Cell()
 
 Cell& Cell::operator=(const Cell& rhs)
 {
-    if (this != &rhs) m_value = rhs.m_value;
+    if (this != &rhs)
+    {
+        m_value = rhs.m_value;
+    }
 
     return *this;
 }
@@ -165,42 +168,36 @@ Cell& Cell::operator=(const Cell& rhs)
 Cell& Cell::operator=(Cell&& rhs) noexcept
 {
     std::swap(m_value, rhs.m_value);
-
     return *this;
 }
 
 Cell& Cell::operator=(const std::string& rhs)
 {
     m_value = rhs;
-
     return *this;
 }
 
 Cell& Cell::operator=(int32_t rhs)
 {
     m_value = std::to_string(rhs);
-
     return *this;
 }
 
 Cell& Cell::operator=(int64_t rhs)
 {
     m_value = std::to_string(rhs);
-
     return *this;
 }
 
 Cell& Cell::operator=(double rhs)
 {
     string_utils::FormatFloatString(m_value, rhs);
-
     return *this;
 }
 
 Cell& Cell::operator=(long double rhs)
 {
     string_utils::FormatFloatString(m_value, rhs, 30);
-
     return *this;
 }
 
@@ -330,14 +327,20 @@ Row::Row(std::initializer_list<std::string> cells)
 {
     m_cells.reserve(cells.size());
 
-    for (auto cell : cells) m_cells.push_back(Cell(cell));
+    for (auto cell : cells)
+    {
+        m_cells.push_back(Cell(cell));
+    }
 }
 
 Row::Row(std::initializer_list<int32_t> cells)
 {
     m_cells.reserve(cells.size());
 
-    for (auto cell : cells) m_cells.push_back(Cell(cell));
+    for (auto cell : cells)
+    {
+        m_cells.push_back(Cell(cell));
+    }
 }
 
 Row::Row(std::initializer_list<int64_t> cells)
@@ -351,14 +354,20 @@ Row::Row(std::initializer_list<double> cells)
 {
     m_cells.reserve(cells.size());
 
-    for (auto cell : cells) m_cells.push_back(Cell(cell));
+    for (auto cell : cells)
+    {
+        m_cells.push_back(Cell(cell));
+    }
 }
 
 Row::Row(std::initializer_list<long double> cells)
 {
     m_cells.reserve(cells.size());
 
-    for (auto cell : cells) m_cells.push_back(Cell(cell));
+    for (auto cell : cells)
+    {
+        m_cells.push_back(Cell(cell));
+    }
 }
 
 Row::Row(const std::string& line, eCellFormatOptions options)
@@ -371,7 +380,10 @@ Row::~Row()
 }
 Row& Row::operator=(const Row& rhs)
 {
-    if (this != &rhs) m_cells = rhs.m_cells;
+    if (this != &rhs)
+    {
+        m_cells = rhs.m_cells;
+    }
 
     return *this;
 }
@@ -379,14 +391,15 @@ Row& Row::operator=(const Row& rhs)
 Row& Row::operator=(Row&& rhs) noexcept
 {
     std::swap(m_cells, rhs.m_cells);
-
     return *this;
 }
 
 Cell& Row::operator[](size_t col)
 {
     if (col >= m_cells.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+    }
 
     return m_cells[col];
 }
@@ -429,7 +442,9 @@ void Row::AddColumn(long double value)
 void Row::InsertColumn(size_t col, const std::string& value)
 {
     if (col >= m_cells.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+    }
 
     m_cells.insert(m_cells.begin() + col, Cell(value));
 }
@@ -437,7 +452,9 @@ void Row::InsertColumn(size_t col, const std::string& value)
 void Row::InsertColumn(size_t col, int32_t value)
 {
     if (col >= m_cells.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+    }
 
     m_cells.insert(m_cells.begin() + col, Cell(value));
 }
@@ -445,7 +462,9 @@ void Row::InsertColumn(size_t col, int32_t value)
 void Row::InsertColumn(size_t col, int64_t value)
 {
     if (col >= m_cells.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+    }
 
     m_cells.insert(m_cells.begin() + col, Cell(value));
 }
@@ -453,7 +472,9 @@ void Row::InsertColumn(size_t col, int64_t value)
 void Row::InsertColumn(size_t col, double value)
 {
     if (col >= m_cells.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+    }
 
     m_cells.insert(m_cells.begin() + col, Cell(value));
 }
@@ -461,7 +482,9 @@ void Row::InsertColumn(size_t col, double value)
 void Row::InsertColumn(size_t col, long double value)
 {
     if (col >= m_cells.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+    }
 
     m_cells.insert(m_cells.begin() + col, Cell(value));
 }
@@ -481,9 +504,13 @@ void Row::LoadRowFromCsvFileLine(const std::string& line,
 {
     // add row to grid...
     if (options == eCellFormatOptions::doubleQuotedCells)
+    {
         TokenizeLineQuoted(line);
+    }
     else
+    {
         TokenizeLine(line);
+    }
 }
 
 void Row::OutputRowToStream(std::ostream& os) const
@@ -509,13 +536,18 @@ void Row::OutputRowToStream(std::ostream& os) const
 
         // if cell contains ',', '\n' or '\r' wrap it in quotes...
         if (cell.find_first_of(",\r\n") != std::string::npos)
+        {
             cell = "\"" + cell + "\"";
+        }
 
         // output corrected cell...
         os << cell;
 
         // add ',' if not last cell on current row...
-        if (col++ < m_cells.size() - 1) os << ",";
+        if (col++ < m_cells.size() - 1)
+        {
+            os << ",";
+        }
     }
 }
 
@@ -568,7 +600,9 @@ CsvGrid::CsvGrid()
 CsvGrid::CsvGrid(size_t rows, size_t cols)
 {
     if ((rows == 0) || (cols == 0))
+    {
         BOOST_THROW_EXCEPTION(xCsvGridDimensionError());
+    }
 
     m_grid.resize(rows, Row(cols));
 }
@@ -603,7 +637,10 @@ CsvGrid::~CsvGrid()
 
 CsvGrid& CsvGrid::operator=(const CsvGrid& rhs)
 {
-    if (this != &rhs) m_grid = rhs.m_grid;
+    if (this != &rhs)
+    {
+        m_grid = rhs.m_grid;
+    }
 
     return *this;
 }
@@ -617,7 +654,9 @@ CsvGrid& CsvGrid::operator=(CsvGrid&& rhs) noexcept
 Row& CsvGrid::operator[](size_t row)
 {
     if (row >= m_grid.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+    }
 
     return m_grid[row];
 }
@@ -630,7 +669,9 @@ size_t CsvGrid::GetRowCount() const
 size_t CsvGrid::GetColCount(size_t row) const
 {
     if (row >= m_grid.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+    }
 
     return m_grid[row].GetSize();
 }
@@ -647,13 +688,18 @@ void CsvGrid::AddRow(size_t cols)
 
 void CsvGrid::AddColumnToAllRows()
 {
-    for (auto& row : m_grid) row.AddColumn();
+    for (auto& row : m_grid)
+    {
+        row.AddColumn();
+    }
 }
 
 void CsvGrid::InsertRow(size_t row, size_t defaultCols)
 {
     if (row >= m_grid.size())
+    {
         BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+    }
 
     m_grid.insert(m_grid.begin() + row, Row(defaultCols));
 }
@@ -661,12 +707,20 @@ void CsvGrid::InsertRow(size_t row, size_t defaultCols)
 void CsvGrid::InsertColumnInAllRows(size_t col)
 {
     for (auto& row : m_grid)
-        if (col < row.GetSize()) row.InsertColumn(col);
+    {
+        if (col < row.GetSize())
+        {
+            row.InsertColumn(col);
+        }
+    }
 }
 
 void CsvGrid::ClearCells()
 {
-    for (auto& row : m_grid) row.ClearCells();
+    for (auto& row : m_grid)
+    {
+        row.ClearCells();
+    }
 }
 
 void CsvGrid::ResetGrid()
@@ -680,9 +734,11 @@ void CsvGrid::LoadFromCSVFile(const std::string& filename,
     std::ifstream csvfile(filename.c_str());
 
     if (!csvfile.is_open())
+    {
         BOOST_THROW_EXCEPTION(
             xCsvGridCreateFileStreamError(std::string("failed to create file stream for loading: ")
                                           + filename));
+    }
 
     m_grid.clear();
 
@@ -698,7 +754,10 @@ void CsvGrid::LoadFromCSVFile(const std::string& filename,
             || csvfile.eof())
         {
             // Are we done?
-            if (line == "") break;
+            if (line == "")
+            {
+                break;
+            }
         }
 
         // add new CsvGrid::Row to vector...
@@ -714,9 +773,11 @@ void CsvGrid::SaveToCsvFile(const std::string& filename) const
     std::ofstream csvfile(filename.c_str(), std::ios::trunc);
 
     if (!csvfile.is_open())
+    {
         BOOST_THROW_EXCEPTION(
             xCsvGridCreateFileStreamError(std::string("failed to create file stream for saving: ")
                                           + filename));
+    }
 
     // output grid to file stream...
     OutputCsvGridToStream(csvfile);
@@ -735,7 +796,10 @@ void CsvGrid::OutputCsvGridToStream(std::ostream& os) const
         rowItem.OutputRowToStream(os);
 
         // add line end if not the last row...
-        if (row++ < m_grid.size()-1) os << std::endl;
+        if (row++ < m_grid.size()-1)
+        {
+            os << std::endl;
+        }
     }
 
 }

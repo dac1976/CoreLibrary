@@ -87,7 +87,10 @@ void ThreadBase::Stop()
         SetTerminating(true);
         ProcessTerminationConditions();
 
-        if (m_thread.joinable()) m_thread.join();
+        if (m_thread.joinable())
+        {
+            m_thread.join();
+        }
 
         SetTerminating(false);
     }
@@ -96,7 +99,9 @@ void ThreadBase::Stop()
 std::thread::id ThreadBase::ThreadID() const
 {
     if (!IsStarted() || IsTerminating())
+    {
         BOOST_THROW_EXCEPTION(xThreadNotStartedError());
+    }
 
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_threadId;
@@ -105,7 +110,9 @@ std::thread::id ThreadBase::ThreadID() const
 std::thread::native_handle_type ThreadBase::NativeHandle() const
 {
     if (!IsStarted() || IsTerminating())
+    {
         BOOST_THROW_EXCEPTION(xThreadNotStartedError());
+    }
 
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_nativeHandle;
@@ -126,7 +133,9 @@ bool ThreadBase::IsTerminating() const
 void ThreadBase::SleepForTime(unsigned int milliSecs) const
 {
     if (!IsStarted() || IsTerminating())
+    {
         BOOST_THROW_EXCEPTION(xThreadNotStartedError());
+    }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));
 }
@@ -160,7 +169,9 @@ void ThreadBase::SetTerminating(bool terminating)
 void ThreadBase::Run()
 {
     while (!IsTerminating())
+    {
         ThreadIteration();
+    }
 
     SetStarted(false);
 }

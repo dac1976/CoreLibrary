@@ -22,7 +22,7 @@
 
 /*!
  * \file ConcurrentQueue.hpp
- * \brief File containing concurrent queue definition.
+ * \brief File containing concurrent queue declaration.
  */
 
 #ifndef CONCURRENTQUEUE_HPP
@@ -176,7 +176,9 @@ public:
         T* pItem = PopNow(tempSize);
 
         if (size)
+        {
             *size = tempSize;
+        }
 
         return pItem;
     }
@@ -195,10 +197,14 @@ public:
         int tempSize = 0;
 
         if (m_itemEvent.WaitForTime(timeoutMilliseconds))
+        {
             pItem = PopNow(tempSize);
+        }
 
         if (size)
+        {
             *size = tempSize;
+        }
 
         return pItem;
     }
@@ -214,13 +220,17 @@ public:
     T* TimedPopThrow(unsigned int timeoutMilliseconds, int* size = nullptr)
     {
         if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
+        {
             BOOST_THROW_EXCEPTION(xQueuePopTimeoutError());
+        }
 
         int tempSize;
         T* pItem = PopNow(tempSize);
 
         if (size)
+        {
             *size = tempSize;
+        }
 
         return pItem;
     }
@@ -243,7 +253,9 @@ public:
         if (m_queue.empty() || (index >= m_queue.size()))
         {
             if (size)
+            {
                 *size = 0;
+            }
         }
         else
         {
@@ -251,7 +263,9 @@ public:
             pItem = queueItem.pItem();
 
             if (size)
+            {
                 *size = queueItem.Size();
+            }
         }
 
         return pItem;
@@ -329,9 +343,13 @@ private:
             if (m_pItem)
             {
                 if (m_size > 0)
+                {
                     delete [] m_pItem;
+                }
                 else
+                {
                     delete m_pItem;
+                }
             }
         }
         /*! \brief Copy assignment operator. */
@@ -411,7 +429,9 @@ private:
             }
 
             if (m_queue.empty())
+            {
                 m_itemEvent.Reset();
+            }
         }
 
         return pItem;

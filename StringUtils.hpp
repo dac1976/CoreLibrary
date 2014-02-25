@@ -165,7 +165,10 @@ void FormatFloatString(std::string& str, T&& value, int precision = 15,
         break;
     }
 
-    if (precision >= 0) ss << std::setprecision(precision);
+    if (precision >= 0)
+    {
+        ss << std::setprecision(precision);
+    }
 
     ss << value;
     str = ss.str();
