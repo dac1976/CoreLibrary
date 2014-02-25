@@ -31,6 +31,8 @@
 #include <ctime>
 #include <string>
 #include <fstream>
+#include <set>
+#include <map>
 #include "MessageQueueThread.hpp"
 
 /*! \brief The core_lib namespace. */
@@ -61,9 +63,7 @@ public:
 enum class eLogMessageLevel
 {
     not_defined = 0,
-    trace,
     debug,
-    performance,
     info,
     warning,
     error,
@@ -111,30 +111,41 @@ private:
 
 } // namespace message
 
+static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
+
 template<typename Formatter,
          typename OutputStream = std::ofstream,
-         size_t maxSizeInBytes = 5242880 >
+         size_t maxSizeInBytes = 5 * BYTES_IN_MEBIBYTE >
 class DebugLog final
 {
 public:
     DebugLog()
-        : m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
-                                        , this
-                                        , std::placeholders::_1
-                                        , std::placeholders::_2)
-                              , threads::eOnDestroyOptions::processRemainingItems)
-    {
-        RegisterLogQueueMessageId();
-    }
-
-    explicit DebugLog(const std::string& softwareVersion)
-        : m_softwareVersion(softwareVersion)
+        : m_softwareVersion("")
+        , m_logFilePath("")
+        , m_oldLogFilePath("")
+        , m_unknownLogMsgLevel(" ?   ")
         , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
                                         , this
                                         , std::placeholders::_1
                                         , std::placeholders::_2)
                               , threads::eOnDestroyOptions::processRemainingItems)
     {
+        SetupLogMsgLevelLookup();
+        RegisterLogQueueMessageId();
+    }
+
+    explicit DebugLog(const std::string& softwareVersion)
+        : m_softwareVersion(softwareVersion)
+        , m_logFilePath("")
+        , m_oldLogFilePath("")
+        , m_unknownLogMsgLevel(" ?   ")
+        , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
+                                        , this
+                                        , std::placeholders::_1
+                                        , std::placeholders::_2)
+                              , threads::eOnDestroyOptions::processRemainingItems)
+    {
+        SetupLogMsgLevelLookup();
         RegisterLogQueueMessageId();
     }
 
@@ -142,14 +153,16 @@ public:
              const std::string& logFolderPath,
              const std::string& logName)
         : m_softwareVersion(softwareVersion)
-        , m_logFolderPath(logFolderPath)
-        , m_logName(logName)
+        , m_logFilePath(logFolderPath + logName + ".txt")
+        , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
+        , m_unknownLogMsgLevel(" ?   ")
         , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
                                         , this
                                         , std::placeholders::_1
                                         , std::placeholders::_2)
                               , threads::eOnDestroyOptions::processRemainingItems)
     {
+        SetupLogMsgLevelLookup();
         RegisterLogQueueMessageId();
     }
 
@@ -157,13 +170,65 @@ public:
     {
     }
 
+    void AddLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
+    {
+        if (!IsLogMsgLevelFilterSet(logMessageLevel))
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_logMsgFilterSet.insert(logMessageLevel);
+        }
+    }
+
+    void RemoveLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
+    {
+        if (IsLogMsgLevelFilterSet(logMessageLevel))
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_logMsgFilterSet.insert(logMessageLevel);
+        }
+    }
+
+    void AddLogMessage(const std::string& message
+                       , const std::string& file = "" /*e.g. std::string(__FILE__)*/
+                       , const std::string& function = "" /*e.g. std::string(__FUNC__)*/
+                       , int lineNo = -1 /*e.g.  __LINE__*/
+                       , eLogMessageLevel logMsgLevel = eLogMessageLevel::not_defined)
+    {
+        if (!IsLogMsgLevelFilterSet(logMsgLevel))
+        {
+            time_t messageTime;
+            time(&messageTime);
+            m_logMsgQueueThread.Push(new message::LogQueueMessage(message,
+                                                                  messageTime,
+                                                                  file,
+                                                                  function,
+                                                                  lineNo,
+                                                                  std::this_thread::get_id(),
+                                                                  logMsgLevel));
+        }
+    }
+
 private:
+    mutable std::mutex m_mutex;
     Formatter m_logFormatter;
     OutputStream m_outputStream;
     const std::string m_softwareVersion;
-    const std::string m_logFolderPath;
-    const std::string m_logName;
+    const std::string m_logFilePath;
+    const std::string m_oldLogFilePath;
+    const std::string m_unknownLogMsgLevel;
     threads::MessageQueueThread<int, message::LogQueueMessage> m_logMsgQueueThread;
+    std::map<eLogMessageLevel, std::string> m_logMsgLevelLookup;
+    std::set<eLogMessageLevel> m_logMsgFilterSet;
+
+    void SetupLogMsgLevelLookup()
+    {
+        m_logMsgLevelLookup[eLogMessageLevel::not_defined] = "";
+        m_logMsgLevelLookup[eLogMessageLevel::debug]       = "DEBUG";
+        m_logMsgLevelLookup[eLogMessageLevel::info]        = "INFO ";
+        m_logMsgLevelLookup[eLogMessageLevel::warning]     = "WARN ";
+        m_logMsgLevelLookup[eLogMessageLevel::error]       = "ERROR";
+        m_logMsgLevelLookup[eLogMessageLevel::fatal]       = "FATAL";
+    }
 
     void RegisterLogQueueMessageId()
     {
@@ -197,6 +262,24 @@ private:
 
         // Make sure message is deleted.
         return true;
+    }
+
+    bool IsLogMsgLevelInLookup(eLogMessageLevel logMessageLevel) const
+    {
+        return (m_logMsgLevelLookup.find(logMessageLevel) != m_logMsgLevelLookup.end());
+    }
+
+    const std::string& GetLogMsgLevelAsString(eLogMessageLevel logMessageLevel)
+    {
+        return IsLogMsgLevelInLookup(logMessageLevel)
+               ? m_logMsgLevelLookup[logMessageLevel]
+               : m_unknownLogMsgLevel;
+    }
+
+    bool IsLogMsgLevelFilterSet(eLogMessageLevel logMessageLevel) const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
     }
 };
 

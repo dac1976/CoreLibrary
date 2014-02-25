@@ -159,6 +159,11 @@ eLogMessageLevel LogQueueMessage::ErrorLevel() const
     return m_errorLevel;
 }
 
+
+// ****************************************************************************
+// 'class LogQueueMessage' definition
+// ****************************************************************************
+
 } // namespace message
 } // namespace log
 } // namespace core_lib
