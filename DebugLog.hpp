@@ -29,10 +29,14 @@
 #define DEBUGLOG_HPP
 
 #include <ctime>
+#include <chrono>
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <iomanip>
 #include <set>
 #include <map>
+#include <algorithm>
 #include "MessageQueueThread.hpp"
 
 /*! \brief The core_lib namespace. */
@@ -70,52 +74,62 @@ enum class eLogMessageLevel
     fatal
 };
 
-/*! \brief The message namespace. */
-namespace message {
-
-class LogQueueMessage
+struct DefaultLogFormat
 {
-public:
-    static const int MESSAGE_ID = 1;
+    std::string operator() (std::string& logMsgLevel
+                            , std::time_t timeStamp
+                            , const std::string& message
+                            , const std::string& file
+                            , int lineNo
+                            , const std::thread::id& threadID) const
+    {
+        std::stringstream ss;
 
-    LogQueueMessage();
-    LogQueueMessage(const std::string& Message,
-                    time_t TimeStamp,
-                    const std::string& File,
-                    const std::string& Function,
-                    int LineNo,
-                    std::thread::id ThreadID,
-                    eLogMessageLevel ErrorLevel);
-    LogQueueMessage(const LogQueueMessage& Msg);
-    LogQueueMessage(LogQueueMessage&& Msg);
-    LogQueueMessage& operator=(const LogQueueMessage& Msg);
-    LogQueueMessage& operator=(LogQueueMessage&& Msg);
+        if (logMsgLevel != "")
+        {
+            ss << logMsgLevel;
+        }
 
-    const std::string& Message() const;
-    time_t TimeStamp() const;
-    const std::string& File() const;
-    const std::string& Function() const;
-    int LineNo() const;
-    std::thread::id ThreadID() const;
-    eLogMessageLevel ErrorLevel() const;
+        if (timeStamp != 0)
+        {
+            // Should use lines below but not necessarily implemented yet
+            //     struct std::tm * ptm = std::localtime(&timeStamp);
+            //     ss << "\t" << std::put_time(ptm,"%F %T");
+            // so instead we use...
+            std::string time = ctime(&timeStamp);
+            std::replace_if(time.begin(), time.end(),
+                            [](char c) { return (c == '\n') || (c == '\r'); }, 0);
+            ss << "\t" << time;
+        }
 
-private:
-    std::string m_message;
-    time_t m_timeStamp;
-    std::string m_file;
-    std::string m_function;
-    int m_lineNo;
-    std::thread::id m_threadID;
-    eLogMessageLevel m_errorLevel;
+        ss << message;
+
+        if (file != "")
+        {
+            ss << "\tFile Name: " << file;
+        }
+
+        if (lineNo >= 0)
+        {
+            ss << "\tLine Number: " << lineNo;
+        }
+
+        std::thread::id noThread;
+        if (threadID != noThread)
+        {
+            ss << "\tThread ID: " << threadID;
+        }
+
+        ss << std::endl;
+
+        return ss.str();
+    }
 };
-
-} // namespace message
 
 static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
 
-template<typename Formatter,
-         typename OutputStream = std::ofstream,
-         size_t maxSizeInBytes = 5 * BYTES_IN_MEBIBYTE >
+template<typename Formatter = DefaultLogFormat
+         , size_t maxSizeInBytes = 5 * BYTES_IN_MEBIBYTE>
 class DebugLog final
 {
 public:
@@ -190,7 +204,6 @@ public:
 
     void AddLogMessage(const std::string& message
                        , const std::string& file = "" /*e.g. std::string(__FILE__)*/
-                       , const std::string& function = "" /*e.g. std::string(__FUNC__)*/
                        , int lineNo = -1 /*e.g.  __LINE__*/
                        , eLogMessageLevel logMsgLevel = eLogMessageLevel::not_defined)
     {
@@ -198,25 +211,134 @@ public:
         {
             time_t messageTime;
             time(&messageTime);
-            m_logMsgQueueThread.Push(new message::LogQueueMessage(message,
-                                                                  messageTime,
-                                                                  file,
-                                                                  function,
-                                                                  lineNo,
-                                                                  std::this_thread::get_id(),
-                                                                  logMsgLevel));
+            m_logMsgQueueThread.Push(new LogQueueMessage(message,
+                                                         messageTime,
+                                                         file,
+                                                         lineNo,
+                                                         std::this_thread::get_id(),
+                                                         logMsgLevel));
         }
     }
 
 private:
+    class LogQueueMessage
+    {
+    public:
+        static const int MESSAGE_ID = 1;
+
+        LogQueueMessage()
+            : m_timeStamp(0)
+            , m_lineNo(0)
+            , m_errorLevel(eLogMessageLevel::not_defined)
+        {
+        }
+
+        LogQueueMessage(const std::string& message,
+                         time_t timeStamp,
+                         const std::string& file,
+                         int lineNo,
+                         std::thread::id threadID,
+                         eLogMessageLevel errorLevel)
+            : m_message(message)
+            , m_timeStamp(timeStamp)
+            , m_file(file)
+            , m_lineNo(lineNo)
+            , m_threadID(threadID)
+            , m_errorLevel(errorLevel)
+        {
+        }
+
+        LogQueueMessage(const LogQueueMessage& msg)
+            : m_message(msg.m_message)
+            , m_timeStamp(msg.m_timeStamp)
+            , m_file(msg.m_file)
+            , m_lineNo(msg.m_lineNo)
+            , m_threadID(msg.m_threadID)
+            , m_errorLevel(msg.m_errorLevel)
+        {
+        }
+
+        LogQueueMessage(LogQueueMessage&& msg)
+            : m_timeStamp(0)
+            , m_lineNo(0)
+            , m_errorLevel(eLogMessageLevel::not_defined)
+        {
+            *this = std::move(msg);
+        }
+
+        LogQueueMessage& operator=(const LogQueueMessage& msg)
+        {
+            if (this != &msg)
+            {
+                m_message = msg.m_message;
+                m_timeStamp = msg.m_timeStamp;
+                m_file = msg.m_file;
+                m_lineNo = msg.m_lineNo;
+                m_threadID = msg.m_threadID;
+                m_errorLevel = msg.m_errorLevel;
+            }
+
+            return *this;
+        }
+
+        LogQueueMessage& operator=(LogQueueMessage&& msg)
+        {
+            m_message.swap(msg.m_message);
+            std::swap(m_timeStamp, msg.m_timeStamp);
+            m_file.swap(msg.m_file);
+            std::swap(m_lineNo, msg.m_lineNo);
+            std::swap(m_threadID, msg.m_threadID);
+            std::swap(m_errorLevel, msg.m_errorLevel);
+            return *this;
+        }
+
+        const std::string& Message() const
+        {
+            return m_message;
+        }
+
+        time_t TimeStamp() const
+        {
+            return m_timeStamp;
+        }
+
+        const std::string& File() const
+        {
+            return m_file;
+        }
+
+        int LineNo() const
+        {
+            return m_lineNo;
+        }
+
+        std::thread::id ThreadID() const
+        {
+            return m_threadID;
+        }
+
+        eLogMessageLevel ErrorLevel() const
+        {
+            return m_errorLevel;
+        }
+
+    private:
+        std::string m_message;
+        time_t m_timeStamp;
+        std::string m_file;
+        int m_lineNo;
+        std::thread::id m_threadID;
+        eLogMessageLevel m_errorLevel;
+    };
+
     mutable std::mutex m_mutex;
     Formatter m_logFormatter;
-    OutputStream m_outputStream;
+    std::ofstream m_outputStream;
     const std::string m_softwareVersion;
     const std::string m_logFilePath;
     const std::string m_oldLogFilePath;
     const std::string m_unknownLogMsgLevel;
-    threads::MessageQueueThread<int, message::LogQueueMessage> m_logMsgQueueThread;
+    threads::MessageQueueThread<int, LogQueueMessage> m_logMsgQueueThread;
     std::map<eLogMessageLevel, std::string> m_logMsgLevelLookup;
     std::set<eLogMessageLevel> m_logMsgFilterSet;
 
@@ -232,24 +354,24 @@ private:
 
     void RegisterLogQueueMessageId()
     {
-        m_logMsgQueueThread.RegisterMessageHandler(message::LogQueueMessage::MESSAGE_ID
+        m_logMsgQueueThread.RegisterMessageHandler(LogQueueMessage::MESSAGE_ID
                                                    , std::bind(&DebugLog::MessageHandler
                                                                , this
                                                                , std::placeholders::_1
                                                                , std::placeholders::_2));
     }
 
-    int MessageDecoder(const message::LogQueueMessage* message, int length)
+    int MessageDecoder(const LogQueueMessage* message, int length)
     {
         if (!message || (length == 0))
         {
             BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageDecoder"));
         }
 
-        return message::LogQueueMessage::MESSAGE_ID;
+        return LogQueueMessage::MESSAGE_ID;
     }
 
-    bool MessageHandler(message::LogQueueMessage* message, int length)
+    bool MessageHandler(LogQueueMessage* message, int length)
     {
         if (!message || (length == 0))
         {
