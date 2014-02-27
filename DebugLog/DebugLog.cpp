@@ -48,5 +48,56 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 {
 }
 
+// ****************************************************************************
+// 'struct DefaultLogFormat' definition
+// ******************************B*********************************************
+void DefaultLogFormat::operator() (std::ostream& os
+                                    , const std::string& logMsgLevel
+                                    , std::time_t timeStamp
+                                    , const std::string& message
+                                    , const std::string& file
+                                    , int lineNo
+                                    , const std::thread::id& threadID) const
+{
+    if (logMsgLevel != "")
+    {
+        os << logMsgLevel;
+    }
+
+    if (timeStamp != 0)
+    {
+        // Should use lines below but not necessarily implemented
+        // yet in some compilers:
+        //     struct std::tm * ptm = std::localtime(&timeStamp);
+        //     os << "\t" << std::put_time(ptm,"%F %T");
+        // so instead we use...
+        std::string time = ctime(&timeStamp);
+        std::replace_if(time.begin(), time.end(),
+                        [](char c) { return (c == '\n') || (c == '\r'); }, 0);
+        os << "\t" << time.c_str();
+    }
+
+    os << message;
+
+    if (file != "")
+    {
+        os << "\tFile Name: " << file;
+    }
+
+    if (lineNo >= 0)
+    {
+        os << "\tLine Number: " << lineNo;
+    }
+
+    std::thread::id noThread;
+
+    if (threadID != noThread)
+    {
+        os << "\tThread ID: " << threadID;
+    }
+
+    os << std::endl;
+}
+
 } // namespace log
 } // namespace core_lib

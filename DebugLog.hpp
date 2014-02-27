@@ -76,54 +76,13 @@ enum class eLogMessageLevel
 
 struct DefaultLogFormat
 {
-    std::string operator() (std::string& logMsgLevel
-                            , std::time_t timeStamp
-                            , const std::string& message
-                            , const std::string& file
-                            , int lineNo
-                            , const std::thread::id& threadID) const
-    {
-        std::stringstream ss;
-
-        if (logMsgLevel != "")
-        {
-            ss << logMsgLevel;
-        }
-
-        if (timeStamp != 0)
-        {
-            // Should use lines below but not necessarily implemented yet
-            //     struct std::tm * ptm = std::localtime(&timeStamp);
-            //     ss << "\t" << std::put_time(ptm,"%F %T");
-            // so instead we use...
-            std::string time = ctime(&timeStamp);
-            std::replace_if(time.begin(), time.end(),
-                            [](char c) { return (c == '\n') || (c == '\r'); }, 0);
-            ss << "\t" << time;
-        }
-
-        ss << message;
-
-        if (file != "")
-        {
-            ss << "\tFile Name: " << file;
-        }
-
-        if (lineNo >= 0)
-        {
-            ss << "\tLine Number: " << lineNo;
-        }
-
-        std::thread::id noThread;
-        if (threadID != noThread)
-        {
-            ss << "\tThread ID: " << threadID;
-        }
-
-        ss << std::endl;
-
-        return ss.str();
-    }
+    void operator() (std::ostream& os
+                     , const std::string& logMsgLevel
+                     , std::time_t timeStamp
+                     , const std::string& message
+                     , const std::string& file
+                     , int lineNo
+                     , const std::thread::id& threadID) const;
 };
 
 static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
@@ -133,36 +92,6 @@ template<typename Formatter = DefaultLogFormat
 class DebugLog final
 {
 public:
-    DebugLog()
-        : m_softwareVersion("")
-        , m_logFilePath("")
-        , m_oldLogFilePath("")
-        , m_unknownLogMsgLevel(" ?   ")
-        , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
-                                        , this
-                                        , std::placeholders::_1
-                                        , std::placeholders::_2)
-                              , threads::eOnDestroyOptions::processRemainingItems)
-    {
-        SetupLogMsgLevelLookup();
-        RegisterLogQueueMessageId();
-    }
-
-    explicit DebugLog(const std::string& softwareVersion)
-        : m_softwareVersion(softwareVersion)
-        , m_logFilePath("")
-        , m_oldLogFilePath("")
-        , m_unknownLogMsgLevel(" ?   ")
-        , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
-                                        , this
-                                        , std::placeholders::_1
-                                        , std::placeholders::_2)
-                              , threads::eOnDestroyOptions::processRemainingItems)
-    {
-        SetupLogMsgLevelLookup();
-        RegisterLogQueueMessageId();
-    }
-
     DebugLog(const std::string& softwareVersion,
              const std::string& logFolderPath,
              const std::string& logName)
@@ -333,7 +262,7 @@ private:
 
     mutable std::mutex m_mutex;
     Formatter m_logFormatter;
-    std::ofstream m_outputStream;
+    std::ofstream m_ofStream;
     const std::string m_softwareVersion;
     const std::string m_logFilePath;
     const std::string m_oldLogFilePath;
@@ -402,6 +331,46 @@ private:
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
+    }
+
+    enum eFileOpenOptions
+    {
+        truncte_file,
+        append_file
+    };
+
+    void OpenOfStream(const std::string& filePath, eFileOpenOptions fileOptions)
+    {
+        if (m_ofStream.is_open())
+            return;
+
+        if (fileOptions == truncte_file)
+        {
+            m_ofStream.open(filePath.c_str(), std::ofstream::trunc);
+        }
+        else
+        {
+            m_ofStream.open(filePath.c_str(), std::ofstream::app);
+        }
+
+        time_t messageTime;
+        time(&messageTime);
+        std::thread::id dummyID;
+        /*
+        WriteMessageToLog(BuildLine(LogQueueMessage("Debug log started."
+                                                    , messageTime, "", -1
+                                                    , dummyID
+                                                    , eLogMessageLevel::info)), false);
+
+        std::string message("Software Version ");
+        message += m_softwareVersion;
+
+        //add software version string...
+        WriteMessageToLog(BuildLine(LogQueueMessage(message, messageTime
+                                                    , "", -1
+                                                    , dummyID
+                                                    , eLogMessageLevel::info)), false);
+       */
     }
 };
 
