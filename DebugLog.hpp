@@ -37,6 +37,8 @@
 #include <set>
 #include <map>
 #include <algorithm>
+#include <memory>
+#include "boost/filesystem.hpp"
 #include "MessageQueueThread.hpp"
 
 /*! \brief The core_lib namespace. */
@@ -88,7 +90,7 @@ struct DefaultLogFormat
 static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
 
 template<typename Formatter = DefaultLogFormat
-         , size_t maxSizeInBytes = 5 * BYTES_IN_MEBIBYTE>
+         , long MAX_LOG_SIZE = 5 * BYTES_IN_MEBIBYTE>
 class DebugLog final
 {
 public:
@@ -99,18 +101,23 @@ public:
         , m_logFilePath(logFolderPath + logName + ".txt")
         , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
         , m_unknownLogMsgLevel(" ?   ")
-        , m_logMsgQueueThread(std::bind(&DebugLog::MessageDecoder
-                                        , this
-                                        , std::placeholders::_1
-                                        , std::placeholders::_2)
-                              , threads::eOnDestroyOptions::processRemainingItems)
+        , m_logMsgQueueThread(new log_msg_queue(std::bind(&DebugLog::MessageDecoder
+                                                          , this
+                                                          , std::placeholders::_1
+                                                          , std::placeholders::_2)
+                                                , threads::eOnDestroyOptions::processRemainingItems))
     {
         SetupLogMsgLevelLookup();
         RegisterLogQueueMessageId();
+        OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
 
     ~DebugLog()
     {
+        // Manually reset so we cprocess all remaining
+        // messages before closing file.
+        m_logMsgQueueThread.reset();
+        CloseOfStream();
     }
 
     void AddLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
@@ -140,7 +147,7 @@ public:
         {
             time_t messageTime;
             time(&messageTime);
-            m_logMsgQueueThread.Push(new LogQueueMessage(message,
+            m_logMsgQueueThread->Push(new LogQueueMessage(message,
                                                          messageTime,
                                                          file,
                                                          lineNo,
@@ -267,7 +274,8 @@ private:
     const std::string m_logFilePath;
     const std::string m_oldLogFilePath;
     const std::string m_unknownLogMsgLevel;
-    threads::MessageQueueThread<int, LogQueueMessage> m_logMsgQueueThread;
+    typedef threads::MessageQueueThread<int, LogQueueMessage> log_msg_queue;
+    std::unique_ptr<log_msg_queue> m_logMsgQueueThread;
     std::map<eLogMessageLevel, std::string> m_logMsgLevelLookup;
     std::set<eLogMessageLevel> m_logMsgFilterSet;
 
@@ -283,7 +291,7 @@ private:
 
     void RegisterLogQueueMessageId()
     {
-        m_logMsgQueueThread.RegisterMessageHandler(LogQueueMessage::MESSAGE_ID
+        m_logMsgQueueThread->RegisterMessageHandler(LogQueueMessage::MESSAGE_ID
                                                    , std::bind(&DebugLog::MessageHandler
                                                                , this
                                                                , std::placeholders::_1
@@ -307,11 +315,8 @@ private:
             BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageHandler"));
         }
 
-        // *************************
-        // TODO: Handle log message.
-        // *************************
-
-        // Make sure message is deleted.
+        CheckLogFileSize(message->Message().size());
+        WriteMessageToLog(*message);
         return true;
     }
 
@@ -333,44 +338,93 @@ private:
         return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
     }
 
-    enum eFileOpenOptions
+    enum class eFileOpenOptions
     {
-        truncte_file,
+        truncate_file,
         append_file
     };
 
     void OpenOfStream(const std::string& filePath, eFileOpenOptions fileOptions)
     {
         if (m_ofStream.is_open())
-            return;
-
-        if (fileOptions == truncte_file)
         {
-            m_ofStream.open(filePath.c_str(), std::ofstream::trunc);
+            return;
+        }
+
+        if (fileOptions == eFileOpenOptions::truncate_file)
+        {
+            m_ofStream.open(filePath, std::ofstream::trunc);
         }
         else
         {
-            m_ofStream.open(filePath.c_str(), std::ofstream::app);
+            m_ofStream.open(filePath, std::ofstream::app);
         }
 
         time_t messageTime;
         time(&messageTime);
         std::thread::id dummyID;
-        /*
-        WriteMessageToLog(BuildLine(LogQueueMessage("Debug log started."
-                                                    , messageTime, "", -1
-                                                    , dummyID
-                                                    , eLogMessageLevel::info)), false);
-
+        WriteMessageToLog(LogQueueMessage("Debug log started."
+                                          , messageTime, "", -1
+                                          , dummyID
+                                          , eLogMessageLevel::info));
         std::string message("Software Version ");
         message += m_softwareVersion;
+        WriteMessageToLog(LogQueueMessage(message, messageTime
+                                          , "", -1
+                                          , dummyID
+                                          , eLogMessageLevel::info));
+    }
 
-        //add software version string...
-        WriteMessageToLog(BuildLine(LogQueueMessage(message, messageTime
-                                                    , "", -1
-                                                    , dummyID
-                                                    , eLogMessageLevel::info)), false);
-       */
+    void CloseOfStream()
+    {
+        if (!m_ofStream.is_open())
+        {
+            return;
+        }
+
+        time_t messageTime;
+        time(&messageTime);
+        std::thread::id dummyID;
+        m_logFormatter(m_ofStream
+                       , GetLogMsgLevelAsString(eLogMessageLevel::info)
+                       , messageTime
+                       , "Debug log stopped."
+                       , ""
+                       , -1
+                       , dummyID);
+        m_ofStream.flush();
+        m_ofStream.close();
+    }
+
+    void CheckLogFileSize(long requiredSpace)
+    {
+        if (m_ofStream.is_open())
+        {
+            return;
+        }
+
+        long pos = m_ofStream.tellp();
+
+        if ((MAX_LOG_SIZE - pos) < requiredSpace)
+        {
+            CloseOfStream();
+            boost::filesystem::copy_file(m_logFilePath
+                                         , m_oldLogFilePath
+                                         , boost::filesystem::copy_option::overwrite_if_exists);
+            OpenOfStream(m_logFilePath, eFileOpenOptions::truncate_file);
+        }
+    }
+
+    void WriteMessageToLog(LogQueueMessage&& logMessage)
+    {
+        m_logFormatter(m_ofStream
+                       , GetLogMsgLevelAsString(logMessage.ErrorLevel())
+                       , logMessage.TimeStamp()
+                       , logMessage.Message()
+                       , logMessage.File()
+                       , logMessage.LineNo()
+                       , logMessage.ThreadID());
+        m_ofStream.flush();
     }
 };
 
