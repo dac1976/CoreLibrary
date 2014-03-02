@@ -367,12 +367,16 @@ private:
                                           , messageTime, "", -1
                                           , dummyID
                                           , eLogMessageLevel::info));
-        std::string message("Software Version ");
-        message += m_softwareVersion;
-        WriteMessageToLog(LogQueueMessage(message, messageTime
-                                          , "", -1
-                                          , dummyID
-                                          , eLogMessageLevel::info));
+
+        if (m_softwareVersion != "")
+        {
+            std::string message("Software Version ");
+            message += m_softwareVersion;
+            WriteMessageToLog(LogQueueMessage(message, messageTime
+                                              , "", -1
+                                              , dummyID
+                                              , eLogMessageLevel::info));
+        }
     }
 
     void CloseOfStream()
@@ -385,14 +389,10 @@ private:
         time_t messageTime;
         time(&messageTime);
         std::thread::id dummyID;
-        m_logFormatter(m_ofStream
-                       , GetLogMsgLevelAsString(eLogMessageLevel::info)
-                       , messageTime
-                       , "Debug log stopped."
-                       , ""
-                       , -1
-                       , dummyID);
-        m_ofStream.flush();
+        WriteMessageToLog(LogQueueMessage("Debug log stopped."
+                                          , messageTime, "", -1
+                                          , dummyID
+                                          , eLogMessageLevel::info));
         m_ofStream.close();
     }
 
