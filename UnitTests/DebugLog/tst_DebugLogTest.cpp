@@ -18,7 +18,7 @@ private Q_SLOTS:
     void testCase_DebugLog1();
 };
 
-ThreadsTest::ThreadsTest()
+DebugLogTest::DebugLogTest()
 {
 }
 
@@ -27,7 +27,7 @@ ThreadsTest::ThreadsTest()
 // ****************************************************************************
 void DebugLogTest::testCase_DebugLog1()
 {
-    
+
 }
 
 QTEST_APPLESS_MAIN(DebugLogTest)
