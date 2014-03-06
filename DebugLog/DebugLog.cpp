@@ -54,14 +54,14 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 void DefaultLogFormat::operator() (std::ostream& os
                                     , const std::string& logMsgLevel
                                     , std::time_t timeStamp
-                                    , const std::string& message
                                     , const std::string& file
                                     , int lineNo
-                                    , const std::thread::id& threadID) const
+                                    , const std::thread::id& threadID
+                                    , const std::string& message) const
 {
     if (logMsgLevel != "")
     {
-        os << logMsgLevel;
+        os << "< Level: " << logMsgLevel << " >";
     }
 
     if (timeStamp != 0)
@@ -74,27 +74,27 @@ void DefaultLogFormat::operator() (std::ostream& os
         std::string time = ctime(&timeStamp);
         std::replace_if(time.begin(), time.end(),
                         [](char c) { return (c == '\n') || (c == '\r'); }, 0);
-        os << "\t" << time.c_str();
+        os << "< Time: " << time.c_str() << " >";
     }
-
-    os << message;
 
     if (file != "")
     {
-        os << "\tFile Name: " << file;
+        os << "< File: " << file << " >";
     }
 
     if (lineNo >= 0)
     {
-        os << "\tLine Number: " << lineNo;
+        os << "< Line: " << lineNo << " >";
     }
 
     std::thread::id noThread;
 
     if (threadID != noThread)
     {
-        os << "\tThread ID: " << threadID;
+        os << "< Thread: " << threadID << " >";
     }
+
+    os << "< Message: " << message << " >";
 
     os << std::endl;
 }

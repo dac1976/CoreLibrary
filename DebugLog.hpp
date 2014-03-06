@@ -81,10 +81,10 @@ struct DefaultLogFormat
     void operator() (std::ostream& os
                      , const std::string& logMsgLevel
                      , std::time_t timeStamp
-                     , const std::string& message
                      , const std::string& file
                      , int lineNo
-                     , const std::thread::id& threadID) const;
+                     , const std::thread::id& threadID
+                     , const std::string& message) const;
 };
 
 static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
@@ -282,11 +282,11 @@ private:
     void SetupLogMsgLevelLookup()
     {
         m_logMsgLevelLookup[eLogMessageLevel::not_defined] = "";
-        m_logMsgLevelLookup[eLogMessageLevel::debug]       = "DEBUG";
-        m_logMsgLevelLookup[eLogMessageLevel::info]        = "INFO ";
-        m_logMsgLevelLookup[eLogMessageLevel::warning]     = "WARN ";
-        m_logMsgLevelLookup[eLogMessageLevel::error]       = "ERROR";
-        m_logMsgLevelLookup[eLogMessageLevel::fatal]       = "FATAL";
+        m_logMsgLevelLookup[eLogMessageLevel::debug]       = "Debug  ";
+        m_logMsgLevelLookup[eLogMessageLevel::info]        = "Info   ";
+        m_logMsgLevelLookup[eLogMessageLevel::warning]     = "Warning";
+        m_logMsgLevelLookup[eLogMessageLevel::error]       = "Error  ";
+        m_logMsgLevelLookup[eLogMessageLevel::fatal]       = "Fatal  ";
     }
 
     void RegisterLogQueueMessageId()
@@ -420,10 +420,10 @@ private:
         m_logFormatter(m_ofStream
                        , GetLogMsgLevelAsString(logMessage.ErrorLevel())
                        , logMessage.TimeStamp()
-                       , logMessage.Message()
                        , logMessage.File()
                        , logMessage.LineNo()
-                       , logMessage.ThreadID());
+                       , logMessage.ThreadID()
+                       , logMessage.Message());
         m_ofStream.flush();
     }
 };
