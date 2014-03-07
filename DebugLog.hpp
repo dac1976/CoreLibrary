@@ -32,14 +32,13 @@
 #include <chrono>
 #include <string>
 #include <fstream>
-#include <sstream>
-#include <iomanip>
 #include <set>
 #include <map>
 #include <algorithm>
 #include <memory>
-#include "boost/filesystem.hpp"
 #include "MessageQueueThread.hpp"
+#define BOOST_NO_CXX11_SCOPED_ENUMS
+#include "boost/filesystem.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -76,6 +75,15 @@ enum class eLogMessageLevel
     fatal
 };
 
+/*!
+ * \brief Default log line formater.
+ *
+ * This functor formats the log message elements
+ * into a single line in the log following default
+ * formatting.
+ *
+ * < "Level" >< "Date/Time" >< File = "..." >< Line = "..." >< Thread ID = "..." >< "Message" >
+ */
 struct DefaultLogFormat
 {
     void operator() (std::ostream& os
@@ -89,7 +97,7 @@ struct DefaultLogFormat
 
 static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
 
-template<typename Formatter = DefaultLogFormat
+template<typename Formatter /* e.g. DefaultLogFormat*/
          , long MAX_LOG_SIZE = 5 * BYTES_IN_MEBIBYTE>
 class DebugLog final
 {
@@ -100,7 +108,7 @@ public:
         : m_softwareVersion(softwareVersion)
         , m_logFilePath(logFolderPath + logName + ".txt")
         , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
-        , m_unknownLogMsgLevel(" ?   ")
+        , m_unknownLogMsgLevel("?")
         , m_logMsgQueueThread(new log_msg_queue(std::bind(&DebugLog::MessageDecoder
                                                           , this
                                                           , std::placeholders::_1
@@ -282,11 +290,11 @@ private:
     void SetupLogMsgLevelLookup()
     {
         m_logMsgLevelLookup[eLogMessageLevel::not_defined] = "";
-        m_logMsgLevelLookup[eLogMessageLevel::debug]       = "Debug  ";
-        m_logMsgLevelLookup[eLogMessageLevel::info]        = "Info   ";
+        m_logMsgLevelLookup[eLogMessageLevel::debug]       = "Debug";
+        m_logMsgLevelLookup[eLogMessageLevel::info]        = "Info";
         m_logMsgLevelLookup[eLogMessageLevel::warning]     = "Warning";
-        m_logMsgLevelLookup[eLogMessageLevel::error]       = "Error  ";
-        m_logMsgLevelLookup[eLogMessageLevel::fatal]       = "Fatal  ";
+        m_logMsgLevelLookup[eLogMessageLevel::error]       = "Error";
+        m_logMsgLevelLookup[eLogMessageLevel::fatal]       = "Fatal";
     }
 
     void RegisterLogQueueMessageId()
@@ -363,7 +371,7 @@ private:
         time_t messageTime;
         time(&messageTime);
         std::thread::id dummyID;
-        WriteMessageToLog(LogQueueMessage("Debug log started."
+        WriteMessageToLog(LogQueueMessage("DEBUG LOG STARTED"
                                           , messageTime, "", -1
                                           , dummyID
                                           , eLogMessageLevel::info));
@@ -389,7 +397,7 @@ private:
         time_t messageTime;
         time(&messageTime);
         std::thread::id dummyID;
-        WriteMessageToLog(LogQueueMessage("Debug log stopped."
+        WriteMessageToLog(LogQueueMessage("DEBUG LOG STOPPED"
                                           , messageTime, "", -1
                                           , dummyID
                                           , eLogMessageLevel::info));
@@ -408,14 +416,13 @@ private:
         if ((MAX_LOG_SIZE - pos) < requiredSpace)
         {
             CloseOfStream();
-            boost::filesystem::copy_file(m_logFilePath
-                                         , m_oldLogFilePath
+            boost::filesystem::copy_file(m_logFilePath, m_oldLogFilePath
                                          , boost::filesystem::copy_option::overwrite_if_exists);
             OpenOfStream(m_logFilePath, eFileOpenOptions::truncate_file);
         }
     }
 
-    void WriteMessageToLog(LogQueueMessage&& logMessage)
+    void WriteMessageToLog(const LogQueueMessage& logMessage)
     {
         m_logFormatter(m_ofStream
                        , GetLogMsgLevelAsString(logMessage.ErrorLevel())

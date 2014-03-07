@@ -61,7 +61,7 @@ void DefaultLogFormat::operator() (std::ostream& os
 {
     if (logMsgLevel != "")
     {
-        os << "< Level: " << logMsgLevel << " >";
+        os << "< " << logMsgLevel << " >";
     }
 
     if (timeStamp != 0)
@@ -74,27 +74,27 @@ void DefaultLogFormat::operator() (std::ostream& os
         std::string time = ctime(&timeStamp);
         std::replace_if(time.begin(), time.end(),
                         [](char c) { return (c == '\n') || (c == '\r'); }, 0);
-        os << "< Time: " << time.c_str() << " >";
+        os << "< " << time.c_str() << " >";
     }
 
     if (file != "")
     {
-        os << "< File: " << file << " >";
+        os << "< File = " << file << " >";
     }
 
     if (lineNo >= 0)
     {
-        os << "< Line: " << lineNo << " >";
+        os << "< Line = " << lineNo << " >";
     }
 
     std::thread::id noThread;
 
     if (threadID != noThread)
     {
-        os << "< Thread: " << threadID << " >";
+        os << "< Thread ID = " << threadID << " >";
     }
 
-    os << "< Message: " << message << " >";
+    os << "< " << message << " >";
 
     os << std::endl;
 }
