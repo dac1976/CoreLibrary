@@ -146,10 +146,22 @@ public:
         }
     }
 
+    void AddLogMessage(const std::string& message)
+    {
+        time_t messageTime;
+        time(&messageTime);
+        m_logMsgQueueThread->Push(new LogQueueMessage(message,
+                                                     messageTime,
+                                                     "",
+                                                     -1,
+                                                     std::this_thread::get_id(),
+                                                     eLogMessageLevel::not_defined));
+    }
+
     void AddLogMessage(const std::string& message
-                       , const std::string& file = "" /*e.g. std::string(__FILE__)*/
-                       , int lineNo = -1 /*e.g.  __LINE__*/
-                       , eLogMessageLevel logMsgLevel = eLogMessageLevel::not_defined)
+                       , const std::string& file /*e.g. std::string(__FILE__)*/
+                       , int lineNo /*e.g.  __LINE__*/
+                       , eLogMessageLevel logMsgLevel)
     {
         if (!IsLogMsgLevelFilterSet(logMsgLevel))
         {

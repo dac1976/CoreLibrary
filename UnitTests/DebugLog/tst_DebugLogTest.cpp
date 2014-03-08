@@ -62,7 +62,6 @@ void DebugLogTest::testCase_DebugLog2()
     QVERIFY(ifs.is_open());
     std::string line;
     size_t lineCount = 0;
-    const char* temp = nullptr;
 
     while(!ifs.eof())
     {
@@ -80,7 +79,6 @@ void DebugLogTest::testCase_DebugLog2()
             QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STOPPED >");
             break;
         case 4:
-            temp = line.c_str();
             QVERIFY(line == "");
             break;
         default:
@@ -111,7 +109,6 @@ void DebugLogTest::testCase_DebugLog3()
     QVERIFY(ifs.is_open());
     std::string line;
     size_t lineCount = 0;
-    const char* temp = nullptr;
 
     while(!ifs.eof())
     {
@@ -138,7 +135,6 @@ void DebugLogTest::testCase_DebugLog3()
             QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STOPPED >");
             break;
         case 7:
-            temp = line.c_str();
             QVERIFY(line == "");
             break;
         default:
