@@ -18,6 +18,7 @@ private Q_SLOTS:
     void testCase_DebugLog1();
     void testCase_DebugLog2();
     void testCase_DebugLog3();
+    void testCase_DebugLog4();
 };
 
 DebugLogTest::DebugLogTest()
@@ -150,6 +151,31 @@ void DebugLogTest::testCase_DebugLog3()
     }
 
     boost::filesystem::remove("test_log.txt");
+}
+
+void DebugLogTest::testCase_DebugLog4()
+{
+    {
+        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat, 1024> dl("1.0.0.0", "", "test_log");
+        dl.AddLogMessage("Message 1", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 2", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 3", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 4", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 5", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 6", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 7", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 8", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 9", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 10", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+    }
+
+    bool filesExist = boost::filesystem::exists("test_log.txt")
+                      && boost::filesystem::exists("test_log_old.txt");
+
+    boost::filesystem::remove("test_log.txt");
+    boost::filesystem::remove("test_log_old.txt");
+
+    QVERIFY(filesExist);
 }
 
 QTEST_APPLESS_MAIN(DebugLogTest)

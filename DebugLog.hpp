@@ -418,7 +418,7 @@ private:
 
     void CheckLogFileSize(long requiredSpace)
     {
-        if (m_ofStream.is_open())
+        if (!m_ofStream.is_open())
         {
             return;
         }

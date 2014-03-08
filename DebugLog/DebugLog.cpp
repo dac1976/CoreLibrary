@@ -94,9 +94,7 @@ void DefaultLogFormat::operator() (std::ostream& os
         os << "< Thread ID = " << threadID << " >";
     }
 
-    os << "< " << message << " >";
-
-    os << std::endl;
+    os << "< " << message << " >" << std::endl;
 }
 
 } // namespace log
