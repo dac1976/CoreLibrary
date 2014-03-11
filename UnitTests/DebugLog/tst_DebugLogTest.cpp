@@ -20,6 +20,8 @@ private Q_SLOTS:
     void testCase_DebugLog3();
     void testCase_DebugLog4();
     void testCase_DebugLog5();
+    void testCase_DebugLog6();
+    void testCase_DebugLog7();
 };
 
 DebugLogTest::DebugLogTest()
@@ -35,19 +37,19 @@ void DebugLogTest::testCase_DebugLog1()
     std::stringstream ss;
     time_t messageTime;
     time(&messageTime);
-    int line = __LINE__;
-    dlf(ss, "Info", messageTime, __FILE__, line, std::this_thread::get_id(), "I am a test message");
+    int lineNo = __LINE__;
+    dlf(ss, messageTime, "I am a test message", "Info", __FILE__, lineNo, std::this_thread::get_id());
 
     std::string time = ctime(&messageTime);
     std::replace_if(time.begin(), time.end(),
                     [](char c) { return (c == '\n') || (c == '\r'); }, 0);
 
     std::stringstream test;
-    test << "< Info >"
-         << "< " << time.c_str() << " >"
+    test << "< " << time.c_str() << " >"
          << "< I am a test message >"
+         << "< Info >"
          << "< File = " << __FILE__  << " >"
-         << "< Line = " << line << " >"
+         << "< Line = " << lineNo << " >"
          << "< Thread ID = " << std::this_thread::get_id() << " >"
          << std::endl;
 
@@ -72,13 +74,13 @@ void DebugLogTest::testCase_DebugLog2()
         switch(++lineCount)
         {
         case 1:
-            QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STARTED >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STARTED >");
             break;
         case 2:
-            QVERIFY(line.substr(36, line.size() - 36) == "< Software Version 1.0.0.0 >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< Software Version 1.0.0.0 >");
             break;
         case 3:
-            QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STOPPED >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STOPPED >");
             break;
         case 4:
             QVERIFY(line == "");
@@ -119,22 +121,22 @@ void DebugLogTest::testCase_DebugLog3()
         switch(++lineCount)
         {
         case 1:
-            QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STARTED >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STARTED >");
             break;
         case 2:
-            QVERIFY(line.substr(36, line.size() - 36) == "< Software Version 1.0.0.0 >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< Software Version 1.0.0.0 >");
             break;
         case 3:
-            QVERIFY(line.substr(36, 13) == "< Message 1 >");
+            QVERIFY(line.substr(28, 13) == "< Message 1 >");
             break;
         case 4:
-            QVERIFY(line.substr(36, 13) == "< Message 2 >");
+            QVERIFY(line.substr(28, 13) == "< Message 2 >");
             break;
         case 5:
-            QVERIFY(line.substr(36, 13) == "< Message 3 >");
+            QVERIFY(line.substr(28, 13) == "< Message 3 >");
             break;
         case 6:
-            QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STOPPED >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STOPPED >");
             break;
         case 7:
             QVERIFY(line == "");
@@ -201,16 +203,16 @@ void DebugLogTest::testCase_DebugLog5()
         switch(++lineCount)
         {
         case 1:
-            QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STARTED >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STARTED >");
             break;
         case 2:
-            QVERIFY(line.substr(36, line.size() - 36) == "< Software Version 1.0.0.0 >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< Software Version 1.0.0.0 >");
             break;
         case 3:
-            QVERIFY(line.substr(36, 13) == "< Message 2 >");
+            QVERIFY(line.substr(28, 13) == "< Message 2 >");
             break;
         case 4:
-            QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STOPPED >");
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STOPPED >");
             break;
         case 5:
             QVERIFY(line == "");
@@ -223,6 +225,118 @@ void DebugLogTest::testCase_DebugLog5()
     ifs.close();
 
     if (lineCount < 5)
+    {
+        QFAIL("Too few lines");
+    }
+
+    boost::filesystem::remove("test_log.txt");
+}
+
+void DebugLogTest::testCase_DebugLog6()
+{
+    {
+        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log");
+        DEBUG_LOG_EX(dl, "Message 1", core_lib::log::eLogMessageLevel::info);
+        DEBUG_LOG_EX(dl, "Message 2", core_lib::log::eLogMessageLevel::info);
+        DEBUG_LOG_EX(dl, "Message 3", core_lib::log::eLogMessageLevel::info);
+    }
+
+    std::ifstream ifs("test_log.txt");
+    QVERIFY(ifs.is_open());
+    std::string line;
+    size_t lineCount = 0;
+
+    while(!ifs.eof())
+    {
+        std::getline(ifs, line);
+
+        switch(++lineCount)
+        {
+        case 1:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STARTED >");
+            break;
+        case 2:
+            QVERIFY(line.substr(28, line.size() - 28) == "< Software Version 1.0.0.0 >");
+            break;
+        case 3:
+            QVERIFY(line.substr(28, 13) == "< Message 1 >");
+            break;
+        case 4:
+            QVERIFY(line.substr(28, 13) == "< Message 2 >");
+            break;
+        case 5:
+            QVERIFY(line.substr(28, 13) == "< Message 3 >");
+            break;
+        case 6:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STOPPED >");
+            break;
+        case 7:
+            QVERIFY(line == "");
+            break;
+        default:
+            QFAIL("Too many lines");
+        }
+    }
+
+    ifs.close();
+
+    if (lineCount < 7)
+    {
+        QFAIL("Too few lines");
+    }
+
+    boost::filesystem::remove("test_log.txt");
+}
+
+void DebugLogTest::testCase_DebugLog7()
+{
+    {
+        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log");
+        DEBUG_LOG(dl, "Message 1");
+        DEBUG_LOG(dl, "Message 2");
+        DEBUG_LOG(dl, "Message 3");
+    }
+
+    std::ifstream ifs("test_log.txt");
+    QVERIFY(ifs.is_open());
+    std::string line;
+    size_t lineCount = 0;
+
+    while(!ifs.eof())
+    {
+        std::getline(ifs, line);
+
+        switch(++lineCount)
+        {
+        case 1:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STARTED >");
+            break;
+        case 2:
+            QVERIFY(line.substr(28, line.size() - 28) == "< Software Version 1.0.0.0 >");
+            break;
+        case 3:
+            QVERIFY(line.substr(28, 13) == "< Message 1 >");
+            break;
+        case 4:
+            QVERIFY(line.substr(28, 13) == "< Message 2 >");
+            break;
+        case 5:
+            QVERIFY(line.substr(28, 13) == "< Message 3 >");
+            break;
+        case 6:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STOPPED >");
+            break;
+        case 7:
+            QVERIFY(line == "");
+            break;
+        default:
+            QFAIL("Too many lines");
+        }
+    }
+
+    ifs.close();
+
+    if (lineCount < 7)
     {
         QFAIL("Too few lines");
     }

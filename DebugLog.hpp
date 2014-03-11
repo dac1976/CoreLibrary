@@ -32,6 +32,7 @@
 #include <chrono>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <set>
 #include <map>
 #include <algorithm>
@@ -87,12 +88,12 @@ enum class eLogMessageLevel
 struct DefaultLogFormat
 {
     void operator() (std::ostream& os
-                     , const std::string& logMsgLevel
                      , std::time_t timeStamp
+                     , const std::string& message
+                     , const std::string& logMsgLevel
                      , const std::string& file
                      , int lineNo
-                     , const std::thread::id& threadID
-                     , const std::string& message) const;
+                     , const std::thread::id& threadID) const;
 };
 
 static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
@@ -130,32 +131,41 @@ public:
 
     void AddLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
     {
-        if (!IsLogMsgLevelFilterSet(logMessageLevel))
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        if (!IsLogMsgLevelFilterSetNoLock(logMessageLevel))
         {
-            std::lock_guard<std::mutex> lock(m_mutex);
             m_logMsgFilterSet.insert(logMessageLevel);
         }
     }
 
     void RemoveLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
     {
-        if (IsLogMsgLevelFilterSet(logMessageLevel))
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        if (IsLogMsgLevelFilterSetNoLock(logMessageLevel))
         {
-            std::lock_guard<std::mutex> lock(m_mutex);
             m_logMsgFilterSet.insert(logMessageLevel);
         }
+    }
+
+    void ClearLogMsgLevelFilters(eLogMessageLevel logMessageLevel)
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_logMsgFilterSet.clear();
     }
 
     void AddLogMessage(const std::string& message)
     {
         time_t messageTime;
         time(&messageTime);
+        std::thread::id noThread;
         m_logMsgQueueThread->Push(new LogQueueMessage(message,
-                                                     messageTime,
-                                                     "",
-                                                     -1,
-                                                     std::this_thread::get_id(),
-                                                     eLogMessageLevel::not_defined));
+                                                      messageTime,
+                                                      "",
+                                                      -1,
+                                                      noThread,
+                                                      eLogMessageLevel::not_defined));
     }
 
     void AddLogMessage(const std::string& message
@@ -168,11 +178,11 @@ public:
             time_t messageTime;
             time(&messageTime);
             m_logMsgQueueThread->Push(new LogQueueMessage(message,
-                                                         messageTime,
-                                                         file,
-                                                         lineNo,
-                                                         std::this_thread::get_id(),
-                                                         logMsgLevel));
+                                                          messageTime,
+                                                          file,
+                                                          lineNo,
+                                                          std::this_thread::get_id(),
+                                                          logMsgLevel));
         }
     }
 
@@ -352,6 +362,11 @@ private:
                : m_unknownLogMsgLevel;
     }
 
+    bool IsLogMsgLevelFilterSetNoLock(eLogMessageLevel logMessageLevel) const
+    {
+        return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
+    }
+
     bool IsLogMsgLevelFilterSet(eLogMessageLevel logMessageLevel) const
     {
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -382,11 +397,11 @@ private:
 
         time_t messageTime;
         time(&messageTime);
-        std::thread::id dummyID;
+        std::thread::id noThread;
         WriteMessageToLog(LogQueueMessage("DEBUG LOG STARTED"
                                           , messageTime, "", -1
-                                          , dummyID
-                                          , eLogMessageLevel::info));
+                                          , noThread
+                                          , eLogMessageLevel::not_defined));
 
         if (m_softwareVersion != "")
         {
@@ -394,8 +409,8 @@ private:
             message += m_softwareVersion;
             WriteMessageToLog(LogQueueMessage(message, messageTime
                                               , "", -1
-                                              , dummyID
-                                              , eLogMessageLevel::info));
+                                              , noThread
+                                              , eLogMessageLevel::not_defined));
         }
     }
 
@@ -408,11 +423,11 @@ private:
 
         time_t messageTime;
         time(&messageTime);
-        std::thread::id dummyID;
+        std::thread::id noThread;
         WriteMessageToLog(LogQueueMessage("DEBUG LOG STOPPED"
                                           , messageTime, "", -1
-                                          , dummyID
-                                          , eLogMessageLevel::info));
+                                          , noThread
+                                          , eLogMessageLevel::not_defined));
         m_ofStream.close();
     }
 
@@ -437,17 +452,44 @@ private:
     void WriteMessageToLog(const LogQueueMessage& logMessage)
     {
         m_logFormatter(m_ofStream
-                       , GetLogMsgLevelAsString(logMessage.ErrorLevel())
                        , logMessage.TimeStamp()
+                       , logMessage.Message()
+                       , GetLogMsgLevelAsString(logMessage.ErrorLevel())
                        , logMessage.File()
                        , logMessage.LineNo()
-                       , logMessage.ThreadID()
-                       , logMessage.Message());
+                       , logMessage.ThreadID());
         m_ofStream.flush();
     }
 };
 
 } // namespace log
 } // namespace core_lib
+
+/*!
+ * \brief Simple macro to simplify logging.
+ * \param [IN] DebugLog object.
+ * \param [IN] Object to be used as message in DebugLog.
+ */
+#define DEBUG_LOG(x, m)           \
+    do                            \
+    {                             \
+        std::ostringstream os;    \
+        os << m;    		      \
+        x.AddLogMessage(os.str()); \
+    } while(false)
+
+/*!
+ * \brief Extended macro to simplify logging.
+ * \param [IN] DebugLog object.
+ * \param [IN] Object to be used as message in DebugLog.
+ * \param [IN] Log message level, e.g. info, debug, warning, error etc.
+ */
+#define DEBUG_LOG_EX(x, m, l)  \
+    do                               \
+    {                                \
+        std::ostringstream os;       \
+        os << m;    			     \
+        x.AddLogMessage(os.str(), std::string(__FILE__), __LINE__, l); \
+    } while(false)
 
 #endif // DEBUGLOG_HPP

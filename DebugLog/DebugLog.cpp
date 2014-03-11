@@ -52,18 +52,13 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 // 'struct DefaultLogFormat' definition
 // ******************************B*********************************************
 void DefaultLogFormat::operator() (std::ostream& os
-                                    , const std::string& logMsgLevel
-                                    , std::time_t timeStamp
-                                    , const std::string& file
-                                    , int lineNo
-                                    , const std::thread::id& threadID
-                                    , const std::string& message) const
+                                   , std::time_t timeStamp
+                                   , const std::string& message
+                                   , const std::string& logMsgLevel
+                                   , const std::string& file
+                                   , int lineNo
+                                   , const std::thread::id& threadID) const
 {
-    if (logMsgLevel != "")
-    {
-        os << "< " << logMsgLevel << " >";
-    }
-
     if (timeStamp != 0)
     {
         // Should use lines below but not necessarily implemented
@@ -78,6 +73,11 @@ void DefaultLogFormat::operator() (std::ostream& os
     }
 
     os << "< " << message << " >";
+
+    if (logMsgLevel != "")
+    {
+        os << "< " << logMsgLevel << " >";
+    }
 
     if (file != "")
     {
