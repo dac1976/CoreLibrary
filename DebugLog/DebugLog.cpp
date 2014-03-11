@@ -77,6 +77,8 @@ void DefaultLogFormat::operator() (std::ostream& os
         os << "< " << time.c_str() << " >";
     }
 
+    os << "< " << message << " >";
+
     if (file != "")
     {
         os << "< File = " << file << " >";
@@ -94,7 +96,7 @@ void DefaultLogFormat::operator() (std::ostream& os
         os << "< Thread ID = " << threadID << " >";
     }
 
-    os << "< " << message << " >" << std::endl;
+    os << std::endl;
 }
 
 } // namespace log

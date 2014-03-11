@@ -82,7 +82,7 @@ enum class eLogMessageLevel
  * into a single line in the log following default
  * formatting.
  *
- * < "Level" >< "Date/Time" >< File = "..." >< Line = "..." >< Thread ID = "..." >< "Message" >
+ * < "Level" >< "Date/Time" >< "Message" >< File = "..." >< Line = "..." >< Thread ID = "..." >
  */
 struct DefaultLogFormat
 {

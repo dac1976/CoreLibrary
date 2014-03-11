@@ -45,10 +45,10 @@ void DebugLogTest::testCase_DebugLog1()
     std::stringstream test;
     test << "< Info >"
          << "< " << time.c_str() << " >"
+         << "< I am a test message >"
          << "< File = " << __FILE__  << " >"
          << "< Line = " << line << " >"
          << "< Thread ID = " << std::this_thread::get_id() << " >"
-         << "< I am a test message >"
          << std::endl;
 
     QVERIFY(ss.str() == test.str());
@@ -125,13 +125,13 @@ void DebugLogTest::testCase_DebugLog3()
             QVERIFY(line.substr(36, line.size() - 36) == "< Software Version 1.0.0.0 >");
             break;
         case 3:
-            QVERIFY(line.substr(101, line.size() - 101) == "< Message 1 >");
+            QVERIFY(line.substr(36, 13) == "< Message 1 >");
             break;
         case 4:
-            QVERIFY(line.substr(101, line.size() - 101) == "< Message 2 >");
+            QVERIFY(line.substr(36, 13) == "< Message 2 >");
             break;
         case 5:
-            QVERIFY(line.substr(101, line.size() - 101) == "< Message 3 >");
+            QVERIFY(line.substr(36, 13) == "< Message 3 >");
             break;
         case 6:
             QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STOPPED >");
@@ -207,7 +207,7 @@ void DebugLogTest::testCase_DebugLog5()
             QVERIFY(line.substr(36, line.size() - 36) == "< Software Version 1.0.0.0 >");
             break;
         case 3:
-            QVERIFY(line.substr(101, line.size() - 101) == "< Message 2 >");
+            QVERIFY(line.substr(36, 13) == "< Message 2 >");
             break;
         case 4:
             QVERIFY(line.substr(36, line.size() - 36) == "< DEBUG LOG STOPPED >");
