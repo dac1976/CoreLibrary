@@ -35,7 +35,7 @@ UI_DIR = $${DESTDIR}/ui
 
 SOURCES += ../tst_DebugLogTest.cpp \
     ../../../DebugLog/DebugLog.cpp \
-    ../../../Threads/ConcurrentQueue.cpp \
+	../../../Threads/ConcurrentQueue.cpp \
     ../../../Threads/MessageQueueThread.cpp \
     ../../../Threads/SyncEvent.cpp \
     ../../../Threads/ThreadBase.cpp \

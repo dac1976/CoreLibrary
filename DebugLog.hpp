@@ -149,7 +149,7 @@ public:
         }
     }
 
-    void ClearLogMsgLevelFilters(eLogMessageLevel logMessageLevel)
+    void ClearLogMsgLevelFilters()
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_logMsgFilterSet.clear();
