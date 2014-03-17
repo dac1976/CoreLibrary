@@ -121,6 +121,11 @@ public:
         OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
 
+    /*! \brief Copy constructor deleted.*/
+    DebugLog(const DebugLog&) = delete;
+    /*! \brief Copy assignment operator deleted.*/
+    DebugLog& operator=(const DebugLog&) = delete;
+
     ~DebugLog()
     {
         // Manually reset so we cprocess all remaining
