@@ -367,7 +367,7 @@ private:
             return m_lineNo;
         }
 
-        std::thread::id ThreadID() const
+        const std::thread::id& ThreadID() const
         {
             return m_threadID;
         }
