@@ -66,13 +66,20 @@ public:
     virtual ~xLogMsgHandlerError();
 };
 
+/*! \brief Enumeration containing queue configuration options. */
 enum class eLogMessageLevel
 {
+    /*! \brief No level defined for message. */
     not_defined = 0,
+    /*! \brief Debug level defined for message. */
     debug,
+    /*! \brief Info level defined for message. */
     info,
+    /*! \brief Warning level defined for message. */
     warning,
+    /*! \brief Error level defined for message. */
     error,
+    /*! \brief Fatal level defined for message. */
     fatal
 };
 
@@ -96,13 +103,55 @@ struct DefaultLogFormat
                      , const std::thread::id& threadID) const;
 };
 
+/*! \brief Static constant defining number of bytes in a mebibyte. */
 static const size_t BYTES_IN_MEBIBYTE = 1024 * 1024;
 
+/*!
+ * \brief DebugLog class.
+ *
+ * Templated class to perform logging. The class is
+ * threaded and thread safe.
+ *
+ * The template args comprise the a formatter type
+ * and which should be a function object with same
+ * prototype as DefaultLogFormat::operator ()(). The
+ * second arg is optional and controls the size at which
+ * the log will close and switch to a new file. Only 2 files
+ * ever exist the <log>.txt and <log>_old.txt. The default log
+ * size if 5MiB.
+ */
 template<typename Formatter /* e.g. DefaultLogFormat*/
          , long MAX_LOG_SIZE = 5 * BYTES_IN_MEBIBYTE>
 class DebugLog final
 {
 public:
+    /*! \brief Default constructor.
+     *
+     * Create the DebugLog in same folder as application
+     * with name log.txt.
+     */
+    DebugLog()
+        : m_logFilePath("log.txt")
+        , m_oldLogFilePath("log_old.txt")
+        , m_unknownLogMsgLevel("?")
+        , m_logMsgQueueThread(new log_msg_queue(std::bind(&DebugLog::MessageDecoder
+                                                          , this
+                                                          , std::placeholders::_1
+                                                          , std::placeholders::_2)
+                                                , threads::eOnDestroyOptions::processRemainingItems))
+    {
+        SetupLogMsgLevelLookup();
+        RegisterLogQueueMessageId();
+        OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
+    }
+    /*! \brief Initialisation constructor.
+     * \param Version of software that "owns" the log.
+     * \param Folder path (with trailing slash) where log will be created.
+     * \param File name of log file without extension.
+     *
+     * Create the DebugLog in given folder with given name. A ".txt"
+     * extension is automatically appending to log file's name.
+     */
     DebugLog(const std::string& softwareVersion,
              const std::string& logFolderPath,
              const std::string& logName)
@@ -120,20 +169,28 @@ public:
         RegisterLogQueueMessageId();
         OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
-
     /*! \brief Copy constructor deleted.*/
     DebugLog(const DebugLog&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     DebugLog& operator=(const DebugLog&) = delete;
-
+    /*! \brief Destructor*/
     ~DebugLog()
     {
-        // Manually reset so we cprocess all remaining
+        // Manually reset so we process all remaining
         // messages before closing file.
         m_logMsgQueueThread.reset();
         CloseOfStream();
     }
-
+    /*! \brief Add level to filter.
+     * \param Message level to filter out of log.
+     *
+     * You can dynamically filter out log message from appearing
+     * in the log file based on adding message levels to the
+     * filter set. For example you may want to filter out
+     * messages of type eLogMessageLevel::warning. In this case
+     * after calling this function with eLogMessageLevel::warning
+     * messages of this type will not appear in the log from this point.
+     */
     void AddLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -143,7 +200,16 @@ public:
             m_logMsgFilterSet.insert(logMessageLevel);
         }
     }
-
+    /*! \brief Remove level from filter.
+     * \param Message level to remove from filter set.
+     *
+     * If you want to make sure messages of a given level
+     * appear back in the log file after having called
+     * AddLogMsgLevelFilter at some point then call this function
+     * to remove the message level from the filter set. After calling
+     * this function messages of the specified level will once again
+     * appear in the log file.
+     */
     void RemoveLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
     {
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -153,13 +219,22 @@ public:
             m_logMsgFilterSet.insert(logMessageLevel);
         }
     }
-
+    /*! \brief Clear all message levels from filter.
+     *
+     * Clear the filter set. AFter calling this messages of all
+     * levels will once again appear in the log file.
+     */
     void ClearLogMsgLevelFilters()
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_logMsgFilterSet.clear();
     }
-
+    /*! \brief Add message to the log file.
+     * \param Message to add to log.
+     *
+     * Add a simple message to the log without any extra
+     * properties set, such as file, line no. etc.
+     */
     void AddLogMessage(const std::string& message)
     {
         time_t messageTime;
@@ -173,9 +248,18 @@ public:
                                                       eLogMessageLevel::not_defined));
     }
 
+    /*! \brief Add message to the log file.
+     * \param Message to add to log.
+     * \param Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
+     * \param Line number in the source file where AddLogMessage was called, e.g. __LINE__.
+     * \param Message level.
+     *
+     * Add a message to the log with extra properties set, such as
+     * file, line no. etc.
+     */
     void AddLogMessage(const std::string& message
-                       , const std::string& file /*e.g. std::string(__FILE__)*/
-                       , int lineNo /*e.g.  __LINE__*/
+                       , const std::string& file
+                       , int lineNo
                        , eLogMessageLevel logMsgLevel)
     {
         if (!IsLogMsgLevelFilterSet(logMsgLevel))
@@ -378,9 +462,12 @@ private:
         return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
     }
 
+    /*! \brief Enumeration containing file opening options. */
     enum class eFileOpenOptions
     {
+        /*! \brief Option to truncate file when opened. */
         truncate_file,
+        /*! \brief Option to append to file when opened. */
         append_file
     };
 

@@ -59,7 +59,7 @@ public:
     virtual ~xQueuePopTimeoutError();
 };
 
-/*! Enumeration containing queue configuration options. */
+/*! \brief Enumeration containing queue configuration options. */
 enum class eQueueOptions
 {
     /*! \brief Queue items are not auto deleted. */
