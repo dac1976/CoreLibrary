@@ -45,7 +45,8 @@ HEADERS +=                              \
     ../../ThreadGroup.hpp \
     ../../MessageQueueThread.hpp \
     ../../BoundedBuffer.hpp \
-    ../../DebugLog.hpp
+    ../../DebugLog/DebugLog.hpp \
+    ../../DebugLogging.hpp
 
 SOURCES +=                              \
     ../../StringUtils/StringUtils.cpp      \
