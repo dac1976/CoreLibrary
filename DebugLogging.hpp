@@ -49,11 +49,11 @@
  * \param [IN] Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
  * \param [IN] Level associated with message.
  */
-#define DEBUG_LOG_EX(x, m, l)     \
-    do                            \
-    {                             \
-        std::ostringstream os;    \
-        os << m;    		      \
+#define DEBUG_LOG_EX(x, m, l)   \
+    do                          \
+    {                           \
+        std::ostringstream os;  \
+        os << m;                \
         x.AddLogMessage(os.str(), std::string(__FILE__), __LINE__, l); \
     } while(false)
 
