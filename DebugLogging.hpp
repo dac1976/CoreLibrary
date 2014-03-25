@@ -28,16 +28,7 @@
 #ifndef DEBUGLOGGING_HPP
 #define DEBUGLOGGING_HPP
 
-#include "./DebugLog/DebugLog.hpp"
-
-/*! \brief The core_lib namespace. */
-namespace core_lib {
-/*! \brief The log namespace. */
-namespace log {
-
-
-} // namespace log
-} // namespace core_lib
+#include "DebugLog/DebugLog.hpp"
 
 /*!
  * \brief Simple macro to simplify logging.
