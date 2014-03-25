@@ -42,28 +42,51 @@ namespace log {
 /*!
  * \brief Simple macro to simplify logging.
  * \param [IN] DebugLog object.
- * \param [IN] Object to be used as message in DebugLog.
+ * \param [IN] Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
  */
-#define DEBUG_LOG(x, m)           \
-    do                            \
-    {                             \
-        std::ostringstream os;    \
-        os << m;    		      \
+#define DEBUG_LOG(x, m)            \
+    do                             \
+    {                              \
+        std::ostringstream os;     \
+        os << m;    		       \
         x.AddLogMessage(os.str()); \
     } while(false)
 
 /*!
- * \brief Extended macro to simplify logging.
+ * \brief Macro to simplify logging adding message and level.
  * \param [IN] DebugLog object.
- * \param [IN] Object to be used as message in DebugLog.
- * \param [IN] Log message level, e.g. info, debug, warning, error etc.
+ * \param [IN] Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ * \param [IN] Level associated with message.
  */
-#define DEBUG_LOG_EX(x, m, l)  \
-    do                               \
-    {                                \
-        std::ostringstream os;       \
-        os << m;    			     \
+#define DEBUG_LOG_EX(x, m, l)     \
+    do                            \
+    {                             \
+        std::ostringstream os;    \
+        os << m;    		      \
         x.AddLogMessage(os.str(), std::string(__FILE__), __LINE__, l); \
     } while(false)
+
+/*!
+ * \brief Macro to add message level to filter set.
+ * \param [IN] DebugLog object.
+ * \param [IN] Log message level, e.g. info, debug, warning, error etc.
+ */
+#define DEBUG_LOG_ADD_FILTER(x, l) \
+    x.AddLogMsgLevelFilter(l)
+
+/*!
+ * \brief Macro to remove message level to filter set.
+ * \param [IN] DebugLog object.
+ * \param [IN] Log message level, e.g. info, debug, warning, error etc.
+ */
+#define DEBUG_LOG_REMOVE_FILTER(x, l) \
+    x.RemoveLogMsgLevelFilter(l)
+
+/*!
+ * \brief Macro to clear filter set.
+ * \param [IN] DebugLog object.
+ */
+#define DEBUG_LOG_CLEAR_FILTER(x) \
+    x.ClearLogMsgLevelFilters()
 
 #endif // DEBUGLOGGING_HPP
