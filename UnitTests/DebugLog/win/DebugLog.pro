@@ -35,7 +35,7 @@ UI_DIR = $${DESTDIR}/ui
 
 SOURCES += ../tst_DebugLogTest.cpp \
     ../../../DebugLog/DebugLog.cpp \
-	../../../Threads/ConcurrentQueue.cpp \
+    ../../../Threads/ConcurrentQueue.cpp \
     ../../../Threads/MessageQueueThread.cpp \
     ../../../Threads/SyncEvent.cpp \
     ../../../Threads/ThreadBase.cpp \
@@ -44,9 +44,10 @@ SOURCES += ../tst_DebugLogTest.cpp \
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    ../../../DebugLog.hpp \
+    ../../../DebugLog/DebugLog.hpp \
     ../../../ConcurrentQueue.hpp \
     ../../../CustomException.hpp \
     ../../../MessageQueueThread.hpp \
     ../../../SyncEvent.hpp \
-    ../../../ThreadBase.hpp
+    ../../../ThreadBase.hpp \
+    ../../../DebugLogging.hpp

@@ -397,6 +397,7 @@ private:
         /*! \brief Number of objects of type T pointer to by m_item. */
         int m_size;
     };
+
     /*! \brief Synchronization mutex. */
     mutable std::mutex m_mutex;
     /*! \brief Auto-delete items when Clear() is called. */
@@ -405,7 +406,6 @@ private:
     SyncEvent m_itemEvent;
     /*! \brief Underlying deque container acting as the queue. */
     std::deque<QueueItem> m_queue;
-
     /*!
      * \brief Pop an item off the queue.
      * \param [OUT] Number of items of type T pointed to by returned pointer.
