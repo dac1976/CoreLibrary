@@ -132,16 +132,14 @@ public:
      * with name log.txt.
      */
     DebugLog()
-        : m_logFilePath("log.txt")
-        , m_oldLogFilePath("log_old.txt")
-        , m_unknownLogMsgLevel("?")
-        , m_logMsgQueueThread(new log_msg_queue(std::bind(&DebugLog::MessageDecoder
+        : m_logFilePath{"log.txt"}
+        , m_oldLogFilePath{"log_old.txt"}
+        , m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
                                                           , this
                                                           , std::placeholders::_1
                                                           , std::placeholders::_2)
-                                                , threads::eOnDestroyOptions::processRemainingItems))
+                                                , threads::eOnDestroyOptions::processRemainingItems)}
     {
-        SetupLogMsgLevelLookup();
         RegisterLogQueueMessageId();
         OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
@@ -157,17 +155,15 @@ public:
     DebugLog(const std::string& softwareVersion,
              const std::string& logFolderPath,
              const std::string& logName)
-        : m_softwareVersion(softwareVersion)
-        , m_logFilePath(logFolderPath + logName + ".txt")
-        , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
-        , m_unknownLogMsgLevel("?")
-        , m_logMsgQueueThread(new log_msg_queue(std::bind(&DebugLog::MessageDecoder
+        : m_softwareVersion{softwareVersion}
+        , m_logFilePath{logFolderPath + logName + ".txt"}
+        , m_oldLogFilePath{logFolderPath + logName + "_old.txt"}
+        , m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
                                                           , this
                                                           , std::placeholders::_1
                                                           , std::placeholders::_2)
-                                                , threads::eOnDestroyOptions::processRemainingItems))
+                                                , threads::eOnDestroyOptions::processRemainingItems)}
     {
-        SetupLogMsgLevelLookup();
         RegisterLogQueueMessageId();
         OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
@@ -196,7 +192,7 @@ public:
      */
     void AddLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock{m_mutex};
 
         if (!IsLogMsgLevelFilterSetNoLock(logMessageLevel))
         {
@@ -459,26 +455,21 @@ private:
     /*! \brief Path to old log file.*/
     const std::string m_oldLogFilePath;
     /*! \brief String for unknown message level.*/
-    const std::string m_unknownLogMsgLevel;
+    const std::string m_unknownLogMsgLevel{"?"};
     /*! \brief Typedef for message queue thread.*/
     typedef threads::MessageQueueThread<int, LogQueueMessage> log_msg_queue;
     /*! \brief Unique_ptr holding message queue thread.*/
     std::unique_ptr<log_msg_queue> m_logMsgQueueThread;
     /*! \brief Message level string lookup map.*/
-    std::map<eLogMessageLevel, std::string> m_logMsgLevelLookup;
+    std::map<eLogMessageLevel, std::string> m_logMsgLevelLookup{{eLogMessageLevel::not_defined, ""}
+                                                                , {eLogMessageLevel::debug, "Debug"}
+                                                                , {eLogMessageLevel::info, "Info"}
+                                                                , {eLogMessageLevel::warning, "Warning"}
+                                                                , {eLogMessageLevel::error, "Error"}
+                                                                , {eLogMessageLevel::fatal, "Fatal"}};
     /*! \brief MEssage level filter set.*/
     std::set<eLogMessageLevel> m_logMsgFilterSet;
 
-    /*! \brief Setup the message level string map. */
-    void SetupLogMsgLevelLookup()
-    {
-        m_logMsgLevelLookup[eLogMessageLevel::not_defined] = "";
-        m_logMsgLevelLookup[eLogMessageLevel::debug]       = "Debug";
-        m_logMsgLevelLookup[eLogMessageLevel::info]        = "Info";
-        m_logMsgLevelLookup[eLogMessageLevel::warning]     = "Warning";
-        m_logMsgLevelLookup[eLogMessageLevel::error]       = "Error";
-        m_logMsgLevelLookup[eLogMessageLevel::fatal]       = "Fatal";
-    }
     /*! \brief Register the log queue message ID. */
     void RegisterLogQueueMessageId()
     {
