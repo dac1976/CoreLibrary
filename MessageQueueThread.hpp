@@ -108,8 +108,8 @@ public:
                                 , eOnDestroyOptions destroyOptions
                                      = eOnDestroyOptions::deleteRemainingItems)
         : ThreadBase()
-        , m_msgIdDecoder(messageIdDecoder)
-        , m_destroyOptions(destroyOptions)
+        , m_msgIdDecoder{messageIdDecoder}
+        , m_destroyOptions{destroyOptions}
     {
         Start();
     }
@@ -154,7 +154,7 @@ public:
     {
         if (m_msgHandlerMap.count(messageID) > 0)
         {
-            BOOST_THROW_EXCEPTION(xMsgHandlerError("message handler already defined"));
+            BOOST_THROW_EXCEPTION(xMsgHandlerError{"message handler already defined"});
         }
 
         m_msgHandlerMap[messageID] = messageHandler;
@@ -221,7 +221,7 @@ private:
 
             try
             {
-                MessageId messageId = m_msgIdDecoder(msg, length);
+                MessageId messageId{m_msgIdDecoder(msg, length)};
 
                 if (m_msgHandlerMap.count(messageId) > 0)
                 {

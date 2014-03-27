@@ -57,10 +57,10 @@ public:
     typedef typename boost::call_traits<value_type>::param_type param_type;
     /*!
      * \brief Constructor.
-     * \param [IN] The capcaity for the underlying circular buffer.
+     * \param [IN] The capacity for the underlying circular buffer.
      */
     explicit BoundedBuffer(size_type capacity)
-            : m_unreadCount(0), m_container(capacity)
+        : m_container{capacity}
     {
     }
     /*! \brief Copy constructor deleted.*/
@@ -68,7 +68,7 @@ public:
     /*! \brief Copy assignment operator deleted.*/
     BoundedBuffer& operator=(const BoundedBuffer&) = delete;
     /*! \brief Destructor.*/
-    ~BoundedBuffer() { }
+    ~BoundedBuffer() = default;
     /*!
      * \brief Push new item to the front.
      * \param [IN] The item to push to the front.
@@ -79,7 +79,7 @@ public:
     void PushFront(param_type item)
     {
         {
-            std::unique_lock<std::mutex> lock(m_mutex);
+            std::unique_lock<std::mutex> lock{m_mutex};
             m_notFullEvent.wait(lock,
                     std::bind(&BoundedBuffer<value_type>::IsNotFull,
                             this));
@@ -99,7 +99,7 @@ public:
     void PopBack(value_type& item)
     {
         {
-            std::unique_lock<std::mutex> lock(m_mutex);
+            std::unique_lock<std::mutex> lock{m_mutex};
             m_notEmptyEvent.wait(lock,
                     std::bind(&BoundedBuffer<value_type>::IsNotEmpty,
                             this));
@@ -117,7 +117,7 @@ private:
     /*! \brief Condition variable to flag not full. */
     std::condition_variable m_notFullEvent;
     /*! \brief Unread count. */
-    size_type m_unreadCount;
+    size_type m_unreadCount{0};
     /*! \brief Circular buffer. */
     container_type m_container;
     /*!

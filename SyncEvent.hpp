@@ -74,7 +74,7 @@ public:
      * Create the SyncEvent in auto-reset mode, signal
      * one thread end initially not signalled.
      */
-    SyncEvent();
+    SyncEvent() = default;
     /*!
      * \brief Intialising constructor.
      * \param [IN] Notify type.
@@ -143,11 +143,11 @@ private:
     /*! \brief Condition vairable to perform the waiting and signalling. */
     std::condition_variable m_signalCondVar;
     /*! \brief Signal type flag. */
-    const bool m_signalAllThreads;
+    const bool m_signalAllThreads{};
     /*! \brief Auto-reset flag. */
-    const bool m_autoReset;
+    const bool m_autoReset{true};
     /*! \brief Signal flag. */
-    bool m_signalFlag;
+    bool m_signalFlag{};
 };
 
 } // namespace threads

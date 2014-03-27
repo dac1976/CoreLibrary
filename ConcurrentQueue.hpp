@@ -85,13 +85,7 @@ public:
      *
      * Queue is created to not auto-delete objects.
      */
-    ConcurrentQueue()
-            : m_autoDelete(queueOptions == eQueueOptions::autoDelete),
-              m_itemEvent(eNotifyType::signalOneThread
-                          , eResetCondition::manualReset
-                          , eIntialCondition::notSignalled)
-    {
-    }
+    ConcurrentQueue() = default;
     /*! \brief Copy constructor deleted.*/
     ConcurrentQueue(const ConcurrentQueue&) = delete;
     /*! \brief Copy assignment operator deleted.*/
@@ -107,7 +101,7 @@ public:
      */
     size_t Size() const
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock{m_mutex};
         return m_queue.size();
     }
     /*!
@@ -116,7 +110,7 @@ public:
      */
     bool Empty() const
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock{m_mutex};
         return m_queue.empty();
     }
     /*!
@@ -129,8 +123,8 @@ public:
     void Push(T* pItem)
     {
         {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            m_queue.push_back(QueueItem(pItem));
+            std::lock_guard<std::mutex> lock{m_mutex};
+            m_queue.push_back(QueueItem{pItem});
         }
 
         m_itemEvent.Signal();
@@ -146,8 +140,8 @@ public:
     void Push(T* pItem, int size)
     {
         {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            m_queue.push_back(QueueItem(pItem, size));
+            std::lock_guard<std::mutex> lock{m_mutex};
+            m_queue.push_back(QueueItem{pItem, size});
         }
 
         m_itemEvent.Signal();
@@ -172,8 +166,8 @@ public:
     T* Pop(int* size = nullptr)
     {
         m_itemEvent.Wait();
-        int tempSize;
-        T* pItem = PopNow(tempSize);
+        int tempSize{};
+        T* pItem{PopNow(tempSize)};
 
         if (size)
         {
@@ -193,8 +187,8 @@ public:
      */
     T* TimedPop(unsigned int timeoutMilliseconds, int* size = nullptr)
     {
-        T* pItem = nullptr;
-        int tempSize = 0;
+        T* pItem{};
+        int tempSize{};
 
         if (m_itemEvent.WaitForTime(timeoutMilliseconds))
         {
@@ -221,11 +215,11 @@ public:
     {
         if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
         {
-            BOOST_THROW_EXCEPTION(xQueuePopTimeoutError());
+            BOOST_THROW_EXCEPTION(xQueuePopTimeoutError{});
         }
 
         int tempSize;
-        T* pItem = PopNow(tempSize);
+        T* pItem{PopNow(tempSize)};
 
         if (size)
         {
@@ -247,8 +241,8 @@ public:
      */
     const T* Peek(size_t index, int* size = nullptr) const
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        const T* pItem = nullptr;
+        std::lock_guard<std::mutex> lock{m_mutex};
+        const T* pItem{};
 
         if (m_queue.empty() || (index >= m_queue.size()))
         {
@@ -259,7 +253,7 @@ public:
         }
         else
         {
-            const QueueItem& queueItem = m_queue[index];
+            const QueueItem& queueItem{m_queue[index]};
             pItem = queueItem.pItem();
 
             if (size)
@@ -282,7 +276,7 @@ public:
      */
     void Clear()
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock{m_mutex};
 
         if (!m_autoDelete)
         {
@@ -302,9 +296,7 @@ private:
     {
     public:
         /*! \brief Default constructor. */
-        QueueItem()
-            : m_pItem(nullptr), m_size(0)
-        { }
+        QueueItem() = default;
         /*!
          * \brief Initialising constuctor.
          * \param [IN] Pointer to an item.
@@ -314,7 +306,7 @@ private:
          * be stored as the special value of -1.
          */
         QueueItem(T* pItem)
-            : m_pItem(pItem), m_size(-1)
+            : m_pItem{pItem}, m_size{-1}
         {  }
         /*!
          * \brief Initialising constuctor.
@@ -325,18 +317,12 @@ private:
          * be deleted with delete[] if size is > 0.
          */
         QueueItem(T* pItem, int size)
-            : m_pItem(pItem), m_size(size)
+            : m_pItem{pItem}, m_size{size}
         {  }
         /*! \brief Copy constructor. */
-        QueueItem(const QueueItem& qi)
-            : m_pItem(qi.m_item), m_size(qi.m_size)
-        {  }
+        QueueItem(const QueueItem& qi) = default;
         /*! \brief Move constructor. */
-        QueueItem(QueueItem&& qi)
-            : m_pItem(nullptr), m_size(0)
-        {
-            *this = std::move(qi);
-        }
+        QueueItem(QueueItem&& qi) = default;
         /*! \brief Destructor. */
         ~QueueItem()
         {
@@ -353,27 +339,13 @@ private:
             }
         }
         /*! \brief Copy assignment operator. */
-        QueueItem& operator=(const QueueItem& qi)
-        {
-            if (this != &qi)
-            {
-                m_pItem = qi.m_pItem;
-                m_size = qi.m_size;
-            }
-
-            return *this;
-        }
+        QueueItem& operator=(const QueueItem& qi) = default;
         /*! \brief Move assignment operator. */
-        QueueItem& operator=(QueueItem&& qi)
-        {
-            std::swap(m_pItem, qi.m_pItem);
-            std::swap(m_size, qi.m_size);
-            return *this;
-        }
+        QueueItem& operator=(QueueItem&& qi) = default;
         /*! \brief Release member data without deleting memory. */
         void Release()
         {
-            m_pItem = 0;
+            m_pItem = nullptr;
             m_size = 0;
         }
         /*! \brief Get item pointer. */
@@ -393,17 +365,19 @@ private:
 
     private:
         /*! \brief Pointer to item. */
-        T* m_pItem;
+        T* m_pItem{};
         /*! \brief Number of objects of type T pointer to by m_item. */
-        int m_size;
+        int m_size{};
     };
 
     /*! \brief Synchronization mutex. */
     mutable std::mutex m_mutex;
     /*! \brief Auto-delete items when Clear() is called. */
-    const bool m_autoDelete;
+    const bool m_autoDelete{queueOptions == eQueueOptions::autoDelete};
     /*! \brief Synchronization event. */
-    SyncEvent m_itemEvent;
+    SyncEvent m_itemEvent{eNotifyType::signalOneThread
+                          , eResetCondition::manualReset
+                          , eIntialCondition::notSignalled};
     /*! \brief Underlying deque container acting as the queue. */
     std::deque<QueueItem> m_queue;
     /*!
@@ -413,15 +387,15 @@ private:
      */
     T* PopNow(int& size)
     {
-        T* pItem = nullptr;
+        T* pItem{};
         size = 0;
 
         {
-            std::lock_guard<std::mutex> lock(m_mutex);
+            std::lock_guard<std::mutex> lock{m_mutex};
 
             if (!m_queue.empty())
             {
-                QueueItem& queueItem = m_queue.front();
+                QueueItem& queueItem{m_queue.front()};
                 pItem = queueItem.pItem();
                 size = queueItem.Size();
                 queueItem.Release();

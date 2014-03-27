@@ -116,11 +116,11 @@ public:
     static void Sort(TIterator begin, TIterator end)
     {
         item_compare compare;
-        TIterator item = begin;
+        TIterator item{begin};
 
         while (item != end)
         {
-            TIterator minValue(std::min_element(item, end, compare));
+            TIterator minValue{std::min_element(item, end, compare)};
 
             if (minValue != item)
             {
@@ -166,8 +166,8 @@ public:
         // the other items in the correct direction.
         for (TIterator item = begin; item != end; ++item)
         {
-            T valueToInsert = *item;
-            TIterator holePos = item;
+            T valueToInsert{*item};
+            TIterator holePos{item};
 
             while ((holePos != begin) && compare(valueToInsert, *(holePos - 1)))
             {
@@ -214,7 +214,7 @@ public:
         }
 
         // choose pivot
-        TIterator pivot = begin + ((end - begin) / 2);
+        TIterator pivot{begin + ((end - begin) / 2)};
 
         // partition
         pivot = Partition(begin, end, pivot);
@@ -251,11 +251,11 @@ private:
         pivot = end - 1;
 
         // initialise new pivot
-        TIterator newPivot = begin;
+        TIterator newPivot{begin};
 
         // perform partitioning moving items < pivot
         // into left half
-        TIterator item = begin;
+        TIterator item{begin};
 
         while(item != end - 1)
         {
@@ -393,7 +393,7 @@ private:
      */
     static size_t GetBucketIndex(const T& value, const bucket_definitions& bucketDefinitions)
     {
-        size_t index = 0;
+        size_t index{};
 
         for (const auto& bucket : bucketDefinitions)
         {
@@ -448,7 +448,7 @@ private:
     template <typename TIterator>
     static void WriteBackBuckets(TIterator begin, const bucket_values& bucketValues)
     {
-        TIterator pos = begin;
+        TIterator pos{begin};
 
         for (auto& bucket : bucketValues)
         {

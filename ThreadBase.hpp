@@ -73,7 +73,7 @@ public:
     /*! \brief Copy assignment operator deleted.*/
     ThreadBase& operator=(const ThreadBase&) = delete;
     /*! \brief Destructor.*/
-    virtual ~ThreadBase();
+    virtual ~ThreadBase() = default;
     /*!
      * \brief Is thread started.
      * \return Returns true if started, false otherwise.
@@ -111,7 +111,7 @@ public:
 
 protected:
     /*! \brief Default constructor.*/
-    ThreadBase();
+    ThreadBase() = default;
     /*!
      * \brief Is thread terminating.
      * \return Returns true if terminating, false otherwise.
@@ -151,9 +151,9 @@ private:
     /*! \brief Access mutex to protect private data.*/
     mutable std::mutex m_mutex;
     /*! \brief Boolean flag to mark thread as started.*/
-    bool m_started;
+    bool m_started{};
     /*! \brief Boolean flag to mark thread as terminating.*/
-    bool m_terminating;
+    bool m_terminating{};
     /*! \brief Thread ID of started thread object.*/
     std::thread::id m_threadId;
     /*! \brief Native thread handle (where supported) of started thread.*/

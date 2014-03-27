@@ -35,12 +35,12 @@ namespace log {
 // 'class xMsgHandlerError' definition
 // ******************************B*********************************************
 xLogMsgHandlerError::xLogMsgHandlerError()
-    : exceptions::xCustomException("log message handler error")
+    : exceptions::xCustomException{"log message handler error"}
 {
 }
 
 xLogMsgHandlerError::xLogMsgHandlerError(const std::string& message)
-    : exceptions::xCustomException(message)
+    : exceptions::xCustomException{message}
 {
 }
 
@@ -66,7 +66,7 @@ void DefaultLogFormat::operator() (std::ostream& os
         //     struct std::tm * ptm = std::localtime(&timeStamp);
         //     os << "\t" << std::put_time(ptm,"%F %T");
         // so instead we use...
-        std::string time = ctime(&timeStamp);
+        std::string time{ctime(&timeStamp)};
         std::replace_if(time.begin(), time.end(),
                         [](char c) { return (c == '\n') || (c == '\r'); }, 0);
         os << "< " << time.c_str() << " >";

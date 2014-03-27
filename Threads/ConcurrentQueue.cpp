@@ -34,12 +34,12 @@ namespace threads {
 // 'class xQueuePopTimeoutError' definition
 // ****************************************************************************
 xQueuePopTimeoutError::xQueuePopTimeoutError()
-    : exceptions::xCustomException("pop timeout")
+    : exceptions::xCustomException{"pop timeout"}
 {
 }
 
 xQueuePopTimeoutError::xQueuePopTimeoutError(const std::string& message)
-    : exceptions::xCustomException(message)
+    : exceptions::xCustomException{message}
 {
 }
 
