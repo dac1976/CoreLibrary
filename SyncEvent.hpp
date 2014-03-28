@@ -94,7 +94,7 @@ public:
               , eResetCondition resetCondition
               , eIntialCondition initialCondition);
     /*! \brief Destructor. */
-    ~SyncEvent();
+    ~SyncEvent() = default;
     /*! \brief Copy constructor - disabled. */
     SyncEvent(const SyncEvent&) = delete;
     /*! \brief Copy assignment operator - disabled. */

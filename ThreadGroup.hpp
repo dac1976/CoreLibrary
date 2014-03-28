@@ -69,7 +69,7 @@ class ThreadGroup final
 {
 public:
     /*! \brief Default constructor. */
-    ThreadGroup();
+    ThreadGroup() = default;
     /*! \brief Destructor. */
     ~ThreadGroup();
     /*! \brief Copy constructor deleted.*/

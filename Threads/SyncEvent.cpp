@@ -45,10 +45,6 @@ SyncEvent::SyncEvent(eNotifyType notifyCondition
 {
 }
 
-SyncEvent::~SyncEvent()
-{
-}
-
 void SyncEvent::Wait()
 {
     std::unique_lock<std::mutex> lock{m_signalMutex};

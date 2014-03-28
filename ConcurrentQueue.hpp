@@ -320,9 +320,15 @@ private:
             : m_pItem{pItem}, m_size{size}
         {  }
         /*! \brief Copy constructor. */
-        QueueItem(const QueueItem& qi) = default;
+        QueueItem(const QueueItem& qi)
+            : m_pItem{qi.m_pItem}, m_size{qi.m_size}
+        {
+        }
         /*! \brief Move constructor. */
-        QueueItem(QueueItem&& qi) = default;
+        QueueItem(QueueItem&& qi)
+        {
+            *this = std::move(qi);
+        }
         /*! \brief Destructor. */
         ~QueueItem()
         {
@@ -339,9 +345,19 @@ private:
             }
         }
         /*! \brief Copy assignment operator. */
-        QueueItem& operator=(const QueueItem& qi) = default;
+        QueueItem& operator=(const QueueItem& qi)
+        {
+            QueueItem qiCpy{qi};
+            std::swap(*this, qi);
+            return *this;
+        }
         /*! \brief Move assignment operator. */
-        QueueItem& operator=(QueueItem&& qi) = default;
+        QueueItem& operator=(QueueItem&& qi)
+        {
+            std::swap(m_pItem, qi.m_pItem);
+            std::swap(m_size, qi.m_size);
+            return *this;
+        }
         /*! \brief Release member data without deleting memory. */
         void Release()
         {
