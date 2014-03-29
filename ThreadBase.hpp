@@ -30,7 +30,7 @@
 
 #include <thread>
 #include <mutex>
-#include "CustomException.hpp"
+#include "Exceptions/CustomException.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

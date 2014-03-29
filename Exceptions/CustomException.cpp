@@ -25,7 +25,7 @@
  * \brief File containing definitions relating to custom exception handling.
  */
 
-#include "../CustomException.hpp"
+#include "../Exceptions/CustomException.hpp"
 
 namespace core_lib {
 namespace exceptions {

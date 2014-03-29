@@ -38,4 +38,4 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 HEADERS += \
     ../../../StringUtils.hpp \
     ../../../CsvGrid.hpp \
-    ../../../CustomException.hpp
+    ../../../Exceptions/CustomException.hpp

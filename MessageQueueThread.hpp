@@ -107,7 +107,7 @@ public:
     explicit MessageQueueThread(const msg_id_decoder& messageIdDecoder
                                 , eOnDestroyOptions destroyOptions
                                      = eOnDestroyOptions::deleteRemainingItems)
-        : ThreadBase()
+        : ThreadBase{}
         , m_msgIdDecoder{messageIdDecoder}
         , m_destroyOptions{destroyOptions}
     {

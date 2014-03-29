@@ -33,7 +33,7 @@
 #include <vector>
 #include <initializer_list>
 #include <ostream>
-#include "CustomException.hpp"
+#include "Exceptions/CustomException.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
