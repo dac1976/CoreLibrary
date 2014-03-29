@@ -37,7 +37,7 @@ UI_DIR = $${DESTDIR}/ui
 HEADERS +=                              \
     ../../StringUtils.hpp                  \
     ../../CsvGrid.hpp                      \
-    ../../CustomException.hpp \
+    ../../Exceptions/CustomException.hpp \
     ../../GenericSorting.hpp \
     ../../SyncEvent.hpp \
     ../../ConcurrentQueue.hpp \

@@ -36,4 +36,4 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     ../../../GenericSorting.hpp \
-    ../../../CustomException.hpp
+    ../../../Exceptions/CustomException.hpp

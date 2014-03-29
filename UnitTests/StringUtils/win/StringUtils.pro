@@ -36,4 +36,4 @@ SOURCES += ../tst_StringUtilsTest.cpp      \
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += ../../../StringUtils.hpp \
-    ../../../CustomException.hpp
+    ../../../Exceptions/CustomException.hpp

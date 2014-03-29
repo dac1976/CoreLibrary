@@ -41,7 +41,7 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     ../../../ConcurrentQueue.hpp \
-    ../../../CustomException.hpp \
+    ../../../Exceptions/CustomException.hpp \
     ../../../MessageQueueThread.hpp \
     ../../../SyncEvent.hpp \
     ../../../ThreadBase.hpp \
