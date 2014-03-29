@@ -25,8 +25,8 @@
  * \brief File containing declarations relating the CSVGrid class.
  */
 
-#ifndef CsvGrid_HPP
-#define CsvGrid_HPP
+#ifndef CSVGRID_HPP
+#define CSVGRID_HPP
 
 #include <cstdint>
 #include <string>
@@ -770,4 +770,4 @@ std::ostream& operator<< (std::ostream &os, const CsvGrid &csvGrid);
 }// namespace csv_grid
 }// namespace core_lib
 
-#endif // CsvGrid_HPP
+#endif // CSVGRID_HPP
