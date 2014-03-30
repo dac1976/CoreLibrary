@@ -182,7 +182,7 @@ public:
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
-        if (!IsLogMsgLevelFilterSetNoLock(logMessageLevel))
+        if (!IsLogMsgLevelFilterSetNoMutex(logMessageLevel))
         {
             m_logMsgFilterSet.insert(logMessageLevel);
         }
@@ -202,7 +202,7 @@ public:
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
-        if (IsLogMsgLevelFilterSetNoLock(logMessageLevel))
+        if (IsLogMsgLevelFilterSetNoMutex(logMessageLevel))
         {
             m_logMsgFilterSet.insert(logMessageLevel);
         }
@@ -489,7 +489,7 @@ private:
      * \param [IN] Message level.
      * \return True if message level is found, false otherwise.
      */
-    bool IsLogMsgLevelFilterSetNoLock(eLogMessageLevel logMessageLevel) const
+    bool IsLogMsgLevelFilterSetNoMutex(eLogMessageLevel logMessageLevel) const
     {
         return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
     }
@@ -501,7 +501,7 @@ private:
     bool IsLogMsgLevelFilterSet(eLogMessageLevel logMessageLevel) const
     {
         std::lock_guard<std::mutex> lock{m_mutex};
-        return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
+        return IsLogMsgLevelFilterSetNoMutex(logMessageLevel);
     }
     /*! \brief Enumeration containing file opening options. */
     enum class eFileOpenOptions

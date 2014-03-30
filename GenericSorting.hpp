@@ -25,8 +25,8 @@
  * \brief File containing declarations generic sorting algorithms.
  */
 
-#ifndef GenericSorting_HPP
-#define GenericSorting_HPP
+#ifndef GENERICSORTING_HPP
+#define GENERICSORTING_HPP
 
 #include <functional>
 #include <algorithm>
@@ -68,7 +68,6 @@ public:
     static void Sort(TIterator begin, TIterator end)
     {
         item_compare compare;
-
         bool changesMade;
 
         do
@@ -475,4 +474,4 @@ private:
 }// namespace sorting
 }// namespace core_lib
 
-#endif // GenericSorting_HPP
+#endif // GENERICSORTING_HPP

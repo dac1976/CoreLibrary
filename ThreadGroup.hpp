@@ -101,8 +101,8 @@ public:
     template<typename F>
     std::thread* CreateThread(F threadfunction)
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        std::unique_ptr<std::thread> newThread(new std::thread(threadfunction));
+        std::lock_guard<std::mutex> lock{m_mutex};
+        std::unique_ptr<std::thread> newThread(new std::thread{threadfunction});
         m_threadGroup.push_back(newThread.get());
         return newThread.release();
     }
@@ -153,6 +153,17 @@ private:
     typedef thread_list::iterator thread_list_iter;
     /*! \brief List containing threads. */
     thread_list m_threadGroup;
+    /*!
+     * \brief Is current thread in group (no mutex).
+     * \return True if in group, false otherwise.
+     */
+    bool IsThisThreadInNoMutex() const;
+    /*!
+     * \brief Is given thread in group (no mutex).
+     * \param [IN] Thread ID.
+     * \return True if in group, false otherwise.
+     */
+    bool IsThreadInNoMutex(const std::thread::id& id) const;
      /*!
      * \brief Delete thread object.
      * \param [IN] Pointer to thread.
