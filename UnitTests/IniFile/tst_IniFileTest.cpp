@@ -1,6 +1,8 @@
 #include <QString>
 #include <QtTest>
 #include "../../IniFile.hpp"
+#include <fstream>
+#include "boost/predef.h"
 
 class IniFileTest : public QObject
 {
