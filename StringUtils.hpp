@@ -46,7 +46,7 @@ namespace string_utils {
  * of std::getline() (looking at you Emarcadero C++ Builder) where size is
  * greater than pos of null char.
  */
-void TidyStringAfterGetLine(std::string& line);
+void PackStdString(std::string& line);
 
 /*!
  * \brief Split string bad delimiter exception.

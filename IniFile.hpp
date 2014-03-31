@@ -49,11 +49,13 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <mutex>
+#include <cstdint>
 #include "Exceptions/CustomException.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
-    /*! \brief The ini_file namespace. */
+/*! \brief The ini_file namespace. */
 namespace ini_file {
     
 /*!
@@ -97,7 +99,7 @@ public:
 };
 
 /*!
- * \brief Ini file saveerror.
+ * \brief Ini file save error.
  *
  * This exception class is intended to be thrown by functions in the IniFIie
  * class when a save error eoccurs.
@@ -116,86 +118,158 @@ public:
     virtual ~xIniFileSaveError();
 };
 
-class EIniFileInvalidKeyError : public std::runtime_error
+
+/*!
+ * \brief Ini file invalid key error.
+ *
+ * This exception class is intended to be thrown by functions in the IniFIie
+ * class when an invalid key is used occurs.
+ */
+class xIniFileInvalidKeyError : public exceptions::xCustomException
 {
 public:
-	EIniFileInvalidKeyError(const std::string& Message)
-		: std::runtime_error(Message)
-	{ }
+    /*! \brief Default constructor. */
+    xIniFileInvalidKeyError();
+    /*!
+     * \brief Initializing constructor.
+     * \param [IN] A user specifed message string.
+     */
+    explicit xIniFileInvalidKeyError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xIniFileInvalidKeyError();
 };
-class EIniFileInvalidSectionError : public std::runtime_error
+
+/*!
+ * \brief Ini file invalid section error.
+ *
+ * This exception class is intended to be thrown by functions in the IniFIie
+ * class when an invalid section is used occurs.
+ */
+class xIniFileInvalidSectionError : public exceptions::xCustomException
 {
 public:
-	EIniFileInvalidSectionError(const std::string& Message)
-		: std::runtime_error(Message)
-	{ }
+    /*! \brief Default constructor. */
+    xIniFileInvalidSectionError();
+    /*!
+     * \brief Initializing constructor.
+     * \param [IN] A user specifed message string.
+     */
+    explicit xIniFileInvalidSectionError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xIniFileInvalidSectionError();
 };
 
 class IniFile
 {
 public:
-    IniFile();
-    
-	explicit IniFile(const std::string& IniFilePath);
+    IniFile() = default;
 
-	~IniFile();
+    IniFile(const IniFile& iniFile) = default;
 
-	void LoadFile(const std::string& IniFilePath);
+    IniFile(IniFile&& iniFile) = default;
+
+    explicit IniFile(const std::string& iniFilePath);
+
+    ~IniFile() = default;
+
+    IniFile& operator=(const IniFile& iniFile) = default;
+
+    IniFile& operator=(IniFile&& iniFile) = default;
+
+    void LoadFile(const std::string& iniFilePath);
 
 	void UpdateFile() const;
 
-	void GetSections(std::vector< std::string >& Sections) const;
+    void GetSections(std::vector< std::string >& sections) const;
 
-	void GetSection(const std::string& Section, std::vector< std::pair<std::string, std::string> >& pairs) const;
+    void GetSection(const std::string& section
+                    , std::vector< std::pair<std::string, std::string> >& pairs) const;
 
-	bool SectionExists(const std::string& Section) const;
+    bool SectionExists(const std::string& section) const;
 
-	bool ValueExists(const std::string& Section,
-					 const std::string& Key) const;
+    bool ValueExists(const std::string& section
+                     , const std::string& key) const;
 
-	bool ReadBool(const std::string& Section,
-		          const std::string& Key,
-				  const bool DefaultValue = false) const;
+    bool ReadBool(const std::string& section
+                  , const std::string& key
+                  , const bool defaultValue = false) const;
 
-    int ReadInteger(const std::string& Section,
-		            const std::string& Key,
-					const int DefaultValue = 0) const;
+    int ReadInteger(const std::string& section
+                    , const std::string&key
+                    , const int defaultValue = 0) const;
 
-	double ReadFloat(const std::string& Section,
-		             const std::string& Key,
-					 const double DefaultValue = 0.0) const;
+    int64_t ReadInteger64(const std::string& section
+                          , const std::string& key
+                          , const int64_t defaultValue = 0L) const;
 
-	std::string ReadString(const std::string& Section,
-		                   const std::string& Key,
-						   const std::string& DefaultValue = "") const;
+    double ReadDouble(const std::string& section
+                      , const std::string& key
+                      , const double defaultValue = 0.0) const;
 
-	void WriteBool(const std::string& Section,
-		           const std::string& Key,
-				   const bool Value);
+    long double ReadLongDouble(const std::string& section
+                               , const std::string& key
+                               , const long double DefaultValue = 0.0L) const;
 
-    void WriteInteger(const std::string& Section,
-		              const std::string& Key,
-					  const int Value);
+    std::string ReadString(const std::string& section
+                           , const std::string& key
+                           , const std::string& defaultValue = "") const;
 
-	void WriteFloat(const std::string& Section,
-		            const std::string& Key,
-				    const double Value);
+    void WriteBool(const std::string& section
+                   , const std::string& key
+                   , const bool value);
 
-	void WriteString(const std::string& Section,
-		             const std::string& Key,
-				     const std::string& Value);
+    void WriteInteger(const std::string& section
+                      , const std::string& key
+                      , const int value);
 
-    void EraseSection(const std::string& Section);
+    void WriteInteger64(const std::string& section
+                        , const std::string& key
+                        , const int64_t value);
+
+    void WriteDouble(const std::string& section
+                     , const std::string& key
+                     , const double value);
+
+    void WriteLongDouble(const std::string& section
+                         , const std::string& key
+                         , const long double value);
+
+    void WriteString(const std::string& section
+                     , const std::string& key
+                     , const std::string& value);
+
+    void EraseSection(const std::string& section);
 
     void EraseSections();
 
-    void DeleteKey(const std::string& Section,
-                   const std::string& Key);
+    void EraseKey(const std::string& section
+                  , const std::string& key);
 
-    void DeleteKeys(const std::string& Section);
+    void EraseKeys(const std::string& section);
 
 private:
+    mutable std::mutex m_mutex;
+    typedef std::unordered_map<std::string, std::string> key_value_pairs;
+    typedef key_value_pairs::iterator kvp_iter;
+    typedef key_value_pairs::const_iterator kvp_citer;
+    typedef std::unordered_map<std::string, key_value_pairs> sections;
+    typedef sections::iterator sections_iter;
+    typedef sections::const_iterator sections_citer;
+    sections m_fileMap;
 
+    kvp_citer FindKey(const std::string& section
+                      , const std::string& key) const;
+
+    kvp_iter FindKey(const std::string& section
+                     , const std::string& key);
+
+    bool FindKeyNoThrow(const std::string& section
+                        , const std::string& key
+                        , kvp_citer& kvpIt) const;
+
+    bool FindKeyNoThrow(const std::string& section
+                        , const std::string& key
+                        , kvp_iter& kvpIt);
 };
 
 } // namespace ini_file

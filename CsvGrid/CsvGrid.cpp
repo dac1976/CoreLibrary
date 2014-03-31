@@ -506,7 +506,7 @@ void Row::TokenizeLine(const std::string& line)
     while (std::getline(line_ss, tok, ','))
     {
         // tidy and trim token...
-        string_utils::TidyStringAfterGetLine(tok);
+        string_utils::PackStdString(tok);
         boost::trim(tok);
 
         // add new column...
@@ -633,7 +633,7 @@ void CsvGrid::LoadFromCSVFile(const std::string& filename,
     {
         std::string line;
         std::getline(csvfile, line);
-        string_utils::TidyStringAfterGetLine(line);
+        string_utils::PackStdString(line);
 
         //don't add extra row if last row is empty
         if ((csvfile.tellg() == csvfile.gcount())

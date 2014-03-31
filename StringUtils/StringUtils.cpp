@@ -34,9 +34,9 @@ namespace core_lib {
 namespace string_utils {
 
 // ****************************************************************************
-// TidyStringAfterGetLine definition
+// PackStdString definition
 // ****************************************************************************
-void TidyStringAfterGetLine(std::string& line)
+void PackStdString(std::string& line)
 {
     size_t pos = line.find_first_of('\0');
 

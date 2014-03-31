@@ -13,7 +13,7 @@ public:
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
-    void Case1_TidyStringAfterGetLine();
+    void Case1_PackStdString();
     void Case2_xSplitStringBadDelim_1();
     void Case3_xSplitStringBadDelim_2();
     void Case4_xSplitStringTooManySubstrings_1();
@@ -43,14 +43,14 @@ void StringUtilsTest::cleanupTestCase()
 {
 }
 
-void StringUtilsTest::Case1_TidyStringAfterGetLine()
+void StringUtilsTest::Case1_PackStdString()
 {
     const std::string comparator = "I am a test string.";
     std::string testString = "I am a test string. I am a test string.";
     testString[19] = '\0';
     QVERIFY(comparator.size() != testString.size());
 
-    core_lib::string_utils::TidyStringAfterGetLine(testString);
+    core_lib::string_utils::PackStdString(testString);
     QVERIFY(comparator.size() == testString.size());
     QCOMPARE(comparator, testString);
 }
