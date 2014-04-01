@@ -26,20 +26,20 @@
  */
 
 /*
-	; I am an opening comment.
+    ; I am an opening comment.
 
-	[Section1]
-	; I am a comment in a section.
-	Section1_Key1=Section1_Value1
-	Section1_Key2=Section1_Value2
-	Section1_Key3=Section1_Value3
+    [Section1]
+    ; I am a comment in a section.
+    Section1_Key1=Section1_Value1
+    Section1_Key2=Section1_Value2
+    Section1_Key3=Section1_Value3
 
-	[Section2]
-	Section2_Key1=Section2_Value1
-	Section2_Key2=Section2_Value2
-	; I am also a comment in a section.
-	Section2_Key3=Section2_Value3
-	; I am yet another comment in a section.
+    [Section2]
+    Section2_Key1=Section2_Value1
+    Section2_Key2=Section2_Value2
+    ; I am also a comment in a section.
+    Section2_Key3=Section2_Value3
+    ; I am yet another comment in a section.
 */
 
 #ifndef INIFILE_HPP
@@ -49,7 +49,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <mutex>
 #include <cstdint>
 #include "Exceptions/CustomException.hpp"
 
@@ -57,7 +56,7 @@
 namespace core_lib {
 /*! \brief The ini_file namespace. */
 namespace ini_file {
-    
+
 /*!
  * \brief Ini file data conversion exception.
  *
@@ -164,21 +163,21 @@ class IniFile
 public:
     IniFile() = default;
 
-    IniFile(const IniFile& iniFile) = default;
+    IniFile(const IniFile&) = default;
 
-    IniFile(IniFile&& iniFile) = default;
+    IniFile(IniFile&&) = default;
 
     explicit IniFile(const std::string& iniFilePath);
 
     ~IniFile() = default;
 
-    IniFile& operator=(const IniFile& iniFile) = default;
+    IniFile& operator=(const IniFile&) = default;
 
-    IniFile& operator=(IniFile&& iniFile) = default;
+    IniFile& operator=(IniFile&&) = default;
 
     void LoadFile(const std::string& iniFilePath);
 
-	void UpdateFile() const;
+    void UpdateFile() const;
 
     void GetSections(std::vector< std::string >& sections) const;
 
@@ -248,7 +247,6 @@ public:
     void EraseKeys(const std::string& section);
 
 private:
-    mutable std::mutex m_mutex;
     typedef std::unordered_map<std::string, std::string> key_value_pairs;
     typedef key_value_pairs::iterator kvp_iter;
     typedef key_value_pairs::const_iterator kvp_citer;

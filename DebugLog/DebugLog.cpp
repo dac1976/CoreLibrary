@@ -35,12 +35,12 @@ namespace log {
 // 'class xMsgHandlerError' definition
 // ******************************B*********************************************
 xLogMsgHandlerError::xLogMsgHandlerError()
-    : exceptions::xCustomException{"log message handler error"}
+    : exceptions::xCustomException("log message handler error")
 {
 }
 
 xLogMsgHandlerError::xLogMsgHandlerError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 

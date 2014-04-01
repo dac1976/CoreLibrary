@@ -148,9 +148,9 @@ public:
     /*! \brief Default constructor. */
     Cell() = default;
     /*! \brief Copy constructor. */
-    Cell(const Cell& rhs) = default;
+    Cell(const Cell&) = default;
     /*! \brief Move constructor. */
-    Cell(Cell&& rhs) = default;
+    Cell(Cell&&) = default;
     /*!
      * \brief Initializing constructor
      * \param [IN] The initial value.
@@ -189,9 +189,9 @@ public:
     /*! \brief Destructor. */
     ~Cell() = default;
     /*! \brief Copy assignment operator. */
-    Cell& operator=(const Cell& rhs) = default;
+    Cell& operator=(const Cell&) = default;
     /*! \brief Move assignment operator. */
-    Cell& operator=(Cell&& rhs) = default;
+    Cell& operator=(Cell&&) = default;
     /*!
      * \brief Value assignment operator.
      * \param [IN] The value to assign.
@@ -340,9 +340,9 @@ public:
     /*! \brief Default constructor. */
     Row() = default;
     /*! \brief Copy constructor. */
-    Row(const Row& rhs) = default;
+    Row(const Row&) = default;
     /*! \brief Move constructor. */
-    Row(Row&& rhs) = default;
+    Row(Row&&) = default;
     /*!
      * \brief Initializing constructor
      * \param [IN] The initial number of columns.
@@ -395,9 +395,9 @@ public:
     /*! \brief Destructor. */
     ~Row() = default;
     /*! \brief Copy assignment operator. */
-    Row& operator=(const Row& rhs) = default;
+    Row& operator=(const Row&) = default;
     /*! \brief Move assignment operator. */
-    Row& operator=(Row&& rhs) = default;
+    Row& operator=(Row&&) = default;
     /*!
      * \brief Subscript operator.
      * \param [IN] A 0-based column index.
@@ -608,9 +608,9 @@ public:
     /*! \brief Default constructor. */
     CsvGrid() = default;
     /*! \brief Copy constructor. */
-    CsvGrid(const CsvGrid& rhs) = default;
+    CsvGrid(const CsvGrid&) = default;
     /*! \brief Move constructor. */
-    CsvGrid(CsvGrid&& rhs) = default;
+    CsvGrid(CsvGrid&&) = default;
     /*!
      * \brief Initializing constructor
      * \param [IN] The number of rows.
@@ -642,9 +642,9 @@ public:
     /*! \brief Ddestructor. */
     ~CsvGrid() = default;
     /*! \brief Copy assignment operator. */
-    CsvGrid& operator=(const CsvGrid& rhs) = default;
+    CsvGrid& operator=(const CsvGrid&) = default;
     /*! \brief Move assignment operator. */
-    CsvGrid& operator=(CsvGrid&& rhs) = default;
+    CsvGrid& operator=(CsvGrid&&) = default;
     /*!
      * \brief Subscript operator.
      * \param [IN] A 0-based row index.

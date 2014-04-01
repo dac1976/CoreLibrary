@@ -107,7 +107,7 @@ public:
     explicit MessageQueueThread(const msg_id_decoder& messageIdDecoder
                                 , eOnDestroyOptions destroyOptions
                                      = eOnDestroyOptions::deleteRemainingItems)
-        : ThreadBase{}
+        : ThreadBase()
         , m_msgIdDecoder{messageIdDecoder}
         , m_destroyOptions{destroyOptions}
     {
@@ -154,7 +154,7 @@ public:
     {
         if (m_msgHandlerMap.count(messageID) > 0)
         {
-            BOOST_THROW_EXCEPTION(xMsgHandlerError{"message handler already defined"});
+            BOOST_THROW_EXCEPTION(xMsgHandlerError("message handler already defined"));
         }
 
         m_msgHandlerMap[messageID] = messageHandler;

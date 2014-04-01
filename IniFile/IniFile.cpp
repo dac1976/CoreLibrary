@@ -35,12 +35,12 @@ namespace ini_file {
 // 'class xIniFileDataConvertError' definition
 // ****************************************************************************
 xIniFileDataConvertError::xIniFileDataConvertError()
-    : exceptions::xCustomException{"data convert error"}
+    : exceptions::xCustomException("data convert error")
 {
 }
 
 xIniFileDataConvertError::xIniFileDataConvertError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -52,12 +52,12 @@ xIniFileDataConvertError::~xIniFileDataConvertError()
 // 'class xIniFileParserError' definition
 // ****************************************************************************
 xIniFileParserError::xIniFileParserError()
-    : exceptions::xCustomException{"parser error"}
+    : exceptions::xCustomException("parser error")
 {
 }
 
 xIniFileParserError::xIniFileParserError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -69,12 +69,12 @@ xIniFileParserError::~xIniFileParserError()
 // 'class xIniFileSaveError' definition
 // ****************************************************************************
 xIniFileSaveError::xIniFileSaveError()
-    : exceptions::xCustomException{"save error"}
+    : exceptions::xCustomException("save error")
 {
 }
 
 xIniFileSaveError::xIniFileSaveError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -86,12 +86,12 @@ xIniFileSaveError::~xIniFileSaveError()
 // 'class xIniFileInvalidKeyError' definition
 // ****************************************************************************
 xIniFileInvalidKeyError::xIniFileInvalidKeyError()
-    : exceptions::xCustomException{"invalid key"}
+    : exceptions::xCustomException("invalid key")
 {
 }
 
 xIniFileInvalidKeyError::xIniFileInvalidKeyError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -103,12 +103,12 @@ xIniFileInvalidKeyError::~xIniFileInvalidKeyError()
 // 'class xIniFileInvalidSectionError' definition
 // ****************************************************************************
 xIniFileInvalidSectionError::xIniFileInvalidSectionError()
-    : exceptions::xCustomException{"invalid section"}
+    : exceptions::xCustomException("invalid section")
 {
 }
 
 xIniFileInvalidSectionError::xIniFileInvalidSectionError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -127,83 +127,82 @@ IniFile::IniFile(const std::string& iniFilePath)
 
 void IniFile::LoadFile(const std::string& iniFilePath)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 void IniFile::UpdateFile() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 void IniFile::GetSections(std::vector< std::string >& sections) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 void IniFile::GetSection(const std::string& section
                          , std::vector< std::pair<std::string, std::string> >& pairs) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 bool IniFile::SectionExists(const std::string& section) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 bool IniFile::ValueExists(const std::string& section
                           , const std::string& key) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 bool IniFile::ReadBool(const std::string& section
                        , const std::string& key
                        , const bool DefaultValue) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 int IniFile::ReadInteger(const std::string& section
                          , const std::string& key
                          , const int DefaultValue) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 double IniFile::ReadDouble(const std::string& section
                            , const std::string& key
                            , const double DefaultValue) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 long double IniFile::ReadLongDouble(const std::string& section
                                     , const std::string& key
                                     , const long double DefaultValue) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 int64_t IniFile::ReadInteger64(const std::string& section
                                , const std::string& key
                                , const int64_t defaultValue) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 std::string IniFile::ReadString(const std::string& section
                                 , const std::string& key
                                 , const std::string& defaultValue) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+
 }
 
 void IniFile::WriteBool(const std::string& section
                         , const std::string& key
                         , const bool value)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     WriteString(section, key, std::to_string(value ? 1 : 0));
 }
 
@@ -211,7 +210,6 @@ void IniFile::WriteInteger(const std::string& section
                            , const std::string& key
                            , const int value)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     WriteString(section, key, std::to_string(value));
 }
 
@@ -219,7 +217,6 @@ void IniFile::WriteInteger64(const std::string& section
                             , const std::string& key
                             , const int64_t value)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     WriteString(section, key, std::to_string(value));
 }
 
@@ -227,7 +224,6 @@ void IniFile::WriteDouble(const std::string& section
                          , const std::string& key
                          , const double value)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     std::string strVal;
     string_utils::FormatFloatString(strVal, value);
     WriteString(section, key, strVal);
@@ -237,7 +233,6 @@ void IniFile::WriteLongDouble(const std::string& section
                               , const std::string& key
                               , const long double value)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     std::string strVal;
     string_utils::FormatFloatString(strVal, value, 30);
     WriteString(section, key, strVal);
@@ -247,7 +242,6 @@ void IniFile::WriteString(const std::string& section
                           , const std::string& key
                           , const std::string& value)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     kvp_iter kvpIt;
 
     if (FindKeyNoThrow(section,key, kvpIt))
@@ -262,7 +256,6 @@ void IniFile::WriteString(const std::string& section
 
 void IniFile::EraseSection(const std::string& section)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     sections_citer sectIt{m_fileMap.find(section)};
 
     if (sectIt != m_fileMap.end())
@@ -273,14 +266,12 @@ void IniFile::EraseSection(const std::string& section)
 
 void IniFile::EraseSections()
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     m_fileMap.clear();
 }
 
 void IniFile::EraseKey(const std::string& section
                         , const std::string& key)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     sections_iter sectIt{m_fileMap.find(section)};
 
     if (sectIt != m_fileMap.end())
@@ -296,7 +287,6 @@ void IniFile::EraseKey(const std::string& section
 
 void IniFile::EraseKeys(const std::string& section)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
     sections_iter sectIt{m_fileMap.find(section)};
 
     if (sectIt != m_fileMap.end())
@@ -312,14 +302,14 @@ IniFile::kvp_citer IniFile::FindKey(const std::string& section
 
     if (sectIt == m_fileMap.end())
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError{});
+        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
     }
 
     kvp_citer kvpIt{sectIt->second.find(key)};
 
     if (kvpIt == sectIt->second.end())
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError{});
+        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError());
     }
 
     return kvpIt;
@@ -332,14 +322,14 @@ IniFile::kvp_iter IniFile::FindKey(const std::string& section
 
     if (sectIt == m_fileMap.end())
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError{});
+        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
     }
 
     kvp_iter kvpIt{sectIt->second.find(key)};
 
     if (kvpIt == sectIt->second.end())
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError{});
+        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError());
     }
 
     return kvpIt;

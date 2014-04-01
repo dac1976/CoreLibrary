@@ -34,13 +34,13 @@ namespace exceptions {
 // 'class xSplitStringBadDelimError' definition
 // ****************************************************************************
 xCustomException::xCustomException()
-    : boost::exception{}, std::exception{},
+    : boost::exception(), std::exception(),
       m_message{"custom exception"}
 {
 }
 
 xCustomException::xCustomException(const std::string& message)
-    : boost::exception{}, std::exception{},
+    : boost::exception(), std::exception(),
       m_message{message}
 {
 }

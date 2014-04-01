@@ -67,8 +67,6 @@ public:
     BoundedBuffer(const BoundedBuffer&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     BoundedBuffer& operator=(const BoundedBuffer&) = delete;
-    /*! \brief Destructor.*/
-    ~BoundedBuffer() = default;
     /*!
      * \brief Push new item to the front.
      * \param [IN] The item to push to the front.

@@ -73,9 +73,9 @@ public:
     /*! \brief Destructor. */
     ~ThreadGroup();
     /*! \brief Copy constructor deleted.*/
-    ThreadGroup(const ThreadGroup& threadGroup) = delete;
+    ThreadGroup(const ThreadGroup&) = delete;
     /*! \brief Copy assignment operator deleted.*/
-    ThreadGroup& operator= (const ThreadGroup& threadGroup) = delete;
+    ThreadGroup& operator= (const ThreadGroup&) = delete;
     /*!
      * \brief Is current thread in group.
      * \return True if in group, false otherwise.

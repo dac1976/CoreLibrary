@@ -34,12 +34,12 @@ namespace threads {
 // 'class xMsgHandlerError' definition
 // ******************************B**********************************************
 xMsgHandlerError::xMsgHandlerError()
-    : exceptions::xCustomException{"message handler error"}
+    : exceptions::xCustomException("message handler error")
 {
 }
 
 xMsgHandlerError::xMsgHandlerError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 

@@ -411,7 +411,7 @@ private:
 
             if (!m_queue.empty())
             {
-                QueueItem& queueItem{m_queue.front()};
+                QueueItem& queueItem = m_queue.front();
                 pItem = queueItem.pItem();
                 size = queueItem.Size();
                 queueItem.Release();

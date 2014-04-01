@@ -42,12 +42,12 @@ namespace threads {
 // 'class xThreadNotStartedError' definition
 // ****************************************************************************
 xThreadNotStartedError::xThreadNotStartedError()
-    : exceptions::xCustomException{"thread not started"}
+    : exceptions::xCustomException("thread not started")
 {
 }
 
 xThreadNotStartedError::xThreadNotStartedError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -106,7 +106,7 @@ std::thread::native_handle_type ThreadBase::NativeHandle() const
 {
     if (!IsStarted() || IsTerminating())
     {
-        BOOST_THROW_EXCEPTION(xThreadNotStartedError{});
+        BOOST_THROW_EXCEPTION(xThreadNotStartedError());
     }
 
     std::lock_guard<std::mutex> lock{m_mutex};
@@ -123,7 +123,7 @@ void ThreadBase::SleepForTime(unsigned int milliSecs) const
 {
     if (!IsStarted() || IsTerminating())
     {
-        BOOST_THROW_EXCEPTION(xThreadNotStartedError{});
+        BOOST_THROW_EXCEPTION(xThreadNotStartedError());
     }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));

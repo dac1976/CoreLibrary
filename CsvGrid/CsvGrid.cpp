@@ -40,12 +40,12 @@ namespace csv_grid {
 // 'class xRowOutOfRangeError' definition
 // ****************************************************************************
 xCsvGridColOutOfRangeError::xCsvGridColOutOfRangeError()
-    : exceptions::xCustomException{"invalid column index"}
+    : exceptions::xCustomException("invalid column index")
 {
 }
 
 xCsvGridColOutOfRangeError::xCsvGridColOutOfRangeError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -57,12 +57,12 @@ xCsvGridColOutOfRangeError::~xCsvGridColOutOfRangeError()
 // 'class xCsvGridDimensionError' definition
 // ****************************************************************************
 xCsvGridDimensionError::xCsvGridDimensionError()
-    : exceptions::xCustomException{"rows and cols must be > 0"}
+    : exceptions::xCustomException("rows and cols must be > 0")
 {
 }
 
 xCsvGridDimensionError::xCsvGridDimensionError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -74,12 +74,12 @@ xCsvGridDimensionError::~xCsvGridDimensionError()
 // 'class xCsvGridRowOutOfRangeError' definition
 // ****************************************************************************
 xCsvGridRowOutOfRangeError::xCsvGridRowOutOfRangeError()
-    : exceptions::xCustomException{"invalid row index"}
+    : exceptions::xCustomException("invalid row index")
 {
 }
 
 xCsvGridRowOutOfRangeError::xCsvGridRowOutOfRangeError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -91,12 +91,12 @@ xCsvGridRowOutOfRangeError::~xCsvGridRowOutOfRangeError()
 // 'class xCsvGridCreateFileStreamError' definition
 // ****************************************************************************
 xCsvGridCreateFileStreamError::xCsvGridCreateFileStreamError()
-    : exceptions::xCustomException{"failed to create file stream"}
+    : exceptions::xCustomException("failed to create file stream")
 {
 }
 
 xCsvGridCreateFileStreamError::xCsvGridCreateFileStreamError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -272,7 +272,7 @@ Row::Row(std::initializer_list<std::string> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell{cell});
+        m_cells.push_back(Cell(cell));
     }
 }
 
@@ -282,7 +282,7 @@ Row::Row(std::initializer_list<int32_t> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell{cell});
+        m_cells.push_back(Cell(cell));
     }
 }
 
@@ -290,7 +290,10 @@ Row::Row(std::initializer_list<int64_t> cells)
 {
     m_cells.reserve(cells.size());
 
-    for (auto cell : cells) m_cells.push_back(Cell{cell});
+    for (auto cell : cells)
+    {
+        m_cells.push_back(Cell(cell));
+    }
 }
 
 Row::Row(std::initializer_list<double> cells)
@@ -299,7 +302,7 @@ Row::Row(std::initializer_list<double> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell{cell});
+        m_cells.push_back(Cell(cell));
     }
 }
 
@@ -309,7 +312,7 @@ Row::Row(std::initializer_list<long double> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell{cell});
+        m_cells.push_back(Cell(cell));
     }
 }
 
@@ -322,7 +325,7 @@ Cell& Row::operator[](size_t col)
 {
     if (col >= m_cells.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
     return m_cells[col];
@@ -340,82 +343,82 @@ void Row::SetSize(size_t cols)
 
 void Row::AddColumn(const std::string& value)
 {
-    m_cells.push_back(Cell{value});
+    m_cells.push_back(Cell(value));
 }
 
 void Row::AddColumn(int32_t value)
 {
-    m_cells.push_back(Cell{value});
+    m_cells.push_back(Cell(value));
 }
 
 void Row::AddColumn(int64_t value)
 {
-    m_cells.push_back(Cell{value});
+    m_cells.push_back(Cell(value));
 }
 
 void Row::AddColumn(double value)
 {
-    m_cells.push_back(Cell{value});
+    m_cells.push_back(Cell(value));
 }
 
 void Row::AddColumn(long double value)
 {
-    m_cells.push_back(Cell{value});
+    m_cells.push_back(Cell(value));
 }
 
 void Row::InsertColumn(size_t col, const std::string& value)
 {
     if (col >= m_cells.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell{value});
+    m_cells.insert(m_cells.begin() + col, Cell(value));
 }
 
 void Row::InsertColumn(size_t col, int32_t value)
 {
     if (col >= m_cells.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell{value});
+    m_cells.insert(m_cells.begin() + col, Cell(value));
 }
 
 void Row::InsertColumn(size_t col, int64_t value)
 {
     if (col >= m_cells.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell{value});
+    m_cells.insert(m_cells.begin() + col, Cell(value));
 }
 
 void Row::InsertColumn(size_t col, double value)
 {
     if (col >= m_cells.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell{value});
+    m_cells.insert(m_cells.begin() + col, Cell(value));
 }
 
 void Row::InsertColumn(size_t col, long double value)
 {
     if (col >= m_cells.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell{value});
+    m_cells.insert(m_cells.begin() + col, Cell(value));
 }
 
 void Row::ClearCells()
 {
-    std::fill(m_cells.begin(), m_cells.end(), Cell{});
+    std::fill(m_cells.begin(), m_cells.end(), Cell());
 }
 
 void Row::ResetRow()
@@ -521,7 +524,7 @@ CsvGrid::CsvGrid(size_t rows, size_t cols)
 {
     if ((rows == 0) || (cols == 0))
     {
-        BOOST_THROW_EXCEPTION(xCsvGridDimensionError{});
+        BOOST_THROW_EXCEPTION(xCsvGridDimensionError());
     }
 
     m_grid.resize(rows, Row(cols));
@@ -541,7 +544,7 @@ Row& CsvGrid::operator[](size_t row)
 {
     if (row >= m_grid.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
     }
 
     return m_grid[row];
@@ -556,7 +559,7 @@ size_t CsvGrid::GetColCount(size_t row) const
 {
     if (row >= m_grid.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
     }
 
     return m_grid[row].GetSize();
@@ -584,7 +587,7 @@ void CsvGrid::InsertRow(size_t row, size_t defaultCols)
 {
     if (row >= m_grid.size())
     {
-        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError{});
+        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
     }
 
     m_grid.insert(m_grid.begin() + row, Row(defaultCols));
@@ -622,8 +625,8 @@ void CsvGrid::LoadFromCSVFile(const std::string& filename,
     if (!csvfile.is_open())
     {
         BOOST_THROW_EXCEPTION(
-            xCsvGridCreateFileStreamError{std::string{"failed to create file stream for loading: "}
-                                          + filename});
+            xCsvGridCreateFileStreamError(std::string("failed to create file stream for loading: ")
+                                          + filename));
     }
 
     m_grid.clear();
@@ -647,7 +650,7 @@ void CsvGrid::LoadFromCSVFile(const std::string& filename,
         }
 
         // add new CsvGrid::Row to vector...
-        m_grid.push_back(Row{line, options});
+        m_grid.push_back(Row(line, options));
     }
 
     csvfile.close();
@@ -661,8 +664,8 @@ void CsvGrid::SaveToCsvFile(const std::string& filename) const
     if (!csvfile.is_open())
     {
         BOOST_THROW_EXCEPTION(
-            xCsvGridCreateFileStreamError{std::string{"failed to create file stream for saving: "}
-                                          + filename});
+            xCsvGridCreateFileStreamError(std::string("failed to create file stream for saving: ")
+                                          + filename));
     }
 
     // output grid to file stream...

@@ -52,12 +52,12 @@ void PackStdString(std::string& line)
 // 'class xSplitStringBadDelim' definition
 // ****************************************************************************
 xSplitStringBadDelim::xSplitStringBadDelim()
-    : exceptions::xCustomException{"split string bad delimiter"}
+    : exceptions::xCustomException("split string bad delimiter")
 {
 }
 
 xSplitStringBadDelim::xSplitStringBadDelim(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -69,12 +69,12 @@ xSplitStringBadDelim::~xSplitStringBadDelim()
 // 'class xSplitStringTooManySubstrings' definition
 // ****************************************************************************
 xSplitStringTooManySubstrings::xSplitStringTooManySubstrings()
-    : exceptions::xCustomException{"too many substrings"}
+    : exceptions::xCustomException("too many substrings")
 {
 }
 
 xSplitStringTooManySubstrings::xSplitStringTooManySubstrings(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -98,12 +98,12 @@ void SplitString(std::string& subStr1, std::string& subStr2,
     if (splitVec.size() <= 1U)
     {
         BOOST_THROW_EXCEPTION(
-            xSplitStringBadDelim{std::string{"cannot find delimter in string: "} +
-                                 toSplit});
+            xSplitStringBadDelim(std::string("cannot find delimter in string: ") +
+                                 toSplit));
     }
     else if (splitVec.size() > 2U)
     {
-        BOOST_THROW_EXCEPTION(xSplitStringTooManySubstrings{});
+        BOOST_THROW_EXCEPTION(xSplitStringTooManySubstrings());
     }
 
     subStr1 = splitVec[0];

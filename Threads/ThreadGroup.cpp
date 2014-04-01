@@ -34,12 +34,12 @@ namespace threads {
 // 'class xThreadNotStartedError' definition
 // ****************************************************************************
 xThreadGroupError::xThreadGroupError()
-    : exceptions::xCustomException{"thread group error"}
+    : exceptions::xCustomException("thread group error")
 {
 }
 
 xThreadGroupError::xThreadGroupError(const std::string& message)
-    : exceptions::xCustomException{message}
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -59,7 +59,7 @@ ThreadGroup::~ThreadGroup()
 }
 
 bool ThreadGroup::IsThisThreadIn() const
-{    
+{
     return IsThreadIn(std::this_thread::get_id());
 }
 

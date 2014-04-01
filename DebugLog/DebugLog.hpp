@@ -230,12 +230,12 @@ public:
         time_t messageTime;
         time(&messageTime);
         std::thread::id noThread;
-        m_logMsgQueueThread->Push(new LogQueueMessage{message,
+        m_logMsgQueueThread->Push(new LogQueueMessage(message,
                                                       messageTime,
                                                       "",
                                                       -1,
                                                       noThread,
-                                                      eLogMessageLevel::not_defined});
+                                                      eLogMessageLevel::not_defined));
     }
 
     /*!
@@ -257,12 +257,12 @@ public:
         {
             time_t messageTime;
             time(&messageTime);
-            m_logMsgQueueThread->Push(new LogQueueMessage{message,
+            m_logMsgQueueThread->Push(new LogQueueMessage(message,
                                                           messageTime,
                                                           file,
                                                           lineNo,
                                                           std::this_thread::get_id(),
-                                                          logMsgLevel});
+                                                          logMsgLevel));
         }
     }
 
@@ -307,12 +307,12 @@ private:
          * \brief Copy constructor.
          * \param [IN] Message to copy.
          */
-        LogQueueMessage(const LogQueueMessage& msg) = default;
+        LogQueueMessage(const LogQueueMessage&) = default;
         /*!
          * \brief Move constructor.
          * \param [IN] Message to move.
          */
-        LogQueueMessage(LogQueueMessage&& msg) = default;
+        LogQueueMessage(LogQueueMessage&&) = default;
         /*! \brief Destructor.*/
         ~LogQueueMessage() = default;
         /*!
@@ -320,13 +320,13 @@ private:
          * \param [IN] Message to copy.
          * \return LogQueueMessage reference.
          */
-        LogQueueMessage& operator=(const LogQueueMessage& msg) = default;
+        LogQueueMessage& operator=(const LogQueueMessage&) = default;
         /*!
          * \brief Move assignment operator.
          * \param [IN] Message to move.
          * \return LogQueueMessage reference.
          */
-        LogQueueMessage& operator=(LogQueueMessage&& msg) = default;
+        LogQueueMessage& operator=(LogQueueMessage&&) = default;
         /*!
          * \brief Get message string.
          * \return Message string.
@@ -408,11 +408,11 @@ private:
     /*! \brief Typedef for message queue thread.*/
     typedef threads::MessageQueueThread<int, LogQueueMessage> log_msg_queue;
     /*! \brief Unique_ptr holding message queue thread.*/
-    std::unique_ptr<log_msg_queue> m_logMsgQueueThread{new log_msg_queue{std::bind(&DebugLog::MessageDecoder
+    std::unique_ptr<log_msg_queue> m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
                                                                                    , this
                                                                                    , std::placeholders::_1
                                                                                    , std::placeholders::_2)
-                                                                         , threads::eOnDestroyOptions::processRemainingItems}};
+                                                                         , threads::eOnDestroyOptions::processRemainingItems)};
     /*! \brief Message level string lookup map.*/
     std::map<eLogMessageLevel, std::string> m_logMsgLevelLookup{{eLogMessageLevel::not_defined, ""}
                                                                 , {eLogMessageLevel::debug, "Debug"}
@@ -442,7 +442,7 @@ private:
     {
         if (!message || (length == 0))
         {
-            BOOST_THROW_EXCEPTION(xLogMsgHandlerError{"invalid message in DebugLog::MessageDecoder"});
+            BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageDecoder"));
         }
 
         return LogQueueMessage::MESSAGE_ID;
@@ -457,11 +457,11 @@ private:
     {
         if (!message || (length == 0))
         {
-            BOOST_THROW_EXCEPTION(xLogMsgHandlerError{"invalid message in DebugLog::MessageHandler"});
+            BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageHandler"));
         }
 
         CheckLogFileSize(message->Message().size());
-        WriteMessageToLog(std::forward<LogQueueMessage>(*message));
+        WriteMessageToLog(*message);
         return true;
     }
     /*!
@@ -535,19 +535,19 @@ private:
         time_t messageTime;
         time(&messageTime);
         std::thread::id noThread;
-        WriteMessageToLog(LogQueueMessage{"DEBUG LOG STARTED"
+        WriteMessageToLog(LogQueueMessage("DEBUG LOG STARTED"
                                           , messageTime, "", -1
                                           , noThread
-                                          , eLogMessageLevel::not_defined});
+                                          , eLogMessageLevel::not_defined));
 
         if (m_softwareVersion != "")
         {
             std::string message("Software Version ");
             message += m_softwareVersion;
-            WriteMessageToLog(LogQueueMessage{message, messageTime
+            WriteMessageToLog(LogQueueMessage(message, messageTime
                                               , "", -1
                                               , noThread
-                                              , eLogMessageLevel::not_defined});
+                                              , eLogMessageLevel::not_defined));
         }
     }
     /*! \brief Close file stream. */
@@ -561,10 +561,10 @@ private:
         time_t messageTime;
         time(&messageTime);
         std::thread::id noThread;
-        WriteMessageToLog(LogQueueMessage{"DEBUG LOG STOPPED"
+        WriteMessageToLog(LogQueueMessage("DEBUG LOG STOPPED"
                                           , messageTime, "", -1
                                           , noThread
-                                          , eLogMessageLevel::not_defined});
+                                          , eLogMessageLevel::not_defined));
         m_ofStream.close();
     }
     /*!
@@ -590,9 +590,24 @@ private:
     }
     /*!
      * \brief Write log message to file stream.
-     * \param [IN] Log message.
+     * \param [IN] Log message (r-value).
      */
     void WriteMessageToLog(LogQueueMessage&& logMessage)
+    {
+        m_logFormatter(m_ofStream
+                       , logMessage.TimeStamp()
+                       , logMessage.Message()
+                       , GetLogMsgLevelAsString(logMessage.ErrorLevel())
+                       , logMessage.File()
+                       , logMessage.LineNo()
+                       , logMessage.ThreadID());
+        m_ofStream.flush();
+    }
+    /*!
+     * \brief Write log message to file stream.
+     * \param [IN] Log message (l-value).
+     */
+    void WriteMessageToLog(const LogQueueMessage& logMessage)
     {
         m_logFormatter(m_ofStream
                        , logMessage.TimeStamp()
