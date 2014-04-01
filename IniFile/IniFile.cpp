@@ -128,11 +128,17 @@ IniFile::IniFile(const std::string& iniFilePath)
 void IniFile::LoadFile(const std::string& iniFilePath)
 {
 
+    m_changesMade = false;
 }
 
 void IniFile::UpdateFile() const
 {
+    if (!m_changesMade)
+    {
+        return;
+    }
 
+    m_changesMade = false;
 }
 
 void IniFile::GetSections(std::vector< std::string >& sections) const
@@ -203,21 +209,21 @@ void IniFile::WriteBool(const std::string& section
                         , const std::string& key
                         , const bool value)
 {
-    WriteString(section, key, std::to_string(value ? 1 : 0));
+    WriteValue(section, key, std::to_string(value ? 1 : 0));
 }
 
 void IniFile::WriteInteger(const std::string& section
                            , const std::string& key
                            , const int value)
 {
-    WriteString(section, key, std::to_string(value));
+    WriteValue(section, key, std::to_string(value));
 }
 
 void IniFile::WriteInteger64(const std::string& section
                             , const std::string& key
                             , const int64_t value)
 {
-    WriteString(section, key, std::to_string(value));
+    WriteValue(section, key, std::to_string(value));
 }
 
 void IniFile::WriteDouble(const std::string& section
@@ -226,7 +232,7 @@ void IniFile::WriteDouble(const std::string& section
 {
     std::string strVal;
     string_utils::FormatFloatString(strVal, value);
-    WriteString(section, key, strVal);
+    WriteValue(section, key, strVal);
 }
 
 void IniFile::WriteLongDouble(const std::string& section
@@ -235,23 +241,66 @@ void IniFile::WriteLongDouble(const std::string& section
 {
     std::string strVal;
     string_utils::FormatFloatString(strVal, value, 30);
-    WriteString(section, key, strVal);
+    WriteValue(section, key, strVal);
 }
 
 void IniFile::WriteString(const std::string& section
                           , const std::string& key
                           , const std::string& value)
 {
-    kvp_iter kvpIt;
+    WriteValue(section, key, value);
+}
 
-    if (FindKeyNoThrow(section,key, kvpIt))
+void IniFile::WriteValue(const std::string& section
+                          , const std::string& key
+                          , std::string&& value)
+{
+    sections_iter sectIt{m_fileMap.find(section)};
+    bool found = false;
+
+    if (sectIt != m_fileMap.end())
     {
+        kvp_iter kvpIt = sectIt->second.find(key);
 
+        if (kvpIt != sectIt->second.end())
+        {
+            kvpIt->second = value;
+            found = true;
+        }
     }
-    else
+
+    if (!found)
     {
-
+        (m_fileMap[section])[key] = value;
     }
+
+    m_changesMade = true;
+}
+
+void IniFile::WriteValue(const std::string& section
+                          , const std::string& key
+                          , const std::string& value)
+{
+    sections_iter sectIt{m_fileMap.find(section)};
+    bool found = false;
+
+    if (sectIt != m_fileMap.end())
+    {
+        kvp_iter kvpIt = sectIt->second.find(key);
+
+        if (kvpIt != sectIt->second.end())
+        {
+            kvpIt->second = value;
+            found = true;
+        }
+    }
+
+    if (!found)
+    {
+        (m_fileMap[section])[key] = value;
+    }
+
+    m_changesMade = true;
 }
 
 void IniFile::EraseSection(const std::string& section)

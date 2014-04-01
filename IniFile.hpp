@@ -254,6 +254,15 @@ private:
     typedef sections::iterator sections_iter;
     typedef sections::const_iterator sections_citer;
     sections m_fileMap;
+    mutable bool m_changesMade{false};
+
+    void WriteValue(const std::string& section
+                    , const std::string& key
+                    , std::string&& value);
+
+    void WriteValue(const std::string& section
+                    , const std::string& key
+                    , const std::string& value);
 
     kvp_citer FindKey(const std::string& section
                       , const std::string& key) const;
