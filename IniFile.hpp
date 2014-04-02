@@ -47,7 +47,7 @@
 
 #include <utility>
 #include <string>
-#include <vector>
+#include <list>
 #include <unordered_map>
 #include <cstdint>
 #include "Exceptions/CustomException.hpp"
@@ -158,125 +158,126 @@ public:
     virtual ~xIniFileInvalidSectionError();
 };
 
-class IniFile
+class IniFile final
 {
 public:
     IniFile() = default;
-
     IniFile(const IniFile&) = default;
-
     IniFile(IniFile&&) = default;
-
     explicit IniFile(const std::string& iniFilePath);
-
     ~IniFile() = default;
-
     IniFile& operator=(const IniFile&) = default;
-
     IniFile& operator=(IniFile&&) = default;
-
     void LoadFile(const std::string& iniFilePath);
-
     void UpdateFile() const;
-
-    void GetSections(std::vector< std::string >& sections) const;
-
+    void GetSections(std::list< std::string >& sections) const;
     void GetSection(const std::string& section
-                    , std::vector< std::pair<std::string, std::string> >& pairs) const;
-
+                    , std::list< std::pair<std::string, std::string> >& pairs) const;
     bool SectionExists(const std::string& section) const;
-
-    bool ValueExists(const std::string& section
-                     , const std::string& key) const;
-
+    bool KeyExists(const std::string& section
+                   , const std::string& key) const;
     bool ReadBool(const std::string& section
                   , const std::string& key
-                  , const bool defaultValue = false) const;
-
+                  , bool defaultValue = false) const;
     int ReadInteger(const std::string& section
                     , const std::string&key
-                    , const int defaultValue = 0) const;
-
+                    , int defaultValue = 0) const;
     int64_t ReadInteger64(const std::string& section
                           , const std::string& key
-                          , const int64_t defaultValue = 0L) const;
-
+                          , int64_t defaultValue = 0L) const;
     double ReadDouble(const std::string& section
                       , const std::string& key
-                      , const double defaultValue = 0.0) const;
-
+                      , double defaultValue = 0.0) const;
     long double ReadLongDouble(const std::string& section
                                , const std::string& key
-                               , const long double DefaultValue = 0.0L) const;
-
+                               , long double defaultValue = 0.0L) const;
     std::string ReadString(const std::string& section
                            , const std::string& key
                            , const std::string& defaultValue = "") const;
-
     void WriteBool(const std::string& section
                    , const std::string& key
-                   , const bool value);
-
+                   , bool value);
     void WriteInteger(const std::string& section
                       , const std::string& key
-                      , const int value);
-
+                      , int value);
     void WriteInteger64(const std::string& section
                         , const std::string& key
-                        , const int64_t value);
-
+                        , int64_t value);
     void WriteDouble(const std::string& section
                      , const std::string& key
-                     , const double value);
-
+                     , double value);
     void WriteLongDouble(const std::string& section
                          , const std::string& key
-                         , const long double value);
-
+                         , long double value);
     void WriteString(const std::string& section
                      , const std::string& key
                      , const std::string& value);
-
     void EraseSection(const std::string& section);
-
     void EraseSections();
-
     void EraseKey(const std::string& section
                   , const std::string& key);
-
     void EraseKeys(const std::string& section);
 
 private:
-    typedef std::unordered_map<std::string, std::string> key_value_pairs;
-    typedef key_value_pairs::iterator kvp_iter;
-    typedef key_value_pairs::const_iterator kvp_citer;
-    typedef std::unordered_map<std::string, key_value_pairs> sections;
-    typedef sections::iterator sections_iter;
-    typedef sections::const_iterator sections_citer;
-    sections m_fileMap;
+    class KeyValuePair
+    {
+    public:
+        KeyValuePair() = default;
+        KeyValuePair(const KeyValuePair&) = default;
+        KeyValuePair(KeyValuePair&&) = default;
+        KeyValuePair(const std::string& key, const std::string& value);
+        ~KeyValuePair() = default;
+        KeyValuePair& operator=(const KeyValuePair&) = default;
+        KeyValuePair& operator=(KeyValuePair&&) = default;
+        bool operator==(const std::string& key) const;
+        const std::string& Key() const;
+        const std::string& Value() const;
+        void Value(const std::string& value);
+        bool IsComment() const;
+        bool IsBlank() const;
+
+    private:
+        std::pair<std::string, std::string> m_kvp{};
+    };
+
+    class Section
+    {
+    public:
+        Section() = default;
+        Section(const Section&) = default;
+        Section(Section&&) = default;
+        Section(const std::string& name);
+        ~Section() = default;
+        Section& operator=(const Section&) = default;
+        Section& operator=(Section&&) = default;
+        bool operator==(const std::string& name) const;
+        const std::string& Name() const;
+        void UpdateKey(const std::string& key
+                       , const std::string& value);
+        void UpdateKey(const std::string& key
+                       , std::string&& value);
+        void EraseKey(const std::string& key);
+        void EraseKeys();
+        bool KeyExists(const std::string& key) const;
+        std::string GetKey(const std::string& key
+                           , const std::string& defaultValue = "") const;
+        void GetKeys(std::list<std::pair<std::string
+                                         , std::string>>& pairs) const;
+
+    private:
+        std::string m_name{};
+        std::list<KeyValuePair> m_kvps{};
+    };
+
     mutable bool m_changesMade{false};
+    std::list<Section> m_sections;
 
     void WriteValue(const std::string& section
                     , const std::string& key
                     , std::string&& value);
-
     void WriteValue(const std::string& section
                     , const std::string& key
                     , const std::string& value);
-
-    kvp_citer FindKey(const std::string& section
-                      , const std::string& key) const;
-
-    kvp_iter FindKey(const std::string& section
-                     , const std::string& key);
-
-    bool FindKeyNoThrow(const std::string& section
-                        , const std::string& key
-                        , kvp_citer& kvpIt) const;
-
-    bool FindKeyNoThrow(const std::string& section
-                        , const std::string& key
-                        , kvp_iter& kvpIt);
 };
 
 } // namespace ini_file

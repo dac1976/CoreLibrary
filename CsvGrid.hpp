@@ -142,7 +142,7 @@ enum class eCellFormatOptions
  * a row in the grid. A cell can be thought of as the value in a given
  * column index within the grid.
  */
-class Cell
+class Cell final
 {
 public:
     /*! \brief Default constructor. */
@@ -331,7 +331,7 @@ class CsvGrid;
  * the grid. A row contains cells and each cell's position represents a column
  * within the grid.
  */
-class Row
+class Row final
 {
 public:
     /*! \brief Friend declaration of CsvGrid so it can have private access to its rows. */
@@ -599,7 +599,7 @@ private:
  * This class loads the entire CSV file into memory so if the file is particulary
  * large you will crash your program if you do not have enough free memory.
  */
-class CsvGrid
+class CsvGrid final
 {
 public:
     /*! \brief Friend declaration of overloaded operator<< for CsvGrid class. */

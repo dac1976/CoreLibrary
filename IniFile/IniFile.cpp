@@ -26,6 +26,7 @@
  */
 
 #include "../IniFile.hpp"
+#include <algorithm>
 #include "../StringUtils.hpp"
 
 namespace core_lib {
@@ -117,6 +118,142 @@ xIniFileInvalidSectionError::~xIniFileInvalidSectionError()
 }
 
 // ****************************************************************************
+// 'class IniFile::KeyValuePair' definition
+// ****************************************************************************
+IniFile::KeyValuePair::KeyValuePair(const std::string& key, const std::string& value)
+    : m_kvp{key, value}
+{
+}
+
+bool IniFile::KeyValuePair::operator==(const std::string& key) const
+{
+    return m_kvp.first == key;
+}
+
+const std::string& IniFile::KeyValuePair::Key() const
+{
+    return m_kvp.first;
+}
+
+const std::string& IniFile::KeyValuePair::Value() const
+{
+    return m_kvp.second;
+}
+
+void IniFile::KeyValuePair::Value(const std::string& value)
+{
+    m_kvp.second = value;
+}
+
+bool IniFile::KeyValuePair::IsComment() const
+{
+    return m_kvp.first.empty() && (m_kvp.second.front() == ';');
+}
+
+bool IniFile::KeyValuePair::IsBlank() const
+{
+    return m_kvp.first.empty() && m_kvp.second.empty();
+}
+
+// ****************************************************************************
+// 'class IniFile::Section' definition
+// ****************************************************************************
+IniFile::Section::Section(const std::string& name)
+    : m_name{name}
+{
+}
+
+bool IniFile::Section::operator==(const std::string& name) const
+{
+    return m_name == name;
+}
+
+const std::string& IniFile::Section::Name() const
+{
+    return m_name;
+}
+
+void IniFile::Section::UpdateKey(const std::string& key
+                                 , const std::string& value)
+{
+    std::list<KeyValuePair>::iterator
+        kvpIt(std::find(m_kvps.begin(), m_kvps.end(), key));
+
+    if (kvpIt == m_kvps.end())
+    {
+        m_kvps.push_back(KeyValuePair(key, value));
+    }
+    else
+    {
+        kvpIt->Value(value);
+    }
+}
+
+void IniFile::Section::UpdateKey(const std::string& key
+                                 , std::string&& value)
+{
+    std::list<KeyValuePair>::iterator
+        kvpIt(std::find(m_kvps.begin(), m_kvps.end(), key));
+
+    if (kvpIt == m_kvps.end())
+    {
+        m_kvps.push_back(KeyValuePair(key, value));
+    }
+    else
+    {
+        kvpIt->Value(value);
+    }
+}
+
+void IniFile::Section::EraseKey(const std::string& key)
+{
+    std::list<KeyValuePair>::iterator
+        kvpIt(std::find(m_kvps.begin(), m_kvps.end(), key));
+
+    if (kvpIt != m_kvps.end())
+    {
+        m_kvps.erase(kvpIt);
+    }
+}
+
+void IniFile::Section::EraseKeys()
+{
+    m_kvps.clear();
+}
+
+bool IniFile::Section::KeyExists(const std::string& key) const
+{
+    return std::find(m_kvps.begin(), m_kvps.end(), key)
+           != m_kvps.end();
+}
+
+std::string IniFile::Section::GetKey(const std::string& key
+                                     , const std::string& defaultValue) const
+{
+    std::string value{defaultValue};
+    std::list<KeyValuePair>::const_iterator
+        kvpIt(std::find(m_kvps.begin(), m_kvps.end(), key));
+
+    if (kvpIt != m_kvps.end())
+    {
+        value = kvpIt->Value();
+    }
+
+    return value;
+}
+
+void IniFile::Section::GetKeys(std::list<std::pair<std::string
+                                                   , std::string>>& pairs) const
+{
+    pairs.clear();
+
+    for (auto kvp : m_kvps)
+    {
+        pairs.push_back(std::make_pair(kvp.Key(), kvp.Value()));
+    }
+}
+
+// ****************************************************************************
 // 'class IniFile' definition
 // ****************************************************************************
 
@@ -127,7 +264,7 @@ IniFile::IniFile(const std::string& iniFilePath)
 
 void IniFile::LoadFile(const std::string& iniFilePath)
 {
-
+    //TODO: Implement this method.
     m_changesMade = false;
 }
 
@@ -138,97 +275,182 @@ void IniFile::UpdateFile() const
         return;
     }
 
+    //TODO: Implement this method.
+
     m_changesMade = false;
 }
 
-void IniFile::GetSections(std::vector< std::string >& sections) const
+void IniFile::GetSections(std::list< std::string >& sections) const
 {
+    sections.clear();
 
+    for (auto section : m_sections)
+    {
+        sections.push_back(section.Name());
+    }
 }
 
 void IniFile::GetSection(const std::string& section
-                         , std::vector< std::pair<std::string, std::string> >& pairs) const
+                         , std::list< std::pair<std::string, std::string> >& pairs) const
 {
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
+    if (secIt == m_sections.end())
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
+    }
+    else
+    {
+        secIt->GetKeys(pairs);
+    }
 }
 
 bool IniFile::SectionExists(const std::string& section) const
 {
-
+    return std::find(m_sections.begin(), m_sections.end(), section)
+           != m_sections.end();
 }
 
-bool IniFile::ValueExists(const std::string& section
-                          , const std::string& key) const
+bool IniFile::KeyExists(const std::string& section
+                        , const std::string& key) const
 {
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
+    if (secIt == m_sections.end())
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
+    }
+
+    return secIt->KeyExists(key);
 }
 
 bool IniFile::ReadBool(const std::string& section
                        , const std::string& key
-                       , const bool DefaultValue) const
+                       , bool defaultValue) const
 {
+    bool value{defaultValue};
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
+    if (secIt != m_sections.end())
+    {
+        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue ? 1 : 0))};
+        value = strVal == "1";
+    }
+
+    return value;
 }
 
 int IniFile::ReadInteger(const std::string& section
                          , const std::string& key
-                         , const int DefaultValue) const
+                         , int defaultValue) const
 {
+    int value{defaultValue};
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
-}
+    if (secIt != m_sections.end())
+    {
+        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
+        value = std::stoi(strVal);
+    }
 
-double IniFile::ReadDouble(const std::string& section
-                           , const std::string& key
-                           , const double DefaultValue) const
-{
-
-}
-
-long double IniFile::ReadLongDouble(const std::string& section
-                                    , const std::string& key
-                                    , const long double DefaultValue) const
-{
-
+    return value;
 }
 
 int64_t IniFile::ReadInteger64(const std::string& section
                                , const std::string& key
-                               , const int64_t defaultValue) const
+                               , int64_t defaultValue) const
 {
+    int64_t value{defaultValue};
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
+    if (secIt != m_sections.end())
+    {
+        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
+        value = std::stoll(strVal);
+    }
+
+    return value;
+}
+
+double IniFile::ReadDouble(const std::string& section
+                           , const std::string& key
+                           , double defaultValue) const
+{
+    double value{defaultValue};
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
+
+    if (secIt != m_sections.end())
+    {
+        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
+        value = std::stod(strVal);
+    }
+
+    return value;
+}
+
+long double IniFile::ReadLongDouble(const std::string& section
+                                    , const std::string& key
+                                    , long double defaultValue) const
+{
+    long double value{defaultValue};
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
+
+    if (secIt != m_sections.end())
+    {
+        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
+        value = std::stold(strVal);
+    }
+
+    return value;
 }
 
 std::string IniFile::ReadString(const std::string& section
                                 , const std::string& key
                                 , const std::string& defaultValue) const
 {
+    std::string value{defaultValue};
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
+    if (secIt != m_sections.end())
+    {
+        value = secIt->GetKey(key, defaultValue);
+    }
+
+    return value;
 }
 
 void IniFile::WriteBool(const std::string& section
                         , const std::string& key
-                        , const bool value)
+                        , bool value)
 {
     WriteValue(section, key, std::to_string(value ? 1 : 0));
 }
 
 void IniFile::WriteInteger(const std::string& section
                            , const std::string& key
-                           , const int value)
+                           , int value)
 {
     WriteValue(section, key, std::to_string(value));
 }
 
 void IniFile::WriteInteger64(const std::string& section
                             , const std::string& key
-                            , const int64_t value)
+                            , int64_t value)
 {
     WriteValue(section, key, std::to_string(value));
 }
 
 void IniFile::WriteDouble(const std::string& section
                          , const std::string& key
-                         , const double value)
+                         , double value)
 {
     std::string strVal;
     string_utils::FormatFloatString(strVal, value);
@@ -237,7 +459,7 @@ void IniFile::WriteDouble(const std::string& section
 
 void IniFile::WriteLongDouble(const std::string& section
                               , const std::string& key
-                              , const long double value)
+                              , long double value)
 {
     std::string strVal;
     string_utils::FormatFloatString(strVal, value, 30);
@@ -255,23 +477,17 @@ void IniFile::WriteValue(const std::string& section
                           , const std::string& key
                           , std::string&& value)
 {
-    sections_iter sectIt{m_fileMap.find(section)};
-    bool found = false;
+    std::list<Section>::iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
-    if (sectIt != m_fileMap.end())
+    if (secIt == m_sections.end())
     {
-        kvp_iter kvpIt = sectIt->second.find(key);
-
-        if (kvpIt != sectIt->second.end())
-        {
-            kvpIt->second = value;
-            found = true;
-        }
+        secIt->UpdateKey(key, value);
     }
-
-    if (!found)
+    else
     {
-        (m_fileMap[section])[key] = value;
+        m_sections.push_back(Section(section));
+        m_sections.back().UpdateKey(key, value);
     }
 
     m_changesMade = true;
@@ -281,23 +497,17 @@ void IniFile::WriteValue(const std::string& section
                           , const std::string& key
                           , const std::string& value)
 {
-    sections_iter sectIt{m_fileMap.find(section)};
-    bool found = false;
+    std::list<Section>::iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
-    if (sectIt != m_fileMap.end())
+    if (secIt == m_sections.end())
     {
-        kvp_iter kvpIt = sectIt->second.find(key);
-
-        if (kvpIt != sectIt->second.end())
-        {
-            kvpIt->second = value;
-            found = true;
-        }
+        secIt->UpdateKey(key, value);
     }
-
-    if (!found)
+    else
     {
-        (m_fileMap[section])[key] = value;
+        m_sections.push_back(Section(section));
+        m_sections.back().UpdateKey(key, value);
     }
 
     m_changesMade = true;
@@ -305,123 +515,41 @@ void IniFile::WriteValue(const std::string& section
 
 void IniFile::EraseSection(const std::string& section)
 {
-    sections_citer sectIt{m_fileMap.find(section)};
+    std::list<Section>::iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
-    if (sectIt != m_fileMap.end())
+    if (secIt != m_sections.end())
     {
-        m_fileMap.erase(sectIt);
+        m_sections.erase(secIt);
     }
 }
 
 void IniFile::EraseSections()
 {
-    m_fileMap.clear();
+    m_sections.clear();
 }
 
 void IniFile::EraseKey(const std::string& section
-                        , const std::string& key)
+                       , const std::string& key)
 {
-    sections_iter sectIt{m_fileMap.find(section)};
+    std::list<Section>::iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
-    if (sectIt != m_fileMap.end())
+    if (secIt != m_sections.end())
     {
-        kvp_citer kvpIt{sectIt->second.find(key)};
-
-        if (kvpIt != sectIt->second.end())
-        {
-            sectIt->second.erase(kvpIt);
-        }
+        secIt->EraseKey(key);
     }
 }
 
 void IniFile::EraseKeys(const std::string& section)
 {
-    sections_iter sectIt{m_fileMap.find(section)};
+    std::list<Section>::iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
-    if (sectIt != m_fileMap.end())
+    if (secIt != m_sections.end())
     {
-        sectIt->second.clear();
+        secIt->EraseKeys();
     }
-}
-
-IniFile::kvp_citer IniFile::FindKey(const std::string& section
-                                    , const std::string& key) const
-{
-    sections_citer sectIt{m_fileMap.find(section)};
-
-    if (sectIt == m_fileMap.end())
-    {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
-    }
-
-    kvp_citer kvpIt{sectIt->second.find(key)};
-
-    if (kvpIt == sectIt->second.end())
-    {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError());
-    }
-
-    return kvpIt;
-}
-
-IniFile::kvp_iter IniFile::FindKey(const std::string& section
-                                   , const std::string& key)
-{
-    sections_iter sectIt{m_fileMap.find(section)};
-
-    if (sectIt == m_fileMap.end())
-    {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
-    }
-
-    kvp_iter kvpIt{sectIt->second.find(key)};
-
-    if (kvpIt == sectIt->second.end())
-    {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError());
-    }
-
-    return kvpIt;
-}
-
-bool IniFile::FindKeyNoThrow(const std::string& section
-                             , const std::string& key
-                             , IniFile::kvp_citer& kvpIt) const
-{
-    bool found{};
-    sections_citer sectIt{m_fileMap.find(section)};
-
-    if (sectIt != m_fileMap.end())
-    {
-        kvpIt = sectIt->second.find(key);
-
-        if (kvpIt != sectIt->second.end())
-        {
-            found = true;
-        }
-    }
-
-    return found;
-}
-
-bool IniFile::FindKeyNoThrow(const std::string& section
-                             , const std::string& key
-                             , IniFile::kvp_iter& kvpIt)
-{
-    bool found{};
-    sections_iter sectIt{m_fileMap.find(section)};
-
-    if (sectIt != m_fileMap.end())
-    {
-        kvpIt = sectIt->second.find(key);
-
-        if (kvpIt != sectIt->second.end())
-        {
-            found = true;
-        }
-    }
-
-    return found;
 }
 
 } // namespace core_lib
