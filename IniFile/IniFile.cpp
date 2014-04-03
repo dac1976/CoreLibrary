@@ -147,12 +147,12 @@ void IniFile::KeyValuePair::Value(const std::string& value)
 
 bool IniFile::KeyValuePair::IsComment() const
 {
-    return m_kvp.first.empty() && (m_kvp.second.front() == ';');
+    return (m_kvp.first.compare("") == 0) && (m_kvp.second.front() == ';');
 }
 
 bool IniFile::KeyValuePair::IsBlank() const
 {
-    return m_kvp.first.empty() && m_kvp.second.empty();
+    return (m_kvp.first.compare("") == 0) && (m_kvp.second.compare("") == 0);
 }
 
 // ****************************************************************************
@@ -298,7 +298,7 @@ void IniFile::GetSection(const std::string& section
 
     if (secIt == m_sections.end())
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
+        pairs.clear();
     }
     else
     {
@@ -320,10 +320,12 @@ bool IniFile::KeyExists(const std::string& section
 
     if (secIt == m_sections.end())
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError());
+        return false;
     }
-
-    return secIt->KeyExists(key);
+    else
+    {
+        return secIt->KeyExists(key);
+    }
 }
 
 bool IniFile::ReadBool(const std::string& section
@@ -477,6 +479,16 @@ void IniFile::WriteValue(const std::string& section
                           , const std::string& key
                           , std::string&& value)
 {
+    if (section.compare("") == 0)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
+    }
+
+    if (key.compare("") == 0)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
+    }
+
     std::list<Section>::iterator
         secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
@@ -497,6 +509,16 @@ void IniFile::WriteValue(const std::string& section
                           , const std::string& key
                           , const std::string& value)
 {
+    if (section.compare("") == 0)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
+    }
+
+    if (key.compare("") == 0)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
+    }
+
     std::list<Section>::iterator
         secIt(std::find(m_sections.begin(), m_sections.end(), section));
 
