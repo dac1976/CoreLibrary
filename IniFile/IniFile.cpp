@@ -332,90 +332,67 @@ bool IniFile::ReadBool(const std::string& section
                        , const std::string& key
                        , bool defaultValue) const
 {
-    bool value{defaultValue};
-    std::list<Section>::const_iterator
-        secIt(std::find(m_sections.begin(), m_sections.end(), section));
-
-    if (secIt != m_sections.end())
-    {
-        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue ? 1 : 0))};
-        value = strVal == "1";
-    }
-
-    return value;
+    return std::stoi(ReadValue(section, key, std::to_string(defaultValue ? 1 : 0))) == 1;
 }
 
 int IniFile::ReadInteger(const std::string& section
                          , const std::string& key
                          , int defaultValue) const
 {
-    int value{defaultValue};
-    std::list<Section>::const_iterator
-        secIt(std::find(m_sections.begin(), m_sections.end(), section));
-
-    if (secIt != m_sections.end())
-    {
-        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
-        value = std::stoi(strVal);
-    }
-
-    return value;
+    return std::stoi(ReadValue(section, key, std::to_string(defaultValue)));
 }
 
 int64_t IniFile::ReadInteger64(const std::string& section
                                , const std::string& key
                                , int64_t defaultValue) const
 {
-    int64_t value{defaultValue};
-    std::list<Section>::const_iterator
-        secIt(std::find(m_sections.begin(), m_sections.end(), section));
-
-    if (secIt != m_sections.end())
-    {
-        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
-        value = std::stoll(strVal);
-    }
-
-    return value;
+    return std::stoll(ReadValue(section, key, std::to_string(defaultValue)));
 }
 
 double IniFile::ReadDouble(const std::string& section
                            , const std::string& key
                            , double defaultValue) const
 {
-    double value{defaultValue};
-    std::list<Section>::const_iterator
-        secIt(std::find(m_sections.begin(), m_sections.end(), section));
-
-    if (secIt != m_sections.end())
-    {
-        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
-        value = std::stod(strVal);
-    }
-
-    return value;
+    std::string defValStr;
+    string_utils::FormatFloatString(defValStr, defaultValue);
+    return std::stod(ReadValue(section, key, defValStr));
 }
 
 long double IniFile::ReadLongDouble(const std::string& section
                                     , const std::string& key
                                     , long double defaultValue) const
 {
-    long double value{defaultValue};
-    std::list<Section>::const_iterator
-        secIt(std::find(m_sections.begin(), m_sections.end(), section));
-
-    if (secIt != m_sections.end())
-    {
-        std::string strVal{secIt->GetKey(key, std::to_string(defaultValue))};
-        value = std::stold(strVal);
-    }
-
-    return value;
+    std::string defValStr;
+    string_utils::FormatFloatString(defValStr, defaultValue, 30);
+    return std::stold(ReadValue(section, key, defValStr));
 }
 
 std::string IniFile::ReadString(const std::string& section
                                 , const std::string& key
                                 , const std::string& defaultValue) const
+{
+    return ReadValue(section, key, defaultValue);
+}
+
+std::string IniFile::ReadValue(const std::string& section
+                                , const std::string& key
+                                , const std::string& defaultValue) const
+{
+    std::string value{defaultValue};
+    std::list<Section>::const_iterator
+        secIt(std::find(m_sections.begin(), m_sections.end(), section));
+
+    if (secIt != m_sections.end())
+    {
+        value = secIt->GetKey(key, defaultValue);
+    }
+
+    return value;
+}
+
+std::string IniFile::ReadValue(const std::string& section
+                                , const std::string& key
+                                , std::string&& defaultValue) const
 {
     std::string value{defaultValue};
     std::list<Section>::const_iterator

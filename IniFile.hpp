@@ -272,6 +272,14 @@ private:
     mutable bool m_changesMade{false};
     std::list<Section> m_sections;
 
+    std::string ReadValue(const std::string& section
+                          , const std::string& key
+                          , const std::string& defaultValue) const;
+
+    std::string ReadValue(const std::string& section
+                          , const std::string& key
+                          , std::string&& defaultValue) const;
+
     void WriteValue(const std::string& section
                     , const std::string& key
                     , std::string&& value);
