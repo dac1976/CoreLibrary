@@ -31,7 +31,7 @@ void IniFileTest::cleanupTestCase()
 
 void IniFileTest::Case1()
 {
-    
+
 }
 
 QTEST_APPLESS_MAIN(IniFileTest)

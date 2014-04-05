@@ -46,9 +46,10 @@
 #define INIFILE_HPP
 
 #include <utility>
+#include <memory>
 #include <string>
 #include <list>
-#include <unordered_map>
+#include <map>
 #include <cstdint>
 #include "Exceptions/CustomException.hpp"
 
@@ -171,8 +172,8 @@ public:
     void LoadFile(const std::string& iniFilePath);
     void UpdateFile() const;
     void GetSections(std::list< std::string >& sections) const;
-    void GetSection(const std::string& section
-                    , std::list< std::pair<std::string, std::string> >& pairs) const;
+    typedef std::list<std::pair<std::string, std::string>> keys_list;
+    void GetSection(const std::string& section , keys_list& keys) const;
     bool SectionExists(const std::string& section) const;
     bool KeyExists(const std::string& section
                    , const std::string& key) const;
@@ -219,67 +220,121 @@ public:
     void EraseKeys(const std::string& section);
 
 private:
-    class KeyValuePair
+    class Line
     {
     public:
-        KeyValuePair() = default;
-        KeyValuePair(const KeyValuePair&) = default;
-        KeyValuePair(KeyValuePair&&) = default;
-        KeyValuePair(const std::string& key, const std::string& value);
-        ~KeyValuePair() = default;
-        KeyValuePair& operator=(const KeyValuePair&) = default;
-        KeyValuePair& operator=(KeyValuePair&&) = default;
-        bool operator==(const std::string& key) const;
+        Line() = default;
+        Line(const Line&) = default;
+        Line(Line&&) = default;
+        virtual ~Line() = 0;
+        Line& operator=(const Line&) = default;
+        Line& operator=(Line&&) = default;
+    };
+
+    class BlankLine : public Line
+    {
+    public:
+        BlankLine() = default;
+        BlankLine(const BlankLine&) = default;
+        BlankLine(BlankLine&&) = default;
+        virtual ~BlankLine();
+        BlankLine& operator=(const BlankLine&) = default;
+        BlankLine& operator=(BlankLine&&) = default;
+    };
+
+    class CommentLine : public Line
+    {
+    public:
+        CommentLine() = default;
+        CommentLine(const CommentLine&) = default;
+        CommentLine(CommentLine&&) = default;
+        CommentLine(const std::string& comment);
+        virtual ~CommentLine();
+        CommentLine& operator=(const CommentLine&) = default;
+        CommentLine& operator=(CommentLine&&) = default;
+        const std::string& Comment() const;
+
+    private:
+        std::string m_comment{};
+    };
+
+    class SectionLine : public Line
+    {
+    public:
+        SectionLine() = default;
+        SectionLine(const SectionLine&) = default;
+        SectionLine(SectionLine&&) = default;
+        SectionLine(const std::string& section);
+        virtual ~SectionLine();
+        SectionLine& operator=(const SectionLine&) = default;
+        SectionLine& operator=(SectionLine&&) = default;
+        const std::string& Section() const;
+
+    private:
+        std::string m_section{};
+    };
+
+    class KeyLine : public Line
+    {
+    public:
+        KeyLine() = default;
+        KeyLine(const KeyLine&) = default;
+        KeyLine(KeyLine&&) = default;
+        KeyLine(const std::string& key, const std::string& value);
+        virtual ~KeyLine();
+        KeyLine& operator=(const KeyLine&) = default;
+        KeyLine& operator=(KeyLine&&) = default;
         const std::string& Key() const;
         const std::string& Value() const;
         void Value(const std::string& value);
-        bool IsComment() const;
-        bool IsBlank() const;
+        void Value(std::string&& value);
 
     private:
-        std::pair<std::string, std::string> m_kvp{};
+        std::string m_key{};
+        std::string m_value{};
     };
 
-    class Section
+    typedef std::list<std::shared_ptr<Line>> line_list;
+    typedef line_list::iterator line_iter;
+    typedef line_list::const_iterator line_citer;
+
+    class SectionDetails
     {
     public:
-        Section() = default;
-        Section(const Section&) = default;
-        Section(Section&&) = default;
-        Section(const std::string& name);
-        ~Section() = default;
-        Section& operator=(const Section&) = default;
-        Section& operator=(Section&&) = default;
-        bool operator==(const std::string& name) const;
-        const std::string& Name() const;
+        SectionDetails() = default;
+        SectionDetails(const SectionDetails&) = default;
+        SectionDetails(SectionDetails&&) = default;
+        explicit SectionDetails(const line_iter& sectIter);
+        virtual ~SectionDetails();
+        SectionDetails& operator=(const SectionDetails&) = default;
+        SectionDetails& operator=(SectionDetails&&) = default;
+        const std::string& Section() const;
+        bool KeyExists(const std::string& key) const;
+        void AddKey(const line_iter& keyIter);
         void UpdateKey(const std::string& key
                        , const std::string& value);
-        void UpdateKey(const std::string& key
-                       , std::string&& value);
-        void EraseKey(const std::string& key);
-        void EraseKeys();
-        bool KeyExists(const std::string& key) const;
-        std::string GetKey(const std::string& key
-                           , const std::string& defaultValue = "") const;
-        void GetKeys(std::list<std::pair<std::string
-                                         , std::string>>& pairs) const;
+        bool EraseKey(const std::string& key
+                      , line_iter& lineIter);
+        std::string GetValue(const std::string& key
+                             , const std::string& defaultValue = "") const;
+        void GetKeys(keys_list& keys) const;
 
     private:
-        std::string m_name{};
-        std::list<KeyValuePair> m_kvps{};
+        line_iter m_sectIter{};
+        std::list<line_iter> m_keyIters{};
     };
 
     mutable bool m_changesMade{false};
-    std::list<Section> m_sections;
+    line_list m_lines;
+    std::map<std::string, SectionDetails> m_sectionMap;
+
 
     std::string ReadValue(const std::string& section
                           , const std::string& key
                           , const std::string& defaultValue) const;
-
     std::string ReadValue(const std::string& section
                           , const std::string& key
                           , std::string&& defaultValue) const;
-
     void WriteValue(const std::string& section
                     , const std::string& key
                     , std::string&& value);
