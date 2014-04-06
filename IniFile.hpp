@@ -314,19 +314,25 @@ private:
         void UpdateKey(const std::string& key
                        , const std::string& value);
         bool EraseKey(const std::string& key
-                      , line_iter& lineIter);
+                      , IniFile::line_iter& lineIter);
         std::string GetValue(const std::string& key
                              , const std::string& defaultValue = "") const;
         void GetKeys(keys_list& keys) const;
+        line_iter LineIterator() const;
 
     private:
         line_iter m_sectIter{};
-        std::list<line_iter> m_keyIters{};
+        typedef std::list<line_iter> keys_list;
+        keys_list m_keyIters{};
+        typedef keys_list::iterator keys_iter;
     };
 
     mutable bool m_changesMade{false};
     line_list m_lines;
-    std::map<std::string, SectionDetails> m_sectionMap;
+    typedef std::map<std::string, SectionDetails> section_map;
+    section_map m_sectionMap;
+    typedef section_map::iterator section_iter;
+    typedef section_map::const_iterator section_citer;
 
 
     std::string ReadValue(const std::string& section

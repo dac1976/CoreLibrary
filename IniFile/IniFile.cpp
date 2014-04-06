@@ -194,25 +194,27 @@ IniFile::SectionDetails::~SectionDetails()
 
 const std::string& IniFile::SectionDetails::Section() const
 {
-    return dynamic_cast<SectionLine*>(m_sectIter->get())->Section();
+
+    return std::dynamic_pointer_cast<SectionLine>(*m_sectIter)->Section();
 }
 
 bool IniFile::SectionDetails::KeyExists(const std::string& key) const
 {
-    bool exists = false;
+    bool found = false;
 
     for (auto lineIter : m_keyIters)
     {
-        KeyLine* keyLine = dynamic_cast<KeyLine*>(lineIter->get());
+        std::shared_ptr<KeyLine> keyLine
+            = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-        if (keyLine && (key.compare(keyLine->Key()) == 0))
+        if (key.compare(keyLine->Key()) == 0)
         {
-            exists = true;
+            found = true;
             break;
         }
     }
 
-    return exists;
+    return found;
 }
 
 void IniFile::SectionDetails::AddKey(const IniFile::line_iter& keyIter)
@@ -223,23 +225,17 @@ void IniFile::SectionDetails::AddKey(const IniFile::line_iter& keyIter)
 void IniFile::SectionDetails::UpdateKey(const std::string& key
                                         , const std::string& value)
 {
-    bool found = false;
 
     for (auto lineIter : m_keyIters)
     {
-        KeyLine* keyLine = dynamic_cast<KeyLine*>(lineIter->get());
+        std::shared_ptr<KeyLine> keyLine
+            = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-        if (keyLine && (key.compare(keyLine->Key()) == 0))
+        if (key.compare(keyLine->Key()) == 0)
         {
-            found = true;
             keyLine->Value(value);
             break;
         }
-    }
-
-    if (!found)
-    {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key not found"));
     }
 }
 
@@ -248,11 +244,12 @@ bool IniFile::SectionDetails::EraseKey(const std::string& key
 {
     bool erased = false;
 
-    for (std::list<line_iter>::iterator keyIter = m_keyIters.begin()
+    for (keys_iter keyIter = m_keyIters.begin()
          ; keyIter != m_keyIters.end()
          ; ++keyIter)
     {
-        KeyLine* keyLine = dynamic_cast<KeyLine*>((*keyIter)->get());
+        std::shared_ptr<KeyLine> keyLine
+            = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
         if (keyLine && (key.compare(keyLine->Key()) == 0))
         {
@@ -273,7 +270,8 @@ std::string IniFile::SectionDetails::GetValue(const std::string& key
 
     for (auto lineIter : m_keyIters)
     {
-        KeyLine* keyLine = dynamic_cast<KeyLine*>(lineIter->get());
+        std::shared_ptr<KeyLine> keyLine
+            = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
         if (keyLine && (key.compare(keyLine->Key()) == 0))
         {
@@ -291,13 +289,19 @@ void IniFile::SectionDetails::GetKeys(IniFile::keys_list& keys) const
 
     for (auto lineIter : m_keyIters)
     {
-        KeyLine* keyLine = dynamic_cast<KeyLine*>(lineIter->get());
+        std::shared_ptr<KeyLine> keyLine
+            = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
         if (keyLine)
         {
             keys.push_back(std::make_pair(keyLine->Key(), keyLine->Value()));
         }
     }
+}
+
+IniFile::line_iter IniFile::SectionDetails::LineIterator() const
+{
+    return m_sectIter;
 }
 
 // ****************************************************************************
@@ -341,8 +345,7 @@ void IniFile::GetSection(const std::string& section
                          , IniFile::keys_list& keys) const
 {
     keys.clear();
-    std::map<std::string, SectionDetails>::const_iterator
-            sectIt{m_sectionMap.find(section)};
+    section_citer sectIt{m_sectionMap.find(section)};
 
     if (sectIt != m_sectionMap.end())
     {
@@ -358,10 +361,16 @@ bool IniFile::SectionExists(const std::string& section) const
 bool IniFile::KeyExists(const std::string& section
                         , const std::string& key) const
 {
-    bool exists = false;
-    //TODO: Implement this method.
+    section_citer sectIt{m_sectionMap.find(section)};
 
-    return exists;
+    if (sectIt == m_sectionMap.end())
+    {
+        return false;
+    }
+    else
+    {
+        return sectIt->second.KeyExists(key);
+    }
 }
 
 bool IniFile::ReadBool(const std::string& section
@@ -415,8 +424,12 @@ std::string IniFile::ReadValue(const std::string& section
                                 , const std::string& defaultValue) const
 {
     std::string value{defaultValue};
+    section_citer sectIt{m_sectionMap.find(section)};
 
-    //TODO: Implement this method.
+    if (sectIt != m_sectionMap.end())
+    {
+        value = sectIt->second.GetValue(key, defaultValue);
+    }
 
     return value;
 }
@@ -426,8 +439,12 @@ std::string IniFile::ReadValue(const std::string& section
                                 , std::string&& defaultValue) const
 {
     std::string value{defaultValue};
+    section_citer sectIt{m_sectionMap.find(section)};
 
-    //TODO: Implement this method.
+    if (sectIt != m_sectionMap.end())
+    {
+        value = sectIt->second.GetValue(key, defaultValue);
+    }
 
     return value;
 }
@@ -492,7 +509,37 @@ void IniFile::WriteValue(const std::string& section
         BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
     }
 
-    //TODO: Implement this method.
+    bool addNewKey = false;
+    section_iter sectIt{m_sectionMap.find(section)};
+
+    if (sectIt == m_sectionMap.end())
+    {
+        line_iter secLineIter{m_lines.insert(m_lines.end()
+                                             , std::make_shared<SectionLine>(section))};
+        std::pair<section_iter, bool>
+                result{m_sectionMap.insert(std::make_pair(section
+                                                          , SectionDetails(secLineIter)))};
+        sectIt = result.first;
+        addNewKey = true;
+    }
+    else
+    {
+        if (sectIt->second.KeyExists(key))
+        {
+            sectIt->second.UpdateKey(key, value);
+        }
+        else
+        {
+            addNewKey = true;
+        }
+    }
+
+    if (addNewKey)
+    {
+        line_iter keyLineIter{m_lines.insert(m_lines.end()
+                                             , std::make_shared<KeyLine>(key, value))};
+        sectIt->second.AddKey(keyLineIter);
+    }
 
     m_changesMade = true;
 }
@@ -511,30 +558,98 @@ void IniFile::WriteValue(const std::string& section
         BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
     }
 
-    //TODO: Implement this method.
+    bool addNewKey = false;
+    section_iter sectIt{m_sectionMap.find(section)};
+
+    if (sectIt == m_sectionMap.end())
+    {
+        line_iter secLineIter{m_lines.insert(m_lines.end()
+                                             , std::make_shared<SectionLine>(section))};
+        std::pair<section_iter, bool>
+                result{m_sectionMap.insert(std::make_pair(section
+                                                          , SectionDetails(secLineIter)))};
+        sectIt = result.first;
+        addNewKey = true;
+    }
+    else
+    {
+        if (sectIt->second.KeyExists(key))
+        {
+            sectIt->second.UpdateKey(key, value);
+        }
+        else
+        {
+            addNewKey = true;
+        }
+    }
+
+    if (addNewKey)
+    {
+        line_iter keyLineIter{m_lines.insert(m_lines.end()
+                                             , std::make_shared<KeyLine>(key, value))};
+        sectIt->second.AddKey(keyLineIter);
+    }
 
     m_changesMade = true;
 }
 
 void IniFile::EraseSection(const std::string& section)
 {
-    //TODO: Implement this method.
+    section_iter sectIt{m_sectionMap.find(section)};
+
+    if (sectIt != m_sectionMap.end())
+    {
+        line_iter lineIter{sectIt->second.LineIterator()};
+        m_sectionMap.erase(sectIt);
+
+        do
+        {
+            lineIter = m_lines.erase(lineIter);
+        }
+        while((lineIter != m_lines.end())
+              && !std::dynamic_pointer_cast<SectionLine>(*lineIter));
+
+        m_changesMade = true;
+    }
 }
 
 void IniFile::EraseSections()
 {
-    //TODO: Implement this method.
+    std::list<std::string> sections;
+    GetSections(sections);
+
+    for (auto section : sections)
+    {
+        EraseSection(section);
+    }
 }
 
 void IniFile::EraseKey(const std::string& section
                        , const std::string& key)
 {
-    //TODO: Implement this method.
+    section_iter sectIt{m_sectionMap.find(section)};
+
+    if (sectIt != m_sectionMap.end())
+    {
+        line_iter keyLineIter{m_lines.end()};
+
+        if (sectIt->second.EraseKey(key, keyLineIter))
+        {
+            m_lines.erase(keyLineIter);
+            m_changesMade = true;
+        }
+    }
 }
 
 void IniFile::EraseKeys(const std::string& section)
 {
-    //TODO: Implement this method.
+    keys_list keys;
+    GetSection(section, keys);
+
+    for (auto key : keys)
+    {
+        EraseKey(section, key.first);
+    }
 }
 
 } // namespace core_lib
