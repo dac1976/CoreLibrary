@@ -396,7 +396,7 @@ void IniFile::UpdateFile() const
         return;
     }
 
-    //TODO: Implement this method.
+    // Todo: Implement this.
 
     m_changesMade = false;
 }
