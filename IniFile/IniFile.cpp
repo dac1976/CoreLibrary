@@ -27,6 +27,9 @@
 
 #include "../IniFile.hpp"
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <iterator>
 #include "../StringUtils.hpp"
 
 namespace core_lib {
@@ -315,8 +318,75 @@ IniFile::IniFile(const std::string& iniFilePath)
 
 void IniFile::LoadFile(const std::string& iniFilePath)
 {
-    //TODO: Implement this method.
     m_changesMade = false;
+    m_sectionMap.clear();
+    m_lines.clear();
+    std::ifstream iniFile(iniFilePath);
+
+    if (!iniFile.is_open() || !iniFile.good())
+    {
+        BOOST_THROW_EXCEPTION(xIniFileParserError("cannot create ifstream"));
+    }
+
+    std::stringstream iniStream;
+    std::copy(std::istreambuf_iterator<char>(iniFile),
+              std::istreambuf_iterator<char>(),
+              std::ostreambuf_iterator<char>(iniStream));
+    iniFile.close();
+
+    section_iter sectIt{m_sectionMap.end()};
+
+    while(iniStream.good())
+    {
+        std::string line;
+        std::getline(iniStream, line);
+        string_utils::PackStdString(line);
+        std::string str1, str2;
+
+        if (IsBlankLine(line))
+        {
+            m_lines.insert(m_lines.end()
+                           , std::make_shared<BlankLine>());
+        }
+        else if(IsCommentLine(line, str1))
+        {
+            m_lines.insert(m_lines.end()
+                           , std::make_shared<CommentLine>(str1));
+        }
+        else if(IsSectionLine(line, str1))
+        {
+            if (str1.compare("") == 0)
+            {
+                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid section"));
+            }
+
+            line_iter sectLineIter{m_lines.insert(m_lines.end()
+                                                  , std::make_shared<SectionLine>(str1))};
+            std::pair<section_iter, bool>
+                    result{m_sectionMap.insert(std::make_pair(str1, SectionDetails(sectLineIter)))};
+            sectIt = result.first;
+        }
+        else if(IsKeyLine(line, str1, str2))
+        {
+            if ((str1.compare("") == 0) || (sectIt == m_sectionMap.end()))
+            {
+                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid key"));
+            }
+
+            if (sectIt->second.KeyExists(str1))
+            {
+                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains duplicate key"));
+            }
+
+            line_iter keyLineIter{m_lines.insert(m_lines.end()
+                                                  , std::make_shared<KeyLine>(str1, str2))};
+            sectIt->second.AddKey(keyLineIter);
+        }
+        else
+        {
+            BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid line"));
+        }
+    }
 }
 
 void IniFile::UpdateFile() const
@@ -604,7 +674,15 @@ void IniFile::EraseSection(const std::string& section)
 
         do
         {
-            lineIter = m_lines.erase(lineIter);
+            if (std::dynamic_pointer_cast<SectionLine>(*lineIter)
+                || std::dynamic_pointer_cast<KeyLine>(*lineIter))
+            {
+                lineIter = m_lines.erase(lineIter);
+            }
+            else
+            {
+                ++lineIter;
+            }
         }
         while((lineIter != m_lines.end())
               && !std::dynamic_pointer_cast<SectionLine>(*lineIter));
@@ -650,6 +728,57 @@ void IniFile::EraseKeys(const std::string& section)
     {
         EraseKey(section, key.first);
     }
+}
+
+bool IniFile::IsBlankLine(const std::string& line) const
+{
+    return line.compare("") == 0;
+}
+
+bool IniFile::IsCommentLine(const std::string& line
+                            , std::string& comment) const
+{
+    bool isComment = line.front() == ';';
+
+    if (isComment)
+    {
+        comment = line.substr(1, line.size() - 1);
+    }
+
+    return isComment;
+}
+
+bool IniFile::IsSectionLine(const std::string& line
+                            , std::string& section) const
+{
+    bool isSection
+        = (line.front() == '[') && (line.back() == ']');
+
+    if (isSection)
+    {
+        section = line.substr(1, line.size() - 2);
+    }
+
+    return isSection;
+}
+
+bool IniFile::IsKeyLine(const std::string& line
+                        , std::string& key
+                        , std::string& value) const
+{
+    bool isKeyLine;
+
+    try
+    {
+        string_utils::SplitString(key, value , line, "="
+                                  , string_utils::eSplitStringResult::trimmed);
+    }
+    catch(...)
+    {
+        isKeyLine = false;
+    }
+
+    return isKeyLine;
 }
 
 } // namespace core_lib

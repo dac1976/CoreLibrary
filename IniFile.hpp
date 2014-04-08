@@ -328,11 +328,11 @@ private:
     };
 
     mutable bool m_changesMade{false};
-    line_list m_lines;
     typedef std::map<std::string, SectionDetails> section_map;
     section_map m_sectionMap;
     typedef section_map::iterator section_iter;
     typedef section_map::const_iterator section_citer;
+    line_list m_lines;
 
 
     std::string ReadValue(const std::string& section
@@ -347,6 +347,14 @@ private:
     void WriteValue(const std::string& section
                     , const std::string& key
                     , const std::string& value);
+    bool IsBlankLine(const std::string& line) const;
+    bool IsCommentLine(const std::string& line
+                       , std::string& comment) const;
+    bool IsSectionLine(const std::string& line
+                       , std::string& section) const;
+    bool IsKeyLine(const std::string& line
+                   , std::string& key
+                   , std::string& value) const;
 };
 
 } // namespace ini_file
