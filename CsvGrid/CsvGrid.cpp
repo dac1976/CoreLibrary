@@ -124,12 +124,12 @@ Cell::Cell(int64_t value)
 
 Cell::Cell(double value)
 {
-    string_utils::FormatFloatString(m_value, value);
+    m_value = string_utils::FormatFloatString(value);
 }
 
 Cell::Cell(long double value)
 {
-    string_utils::FormatFloatString(m_value, value, 30);
+    m_value = string_utils::FormatFloatString(value, 30);
 }
 
 Cell& Cell::operator=(const std::string& rhs)
@@ -152,13 +152,13 @@ Cell& Cell::operator=(int64_t rhs)
 
 Cell& Cell::operator=(double rhs)
 {
-    string_utils::FormatFloatString(m_value, rhs);
+    m_value = string_utils::FormatFloatString(rhs);
     return *this;
 }
 
 Cell& Cell::operator=(long double rhs)
 {
-    string_utils::FormatFloatString(m_value, rhs, 30);
+    m_value = string_utils::FormatFloatString(rhs, 30);
     return *this;
 }
 

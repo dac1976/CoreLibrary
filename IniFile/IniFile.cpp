@@ -124,16 +124,13 @@ xIniFileInvalidSectionError::~xIniFileInvalidSectionError()
 // ****************************************************************************
 // 'class IniFile' support class definitions.
 // ****************************************************************************
-IniFile::Line::~Line()
+void IniFile::BlankLine::Print(std::ostream &os) const
 {
+    os << std::endl;
 }
 
 IniFile::CommentLine::CommentLine(const std::string& comment)
     : Line(), m_comment{comment}
-{
-}
-
-IniFile::CommentLine::~CommentLine()
 {
 }
 
@@ -142,12 +139,13 @@ const std::string& IniFile::CommentLine::Comment() const
     return m_comment;
 }
 
-IniFile::SectionLine::SectionLine(const std::string& section)
-    : Line(), m_section{section}
+void IniFile::CommentLine::Print(std::ostream &os) const
 {
+    os << ";" << m_comment << std::endl;
 }
 
-IniFile::SectionLine::~SectionLine()
+IniFile::SectionLine::SectionLine(const std::string& section)
+    : Line(), m_section{section}
 {
 }
 
@@ -156,13 +154,14 @@ const std::string& IniFile::SectionLine::Section() const
     return m_section;
 }
 
+void IniFile::SectionLine::Print(std::ostream &os) const
+{
+    os << "[" << m_section << "]" << std::endl;
+}
+
 IniFile::KeyLine::KeyLine(const std::string& key
                           , const std::string& value)
     : Line(), m_key{key}, m_value{value}
-{
-}
-
-IniFile::KeyLine::~KeyLine()
 {
 }
 
@@ -186,18 +185,18 @@ void IniFile::KeyLine::Value(std::string&& value)
     m_value = value;
 }
 
+void IniFile::KeyLine::Print(std::ostream &os) const
+{
+    os << m_key << "=" << m_value << std::endl;
+}
+
 IniFile::SectionDetails::SectionDetails(const IniFile::line_iter& sectIter)
     : m_sectIter(sectIter)
 {
 }
 
-IniFile::SectionDetails::~SectionDetails()
-{
-}
-
 const std::string& IniFile::SectionDetails::Section() const
 {
-
     return std::dynamic_pointer_cast<SectionLine>(*m_sectIter)->Section();
 }
 
@@ -319,9 +318,10 @@ IniFile::IniFile(const std::string& iniFilePath)
 void IniFile::LoadFile(const std::string& iniFilePath)
 {
     m_changesMade = false;
+    m_iniFilePath = iniFilePath;
     m_sectionMap.clear();
     m_lines.clear();
-    std::ifstream iniFile(iniFilePath);
+    std::ifstream iniFile(m_iniFilePath);
 
     if (!iniFile.is_open() || !iniFile.good())
     {
@@ -396,8 +396,24 @@ void IniFile::UpdateFile() const
         return;
     }
 
-    // Todo: Implement this.
+    std::ofstream iniFile(m_iniFilePath);
 
+    if (!iniFile.is_open() || !iniFile.good())
+    {
+        BOOST_THROW_EXCEPTION(xIniFileSaveError("cannot create ofstream"));
+    }
+
+    std::stringstream iniStream;
+
+    for (auto line : m_lines)
+    {
+        line->Print(iniStream);
+    }
+
+    std::copy(std::istreambuf_iterator<char>(iniStream),
+              std::istreambuf_iterator<char>(),
+              std::ostreambuf_iterator<char>(iniFile));
+    iniFile.close();
     m_changesMade = false;
 }
 
@@ -447,39 +463,92 @@ bool IniFile::ReadBool(const std::string& section
                        , const std::string& key
                        , bool defaultValue) const
 {
-    return std::stoi(ReadValue(section, key, std::to_string(defaultValue ? 1 : 0))) == 1;
+    int value{};
+
+    try
+    {
+        value = std::stoi(ReadValue(section, key, std::to_string(defaultValue ? 1 : 0)));
+    }
+    catch(...)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to bool"));
+    }
+
+    return value == 1;
 }
 
-int IniFile::ReadInteger(const std::string& section
+int32_t IniFile::ReadInteger(const std::string& section
                          , const std::string& key
-                         , int defaultValue) const
+                         , int32_t defaultValue) const
 {
-    return std::stoi(ReadValue(section, key, std::to_string(defaultValue)));
+    int32_t value{};
+
+    try
+    {
+        value = std::stoi(ReadValue(section, key, std::to_string(defaultValue)));
+    }
+    catch(...)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to int"));
+    }
+
+    return value;
 }
 
 int64_t IniFile::ReadInteger64(const std::string& section
                                , const std::string& key
                                , int64_t defaultValue) const
 {
-    return std::stoll(ReadValue(section, key, std::to_string(defaultValue)));
+    int64_t value{};
+
+    try
+    {
+        value = std::stoll(ReadValue(section, key, std::to_string(defaultValue)));
+    }
+    catch(...)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to int64_t"));
+    }
+
+    return value;
 }
 
 double IniFile::ReadDouble(const std::string& section
                            , const std::string& key
                            , double defaultValue) const
 {
-    std::string defValStr;
-    string_utils::FormatFloatString(defValStr, defaultValue);
-    return std::stod(ReadValue(section, key, defValStr));
+    std::string defValStr{string_utils::FormatFloatString(defaultValue)};
+    double value{};
+
+    try
+    {
+        value = std::stod(ReadValue(section, key, defValStr));
+    }
+    catch(...)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to double"));
+    }
+
+    return value;
 }
 
 long double IniFile::ReadLongDouble(const std::string& section
                                     , const std::string& key
                                     , long double defaultValue) const
 {
-    std::string defValStr;
-    string_utils::FormatFloatString(defValStr, defaultValue, 30);
-    return std::stold(ReadValue(section, key, defValStr));
+    std::string defValStr{string_utils::FormatFloatString(defaultValue, 30)};
+    long double value{};
+
+    try
+    {
+        value = std::stold(ReadValue(section, key, defValStr));
+    }
+    catch(...)
+    {
+        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to long double"));
+    }
+
+    return value;
 }
 
 std::string IniFile::ReadString(const std::string& section
@@ -528,7 +597,7 @@ void IniFile::WriteBool(const std::string& section
 
 void IniFile::WriteInteger(const std::string& section
                            , const std::string& key
-                           , int value)
+                           , int32_t value)
 {
     WriteValue(section, key, std::to_string(value));
 }
@@ -544,8 +613,7 @@ void IniFile::WriteDouble(const std::string& section
                          , const std::string& key
                          , double value)
 {
-    std::string strVal;
-    string_utils::FormatFloatString(strVal, value);
+    std::string strVal{string_utils::FormatFloatString(strVal, value)};
     WriteValue(section, key, strVal);
 }
 
@@ -553,8 +621,7 @@ void IniFile::WriteLongDouble(const std::string& section
                               , const std::string& key
                               , long double value)
 {
-    std::string strVal;
-    string_utils::FormatFloatString(strVal, value, 30);
+    std::string strVal{string_utils::FormatFloatString(value, 30)};
     WriteValue(section, key, strVal);
 }
 
@@ -678,6 +745,7 @@ void IniFile::EraseSection(const std::string& section)
                 || std::dynamic_pointer_cast<KeyLine>(*lineIter))
             {
                 lineIter = m_lines.erase(lineIter);
+                m_changesMade = true;
             }
             else
             {
@@ -686,8 +754,6 @@ void IniFile::EraseSection(const std::string& section)
         }
         while((lineIter != m_lines.end())
               && !std::dynamic_pointer_cast<SectionLine>(*lineIter));
-
-        m_changesMade = true;
     }
 }
 
@@ -766,7 +832,7 @@ bool IniFile::IsKeyLine(const std::string& line
                         , std::string& key
                         , std::string& value) const
 {
-    bool isKeyLine;
+    bool isKeyLine{true};
 
     try
     {

@@ -180,9 +180,9 @@ public:
     bool ReadBool(const std::string& section
                   , const std::string& key
                   , bool defaultValue = false) const;
-    int ReadInteger(const std::string& section
+    int32_t ReadInteger(const std::string& section
                     , const std::string&key
-                    , int defaultValue = 0) const;
+                    , int32_t defaultValue = 0) const;
     int64_t ReadInteger64(const std::string& section
                           , const std::string& key
                           , int64_t defaultValue = 0L) const;
@@ -200,7 +200,7 @@ public:
                    , bool value);
     void WriteInteger(const std::string& section
                       , const std::string& key
-                      , int value);
+                      , int32_t value);
     void WriteInteger64(const std::string& section
                         , const std::string& key
                         , int64_t value);
@@ -226,9 +226,10 @@ private:
         Line() = default;
         Line(const Line&) = default;
         Line(Line&&) = default;
-        virtual ~Line() = 0;
+        virtual ~Line() = default;
         Line& operator=(const Line&) = default;
         Line& operator=(Line&&) = default;
+        virtual void Print(std::ostream &os) const = 0;
     };
 
     class BlankLine : public Line
@@ -237,9 +238,10 @@ private:
         BlankLine() = default;
         BlankLine(const BlankLine&) = default;
         BlankLine(BlankLine&&) = default;
-        virtual ~BlankLine();
+        virtual ~BlankLine() = default;
         BlankLine& operator=(const BlankLine&) = default;
         BlankLine& operator=(BlankLine&&) = default;
+        virtual void Print(std::ostream &os) const;
     };
 
     class CommentLine : public Line
@@ -249,10 +251,11 @@ private:
         CommentLine(const CommentLine&) = default;
         CommentLine(CommentLine&&) = default;
         CommentLine(const std::string& comment);
-        virtual ~CommentLine();
+        virtual ~CommentLine() = default;
         CommentLine& operator=(const CommentLine&) = default;
         CommentLine& operator=(CommentLine&&) = default;
         const std::string& Comment() const;
+        virtual void Print(std::ostream &os) const;
 
     private:
         std::string m_comment{};
@@ -265,10 +268,11 @@ private:
         SectionLine(const SectionLine&) = default;
         SectionLine(SectionLine&&) = default;
         SectionLine(const std::string& section);
-        virtual ~SectionLine();
+        virtual ~SectionLine() = default;
         SectionLine& operator=(const SectionLine&) = default;
         SectionLine& operator=(SectionLine&&) = default;
         const std::string& Section() const;
+        virtual void Print(std::ostream &os) const;
 
     private:
         std::string m_section{};
@@ -281,13 +285,14 @@ private:
         KeyLine(const KeyLine&) = default;
         KeyLine(KeyLine&&) = default;
         KeyLine(const std::string& key, const std::string& value);
-        virtual ~KeyLine();
+        virtual ~KeyLine() = default;
         KeyLine& operator=(const KeyLine&) = default;
         KeyLine& operator=(KeyLine&&) = default;
         const std::string& Key() const;
         const std::string& Value() const;
         void Value(const std::string& value);
         void Value(std::string&& value);
+        virtual void Print(std::ostream &os) const;
 
     private:
         std::string m_key{};
@@ -305,7 +310,7 @@ private:
         SectionDetails(const SectionDetails&) = default;
         SectionDetails(SectionDetails&&) = default;
         explicit SectionDetails(const line_iter& sectIter);
-        virtual ~SectionDetails();
+        ~SectionDetails() = default;
         SectionDetails& operator=(const SectionDetails&) = default;
         SectionDetails& operator=(SectionDetails&&) = default;
         const std::string& Section() const;
@@ -328,6 +333,7 @@ private:
     };
 
     mutable bool m_changesMade{false};
+    std::string m_iniFilePath{"config.ini"};
     typedef std::map<std::string, SectionDetails> section_map;
     section_map m_sectionMap;
     typedef section_map::iterator section_iter;

@@ -137,17 +137,17 @@ enum class eFloatStringFormat
 
 /*!
  * \brief Convert a floating point value to a string representation.
- * \param [OUT] Resultant string.
  * \param [IN] Floating point value to convert to a string.
  * \param [IN] Precision to display the number to as a string.
  * \param [IN] Formatting options.
+ * return Resultant string.
  *
  * Convert a single or double precision floating point number to a
  * string representaion.
  */
 template <typename T>
-void FormatFloatString(std::string& str, T&& value, int precision = 15,
-                       eFloatStringFormat fsf = eFloatStringFormat::normal)
+std::string FormatFloatString(T&& value, int precision = 15,
+                              eFloatStringFormat fsf = eFloatStringFormat::normal)
 {
     std::ostringstream ss;
 
@@ -171,7 +171,7 @@ void FormatFloatString(std::string& str, T&& value, int precision = 15,
     }
 
     ss << value;
-    str = ss.str();
+    return ss.str();
 }
 
 } // namespace string_utils
