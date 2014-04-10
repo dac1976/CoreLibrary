@@ -673,7 +673,15 @@ void IniFile::WriteValue(const std::string& section
 
     if (addNewKey)
     {
-        line_iter keyLineIter{m_lines.insert(m_lines.end()
+        line_iter insertPos{sectIt->second.LineIterator()};
+
+        do
+        {
+            ++insertPos;
+        }
+        while(!std::dynamic_pointer_cast<SectionLine>(*insertPos));
+
+        line_iter keyLineIter{m_lines.insert(insertPos
                                              , std::make_shared<KeyLine>(key, value))};
         sectIt->second.AddKey(keyLineIter);
     }
@@ -722,7 +730,15 @@ void IniFile::WriteValue(const std::string& section
 
     if (addNewKey)
     {
-        line_iter keyLineIter{m_lines.insert(m_lines.end()
+        line_iter insertPos{sectIt->second.LineIterator()};
+
+        do
+        {
+            ++insertPos;
+        }
+        while(!std::dynamic_pointer_cast<SectionLine>(*insertPos));
+
+        line_iter keyLineIter{m_lines.insert(insertPos
                                              , std::make_shared<KeyLine>(key, value))};
         sectIt->second.AddKey(keyLineIter);
     }
