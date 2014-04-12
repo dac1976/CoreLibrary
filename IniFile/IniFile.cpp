@@ -669,7 +669,7 @@ void IniFile::WriteValue(const std::string& section
         {
             addNewKey = true;
         }
-    }•
+    }
 
     if (addNewKey)
     {
