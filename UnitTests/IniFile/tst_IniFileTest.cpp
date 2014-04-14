@@ -169,7 +169,7 @@ void IniFileTest::Case5_DuplicateSection()
     try
     {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../test_file_4.ini");
+        core_lib::ini_file::IniFile iniFile("../test_file_5.ini");
 #else
         core_lib::ini_file::IniFile iniFile("../../test_file_5.ini");
         correctException = false;
