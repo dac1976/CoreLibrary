@@ -14,7 +14,12 @@ public:
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
-    void Case1();
+    void Case1_InvalidLine();
+    void Case2_InvalidKey();
+    void Case3_InvalidSection();
+    void Case4_DuplicateKey();
+    void Case5_DuplicateSection();
+    void Case6_InvalidFile();
 };
 
 IniFileTest::IniFileTest()
@@ -29,53 +34,196 @@ void IniFileTest::cleanupTestCase()
 {
 }
 
-void IniFileTest::Case1()
+void IniFileTest::Case1_InvalidLine()
 {
+    bool correctException;
 
-    std::list<int> myList{1, 2, 3, 4, 5, 6,7, 8, 9, 10};
-    std::list<int>::iterator i1{myList.begin()};
-    std::list<int>::iterator i2{myList.begin()};
-    std::list<int>::iterator i3{myList.begin()};
-    std::list<int>::iterator i4{myList.begin()};
-    std::list<int>::iterator i5{myList.begin()};
-    std::advance(i1, 3);
-    std::advance(i2, 4);
-    std::advance(i3, 5);
-    std::advance(i4, 2);
-    std::advance(i5, 6);
-
-    for (auto i : myList)
+    try
     {
-        std::cout << i << ", ";
+#if BOOST_OS_WINDOWS
+        core_lib::ini_file::IniFile iniFile("../test_file_1.ini");
+#else
+        core_lib::ini_file::IniFile iniFile("../../test_file_1.ini");
+        correctException = false;
+#endif
+    }
+    catch(core_lib::ini_file::xIniFileParserError& e)
+    {
+        if (e.whatStr().compare("file contains invalid line") == 0)
+        {
+            correctException = true;
+        }
+        else
+        {
+            correctException = true;
+        }
+    }
+    catch(...)
+    {
+        correctException = false;
     }
 
-    std::cout << std::endl;
+    QVERIFY(correctException);
+}
 
-    std::cout << "i1 = " << *i1 << std::endl;
-    std::cout << "i2 = " << *i2 << std::endl;
-    std::cout << "i3 = " << *i3 << std::endl;
-    std::cout << "i4 = " << *i4  <<std::endl;
-    std::cout << "i5 = " << *i5 << std::endl;
+void IniFileTest::Case2_InvalidKey()
+{
+    bool correctException;
 
-    myList.erase(i2);
-    for (auto i : myList)
+    try
     {
-        std::cout << i << ", ";
+#if BOOST_OS_WINDOWS
+        core_lib::ini_file::IniFile iniFile("../test_file_2.ini");
+#else
+        core_lib::ini_file::IniFile iniFile("../../test_file_2.ini");
+        correctException = false;
+#endif
+    }
+    catch(core_lib::ini_file::xIniFileParserError& e)
+    {
+        if (e.whatStr().compare("file contains invalid key") == 0)
+        {
+            correctException = true;
+        }
+        else
+        {
+            correctException = true;
+        }
+    }
+    catch(...)
+    {
+        correctException = false;
     }
 
-    std::cout << std::endl;
-    std::list<int>::iterator iNext{i1};
-    std::list<int>::iterator iPrev{i1};
-    std::cout << "i1 = " << *i1 << ", --i1 = " << *(--iPrev) << ", ++i1 = " << *(++iNext) <<std::endl;
-    iNext = i3;
-    iPrev = i3;
-    std::cout << "i3 = " << *i3 << ", --i3 = " << *(--iPrev) << ", ++i3 = " << *(++iNext) <<std::endl;
-    iNext = i4;
-    iPrev = i4;
-    std::cout << "i4 = " << *i4 << ", --i4 = " << *(--iPrev) << ", ++i4 = " << *(++iNext) <<std::endl;
-    iNext = i5;
-    iPrev = i5;
-    std::cout << "i5 = " << *i5 << ", --i5 = " << *(--iPrev) << ", ++i5 = " << *(++iNext) <<std::endl;
+    QVERIFY(correctException);
+}
+
+void IniFileTest::Case3_InvalidSection()
+{
+    bool correctException;
+
+    try
+    {
+#if BOOST_OS_WINDOWS
+        core_lib::ini_file::IniFile iniFile("../test_file_3.ini");
+#else
+        core_lib::ini_file::IniFile iniFile("../../test_file_3.ini");
+        correctException = false;
+#endif
+    }
+    catch(core_lib::ini_file::xIniFileParserError& e)
+    {
+        if (e.whatStr().compare("file contains invalid section") == 0)
+        {
+            correctException = true;
+        }
+        else
+        {
+            correctException = true;
+        }
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+}
+
+void IniFileTest::Case4_DuplicateKey()
+{
+    bool correctException;
+
+    try
+    {
+#if BOOST_OS_WINDOWS
+        core_lib::ini_file::IniFile iniFile("../test_file_4.ini");
+#else
+        core_lib::ini_file::IniFile iniFile("../../test_file_4.ini");
+        correctException = false;
+#endif
+    }
+    catch(core_lib::ini_file::xIniFileParserError& e)
+    {
+        if (e.whatStr().compare("file contains duplicate key") == 0)
+        {
+            correctException = true;
+        }
+        else
+        {
+            correctException = true;
+        }
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+}
+
+void IniFileTest::Case5_DuplicateSection()
+{
+    bool correctException;
+
+    try
+    {
+#if BOOST_OS_WINDOWS
+        core_lib::ini_file::IniFile iniFile("../test_file_4.ini");
+#else
+        core_lib::ini_file::IniFile iniFile("../../test_file_5.ini");
+        correctException = false;
+#endif
+    }
+    catch(core_lib::ini_file::xIniFileParserError& e)
+    {
+        if (e.whatStr().compare("file contains duplicate section") == 0)
+        {
+            correctException = true;
+        }
+        else
+        {
+            correctException = true;
+        }
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+}
+
+void IniFileTest::Case6_InvalidFile()
+{
+    bool correctException;
+
+    try
+    {
+#if BOOST_OS_WINDOWS
+        core_lib::ini_file::IniFile iniFile("../test_file.ini");
+#else
+        core_lib::ini_file::IniFile iniFile("../../test_file.ini");
+        correctException = false;
+#endif
+    }
+    catch(core_lib::ini_file::xIniFileParserError& e)
+    {
+        if (e.whatStr().compare("cannot create ifstream") == 0)
+        {
+            correctException = true;
+        }
+        else
+        {
+            correctException = true;
+        }
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
 }
 
 QTEST_APPLESS_MAIN(IniFileTest)

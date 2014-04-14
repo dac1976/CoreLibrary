@@ -54,5 +54,10 @@ const char* xCustomException::what() const noexcept
     return m_message.c_str();
 }
 
+const std::string& xCustomException::whatStr() const noexcept
+{
+    return m_message;
+}
+
 } // namespace exceptions
 } // namespace core_lib

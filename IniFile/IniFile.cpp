@@ -360,6 +360,11 @@ void IniFile::LoadFile(const std::string& iniFilePath)
                 BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid section"));
             }
 
+            if (m_sectionMap.find(str1) != m_sectionMap.end())
+            {
+                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains duplicate section"));
+            }
+
             line_iter sectLineIter{m_lines.insert(m_lines.end()
                                                   , std::make_shared<SectionLine>(str1))};
             std::pair<section_iter, bool>

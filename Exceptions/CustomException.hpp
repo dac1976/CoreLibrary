@@ -82,6 +82,12 @@ public:
      */
     virtual const char* what() const noexcept final;
 
+    /*!
+     * \brief Function to get the exception message.
+     * \return The exception message.
+     */
+    virtual const std::string& whatStr() const noexcept final;
+
 protected:
     /*! \brief The exception message. */
     std::string m_message;
