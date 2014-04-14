@@ -31,6 +31,7 @@
 #include <sstream>
 #include <iterator>
 #include "../StringUtils.hpp"
+#include "boost/algorithm/string/trim.hpp"
 
 namespace core_lib {
 namespace ini_file {
@@ -341,6 +342,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
         std::string line;
         std::getline(iniStream, line);
         string_utils::PackStdString(line);
+        boost::trim(line);
         std::string str1, str2;
 
         if (IsBlankLine(line))
