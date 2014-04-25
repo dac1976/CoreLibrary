@@ -25,23 +25,6 @@
  * \brief File containing declarations relating the IniFile class.
  */
 
-/*
-    ; I am an opening comment.
-
-    [Section1]
-    ; I am a comment in a section.
-    Section1_Key1=Section1_Value1
-    Section1_Key2=Section1_Value2
-    Section1_Key3=Section1_Value3
-
-    [Section2]
-    Section2_Key1=Section2_Value1
-    Section2_Key2=Section2_Value2
-    ; I am also a comment in a section.
-    Section2_Key3=Section2_Value3
-    ; I am yet another comment in a section.
-*/
-
 #ifndef INIFILE_HPP
 #define INIFILE_HPP
 
@@ -159,6 +142,31 @@ public:
     virtual ~xIniFileInvalidSectionError();
 };
 
+/*!
+ * \brief Ini file class
+ *
+ * Here is an example of what a ini file may look like:
+ *
+ * ; I am an opening comment.
+ *
+ *    [Section1]
+ *    ; I am a comment in a section.
+ *    Section1_Key1=Section1_Value1
+ *    Section1_Key2=Section1_Value2
+ *    Section1_Key3=Section1_Value3
+ *
+ *    [Section2]
+ *    Section2_Key1=Section2_Value1
+ *    Section2_Key2=Section2_Value2
+ *    ; I am also a comment in a section.
+ *    Section2_Key3=Section2_Value3
+ *    ; I am yet another comment in a section.
+ *
+ * Please note that the suppored comment delimter is ';'.
+ * Also note that blank lines and comments are preserved
+ * when loading an ini file. However, leading and trailing
+ * whitespace in section, key or value items are removed.
+ */
 class IniFile final
 {
 public:

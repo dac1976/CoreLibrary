@@ -832,7 +832,6 @@ bool IniFile::IsCommentLine(const std::string& line
     if (isComment)
     {
         comment = line.substr(1, line.size() - 1);
-        boost::trim(comment);
     }
 
     return isComment;
