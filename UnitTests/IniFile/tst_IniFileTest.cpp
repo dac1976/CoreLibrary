@@ -262,10 +262,10 @@ void IniFileTest::Case8_ValidFileCompare()
 #endif
 
     bool noException;
-    core_lib::ini_file::IniFile iniFile;
 
     try
     {
+        core_lib::ini_file::IniFile iniFile;
 #if BOOST_OS_WINDOWS
         iniFile.LoadFile("../test_file_tmp.ini");
 #else
@@ -303,6 +303,8 @@ void IniFileTest::Case8_ValidFileCompare()
     }
 
     QVERIFY(iniFileA.eof() && iniFileB.eof());
+    iniFileA.close();
+    iniFileB.close();
 
 #if BOOST_OS_WINDOWS
     boost::filesystem::remove("../test_file_tmp.ini");
