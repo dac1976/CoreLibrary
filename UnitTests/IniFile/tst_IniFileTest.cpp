@@ -24,6 +24,8 @@ private Q_SLOTS:
     void Case6_InvalidFile();
     void Case7_ValidFile();
     void Case8_ValidFileCompare();
+    void Case9_CopyConstructor();
+    void Case10_MoveConstructor();
 };
 
 IniFileTest::IniFileTest()
@@ -311,6 +313,14 @@ void IniFileTest::Case8_ValidFileCompare()
 #else
     boost::filesystem::remove("../../test_file_tmp.ini");
 #endif
+}
+
+void IniFileTest::Case9_CopyConstructor()
+{
+}
+
+void IniFileTest::Case10_MoveConstructor()
+{
 }
 
 QTEST_APPLESS_MAIN(IniFileTest)
