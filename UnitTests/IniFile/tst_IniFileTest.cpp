@@ -26,6 +26,8 @@ private Q_SLOTS:
     void Case8_ValidFileCompare();
     void Case9_CopyConstructor();
     void Case10_MoveConstructor();
+    void Case11_GetSections();
+    void Case12_GetSection();
 };
 
 IniFileTest::IniFileTest()
@@ -317,10 +319,115 @@ void IniFileTest::Case8_ValidFileCompare()
 
 void IniFileTest::Case9_CopyConstructor()
 {
+#if BOOST_OS_WINDOWS
+    core_lib::ini_file::IniFile iniFile1("../test_file_check.ini");
+#else
+    core_lib::ini_file::IniFile iniFile1("../../test_file_check.ini");
+#endif
+
+    core_lib::ini_file::IniFile iniFile2(iniFile1);
+
+#if BOOST_OS_WINDOWS
+    iniFile2.UpdateFile("../test_file_tmp.ini");
+#else
+    iniFile2.UpdateFile("../../test_file_tmp.ini");
+#endif
+
+#if BOOST_OS_WINDOWS
+    std::ifstream iniFileA("../test_file_tmp.ini");
+    std::ifstream iniFileB("../test_file_check.ini");
+#else
+    std::ifstream iniFileA("../../test_file_tmp.ini");
+    std::ifstream iniFileB("../../test_file_check.ini");
+#endif
+
+    QVERIFY(iniFileA.is_open() && iniFileA.good());
+    QVERIFY(iniFileB.is_open() && iniFileB.good());
+
+    while(iniFileA.good() && iniFileB.good())
+    {
+        std::string lineA, lineB;
+        std::getline(iniFileA, lineA);
+        std::getline(iniFileB, lineB);
+
+        QCOMPARE(lineA, lineB);
+    }
+
+    QVERIFY(iniFileA.eof() && iniFileB.eof());
+    iniFileA.close();
+    iniFileB.close();
+
+#if BOOST_OS_WINDOWS
+    boost::filesystem::remove("../test_file_tmp.ini");
+#else
+    boost::filesystem::remove("../../test_file_tmp.ini");
+#endif
 }
 
 void IniFileTest::Case10_MoveConstructor()
 {
+#if BOOST_OS_WINDOWS
+    core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../test_file_check.ini"));
+#else
+    core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../../test_file_check.ini"));
+#endif
+
+#if BOOST_OS_WINDOWS
+    iniFile.UpdateFile("../test_file_tmp.ini");
+#else
+    iniFile.UpdateFile("../../test_file_tmp.ini");
+#endif
+
+#if BOOST_OS_WINDOWS
+    std::ifstream iniFileA("../test_file_tmp.ini");
+    std::ifstream iniFileB("../test_file_check.ini");
+#else
+    std::ifstream iniFileA("../../test_file_tmp.ini");
+    std::ifstream iniFileB("../../test_file_check.ini");
+#endif
+
+    QVERIFY(iniFileA.is_open() && iniFileA.good());
+    QVERIFY(iniFileB.is_open() && iniFileB.good());
+
+    while(iniFileA.good() && iniFileB.good())
+    {
+        std::string lineA, lineB;
+        std::getline(iniFileA, lineA);
+        std::getline(iniFileB, lineB);
+
+        QCOMPARE(lineA, lineB);
+    }
+
+    QVERIFY(iniFileA.eof() && iniFileB.eof());
+    iniFileA.close();
+    iniFileB.close();
+
+#if BOOST_OS_WINDOWS
+    boost::filesystem::remove("../test_file_tmp.ini");
+#else
+    boost::filesystem::remove("../../test_file_tmp.ini");
+#endif
+}
+
+void IniFileTest::Case11_GetSections()
+{
+#if BOOST_OS_WINDOWS
+    core_lib::ini_file::IniFile iniFile("../test_file_check.ini");
+#else
+    core_lib::ini_file::IniFile iniFile("../../test_file_check.ini");
+#endif
+
+    std::list<std::string> sections;
+    iniFile.GetSections(sections);
+
+    QVERIFY(sections.size() == 2);
+
+    //TODO
+}
+
+void IniFileTest::Case12_GetSection()
+{
+    //TODO
 }
 
 QTEST_APPLESS_MAIN(IniFileTest)

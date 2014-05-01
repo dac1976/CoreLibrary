@@ -125,9 +125,12 @@ xIniFileInvalidSectionError::~xIniFileInvalidSectionError()
 // ****************************************************************************
 // 'class IniFile' support class definitions.
 // ****************************************************************************
-void IniFile::BlankLine::Print(std::ostream &os) const
+void IniFile::BlankLine::Print(std::ostream &os, bool addLineFeed) const
 {
-    os << std::endl;
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 IniFile::CommentLine::CommentLine(const std::string& comment)
@@ -140,9 +143,14 @@ const std::string& IniFile::CommentLine::Comment() const
     return m_comment;
 }
 
-void IniFile::CommentLine::Print(std::ostream &os) const
+void IniFile::CommentLine::Print(std::ostream &os, bool addLineFeed) const
 {
-    os << ";" << m_comment << std::endl;
+    os << ";" << m_comment;
+
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 IniFile::SectionLine::SectionLine(const std::string& section)
@@ -155,9 +163,14 @@ const std::string& IniFile::SectionLine::Section() const
     return m_section;
 }
 
-void IniFile::SectionLine::Print(std::ostream &os) const
+void IniFile::SectionLine::Print(std::ostream &os, bool addLineFeed) const
 {
-    os << "[" << m_section << "]" << std::endl;
+    os << "[" << m_section << "]";
+
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 IniFile::KeyLine::KeyLine(const std::string& key
@@ -186,9 +199,14 @@ void IniFile::KeyLine::Value(std::string&& value)
     m_value = value;
 }
 
-void IniFile::KeyLine::Print(std::ostream &os) const
+void IniFile::KeyLine::Print(std::ostream &os, bool addLineFeed) const
 {
-    os << m_key << "=" << m_value << std::endl;
+    os << m_key << "=" << m_value;
+
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 IniFile::SectionDetails::SectionDetails(const IniFile::line_iter& sectIter)
@@ -396,14 +414,23 @@ void IniFile::LoadFile(const std::string& iniFilePath)
     }
 }
 
-void IniFile::UpdateFile() const
+void IniFile::UpdateFile(const std::string& overridePath) const
 {
-    if (!m_changesMade)
+    if (!m_changesMade && (overridePath.compare("") == 0))
     {
         return;
     }
 
-    std::ofstream iniFile(m_iniFilePath);
+    std::ofstream iniFile;
+
+    if (overridePath.compare("") == 0)
+    {
+        iniFile.open(m_iniFilePath);
+    }
+    else
+    {
+        iniFile.open(overridePath);
+    }
 
     if (!iniFile.is_open() || !iniFile.good())
     {
@@ -411,20 +438,25 @@ void IniFile::UpdateFile() const
     }
 
     std::stringstream iniStream;
+    size_t count = m_lines.size();
 
     for (auto line : m_lines)
     {
-        line->Print(iniStream);
+        line->Print(iniStream, (--count) > 0);
     }
 
     std::copy(std::istreambuf_iterator<char>(iniStream),
               std::istreambuf_iterator<char>(),
               std::ostreambuf_iterator<char>(iniFile));
     iniFile.close();
-    m_changesMade = false;
+
+    if (overridePath.compare("") == 0)
+    {
+        m_changesMade = false;
+    }
 }
 
-void IniFile::GetSections(std::list< std::string >& sections) const
+void IniFile::GetSections(std::list<std::string>& sections) const
 {
     sections.clear();
 

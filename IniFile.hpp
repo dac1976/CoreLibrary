@@ -178,8 +178,8 @@ public:
     IniFile& operator=(const IniFile&) = default;
     IniFile& operator=(IniFile&&) = default;
     void LoadFile(const std::string& iniFilePath);
-    void UpdateFile() const;
-    void GetSections(std::list< std::string >& sections) const;
+    void UpdateFile(const std::string& overridePath = "") const;
+    void GetSections(std::list<std::string>& sections) const;
     typedef std::list<std::pair<std::string, std::string>> keys_list;
     void GetSection(const std::string& section , keys_list& keys) const;
     bool SectionExists(const std::string& section) const;
@@ -237,7 +237,7 @@ private:
         virtual ~Line() = default;
         Line& operator=(const Line&) = default;
         Line& operator=(Line&&) = default;
-        virtual void Print(std::ostream &os) const = 0;
+        virtual void Print(std::ostream &os, bool addLineFeed = true) const = 0;
     };
 
     class BlankLine : public Line
@@ -249,7 +249,7 @@ private:
         virtual ~BlankLine() = default;
         BlankLine& operator=(const BlankLine&) = default;
         BlankLine& operator=(BlankLine&&) = default;
-        virtual void Print(std::ostream &os) const;
+        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
     };
 
     class CommentLine : public Line
@@ -263,7 +263,7 @@ private:
         CommentLine& operator=(const CommentLine&) = default;
         CommentLine& operator=(CommentLine&&) = default;
         const std::string& Comment() const;
-        virtual void Print(std::ostream &os) const;
+        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
 
     private:
         std::string m_comment{};
@@ -280,7 +280,7 @@ private:
         SectionLine& operator=(const SectionLine&) = default;
         SectionLine& operator=(SectionLine&&) = default;
         const std::string& Section() const;
-        virtual void Print(std::ostream &os) const;
+        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
 
     private:
         std::string m_section{};
@@ -300,7 +300,7 @@ private:
         const std::string& Value() const;
         void Value(const std::string& value);
         void Value(std::string&& value);
-        virtual void Print(std::ostream &os) const;
+        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
 
     private:
         std::string m_key{};
