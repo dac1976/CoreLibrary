@@ -455,7 +455,7 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given double precesision floating point value.
     */
-    void AddColumn(double value);
+    void AddColumn(double value) ;
     /*!
     * \brief Add a column with the given value.
     * \param [IN] The cell's value for the new column.
