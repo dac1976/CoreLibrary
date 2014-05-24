@@ -138,7 +138,7 @@ void CsvGrid::SetRowCount(size_t rows, size_t defaultCols)
 
 void CsvGrid::AddRow(size_t cols)
 {
-    m_grid.push_back(Row(cols));
+    m_grid.emplace_back(cols);
 }
 
 void CsvGrid::AddColumnToAllRows()
@@ -156,7 +156,7 @@ void CsvGrid::InsertRow(size_t row, size_t defaultCols)
         BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
     }
 
-    m_grid.insert(m_grid.begin() + row, Row(defaultCols));
+    m_grid.emplace(m_grid.begin() + row, defaultCols);
 }
 
 void CsvGrid::InsertColumnInAllRows(size_t col)
@@ -216,7 +216,7 @@ void CsvGrid::LoadFromCSVFile(const std::string& filename,
         }
 
         // add new CsvGrid::Row to vector...
-        m_grid.push_back(Row(line, options));
+        m_grid.emplace_back(line, options);
     }
 
     csvfile.close();

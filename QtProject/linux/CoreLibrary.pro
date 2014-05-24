@@ -34,30 +34,34 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-HEADERS +=                              \
-    ../../StringUtils.hpp                  \
-    ../../CsvGrid.hpp                      \
+HEADERS +=                               \
+    ../../StringUtils.hpp                \
+	../../CsvGrid/CsvGridCell.hpp        \
+	../../CsvGrid/CsvGridRow.hpp         \
+	../../CsvGrid.hpp                    \
     ../../Exceptions/CustomException.hpp \
-    ../../GenericSorting.hpp \
-    ../../SyncEvent.hpp \
-    ../../ConcurrentQueue.hpp \
-    ../../ThreadBase.hpp \
-    ../../ThreadGroup.hpp \
-    ../../MessageQueueThread.hpp \
-    ../../BoundedBuffer.hpp \
-    ../../DebugLog/DebugLog.hpp \
-    ../../DebugLogging.hpp \
+    ../../GenericSorting.hpp             \
+    ../../SyncEvent.hpp                  \
+    ../../ConcurrentQueue.hpp            \
+    ../../ThreadBase.hpp                 \
+    ../../ThreadGroup.hpp                \
+    ../../MessageQueueThread.hpp         \
+    ../../BoundedBuffer.hpp              \
+    ../../DebugLog/DebugLog.hpp          \
+    ../../DebugLogging.hpp               \
     ../../IniFile.hpp
 
-SOURCES +=                              \
-    ../../StringUtils/StringUtils.cpp      \
-    ../../CsvGrid/CsvGrid.cpp              \
+SOURCES +=                               \
+    ../../StringUtils/StringUtils.cpp    \
+    ../../CsvGrid/CsvGridCell.cpp        \
+	../../CsvGrid/CsvGridRow.cpp         \
+	../../CsvGrid/CsvGrid.cpp            \
     ../../Exceptions/CustomException.cpp \
-    ../../Sorting/GenericSorting.cpp \
-    ../../Threads/SyncEvent.cpp \
-    ../../Threads/ConcurrentQueue.cpp \
-    ../../Threads/ThreadBase.cpp \
-    ../../Threads/ThreadGroup.cpp \
+    ../../Sorting/GenericSorting.cpp     \
+    ../../Threads/SyncEvent.cpp          \
+    ../../Threads/ConcurrentQueue.cpp    \
+    ../../Threads/ThreadBase.cpp         \
+    ../../Threads/ThreadGroup.cpp        \
     ../../Threads/MessageQueueThread.cpp \
-    ../../DebugLog/DebugLog.cpp \
+    ../../DebugLog/DebugLog.cpp          \
     ../../IniFile/IniFile.cpp

@@ -71,7 +71,7 @@ Row::Row(std::initializer_list<std::string> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell(cell));
+        m_cells.emplace_back(cell);
     }
 }
 
@@ -81,7 +81,7 @@ Row::Row(std::initializer_list<int32_t> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell(cell));
+        m_cells.emplace_back(cell);
     }
 }
 
@@ -91,7 +91,7 @@ Row::Row(std::initializer_list<int64_t> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell(cell));
+        m_cells.emplace_back(cell);
     }
 }
 
@@ -101,7 +101,7 @@ Row::Row(std::initializer_list<double> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell(cell));
+        m_cells.emplace_back(cell);
     }
 }
 
@@ -111,7 +111,7 @@ Row::Row(std::initializer_list<long double> cells)
 
     for (auto cell : cells)
     {
-        m_cells.push_back(Cell(cell));
+        m_cells.emplace_back(cell);
     }
 }
 
@@ -142,27 +142,27 @@ void Row::SetSize(size_t cols)
 
 void Row::AddColumn(const std::string& value)
 {
-    m_cells.push_back(Cell(value));
+    m_cells.emplace_back(value);
 }
 
 void Row::AddColumn(int32_t value)
 {
-    m_cells.push_back(Cell(value));
+    m_cells.emplace_back(value);
 }
 
 void Row::AddColumn(int64_t value)
 {
-    m_cells.push_back(Cell(value));
+    m_cells.emplace_back(value);
 }
 
 void Row::AddColumn(double value)
 {
-    m_cells.push_back(Cell(value));
+    m_cells.emplace_back(value);
 }
 
 void Row::AddColumn(long double value)
 {
-    m_cells.push_back(Cell(value));
+    m_cells.emplace_back(value);
 }
 
 void Row::InsertColumn(size_t col, const std::string& value)
@@ -172,7 +172,7 @@ void Row::InsertColumn(size_t col, const std::string& value)
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell(value));
+    m_cells.emplace(m_cells.begin() + col, value);
 }
 
 void Row::InsertColumn(size_t col, int32_t value)
@@ -182,7 +182,7 @@ void Row::InsertColumn(size_t col, int32_t value)
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell(value));
+    m_cells.emplace(m_cells.begin() + col, value);
 }
 
 void Row::InsertColumn(size_t col, int64_t value)
@@ -192,7 +192,7 @@ void Row::InsertColumn(size_t col, int64_t value)
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell(value));
+    m_cells.emplace(m_cells.begin() + col, value);
 }
 
 void Row::InsertColumn(size_t col, double value)
@@ -202,7 +202,7 @@ void Row::InsertColumn(size_t col, double value)
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell(value));
+    m_cells.emplace(m_cells.begin() + col, value);
 }
 
 void Row::InsertColumn(size_t col, long double value)
@@ -212,7 +212,7 @@ void Row::InsertColumn(size_t col, long double value)
         BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
 
-    m_cells.insert(m_cells.begin() + col, Cell(value));
+    m_cells.emplace(m_cells.begin() + col, value);
 }
 
 void Row::ClearCells()
@@ -294,7 +294,7 @@ void Row::TokenizeLineQuoted(const std::string& line)
         std::string tok{*tokIter++};
         boost::trim(tok);
         // add new column...
-        m_cells.push_back(Cell{tok});
+        m_cells.emplace_back(tok);
     }
 }
 
@@ -312,7 +312,7 @@ void Row::TokenizeLine(const std::string& line)
         boost::trim(tok);
 
         // add new column...
-        m_cells.push_back(Cell{tok});
+        m_cells.emplace_back(tok);
     }
 }
 

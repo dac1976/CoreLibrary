@@ -29,7 +29,7 @@
 #define CSVGRIDROW_HPP
 
 #include "CsvGridCell.hpp"
-#include "Exceptions/CustomException.hpp"
+#include "../Exceptions/CustomException.hpp"
 #include <vector>
 #include <initializer_list>
 #include <ostream>
@@ -103,6 +103,15 @@ public:
      * Create the row with an initial number of columns.
      */
     explicit Row(size_t numCols);
+    /*!
+     * \brief Initializing constructor
+     * \param [IN] The initial value string - a comma separated line from a CSV file.
+     * \param [IN] The line format.
+     *
+     * Create the row with an initial value and specify whether cells
+     * are wrapped in double quotes in the CSV file.
+     */
+    Row(const std::string& line, eCellFormatOptions options);
     /*!
      * \brief Initializer list constructor
      * \param [IN] The initial list of Cells.
@@ -281,15 +290,6 @@ private:
     /*!  \brief The row's cells. */
     std::vector<Cell> m_cells;
 
-    /*!
-     * \brief Initializing constructor
-     * \param [IN] The initial value string.
-     * \param [IN] The line format.
-     *
-     * Create the row with an initial value and specify whether cells
-     * are wrapped in double quotesin the CSV file.
-     */
-    Row(const std::string& line, eCellFormatOptions options);
     /*!
     * \brief Load a row from a line in a CSV file.
     * \param [IN] The line from the CSV file.
