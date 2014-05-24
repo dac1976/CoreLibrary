@@ -30,9 +30,12 @@
 
 #include "CsvGridCell.hpp"
 #include "../Exceptions/CustomException.hpp"
-#include <vector>
+#include "../StringUtils.hpp"
 #include <initializer_list>
 #include <ostream>
+#include <algorithm>
+#include "boost/tokenizer.hpp"
+#include "boost/algorithm/string/trim.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -75,7 +78,8 @@ enum class eCellFormatOptions
 };
 
 // forward declaration for using in Row class.
-class CsvGrid;
+template<template<class, class> class C>
+class TCsvGrid;
 
 /*!
  * \brief Class defining a row of the grid.
@@ -84,25 +88,30 @@ class CsvGrid;
  * the grid. A row contains cells and each cell's position represents a column
  * within the grid.
  */
-class Row final
+template<template<class, class> class C>
+class TRow final
 {
 public:
+    /*! \brief typedef for container type */
+    typedef C<Cell, std::allocator<Cell>> container_type;
     /*! \brief Friend declaration of CsvGrid so it can have private access to its rows. */
-    friend class CsvGrid;
-
+    friend class TCsvGrid<C>;
     /*! \brief Default constructor. */
-    Row() = default;
+    TRow() = default;
     /*! \brief Copy constructor. */
-    Row(const Row&) = default;
+    TRow(const TRow&) = default;
     /*! \brief Move constructor. */
-    Row(Row&&) = default;
+    TRow(TRow&&) = default;
     /*!
      * \brief Initializing constructor
      * \param [IN] The initial number of columns.
      *
      * Create the row with an initial number of columns.
      */
-    explicit Row(size_t numCols);
+    explicit TRow(size_t numCols)
+        : m_cells{numCols}
+    {
+    }
     /*!
      * \brief Initializing constructor
      * \param [IN] The initial value string - a comma separated line from a CSV file.
@@ -111,55 +120,101 @@ public:
      * Create the row with an initial value and specify whether cells
      * are wrapped in double quotes in the CSV file.
      */
-    Row(const std::string& line, eCellFormatOptions options);
+    TRow(const std::string& line, eCellFormatOptions options)
+    {
+        LoadRowFromCsvFileLine(line, options);
+    }
     /*!
      * \brief Initializer list constructor
      * \param [IN] The initial list of Cells.
      *
      * Create the row from the given list of Cells.
      */
-    Row(std::initializer_list<Cell> cells);
+    TRow(std::initializer_list<Cell> cells)
+        : m_cells{cells}
+    {
+    }
     /*!
      * \brief Initializer list constructor
      * \param [IN] The initial list of strings.
      *
      * Create the row from the given list of strings.
      */
-    Row(std::initializer_list<std::string> cells);
+    TRow(std::initializer_list<std::string> cells)
+    {
+        m_cells.reserve(cells.size());
+
+        for (auto cell : cells)
+        {
+            m_cells.emplace_back(cell);
+        }
+    }
     /*!
      * \brief Initializer list constructor
      * \param [IN] The initial list of int32_ts.
      *
      * Create the row from the given list of int32_ts.
      */
-    Row(std::initializer_list<int32_t> cells);
+    TRow(std::initializer_list<int32_t> cells)
+    {
+        m_cells.reserve(cells.size());
+
+        for (auto cell : cells)
+        {
+            m_cells.emplace_back(cell);
+        }
+    }
     /*!
      * \brief Initializer list constructor
      * \param [IN] The initial list of int64_ts.
      *
      * Create the row from the given list of int64_ts.
      */
-    Row(std::initializer_list<int64_t> cells);
+    TRow(std::initializer_list<int64_t> cells)
+    {
+        m_cells.reserve(cells.size());
+
+        for (auto cell : cells)
+        {
+            m_cells.emplace_back(cell);
+        }
+    }
     /*!
      * \brief Initializer list constructor
      * \param [IN] The initial list of doubles.
      *
      * Create the row from the given list of doubles.
      */
-    Row(std::initializer_list<double> cells);
+    TRow(std::initializer_list<double> cells)
+    {
+        m_cells.reserve(cells.size());
+
+        for (auto cell : cells)
+        {
+            m_cells.emplace_back(cell);
+        }
+    }
     /*!
      * \brief Initializer list constructor
      * \param [IN] The initial list of long doubles.
      *
      * Create the row from the given list of long doubles.
      */
-    Row(std::initializer_list<long double> cells);
+    TRow(std::initializer_list<long double> cells)
+    {
+        m_cells.reserve(cells.size());
+
+        for (auto cell : cells)
+        {
+            m_cells.emplace_back(cell);
+        }
+    }
     /*! \brief Destructor. */
-    ~Row() = default;
+    ~TRow() = default;
     /*! \brief Copy assignment operator. */
-    Row& operator=(const Row&) = default;
+    TRow& operator=(const TRow&) = default;
     /*! \brief Move assignment operator. */
-    Row& operator=(Row&&) = default;
+    TRow& operator=(TRow&&) = default;
     /*!
      * \brief Subscript operator.
      * \param [IN] A 0-based column index.
@@ -171,12 +226,23 @@ public:
      * If the index is out of bounds a xCsvGridColOutOfRangeError
      * exception is thrown.
      */
-    Cell& operator[](size_t col);
+    Cell& operator[](size_t col)
+    {
+        if (col >= m_cells.size())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+        }
+
+        return m_cells[col];
+    }
     /*!
      * \brief Get the number of columns.
      * \return The number of columns for this row.
      */
-    size_t GetSize() const ;
+    size_t GetSize() const
+    {
+        return m_cells.size();
+    }
     /*!
     * \brief Set the number of columns in the row.
     * \param [IN] The number of columns to set.
@@ -185,7 +251,10 @@ public:
     * is preserved and new cells are added at the end of the row forming
     * the extra columns.
     */
-    void SetSize(size_t cols);
+    void SetSize(size_t cols)
+    {
+        m_cells.resize(cols);
+    }
     /*!
     * \brief Add a column with the given value.
     * \param [IN] The cell's value for the new column.
@@ -193,7 +262,10 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given string.
     */
-    void AddColumn(const std::string& value = "");
+    void AddColumn(const std::string& value = "")
+    {
+        m_cells.emplace_back(value);
+    }
     /*!
     * \brief Add a column with the given value.
     * \param [IN] The cell's value for the new column.
@@ -201,7 +273,10 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given 32bit integer value.
     */
-    void AddColumn(int32_t value);
+    void AddColumn(int32_t value)
+    {
+        m_cells.emplace_back(value);
+    }
     /*!
     * \brief Add a column with the given value.
     * \param [IN] The cell's value for the new column.
@@ -209,7 +284,10 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given 64bit integer value.
     */
-    void AddColumn(int64_t value);
+    void AddColumn(int64_t value)
+    {
+        m_cells.emplace_back(value);
+    }
     /*!
     * \brief Add a column with the given value.
     * \param [IN] The cell's value for the new column.
@@ -217,7 +295,10 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given double precesision floating point value.
     */
-    void AddColumn(double value);
+    void AddColumn(double value)
+    {
+        m_cells.emplace_back(value);
+    }
     /*!
     * \brief Add a column with the given value.
     * \param [IN] The cell's value for the new column.
@@ -225,7 +306,10 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given long double precesision floating point value.
     */
-    void AddColumn(long double value);
+    void AddColumn(long double value)
+    {
+        m_cells.emplace_back(value);
+    }
     /*!
     * \brief Insert a new cell.
     * \param [IN] The column index at which the new cell is to be inserted.
@@ -234,7 +318,15 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given string.
     */
-    void InsertColumn(size_t col, const std::string& value = "");
+    void InsertColumn(size_t col, const std::string& value = "")
+    {
+        if (col >= m_cells.size())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+        }
+
+        m_cells.emplace(m_cells.begin() + col, value);
+    }
     /*!
     * \brief Insert a new cell.
     * \param [IN] The column index at which the new cell is to be inserted.
@@ -243,7 +335,15 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given 32bit integer.
     */
-    void InsertColumn(size_t col, int32_t value);
+    void InsertColumn(size_t col, int32_t value)
+    {
+        if (col >= m_cells.size())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+        }
+
+        m_cells.emplace(m_cells.begin() + col, value);
+    }
     /*!
     * \brief Insert a new cell.
     * \param [IN] The column index at which the new cell is to be inserted.
@@ -252,7 +352,15 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given 64bit integer.
     */
-    void InsertColumn(size_t col, int64_t value);
+    void InsertColumn(size_t col, int64_t value)
+    {
+        if (col >= m_cells.size())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+        }
+
+        m_cells.emplace(m_cells.begin() + col, value);
+    }
     /*!
     * \brief Insert a new cell.
     * \param [IN] The column index at which the new cell is to be inserted.
@@ -261,7 +369,15 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given double precision floating point value.
     */
-    void InsertColumn(size_t col, double value);
+    void InsertColumn(size_t col, double value)
+    {
+        if (col >= m_cells.size())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+        }
+
+        m_cells.emplace(m_cells.begin() + col, value);
+    }
     /*!
     * \brief Insert a new cell.
     * \param [IN] The column index at which the new cell is to be inserted.
@@ -270,25 +386,39 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given long double precision floating point value.
     */
-    void InsertColumn(size_t col, long double value);
+    void InsertColumn(size_t col, long double value)
+    {
+        if (col >= m_cells.size())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+        }
+
+        m_cells.emplace(m_cells.begin() + col, value);
+    }
     /*!
     * \brief Clear the cells' contents.
     *
     * The contents of each column's cell is cleared but the column count
     * remains unchanged.
     */
-    void ClearCells();
+    void ClearCells()
+    {
+        std::fill(m_cells.begin(), m_cells.end(), Cell());
+    }
     /*!
     * \brief Clear the entire row.
     *
     * The cells are completely removed from the row leaving the column
     * count as 0 afterwards.
     */
-    void ResetRow();
+    void ResetRow()
+    {
+        m_cells.clear();
+    }
 
 private:
     /*!  \brief The row's cells. */
-    std::vector<Cell> m_cells;
+    container_type m_cells;
 
     /*!
     * \brief Load a row from a line in a CSV file.
@@ -299,7 +429,18 @@ private:
     * The options parameter is used to decide how to tokenize the line.
     */
     void LoadRowFromCsvFileLine(const std::string& line,
-                                eCellFormatOptions options);
+                                eCellFormatOptions options)
+    {
+        // add row to grid...
+        if (options == eCellFormatOptions::doubleQuotedCells)
+        {
+            TokenizeLineQuoted(line);
+        }
+        else
+        {
+            TokenizeLine(line);
+        }
+    }
     /*!
     * \brief Write the row's contents to a stream object.
     * \param [IN/OUT] The stream object to write to.
@@ -307,7 +448,43 @@ private:
     * The row's contents are formated using CSV formating and output to the
     * stream object.
     */
-    void OutputRowToStream(std::ostream& os) const;
+    void OutputRowToStream(std::ostream& os) const
+    {
+        // for each row loop over its columns...
+        size_t col{};
+
+        for (auto cellItem : m_cells)
+        {
+            // let's get our cell value...
+            std::string cell = m_cells[col];
+
+            // if string contains quotes, insert an
+            // extra quote...
+            size_t pos{cell.find('"')};
+
+            while (pos != std::string::npos)
+            {
+                pos = cell.find('"', pos);
+                cell.insert(pos, "\"");
+                ++pos;
+            }
+
+            // if cell contains ',', '\n' or '\r' wrap it in quotes...
+            if (cell.find_first_of(",\r\n") != std::string::npos)
+            {
+                cell = "\"" + cell + "\"";
+            }
+
+            // output corrected cell...
+            os << cell;
+
+            // add ',' if not last cell on current row...
+            if (col++ < m_cells.size() - 1)
+            {
+                os << ",";
+            }
+        }
+    }
     /*!
     * \brief Tokenize a row with double quoted cells.
     * \param [IN] A CSV file's line of text.
@@ -315,7 +492,26 @@ private:
     * The comma separated row's tokens are extracted using a boost
     * tokenizer object. This does impact the performance slightly.
     */
-    void TokenizeLineQuoted(const std::string& line);
+    void TokenizeLineQuoted(const std::string& line)
+    {
+        typedef boost::tokenizer< boost::escaped_list_separator<char> >
+                Tokenizer;
+
+        // prepare tokenizer...
+        Tokenizer tokzr{line};
+        Tokenizer::const_iterator tokIter{tokzr.begin()};
+
+        // loop over columns and trim leading and trailing
+        // spaces before updating cell contents...
+        while (tokIter != tokzr.end())
+        {
+            // trim token...
+            std::string tok{*tokIter++};
+            boost::trim(tok);
+            // add new column...
+            m_cells.emplace_back(tok);
+        }
+    }
     /*!
     * \brief Tokenize a row with simple cells.
     * \param [IN] A CSV file's line of text.
@@ -324,7 +520,23 @@ private:
     * simple getline based algorithm. This versio ncannot handle
     * double quoted cells.
     */
-    void TokenizeLine(const std::string& line);
+    void TokenizeLine(const std::string& line)
+    {
+        // loop over columns and trim leading and trailing
+        // spaces before updating cell contents...
+        std::stringstream line_ss{line};
+        std::string tok;
+
+        while (std::getline(line_ss, tok, ','))
+        {
+            // tidy and trim token...
+            string_utils::PackStdString(tok);
+            boost::trim(tok);
+
+            // add new column...
+            m_cells.emplace_back(tok);
+        }
+    }
 };
 
 }// namespace csv_grid
