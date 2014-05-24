@@ -29,6 +29,8 @@
 #define CSVGRID_HPP
 
 #include "CsvGrid/CsvGridMain.hpp"
+#include <vector>
+#include <list>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -43,8 +45,8 @@ typedef CsvGridV::row_type RowV;
 typedef TCsvGrid<std::list> CsvGridL;
 /*! \brief Typedef to RowL object using CSVGridV::row_type. */
 typedef CsvGridL::row_type RowL;
-/*! \brief Typedef to CsvGrid object using CSVGridV. */
-typedef CsvGridV CsvGrid;
+/*! \brief Typedef to CsvGrid object using CSVGridL. */
+typedef CsvGridL CsvGrid;
 /*! \brief Typedef to Row object using CSVGrid::row_type. */
 typedef CsvGrid::row_type Row;
 

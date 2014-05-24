@@ -29,8 +29,6 @@
 #define CSVGRIDMAIN_HPP
 
 #include "CsvGridRow.hpp"
-#include <vector>
-#include <list>
 #include <fstream>
 
 /*! \brief The core_lib namespace. */
@@ -198,12 +196,12 @@ public:
      */
     row_type& operator[](size_t row)
     {
-        if (row >= m_grid.size())
+        if (row >= GetRowCount())
         {
             BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
         }
 
-        return m_grid[row];
+        return *std::next(m_grid.begin(), row);
     }
     /*!
      * \brief Get the number of rows.
@@ -211,7 +209,7 @@ public:
      */
     size_t GetRowCount() const
     {
-        return m_grid.size();
+        return std::distance(m_grid.begin(), m_grid.end());
     }
     /*!
      * \brief Get the number of columns for a given row.
@@ -224,12 +222,13 @@ public:
      */
     size_t GetColCount(size_t row) const
     {
-        if (row >= m_grid.size())
+        if (row >= GetRowCount())
         {
             BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
         }
 
-        return m_grid[row].GetSize();
+        auto n = std::next(m_grid.begin(), row);
+        return n->GetSize();
     }
     /*!
      * \brief Resize the grid.
@@ -274,12 +273,12 @@ public:
      */
     void InsertRow(size_t row, size_t defaultCols = 0)
     {
-        if (row >= m_grid.size())
+        if (row >= GetRowCount())
         {
             BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
         }
 
-        m_grid.emplace(m_grid.begin() + row, defaultCols);
+        m_grid.emplace(std::next(m_grid.begin(), row), defaultCols);
     }
     /*!
      * \brief Insert a new column in all rows.
@@ -414,7 +413,7 @@ private:
             rowItem.OutputRowToStream(os);
 
             // add line end if not the last row...
-            if (row++ < m_grid.size()-1)
+            if (row++ < GetRowCount()-1)
             {
                 os << std::endl;
             }

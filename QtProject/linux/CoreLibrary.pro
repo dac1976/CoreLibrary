@@ -38,6 +38,7 @@ HEADERS +=                               \
     ../../StringUtils.hpp                \
 	../../CsvGrid/CsvGridCell.hpp        \
 	../../CsvGrid/CsvGridRow.hpp         \
+	../../CsvGrid/CsvGridMain.hpp        \
 	../../CsvGrid.hpp                    \
     ../../Exceptions/CustomException.hpp \
     ../../GenericSorting.hpp             \
@@ -55,7 +56,7 @@ SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
     ../../CsvGrid/CsvGridCell.cpp        \
 	../../CsvGrid/CsvGridRow.cpp         \
-	../../CsvGrid/CsvGrid.cpp            \
+	../../CsvGrid/CsvGridMain.cpp        \
     ../../Exceptions/CustomException.cpp \
     ../../Sorting/GenericSorting.cpp     \
     ../../Threads/SyncEvent.cpp          \

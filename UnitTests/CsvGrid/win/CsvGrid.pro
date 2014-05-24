@@ -32,7 +32,7 @@ UI_DIR = $${DESTDIR}/ui
 SOURCES += ../tst_CsvGridTest.cpp        \
     ../../../CsvGrid/CsvGridCell.cpp     \
 	../../../CsvGrid/CsvGridRow.cpp      \
-    ../../../CsvGrid/CsvGrid.cpp         \
+    ../../../CsvGrid/CsvGridMain.cpp     \
     ../../../StringUtils/StringUtils.cpp \
     ../../../Exceptions/CustomException.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
@@ -41,5 +41,6 @@ HEADERS += \
     ../../../StringUtils.hpp         \
 	../../../CsvGrid/CsvGridCell.hpp \
 	../../../CsvGrid/CsvGridRow.hpp  \
+	../../../CsvGrid/CsvGridMain.hpp  \
     ../../../CsvGrid.hpp             \
     ../../../Exceptions/CustomException.hpp

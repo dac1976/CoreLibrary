@@ -34,6 +34,7 @@
 #include <initializer_list>
 #include <ostream>
 #include <algorithm>
+#include <iterator>
 #include "boost/tokenizer.hpp"
 #include "boost/algorithm/string/trim.hpp"
 
@@ -142,8 +143,6 @@ public:
      */
     TRow(std::initializer_list<std::string> cells)
     {
-        m_cells.reserve(cells.size());
-
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -157,8 +156,6 @@ public:
      */
     TRow(std::initializer_list<int32_t> cells)
     {
-        m_cells.reserve(cells.size());
-
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -172,8 +169,6 @@ public:
      */
     TRow(std::initializer_list<int64_t> cells)
     {
-        m_cells.reserve(cells.size());
-
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -187,8 +182,6 @@ public:
      */
     TRow(std::initializer_list<double> cells)
     {
-        m_cells.reserve(cells.size());
-
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -202,8 +195,6 @@ public:
      */
     TRow(std::initializer_list<long double> cells)
     {
-        m_cells.reserve(cells.size());
-
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -228,12 +219,12 @@ public:
      */
     Cell& operator[](size_t col)
     {
-        if (col >= m_cells.size())
+        if (col >= GetSize())
         {
             BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
         }
 
-        return m_cells[col];
+        return *std::next(m_cells.begin(), col);
     }
     /*!
      * \brief Get the number of columns.
@@ -241,7 +232,7 @@ public:
      */
     size_t GetSize() const
     {
-        return m_cells.size();
+        return std::distance(m_cells.begin(), m_cells.end());
     }
     /*!
     * \brief Set the number of columns in the row.
@@ -320,12 +311,12 @@ public:
     */
     void InsertColumn(size_t col, const std::string& value = "")
     {
-        if (col >= m_cells.size())
+        if (col >= GetSize())
         {
             BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
         }
 
-        m_cells.emplace(m_cells.begin() + col, value);
+        m_cells.emplace(std::next(m_cells.begin(), col), value);
     }
     /*!
     * \brief Insert a new cell.
@@ -337,12 +328,12 @@ public:
     */
     void InsertColumn(size_t col, int32_t value)
     {
-        if (col >= m_cells.size())
+        if (col >= GetSize())
         {
             BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
         }
 
-        m_cells.emplace(m_cells.begin() + col, value);
+        m_cells.emplace(std::next(m_cells.begin(), col), value);
     }
     /*!
     * \brief Insert a new cell.
@@ -354,12 +345,12 @@ public:
     */
     void InsertColumn(size_t col, int64_t value)
     {
-        if (col >= m_cells.size())
+        if (col >= GetSize())
         {
             BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
         }
 
-        m_cells.emplace(m_cells.begin() + col, value);
+        m_cells.emplace(std::next(m_cells.begin(), col), value);
     }
     /*!
     * \brief Insert a new cell.
@@ -371,12 +362,12 @@ public:
     */
     void InsertColumn(size_t col, double value)
     {
-        if (col >= m_cells.size())
+        if (col >= GetSize())
         {
             BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
         }
 
-        m_cells.emplace(m_cells.begin() + col, value);
+        m_cells.emplace(std::next(m_cells.begin(), col), value);
     }
     /*!
     * \brief Insert a new cell.
@@ -388,12 +379,12 @@ public:
     */
     void InsertColumn(size_t col, long double value)
     {
-        if (col >= m_cells.size())
+        if (col >= GetSize())
         {
             BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
         }
 
-        m_cells.emplace(m_cells.begin() + col, value);
+        m_cells.emplace(std::next(m_cells.begin(), col), value);
     }
     /*!
     * \brief Clear the cells' contents.
@@ -419,7 +410,6 @@ public:
 private:
     /*!  \brief The row's cells. */
     container_type m_cells;
-
     /*!
     * \brief Load a row from a line in a CSV file.
     * \param [IN] The line from the CSV file.
@@ -456,7 +446,7 @@ private:
         for (auto cellItem : m_cells)
         {
             // let's get our cell value...
-            std::string cell = m_cells[col];
+            std::string cell{static_cast<std::string>(cellItem)};
 
             // if string contains quotes, insert an
             // extra quote...
@@ -479,7 +469,7 @@ private:
             os << cell;
 
             // add ',' if not last cell on current row...
-            if (col++ < m_cells.size() - 1)
+            if (col++ < GetSize() - 1)
             {
                 os << ",";
             }
