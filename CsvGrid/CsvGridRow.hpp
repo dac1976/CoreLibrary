@@ -79,7 +79,7 @@ enum class eCellFormatOptions
 };
 
 // forward declaration for using in Row class.
-template<template<class, class> class C>
+template<template<class, class> class C, class R>
 class TCsvGrid;
 
 /*!
@@ -89,14 +89,16 @@ class TCsvGrid;
  * the grid. A row contains cells and each cell's position represents a column
  * within the grid.
  */
-template<template<class, class> class C>
+template<template<class, class> class C, class R>
 class TRow final
 {
 public:
     /*! \brief typedef for container type */
     typedef C<Cell, std::allocator<Cell>> container_type;
+    /*! \brief typedef for container reserve functor */
+    typedef R reserver;
     /*! \brief Friend declaration of CsvGrid so it can have private access to its rows. */
-    friend class TCsvGrid<C>;
+    friend class TCsvGrid<C, R>;
     /*! \brief Default constructor. */
     TRow() = default;
     /*! \brief Copy constructor. */
@@ -143,6 +145,8 @@ public:
      */
     TRow(std::initializer_list<std::string> cells)
     {
+        m_reserve(m_cells, cells.size());
+
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -156,6 +160,8 @@ public:
      */
     TRow(std::initializer_list<int32_t> cells)
     {
+        m_reserve(m_cells, cells.size());
+
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -169,6 +175,8 @@ public:
      */
     TRow(std::initializer_list<int64_t> cells)
     {
+        m_reserve(m_cells, cells.size());
+
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -182,6 +190,8 @@ public:
      */
     TRow(std::initializer_list<double> cells)
     {
+        m_reserve(m_cells, cells.size());
+
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -195,6 +205,8 @@ public:
      */
     TRow(std::initializer_list<long double> cells)
     {
+        m_reserve(m_cells, cells.size());
+
         for (auto cell : cells)
         {
             m_cells.emplace_back(cell);
@@ -408,6 +420,8 @@ public:
     }
 
 private:
+    /*!  \brief The reservation function to use when initialising the container. */
+    reserver m_reserve;
     /*!  \brief The row's cells. */
     container_type m_cells;
     /*!
