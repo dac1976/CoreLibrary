@@ -37,34 +37,12 @@ namespace core_lib {
 /*! \brief The csv_grid namespace. */
 namespace csv_grid {
 
-/*! \brief Dummy container reserver functor - does nothing. */
-template<template<class, class> class C, class T>
-struct DummyReserver
-{
-    typedef T value_type;
-    typedef C<value_type, std::allocator<value_type>> container_type;
-
-    void operator() (container_type& /*container*/, size_t /*size*/) const
-    {
-        // Do nothing.
-    }
-};
-
-/*! \brief Vector container reserver functor. */
-struct VectorReserver
-{
-    void operator() (std::vector<Cell>& container, size_t size) const
-    {
-        container.reserve(size);
-    }
-};
-
 /*! \brief Typedef to CsvGrid object using std::vector as underlying container type. */
-typedef TCsvGrid<std::vector, VectorReserver> CsvGridV;
+typedef TCsvGrid<std::vector> CsvGridV;
 /*! \brief Typedef to RowV object using CSVGridV::row_type. */
 typedef CsvGridV::row_type RowV;
 /*! \brief Typedef to CsvGrid object using std::list as underlying container type. */
-typedef TCsvGrid<std::list, DummyReserver<std::list, Cell>> CsvGridL;
+typedef TCsvGrid<std::list> CsvGridL;
 /*! \brief Typedef to RowL object using CSVGridV::row_type. */
 typedef CsvGridL::row_type RowL;
 /*! \brief Typedef to CsvGrid object using CSVGridL. */

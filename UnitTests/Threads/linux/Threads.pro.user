@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.1.0, 2014-04-25T21:10:32. -->
+<!-- Written by QtCreator 3.1.1, 2014-05-28T21:13:00. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -54,10 +54,10 @@
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.2.1 GCC 64bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.2.1 GCC 64bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.521.gcc_64.essentials_kit</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.3.0 GCC 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.3.0 GCC 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.53.gcc_64_kit</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
@@ -239,8 +239,8 @@
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">true</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
@@ -251,9 +251,9 @@
  <data>
   <variable>ProjectExplorer.Project.Target.1</variable>
   <valuemap type="QVariantMap">
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop QT 5.2.1 Clang 64bit2</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop QT 5.2.1 Clang 64bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{410e1c42-8357-450f-816d-7ea57a6dde73}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Clang 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Clang 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{eb7e5bb8-a84c-45ca-a426-c29d29fbd28c}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
@@ -451,7 +451,7 @@
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.EnvironmentId</variable>
-  <value type="QByteArray">{7d74e523-c156-43ad-993e-43e1b7087ff7}</value>
+  <value type="QByteArray">{85f20fdd-50d5-4745-8c29-cf5ccdad0a54}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.FileVersion</variable>

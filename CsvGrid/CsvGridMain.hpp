@@ -121,12 +121,12 @@ public:
  * This class loads the entire CSV file into memory so if the file is particulary
  * large you will crash your program if you do not have enough free memory.
  */
-template<template<class, class> class C, class R>
+template<template<class, class> class C>
 class TCsvGrid final
 {
 public:
     /*! \brief typedef for row type */
-    typedef TRow<C, R> row_type;
+    typedef TRow<C> row_type;
     /*! \brief typedef for container type */
     typedef C<row_type, std::allocator<row_type>> container_type;
     /*! \brief Default constructor. */

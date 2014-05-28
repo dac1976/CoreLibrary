@@ -78,8 +78,56 @@ enum class eCellFormatOptions
     doubleQuotedCells
 };
 
+/*! \brief The csv_grid namespace. */
+namespace reserver {
+
+/*! \brief Default container reserver functor. */
+template<template<class, class> class C>
+class ContainerReserver
+{
+public:
+    /*! \brief Typedef to container type. */
+    typedef C<Cell, std::allocator<Cell>> container_type;
+    /*!
+     * \brief Function operator.
+     * \param [IN] Container to reserve space in.
+     * \param [IN] Number of items to reserve space for.
+     *
+     * This default functor does nothing as it is intended
+     * for containers that do not have a built-in reserve
+     * method.
+     */
+    void operator() (container_type& /*container*/, size_t /*size*/) const
+    {
+        // Do nothing.
+    }
+};
+
+/*! \brief Container reserver functor specialisation for vectors. */
+template<>
+class ContainerReserver<std::vector>
+{
+public:
+    /*! \brief Typedef to container type. */
+    typedef std::vector<Cell> container_type;
+    /*!
+     * \brief Function operator.
+     * \param [IN] Container to reserve space in.
+     * \param [IN] Number of items to reserve space for.
+     *
+     * This version of the functor calls the vector's built-in
+     * reserve method.
+     */
+    void operator() (container_type& container, size_t size) const
+    {
+        container.reserve(size);
+    }
+};
+
+} // namespace reserver
+
 // forward declaration for using in Row class.
-template<template<class, class> class C, class R>
+template<template<class, class> class C>
 class TCsvGrid;
 
 /*!
@@ -89,16 +137,14 @@ class TCsvGrid;
  * the grid. A row contains cells and each cell's position represents a column
  * within the grid.
  */
-template<template<class, class> class C, class R>
+template<template<class, class> class C>
 class TRow final
 {
 public:
     /*! \brief typedef for container type */
     typedef C<Cell, std::allocator<Cell>> container_type;
-    /*! \brief typedef for container reserve functor */
-    typedef R reserver;
     /*! \brief Friend declaration of CsvGrid so it can have private access to its rows. */
-    friend class TCsvGrid<C, R>;
+    friend class TCsvGrid<C>;
     /*! \brief Default constructor. */
     TRow() = default;
     /*! \brief Copy constructor. */
@@ -421,7 +467,7 @@ public:
 
 private:
     /*!  \brief The reservation function to use when initialising the container. */
-    reserver m_reserve;
+    reserver::ContainerReserver<C> m_reserve;
     /*!  \brief The row's cells. */
     container_type m_cells;
     /*!
