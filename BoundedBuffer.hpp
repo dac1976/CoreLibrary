@@ -43,8 +43,8 @@ namespace threads {
  * \brief Class defining a bounded buffer.
  *
  * This class implements a fully thread-safe bounded circular
- * buffer. That blocksconsumer thread when empty and blocks
- * prodicer thread when full.
+ * buffer. That blocks consumer thread when empty and blocks
+ * producer thread when full.
  */
 template<typename T>
 class BoundedBuffer final
