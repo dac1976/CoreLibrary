@@ -124,7 +124,7 @@ public:
     {
         {
             std::lock_guard<std::mutex> lock{m_mutex};
-            m_queue.push_back(QueueItem{pItem});
+            m_queue.push_back(QueueItem(pItem));
         }
 
         m_itemEvent.Signal();
@@ -141,7 +141,7 @@ public:
     {
         {
             std::lock_guard<std::mutex> lock{m_mutex};
-            m_queue.push_back(QueueItem{pItem, size});
+            m_queue.push_back(QueueItem(pItem, size));
         }
 
         m_itemEvent.Signal();

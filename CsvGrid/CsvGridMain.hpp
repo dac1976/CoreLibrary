@@ -30,6 +30,7 @@
 
 #include "CsvGridRow.hpp"
 #include <fstream>
+#include <limits>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -96,6 +97,15 @@ public:
     virtual ~xCsvGridCreateFileStreamError();
 };
 
+/*! \brief Enumeration controlling how file is saved. */
+enum class eSaveToFileOptions
+{
+    /*! \brief Truncate existing file replacing it with the contents of the grid. */
+    truncate,
+    /*! \brief Append the contents of the grid to the end of the file if it already exists.*/
+    append
+};
+
 /*!
  * \brief Grid class with CSV file capabilities.
  *
@@ -156,7 +166,7 @@ public:
     /*!
      * \brief Initializing constructor
      * \param [IN] The full path name of the CSV file to load.
-     * \param [IN] Cell formating options.
+     * \param [IN] Cell formatting options.
      *
      * Create a grid object from a CSV file. If cells are wrapped in double
      * quotes in the CSV file then set options = doubleQuotedCells else set
@@ -190,9 +200,7 @@ public:
      *
      * Retrieve the row at a given row index within a grid.
      *
-     * \note
-     * If the index is out of bounds a xCsvGridRowOutOfRangeError
-     * exception is thrown.
+     * \note If the index is out of bounds a xCsvGridRowOutOfRangeError exception is thrown.
      */
     row_type& operator[](size_t row)
     {
@@ -323,13 +331,17 @@ public:
      * \brief Load a csv file into the grid.
      * \param [IN] The full path name of the CSV file to load.
      * \param [IN] Cell formating options.
+     * \param [IN] (Optional) First row to load into the grid (zero-based).
+     * \param [IN] (Optional) Limit number of rows read in to grid.
      *
      * Create a grid object from a CSV file. If cells are wrapped in double
      * quotes in the CSV file then set options = doubleQuotedCells else set
      * options = simpleCells. If the file stream cannot be created or opened
      * the a xCsvGridCreateFileStreamError exception is thrown.
      */
-    void LoadFromCSVFile(const std::string& filename, eCellFormatOptions options)
+    void LoadFromCSVFile(const std::string& filename, eCellFormatOptions options
+                         , size_t firstRowToLoad = 0
+                         , size_t maxNumRowsToLoad = std::numeric_limits<size_t>::max())
     {
         std::ifstream csvfile{filename.c_str()};
 
@@ -341,27 +353,29 @@ public:
         }
 
         m_grid.clear();
+        size_t rowCount = 0;
 
-        // read CSV file in a CsvGrid::Row at a time...
-        while(csvfile.good())
+        while(csvfile.good() && (m_grid.size() < maxNumRowsToLoad))
         {
             std::string line;
             std::getline(csvfile, line);
             string_utils::PackStdString(line);
 
-            //don't add extra row if last row is empty
             if ((csvfile.tellg() == csvfile.gcount())
                 || csvfile.eof())
             {
-                // Are we done?
                 if (line == "")
                 {
                     break;
                 }
             }
 
-            // add new CsvGrid::Row to vector...
-            m_grid.emplace_back(line, options);
+            if (rowCount >= firstRowToLoad)
+            {
+                m_grid.emplace_back(line, options);
+            }
+
+            ++rowCount;
         }
 
         csvfile.close();
@@ -369,15 +383,25 @@ public:
     /*!
      * \brief Save the grid to a CSV file.
      * \param [IN] The full path name of the CSV file to load.
+     * \param [IN] Save to file options: append to or overwrite existing file.
      *
      * Create a CSV file from a grid object. If the file stream cannot
      * be created or opened the a xCsvGridCreateFileStreamError exception
      * is thrown.
      */
-    void SaveToCsvFile(const std::string& filename) const
+    void SaveToCsvFile(const std::string& filename
+                       , eSaveToFileOptions option = eSaveToFileOptions::truncate) const
     {
-        // open and check the stream...
-        std::ofstream csvfile{filename.c_str(), std::ios::trunc};
+        std::ofstream csvfile;
+
+        if (option == eSaveToFileOptions::append)
+        {
+            csvfile.open(filename.c_str(), std::ofstream::ate);
+        }
+        else
+        {
+            csvfile.open(filename.c_str(), std::ofstream::trunc);
+        }
 
         if (!csvfile.is_open())
         {
@@ -386,10 +410,7 @@ public:
                                               + filename));
         }
 
-        // output grid to file stream...
         OutputCsvGridToStream(csvfile);
-
-        // close the file stream...
         csvfile.close();
     }
 
@@ -406,12 +427,10 @@ private:
     {
         size_t row = 0;
 
-        // let's loop over our rows...
         for (auto rowItem : m_grid)
         {
             rowItem.OutputRowToStream(os);
 
-            // add line end if not the last row...
             if (row++ < GetRowCount()-1)
             {
                 os << std::endl;

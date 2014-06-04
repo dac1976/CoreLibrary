@@ -50,13 +50,13 @@ Cell::Cell(int64_t value)
 }
 
 Cell::Cell(double value)
+    : m_value{string_utils::FormatFloatString(value)}
 {
-    m_value = string_utils::FormatFloatString(value);
 }
 
 Cell::Cell(long double value)
+    : m_value{string_utils::FormatFloatString(value, 30)}
 {
-    m_value = string_utils::FormatFloatString(value, 30);
 }
 
 Cell& Cell::operator=(const std::string& rhs)

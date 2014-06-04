@@ -481,7 +481,6 @@ private:
     void LoadRowFromCsvFileLine(const std::string& line,
                                 eCellFormatOptions options)
     {
-        // add row to grid...
         if (options == eCellFormatOptions::doubleQuotedCells)
         {
             TokenizeLineQuoted(line);
@@ -546,19 +545,13 @@ private:
     {
         typedef boost::tokenizer< boost::escaped_list_separator<char> >
                 Tokenizer;
-
-        // prepare tokenizer...
         Tokenizer tokzr{line};
         Tokenizer::const_iterator tokIter{tokzr.begin()};
 
-        // loop over columns and trim leading and trailing
-        // spaces before updating cell contents...
         while (tokIter != tokzr.end())
         {
-            // trim token...
             std::string tok{*tokIter++};
             boost::trim(tok);
-            // add new column...
             m_cells.emplace_back(tok);
         }
     }
@@ -572,18 +565,13 @@ private:
     */
     void TokenizeLine(const std::string& line)
     {
-        // loop over columns and trim leading and trailing
-        // spaces before updating cell contents...
         std::stringstream line_ss{line};
         std::string tok;
 
         while (std::getline(line_ss, tok, ','))
         {
-            // tidy and trim token...
             string_utils::PackStdString(tok);
             boost::trim(tok);
-
-            // add new column...
             m_cells.emplace_back(tok);
         }
     }

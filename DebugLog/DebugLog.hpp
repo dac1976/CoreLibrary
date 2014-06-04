@@ -529,7 +529,7 @@ private:
         }
         else
         {
-            m_ofStream.open(filePath, std::ofstream::app);
+            m_ofStream.open(filePath, std::ofstream::ate);
         }
 
         time_t messageTime;

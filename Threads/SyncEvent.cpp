@@ -63,9 +63,6 @@ bool SyncEvent::WaitForTime(size_t milliseconds)
             = m_signalCondVar.wait_for(lock, std::chrono::milliseconds(milliseconds)
                                        , [this]{ return m_signalFlag; });
 
-    //if  (!result)
-    //    m_signalFlag = true;
-
     if (m_autoReset && m_signalFlag)
     {
         m_signalFlag = false;

@@ -1151,7 +1151,7 @@ void CsvGridTest::Case73_CsvGrid_SaveToCSVFile_1()
 
     try
     {
-        gridOut.SaveToCsvFile("testSave.csv");
+        gridOut.SaveToCsvFile("testSave.csv", core_lib::csv_grid::eSaveToFileOptions::truncate);
     }
     catch(...)
     {
@@ -1193,7 +1193,7 @@ void CsvGridTest::Case74_CsvGrid_SaveToCSVFile_2()
 
     try
     {
-        gridOut.SaveToCsvFile("testSave.csv");
+        gridOut.SaveToCsvFile("testSave.csv", core_lib::csv_grid::eSaveToFileOptions::truncate);
     }
     catch(...)
     {

@@ -57,12 +57,12 @@ public:
     /*! \brief Virtual destructor. */
     virtual ~xMsgHandlerError();
 };
-/*!
- * \brief Control how messages get destroyed in destructor.
- */
+/*! \brief Control how messages get destroyed in destructor. */
 enum class eOnDestroyOptions
 {
+    /*! Delete remaining items on desruction. */
     deleteRemainingItems,
+    /*! Process remaining items on desruction. */
     processRemainingItems
 };
 /*!
@@ -152,6 +152,8 @@ public:
     void RegisterMessageHandler(MessageId messageID
                                 , const msg_handler& messageHandler)
     {
+        std::lock_guard<std::mutex> lock{m_mutex};
+
         if (m_msgHandlerMap.count(messageID) > 0)
         {
             BOOST_THROW_EXCEPTION(xMsgHandlerError("message handler already defined"));
@@ -185,6 +187,8 @@ public:
     }
 
 private:
+    /*! Mutex to lock access to message handler map. */
+    mutable std::mutex m_mutex;
     /*! \brief Message ID decoder function object. */
     msg_id_decoder m_msgIdDecoder;
     /*! \brief Control the destruction of the queue items. */
@@ -222,6 +226,7 @@ private:
             try
             {
                 MessageId messageId{m_msgIdDecoder(msg, length)};
+                std::lock_guard<std::mutex> lock{m_mutex};
 
                 if (m_msgHandlerMap.count(messageId) > 0)
                 {
