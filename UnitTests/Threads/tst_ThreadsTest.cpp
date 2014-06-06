@@ -215,60 +215,6 @@ private:
     }
 };
 
-class QueuedThread2 final : public core_lib::threads::ThreadBase
-{
-public:
-    QueuedThread2(core_lib::threads::ConcurrentQueue<char>& queue)
-        : ThreadBase()
-        , m_queue(queue)
-        , m_counter(0)
-    {
-        //Do this last in constructor.
-        Start();
-    }
-
-    virtual ~QueuedThread2()
-    {
-        //Do this first in destructor.
-        Stop();
-    }
-
-    size_t GetCounter() const
-    {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        return m_counter;
-    }
-
-private:
-    core_lib::threads::ConcurrentQueue<char>& m_queue;
-    mutable std::mutex m_mutex;
-    size_t m_counter;
-
-    virtual void ThreadIteration()
-    {
-        int size;
-        char* message = m_queue.Pop(&size);
-
-        if (message && (size != 0))
-        {
-            if (size > 0)
-                delete [] message;
-            else
-                delete message;
-
-            std::lock_guard<std::mutex> lock(m_mutex);
-            m_counter = m_counter == std::numeric_limits<size_t>::max()
-                        ? 0
-                        : m_counter + 1;
-        }
-    }
-
-    virtual void ProcessTerminationConditions()
-    {
-        m_queue.Push();
-    }
-};
-
 class BoundedBufThread final : public core_lib::threads::ThreadBase
 {
 public:
@@ -896,6 +842,56 @@ void ThreadsTest::testCase_ConcurrentQueue2()
         correctException = false;
     }
     catch(core_lib::threads::xQueuePopTimeoutError&)
+    {
+        correctException = true;
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+
+    m_queue.Push(new char[2], 2);
+    char* temp;
+    QVERIFY(m_queue.TryPop(temp, &size));
+    QVERIFY(temp != nullptr);
+    QVERIFY(size == 2);
+    delete [] temp;
+
+    QVERIFY(!m_queue.TryPop(temp, &size));
+    QVERIFY(temp == nullptr);
+    QVERIFY(size == 0);
+    delete [] temp;
+
+    m_queue.Push(new char[2], 2);
+
+    try
+    {
+        item = m_queue.TryPopThrow(&size);
+        correctException = false;
+        QVERIFY(item != nullptr);
+        QVERIFY(size == 2);
+        delete [] item;
+    }
+    catch(core_lib::threads::xQueuePopTimeoutError&)
+    {
+        correctException = true;
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(!correctException);
+
+    try
+    {
+        item = m_queue.TryPopThrow(&size);
+        delete [] item;
+        correctException = false;
+    }
+    catch(core_lib::threads::xQueuePopQueueEmptyError&)
     {
         correctException = true;
     }

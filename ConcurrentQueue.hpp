@@ -59,6 +59,26 @@ public:
     virtual ~xQueuePopTimeoutError();
 };
 
+/*!
+ * \brief Pop queue empty exception.
+ *
+ * This exception class is intended to be thrown by pop functions in
+ * the ConcurrentQueue class.
+ */
+class xQueuePopQueueEmptyError : public exceptions::xCustomException
+{
+public:
+    /*! \brief Default constructor. */
+    xQueuePopQueueEmptyError();
+    /*!
+     * \brief Initializing constructor.
+     * \param [IN] A user specifed message string.
+     */
+    explicit xQueuePopQueueEmptyError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xQueuePopQueueEmptyError();
+};
+
 /*! \brief Enumeration containing queue configuration options. */
 enum class eQueueOptions
 {
@@ -181,9 +201,6 @@ public:
      * \param [OUT] The popped item.
      * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
      * \return True if item popped off queue, false otherwise.
-     *
-     * Function will block forever or until an item is placed on the
-     * queue.
      */
     bool TryPop(T* &pItem, int* size = nullptr)
     {
@@ -196,7 +213,33 @@ public:
             *size = tempSize;
         }
 
-        return isEmpty;
+        return !isEmpty;
+    }
+    /*!
+     * \brief Pop an item off the queue..
+     * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \return A pointer to the popped item.
+     *
+     * This will throw xQueuePopQueueEmptyError if there are no items
+     * on the queue when called.
+     */
+    T* TryPopThrow(int* size = nullptr)
+    {
+        int tempSize{};
+        bool isEmpty = false;
+        T* pItem{PopNow(tempSize, &isEmpty)};
+
+        if (size)
+        {
+            *size = tempSize;
+        }
+
+        if (isEmpty)
+        {
+            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
+        }
+
+        return pItem;
     }
     /*!
      * \brief Pop an item off the queue but only wait for a given amount of time.
@@ -237,7 +280,7 @@ public:
     {
         if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
         {
-            BOOST_THROW_EXCEPTION(xQueuePopTimeoutError{});
+            BOOST_THROW_EXCEPTION(xQueuePopTimeoutError());
         }
 
         int tempSize;

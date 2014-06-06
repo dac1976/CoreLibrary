@@ -47,5 +47,22 @@ xQueuePopTimeoutError::~xQueuePopTimeoutError()
 {
 }
 
+// ****************************************************************************
+// 'class xQueuePopQueueEmptyError' definition
+// ****************************************************************************
+xQueuePopQueueEmptyError::xQueuePopQueueEmptyError()
+    : exceptions::xCustomException("pop queue empty")
+{
+}
+
+xQueuePopQueueEmptyError::xQueuePopQueueEmptyError(const std::string& message)
+    : exceptions::xCustomException(message)
+{
+}
+
+xQueuePopQueueEmptyError::~xQueuePopQueueEmptyError()
+{
+}
+
 } // namespace threads
 } // namespace core_lib

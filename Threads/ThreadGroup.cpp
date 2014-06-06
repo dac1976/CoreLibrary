@@ -92,7 +92,7 @@ void ThreadGroup::AddThread(std::thread* threadPtr)
 
     if (IsThreadInNoMutex(threadPtr->get_id()))
     {
-        BOOST_THROW_EXCEPTION(xThreadGroupError{"thread already in group"});
+        BOOST_THROW_EXCEPTION(xThreadGroupError("thread already in group"));
     }
 
     m_threadGroup.push_back(threadPtr);
@@ -147,7 +147,7 @@ void ThreadGroup::JoinAll()
 
     if (IsThisThreadInNoMutex())
     {
-        BOOST_THROW_EXCEPTION(xThreadGroupError{"thread cannot join itself"});
+        BOOST_THROW_EXCEPTION(xThreadGroupError("thread cannot join itself"));
     }
 
     std::for_each(m_threadGroup.begin()
