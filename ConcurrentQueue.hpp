@@ -177,6 +177,28 @@ public:
         return pItem;
     }
     /*!
+     * \brief Pop an item off the queue if there are any else return.
+     * \param [OUT] The popped item.
+     * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \return True if item popped off queue, false otherwise.
+     *
+     * Function will block forever or until an item is placed on the
+     * queue.
+     */
+    bool TryPop(T* &pItem, int* size = nullptr)
+    {
+        int tempSize{};
+        bool isEmpty = false;
+        pItem = PopNow(tempSize, &isEmpty);
+
+        if (size)
+        {
+            *size = tempSize;
+        }
+
+        return isEmpty;
+    }
+    /*!
      * \brief Pop an item off the queue but only wait for a given amount of time.
      * \param [IN] Amount of time to wait.
      * \param [OUT] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
@@ -399,17 +421,19 @@ private:
     /*!
      * \brief Pop an item off the queue.
      * \param [OUT] Number of items of type T pointed to by returned pointer.
+     * \param [OUT] (Optional) Flag indicating if queue was empty on entry to function.
      * \return The popped item or null if there is a problem.
      */
-    T* PopNow(int& size)
+    T* PopNow(int& size, bool* pIsEmpty = nullptr)
     {
         T* pItem{};
         size = 0;
 
         {
             std::lock_guard<std::mutex> lock{m_mutex};
+            bool isEmpty = m_queue.empty();
 
-            if (!m_queue.empty())
+            if (!isEmpty)
             {
                 QueueItem& queueItem = m_queue.front();
                 pItem = queueItem.pItem();
@@ -421,6 +445,11 @@ private:
             if (m_queue.empty())
             {
                 m_itemEvent.Reset();
+            }
+
+            if (pIsEmpty)
+            {
+                *pIsEmpty = isEmpty;
             }
         }
 
