@@ -25,6 +25,7 @@
  */
 
 #include "../ThreadGroup.hpp"
+#include "JoinThreads.hpp"
 #include <algorithm>
 
 namespace core_lib {
@@ -150,9 +151,7 @@ void ThreadGroup::JoinAll()
         BOOST_THROW_EXCEPTION(xThreadGroupError("thread cannot join itself"));
     }
 
-    std::for_each(m_threadGroup.begin()
-                  , m_threadGroup.end()
-                  , JoinThread);
+    JoinThreadsP<std::list> joiner(m_threadGroup);
 }
 
 size_t ThreadGroup::Size() const
@@ -188,14 +187,6 @@ bool ThreadGroup::IsThreadInNoMutex(const std::thread::id& id) const
 void ThreadGroup::DeleteThread(std::thread* threadPtr)
 {
     delete threadPtr;
-}
-
-void ThreadGroup::JoinThread(std::thread* threadPtr)
-{
-    if (threadPtr->joinable())
-    {
-        threadPtr->join();
-    }
 }
 
 } // namespace threads

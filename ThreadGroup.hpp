@@ -169,11 +169,6 @@ private:
      * \param [IN] Pointer to thread.
      */
     static void DeleteThread(std::thread* threadPtr);
-    /*!
-     * \brief Call join on a thread object.
-     * \param [IN] Pointer to thread.
-     */
-    static void JoinThread(std::thread* threadPtr);
 };
 
 } // namespace threads

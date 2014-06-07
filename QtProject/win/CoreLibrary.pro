@@ -50,7 +50,8 @@ HEADERS +=                               \
     ../../BoundedBuffer.hpp              \
     ../../DebugLog/DebugLog.hpp          \
     ../../DebugLogging.hpp               \
-    ../../IniFile.hpp
+    ../../IniFile.hpp                    \
+    ../../Threads/JoinThreads.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \

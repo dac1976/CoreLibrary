@@ -46,4 +46,5 @@ HEADERS += \
     ../../../SyncEvent.hpp \
     ../../../ThreadBase.hpp \
     ../../../ThreadGroup.hpp \
-    ../../../BoundedBuffer.hpp
+    ../../../BoundedBuffer.hpp \
+    ../../../Threads/JoinThreads.hpp
