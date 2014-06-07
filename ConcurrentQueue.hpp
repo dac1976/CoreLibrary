@@ -205,7 +205,7 @@ public:
     bool TryPop(T* &pItem, int* size = nullptr)
     {
         int tempSize{};
-        bool isEmpty = false;
+        bool isEmpty{true};
         pItem = PopNow(tempSize, &isEmpty);
 
         if (size)
@@ -226,7 +226,7 @@ public:
     T* TryPopThrow(int* size = nullptr)
     {
         int tempSize{};
-        bool isEmpty = false;
+        bool isEmpty{true};
         T* pItem{PopNow(tempSize, &isEmpty)};
 
         if (size)
@@ -244,20 +244,19 @@ public:
     /*!
      * \brief Pop an item off the queue but only wait for a given amount of time.
      * \param [IN] Amount of time to wait.
+     * \param [IN] The popped item.
      * \param [OUT] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
-     * \return The popped item.
-     *
-     * If no items have been put onto the queue after the specified amount to time
-     * then a nullptr is returned.
+     * \return True if item popped successfully, false if timed out.
      */
-    T* TimedPop(unsigned int timeoutMilliseconds, int* size = nullptr)
+    bool TimedPop(unsigned int timeoutMilliseconds, T* &pItem, int* size = nullptr)
     {
-        T* pItem{};
+        pItem = nullptr;
         int tempSize{};
+        bool isEmpty{true};
 
         if (m_itemEvent.WaitForTime(timeoutMilliseconds))
         {
-            pItem = PopNow(tempSize);
+            pItem = PopNow(tempSize, &isEmpty);
         }
 
         if (size)
@@ -265,7 +264,7 @@ public:
             *size = tempSize;
         }
 
-        return pItem;
+        return !isEmpty;
     }
     /*!
      * \brief Pop an item off the queue but only wait for a given amount of time.
@@ -284,11 +283,62 @@ public:
         }
 
         int tempSize;
+        bool isEmpty{true};
         T* pItem{PopNow(tempSize)};
 
         if (size)
         {
             *size = tempSize;
+        }
+
+        if (isEmpty)
+        {
+            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
+        }
+
+        return pItem;
+    }
+    /*!
+     * \brief Steal an item from the back of the queue if there are any else return.
+     * \param [OUT] The stolen item.
+     * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \return True if item stolen off queue, false otherwise.
+     */
+    bool TrySteal(T* &pItem, int* size = nullptr)
+    {
+        int tempSize{};
+        bool isEmpty{true};
+        pItem = PopNow(tempSize, &isEmpty, eQueueEnd::back);
+
+        if (size)
+        {
+            *size = tempSize;
+        }
+
+        return !isEmpty;
+    }
+    /*!
+     * \brief Steal an item from the back of the queue.
+     * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \return A pointer to the stolen item.
+     *
+     * This will throw xQueuePopQueueEmptyError if there are no items
+     * on the queue when called.
+     */
+    T* TryStealThrow(int* size = nullptr)
+    {
+        int tempSize{};
+        bool isEmpty{true};
+        T* pItem{PopNow(tempSize, &isEmpty, eQueueEnd::back)};
+
+        if (size)
+        {
+            *size = tempSize;
+        }
+
+        if (isEmpty)
+        {
+            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
         }
 
         return pItem;
@@ -461,13 +511,22 @@ private:
                           , eIntialCondition::notSignalled};
     /*! \brief Underlying deque container acting as the queue. */
     std::deque<QueueItem> m_queue;
+
+    enum class eQueueEnd
+    {
+        front,
+        back
+    };
+
     /*!
      * \brief Pop an item off the queue.
      * \param [OUT] Number of items of type T pointed to by returned pointer.
      * \param [OUT] (Optional) Flag indicating if queue was empty on entry to function.
      * \return The popped item or null if there is a problem.
      */
-    T* PopNow(int& size, bool* pIsEmpty = nullptr)
+    T* PopNow(int& size
+              , bool* pIsEmpty = nullptr
+              , eQueueEnd whichEnd = eQueueEnd::front)
     {
         T* pItem{};
         size = 0;
@@ -478,11 +537,22 @@ private:
 
             if (!isEmpty)
             {
-                QueueItem& queueItem = m_queue.front();
-                pItem = queueItem.pItem();
-                size = queueItem.Size();
-                queueItem.Release();
-                m_queue.pop_front();
+                if (whichEnd == eQueueEnd::front)
+                {
+                    QueueItem& queueItem = m_queue.front();
+                    pItem = queueItem.pItem();
+                    size = queueItem.Size();
+                    queueItem.Release();
+                    m_queue.pop_front();
+                }
+                else
+                {
+                    QueueItem& queueItem = m_queue.back();
+                    pItem = queueItem.pItem();
+                    size = queueItem.Size();
+                    queueItem.Release();
+                    m_queue.pop_back();
+                }
             }
 
             if (m_queue.empty())
