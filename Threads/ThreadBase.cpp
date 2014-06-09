@@ -80,7 +80,16 @@ void ThreadBase::Stop()
     if (IsStarted() && !IsTerminating())
     {
         SetTerminating(true);
-        ProcessTerminationConditions();
+
+        try
+        {
+            ProcessTerminationConditions();
+        }
+        catch(...)
+        {
+            // Do nothing but we want to make sure we
+            // call join if required.
+        }
 
         if (m_thread.joinable())
         {
