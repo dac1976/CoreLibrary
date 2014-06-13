@@ -64,6 +64,10 @@ public:
  *
  * This class implements a thread group similar to boost's
  * implementation but using std::thread instead of boost::thread.
+ *
+ * It is the responsibility of the caller of ~ThreadGroup() to make
+ * sure that all threads held in the thread group have been joined.
+ * This can be don by calling ThreadGroup::JoinAll().
  */
 class ThreadGroup final
 {
@@ -102,7 +106,7 @@ public:
     std::thread* CreateThread(F threadfunction)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
-        std::unique_ptr<std::thread> newThread(new std::thread{threadfunction});
+        std::unique_ptr<std::thread> newThread{new std::thread(threadfunction)};
         m_threadGroup.push_back(newThread.get());
         return newThread.release();
     }
@@ -132,7 +136,7 @@ public:
     /*! \brief Call join on all registered threads.
      *
      * Throws xThreadGroupError if called from one of the
-     * threads that are i nthe thread group becuase a thread
+     * threads that are in the thread group becuase a thread
      * cannot join itself.
      */
     void JoinAll();
