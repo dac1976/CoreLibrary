@@ -462,8 +462,7 @@ private:
         /*! \brief Copy assignment operator. */
         QueueItem& operator=(const QueueItem& qi)
         {
-            QueueItem qiCpy{qi};
-            std::swap(*this, qiCpy);
+            std::swap(*this, QueueItem(qi));
             return *this;
         }
         /*! \brief Move assignment operator. */
