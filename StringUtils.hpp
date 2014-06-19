@@ -146,7 +146,7 @@ enum class eFloatStringFormat
  * string representaion.
  */
 template <typename T>
-std::string FormatFloatString(T&& value, int precision = 15,
+std::string FormatFloatString(T value, int precision = 15,
                               eFloatStringFormat fsf = eFloatStringFormat::normal)
 {
     std::ostringstream ss;
