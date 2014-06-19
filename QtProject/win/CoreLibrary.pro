@@ -51,7 +51,8 @@ HEADERS +=                               \
     ../../DebugLog/DebugLog.hpp          \
     ../../DebugLogging.hpp               \
     ../../IniFile.hpp                    \
-    ../../Threads/JoinThreads.hpp
+    ../../Threads/JoinThreads.hpp        \
+    ../../Asio/IoServiceThreadGroup.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
@@ -66,4 +67,5 @@ SOURCES +=                               \
     ../../Threads/ThreadGroup.cpp        \
     ../../Threads/MessageQueueThread.cpp \
     ../../DebugLog/DebugLog.cpp          \
-    ../../IniFile/IniFile.cpp
+    ../../IniFile/IniFile.cpp            \
+    ../../Asio/IoServiceThreadGroup.cpp

@@ -67,7 +67,7 @@ public:
  *
  * It is the responsibility of the caller of ~ThreadGroup() to make
  * sure that all threads held in the thread group have been joined.
- * This can be don by calling ThreadGroup::JoinAll().
+ * This can be done by calling ThreadGroup::JoinAll().
  */
 class ThreadGroup final
 {
