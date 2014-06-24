@@ -49,6 +49,24 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 }
 
 // ****************************************************************************
+// 'class xInstantiationrError' definition
+// ******************************B*********************************************
+xInstantiationrError::xInstantiationrError()
+    : exceptions::xCustomException("instantiation error")
+{
+}
+
+xInstantiationrError::xInstantiationrError(const std::string& message)
+    : exceptions::xCustomException(message)
+{
+}
+
+xInstantiationrError::~xInstantiationrError()
+{
+}
+
+
+// ****************************************************************************
 // 'struct DefaultLogFormat' definition
 // ****************************************************************************
 void DefaultLogFormat::operator() (std::ostream& os

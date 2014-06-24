@@ -228,7 +228,7 @@ bool IniFile::SectionDetails::KeyExists(const std::string& key) const
         std::shared_ptr<KeyLine> keyLine
             = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-        if (key.compare(keyLine->Key()) == 0)
+        if (key == keyLine->Key())
         {
             found = true;
             break;
@@ -252,7 +252,7 @@ void IniFile::SectionDetails::UpdateKey(const std::string& key
         std::shared_ptr<KeyLine> keyLine
             = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-        if (key.compare(keyLine->Key()) == 0)
+        if (key == keyLine->Key())
         {
             keyLine->Value(value);
             break;
@@ -272,7 +272,7 @@ bool IniFile::SectionDetails::EraseKey(const std::string& key
         std::shared_ptr<KeyLine> keyLine
             = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-        if (keyLine && (key.compare(keyLine->Key()) == 0))
+        if (keyLine && (key == keyLine->Key()))
         {
             lineIter = *keyIter;
             m_keyIters.erase(keyIter);
@@ -294,7 +294,7 @@ std::string IniFile::SectionDetails::GetValue(const std::string& key
         std::shared_ptr<KeyLine> keyLine
             = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-        if (keyLine && (key.compare(keyLine->Key()) == 0))
+        if (keyLine && (key == keyLine->Key()))
         {
             value = keyLine->Value();
             break;
@@ -375,7 +375,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
         }
         else if(IsSectionLine(line, str1))
         {
-            if (str1.compare("") == 0)
+            if (str1 == "")
             {
                 BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid section"));
             }
@@ -393,7 +393,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
         }
         else if(IsKeyLine(line, str1, str2))
         {
-            if ((str1.compare("") == 0) || (sectIt == m_sectionMap.end()))
+            if ((str1 == "") || (sectIt == m_sectionMap.end()))
             {
                 BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid key"));
             }
@@ -416,14 +416,14 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 
 void IniFile::UpdateFile(const std::string& overridePath) const
 {
-    if (!m_changesMade && (overridePath.compare("") == 0))
+    if (!m_changesMade && (overridePath == ""))
     {
         return;
     }
 
     std::ofstream iniFile;
 
-    if (overridePath.compare("") == 0)
+    if (overridePath == "")
     {
         iniFile.open(m_iniFilePath);
     }
@@ -450,7 +450,7 @@ void IniFile::UpdateFile(const std::string& overridePath) const
               std::ostreambuf_iterator<char>(iniFile));
     iniFile.close();
 
-    if (overridePath.compare("") == 0)
+    if (overridePath == "")
     {
         m_changesMade = false;
     }
@@ -675,12 +675,12 @@ void IniFile::WriteValue(const std::string& section
                           , const std::string& key
                           , std::string&& value)
 {
-    if (section.compare("") == 0)
+    if (section == "")
     {
         BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
     }
 
-    if (key.compare("") == 0)
+    if (key == "")
     {
         BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
     }
@@ -732,12 +732,12 @@ void IniFile::WriteValue(const std::string& section
                           , const std::string& key
                           , const std::string& value)
 {
-    if (section.compare("") == 0)
+    if (section == "")
     {
         BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
     }
 
-    if (key.compare("") == 0)
+    if (key == "")
     {
         BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
     }
@@ -853,7 +853,7 @@ void IniFile::EraseKeys(const std::string& section)
 
 bool IniFile::IsBlankLine(const std::string& line) const
 {
-    return line.compare("") == 0;
+    return line == "";
 }
 
 bool IniFile::IsCommentLine(const std::string& line

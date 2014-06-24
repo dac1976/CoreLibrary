@@ -112,6 +112,26 @@ public:
 };
 
 /*!
+ * \brief Instantiation exception.
+ *
+ * This exception class is intended to be thrown by the
+ * DebugLog class when an invalid instantiation has occurred.
+ */
+class xInstantiationrError : public exceptions::xCustomException
+{
+public:
+    /*! \brief Default constructor. */
+    xInstantiationrError();
+    /*!
+     * \brief Initializing constructor.
+     * \param [IN] A user specified message string.
+     */
+    explicit xInstantiationrError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xInstantiationrError();
+};
+
+/*!
  * \brief Default log line formater.
  *
  * This functor formats the log message elements
@@ -156,13 +176,15 @@ public:
     /*!
      * \brief Default constructor.
      *
-     * Create the DebugLog in same folder as application
-     * with name log.txt.
+     * Create the DebugLog object in a partial state.
+     * This is used by the SingletonHolder to create
+     * a singleton DebugLog instance. The user should
+     * then call Instantiate to complete the setup of
+     * the log, otherwise no output or file will be
+     * created.
      */
     DebugLog()
     {
-        RegisterLogQueueMessageId();
-        OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
     /*!
      * \brief Initialisation constructor.
@@ -194,6 +216,37 @@ public:
         // messages before closing file.
         m_logMsgQueueThread.reset();
         CloseOfStream();
+    }
+    /*!
+     * \brief Instantiate a default constructor DebugLog object.
+     * \param [IN] Version of software that "owns" the log.
+     * \param [IN] Folder path (with trailing slash) where log will be created.
+     * \param [IN] File name of log file without extension.
+     *
+     * Instantiate the DebugLog in given folder with given name. A ".txt"
+     * extension is automatically appending to log file's name.
+     * This method should only be used when constructing a DebugLog
+     * using the default constructor.
+     *
+     * This method throws xInstantiationrError exception if object
+     * already instantiated.
+     */
+    void Instantiate(const std::string& softwareVersion,
+                     const std::string& logFolderPath,
+                     const std::string& logName)
+    {
+        if ((m_softwareVersion != "")
+            || (m_logFilePath != "")
+            || (m_oldLogFilePath != ""))
+        {
+            BOOST_THROW_EXCEPTION(xInstantiationrError("DebugLog already instantiated"));
+        }
+
+        m_softwareVersion = softwareVersion;
+        m_logFilePath = logFolderPath + logName + ".txt";
+        m_oldLogFilePath = logFolderPath + logName + "_old.txt";
+        RegisterLogQueueMessageId();
+        OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
     /*!
      * \brief Add level to filter.
@@ -421,27 +474,8 @@ private:
 
     /*! \brief Mutex to lock access.*/
     mutable std::mutex m_mutex;
-    /*! \brief Log formatter object.*/
-    Formatter m_logFormatter;
-    /*! \brief Output file stream.*/
-    std::ofstream m_ofStream;
-    /*! \brief Software version string.*/
-    const std::string m_softwareVersion;
-    /*! \brief Path to current log file.*/
-    const std::string m_logFilePath{"log.txt"};
-    /*! \brief Path to old log file.*/
-    const std::string m_oldLogFilePath{"log_old.txt"};
     /*! \brief String for unknown message level.*/
     const std::string m_unknownLogMsgLevel{"?"};
-    /*! \brief Typedef for message queue thread.*/
-    typedef threads::MessageQueueThread<int, LogQueueMessage> log_msg_queue;
-    /*! \brief Unique_ptr holding message queue thread.*/
-    std::unique_ptr<log_msg_queue>
-        m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
-                                                        , this
-                                                        , std::placeholders::_1
-                                                        , std::placeholders::_2)
-                                              , threads::eOnDestroyOptions::processRemainingItems)};
     /*! \brief Message level string lookup map.*/
     std::unordered_map<eLogMessageLevel, std::string>
         m_logMsgLevelLookup{{eLogMessageLevel::not_defined, ""}
@@ -452,6 +486,25 @@ private:
                             , {eLogMessageLevel::fatal, "Fatal"}};
     /*! \brief Message level filter set.*/
     std::set<eLogMessageLevel> m_logMsgFilterSet;
+    /*! \brief Log formatter object.*/
+    Formatter m_logFormatter;
+    /*! \brief Output file stream.*/
+    std::ofstream m_ofStream;
+    /*! \brief Software version string.*/
+    std::string m_softwareVersion;
+    /*! \brief Path to current log file.*/
+    std::string m_logFilePath;
+    /*! \brief Path to old log file.*/
+    std::string m_oldLogFilePath;
+    /*! \brief Typedef for message queue thread.*/
+    typedef threads::MessageQueueThread<int, LogQueueMessage> log_msg_queue;
+    /*! \brief Unique_ptr holding message queue thread.*/
+    std::unique_ptr<log_msg_queue>
+        m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
+                                                        , this
+                                                        , std::placeholders::_1
+                                                        , std::placeholders::_2)
+                                              , threads::eOnDestroyOptions::processRemainingItems)};
 
     /*! \brief Register the log queue message ID. */
     void RegisterLogQueueMessageId()
@@ -508,10 +561,10 @@ private:
      * \param [IN] Message level.
      * \return Message level string.
      */
-    const std::string& GetLogMsgLevelAsString(eLogMessageLevel logMessageLevel)
+    const std::string& GetLogMsgLevelAsString(eLogMessageLevel logMessageLevel) const
     {
         return IsLogMsgLevelInLookup(logMessageLevel)
-               ? m_logMsgLevelLookup[logMessageLevel]
+               ? m_logMsgLevelLookup.find(logMessageLevel)->second
                : m_unknownLogMsgLevel;
     }
     /*!
@@ -553,14 +606,9 @@ private:
             return;
         }
 
-        if (fileOptions == eFileOpenOptions::truncate_file)
-        {
-            m_ofStream.open(filePath, std::ofstream::trunc);
-        }
-        else
-        {
-            m_ofStream.open(filePath, std::ofstream::ate);
-        }
+        m_ofStream.open(filePath, fileOptions == eFileOpenOptions::truncate_file
+                                  ? std::ofstream::trunc
+                                  : std::ofstream::ate);
 
         time_t messageTime;
         time(&messageTime);
