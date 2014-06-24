@@ -33,14 +33,14 @@ namespace core_lib {
 namespace asio {
 
 IoServiceThreadGroup::IoServiceThreadGroup(boost::asio::io_service& ioService,
-                                           unsigned int numThreads)
+                                           const unsigned int numThreads)
     : m_ioService(ioService), m_ioWork(ioService)
 {
-    numThreads = std::max(1U, numThreads);
+    const unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
 
-    for (unsigned int t = 0; t < numThreads; ++t)
+    for (unsigned int t = 0; t < numThreadsToUse; ++t)
     {
-        m_threadGroup.CreateThread(std::bind(&IoServiceThreadGroup::RunIoService, this));
+        m_threadGroup.CreateThread([this](){ m_ioService.run(); });
     }
 }
 
@@ -48,11 +48,6 @@ IoServiceThreadGroup::~IoServiceThreadGroup()
 {
     m_ioService.stop();
     m_threadGroup.JoinAll();
-}
-
-void IoServiceThreadGroup::RunIoService()
-{
-    m_ioService.run();
 }
 
 } //namespace asio

@@ -34,12 +34,57 @@
 #include <fstream>
 #include <sstream>
 #include <set>
-#include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <memory>
+#include <functional>
+#include <type_traits>
 #include "../MessageQueueThread.hpp"
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include "boost/filesystem.hpp"
+
+/*! \brief The core_lib namespace. */
+namespace core_lib {
+/*! \brief The log namespace. */
+namespace log {
+
+/*! \brief Enumeration containing queue configuration options. */
+enum class eLogMessageLevel
+{
+    /*! \brief No level defined for message. */
+    not_defined = 0,
+    /*! \brief Debug level defined for message. */
+    debug,
+    /*! \brief Info level defined for message. */
+    info,
+    /*! \brief Warning level defined for message. */
+    warning,
+    /*! \brief Error level defined for message. */
+    error,
+    /*! \brief Fatal level defined for message. */
+    fatal
+};
+
+} // namespace log
+} // namespace core_lib
+
+/*! \brief The std namespace. */
+namespace std {
+    template <>
+    struct hash<core_lib::log::eLogMessageLevel>
+    {
+        typedef core_lib::log::eLogMessageLevel argument_t;
+        typedef std::size_t                     result_t;
+        typedef typename std::underlying_type<argument_t>::type enumType_t;
+
+        result_t operator()(const argument_t& a) const
+        {
+            enumType_t a2 = static_cast<enumType_t>(a);
+            std::hash<enumType_t> h;
+            return h(a2);
+        }
+    };
+} // namespace std
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -64,23 +109,6 @@ public:
     explicit xLogMsgHandlerError(const std::string& message);
     /*! \brief Virtual destructor. */
     virtual ~xLogMsgHandlerError();
-};
-
-/*! \brief Enumeration containing queue configuration options. */
-enum class eLogMessageLevel
-{
-    /*! \brief No level defined for message. */
-    not_defined = 0,
-    /*! \brief Debug level defined for message. */
-    debug,
-    /*! \brief Info level defined for message. */
-    info,
-    /*! \brief Warning level defined for message. */
-    warning,
-    /*! \brief Error level defined for message. */
-    error,
-    /*! \brief Fatal level defined for message. */
-    fatal
 };
 
 /*!
@@ -408,18 +436,20 @@ private:
     /*! \brief Typedef for message queue thread.*/
     typedef threads::MessageQueueThread<int, LogQueueMessage> log_msg_queue;
     /*! \brief Unique_ptr holding message queue thread.*/
-    std::unique_ptr<log_msg_queue> m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
-                                                                                   , this
-                                                                                   , std::placeholders::_1
-                                                                                   , std::placeholders::_2)
-                                                                         , threads::eOnDestroyOptions::processRemainingItems)};
+    std::unique_ptr<log_msg_queue>
+        m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
+                                                        , this
+                                                        , std::placeholders::_1
+                                                        , std::placeholders::_2)
+                                              , threads::eOnDestroyOptions::processRemainingItems)};
     /*! \brief Message level string lookup map.*/
-    std::map<eLogMessageLevel, std::string> m_logMsgLevelLookup{{eLogMessageLevel::not_defined, ""}
-                                                                , {eLogMessageLevel::debug, "Debug"}
-                                                                , {eLogMessageLevel::info, "Info"}
-                                                                , {eLogMessageLevel::warning, "Warning"}
-                                                                , {eLogMessageLevel::error, "Error"}
-                                                                , {eLogMessageLevel::fatal, "Fatal"}};
+    std::unordered_map<eLogMessageLevel, std::string>
+        m_logMsgLevelLookup{{eLogMessageLevel::not_defined, ""}
+                            , {eLogMessageLevel::debug, "Debug"}
+                            , {eLogMessageLevel::info, "Info"}
+                            , {eLogMessageLevel::warning, "Warning"}
+                            , {eLogMessageLevel::error, "Error"}
+                            , {eLogMessageLevel::fatal, "Fatal"}};
     /*! \brief Message level filter set.*/
     std::set<eLogMessageLevel> m_logMsgFilterSet;
 
@@ -471,7 +501,7 @@ private:
      */
     bool IsLogMsgLevelInLookup(eLogMessageLevel logMessageLevel) const
     {
-        return (m_logMsgLevelLookup.find(logMessageLevel) != m_logMsgLevelLookup.end());
+        return m_logMsgLevelLookup.count(logMessageLevel) > 0;
     }
     /*!
      * \brief Get message level as a string.

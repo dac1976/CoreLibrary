@@ -50,7 +50,7 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 
 // ****************************************************************************
 // 'struct DefaultLogFormat' definition
-// ******************************B*********************************************
+// ****************************************************************************
 void DefaultLogFormat::operator() (std::ostream& os
                                    , std::time_t timeStamp
                                    , const std::string& message

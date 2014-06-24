@@ -42,7 +42,9 @@ namespace asio {
  * This class implements a thread group mechanism for
  * use by Boost's ASIO I/O service. This allows the
  * I/O Service to spread its work load across multiple
- * threads.
+ * threads. This class also calls run on the I/O service
+ * from eac hregistered thread and also calls stop and joins
+ * all threads in its destructor.
  */
 class IoServiceThreadGroup final
 {
@@ -56,7 +58,7 @@ public:
      * will be assigned using std::thread::hardware_concurrency().
      */
     explicit IoServiceThreadGroup(boost::asio::io_service& ioService
-                                  , unsigned int numThreads
+                                  , const unsigned int numThreads
                                         = std::thread::hardware_concurrency());
     /*! \brief Copy constructor deleted.*/
     IoServiceThreadGroup(const IoServiceThreadGroup& ) = delete;
@@ -72,9 +74,6 @@ private:
     boost::asio::io_service::work m_ioWork;
     /*! \brief Our thread group.*/
     threads::ThreadGroup m_threadGroup;
-
-    /*! \brief Run the Boost ASIO I/O service.*/
-    void RunIoService();
 };
 
 } //namespace asio
