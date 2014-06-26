@@ -652,7 +652,7 @@ void IniFile::WriteDouble(const std::string& section
                          , const std::string& key
                          , double value)
 {
-    std::string strVal{string_utils::FormatFloatString(strVal, value)};
+    std::string strVal{string_utils::FormatFloatString(value)};
     WriteValue(section, key, strVal);
 }
 

@@ -28,7 +28,7 @@
 #ifndef DEBUGLOGGING_HPP
 #define DEBUGLOGGING_HPP
 
-#include "DebugLog/DebugLog.hpp"
+#include "DebugLog/DebugLogSingleton.hpp"
 
 /*!
  * \brief Simple macro to simplify logging.
@@ -79,5 +79,56 @@
  */
 #define DEBUG_LOG_CLEAR_FILTER(x) \
     x.ClearLogMsgLevelFilters()
+
+/*!
+ * \brief Macro to simplify instantiatation of debug log.
+ * \param [IN] Software version string must be convertible to std::string.
+ * \param [IN] Log file path string with trailing backslash must be convertible to std::string.
+ * \param [IN] Log file name string without file extension with trailing backslash must be convertible to std::string.
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_INSTANTIATE(v, p, f) \
+    core_lib::log::DebugLogSingleton::Instance().Instantiate(v, p, f);
+
+/*!
+ * \brief Simple macro to simplify logging.
+ * \param [IN] Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE(m) DEBUG_LOG(core_lib::log::DebugLogSingleton::Instance(), m)
+
+/*!
+ * \brief Macro to simplify logging adding message and level.
+ * \param [IN] Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ * \param [IN] Level associated with message.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_EX(m, l) DEBUG_LOG(core_lib::log::DebugLogSingleton::Instance(), m, l)
+
+/*!
+ * \brief Macro to add message level to filter set.
+ * \param [IN] Log message level, e.g. info, debug, warning, error etc.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_ADD_FILTER(l) DEBUG_LOG_ADD_FILTER(core_lib::log::DebugLogSingleton::Instance(), l)
+
+/*!
+ * \brief Macro to remove message level to filter set.
+ * \param [IN] Log message level, e.g. info, debug, warning, error etc.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_REMOVE_FILTER(l) DEBUG_LOG_ADD_FILTER(core_lib::log::DebugLogSingleton::Instance(), l)
+
+/*!
+ * \brief Macro to clear filter set.
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CLEAR_FILTER() DEBUG_LOG_CLEAR_FILTER(core_lib::log::DebugLogSingleton::Instance())
 
 #endif // DEBUGLOGGING_HPP

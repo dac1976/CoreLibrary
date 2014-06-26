@@ -4,12 +4,15 @@
 #
 #-------------------------------------------------
 
+DEFINES += LOKI_CLASS_LEVEL_THREADING
+
 QT       -= gui
 
 TARGET = CoreLibrary
 TEMPLATE = lib
 CONFIG += staticlib debug_and_release build_all
 CONFIG += boost
+CONFIG += loki
 
 QMAKE_CXXFLAGS += -std=c++11
 
@@ -53,7 +56,8 @@ HEADERS +=                               \
     ../../IniFile.hpp                    \
     ../../Threads/JoinThreads.hpp        \
     ../../Asio/IoServiceThreadGroup.hpp \
-    ../../Asio/IoServiceThreadGroup.hpp
+    ../../Asio/IoServiceThreadGroup.hpp \
+    ../../DebugLog/DebugLogSingleton.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \

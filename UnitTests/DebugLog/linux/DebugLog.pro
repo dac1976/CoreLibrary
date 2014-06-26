@@ -3,15 +3,16 @@
 # Project created by QtCreator 2013-12-30T12:33:11
 #
 #-------------------------------------------------
+DEFINES += LOKI_CLASS_LEVEL_THREADING
 
 QT       += testlib
-
 QT       -= gui
 
 TARGET = tst_DebugLogTest
 CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += boost
+CONFIG += loki
 
 QMAKE_CXXFLAGS += -std=c++11
 
