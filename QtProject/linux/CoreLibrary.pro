@@ -52,6 +52,7 @@ HEADERS +=                               \
     ../../DebugLogging.hpp               \
     ../../IniFile.hpp                    \
     ../../Threads/JoinThreads.hpp        \
+    ../../Asio/IoServiceThreadGroup.hpp \
     ../../Asio/IoServiceThreadGroup.hpp
 
 SOURCES +=                               \
