@@ -608,7 +608,7 @@ private:
 
         m_ofStream.open(filePath, fileOptions == eFileOpenOptions::truncate_file
                                   ? std::ofstream::trunc
-                                  : std::ofstream::ate);
+                                  : std::ofstream::app);
 
         time_t messageTime;
         time(&messageTime);

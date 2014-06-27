@@ -396,7 +396,7 @@ public:
 
         if (option == eSaveToFileOptions::append)
         {
-            csvfile.open(filename.c_str(), std::ofstream::ate);
+            csvfile.open(filename.c_str(), std::ofstream::app);
         }
         else
         {

@@ -3,6 +3,7 @@
 # Project created by QtCreator 2013-07-20T22:13:38
 #
 #-------------------------------------------------
+DEFINES += LOKI_CLASS_LEVEL_THREADING
 
 QT       -= gui
 
@@ -10,6 +11,7 @@ TARGET = CoreLibrary
 TEMPLATE = lib
 CONFIG += staticlib debug_and_release build_all
 CONFIG += boost
+CONFIG += loki
 
 QMAKE_CXXFLAGS += -std=c++11
 
