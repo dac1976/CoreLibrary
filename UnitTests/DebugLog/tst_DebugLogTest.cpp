@@ -21,11 +21,14 @@ private Q_SLOTS:
     void testCase_DebugLog4();
     void testCase_DebugLog5();
     void testCase_DebugLog6();
-    void testCase_DebugLog7();
+    void testCase_DebugLog7();    
+    void testCase_DebugLog8();
+    void testCase_DebugLog9();
 };
 
 DebugLogTest::DebugLogTest()
 {
+    boost::filesystem::remove("test_log.txt");
 }
 
 // ****************************************************************************
@@ -296,6 +299,104 @@ void DebugLogTest::testCase_DebugLog7()
         DEBUG_LOG(dl, "Message 2");
         DEBUG_LOG(dl, "Message 3");
     }
+
+    std::ifstream ifs("test_log.txt");
+    QVERIFY(ifs.is_open());
+    std::string line;
+    size_t lineCount = 0;
+
+    while(!ifs.eof())
+    {
+        std::getline(ifs, line);
+
+        switch(++lineCount)
+        {
+        case 1:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STARTED >");
+            break;
+        case 2:
+            QVERIFY(line.substr(28, line.size() - 28) == "< Software Version 1.0.0.0 >");
+            break;
+        case 3:
+            QVERIFY(line.substr(28, 13) == "< Message 1 >");
+            break;
+        case 4:
+            QVERIFY(line.substr(28, 13) == "< Message 2 >");
+            break;
+        case 5:
+            QVERIFY(line.substr(28, 13) == "< Message 3 >");
+            break;
+        case 6:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STOPPED >");
+            break;
+        case 7:
+            QVERIFY(line == "");
+            break;
+        default:
+            QFAIL("Too many lines");
+        }
+    }
+
+    ifs.close();
+
+    if (lineCount < 7)
+    {
+        QFAIL("Too few lines");
+    }
+
+    boost::filesystem::remove("test_log.txt");
+}
+
+void DebugLogTest::testCase_DebugLog8()
+{
+    DEBUG_MESSAGE_INSTANTIATE("1.0.0.0", "", "test_log");
+    Loki::DeletableSingleton<core_lib::log::default_log_t>::GracefulDelete();
+
+    std::ifstream ifs("test_log.txt");
+    QVERIFY(ifs.is_open());
+    std::string line;
+    size_t lineCount = 0;
+
+    while(!ifs.eof())
+    {
+        std::getline(ifs, line);
+
+        switch(++lineCount)
+        {
+        case 1:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STARTED >");
+            break;
+        case 2:
+            QVERIFY(line.substr(28, line.size() - 28) == "< Software Version 1.0.0.0 >");
+            break;
+        case 3:
+            QVERIFY(line.substr(28, line.size() - 28) == "< DEBUG LOG STOPPED >");
+            break;
+        case 4:
+            QVERIFY(line == "");
+            break;
+        default:
+            QFAIL("Too many lines");
+        }
+    }
+
+    ifs.close();
+
+    if (lineCount < 4)
+    {
+        QFAIL("Too few lines");
+    }
+
+    boost::filesystem::remove("test_log.txt");
+}
+
+void DebugLogTest::testCase_DebugLog9()
+{
+    DEBUG_MESSAGE_INSTANTIATE("1.0.0.0", "", "test_log");
+    DEBUG_MESSAGE_EX("Message 1", core_lib::log::eLogMessageLevel::info);
+    DEBUG_MESSAGE_EX("Message 2", core_lib::log::eLogMessageLevel::info);
+    DEBUG_MESSAGE_EX("Message 3", core_lib::log::eLogMessageLevel::info);
+    Loki::DeletableSingleton<core_lib::log::default_log_t>::GracefulDelete();
 
     std::ifstream ifs("test_log.txt");
     QVERIFY(ifs.is_open());

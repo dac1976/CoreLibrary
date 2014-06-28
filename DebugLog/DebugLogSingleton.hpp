@@ -38,7 +38,10 @@ namespace log {
 
 typedef DebugLog<DefaultLogFormat> default_log_t;
 
-typedef Loki::SingletonHolder<default_log_t> DebugLogSingleton;
+typedef Loki::SingletonHolder<default_log_t
+                              , Loki::CreateUsingNew
+                              , Loki::DeletableSingleton>
+            DebugLogSingleton;
 
 
 } // namespace log

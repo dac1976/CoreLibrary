@@ -77,7 +77,7 @@
  * \brief Macro to clear filter set.
  * \param [IN] DebugLog object.
  */
-#define DEBUG_LOG_CLEAR_FILTER(x) \
+#define DEBUG_LOG_CLEAR_FILTERS(x) \
     x.ClearLogMsgLevelFilters()
 
 /*!
@@ -89,7 +89,7 @@
  * This version uses a singleton to maintain a global log object.
  */
 #define DEBUG_MESSAGE_INSTANTIATE(v, p, f) \
-    core_lib::log::DebugLogSingleton::Instance().Instantiate(v, p, f);
+    core_lib::log::DebugLogSingleton::Instance().Instantiate(v, p, f)
 
 /*!
  * \brief Simple macro to simplify logging.
@@ -106,7 +106,7 @@
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_EX(m, l) DEBUG_LOG(core_lib::log::DebugLogSingleton::Instance(), m, l)
+#define DEBUG_MESSAGE_EX(m, l) DEBUG_LOG_EX(core_lib::log::DebugLogSingleton::Instance(), m, l)
 
 /*!
  * \brief Macro to add message level to filter set.
@@ -129,6 +129,6 @@
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_CLEAR_FILTER() DEBUG_LOG_CLEAR_FILTER(core_lib::log::DebugLogSingleton::Instance())
+#define DEBUG_MESSAGE_CLEAR_FILTERS() DEBUG_LOG_CLEAR_FILTERS(core_lib::log::DebugLogSingleton::Instance())
 
 #endif // DEBUGLOGGING_HPP

@@ -51,4 +51,5 @@ HEADERS += \
     ../../../MessageQueueThread.hpp \
     ../../../SyncEvent.hpp \
     ../../../ThreadBase.hpp \
-    ../../../DebugLogging.hpp
+    ../../../DebugLogging.hpp \
+    ../../../DebugLog/DebugLogSingleton.hpp

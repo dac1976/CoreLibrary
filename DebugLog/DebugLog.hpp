@@ -138,7 +138,7 @@ public:
  * into a single line in the log following default
  * formatting.
  *
- * < "Level" >< "Date/Time" >< "Message" >< File = "..." >< Line = "..." >< Thread ID = "..." >
+ * < "Date/Time" >< "Message" >< "Level" >< File = "..." >< Line = "..." >< Thread ID = "..." >
  */
 struct DefaultLogFormat
 {
