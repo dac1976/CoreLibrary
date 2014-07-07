@@ -95,17 +95,21 @@ enum class eQueueOptions
  * used as single/multiple producer and single/multiple consumer,
  * in any combination.
  */
-template< typename T
-          , eQueueOptions queueOptions = eQueueOptions::autoDelete>
+template<typename T>
 class ConcurrentQueue final
 {
 public:
     /*!
-     * \brief Default constructor.
+     * \brief Initialising constructor.
+     * \param [IN] (Optional) Set the queue's delete option.
      *
      * Queue is created to not auto-delete objects.
      */
-    ConcurrentQueue() = default;
+    explicit ConcurrentQueue(const eQueueOptions queueOptions
+                                 = eQueueOptions::autoDelete)
+        : m_autoDelete{queueOptions == eQueueOptions::autoDelete}
+    {
+    }
     /*! \brief Copy constructor deleted.*/
     ConcurrentQueue(const ConcurrentQueue&) = delete;
     /*! \brief Copy assignment operator deleted.*/
@@ -157,7 +161,7 @@ public:
      * Items pushed on with this function will be deleted with
      * delete[].
      */
-    void Push(T* pItem, int size)
+    void Push(T* pItem, const int size)
     {
         {
             std::lock_guard<std::mutex> lock{m_mutex};
@@ -248,7 +252,7 @@ public:
      * \param [OUT] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
      * \return True if item popped successfully, false if timed out.
      */
-    bool TimedPop(unsigned int timeoutMilliseconds, T* &pItem, int* size = nullptr)
+    bool TimedPop(const unsigned int timeoutMilliseconds, T* &pItem, int* size = nullptr)
     {
         pItem = nullptr;
         int tempSize{};
@@ -275,7 +279,7 @@ public:
      * If no items have been put onto the queue after the specified amount to time
      * then a xQueuePopTimeoutError exception is throw.
      */
-    T* TimedPopThrow(unsigned int timeoutMilliseconds, int* size = nullptr)
+    T* TimedPopThrow(const unsigned int timeoutMilliseconds, int* size = nullptr)
     {
         if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
         {
@@ -308,7 +312,7 @@ public:
     {
         int tempSize{};
         bool isEmpty{true};
-        pItem = PopNow(tempSize, &isEmpty, eQueueEnd::back);
+        pItem = PopNow(tempSize, &isEmpty, back);
 
         if (size)
         {
@@ -329,7 +333,7 @@ public:
     {
         int tempSize{};
         bool isEmpty{true};
-        T* pItem{PopNow(tempSize, &isEmpty, eQueueEnd::back)};
+        T* pItem{PopNow(tempSize, &isEmpty, back)};
 
         if (size)
         {
@@ -354,7 +358,7 @@ public:
      * or if there is a single consumer but the function is called from a different
      * thread to the consumer.
      */
-    const T* Peek(size_t index, int* size = nullptr) const
+    const T* Peek(const size_t index, int* size = nullptr) const
     {
         std::lock_guard<std::mutex> lock{m_mutex};
         const T* pItem{};
@@ -431,7 +435,7 @@ private:
          * Items created with this constructor will
          * be deleted with delete[] if size is > 0.
          */
-        QueueItem(T* pItem, int size)
+        QueueItem(T* pItem, const int size)
             : m_pItem{pItem}, m_size{size}
         {  }
         /*! \brief Copy constructor. */
@@ -503,7 +507,7 @@ private:
     /*! \brief Synchronization mutex. */
     mutable std::mutex m_mutex;
     /*! \brief Auto-delete items when Clear() is called. */
-    const bool m_autoDelete{queueOptions == eQueueOptions::autoDelete};
+    const bool m_autoDelete{false};
     /*! \brief Synchronization event. */
     SyncEvent m_itemEvent{eNotifyType::signalOneThread
                           , eResetCondition::manualReset
@@ -511,7 +515,7 @@ private:
     /*! \brief Underlying deque container acting as the queue. */
     std::deque<QueueItem> m_queue;
 
-    enum class eQueueEnd
+    enum eQueueEnd
     {
         front,
         back
@@ -525,7 +529,7 @@ private:
      */
     T* PopNow(int& size
               , bool* pIsEmpty = nullptr
-              , eQueueEnd whichEnd = eQueueEnd::front)
+              , const eQueueEnd whichEnd = front)
     {
         T* pItem{};
         size = 0;
@@ -536,7 +540,7 @@ private:
 
             if (!isEmpty)
             {
-                if (whichEnd == eQueueEnd::front)
+                if (whichEnd == front)
                 {
                     QueueItem& queueItem = m_queue.front();
                     pItem = queueItem.pItem();

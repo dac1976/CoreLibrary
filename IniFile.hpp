@@ -187,37 +187,37 @@ public:
                    , const std::string& key) const;
     bool ReadBool(const std::string& section
                   , const std::string& key
-                  , bool defaultValue = false) const;
+                  , const bool defaultValue = false) const;
     int32_t ReadInteger(const std::string& section
                     , const std::string&key
-                    , int32_t defaultValue = 0) const;
+                    , const int32_t defaultValue = 0) const;
     int64_t ReadInteger64(const std::string& section
                           , const std::string& key
-                          , int64_t defaultValue = 0L) const;
+                          , const int64_t defaultValue = 0L) const;
     double ReadDouble(const std::string& section
                       , const std::string& key
-                      , double defaultValue = 0.0) const;
+                      , const double defaultValue = 0.0) const;
     long double ReadLongDouble(const std::string& section
                                , const std::string& key
-                               , long double defaultValue = 0.0L) const;
+                               , const long double defaultValue = 0.0L) const;
     std::string ReadString(const std::string& section
                            , const std::string& key
                            , const std::string& defaultValue = "") const;
     void WriteBool(const std::string& section
                    , const std::string& key
-                   , bool value);
+                   , const bool value);
     void WriteInteger(const std::string& section
                       , const std::string& key
-                      , int32_t value);
+                      , const int32_t value);
     void WriteInteger64(const std::string& section
                         , const std::string& key
-                        , int64_t value);
+                        , const int64_t value);
     void WriteDouble(const std::string& section
                      , const std::string& key
-                     , double value);
+                     , const double value);
     void WriteLongDouble(const std::string& section
                          , const std::string& key
-                         , long double value);
+                         , const long double value);
     void WriteString(const std::string& section
                      , const std::string& key
                      , const std::string& value);
@@ -237,7 +237,7 @@ private:
         virtual ~Line() = default;
         Line& operator=(const Line&) = default;
         Line& operator=(Line&&) = default;
-        virtual void Print(std::ostream &os, bool addLineFeed = true) const = 0;
+        virtual void Print(std::ostream &os, const bool addLineFeed = true) const = 0;
     };
 
     class BlankLine : public Line
@@ -249,7 +249,7 @@ private:
         virtual ~BlankLine() = default;
         BlankLine& operator=(const BlankLine&) = default;
         BlankLine& operator=(BlankLine&&) = default;
-        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
+        virtual void Print(std::ostream &os, const bool addLineFeed = true) const;
     };
 
     class CommentLine : public Line
@@ -263,7 +263,7 @@ private:
         CommentLine& operator=(const CommentLine&) = default;
         CommentLine& operator=(CommentLine&&) = default;
         const std::string& Comment() const;
-        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
+        virtual void Print(std::ostream &os, const bool addLineFeed = true) const;
 
     private:
         std::string m_comment{};
@@ -280,7 +280,7 @@ private:
         SectionLine& operator=(const SectionLine&) = default;
         SectionLine& operator=(SectionLine&&) = default;
         const std::string& Section() const;
-        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
+        virtual void Print(std::ostream &os, const bool addLineFeed = true) const;
 
     private:
         std::string m_section{};
@@ -300,7 +300,7 @@ private:
         const std::string& Value() const;
         void Value(const std::string& value);
         void Value(std::string&& value);
-        virtual void Print(std::ostream &os, bool addLineFeed = true) const;
+        virtual void Print(std::ostream &os, const bool addLineFeed = true) const;
 
     private:
         std::string m_key{};
@@ -335,9 +335,9 @@ private:
 
     private:
         line_iter m_sectIter{};
-        typedef std::list<line_iter> keys_list;
-        keys_list m_keyIters{};
-        typedef keys_list::iterator keys_iter;
+        typedef std::list<line_iter> line_iter_list;
+        line_iter_list m_keyIters{};
+        typedef line_iter_list::iterator keys_iter;
     };
 
     mutable bool m_changesMade{false};

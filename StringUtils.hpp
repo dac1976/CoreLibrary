@@ -118,7 +118,7 @@ enum class eSplitStringResult
  */
 void SplitString(std::string& subStr1, std::string& subStr2,
                  const std::string& toSplit, const std::string& delim,
-                 eSplitStringResult option);
+                 const eSplitStringResult option);
 
 /*!
  * \brief Format float options enumeration.
@@ -146,8 +146,9 @@ enum class eFloatStringFormat
  * string representaion.
  */
 template <typename T>
-std::string FormatFloatString(T value, int precision = 15,
-                              eFloatStringFormat fsf = eFloatStringFormat::normal)
+std::string FormatFloatString(const T value, const int precision = 15,
+                              const eFloatStringFormat fsf
+                                  = eFloatStringFormat::normal)
 {
     std::ostringstream ss;
 

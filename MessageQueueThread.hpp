@@ -78,14 +78,9 @@ enum class eOnDestroyOptions
  * Template args as follows:
  * MessageId    - define the type used for message ID.
  * MessageType  - define the type used for the message.
- * queueOptions - define the queue options to be used with the
- *                underlying ConcurrentQueue. Set multiple options
- *                using | operator.
- *                See enum eConcurrentQueueOptions in ConcurrentQueue.hpp.
  */
 template< typename MessageId
-          , typename MessageType
-          , eQueueOptions queueOptions = eQueueOptions::autoDelete >
+          , typename MessageType >
 class MessageQueueThread final : public ThreadBase
 {
 public:
@@ -99,17 +94,23 @@ public:
      * is a signel item and not and array of items of type MessageType
      * the the length will be the special value of -1.
      */
-    typedef std::function< MessageId (const MessageType*, int ) > msg_id_decoder;
+    typedef std::function< MessageId (const MessageType*, const int ) > msg_id_decoder;
     /*!
      * \brief Default constructor.
      * \param [IN] Function object that returns the message ID for a message.
+     * \param [IN] (Optional) Set the Message threads destroy option.
+     * \param [IN] (Optional) Set the queue's delete option.
      */
     explicit MessageQueueThread(const msg_id_decoder& messageIdDecoder
                                 , eOnDestroyOptions destroyOptions
-                                     = eOnDestroyOptions::deleteRemainingItems)
+                                     = eOnDestroyOptions::deleteRemainingItems
+                                , eQueueOptions queueOptions
+                                     = eQueueOptions::autoDelete)
         : ThreadBase()
         , m_msgIdDecoder{messageIdDecoder}
         , m_destroyOptions{destroyOptions}
+        , m_queueOptions{queueOptions}
+        , m_messageQueue{queueOptions}
     {
         Start();
     }
@@ -140,7 +141,7 @@ public:
      * is a signel item and not and array of items of type MessageType
      * the the length will be the special value of -1.
      */
-    typedef std::function< bool (MessageType*, int ) > msg_handler;
+    typedef std::function< bool (MessageType*, const int ) > msg_handler;
     /*!
      * \brief Register a function to handle a particular message.
      * \param [IN] Message ID.
@@ -149,7 +150,7 @@ public:
      * Throws a xMsgHandlerError exception if handler for message ID is
      * already defined.
      */
-    void RegisterMessageHandler(MessageId messageID
+    void RegisterMessageHandler(const MessageId messageID
                                 , const msg_handler& messageHandler)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
@@ -181,7 +182,7 @@ public:
      * Messages pushed on using this function will be deleted
      * with delete[] if length > 0.
      */
-    void Push(MessageType* msg, int length)
+    void Push(MessageType* msg, const int length)
     {
         m_messageQueue.Push(msg, length);
     }
@@ -193,12 +194,14 @@ private:
     msg_id_decoder m_msgIdDecoder;
     /*! \brief Control the destruction of the queue items. */
     const eOnDestroyOptions m_destroyOptions;
+    /*! \brief Queue option to copntrol how items are deleted. */
+    const eQueueOptions m_queueOptions{eQueueOptions::autoDelete};
     /*! \brief Typedef for message map type. */
-    typedef std::map< MessageId, msg_handler > msg_map;
+    typedef std::map<MessageId, msg_handler> msg_map;
     /*! \brief Message handler function Map. */
     msg_map m_msgHandlerMap;
-    /*! \brief Message handler Map. */
-    ConcurrentQueue< MessageType, queueOptions > m_messageQueue;
+    /*! \brief Message queue. */
+    ConcurrentQueue<MessageType> m_messageQueue;
 
     /*! \brief Execute a single iteration of the thread. */
     virtual void ThreadIteration()
@@ -234,12 +237,12 @@ private:
                 }
                 else
                 {
-                    deleteMsg = queueOptions == eQueueOptions::autoDelete;
+                    deleteMsg = m_queueOptions == eQueueOptions::autoDelete;
                 }
             }
             catch(...)
             {
-                deleteMsg = queueOptions == eQueueOptions::autoDelete;
+                deleteMsg = m_queueOptions == eQueueOptions::autoDelete;
             }
 
             if (deleteMsg)

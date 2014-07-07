@@ -65,28 +65,28 @@ public:
      *
      * Initialise the cell with a 32bit integer value.
      */
-    explicit Cell(int32_t value);
+    explicit Cell(const int32_t value);
     /*!
      * \brief Initializing constructor
      * \param [IN] The initial value.
      *
      * Initialise the cell with a 64bit integer value.
      */
-    explicit Cell(int64_t value);
+    explicit Cell(const int64_t value);
     /*!
      * \brief Initializing constructor
      * \param [IN] The initial value.
      *
      * Initialise the cell with a double precision floating point value.
      */
-    explicit Cell(double value);
+    explicit Cell(const double value);
     /*!
      * \brief Initializing constructor
      * \param [IN] The initial value.
      *
      * Initialise the cell with a long double precision floating point value.
      */
-    explicit Cell(long double value);
+    explicit Cell(const long double value);
     /*! \brief Destructor. */
     ~Cell() = default;
     /*! \brief Copy assignment operator. */
@@ -108,7 +108,7 @@ public:
      *
      * Assign to a 32bit integer value.
      */
-    Cell& operator=(int32_t rhs);
+    Cell& operator=(const int32_t rhs);
     /*!
      * \brief Value assignment operator.
      * \param [IN] The value to assign.
@@ -116,7 +116,7 @@ public:
      *
      * Assign to a 64bit integer value.
      */
-    Cell& operator=(int64_t rhs);
+    Cell& operator=(const int64_t rhs);
     /*!
      * \brief Value assignment operator.
      * \param [IN] The value to assign.
@@ -124,7 +124,7 @@ public:
      *
      * Assign to a double precision floating point value.
      */
-    Cell& operator=(double rhs);
+    Cell& operator=(const double rhs);
     /*!
      * \brief Value assignment operator.
      * \param [IN] The value to assign.
@@ -132,7 +132,7 @@ public:
      *
      * Assign to a long double precision floating point value.
      */
-    Cell& operator=(long double rhs);
+    Cell& operator=(const long double rhs);
     /*!
      * \brief Cast operator.
      * \return Modified Cell object.
@@ -188,7 +188,7 @@ public:
      * Convert the cell to a 32bit integer and if this cannot be
      * performed safely return the default value instead.
      */
-    int32_t ToInt32Def(int32_t defval) const noexcept;
+    int32_t ToInt32Def(const int32_t defval) const noexcept;
     /*!
      * \brief Conversion function
      * \param [IN] The default value to return in case of a failure.
@@ -197,7 +197,7 @@ public:
      * Convert the cell to a 64bit integer and if this cannot be
      * performed safely return the default value instead.
      */
-    int64_t ToInt64Def(int64_t defval) const noexcept;
+    int64_t ToInt64Def(const int64_t defval) const noexcept;
     /*!
      * \brief Conversion function
      * \param [IN] The default value to return in case of a failure.
@@ -206,7 +206,7 @@ public:
      * Convert the cell to a double and if this cannot be performed
      * safely return the default value instead.
      */
-    double ToDoubleDef(double defval) const noexcept;
+    double ToDoubleDef(const double defval) const noexcept;
     /*!
      * \brief Conversion function
      * \param [IN] The default value to return in case of a failure.
@@ -215,7 +215,7 @@ public:
      * Convert the cell to a long double and if this cannot be performed
      * safely return the default value instead.
      */
-    long double ToLongDoubleDef(long double defval) const noexcept;
+    long double ToLongDoubleDef(const long double defval) const noexcept;
 
 private:
     /*! \brief The cell's value data memeber. */

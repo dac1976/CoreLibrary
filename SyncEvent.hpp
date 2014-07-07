@@ -90,9 +90,9 @@ public:
      * If notifyCondition == eNotifyType::signalAllThreads
      * then eResetCondition == eResetCondition::manualReset.
      */
-    SyncEvent(eNotifyType notifyCondition
-              , eResetCondition resetCondition
-              , eIntialCondition initialCondition);
+    SyncEvent(const eNotifyType notifyCondition
+              , const eResetCondition resetCondition
+              , const eIntialCondition initialCondition);
     /*! \brief Destructor. */
     ~SyncEvent() = default;
     /*! \brief Copy constructor - disabled. */
@@ -116,7 +116,7 @@ public:
      * or if not signalled this function returns after a defined
      * number of milliseconds.
      */
-    bool WaitForTime(size_t milliseconds);
+    bool WaitForTime(const size_t milliseconds);
     /*!
      * \brief Signal event.
      *

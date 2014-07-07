@@ -125,7 +125,7 @@ protected:
      * if thread not fully started and therefore cannot be
      * made to sleep.
      */
-    void SleepForTime(unsigned int milliSecs) const;
+    void SleepForTime(const unsigned int milliSecs) const;
     /*!
      * \brief Execute a single iteration of the thread.
      *
@@ -172,12 +172,12 @@ private:
      * \brief Set terminating flag.
      * \param [IN] True if terminating, false otherwise.
      */
-    void SetTerminating(bool terminating = true);
+    void SetTerminating(const bool terminating = true);
     /*!
      * \brief Set started flag.
      * \param [IN] True if started, false otherwise.
      */
-    void SetStarted(bool started = true);
+    void SetStarted(const bool started = true);
     /*!
      * \brief Run the thread's iterations in a loop.
      *

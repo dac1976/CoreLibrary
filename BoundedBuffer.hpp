@@ -59,7 +59,7 @@ public:
      * \brief Constructor.
      * \param [IN] The capacity for the underlying circular buffer.
      */
-    explicit BoundedBuffer(size_type capacity)
+    explicit BoundedBuffer(const size_type capacity)
         : m_container{capacity}
     {
     }

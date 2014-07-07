@@ -87,7 +87,7 @@ xSplitStringTooManySubstrings::~xSplitStringTooManySubstrings()
 // ****************************************************************************
 void SplitString(std::string& subStr1, std::string& subStr2,
                  const std::string& toSplit, const std::string& delimiters,
-                 eSplitStringResult option)
+                 const eSplitStringResult option)
 {
     std::vector<std::string> splitVec;
     boost::split(splitVec, toSplit, boost::is_any_of(delimiters),

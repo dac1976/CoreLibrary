@@ -143,11 +143,11 @@ public:
 struct DefaultLogFormat
 {
     void operator() (std::ostream& os
-                     , std::time_t timeStamp
+                     , const std::time_t timeStamp
                      , const std::string& message
                      , const std::string& logMsgLevel
                      , const std::string& file
-                     , int lineNo
+                     , const int lineNo
                      , const std::thread::id& threadID) const;
 };
 
@@ -168,8 +168,7 @@ static const size_t BYTES_IN_MEBIBYTE{1024 * 1024};
  * ever exist the <log>.txt and <log>_old.txt. The default log
  * size if 5MiB.
  */
-template<typename Formatter /* e.g. DefaultLogFormat*/
-         , long MAX_LOG_SIZE = 5 * BYTES_IN_MEBIBYTE>
+template<typename Formatter>
 class DebugLog final
 {
 public:
@@ -191,14 +190,17 @@ public:
      * \param [IN] Version of software that "owns" the log.
      * \param [IN] Folder path (with trailing slash) where log will be created.
      * \param [IN] File name of log file without extension.
+     * \param [IN] (Optional) The maxium size for the log file.
      *
      * Create the DebugLog in given folder with given name. A ".txt"
      * extension is automatically appending to log file's name.
      */
-    DebugLog(const std::string& softwareVersion,
-             const std::string& logFolderPath,
-             const std::string& logName)
-        : m_softwareVersion{softwareVersion}
+    DebugLog(const std::string& softwareVersion
+             , const std::string& logFolderPath
+             , const std::string& logName
+             , const long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
+        : m_maxLogSize{maxLogSize}
+        , m_softwareVersion{softwareVersion}
         , m_logFilePath{logFolderPath + logName + ".txt"}
         , m_oldLogFilePath{logFolderPath + logName + "_old.txt"}
     {
@@ -222,6 +224,7 @@ public:
      * \param [IN] Version of software that "owns" the log.
      * \param [IN] Folder path (with trailing slash) where log will be created.
      * \param [IN] File name of log file without extension.
+     * \param [IN] (Optional) The maxium size for the log file.
      *
      * Instantiate the DebugLog in given folder with given name. A ".txt"
      * extension is automatically appending to log file's name.
@@ -231,10 +234,13 @@ public:
      * This method throws xInstantiationrError exception if object
      * already instantiated.
      */
-    void Instantiate(const std::string& softwareVersion,
-                     const std::string& logFolderPath,
-                     const std::string& logName)
+    void Instantiate(const std::string& softwareVersion
+                     , const std::string& logFolderPath
+                     , const std::string& logName
+                     , const long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
     {
+        m_maxLogSize = maxLogSize;
+
         if ((m_softwareVersion != "")
             || (m_logFilePath != "")
             || (m_oldLogFilePath != ""))
@@ -259,7 +265,7 @@ public:
      * after calling this function with eLogMessageLevel::warning
      * messages of this type will not appear in the log from this point.
      */
-    void AddLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
+    void AddLogMsgLevelFilter(const eLogMessageLevel logMessageLevel)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -279,7 +285,7 @@ public:
      * this function messages of the specified level will once again
      * appear in the log file.
      */
-    void RemoveLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
+    void RemoveLogMsgLevelFilter(const eLogMessageLevel logMessageLevel)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -331,8 +337,8 @@ public:
      */
     void AddLogMessage(const std::string& message
                        , const std::string& file
-                       , int lineNo
-                       , eLogMessageLevel logMsgLevel)
+                       , const int lineNo
+                       , const eLogMessageLevel logMsgLevel)
     {
         if (!IsLogMsgLevelFilterSet(logMsgLevel))
         {
@@ -371,11 +377,11 @@ private:
          * \param [IN] Message level.
          */
         LogQueueMessage(const std::string& message,
-                         time_t timeStamp,
+                         const time_t timeStamp,
                          const std::string& file,
-                         int lineNo,
-                         std::thread::id threadID,
-                         eLogMessageLevel errorLevel)
+                         const int lineNo,
+                         const std::thread::id& threadID,
+                         const eLogMessageLevel errorLevel)
             : m_message{message}
             , m_timeStamp{timeStamp}
             , m_file{file}
@@ -477,7 +483,7 @@ private:
     /*! \brief String for unknown message level.*/
     const std::string m_unknownLogMsgLevel{"?"};
     /*! \brief Message level string lookup map.*/
-    std::unordered_map<eLogMessageLevel, std::string>
+    const std::unordered_map<eLogMessageLevel, std::string>
         m_logMsgLevelLookup{{eLogMessageLevel::not_defined, ""}
                             , {eLogMessageLevel::debug, "Debug"}
                             , {eLogMessageLevel::info, "Info"}
@@ -488,6 +494,8 @@ private:
     std::set<eLogMessageLevel> m_logMsgFilterSet;
     /*! \brief Log formatter object.*/
     Formatter m_logFormatter;
+    /*! \brief Log file max size.*/
+    long m_maxLogSize{5 * BYTES_IN_MEBIBYTE};
     /*! \brief Output file stream.*/
     std::ofstream m_ofStream;
     /*! \brief Software version string.*/
@@ -506,6 +514,11 @@ private:
                                                         , std::placeholders::_2)
                                               , threads::eOnDestroyOptions::processRemainingItems)};
 
+    /*! \brief Get the max log size. */
+    long MaxLogSize() const
+    {
+        return m_maxLogSize;
+    }
     /*! \brief Register the log queue message ID. */
     void RegisterLogQueueMessageId()
     {
@@ -521,7 +534,7 @@ private:
      * \param [IN] Message length.
      * \return Message ID.
      */
-    int MessageDecoder(const LogQueueMessage* message, int length)
+    int MessageDecoder(const LogQueueMessage* message, const int length)
     {
         if (!message || (length == 0))
         {
@@ -536,7 +549,7 @@ private:
      * \param [IN] Message length.
      * \return LogQueueMessage reference.
      */
-    bool MessageHandler(LogQueueMessage* message, int length)
+    bool MessageHandler(LogQueueMessage* message, const int length)
     {
         if (!message || (length == 0))
         {
@@ -552,7 +565,7 @@ private:
      * \param [IN] Message level.
      * \return True if message level is found, false otherwise.
      */
-    bool IsLogMsgLevelInLookup(eLogMessageLevel logMessageLevel) const
+    bool IsLogMsgLevelInLookup(const eLogMessageLevel logMessageLevel) const
     {
         return m_logMsgLevelLookup.count(logMessageLevel) > 0;
     }
@@ -561,7 +574,7 @@ private:
      * \param [IN] Message level.
      * \return Message level string.
      */
-    const std::string& GetLogMsgLevelAsString(eLogMessageLevel logMessageLevel) const
+    const std::string& GetLogMsgLevelAsString(const eLogMessageLevel logMessageLevel) const
     {
         return IsLogMsgLevelInLookup(logMessageLevel)
                ? m_logMsgLevelLookup.find(logMessageLevel)->second
@@ -572,7 +585,7 @@ private:
      * \param [IN] Message level.
      * \return True if message level is found, false otherwise.
      */
-    bool IsLogMsgLevelFilterSetNoMutex(eLogMessageLevel logMessageLevel) const
+    bool IsLogMsgLevelFilterSetNoMutex(const eLogMessageLevel logMessageLevel) const
     {
         return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
     }
@@ -581,13 +594,13 @@ private:
      * \param [IN] Message level.
      * \return True if message level is found, false otherwise.
      */
-    bool IsLogMsgLevelFilterSet(eLogMessageLevel logMessageLevel) const
+    bool IsLogMsgLevelFilterSet(const eLogMessageLevel logMessageLevel) const
     {
         std::lock_guard<std::mutex> lock{m_mutex};
         return IsLogMsgLevelFilterSetNoMutex(logMessageLevel);
     }
     /*! \brief Enumeration containing file opening options. */
-    enum class eFileOpenOptions
+    enum eFileOpenOptions
     {
         /*! \brief Option to truncate file when opened. */
         truncate_file,
@@ -599,7 +612,7 @@ private:
      * \param [IN] File path.
      * \param [IN] FIle options (truncate or append).
      */
-    void OpenOfStream(const std::string& filePath, eFileOpenOptions fileOptions)
+    void OpenOfStream(const std::string& filePath, const eFileOpenOptions fileOptions)
     {
         if (m_ofStream.is_open())
         {
@@ -649,7 +662,7 @@ private:
      * \brief Check size of current log file.
      * \param [IN] Space required in file to write new message.
      */
-    void CheckLogFileSize(long requiredSpace)
+    void CheckLogFileSize(const long requiredSpace)
     {
         if (!m_ofStream.is_open())
         {
@@ -658,7 +671,7 @@ private:
 
         long pos = m_ofStream.tellp();
 
-        if ((MAX_LOG_SIZE - pos) < requiredSpace)
+        if ((MaxLogSize() - pos) < requiredSpace)
         {
             CloseOfStream();
             boost::filesystem::copy_file(m_logFilePath, m_oldLogFilePath

@@ -39,22 +39,22 @@ Cell::Cell(const std::string& data)
 {
 }
 
-Cell::Cell(int32_t value)
+Cell::Cell(const int32_t value)
     : m_value{std::to_string(value)}
 {
 }
 
-Cell::Cell(int64_t value)
+Cell::Cell(const int64_t value)
     : m_value{std::to_string(value)}
 {
 }
 
-Cell::Cell(double value)
+Cell::Cell(const double value)
     : m_value{string_utils::FormatFloatString(value)}
 {
 }
 
-Cell::Cell(long double value)
+Cell::Cell(const long double value)
     : m_value{string_utils::FormatFloatString(value, 30)}
 {
 }
@@ -65,25 +65,25 @@ Cell& Cell::operator=(const std::string& rhs)
     return *this;
 }
 
-Cell& Cell::operator=(int32_t rhs)
+Cell& Cell::operator=(const int32_t rhs)
 {
     m_value = std::to_string(rhs);
     return *this;
 }
 
-Cell& Cell::operator=(int64_t rhs)
+Cell& Cell::operator=(const int64_t rhs)
 {
     m_value = std::to_string(rhs);
     return *this;
 }
 
-Cell& Cell::operator=(double rhs)
+Cell& Cell::operator=(const double rhs)
 {
     m_value = string_utils::FormatFloatString(rhs);
     return *this;
 }
 
-Cell& Cell::operator=(long double rhs)
+Cell& Cell::operator=(const long double rhs)
 {
     m_value = string_utils::FormatFloatString(rhs, 30);
     return *this;
@@ -114,7 +114,7 @@ Cell::operator long double() const
     return std::stold(m_value);
 }
 
-int32_t Cell::ToInt32Def(int32_t defval) const noexcept
+int32_t Cell::ToInt32Def(const int32_t defval) const noexcept
 {
     int32_t val;
 
@@ -130,7 +130,7 @@ int32_t Cell::ToInt32Def(int32_t defval) const noexcept
     return val;
 }
 
-int64_t Cell::ToInt64Def(int64_t defval) const noexcept
+int64_t Cell::ToInt64Def(const int64_t defval) const noexcept
 {
     int64_t val;
 
@@ -147,7 +147,7 @@ int64_t Cell::ToInt64Def(int64_t defval) const noexcept
 }
 
 
-double Cell::ToDoubleDef(double defval) const noexcept
+double Cell::ToDoubleDef(const double defval) const noexcept
 {
     double val;
 
@@ -163,7 +163,7 @@ double Cell::ToDoubleDef(double defval) const noexcept
     return val;
 }
 
-long double Cell::ToLongDoubleDef(long double defval) const noexcept
+long double Cell::ToLongDoubleDef(const long double defval) const noexcept
 {
     long double val;
 

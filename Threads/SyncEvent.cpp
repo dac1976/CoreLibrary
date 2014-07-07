@@ -34,9 +34,9 @@ namespace threads {
 // ****************************************************************************
 // 'class SyncEvent' definition
 // ****************************************************************************
-SyncEvent::SyncEvent(eNotifyType notifyCondition
-                     , eResetCondition resetCondition
-                     , eIntialCondition initialCondition)
+SyncEvent::SyncEvent(const eNotifyType notifyCondition
+                     , const eResetCondition resetCondition
+                     , const eIntialCondition initialCondition)
         : m_signalAllThreads{notifyCondition == eNotifyType::signalAllThreads}
         , m_autoReset{m_signalAllThreads
                       ? false
@@ -56,7 +56,7 @@ void SyncEvent::Wait()
     }
 }
 
-bool SyncEvent::WaitForTime(size_t milliseconds)
+bool SyncEvent::WaitForTime(const size_t milliseconds)
 {
     std::unique_lock<std::mutex> lock{m_signalMutex};
     bool result
