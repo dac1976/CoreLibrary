@@ -162,7 +162,7 @@ void DebugLogTest::testCase_DebugLog3()
 void DebugLogTest::testCase_DebugLog4()
 {
     {
-        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat, 1024> dl("1.0.0.0", "", "test_log");
+        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log", 1024);
         dl.AddLogMessage("Message 1", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
         dl.AddLogMessage("Message 2", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
         dl.AddLogMessage("Message 3", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
