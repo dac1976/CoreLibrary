@@ -417,8 +417,7 @@ void IniFileTest::Case11_GetSections()
     core_lib::ini_file::IniFile iniFile("../../test_file_check.ini");
 #endif
 
-    std::list<std::string> sections;
-    iniFile.GetSections(sections);
+    std::list<std::string> sections{iniFile.GetSections()};
 
     QVERIFY(sections.size() == 2);
 

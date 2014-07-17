@@ -328,6 +328,62 @@ IniFile::line_iter IniFile::SectionDetails::LineIterator() const
 // ****************************************************************************
 // 'class IniFile' definition
 // ****************************************************************************
+namespace
+{
+
+static bool IsBlankLine(const std::string& line)
+{
+    return line == "";
+}
+
+static bool IsCommentLine(const std::string& line
+                            , std::string& comment)
+{
+    bool isComment = line.front() == ';';
+
+    if (isComment)
+    {
+        comment = line.substr(1, line.size() - 1);
+    }
+
+    return isComment;
+}
+
+static bool IsSectionLine(const std::string& line
+                            , std::string& section)
+{
+    bool isSection
+        = (line.front() == '[') && (line.back() == ']');
+
+    if (isSection)
+    {
+        section = line.substr(1, line.size() - 2);
+        boost::trim(section);
+    }
+
+    return isSection;
+}
+
+static bool IsKeyLine(const std::string& line
+                        , std::string& key
+                        , std::string& value)
+{
+    bool isKeyLine{true};
+
+    try
+    {
+        string_utils::SplitString(key, value , line, "="
+                                  , string_utils::eSplitStringResult::trimmed);
+    }
+    catch(...)
+    {
+        isKeyLine = false;
+    }
+
+    return isKeyLine;
+}
+
+} // namespace
 
 IniFile::IniFile(const std::string& iniFilePath)
 {
@@ -456,26 +512,29 @@ void IniFile::UpdateFile(const std::string& overridePath) const
     }
 }
 
-void IniFile::GetSections(std::list<std::string>& sections) const
+std::list<std::string> IniFile::GetSections() const
 {
-    sections.clear();
+    std::list<std::string> sections;
 
     for (auto section : m_sectionMap)
     {
         sections.push_back(section.first);
     }
+
+    return sections;
 }
 
-void IniFile::GetSection(const std::string& section
-                         , IniFile::keys_list& keys) const
+IniFile::keys_list IniFile::GetSection(const std::string& section) const
 {
-    keys.clear();
+    keys_list keys;
     section_citer sectIt{m_sectionMap.find(section)};
 
     if (sectIt != m_sectionMap.end())
     {
         sectIt->second.GetKeys(keys);
     }
+
+    return keys;
 }
 
 bool IniFile::SectionExists(const std::string& section) const
@@ -814,8 +873,7 @@ void IniFile::EraseSection(const std::string& section)
 
 void IniFile::EraseSections()
 {
-    std::list<std::string> sections;
-    GetSections(sections);
+    std::list<std::string> sections{GetSections()};
 
     for (auto section : sections)
     {
@@ -842,65 +900,12 @@ void IniFile::EraseKey(const std::string& section
 
 void IniFile::EraseKeys(const std::string& section)
 {
-    keys_list keys;
-    GetSection(section, keys);
+    keys_list keys{GetSection(section)};
 
     for (auto key : keys)
     {
         EraseKey(section, key.first);
     }
-}
-
-bool IniFile::IsBlankLine(const std::string& line) const
-{
-    return line == "";
-}
-
-bool IniFile::IsCommentLine(const std::string& line
-                            , std::string& comment) const
-{
-    bool isComment = line.front() == ';';
-
-    if (isComment)
-    {
-        comment = line.substr(1, line.size() - 1);
-    }
-
-    return isComment;
-}
-
-bool IniFile::IsSectionLine(const std::string& line
-                            , std::string& section) const
-{
-    bool isSection
-        = (line.front() == '[') && (line.back() == ']');
-
-    if (isSection)
-    {
-        section = line.substr(1, line.size() - 2);
-        boost::trim(section);
-    }
-
-    return isSection;
-}
-
-bool IniFile::IsKeyLine(const std::string& line
-                        , std::string& key
-                        , std::string& value) const
-{
-    bool isKeyLine{true};
-
-    try
-    {
-        string_utils::SplitString(key, value , line, "="
-                                  , string_utils::eSplitStringResult::trimmed);
-    }
-    catch(...)
-    {
-        isKeyLine = false;
-    }
-
-    return isKeyLine;
 }
 
 } // namespace core_lib

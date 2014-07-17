@@ -147,7 +147,7 @@ public:
  *
  * Here is an example of what a ini file may look like:
  *
- * ; I am an opening comment.
+ *    ; I am an opening comment.
  *
  *    [Section1]
  *    ; I am a comment in a section.
@@ -162,69 +162,288 @@ public:
  *    Section2_Key3=Section2_Value3
  *    ; I am yet another comment in a section.
  *
- * Please note that the suppored comment delimter is ';'.
+ * Please note that the supported comment delimiter is ';'.
  * Also note that blank lines and comments are preserved
  * when loading an ini file. However, leading and trailing
  * whitespace in section, key or value items are removed.
  */
 class IniFile final
 {
-public:
+public:    
+    /** \brief Default constructor. */
     IniFile() = default;
+    /** \brief Copy constructor. */
     IniFile(const IniFile&) = default;
+    /** \brief Move constructor. */
     IniFile(IniFile&&) = default;
+    /**
+     * \brief INI path based constructor.
+     * \param [IN] Path to INI file.
+     *
+     * Create an INI file object from an INI file path.
+     */
     explicit IniFile(const std::string& iniFilePath);
+    /** \brief Destructor. */
     ~IniFile() = default;
+    /** \brief Copy assignment operator. */
     IniFile& operator=(const IniFile&) = default;
+    /** \brief Move assignment operator. */
     IniFile& operator=(IniFile&&) = default;
+    /**
+     * \brief Load an INI file.
+     * \param [IN] Path to an INI file.
+     *  
+     *  Load from an INI file path.
+     */
     void LoadFile(const std::string& iniFilePath);
+    /**
+     * \brief Update the file.
+     * \param [IN] Optional override path to save to alternative location.
+     *  
+     * Write settings back to file on disk.
+     */
     void UpdateFile(const std::string& overridePath = "") const;
-    void GetSections(std::list<std::string>& sections) const;
+    /**
+     * \brief Get sections.
+     *  
+     * \param [IN] sections Parameter_Description
+     * \return Return_Description
+     *  
+     *  Load from an INI file path.
+     */
+    std::list<std::string> GetSections() const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] keys    Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     typedef std::list<std::pair<std::string, std::string>> keys_list;
-    void GetSection(const std::string& section , keys_list& keys) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] keys    Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
+    keys_list GetSection(const std::string& section) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     bool SectionExists(const std::string& section) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     bool KeyExists(const std::string& section
                    , const std::string& key) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section      Parameter_Description
+     *  \param [IN] key          Parameter_Description
+     *  \param [IN] defaultValue Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     bool ReadBool(const std::string& section
                   , const std::string& key
                   , const bool defaultValue = false) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section      Parameter_Description
+     *  \param [IN] key          Parameter_Description
+     *  \param [IN] defaultValue Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     int32_t ReadInteger(const std::string& section
                     , const std::string&key
                     , const int32_t defaultValue = 0) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section      Parameter_Description
+     *  \param [IN] key          Parameter_Description
+     *  \param [IN] defaultValue Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     int64_t ReadInteger64(const std::string& section
                           , const std::string& key
                           , const int64_t defaultValue = 0L) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section      Parameter_Description
+     *  \param [IN] key          Parameter_Description
+     *  \param [IN] defaultValue Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     double ReadDouble(const std::string& section
                       , const std::string& key
                       , const double defaultValue = 0.0) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section      Parameter_Description
+     *  \param [IN] key          Parameter_Description
+     *  \param [IN] defaultValue Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     long double ReadLongDouble(const std::string& section
                                , const std::string& key
                                , const long double defaultValue = 0.0L) const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section      Parameter_Description
+     *  \param [IN] key          Parameter_Description
+     *  \param [IN] defaultValue Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     std::string ReadString(const std::string& section
                            , const std::string& key
                            , const std::string& defaultValue = "") const;
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \param [IN] value   Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void WriteBool(const std::string& section
                    , const std::string& key
                    , const bool value);
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \param [IN] value   Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void WriteInteger(const std::string& section
                       , const std::string& key
                       , const int32_t value);
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \param [IN] value   Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void WriteInteger64(const std::string& section
                         , const std::string& key
                         , const int64_t value);
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \param [IN] value   Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void WriteDouble(const std::string& section
                      , const std::string& key
                      , const double value);
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \param [IN] value   Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void WriteLongDouble(const std::string& section
                          , const std::string& key
                          , const long double value);
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \param [IN] value   Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void WriteString(const std::string& section
                      , const std::string& key
                      , const std::string& value);
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void EraseSection(const std::string& section);
+    /**
+     *  \brief Brief
+     *  
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void EraseSections();
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \param [IN] key     Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void EraseKey(const std::string& section
                   , const std::string& key);
+    /**
+     *  \brief Brief
+     *  
+     *  \param [IN] section Parameter_Description
+     *  \return Return_Description
+     *  
+     *  \details Details
+     */
     void EraseKeys(const std::string& section);
 
 private:
@@ -361,14 +580,6 @@ private:
     void WriteValue(const std::string& section
                     , const std::string& key
                     , const std::string& value);
-    bool IsBlankLine(const std::string& line) const;
-    bool IsCommentLine(const std::string& line
-                       , std::string& comment) const;
-    bool IsSectionLine(const std::string& line
-                       , std::string& section) const;
-    bool IsKeyLine(const std::string& line
-                   , std::string& key
-                   , std::string& value) const;
 };
 
 } // namespace ini_file
