@@ -19,10 +19,9 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file IoServiceThreadGroup.hpp
- * \brief File containing declarations relating the IniFile class.
+ * \brief File containing declarations relating the IoServiceThreadGroup class.
  */
 
 #ifndef IOSERVICETHREADGROUP_HPP
@@ -43,7 +42,7 @@ namespace asio {
  * use by Boost's ASIO I/O service. This allows the
  * I/O Service to spread its work load across multiple
  * threads. This class also calls run on the I/O service
- * from eac hregistered thread and also calls stop and joins
+ * from each registered thread and also calls stop and joins
  * all threads in its destructor.
  */
 class IoServiceThreadGroup final
@@ -51,25 +50,28 @@ class IoServiceThreadGroup final
 public:
     /*!
      * \brief Initialising constuctor.
-     * \param [IN] Reference to a Boost ASIO I/O service.
      * \param [IN] (Optional) Number of threads to create.
      *
      * If the number of threads is not specified then the value
      * will be assigned using std::thread::hardware_concurrency().
      */
-    explicit IoServiceThreadGroup(boost::asio::io_service& ioService
-                                  , const unsigned int numThreads
-                                        = std::thread::hardware_concurrency());
+    explicit IoServiceThreadGroup(const unsigned int numThreads
+                                      = std::thread::hardware_concurrency());
     /*! \brief Copy constructor deleted.*/
     IoServiceThreadGroup(const IoServiceThreadGroup& ) = delete;
     /*! \brief Copy assignment operator deleted.*/
     IoServiceThreadGroup& operator=(const IoServiceThreadGroup& ) = delete;
     /*! \brief Destructor.*/
     ~IoServiceThreadGroup();
+    /*!
+     * \brief Get the I/O service.
+     * \return A reference to the I/O service.
+     */
+    boost::asio::io_service& IoService();
 
 private:
     /*! \brief Boost ASIO I/O service.*/
-    boost::asio::io_service& m_ioService;
+    boost::asio::io_service m_ioService;
     /*! \brief Boost ASIO I/O service work object.*/
     boost::asio::io_service::work m_ioWork;
     /*! \brief Our thread group.*/

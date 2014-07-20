@@ -204,51 +204,29 @@ public:
      */
     void UpdateFile(const std::string& overridePath = "") const;
     /**
-     * \brief Get sections.
-     *  
-     * \param [IN] sections Parameter_Description
-     * \return Return_Description
-     *  
-     *  Load from an INI file path.
+     * \brief Get sections.  
+     * \return A list of INI file section names.
      */
     std::list<std::string> GetSections() const;
-    /**
-     *  \brief Brief
-     *  
-     *  \param [IN] section Parameter_Description
-     *  \param [IN] keys    Parameter_Description
-     *  \return Return_Description
-     *  
-     *  \details Details
-     */
+    /** \brief Typedef defining the key-value pair list for section entries. */
     typedef std::list<std::pair<std::string, std::string>> keys_list;
     /**
-     *  \brief Brief
-     *  
+     *  \brief Get section's key-value pairs.
      *  \param [IN] section Parameter_Description
-     *  \param [IN] keys    Parameter_Description
-     *  \return Return_Description
-     *  
-     *  \details Details
+     *  \return A list of key-value pairs for an INI file section.
      */
     keys_list GetSection(const std::string& section) const;
     /**
-     *  \brief Brief
-     *  
-     *  \param [IN] section Parameter_Description
-     *  \return Return_Description
-     *  
-     *  \details Details
+     *  \brief Check if a section exists.
+     *  \param [IN] Section name.
+     *  \return True if section name exists, false otherwise.
      */
     bool SectionExists(const std::string& section) const;
     /**
-     *  \brief Brief
-     *  
-     *  \param [IN] section Parameter_Description
-     *  \param [IN] key     Parameter_Description
-     *  \return Return_Description
-     *  
-     *  \details Details
+     *  \brief Check if a key exists for a section.
+     *  \param [IN] Section name.
+     *  \param [IN] Key name.
+     *  \return True if key exists, false otherwise.
      */
     bool KeyExists(const std::string& section
                    , const std::string& key) const;
