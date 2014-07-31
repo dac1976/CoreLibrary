@@ -20,9 +20,13 @@ TEMPLATE = app
 CONFIG(debug, debug|release) {
   # TARGET = $$join(TARGET,,,d) # if compiling in debug mode, append a "d" to the application name
   DESTDIR = debug
+  LIBS += D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_system-mgw48-d-1_55.a
 } else {
   DESTDIR = release
+  LIBS += D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_system-mgw48-1_55.a
 }
+
+LIBS += -lws2_32
 
 OBJECTS_DIR = $${DESTDIR}/obj
 MOC_DIR = $${DESTDIR}/moc
@@ -35,7 +39,8 @@ SOURCES += ../tst_ThreadsTest.cpp \
     ../../../Threads/SyncEvent.cpp \
     ../../../Threads/ThreadBase.cpp \
     ../../../Threads/ThreadGroup.cpp \
-    ../../../Exceptions/CustomException.cpp
+    ../../../Exceptions/CustomException.cpp \
+    ../../../Asio/IoServiceThreadGroup.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -47,4 +52,5 @@ HEADERS += \
     ../../../ThreadBase.hpp \
     ../../../ThreadGroup.hpp \
     ../../../BoundedBuffer.hpp \
-    ../../../Threads/JoinThreads.hpp
+    ../../../Threads/JoinThreads.hpp \
+    ../../../Asio/IoServiceThreadGroup.hpp

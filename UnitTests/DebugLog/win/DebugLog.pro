@@ -21,12 +21,12 @@ TEMPLATE = app
 CONFIG(debug, debug|release) {
   # TARGET = $$join(TARGET,,,d) # if compiling in debug mode, append a "d" to the application name
   DESTDIR = debug
-  LIBS += C:/Projects/ThirdParty/boost_1_55_0/lib/gcc_482_x86/libboost_filesystem-mgw48-d-1_55.a \
-          C:/Projects/ThirdParty/boost_1_55_0/lib/gcc_482_x86/libboost_system-mgw48-d-1_55.a
+  LIBS += D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_filesystem-mgw48-d-1_55.a \
+          D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_system-mgw48-d-1_55.a
 } else {
   DESTDIR = release
-  LIBS += C:/Projects/ThirdParty/boost_1_55_0/lib/gcc_482_x86/libboost_filesystem-mgw48-1_55.a \
-          C:/Projects/ThirdParty/boost_1_55_0/lib/gcc_482_x86/libboost_system-mgw48-1_55.a
+  LIBS += D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_filesystem-mgw48-1_55.a \
+          D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_system-mgw48-1_55.a
 }
 
 OBJECTS_DIR = $${DESTDIR}/obj

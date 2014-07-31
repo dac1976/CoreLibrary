@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <vector>
+#include <set>
 #include <limits>
 #include "../../SyncEvent.hpp"
 #include "../../ThreadBase.hpp"
@@ -12,6 +13,7 @@
 #include "../../ConcurrentQueue.hpp"
 #include "../../MessageQueueThread.hpp"
 #include "../../BoundedBuffer.hpp"
+#include "../../Asio/IoServiceThreadGroup.hpp"
 
 // ****************************************************************************
 // Helper classes for tests
@@ -392,6 +394,39 @@ private:
 
 };
 
+class Sum
+{
+public:
+    Sum() = default;
+    Sum(const Sum&) = delete;
+    Sum& operator=(const Sum&) = delete;
+
+    void Add(const uint64_t n)
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_total += n;
+        m_threadIds.insert(std::this_thread::get_id());
+    }
+
+    uint64_t Total() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_total;
+    }
+
+    size_t NumThreadsUsed() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_threadIds.size();
+    }
+
+private:
+    mutable std::mutex m_mutex;
+    uint64_t m_total{0};
+    std::set<std::thread::id> m_threadIds;
+
+};
+
 // ****************************************************************************
 // Unit test wrapper
 // ****************************************************************************
@@ -429,6 +464,7 @@ private Q_SLOTS:
     void testCase_BoundedBuffer2();
     void testCase_BoundedBuffer3();
     void testCase_MessageQueuetThread1();
+    void testCase_IoThreadGroup();
 };
 
 ThreadsTest::ThreadsTest()
@@ -1034,6 +1070,31 @@ void ThreadsTest::testCase_MessageQueuetThread1()
     QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M1) == 11);
     QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M2) == 11);
     QVERIFY(mqtt.CountMessageId(MessageQueueThreadTest::M3) == 11);
+}
+
+// ****************************************************************************
+// MessageQueuetThread tests
+// ****************************************************************************
+
+void ThreadsTest::testCase_IoThreadGroup()
+{
+    Sum sum1{};
+    Sum sum2{};
+
+    {
+        core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
+
+        for (uint64_t i = 1; i <= 1000000; ++i)
+        {
+            ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum1, i));
+            ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum2, i));
+        }
+    }
+
+    QVERIFY(sum1.Total() == static_cast<uint64_t>(500000500000));
+    QVERIFY(sum2.Total() == static_cast<uint64_t>(500000500000));
+    QVERIFY(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
+    QVERIFY(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
 }
 
 QTEST_APPLESS_MAIN(ThreadsTest)
