@@ -5,6 +5,8 @@
 #include <fstream>
 #include "boost/predef.h"
 
+using namespace core_lib::csv_grid;
+
 class CsvGridTest : public QObject
 {
     Q_OBJECT
@@ -481,42 +483,40 @@ void CsvGridTest::Case34_Row_InitializingConstructor()
 
 void CsvGridTest::Case35_Row_InitializerListCellConstructor()
 {
-    core_lib::csv_grid::Row row = { core_lib::csv_grid::Cell(), core_lib::csv_grid::Cell(),
-                                    core_lib::csv_grid::Cell(), core_lib::csv_grid::Cell(),
-                                    core_lib::csv_grid::Cell() };
+    core_lib::csv_grid::Row row = { Cell(), Cell(), Cell(), Cell(), Cell() };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
 }
 
 void CsvGridTest::Case36_Row_InitializerListStringConstructor()
 {
-    core_lib::csv_grid::Row row = { "", "", "", "", "" };
+    core_lib::csv_grid::Row row = { Cell(""), Cell(""), Cell(""), Cell(""), Cell("") };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
 }
 
 void CsvGridTest::Case37_Row_InitializerListInt32Constructor()
 {
     int32_t i = 0;
-    core_lib::csv_grid::Row row = { i, i, i, i, i };
+    core_lib::csv_grid::Row row = { Cell(i), Cell(i), Cell(i), Cell(i), Cell(i) };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
 }
 
 void CsvGridTest::Case38_Row_InitializerListInt64Constructor()
 {
     int64_t i = 0;
-    core_lib::csv_grid::Row row = { i, i, i, i, i };
+    core_lib::csv_grid::Row row = { Cell(i), Cell(i), Cell(i), Cell(i), Cell(i) };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
 }
 
 void CsvGridTest::Case39_Row_InitializerListDoubleConstructor()
 {
     double i = 0;
-    core_lib::csv_grid::Row row = { i, i, i, i, i };
+    core_lib::csv_grid::Row row = { Cell(i), Cell(i), Cell(i), Cell(i), Cell(i) };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
 }
 
 void CsvGridTest::Case40_Row_CopyAssignment()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     core_lib::csv_grid::Row rowCopy;
     rowCopy = row;
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
@@ -531,7 +531,7 @@ void CsvGridTest::Case41_Row_MoveAssignment()
 
 void CsvGridTest::Case42_Row_SubscriptOperator()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     QCOMPARE(static_cast<int32_t>(row[0]), 1);
     QCOMPARE(static_cast<int32_t>(row[1]), 2);
     QCOMPARE(static_cast<int32_t>(row[2]), 3);
@@ -592,7 +592,7 @@ void CsvGridTest::Case46_Row_AddColumnAsDouble()
 
 void CsvGridTest::Case47_Row_InsertColumnAsString()
 {
-    core_lib::csv_grid::Row row = { "1", "2", "3", "4", "5" };
+    core_lib::csv_grid::Row row = { Cell("1"), Cell("2"), Cell("3"), Cell("4"), Cell("5") };
     row.InsertColumn(3, "666");
     QCOMPARE(row.GetSize(), static_cast<size_t>(6));
     QCOMPARE(static_cast<std::string>(row[0]), std::string("1"));
@@ -624,7 +624,7 @@ void CsvGridTest::Case47_Row_InsertColumnAsString()
 
 void CsvGridTest::Case48_Row_InsertColumnAsInt32()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     row.InsertColumn(3, static_cast<int32_t>(666));
     QCOMPARE(row.GetSize(), static_cast<size_t>(6));
     QCOMPARE(static_cast<int32_t>(row[0]), int32_t(1));
@@ -637,7 +637,7 @@ void CsvGridTest::Case48_Row_InsertColumnAsInt32()
 
 void CsvGridTest::Case49_Row_InsertColumnAsInt64()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     row.InsertColumn(3, static_cast<int64_t>(666));
     QCOMPARE(row.GetSize(), static_cast<size_t>(6));
     QCOMPARE(static_cast<int64_t>(row[0]), int64_t(1));
@@ -650,7 +650,7 @@ void CsvGridTest::Case49_Row_InsertColumnAsInt64()
 
 void CsvGridTest::Case50_Row_InsertColumnAsDouble()
 {
-    core_lib::csv_grid::Row row = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+    core_lib::csv_grid::Row row = { Cell(1.1), Cell(2.2), Cell(3.3), Cell(4.4), Cell(5.5) };
     row.InsertColumn(3, static_cast<double>(666.6));
     QCOMPARE(row.GetSize(), static_cast<size_t>(6));
     QCOMPARE(static_cast<double>(row[0]), double(1.1));
@@ -663,7 +663,7 @@ void CsvGridTest::Case50_Row_InsertColumnAsDouble()
 
 void CsvGridTest::Case51_Row_ClearCells()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
     row.ClearCells();
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
@@ -677,7 +677,7 @@ void CsvGridTest::Case51_Row_ClearCells()
 
 void CsvGridTest::Case52_Row_ResetRow()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
     row.ResetRow();
     QCOMPARE(row.GetSize(), static_cast<size_t>(0));
@@ -725,7 +725,7 @@ void CsvGridTest::Case55_CsvGrid_InitializingConstructor_2()
 
 void CsvGridTest::Case56_CsvGrid_InitializerListConstructor()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     core_lib::csv_grid::CsvGrid grid = { row, row, row, row, row };
 
     QCOMPARE(grid.GetRowCount(), static_cast<size_t>(5));
@@ -739,7 +739,7 @@ void CsvGridTest::Case56_CsvGrid_InitializerListConstructor()
 
 void CsvGridTest::Case57_CsvGrid_CopyConstructor()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     core_lib::csv_grid::CsvGrid grid = { row, row, row, row, row };
     core_lib::csv_grid::CsvGrid gridCopy(grid);
 
@@ -754,7 +754,7 @@ void CsvGridTest::Case57_CsvGrid_CopyConstructor()
 
 void CsvGridTest::Case58_CsvGrid_MoveConstructor()
 {
-    core_lib::csv_grid::Row row = { 1, 2, 3, 4, 5 };
+    core_lib::csv_grid::Row row = { Cell(1), Cell(2), Cell(3), Cell(4), Cell(5) };
     core_lib::csv_grid::CsvGrid gridCopy(core_lib::csv_grid::CsvGrid{row, row, row, row, row });
 
     QCOMPARE(gridCopy.GetRowCount(), static_cast<size_t>(5));
@@ -910,9 +910,9 @@ void CsvGridTest::Case64_CsvGrid_AddRow()
 
 void CsvGridTest::Case65_CsvGrid_AddColumnToAllRows()
 {
-    core_lib::csv_grid::Row row1 = { 1 };
-    core_lib::csv_grid::Row row2 = { 1, 2 };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3 };
+    core_lib::csv_grid::Row row1 = { Cell(1) };
+    core_lib::csv_grid::Row row2 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3) };
     core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
 
     grid.AddColumnToAllRows();
@@ -924,9 +924,9 @@ void CsvGridTest::Case65_CsvGrid_AddColumnToAllRows()
 
 void CsvGridTest::Case66_CsvGrid_InsertRow()
 {
-    core_lib::csv_grid::Row row1 = { 1 };
-    core_lib::csv_grid::Row row2 = { 1, 2 };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3 };
+    core_lib::csv_grid::Row row1 = { Cell(1) };
+    core_lib::csv_grid::Row row2 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3) };
     core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
 
     grid.InsertRow(1, 5);
@@ -971,9 +971,9 @@ void CsvGridTest::Case66_CsvGrid_InsertRow()
 
 void CsvGridTest::Case67_CsvGrid_InsertColumnInAllRows()
 {
-    core_lib::csv_grid::Row row1 = { 1, 2 };
-    core_lib::csv_grid::Row row2 = { 1, 2, 3 };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3, 4 };
+    core_lib::csv_grid::Row row1 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row2 = { Cell(1), Cell(2), Cell(3) };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3), Cell(4) };
     core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
 
     grid.InsertColumnInAllRows(1);
@@ -1017,9 +1017,9 @@ void CsvGridTest::Case67_CsvGrid_InsertColumnInAllRows()
 
 void CsvGridTest::Case68_CsvGrid_ClearCells()
 {
-    core_lib::csv_grid::Row row1 = { 1, 2 };
-    core_lib::csv_grid::Row row2 = { 1, 2, 3 };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3, 4 };
+    core_lib::csv_grid::Row row1 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row2 = { Cell(1), Cell(2), Cell(3) };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3), Cell(4) };
     core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
 
     grid.ClearCells();
@@ -1047,9 +1047,9 @@ void CsvGridTest::Case68_CsvGrid_ClearCells()
 
 void CsvGridTest::Case69_CsvGrid_ResetGrid()
 {
-    core_lib::csv_grid::Row row1 = { 1, 2 };
-    core_lib::csv_grid::Row row2 = { 1, 2, 3 };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3, 4 };
+    core_lib::csv_grid::Row row1 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row2 = { Cell(1), Cell(2), Cell(3) };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3), Cell(4) };
     core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
 
     grid.ResetGrid();
@@ -1105,9 +1105,9 @@ void CsvGridTest::Case71_CsvGrid_LoadFromCSVFile_2()
 
 void CsvGridTest::Case72_CsvGrid_LoadFromCSVFile_3()
 {
-    core_lib::csv_grid::Row row1 = { 1, 2 };
-    core_lib::csv_grid::Row row2 = { 1, 2, 3 };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3, 4 };
+    core_lib::csv_grid::Row row1 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row2 = { Cell(1), Cell(2), Cell(3) };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3), Cell(4) };
     core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
 
     QCOMPARE(grid.GetRowCount(), static_cast<size_t>(3));
@@ -1144,9 +1144,9 @@ void CsvGridTest::Case72_CsvGrid_LoadFromCSVFile_3()
 
 void CsvGridTest::Case73_CsvGrid_SaveToCSVFile_1()
 {
-    core_lib::csv_grid::Row row1 = { 1, 2 };
-    core_lib::csv_grid::Row row2 = { 1, 2, 3 };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3, 4 };
+    core_lib::csv_grid::Row row1 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row2 = { Cell(1), Cell(2), Cell(3) };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3), Cell(4) };
     core_lib::csv_grid::CsvGrid gridOut = {row1, row2, row3};
 
     try
@@ -1186,9 +1186,9 @@ void CsvGridTest::Case73_CsvGrid_SaveToCSVFile_1()
 
 void CsvGridTest::Case74_CsvGrid_SaveToCSVFile_2()
 {
-    core_lib::csv_grid::Row row1 = { 1, 2 };
-    core_lib::csv_grid::Row row2 = { "1,/nbum", "2", "3" };
-    core_lib::csv_grid::Row row3 = { 1, 2, 3, 4 };
+    core_lib::csv_grid::Row row1 = { Cell(1), Cell(2) };
+    core_lib::csv_grid::Row row2 = { Cell("1,/nbum"), Cell("2"), Cell("3") };
+    core_lib::csv_grid::Row row3 = { Cell(1), Cell(2), Cell(3), Cell(4) };
     core_lib::csv_grid::CsvGrid gridOut = {row1, row2, row3};
 
     try
@@ -1228,6 +1228,8 @@ void CsvGridTest::Case74_CsvGrid_SaveToCSVFile_2()
 
 void CsvGridTest::Case75_CsvGrid_OStream()
 {
+    // Deprecated
+
     /*core_lib::csv_grid::Row row1 = { 1, 2 };
     core_lib::csv_grid::Row row2 = { "1,/nbum", "2", "3" };
     core_lib::csv_grid::Row row3 = { 1, 2, 3, 4 };
@@ -1335,7 +1337,7 @@ void CsvGridTest::Case80_Cell_LongToDoubleDef_2()
 void CsvGridTest::Case81_Row_InitializerListLongDoubleConstructor()
 {
     long double i = 0;
-    core_lib::csv_grid::Row row = { i, i, i, i, i };
+    core_lib::csv_grid::Row row = { Cell(i), Cell(i), Cell(i), Cell(i), Cell(i) };
     QCOMPARE(row.GetSize(), static_cast<size_t>(5));
 }
 
@@ -1350,7 +1352,7 @@ void CsvGridTest::Case82_Row_AddColumnAsLongDouble()
 
 void CsvGridTest::Case83_Row_InsertColumnAsLongDouble()
 {
-    core_lib::csv_grid::Row row = { 1.1L, 2.2L, 3.3L, 4.4L, 5.5L };
+    core_lib::csv_grid::Row row = { Cell(1.1L), Cell(2.2L), Cell(3.3L), Cell(4.4L), Cell(5.5L) };
     row.InsertColumn(3, 666.6L);
     QCOMPARE(row.GetSize(), static_cast<size_t>(6));
     QCOMPARE(static_cast<long double>(row[0]), 1.1L);

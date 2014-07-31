@@ -131,12 +131,12 @@ enum class eSaveToFileOptions
  * This class loads the entire CSV file into memory so if the file is particulary
  * large you will crash your program if you do not have enough free memory.
  */
-template<template<class, class> class C>
+template<template<class, class> class C, class T = Cell>
 class TCsvGrid final
 {
 public:
     /*! \brief typedef for row type */
-    typedef TRow<C> row_type;
+    typedef TRow<C, T> row_type;
     /*! \brief typedef for container type */
     typedef C<row_type, std::allocator<row_type>> container_type;
     /*! \brief Default constructor. */
@@ -179,7 +179,7 @@ public:
     }
     /*!
      * \brief Initializer list constructor
-     * \param [IN] The initial list of Rows.
+     * \param [IN] The initial list of rows.
      *
      * Create the CsvGrid from the given list of rows.
      */

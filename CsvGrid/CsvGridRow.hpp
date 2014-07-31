@@ -82,12 +82,12 @@ enum class eCellFormatOptions
 namespace reserver {
 
 /*! \brief Default container reserver functor. */
-template<template<class, class> class C>
+template<template<class, class> class C, class T>
 class ContainerReserver
 {
 public:
     /*! \brief Typedef to container type. */
-    typedef C<Cell, std::allocator<Cell>> container_type;
+    typedef C<T, std::allocator<T>> container_type;
     /*!
      * \brief Function operator.
      * \param [IN] Container to reserve space in.
@@ -104,12 +104,12 @@ public:
 };
 
 /*! \brief Container reserver functor specialisation for vectors. */
-template<>
-class ContainerReserver<std::vector>
+template<class T>
+class ContainerReserver<std::vector, T>
 {
 public:
     /*! \brief Typedef to container type. */
-    typedef std::vector<Cell> container_type;
+    typedef std::vector<T> container_type;
     /*!
      * \brief Function operator.
      * \param [IN] Container to reserve space in.
@@ -127,7 +127,7 @@ public:
 } // namespace reserver
 
 // forward declaration for using in Row class.
-template<template<class, class> class C>
+template<template<class, class> class C, class T>
 class TCsvGrid;
 
 /*!
@@ -137,14 +137,14 @@ class TCsvGrid;
  * the grid. A row contains cells and each cell's position represents a column
  * within the grid.
  */
-template<template<class, class> class C>
+template<template<class, class> class C, class T = Cell>
 class TRow final
 {
 public:
     /*! \brief typedef for container type */
-    typedef C<Cell, std::allocator<Cell>> container_type;
+    typedef C<T, std::allocator<T>> container_type;
     /*! \brief Friend declaration of CsvGrid so it can have private access to its rows. */
-    friend class TCsvGrid<C>;
+    friend class TCsvGrid<C, T>;
     /*! \brief Default constructor. */
     TRow() = default;
     /*! \brief Copy constructor. */
@@ -175,88 +175,13 @@ public:
     }
     /*!
      * \brief Initializer list constructor
-     * \param [IN] The initial list of Cells.
+     * \param [IN] The initial list of cells.
      *
-     * Create the row from the given list of Cells.
+     * Create the row from the given list of cells.
      */
-    TRow(std::initializer_list<Cell> cells)
+    TRow(std::initializer_list<T> cells)
         : m_cells{cells}
     {
-    }
-    /*!
-     * \brief Initializer list constructor
-     * \param [IN] The initial list of strings.
-     *
-     * Create the row from the given list of strings.
-     */
-    TRow(std::initializer_list<std::string> cells)
-    {
-        m_reserve(m_cells, cells.size());
-
-        for (auto cell : cells)
-        {
-            m_cells.emplace_back(cell);
-        }
-    }
-    /*!
-     * \brief Initializer list constructor
-     * \param [IN] The initial list of int32_ts.
-     *
-     * Create the row from the given list of int32_ts.
-     */
-    TRow(std::initializer_list<int32_t> cells)
-    {
-        m_reserve(m_cells, cells.size());
-
-        for (auto cell : cells)
-        {
-            m_cells.emplace_back(cell);
-        }
-    }
-    /*!
-     * \brief Initializer list constructor
-     * \param [IN] The initial list of int64_ts.
-     *
-     * Create the row from the given list of int64_ts.
-     */
-    TRow(std::initializer_list<int64_t> cells)
-    {
-        m_reserve(m_cells, cells.size());
-
-        for (auto cell : cells)
-        {
-            m_cells.emplace_back(cell);
-        }
-    }
-    /*!
-     * \brief Initializer list constructor
-     * \param [IN] The initial list of doubles.
-     *
-     * Create the row from the given list of doubles.
-     */
-    TRow(std::initializer_list<double> cells)
-    {
-        m_reserve(m_cells, cells.size());
-
-        for (auto cell : cells)
-        {
-            m_cells.emplace_back(cell);
-        }
-    }
-    /*!
-     * \brief Initializer list constructor
-     * \param [IN] The initial list of long doubles.
-     *
-     * Create the row from the given list of long doubles.
-     */
-    TRow(std::initializer_list<long double> cells)
-    {
-        m_reserve(m_cells, cells.size());
-
-        for (auto cell : cells)
-        {
-            m_cells.emplace_back(cell);
-        }
     }
     /*! \brief Destructor. */
     ~TRow() = default;
@@ -311,53 +236,20 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given string.
     */
-    void AddColumn(const std::string& value = "")
+    template<typename V>
+    void AddColumn(V value)
     {
         m_cells.emplace_back(value);
     }
     /*!
-    * \brief Add a column with the given value.
-    * \param [IN] The cell's value for the new column.
+    * \brief Add a column with default value.
     *
     * The column count is increased by one and the new cell is initialised
-    * with the given 32bit integer value.
+    * default value from default cell constructor.
     */
-    void AddColumn(const int32_t value)
+    void AddColumn()
     {
-        m_cells.emplace_back(value);
-    }
-    /*!
-    * \brief Add a column with the given value.
-    * \param [IN] The cell's value for the new column.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given 64bit integer value.
-    */
-    void AddColumn(const int64_t value)
-    {
-        m_cells.emplace_back(value);
-    }
-    /*!
-    * \brief Add a column with the given value.
-    * \param [IN] The cell's value for the new column.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given double precesision floating point value.
-    */
-    void AddColumn(const double value)
-    {
-        m_cells.emplace_back(value);
-    }
-    /*!
-    * \brief Add a column with the given value.
-    * \param [IN] The cell's value for the new column.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given long double precesision floating point value.
-    */
-    void AddColumn(const long double value)
-    {
-        m_cells.emplace_back(value);
+        m_cells.emplace_back();
     }
     /*!
     * \brief Insert a new cell.
@@ -367,7 +259,8 @@ public:
     * The column count is increased by one and the new cell is initialised
     * with the given string.
     */
-    void InsertColumn(const size_t col, const std::string& value = "")
+    template<typename V>
+    void InsertColumn(const size_t col, V value)
     {
         if (col >= GetSize())
         {
@@ -379,70 +272,18 @@ public:
     /*!
     * \brief Insert a new cell.
     * \param [IN] The column index at which the new cell is to be inserted.
-    * \param [IN] The value to assign to the newly inserted cell.
     *
     * The column count is increased by one and the new cell is initialised
-    * with the given 32bit integer.
+    * with the default cell constructor.
     */
-    void InsertColumn(const size_t col, const int32_t value)
+    void InsertColumn(const size_t col)
     {
         if (col >= GetSize())
         {
             BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
         }
 
-        m_cells.emplace(std::next(m_cells.begin(), col), value);
-    }
-    /*!
-    * \brief Insert a new cell.
-    * \param [IN] The column index at which the new cell is to be inserted.
-    * \param [IN] The value to assign to the newly inserted cell.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given 64bit integer.
-    */
-    void InsertColumn(const size_t col, const int64_t value)
-    {
-        if (col >= GetSize())
-        {
-            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
-        }
-
-        m_cells.emplace(std::next(m_cells.begin(), col), value);
-    }
-    /*!
-    * \brief Insert a new cell.
-    * \param [IN] The column index at which the new cell is to be inserted.
-    * \param [IN] The value to assign to the newly inserted cell.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given double precision floating point value.
-    */
-    void InsertColumn(const size_t col, const double value)
-    {
-        if (col >= GetSize())
-        {
-            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
-        }
-
-        m_cells.emplace(std::next(m_cells.begin(), col), value);
-    }
-    /*!
-    * \brief Insert a new cell.
-    * \param [IN] The column index at which the new cell is to be inserted.
-    * \param [IN] The value to assign to the newly inserted cell.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given long double precision floating point value.
-    */
-    void InsertColumn(const size_t col, const long double value)
-    {
-        if (col >= GetSize())
-        {
-            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
-        }
-
-        m_cells.emplace(std::next(m_cells.begin(), col), value);
+        m_cells.emplace(std::next(m_cells.begin(), col));
     }
     /*!
     * \brief Clear the cells' contents.
@@ -467,7 +308,7 @@ public:
 
 private:
     /*!  \brief The reservation function to use when initialising the container. */
-    reserver::ContainerReserver<C> m_reserve;
+    reserver::ContainerReserver<C, T> m_reserve;
     /*!  \brief The row's cells. */
     container_type m_cells;
     /*!
