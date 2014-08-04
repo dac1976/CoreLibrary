@@ -39,10 +39,10 @@ UI_DIR = $${DESTDIR}/ui
 
 HEADERS +=                               \
     ../../StringUtils.hpp                \
-	../../CsvGrid/CsvGridCell.hpp        \
-	../../CsvGrid/CsvGridRow.hpp         \
-	../../CsvGrid/CsvGridMain.hpp        \
-	../../CsvGrid.hpp                    \
+    ../../CsvGrid/CsvGridCell.hpp        \
+    ../../CsvGrid/CsvGridRow.hpp         \
+    ../../CsvGrid/CsvGridMain.hpp        \
+    ../../CsvGrid.hpp                    \
     ../../Exceptions/CustomException.hpp \
     ../../GenericSorting.hpp             \
     ../../SyncEvent.hpp                  \
@@ -55,15 +55,14 @@ HEADERS +=                               \
     ../../DebugLogging.hpp               \
     ../../IniFile.hpp                    \
     ../../Threads/JoinThreads.hpp        \
-    ../../Asio/IoServiceThreadGroup.hpp \
-    ../../Asio/IoServiceThreadGroup.hpp \
+    ../../Asio/IoServiceThreadGroup.hpp  \
     ../../DebugLog/DebugLogSingleton.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
     ../../CsvGrid/CsvGridCell.cpp        \
-	../../CsvGrid/CsvGridRow.cpp         \
-	../../CsvGrid/CsvGridMain.cpp        \
+    ../../CsvGrid/CsvGridRow.cpp         \
+    ../../CsvGrid/CsvGridMain.cpp        \
     ../../Exceptions/CustomException.cpp \
     ../../Sorting/GenericSorting.cpp     \
     ../../Threads/SyncEvent.cpp          \
