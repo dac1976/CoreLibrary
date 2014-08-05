@@ -20,12 +20,12 @@ TEMPLATE = app
 CONFIG(debug, debug|release) {
   # TARGET = $$join(TARGET,,,d) # if compiling in debug mode, append a "d" to the application name
   DESTDIR = debug
-  LIBS += /home/duncan/projects/boost_1_55_0/lib/libboost_filesystem.a \
-          /home/duncan/projects/boost_1_55_0/lib/libboost_system.a
+  LIBS += /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_filesystem.a \
+		  /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_system.a
 } else {
   DESTDIR = release
-  LIBS += /home/duncan/projects/boost_1_55_0/lib/libboost_filesystem.a \
-          /home/duncan/projects/boost_1_55_0/lib/libboost_system.a
+  LIBS += /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_filesystem.a \
+		  /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_system.a
 }
 
 OBJECTS_DIR = $${DESTDIR}/obj
@@ -34,12 +34,12 @@ RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
 SOURCES += ../tst_IniFileTest.cpp \
-    ../../../IniFile/IniFile.cpp \
-    ../../../StringUtils/StringUtils.cpp \
-    ../../../Exceptions/CustomException.cpp
+	../../../IniFile/IniFile.cpp \
+	../../../StringUtils/StringUtils.cpp \
+	../../../Exceptions/CustomException.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    ../../../StringUtils.hpp \
-    ../../../IniFile.hpp \
-    ../../../Exceptions/CustomException.hpp
+	../../../StringUtils.hpp \
+	../../../IniFile.hpp \
+	../../../Exceptions/CustomException.hpp
