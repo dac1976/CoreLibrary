@@ -47,23 +47,23 @@ namespace threads {
 class xMsgHandlerError : public exceptions::xCustomException
 {
 public:
-    /*! \brief Default constructor. */
-    xMsgHandlerError();
-    /*!
-     * \brief Initializing constructor.
-     * \param [IN] A user specified message string.
-     */
-    explicit xMsgHandlerError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    virtual ~xMsgHandlerError();
+	/*! \brief Default constructor. */
+	xMsgHandlerError();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param [IN] A user specified message string.
+	 */
+	explicit xMsgHandlerError(const std::string& message);
+	/*! \brief Virtual destructor. */
+	virtual ~xMsgHandlerError();
 };
 /*! \brief Control how messages get destroyed in destructor. */
 enum class eOnDestroyOptions
 {
-    /*! Delete remaining items on desruction. */
-    deleteRemainingItems,
-    /*! Process remaining items on desruction. */
-    processRemainingItems
+	/*! Delete remaining items on desruction. */
+	deleteRemainingItems,
+	/*! Process remaining items on desruction. */
+	processRemainingItems
 };
 /*!
  * \brief Message Queue Thread.
@@ -80,184 +80,184 @@ enum class eOnDestroyOptions
  * MessageType  - define the type used for the message.
  */
 template< typename MessageId
-          , typename MessageType >
+		  , typename MessageType >
 class MessageQueueThread final : public ThreadBase
 {
 public:
-    /*!
-     * \brief Typedef defining message ID decoder function.
-     * \param [IN] Pointer to message.
-     * \param [IN] Number of objects of type MessageType pointed to by msg.
-     * \return Unique ID of the message to be processed.
-     *
-     * The decoder function should not throw any exceptions. If the message
-     * is a signel item and not and array of items of type MessageType
-     * the the length will be the special value of -1.
-     */
-    typedef std::function< MessageId (const MessageType*, const int ) > msg_id_decoder;
-    /*!
-     * \brief Default constructor.
-     * \param [IN] Function object that returns the message ID for a message.
-     * \param [IN] (Optional) Set the Message threads destroy option.
-     * \param [IN] (Optional) Set the queue's delete option.
-     */
-    explicit MessageQueueThread(const msg_id_decoder& messageIdDecoder
-                                , eOnDestroyOptions destroyOptions
-                                     = eOnDestroyOptions::deleteRemainingItems
-                                , eQueueOptions queueOptions
-                                     = eQueueOptions::autoDelete)
-        : ThreadBase()
-        , m_msgIdDecoder{messageIdDecoder}
-        , m_destroyOptions{destroyOptions}
-        , m_queueOptions{queueOptions}
-        , m_messageQueue{queueOptions}
-    {
-        Start();
-    }
-    /*! \brief Copy constructor deleted.*/
-    MessageQueueThread(const MessageQueueThread&) = delete;
-    /*! \brief Copy assignment operator deleted.*/
-    MessageQueueThread& operator=(const MessageQueueThread&) = delete;
-    /*! \brief Destructor.*/
-    virtual ~MessageQueueThread()
-    {
-        Stop();
+	/*!
+	 * \brief Typedef defining message ID decoder function.
+	 * \param [IN] Pointer to message.
+	 * \param [IN] Number of objects of type MessageType pointed to by msg.
+	 * \return Unique ID of the message to be processed.
+	 *
+	 * The decoder function should not throw any exceptions. If the message
+	 * is a signel item and not and array of items of type MessageType
+	 * the the length will be the special value of -1.
+	 */
+	typedef std::function< MessageId (const MessageType*, const int ) > msg_id_decoder;
+	/*!
+	 * \brief Default constructor.
+	 * \param [IN] Function object that returns the message ID for a message.
+	 * \param [IN] (Optional) Set the Message threads destroy option.
+	 * \param [IN] (Optional) Set the queue's delete option.
+	 */
+	explicit MessageQueueThread(msg_id_decoder messageIdDecoder
+								, eOnDestroyOptions destroyOptions
+									 = eOnDestroyOptions::deleteRemainingItems
+								, eQueueOptions queueOptions
+									 = eQueueOptions::autoDelete)
+		: ThreadBase()
+		, m_msgIdDecoder{std::move(messageIdDecoder)}
+		, m_destroyOptions{destroyOptions}
+		, m_queueOptions{queueOptions}
+		, m_messageQueue{queueOptions}
+	{
+		Start();
+	}
+	/*! \brief Copy constructor deleted.*/
+	MessageQueueThread(const MessageQueueThread&) = delete;
+	/*! \brief Copy assignment operator deleted.*/
+	MessageQueueThread& operator=(const MessageQueueThread&) = delete;
+	/*! \brief Destructor.*/
+	virtual ~MessageQueueThread()
+	{
+		Stop();
 
-        if (m_destroyOptions == eOnDestroyOptions::processRemainingItems)
-        {
-            while (!m_messageQueue.Empty())
-            {
-                ProcessNextMessage();
-            }
-        }
-    }
-    /*!
-     * \brief Typedef defining message handler function.
-     * \param [IN] Pointer to message.
-     * \param [IN] Number of objects of type MessageType pointed to by msg.
-     * \return True if message can be deleted, false otherwise.
-     *
-     * The decoder function should not throw any exceptions. If the message
-     * is a signel item and not and array of items of type MessageType
-     * the the length will be the special value of -1.
-     */
-    typedef std::function< bool (MessageType*, const int ) > msg_handler;
-    /*!
-     * \brief Register a function to handle a particular message.
-     * \param [IN] Message ID.
-     * \param [IN] Function object to handle messages with specified message ID.
-     *
-     * Throws a xMsgHandlerError exception if handler for message ID is
-     * already defined.
-     */
-    void RegisterMessageHandler(const MessageId messageID
-                                , const msg_handler& messageHandler)
-    {
-        std::lock_guard<std::mutex> lock{m_mutex};
+		if (m_destroyOptions == eOnDestroyOptions::processRemainingItems)
+		{
+			while (!m_messageQueue.Empty())
+			{
+				ProcessNextMessage();
+			}
+		}
+	}
+	/*!
+	 * \brief Typedef defining message handler function.
+	 * \param [IN] Pointer to message.
+	 * \param [IN] Number of objects of type MessageType pointed to by msg.
+	 * \return True if message can be deleted, false otherwise.
+	 *
+	 * The decoder function should not throw any exceptions. If the message
+	 * is a signel item and not and array of items of type MessageType
+	 * the the length will be the special value of -1.
+	 */
+	typedef std::function< bool (MessageType*, const int ) > msg_handler;
+	/*!
+	 * \brief Register a function to handle a particular message.
+	 * \param [IN] Message ID.
+	 * \param [IN] Function object to handle messages with specified message ID.
+	 *
+	 * Throws a xMsgHandlerError exception if handler for message ID is
+	 * already defined.
+	 */
+	void RegisterMessageHandler(const MessageId messageID
+								, msg_handler messageHandler)
+	{
+		std::lock_guard<std::mutex> lock{m_mutex};
 
-        if (m_msgHandlerMap.count(messageID) > 0)
-        {
-            BOOST_THROW_EXCEPTION(xMsgHandlerError("message handler already defined"));
-        }
+		if (m_msgHandlerMap.count(messageID) > 0)
+		{
+			BOOST_THROW_EXCEPTION(xMsgHandlerError("message handler already defined"));
+		}
 
-        m_msgHandlerMap[messageID] = messageHandler;
-    }
-    /*!
-     * \brief Push a message onto this thread's queue.
-     * \param [IN] Pointer to message.
-     *
-     * Messages pushed on using this function will be deleted
-     * with delete.
-     */
-    void Push(MessageType* msg)
-    {
-        m_messageQueue.Push(msg);
-    }
+		m_msgHandlerMap.emplace(messageID, std::move(messageHandler));
+	}
+	/*!
+	 * \brief Push a message onto this thread's queue.
+	 * \param [IN] Pointer to message.
+	 *
+	 * Messages pushed on using this function will be deleted
+	 * with delete.
+	 */
+	void Push(MessageType* msg)
+	{
+		m_messageQueue.Push(msg);
+	}
 
-    /*!
-     * \brief Push a message as an array of items onto this thread's queue.
-     * \param [IN] Pointer to message.
-     * \param [IN] Number of objects of type MessageType pointed to by msg.
-     *
-     * Messages pushed on using this function will be deleted
-     * with delete[] if length > 0.
-     */
-    void Push(MessageType* msg, const int length)
-    {
-        m_messageQueue.Push(msg, length);
-    }
+	/*!
+	 * \brief Push a message as an array of items onto this thread's queue.
+	 * \param [IN] Pointer to message.
+	 * \param [IN] Number of objects of type MessageType pointed to by msg.
+	 *
+	 * Messages pushed on using this function will be deleted
+	 * with delete[] if length > 0.
+	 */
+	void Push(MessageType* msg, const int length)
+	{
+		m_messageQueue.Push(msg, length);
+	}
 
 private:
-    /*! Mutex to lock access to message handler map. */
-    mutable std::mutex m_mutex;
-    /*! \brief Message ID decoder function object. */
-    msg_id_decoder m_msgIdDecoder;
-    /*! \brief Control the destruction of the queue items. */
-    const eOnDestroyOptions m_destroyOptions;
-    /*! \brief Queue option to copntrol how items are deleted. */
-    const eQueueOptions m_queueOptions{eQueueOptions::autoDelete};
-    /*! \brief Typedef for message map type. */
-    typedef std::map<MessageId, msg_handler> msg_map;
-    /*! \brief Message handler function Map. */
-    msg_map m_msgHandlerMap;
-    /*! \brief Message queue. */
-    ConcurrentQueue<MessageType> m_messageQueue;
+	/*! Mutex to lock access to message handler map. */
+	mutable std::mutex m_mutex;
+	/*! \brief Message ID decoder function object. */
+	msg_id_decoder m_msgIdDecoder;
+	/*! \brief Control the destruction of the queue items. */
+	const eOnDestroyOptions m_destroyOptions;
+	/*! \brief Queue option to copntrol how items are deleted. */
+	const eQueueOptions m_queueOptions{eQueueOptions::autoDelete};
+	/*! \brief Typedef for message map type. */
+	typedef std::map<MessageId, msg_handler> msg_map;
+	/*! \brief Message handler function Map. */
+	msg_map m_msgHandlerMap;
+	/*! \brief Message queue. */
+	ConcurrentQueue<MessageType> m_messageQueue;
 
-    /*! \brief Execute a single iteration of the thread. */
-    virtual void ThreadIteration()
-    {
-        ProcessNextMessage();
-    }
-    /*! \brief Perform any special termination actions.*/
-    virtual void ProcessTerminationConditions()
-    {
-        // Make sure we break out of m_messageQueue.Pop();
-        m_messageQueue.Push();
-    }
-    /*!
-     * \brief Process next message.
-     */
-    void ProcessNextMessage()
-    {
-        int length;
-        MessageType* msg = m_messageQueue.Pop(&length);
+	/*! \brief Execute a single iteration of the thread. */
+	virtual void ThreadIteration()
+	{
+		ProcessNextMessage();
+	}
+	/*! \brief Perform any special termination actions.*/
+	virtual void ProcessTerminationConditions()
+	{
+		// Make sure we break out of m_messageQueue.Pop();
+		m_messageQueue.Push();
+	}
+	/*!
+	 * \brief Process next message.
+	 */
+	void ProcessNextMessage()
+	{
+		int length;
+		MessageType* msg = m_messageQueue.Pop(&length);
 
-        if (msg && (length != 0))
-        {
-            bool deleteMsg;
+		if (msg && (length != 0))
+		{
+			bool deleteMsg;
 
-            try
-            {
-                MessageId messageId{m_msgIdDecoder(msg, length)};
-                std::lock_guard<std::mutex> lock{m_mutex};
+			try
+			{
+				MessageId messageId{m_msgIdDecoder(msg, length)};
+				std::lock_guard<std::mutex> lock{m_mutex};
 
-                if (m_msgHandlerMap.count(messageId) > 0)
-                {
-                    deleteMsg = m_msgHandlerMap[messageId](msg, length);
-                }
-                else
-                {
-                    deleteMsg = m_queueOptions == eQueueOptions::autoDelete;
-                }
-            }
-            catch(...)
-            {
-                deleteMsg = m_queueOptions == eQueueOptions::autoDelete;
-            }
+				if (m_msgHandlerMap.count(messageId) > 0)
+				{
+					deleteMsg = m_msgHandlerMap[messageId](msg, length);
+				}
+				else
+				{
+					deleteMsg = m_queueOptions == eQueueOptions::autoDelete;
+				}
+			}
+			catch(...)
+			{
+				deleteMsg = m_queueOptions == eQueueOptions::autoDelete;
+			}
 
-            if (deleteMsg)
-            {
-                if (length > 0)
-                {
-                    delete [] msg;
-                }
-                else
-                {
-                    delete msg;
-                }
-            }
-        }
-    }
+			if (deleteMsg)
+			{
+				if (length > 0)
+				{
+					delete [] msg;
+				}
+				else
+				{
+					delete msg;
+				}
+			}
+		}
+	}
 };
 
 } // namespace threads
