@@ -35,12 +35,12 @@ namespace csv_grid {
 // 'class xCsvGridDimensionError' definition
 // ****************************************************************************
 xCsvGridDimensionError::xCsvGridDimensionError()
-    : exceptions::xCustomException("rows and cols must be > 0")
+	: exceptions::xCustomException("rows and cols must be > 0")
 {
 }
 
 xCsvGridDimensionError::xCsvGridDimensionError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 
@@ -52,12 +52,12 @@ xCsvGridDimensionError::~xCsvGridDimensionError()
 // 'class xCsvGridRowOutOfRangeError' definition
 // ****************************************************************************
 xCsvGridRowOutOfRangeError::xCsvGridRowOutOfRangeError()
-    : exceptions::xCustomException("invalid row index")
+	: exceptions::xCustomException("invalid row index")
 {
 }
 
 xCsvGridRowOutOfRangeError::xCsvGridRowOutOfRangeError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 
@@ -69,12 +69,12 @@ xCsvGridRowOutOfRangeError::~xCsvGridRowOutOfRangeError()
 // 'class xCsvGridCreateFileStreamError' definition
 // ****************************************************************************
 xCsvGridCreateFileStreamError::xCsvGridCreateFileStreamError()
-    : exceptions::xCustomException("failed to create file stream")
+	: exceptions::xCustomException("failed to create file stream")
 {
 }
 
 xCsvGridCreateFileStreamError::xCsvGridCreateFileStreamError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 

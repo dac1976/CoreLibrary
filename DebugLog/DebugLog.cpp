@@ -35,12 +35,12 @@ namespace log {
 // 'class xMsgHandlerError' definition
 // ******************************B*********************************************
 xLogMsgHandlerError::xLogMsgHandlerError()
-    : exceptions::xCustomException("log message handler error")
+	: exceptions::xCustomException("log message handler error")
 {
 }
 
 xLogMsgHandlerError::xLogMsgHandlerError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 
@@ -52,12 +52,12 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 // 'class xInstantiationrError' definition
 // ******************************B*********************************************
 xInstantiationrError::xInstantiationrError()
-    : exceptions::xCustomException("instantiation error")
+	: exceptions::xCustomException("instantiation error")
 {
 }
 
 xInstantiationrError::xInstantiationrError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 
@@ -70,51 +70,51 @@ xInstantiationrError::~xInstantiationrError()
 // 'struct DefaultLogFormat' definition
 // ****************************************************************************
 void DefaultLogFormat::operator() (std::ostream& os
-                                   , std::time_t timeStamp
-                                   , const std::string& message
-                                   , const std::string& logMsgLevel
-                                   , const std::string& file
-                                   , int lineNo
-                                   , const std::thread::id& threadID) const
+								   , std::time_t timeStamp
+								   , const std::string& message
+								   , const std::string& logMsgLevel
+								   , const std::string& file
+								   , int lineNo
+								   , const std::thread::id& threadID) const
 {
-    if (timeStamp != 0)
-    {
-        // Should use lines below but not necessarily implemented
-        // yet in some compilers:
-        //     struct std::tm * ptm = std::localtime(&timeStamp);
-        //     os << "\t" << std::put_time(ptm,"%F %T");
-        // so instead we use...
-        std::string time{ctime(&timeStamp)};
-        std::replace_if(time.begin(), time.end(),
-                        [](char c) { return (c == '\n') || (c == '\r'); }, 0);
-        os << "< " << time.c_str() << " >";
-    }
+	if (timeStamp != 0)
+	{
+		// Should use lines below but not necessarily implemented
+		// yet in some compilers:
+		//     struct std::tm * ptm = std::localtime(&timeStamp);
+		//     os << "\t" << std::put_time(ptm,"%F %T");
+		// so instead we use...
+		std::string time{ctime(&timeStamp)};
+		std::replace_if(time.begin(), time.end(),
+						[](char c) { return (c == '\n') || (c == '\r'); }, 0);
+		os << "< " << time.c_str() << " >";
+	}
 
-    os << "< " << message << " >";
+	os << "< " << message << " >";
 
-    if (logMsgLevel != "")
-    {
-        os << "< " << logMsgLevel << " >";
-    }
+	if (logMsgLevel != "")
+	{
+		os << "< " << logMsgLevel << " >";
+	}
 
-    if (file != "")
-    {
-        os << "< File = " << file << " >";
-    }
+	if (file != "")
+	{
+		os << "< File = " << file << " >";
+	}
 
-    if (lineNo >= 0)
-    {
-        os << "< Line = " << lineNo << " >";
-    }
+	if (lineNo >= 0)
+	{
+		os << "< Line = " << lineNo << " >";
+	}
 
-    std::thread::id noThread;
+	std::thread::id noThread;
 
-    if (threadID != noThread)
-    {
-        os << "< Thread ID = " << threadID << " >";
-    }
+	if (threadID != noThread)
+	{
+		os << "< Thread ID = " << threadID << " >";
+	}
 
-    os << std::endl;
+	os << std::endl;
 }
 
 } // namespace log

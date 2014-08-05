@@ -33,25 +33,25 @@ namespace core_lib {
 namespace asio {
 
 IoServiceThreadGroup::IoServiceThreadGroup(const unsigned int numThreads)
-    : m_ioWork(m_ioService)
+	: m_ioWork(m_ioService)
 {
-    const unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
+	const unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
 
-    for (unsigned int t = 0; t < numThreadsToUse; ++t)
-    {
-        m_threadGroup.CreateThread([this](){ m_ioService.run(); });
-    }
+	for (unsigned int t = 0; t < numThreadsToUse; ++t)
+	{
+		m_threadGroup.CreateThread([this](){ m_ioService.run(); });
+	}
 }
 
 IoServiceThreadGroup::~IoServiceThreadGroup()
 {
-    m_ioService.stop();
-    m_threadGroup.JoinAll();
+	m_ioService.stop();
+	m_threadGroup.JoinAll();
 }
 
 boost::asio::io_service& IoServiceThreadGroup::IoService()
 {
-    return m_ioService;
+	return m_ioService;
 }
 
 } //namespace asio

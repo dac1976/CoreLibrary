@@ -48,15 +48,15 @@ namespace threads {
 class xThreadGroupError : public exceptions::xCustomException
 {
 public:
-    /*! \brief Default constructor. */
-    xThreadGroupError();
-    /*!
-     * \brief Initializing constructor.
-     * \param [IN] A user specifed message string.
-     */
-    explicit xThreadGroupError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    virtual ~xThreadGroupError();
+	/*! \brief Default constructor. */
+	xThreadGroupError();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param [IN] A user specifed message string.
+	 */
+	explicit xThreadGroupError(const std::string& message);
+	/*! \brief Virtual destructor. */
+	virtual ~xThreadGroupError();
 };
 
 /*!
@@ -72,107 +72,107 @@ public:
 class ThreadGroup final
 {
 public:
-    /*! \brief Default constructor. */
-    ThreadGroup() = default;
-    /*! \brief Destructor. */
-    ~ThreadGroup();
-    /*! \brief Copy constructor deleted.*/
-    ThreadGroup(const ThreadGroup&) = delete;
-    /*! \brief Copy assignment operator deleted.*/
-    ThreadGroup& operator= (const ThreadGroup&) = delete;
-    /*!
-     * \brief Is current thread in group.
-     * \return True if in group, false otherwise.
-     */
-    bool IsThisThreadIn() const;
-    /*!
-     * \brief Is given thread in group.
-     * \param [IN] Pointer to thread.
-     * \return True if in group, false otherwise.
-     */
-    bool IsThreadIn(std::thread* threadPtr) const;
-    /*!
-     * \brief Is given thread in group.
-     * \param [IN] Thread ID.
-     * \return True if in group, false otherwise.
-     */
-    bool IsThreadIn(const std::thread::id& id) const;
-    /*!
-     * \brief Create and add thread to group.
-     * \param [IN] Thread function to use with created thread.
-     * \return Pointer to the created thread.
-     */
-    template<typename F>
-    std::thread* CreateThread(F threadfunction)
-    {
-        std::lock_guard<std::mutex> lock{m_mutex};
-        std::unique_ptr<std::thread> newThread{new std::thread(threadfunction)};
-        m_threadGroup.push_back(newThread.get());
-        return newThread.release();
-    }
-    /*!
-     * \brief Add thread to group.
-     * \param [IN] Pointer to thread.
-     *
-     * Throws xThreadGroupError if called with a thread that
-     * already belongs to the thread group.
-     */
-    void AddThread(std::thread* threadPtr);
-    /*!
-     * \brief Remove thread from group.
-     * \param [IN] Pointer to thread.
-     */
-    void RemoveThread(std::thread* threadPtr);
-    /*!
-     * \brief Remove thread from group.
-     * \param [IN] Thread ID.
-     * \return Pointer to thread.
-     *
-     * This function returns nullptr if the id cannot be found.
-     * Also this function should only be called if the thread
-     * for this ID has not been joined else the ID will be invalid.
-     */
-    std::thread* RemoveThread(const std::thread::id& id);
-    /*! \brief Call join on all registered threads.
-     *
-     * Throws xThreadGroupError if called from one of the
-     * threads that are in the thread group becuase a thread
-     * cannot join itself.
-     */
-    void JoinAll();
-    /*! \brief Get the number of threads registered.
-     *  \return Number of threads.
-     */
-    size_t Size() const;
-    /*! \brief Check if we have any threads registered.
-     *  \return True if no threads registered, false otherwise.
-     */
-    bool Empty() const;
+	/*! \brief Default constructor. */
+	ThreadGroup() = default;
+	/*! \brief Destructor. */
+	~ThreadGroup();
+	/*! \brief Copy constructor deleted.*/
+	ThreadGroup(const ThreadGroup&) = delete;
+	/*! \brief Copy assignment operator deleted.*/
+	ThreadGroup& operator= (const ThreadGroup&) = delete;
+	/*!
+	 * \brief Is current thread in group.
+	 * \return True if in group, false otherwise.
+	 */
+	bool IsThisThreadIn() const;
+	/*!
+	 * \brief Is given thread in group.
+	 * \param [IN] Pointer to thread.
+	 * \return True if in group, false otherwise.
+	 */
+	bool IsThreadIn(std::thread* threadPtr) const;
+	/*!
+	 * \brief Is given thread in group.
+	 * \param [IN] Thread ID.
+	 * \return True if in group, false otherwise.
+	 */
+	bool IsThreadIn(const std::thread::id& id) const;
+	/*!
+	 * \brief Create and add thread to group.
+	 * \param [IN] Thread function to use with created thread.
+	 * \return Pointer to the created thread.
+	 */
+	template<typename F>
+	std::thread* CreateThread(F threadfunction)
+	{
+		std::lock_guard<std::mutex> lock{m_mutex};
+		std::unique_ptr<std::thread> newThread{new std::thread(threadfunction)};
+		m_threadGroup.push_back(newThread.get());
+		return newThread.release();
+	}
+	/*!
+	 * \brief Add thread to group.
+	 * \param [IN] Pointer to thread.
+	 *
+	 * Throws xThreadGroupError if called with a thread that
+	 * already belongs to the thread group.
+	 */
+	void AddThread(std::thread* threadPtr);
+	/*!
+	 * \brief Remove thread from group.
+	 * \param [IN] Pointer to thread.
+	 */
+	void RemoveThread(std::thread* threadPtr);
+	/*!
+	 * \brief Remove thread from group.
+	 * \param [IN] Thread ID.
+	 * \return Pointer to thread.
+	 *
+	 * This function returns nullptr if the id cannot be found.
+	 * Also this function should only be called if the thread
+	 * for this ID has not been joined else the ID will be invalid.
+	 */
+	std::thread* RemoveThread(const std::thread::id& id);
+	/*! \brief Call join on all registered threads.
+	 *
+	 * Throws xThreadGroupError if called from one of the
+	 * threads that are in the thread group becuase a thread
+	 * cannot join itself.
+	 */
+	void JoinAll();
+	/*! \brief Get the number of threads registered.
+	 *  \return Number of threads.
+	 */
+	size_t Size() const;
+	/*! \brief Check if we have any threads registered.
+	 *  \return True if no threads registered, false otherwise.
+	 */
+	bool Empty() const;
 
 private:
-    /*! \brief Access mutex for private data. */
-    mutable std::mutex m_mutex;
-    // Typedefs for thread list.
-    typedef std::list<std::thread*> thread_list;
-    typedef thread_list::iterator thread_list_iter;
-    /*! \brief List containing threads. */
-    thread_list m_threadGroup;
-    /*!
-     * \brief Is current thread in group (no mutex).
-     * \return True if in group, false otherwise.
-     */
-    bool IsThisThreadInNoMutex() const;
-    /*!
-     * \brief Is given thread in group (no mutex).
-     * \param [IN] Thread ID.
-     * \return True if in group, false otherwise.
-     */
-    bool IsThreadInNoMutex(const std::thread::id& id) const;
-     /*!
-     * \brief Delete thread object.
-     * \param [IN] Pointer to thread.
-     */
-    static void DeleteThread(std::thread* threadPtr);
+	/*! \brief Access mutex for private data. */
+	mutable std::mutex m_mutex;
+	// Typedefs for thread list.
+	typedef std::list<std::thread*> thread_list;
+	typedef thread_list::iterator thread_list_iter;
+	/*! \brief List containing threads. */
+	thread_list m_threadGroup;
+	/*!
+	 * \brief Is current thread in group (no mutex).
+	 * \return True if in group, false otherwise.
+	 */
+	bool IsThisThreadInNoMutex() const;
+	/*!
+	 * \brief Is given thread in group (no mutex).
+	 * \param [IN] Thread ID.
+	 * \return True if in group, false otherwise.
+	 */
+	bool IsThreadInNoMutex(const std::thread::id& id) const;
+	/*!
+	 * \brief Delete thread object.
+	 * \param [IN] Pointer to thread.
+	 */
+	static void DeleteThread(std::thread* threadPtr);
 };
 
 } // namespace threads

@@ -34,12 +34,12 @@ namespace sorting {
 // 'class xBucketValueOutOfRangeError' definition
 // ****************************************************************************
 xBucketValueOutOfRangeError::xBucketValueOutOfRangeError()
-    : exceptions::xCustomException("bucket value out of range")
+	: exceptions::xCustomException("bucket value out of range")
 {
 }
 
 xBucketValueOutOfRangeError::xBucketValueOutOfRangeError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 

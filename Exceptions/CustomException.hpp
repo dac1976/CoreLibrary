@@ -64,33 +64,33 @@ namespace exceptions {
  * }
  */
 class xCustomException : public virtual boost::exception
-        , public virtual std::exception
+		, public virtual std::exception
 {
 public:
-    /*! \brief Default constructor. */
-    xCustomException();
-    /*!
-     * \brief Initializing constructor.
-     * \param [IN] A user specifed message string.
-     */
-    explicit xCustomException(const std::string& message);
-    /*! \brief Virtual destructor. */
-    virtual ~xCustomException();
-    /*!
-     * \brief Function to get the exception message.
-     * \return The exception message.
-     */
-    virtual const char* what() const noexcept final;
+	/*! \brief Default constructor. */
+	xCustomException();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param [IN] A user specifed message string.
+	 */
+	explicit xCustomException(const std::string& message);
+	/*! \brief Virtual destructor. */
+	virtual ~xCustomException();
+	/*!
+	 * \brief Function to get the exception message.
+	 * \return The exception message.
+	 */
+	virtual const char* what() const noexcept final;
 
-    /*!
-     * \brief Function to get the exception message.
-     * \return The exception message.
-     */
-    virtual const std::string& whatStr() const noexcept final;
+	/*!
+	 * \brief Function to get the exception message.
+	 * \return The exception message.
+	 */
+	virtual const std::string& whatStr() const noexcept final;
 
 protected:
-    /*! \brief The exception message. */
-    std::string m_message;
+	/*! \brief The exception message. */
+	std::string m_message;
 };
 
 

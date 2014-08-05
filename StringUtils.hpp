@@ -57,15 +57,15 @@ void PackStdString(std::string& line);
 class xSplitStringBadDelim: public exceptions::xCustomException
 {
 public:
-    /*! \brief Default constructor. */
-    xSplitStringBadDelim();
-    /*!
-     * \brief Initializing constructor.
-     * \param [IN] A user specifed message string.
-     */
-    explicit xSplitStringBadDelim(const std::string& message);
-    /*! \brief Virtual destructor. */
-    virtual ~xSplitStringBadDelim();
+	/*! \brief Default constructor. */
+	xSplitStringBadDelim();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param [IN] A user specifed message string.
+	 */
+	explicit xSplitStringBadDelim(const std::string& message);
+	/*! \brief Virtual destructor. */
+	virtual ~xSplitStringBadDelim();
 };
 
 /*!
@@ -77,15 +77,15 @@ public:
 class xSplitStringTooManySubstrings : public exceptions::xCustomException
 {
 public:
-    /*! \brief Default constructor. */
-    xSplitStringTooManySubstrings();
-    /*!
-     * \brief Initializing constructor.
-     * \param [IN] A user specifed message string.
-     */
-    explicit xSplitStringTooManySubstrings(const std::string& message);
-    /*! \brief Virtual destructor.*/
-    virtual ~xSplitStringTooManySubstrings();
+	/*! \brief Default constructor. */
+	xSplitStringTooManySubstrings();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param [IN] A user specifed message string.
+	 */
+	explicit xSplitStringTooManySubstrings(const std::string& message);
+	/*! \brief Virtual destructor.*/
+	virtual ~xSplitStringTooManySubstrings();
 };
 
 /*!
@@ -96,10 +96,10 @@ public:
  */
 enum class eSplitStringResult
 {
-    /*! \brief Trim the results, removing pre/pro-ceeding spaces. */
-    trimmed,
-    /*! \brief Do not trim the results. */
-    notTrimmed
+	/*! \brief Trim the results, removing pre/pro-ceeding spaces. */
+	trimmed,
+	/*! \brief Do not trim the results. */
+	notTrimmed
 };
 
 /*!
@@ -117,8 +117,8 @@ enum class eSplitStringResult
  * substrings then a xSplitStringTooManySubStrings exception is thrown.
  */
 void SplitString(std::string& subStr1, std::string& subStr2,
-                 const std::string& toSplit, const std::string& delim,
-                 const eSplitStringResult option);
+				 const std::string& toSplit, const std::string& delim,
+				 const eSplitStringResult option);
 
 /*!
  * \brief Format float options enumeration.
@@ -127,12 +127,12 @@ void SplitString(std::string& subStr1, std::string& subStr2,
  */
 enum class eFloatStringFormat
 {
-    /*! \brief Default formating. */
-    normal,
-    /*! \brief Fixed formatting. */
-    fixed,
-    /*! \brief Scientific formatting. */
-    scientific
+	/*! \brief Default formating. */
+	normal,
+	/*! \brief Fixed formatting. */
+	fixed,
+	/*! \brief Scientific formatting. */
+	scientific
 };
 
 /*!
@@ -147,32 +147,32 @@ enum class eFloatStringFormat
  */
 template <typename T>
 std::string FormatFloatString(const T value, const int precision = 15,
-                              const eFloatStringFormat fsf
-                                  = eFloatStringFormat::normal)
+							  const eFloatStringFormat fsf
+							  = eFloatStringFormat::normal)
 {
-    std::ostringstream ss;
+	std::ostringstream ss;
 
-    switch(fsf)
-    {
-    case eFloatStringFormat::fixed:
-        ss << std::fixed;
-        break;
-    case eFloatStringFormat::scientific:
-        ss << std::scientific;
-        break;
-    case eFloatStringFormat::normal:
-    default:
-        // do nothing
-        break;
-    }
+	switch(fsf)
+	{
+	case eFloatStringFormat::fixed:
+		ss << std::fixed;
+		break;
+	case eFloatStringFormat::scientific:
+		ss << std::scientific;
+		break;
+	case eFloatStringFormat::normal:
+	default:
+		// do nothing
+		break;
+	}
 
-    if (precision >= 0)
-    {
-        ss << std::setprecision(precision);
-    }
+	if (precision >= 0)
+	{
+		ss << std::setprecision(precision);
+	}
 
-    ss << value;
-    return ss.str();
+	ss << value;
+	return ss.str();
 }
 
 } // namespace string_utils

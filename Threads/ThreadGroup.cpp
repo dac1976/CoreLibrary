@@ -35,12 +35,12 @@ namespace threads {
 // 'class xThreadNotStartedError' definition
 // ****************************************************************************
 xThreadGroupError::xThreadGroupError()
-    : exceptions::xCustomException("thread group error")
+	: exceptions::xCustomException("thread group error")
 {
 }
 
 xThreadGroupError::xThreadGroupError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 
@@ -54,139 +54,139 @@ xThreadGroupError::~xThreadGroupError()
 
 ThreadGroup::~ThreadGroup()
 {
-    std::for_each(m_threadGroup.begin()
-                  , m_threadGroup.end()
-                  , DeleteThread);
+	std::for_each(m_threadGroup.begin()
+				  , m_threadGroup.end()
+				  , DeleteThread);
 }
 
 bool ThreadGroup::IsThisThreadIn() const
 {
-    return IsThreadIn(std::this_thread::get_id());
+	return IsThreadIn(std::this_thread::get_id());
 }
 
 bool ThreadGroup::IsThreadIn(std::thread* threadPtr) const
 {
-    if (!threadPtr)
-    {
-        return false;
-    }
-    else
-    {
-        return IsThreadIn(threadPtr->get_id());
-    }
+	if (!threadPtr)
+	{
+		return false;
+	}
+	else
+	{
+		return IsThreadIn(threadPtr->get_id());
+	}
 }
 
 bool ThreadGroup::IsThreadIn(const std::thread::id& id) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    return IsThreadInNoMutex(id);
+	std::lock_guard<std::mutex> lock{m_mutex};
+	return IsThreadInNoMutex(id);
 }
 
 void ThreadGroup::AddThread(std::thread* threadPtr)
 {
-    if (!threadPtr)
-    {
-        return;
-    }
+	if (!threadPtr)
+	{
+		return;
+	}
 
-    std::lock_guard<std::mutex> lock{m_mutex};
+	std::lock_guard<std::mutex> lock{m_mutex};
 
-    if (IsThreadInNoMutex(threadPtr->get_id()))
-    {
-        BOOST_THROW_EXCEPTION(xThreadGroupError("thread already in group"));
-    }
+	if (IsThreadInNoMutex(threadPtr->get_id()))
+	{
+		BOOST_THROW_EXCEPTION(xThreadGroupError("thread already in group"));
+	}
 
-    m_threadGroup.push_back(threadPtr);
+	m_threadGroup.push_back(threadPtr);
 }
 
 void ThreadGroup::RemoveThread(std::thread* threadPtr)
 {
-    if (!threadPtr)
-    {
-        return;
-    }
+	if (!threadPtr)
+	{
+		return;
+	}
 
-    std::lock_guard<std::mutex> lock{m_mutex};
+	std::lock_guard<std::mutex> lock{m_mutex};
 
-    if (!IsThreadInNoMutex(threadPtr->get_id()))
-    {
-        return;
-    }
+	if (!IsThreadInNoMutex(threadPtr->get_id()))
+	{
+		return;
+	}
 
-    thread_list_iter threadIt{std::find(m_threadGroup.begin()
-                                        , m_threadGroup.end()
-                                        , threadPtr)};
-    if (threadIt != m_threadGroup.end())
-    {
-        m_threadGroup.erase(threadIt);
-    }
+	thread_list_iter threadIt{std::find(m_threadGroup.begin()
+										, m_threadGroup.end()
+										, threadPtr)};
+	if (threadIt != m_threadGroup.end())
+	{
+		m_threadGroup.erase(threadIt);
+	}
 }
 
 std::thread* ThreadGroup::RemoveThread(const std::thread::id& id)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    std::thread* t{};
+	std::lock_guard<std::mutex> lock{m_mutex};
+	std::thread* t{};
 
-    for (thread_list_iter tIt = m_threadGroup.begin()
-         ; tIt != m_threadGroup.end()
-         ; ++tIt)
-    {
-        if ((*tIt)->get_id() == id)
-        {
-            t = *tIt;
-            m_threadGroup.erase(tIt);
-            break;
-        }
-    }
+	for (thread_list_iter tIt = m_threadGroup.begin()
+		 ; tIt != m_threadGroup.end()
+		 ; ++tIt)
+	{
+		if ((*tIt)->get_id() == id)
+		{
+			t = *tIt;
+			m_threadGroup.erase(tIt);
+			break;
+		}
+	}
 
-    return t;
+	return t;
 }
 
 void ThreadGroup::JoinAll()
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+	std::lock_guard<std::mutex> lock{m_mutex};
 
-    if (IsThisThreadInNoMutex())
-    {
-        BOOST_THROW_EXCEPTION(xThreadGroupError("thread cannot join itself"));
-    }
+	if (IsThisThreadInNoMutex())
+	{
+		BOOST_THROW_EXCEPTION(xThreadGroupError("thread cannot join itself"));
+	}
 
-    JoinThreadsP<std::list> joiner(m_threadGroup);
+	JoinThreadsP<std::list> joiner(m_threadGroup);
 }
 
 size_t ThreadGroup::Size() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    return m_threadGroup.size();
+	std::lock_guard<std::mutex> lock{m_mutex};
+	return m_threadGroup.size();
 }
 
 bool ThreadGroup::Empty() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    return m_threadGroup.empty();
+	std::lock_guard<std::mutex> lock{m_mutex};
+	return m_threadGroup.empty();
 }
 
 bool ThreadGroup::IsThisThreadInNoMutex() const
 {
-    return IsThreadInNoMutex(std::this_thread::get_id());
+	return IsThreadInNoMutex(std::this_thread::get_id());
 }
 
 bool ThreadGroup::IsThreadInNoMutex(const std::thread::id& id) const
 {
-    for (const auto threadPtr : m_threadGroup)
-    {
-        if (threadPtr->get_id() == id)
-        {
-            return true;
-        }
-    }
+	for (const auto threadPtr : m_threadGroup)
+	{
+		if (threadPtr->get_id() == id)
+		{
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 void ThreadGroup::DeleteThread(std::thread* threadPtr)
 {
-    delete threadPtr;
+	delete threadPtr;
 }
 
 } // namespace threads

@@ -35,148 +35,148 @@ namespace csv_grid {
 // 'class Cell' definition
 // ****************************************************************************
 Cell::Cell(const std::string& data)
-    : m_value{data}
+	: m_value{data}
 {
 }
 
 Cell::Cell(const int32_t value)
-    : m_value{std::to_string(value)}
+	: m_value{std::to_string(value)}
 {
 }
 
 Cell::Cell(const int64_t value)
-    : m_value{std::to_string(value)}
+	: m_value{std::to_string(value)}
 {
 }
 
 Cell::Cell(const double value)
-    : m_value{string_utils::FormatFloatString(value)}
+	: m_value{string_utils::FormatFloatString(value)}
 {
 }
 
 Cell::Cell(const long double value)
-    : m_value{string_utils::FormatFloatString(value, 30)}
+	: m_value{string_utils::FormatFloatString(value, 30)}
 {
 }
 
 Cell& Cell::operator=(const std::string& rhs)
 {
-    m_value = rhs;
-    return *this;
+	m_value = rhs;
+	return *this;
 }
 
 Cell& Cell::operator=(const int32_t rhs)
 {
-    m_value = std::to_string(rhs);
-    return *this;
+	m_value = std::to_string(rhs);
+	return *this;
 }
 
 Cell& Cell::operator=(const int64_t rhs)
 {
-    m_value = std::to_string(rhs);
-    return *this;
+	m_value = std::to_string(rhs);
+	return *this;
 }
 
 Cell& Cell::operator=(const double rhs)
 {
-    m_value = string_utils::FormatFloatString(rhs);
-    return *this;
+	m_value = string_utils::FormatFloatString(rhs);
+	return *this;
 }
 
 Cell& Cell::operator=(const long double rhs)
 {
-    m_value = string_utils::FormatFloatString(rhs, 30);
-    return *this;
+	m_value = string_utils::FormatFloatString(rhs, 30);
+	return *this;
 }
 
 Cell::operator std::string() const
 {
-    return m_value;
+	return m_value;
 }
 
 Cell::operator int32_t() const
 {
-    return std::stoi(m_value);
+	return std::stoi(m_value);
 }
 
 Cell::operator int64_t() const
 {
-    return std::stoll(m_value);
+	return std::stoll(m_value);
 }
 
 Cell::operator double() const
 {
-    return std::stod(m_value);
+	return std::stod(m_value);
 }
 
 Cell::operator long double() const
 {
-    return std::stold(m_value);
+	return std::stold(m_value);
 }
 
 int32_t Cell::ToInt32Def(const int32_t defval) const noexcept
 {
-    int32_t val;
+	int32_t val;
 
-    try
-    {
-        val = std::stoi(m_value);
-    }
-    catch(...)
-    {
-        val = defval;
-    }
+	try
+	{
+		val = std::stoi(m_value);
+	}
+	catch(...)
+	{
+		val = defval;
+	}
 
-    return val;
+	return val;
 }
 
 int64_t Cell::ToInt64Def(const int64_t defval) const noexcept
 {
-    int64_t val;
+	int64_t val;
 
-    try
-    {
-        val = std::stoll(m_value);
-    }
-    catch(...)
-    {
-        val = defval;
-    }
+	try
+	{
+		val = std::stoll(m_value);
+	}
+	catch(...)
+	{
+		val = defval;
+	}
 
-    return val;
+	return val;
 }
 
 
 double Cell::ToDoubleDef(const double defval) const noexcept
 {
-    double val;
+	double val;
 
-    try
-    {
-        val = std::stod(m_value);
-    }
-    catch(...)
-    {
-        val = defval;
-    }
+	try
+	{
+		val = std::stod(m_value);
+	}
+	catch(...)
+	{
+		val = defval;
+	}
 
-    return val;
+	return val;
 }
 
 long double Cell::ToLongDoubleDef(const long double defval) const noexcept
 {
-    long double val;
+	long double val;
 
-    try
-    {
-        val = std::stold(m_value);
-    }
-    catch(...)
-    {
-        val = defval;
-    }
+	try
+	{
+		val = std::stold(m_value);
+	}
+	catch(...)
+	{
+		val = defval;
+	}
 
-    return val;
+	return val;
 }
 
 } // namespace csv_grid

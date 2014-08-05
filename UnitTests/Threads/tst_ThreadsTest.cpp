@@ -840,9 +840,21 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 {
 	core_lib::threads::ConcurrentQueue<char> m_queue;
 	QVERIFY(m_queue.Empty());
-	m_queue.Push(new char[2], 2);
-	m_queue.Push(new char[3], 3);
-	m_queue.Push(new char[4], 4);
+	char* temp = new char[2];
+	std::fill(temp, temp + 2, '\0');
+	temp[0] = 'A';
+	m_queue.Push(temp, 2);
+	temp = new char[3];
+	std::fill(temp, temp + 3, '\0');
+	temp[0] = 'B';
+	temp[1] = 'B';
+	m_queue.Push(temp, 3);
+	temp = new char[4];
+	std::fill(temp, temp + 4, '\0');
+	temp[0] = 'C';
+	temp[1] = 'C';
+	temp[2] = 'C';
+	m_queue.Push(temp, 4);
 	m_queue.Push();
 	QVERIFY(m_queue.Size() == 4);
 	int size;
@@ -859,7 +871,6 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 	QVERIFY(item == nullptr);
 	QVERIFY(size == 0);
 	QVERIFY(!m_queue.Empty());
-	char* temp;
 	QVERIFY(m_queue.TimedPop(100, temp, &size));
 	QVERIFY(temp != nullptr);
 	QVERIFY(size == 2);

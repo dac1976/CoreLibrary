@@ -46,180 +46,180 @@ namespace csv_grid {
 class Cell final
 {
 public:
-    /*! \brief Default constructor. */
-    Cell() = default;
-    /*! \brief Copy constructor. */
-    Cell(const Cell&) = default;
-    /*! \brief Move constructor. */
-    Cell(Cell&&) = default;
-    /*!
-     * \brief Initializing constructor
-     * \param [IN] The initial value.
-     *
-     * Initialise the cell with a string.
-     */
-    explicit Cell(const std::string& value);
-    /*!
-     * \brief Initializing constructor
-     * \param [IN] The initial value.
-     *
-     * Initialise the cell with a 32bit integer value.
-     */
-    explicit Cell(const int32_t value);
-    /*!
-     * \brief Initializing constructor
-     * \param [IN] The initial value.
-     *
-     * Initialise the cell with a 64bit integer value.
-     */
-    explicit Cell(const int64_t value);
-    /*!
-     * \brief Initializing constructor
-     * \param [IN] The initial value.
-     *
-     * Initialise the cell with a double precision floating point value.
-     */
-    explicit Cell(const double value);
-    /*!
-     * \brief Initializing constructor
-     * \param [IN] The initial value.
-     *
-     * Initialise the cell with a long double precision floating point value.
-     */
-    explicit Cell(const long double value);
-    /*! \brief Destructor. */
-    ~Cell() = default;
-    /*! \brief Copy assignment operator. */
-    Cell& operator=(const Cell&) = default;
-    /*! \brief Move assignment operator. */
-    Cell& operator=(Cell&&) = default;
-    /*!
-     * \brief Value assignment operator.
-     * \param [IN] The value to assign.
-     * \return Modified Cell object.
-     *
-     * Assign to a string.
-     */
-    Cell& operator=(const std::string& rhs);
-    /*!
-     * \brief Value assignment operator.
-     * \param [IN] The value to assign.
-     * \return Modified Cell object.
-     *
-     * Assign to a 32bit integer value.
-     */
-    Cell& operator=(const int32_t rhs);
-    /*!
-     * \brief Value assignment operator.
-     * \param [IN] The value to assign.
-     * \return Modified Cell object.
-     *
-     * Assign to a 64bit integer value.
-     */
-    Cell& operator=(const int64_t rhs);
-    /*!
-     * \brief Value assignment operator.
-     * \param [IN] The value to assign.
-     * \return Modified Cell object.
-     *
-     * Assign to a double precision floating point value.
-     */
-    Cell& operator=(const double rhs);
-    /*!
-     * \brief Value assignment operator.
-     * \param [IN] The value to assign.
-     * \return Modified Cell object.
-     *
-     * Assign to a long double precision floating point value.
-     */
-    Cell& operator=(const long double rhs);
-    /*!
-     * \brief Cast operator.
-     * \return Modified Cell object.
-     *
-     * Cast the cell to a string.
-     */
-    operator std::string() const;
-    /*!
-     * \brief Cast operator.
-     *
-     * Cast the cell to a 32bit integer.
-     *
-     * \note
-     * If the cell's value cannot be cast to a 32bit integer then a
-     * boost::bad_lexical_cast exception is thrown.
-     */
-    operator int32_t() const;
-    /*!
-     * \brief Cast operator.
-     *
-     * Cast the cell to a 64bit integer.
-     *
-     * \note
-     * If the cell's value cannot be cast to a 64bit integer then a
-     * boost::bad_lexical_cast exception is thrown.
-     */
-    operator int64_t() const;
-    /*!
-     * \brief Cast operator.
-     *
-     * Cast the cell to a double.
-     *
-     * \note
-     * If the cell's value cannot be cast to a double then a
-     * boost::bad_lexical_cast exception is thrown.
-     */
-    operator double() const;
-    /*!
-     * \brief Cast operator.
-     *
-     * Cast the cell to a long double.
-     *
-     * \note
-     * If the cell's value cannot be cast to a long double then a
-     * boost::bad_lexical_cast exception is thrown.
-     */
-    operator long double() const;
-    /*!
-     * \brief Conversion function
-     * \param [IN] The default value to return in case of a failure.
-     * \return Cell value as a 32bit integer.
-     *
-     * Convert the cell to a 32bit integer and if this cannot be
-     * performed safely return the default value instead.
-     */
-    int32_t ToInt32Def(const int32_t defval) const noexcept;
-    /*!
-     * \brief Conversion function
-     * \param [IN] The default value to return in case of a failure.
-     * \return Cell value as a 64bit integer.
-     *
-     * Convert the cell to a 64bit integer and if this cannot be
-     * performed safely return the default value instead.
-     */
-    int64_t ToInt64Def(const int64_t defval) const noexcept;
-    /*!
-     * \brief Conversion function
-     * \param [IN] The default value to return in case of a failure.
-     * \return Cell value as a double.
-     *
-     * Convert the cell to a double and if this cannot be performed
-     * safely return the default value instead.
-     */
-    double ToDoubleDef(const double defval) const noexcept;
-    /*!
-     * \brief Conversion function
-     * \param [IN] The default value to return in case of a failure.
-     * \return Cell value as a long double.
-     *
-     * Convert the cell to a long double and if this cannot be performed
-     * safely return the default value instead.
-     */
-    long double ToLongDoubleDef(const long double defval) const noexcept;
+	/*! \brief Default constructor. */
+	Cell() = default;
+	/*! \brief Copy constructor. */
+	Cell(const Cell&) = default;
+	/*! \brief Move constructor. */
+	Cell(Cell&&) = default;
+	/*!
+	 * \brief Initializing constructor
+	 * \param [IN] The initial value.
+	 *
+	 * Initialise the cell with a string.
+	 */
+	explicit Cell(const std::string& value);
+	/*!
+	 * \brief Initializing constructor
+	 * \param [IN] The initial value.
+	 *
+	 * Initialise the cell with a 32bit integer value.
+	 */
+	explicit Cell(const int32_t value);
+	/*!
+	 * \brief Initializing constructor
+	 * \param [IN] The initial value.
+	 *
+	 * Initialise the cell with a 64bit integer value.
+	 */
+	explicit Cell(const int64_t value);
+	/*!
+	 * \brief Initializing constructor
+	 * \param [IN] The initial value.
+	 *
+	 * Initialise the cell with a double precision floating point value.
+	 */
+	explicit Cell(const double value);
+	/*!
+	 * \brief Initializing constructor
+	 * \param [IN] The initial value.
+	 *
+	 * Initialise the cell with a long double precision floating point value.
+	 */
+	explicit Cell(const long double value);
+	/*! \brief Destructor. */
+	~Cell() = default;
+	/*! \brief Copy assignment operator. */
+	Cell& operator=(const Cell&) = default;
+	/*! \brief Move assignment operator. */
+	Cell& operator=(Cell&&) = default;
+	/*!
+	 * \brief Value assignment operator.
+	 * \param [IN] The value to assign.
+	 * \return Modified Cell object.
+	 *
+	 * Assign to a string.
+	 */
+	Cell& operator=(const std::string& rhs);
+	/*!
+	 * \brief Value assignment operator.
+	 * \param [IN] The value to assign.
+	 * \return Modified Cell object.
+	 *
+	 * Assign to a 32bit integer value.
+	 */
+	Cell& operator=(const int32_t rhs);
+	/*!
+	 * \brief Value assignment operator.
+	 * \param [IN] The value to assign.
+	 * \return Modified Cell object.
+	 *
+	 * Assign to a 64bit integer value.
+	 */
+	Cell& operator=(const int64_t rhs);
+	/*!
+	 * \brief Value assignment operator.
+	 * \param [IN] The value to assign.
+	 * \return Modified Cell object.
+	 *
+	 * Assign to a double precision floating point value.
+	 */
+	Cell& operator=(const double rhs);
+	/*!
+	 * \brief Value assignment operator.
+	 * \param [IN] The value to assign.
+	 * \return Modified Cell object.
+	 *
+	 * Assign to a long double precision floating point value.
+	 */
+	Cell& operator=(const long double rhs);
+	/*!
+	 * \brief Cast operator.
+	 * \return Modified Cell object.
+	 *
+	 * Cast the cell to a string.
+	 */
+	operator std::string() const;
+	/*!
+	 * \brief Cast operator.
+	 *
+	 * Cast the cell to a 32bit integer.
+	 *
+	 * \note
+	 * If the cell's value cannot be cast to a 32bit integer then a
+	 * boost::bad_lexical_cast exception is thrown.
+	 */
+	operator int32_t() const;
+	/*!
+	 * \brief Cast operator.
+	 *
+	 * Cast the cell to a 64bit integer.
+	 *
+	 * \note
+	 * If the cell's value cannot be cast to a 64bit integer then a
+	 * boost::bad_lexical_cast exception is thrown.
+	 */
+	operator int64_t() const;
+	/*!
+	 * \brief Cast operator.
+	 *
+	 * Cast the cell to a double.
+	 *
+	 * \note
+	 * If the cell's value cannot be cast to a double then a
+	 * boost::bad_lexical_cast exception is thrown.
+	 */
+	operator double() const;
+	/*!
+	 * \brief Cast operator.
+	 *
+	 * Cast the cell to a long double.
+	 *
+	 * \note
+	 * If the cell's value cannot be cast to a long double then a
+	 * boost::bad_lexical_cast exception is thrown.
+	 */
+	operator long double() const;
+	/*!
+	 * \brief Conversion function
+	 * \param [IN] The default value to return in case of a failure.
+	 * \return Cell value as a 32bit integer.
+	 *
+	 * Convert the cell to a 32bit integer and if this cannot be
+	 * performed safely return the default value instead.
+	 */
+	int32_t ToInt32Def(const int32_t defval) const noexcept;
+	/*!
+	 * \brief Conversion function
+	 * \param [IN] The default value to return in case of a failure.
+	 * \return Cell value as a 64bit integer.
+	 *
+	 * Convert the cell to a 64bit integer and if this cannot be
+	 * performed safely return the default value instead.
+	 */
+	int64_t ToInt64Def(const int64_t defval) const noexcept;
+	/*!
+	 * \brief Conversion function
+	 * \param [IN] The default value to return in case of a failure.
+	 * \return Cell value as a double.
+	 *
+	 * Convert the cell to a double and if this cannot be performed
+	 * safely return the default value instead.
+	 */
+	double ToDoubleDef(const double defval) const noexcept;
+	/*!
+	 * \brief Conversion function
+	 * \param [IN] The default value to return in case of a failure.
+	 * \return Cell value as a long double.
+	 *
+	 * Convert the cell to a long double and if this cannot be performed
+	 * safely return the default value instead.
+	 */
+	long double ToLongDoubleDef(const long double defval) const noexcept;
 
 private:
-    /*! \brief The cell's value data memeber. */
-    std::string m_value;
+	/*! \brief The cell's value data memeber. */
+	std::string m_value;
 };
 
 }// namespace csv_grid

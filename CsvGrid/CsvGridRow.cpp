@@ -34,12 +34,12 @@ namespace csv_grid {
 // 'class xRowOutOfRangeError' definition
 // ****************************************************************************
 xCsvGridColOutOfRangeError::xCsvGridColOutOfRangeError()
-    : exceptions::xCustomException("invalid column index")
+	: exceptions::xCustomException("invalid column index")
 {
 }
 
 xCsvGridColOutOfRangeError::xCsvGridColOutOfRangeError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 

@@ -42,12 +42,12 @@ namespace threads {
 // 'class xThreadNotStartedError' definition
 // ****************************************************************************
 xThreadNotStartedError::xThreadNotStartedError()
-    : exceptions::xCustomException("thread not started")
+	: exceptions::xCustomException("thread not started")
 {
 }
 
 xThreadNotStartedError::xThreadNotStartedError(const std::string& message)
-    : exceptions::xCustomException(message)
+	: exceptions::xCustomException(message)
 {
 }
 
@@ -60,118 +60,118 @@ xThreadNotStartedError::~xThreadNotStartedError()
 // ****************************************************************************
 bool ThreadBase::IsStarted() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    return m_started;
+	std::lock_guard<std::mutex> lock{m_mutex};
+	return m_started;
 }
 
 void ThreadBase::Start()
 {
-    if (!IsStarted() && !IsTerminating())
-    {
-        m_thread = std::thread(&ThreadBase::Run, this);
-        SetStarted(true);
-        SetThreadIdAndNativeHandle(m_thread.get_id()
-                                   , m_thread.native_handle());
-    }
+	if (!IsStarted() && !IsTerminating())
+	{
+		m_thread = std::thread(&ThreadBase::Run, this);
+		SetStarted(true);
+		SetThreadIdAndNativeHandle(m_thread.get_id()
+								   , m_thread.native_handle());
+	}
 }
 
 void ThreadBase::Stop()
 {
-    if (IsStarted() && !IsTerminating())
-    {
-        SetTerminating(true);
+	if (IsStarted() && !IsTerminating())
+	{
+		SetTerminating(true);
 
-        try
-        {
-            ProcessTerminationConditions();
-        }
-        catch(...)
-        {
-            // Do nothing but we want to make sure we
-            // call join if required.
-        }
+		try
+		{
+			ProcessTerminationConditions();
+		}
+		catch(...)
+		{
+			// Do nothing but we want to make sure we
+			// call join if required.
+		}
 
-        if (m_thread.joinable())
-        {
-            m_thread.join();
-        }
+		if (m_thread.joinable())
+		{
+			m_thread.join();
+		}
 
-        SetTerminating(false);
-    }
+		SetTerminating(false);
+	}
 }
 
 std::thread::id ThreadBase::ThreadID() const
 {
-    if (!IsStarted() || IsTerminating())
-    {
-        BOOST_THROW_EXCEPTION(xThreadNotStartedError());
-    }
+	if (!IsStarted() || IsTerminating())
+	{
+		BOOST_THROW_EXCEPTION(xThreadNotStartedError());
+	}
 
-    std::lock_guard<std::mutex> lock{m_mutex};
-    return m_threadId;
+	std::lock_guard<std::mutex> lock{m_mutex};
+	return m_threadId;
 }
 
 std::thread::native_handle_type ThreadBase::NativeHandle() const
 {
-    if (!IsStarted() || IsTerminating())
-    {
-        BOOST_THROW_EXCEPTION(xThreadNotStartedError());
-    }
+	if (!IsStarted() || IsTerminating())
+	{
+		BOOST_THROW_EXCEPTION(xThreadNotStartedError());
+	}
 
-    std::lock_guard<std::mutex> lock{m_mutex};
-    return m_nativeHandle;
+	std::lock_guard<std::mutex> lock{m_mutex};
+	return m_nativeHandle;
 }
 
 bool ThreadBase::IsTerminating() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    return m_terminating;
+	std::lock_guard<std::mutex> lock{m_mutex};
+	return m_terminating;
 }
 
 void ThreadBase::SleepForTime(const unsigned int milliSecs) const
 {
-    if (!IsStarted() || IsTerminating())
-    {
-        BOOST_THROW_EXCEPTION(xThreadNotStartedError());
-    }
+	if (!IsStarted() || IsTerminating())
+	{
+		BOOST_THROW_EXCEPTION(xThreadNotStartedError());
+	}
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));
+	std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));
 }
 
 void ThreadBase::ProcessTerminationConditions()
 {
-    // nothing required here but override in derived class
+	// nothing required here but override in derived class
 }
 
 void ThreadBase::SetThreadIdAndNativeHandle(const std::thread::id& threadId
-                                            , const std::thread::native_handle_type&
-                                                nativeHandle)
+											, const std::thread::native_handle_type&
+											nativeHandle)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    m_threadId = threadId;
-    m_nativeHandle = nativeHandle;
+	std::lock_guard<std::mutex> lock{m_mutex};
+	m_threadId = threadId;
+	m_nativeHandle = nativeHandle;
 }
 
 void ThreadBase::SetStarted(const bool started)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    m_started = started;
+	std::lock_guard<std::mutex> lock{m_mutex};
+	m_started = started;
 }
 
 void ThreadBase::SetTerminating(const bool terminating)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    m_terminating = terminating;
+	std::lock_guard<std::mutex> lock{m_mutex};
+	m_terminating = terminating;
 }
 
 void ThreadBase::Run()
 {
-    while (!IsTerminating())
-    {
-        ThreadIteration();
-    }
+	while (!IsTerminating())
+	{
+		ThreadIteration();
+	}
 
-    SetStarted(false);
+	SetStarted(false);
 }
 
 } // namespace threads

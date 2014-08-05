@@ -103,9 +103,9 @@ public:
 	 */
 	explicit MessageQueueThread(msg_id_decoder messageIdDecoder
 								, eOnDestroyOptions destroyOptions
-									 = eOnDestroyOptions::deleteRemainingItems
-								, eQueueOptions queueOptions
-									 = eQueueOptions::autoDelete)
+								= eOnDestroyOptions::deleteRemainingItems
+								  , eQueueOptions queueOptions
+								= eQueueOptions::autoDelete)
 		: ThreadBase()
 		, m_msgIdDecoder{std::move(messageIdDecoder)}
 		, m_destroyOptions{destroyOptions}

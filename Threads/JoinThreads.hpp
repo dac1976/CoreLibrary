@@ -47,35 +47,35 @@ template<template<class, class> class C>
 class JoinThreads final
 {
 public:
-    /*! \brief typedef for container type */
-    typedef C<std::thread, std::allocator<std::thread>> container_type;
-    /*!
-     * \brief Initialisation constructor.
-     * \param [IN] Containr of std::threads.
-     */
-    explicit JoinThreads(container_type& threads)
-        : m_threads(threads)
-    {
-    }
-    /*! \brief Copy constructor - deleted.*/
-    JoinThreads(const JoinThreads&) = delete;
-    /*! \brief Destructor- joins the threads.*/
-    ~JoinThreads()
-    {
-        for (auto& t : m_threads)
-        {
-            if (t.joinable())
-            {
-                t.join();
-            }
-        }
-    }
-    /*! \brief Copy assignment operator - deleted.*/
-    JoinThreads& operator= (const JoinThreads&) = delete;
+	/*! \brief typedef for container type */
+	typedef C<std::thread, std::allocator<std::thread>> container_type;
+	/*!
+	 * \brief Initialisation constructor.
+	 * \param [IN] Containr of std::threads.
+	 */
+	explicit JoinThreads(container_type& threads)
+		: m_threads(threads)
+	{
+	}
+	/*! \brief Copy constructor - deleted.*/
+	JoinThreads(const JoinThreads&) = delete;
+	/*! \brief Destructor- joins the threads.*/
+	~JoinThreads()
+	{
+		for (auto& t : m_threads)
+		{
+			if (t.joinable())
+			{
+				t.join();
+			}
+		}
+	}
+	/*! \brief Copy assignment operator - deleted.*/
+	JoinThreads& operator= (const JoinThreads&) = delete;
 
 private:
-    /*! \brief Container of threads.*/
-    container_type& m_threads;
+	/*! \brief Container of threads.*/
+	container_type& m_threads;
 };
 
 /*!
@@ -90,35 +90,35 @@ template<template<class, class> class C>
 class JoinThreadsP final
 {
 public:
-    /*! \brief typedef for container type */
-    typedef C<std::thread*, std::allocator<std::thread*>> container_type;
-    /*!
-     * \brief Initialisation constructor.
-     * \param [IN] Containr of std::threads.
-     */
-    explicit JoinThreadsP(container_type& threads)
-        : m_threads(threads)
-    {
-    }
-    /*! \brief Copy constructor - deleted.*/
-    JoinThreadsP(const JoinThreadsP&) = delete;
-    /*! \brief Destructor- joins the threads.*/
-    ~JoinThreadsP()
-    {
-        for (auto& t : m_threads)
-        {
-            if (t->joinable())
-            {
-                t->join();
-            }
-        }
-    }
-    /*! \brief Copy assignment operator - deleted.*/
-    JoinThreadsP& operator= (const JoinThreadsP&) = delete;
+	/*! \brief typedef for container type */
+	typedef C<std::thread*, std::allocator<std::thread*>> container_type;
+	/*!
+	 * \brief Initialisation constructor.
+	 * \param [IN] Containr of std::threads.
+	 */
+	explicit JoinThreadsP(container_type& threads)
+		: m_threads(threads)
+	{
+	}
+	/*! \brief Copy constructor - deleted.*/
+	JoinThreadsP(const JoinThreadsP&) = delete;
+	/*! \brief Destructor- joins the threads.*/
+	~JoinThreadsP()
+	{
+		for (auto& t : m_threads)
+		{
+			if (t->joinable())
+			{
+				t->join();
+			}
+		}
+	}
+	/*! \brief Copy assignment operator - deleted.*/
+	JoinThreadsP& operator= (const JoinThreadsP&) = delete;
 
 private:
-    /*! \brief Container of threads.*/
-    container_type& m_threads;
+	/*! \brief Container of threads.*/
+	container_type& m_threads;
 };
 
 } // namespace threads
