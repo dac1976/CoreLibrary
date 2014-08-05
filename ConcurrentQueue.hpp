@@ -106,7 +106,7 @@ public:
 	 * Queue is created to not auto-delete objects.
 	 */
 	explicit ConcurrentQueue(const eQueueOptions queueOptions
-							 = eQueueOptions::autoDelete)
+								 = eQueueOptions::autoDelete)
 		: m_autoDelete{queueOptions == eQueueOptions::autoDelete}
 	{
 	}
@@ -510,8 +510,8 @@ private:
 	const bool m_autoDelete{false};
 	/*! \brief Synchronization event. */
 	SyncEvent m_itemEvent{eNotifyType::signalOneThread
-				, eResetCondition::manualReset
-				, eIntialCondition::notSignalled};
+						  , eResetCondition::manualReset
+						  , eIntialCondition::notSignalled};
 	/*! \brief Underlying deque container acting as the queue. */
 	std::deque<QueueItem> m_queue;
 
@@ -529,7 +529,7 @@ private:
 	 */
 	T* PopNow(int& size
 			  , bool* pIsEmpty = nullptr
-								 , const eQueueEnd whichEnd = front)
+			  , const eQueueEnd whichEnd = front)
 	{
 		T* pItem{};
 		size = 0;

@@ -828,10 +828,18 @@ void ThreadsTest::testCase_ConcurrentQueue1()
 	QueuedThread1 qt;
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	QVERIFY(qt.GetCounter() == 0);
-	qt.Push(new char[10], 10);
-	qt.Push(new char[5], 5);
-	qt.Push(new char[1], 1);
-	qt.Push(new char);
+	char* temp = new char[10];
+	std::fill(temp, temp + 10, 'A');
+	qt.Push(temp, 10);
+	temp = new char[5];
+	std::fill(temp, temp + 5, 'B');
+	qt.Push(temp, 5);
+	temp = new char[1];
+	std::fill(temp, temp + 1, 'C');
+	qt.Push(temp, 1);
+	temp = new char;
+	*temp = 'D';
+	qt.Push(temp);
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	QVERIFY(qt.GetCounter() == 4);
 }
@@ -841,24 +849,19 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 	core_lib::threads::ConcurrentQueue<char> m_queue;
 	QVERIFY(m_queue.Empty());
 	char* temp = new char[2];
-	std::fill(temp, temp + 2, '\0');
-	temp[0] = 'A';
+	std::fill(temp, temp + 2, 'A');
 	m_queue.Push(temp, 2);
 	temp = new char[3];
-	std::fill(temp, temp + 3, '\0');
-	temp[0] = 'B';
-	temp[1] = 'B';
+	std::fill(temp, temp + 3, 'B');
 	m_queue.Push(temp, 3);
 	temp = new char[4];
-	std::fill(temp, temp + 4, '\0');
-	temp[0] = 'C';
-	temp[1] = 'C';
-	temp[2] = 'C';
+	std::fill(temp, temp + 4, 'C');
 	m_queue.Push(temp, 4);
 	m_queue.Push();
 	QVERIFY(m_queue.Size() == 4);
 	int size;
-	const char* item = m_queue.Peek(0, &size);
+	const char* item = nullptr;
+	/*const char* item = m_queue.Peek(0, &size);
 	QVERIFY(item != nullptr);
 	QVERIFY(size == 2);
 	item = m_queue.Peek(1, &size);
@@ -870,7 +873,7 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 	item = m_queue.Peek(3, &size);
 	QVERIFY(item == nullptr);
 	QVERIFY(size == 0);
-	QVERIFY(!m_queue.Empty());
+	QVERIFY(!m_queue.Empty());*/
 	QVERIFY(m_queue.TimedPop(100, temp, &size));
 	QVERIFY(temp != nullptr);
 	QVERIFY(size == 2);
@@ -958,7 +961,6 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 
 	QVERIFY(correctException);
 
-	//***********
 	m_queue.Push(new char[2], 2);
 	m_queue.Push(new char[4], 4);
 	QVERIFY(m_queue.TrySteal(temp, &size));
