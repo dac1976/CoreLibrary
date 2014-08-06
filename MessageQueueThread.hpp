@@ -51,7 +51,7 @@ public:
 	xMsgHandlerError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specified message string.
+     * \param[in] A user specified message string.
 	 */
 	explicit xMsgHandlerError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -85,8 +85,8 @@ class MessageQueueThread final : public ThreadBase
 public:
 	/*!
 	 * \brief Typedef defining message ID decoder function.
-	 * \param [IN] Pointer to message.
-	 * \param [IN] Number of objects of type MessageType pointed to by msg.
+     * \param[in] Pointer to message.
+     * \param[in] Number of objects of type MessageType pointed to by msg.
 	 * \return Unique ID of the message to be processed.
 	 *
 	 * The decoder function should not throw any exceptions. If the message
@@ -96,9 +96,9 @@ public:
     typedef std::function<MessageId (const MessageType*, const int )> msg_id_decoder;
 	/*!
 	 * \brief Default constructor.
-	 * \param [IN] Function object that returns the message ID for a message.
-	 * \param [IN] (Optional) Set the Message threads destroy option.
-	 * \param [IN] (Optional) Set the queue's delete option.
+     * \param[in] Function object that returns the message ID for a message.
+     * \param[in] (Optional) Set the Message threads destroy option.
+     * \param[in] (Optional) Set the queue's delete option.
 	 */
 	explicit MessageQueueThread(msg_id_decoder messageIdDecoder
 								, eOnDestroyOptions destroyOptions
@@ -132,8 +132,8 @@ public:
 	}
 	/*!
 	 * \brief Typedef defining message handler function.
-	 * \param [IN] Pointer to message.
-	 * \param [IN] Number of objects of type MessageType pointed to by msg.
+     * \param[in] Pointer to message.
+     * \param[in] Number of objects of type MessageType pointed to by msg.
 	 * \return True if message can be deleted, false otherwise.
 	 *
 	 * The decoder function should not throw any exceptions. If the message
@@ -143,8 +143,8 @@ public:
     typedef std::function<bool (MessageType*, const int )> msg_handler;
 	/*!
 	 * \brief Register a function to handle a particular message.
-	 * \param [IN] Message ID.
-	 * \param [IN] Function object to handle messages with specified message ID.
+     * \param[in] Message ID.
+     * \param[in] Function object to handle messages with specified message ID.
 	 *
 	 * Throws a xMsgHandlerError exception if handler for message ID is
 	 * already defined.
@@ -163,7 +163,7 @@ public:
 	}
 	/*!
 	 * \brief Push a message onto this thread's queue.
-	 * \param [IN] Pointer to message.
+     * \param[in] Pointer to message.
 	 *
 	 * Messages pushed on using this function will be deleted
 	 * with delete.
@@ -175,8 +175,8 @@ public:
 
 	/*!
 	 * \brief Push a message as an array of items onto this thread's queue.
-	 * \param [IN] Pointer to message.
-	 * \param [IN] Number of objects of type MessageType pointed to by msg.
+     * \param[in] Pointer to message.
+     * \param[in] Number of objects of type MessageType pointed to by msg.
 	 *
 	 * Messages pushed on using this function will be deleted
 	 * with delete[] if length > 0.

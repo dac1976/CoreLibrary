@@ -52,7 +52,7 @@ public:
 	xQueuePopTimeoutError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xQueuePopTimeoutError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -72,7 +72,7 @@ public:
 	xQueuePopQueueEmptyError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xQueuePopQueueEmptyError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -100,7 +100,7 @@ public:
     QueueItem() = default;
     /*!
      * \brief Initialising constuctor.
-     * \param [IN] Pointer to an item.
+     * \param[in] Pointer to an item.
      *
      * Items created with this constructor will
      * be deleted with delete. And their size will
@@ -111,8 +111,8 @@ public:
     {  }
     /*!
      * \brief Initialising constuctor.
-     * \param [IN] Pointer to an array of items.
-     * \param [IN] Number of objects of type T pointed to by returned pointer.
+     * \param[in] Pointer to an array of items.
+     * \param[in] Number of objects of type T pointed to by returned pointer.
      *
      * Items created with this constructor will
      * be deleted with delete[] if size is > 0.
@@ -205,7 +205,7 @@ private:
 public:
 	/*!
 	 * \brief Initialising constructor.
-	 * \param [IN] (Optional) Set the queue's delete option.
+     * \param[in] (Optional) Set the queue's delete option.
 	 *
 	 * Queue is created to not auto-delete objects.
 	 */
@@ -243,7 +243,7 @@ public:
 	}
 	/*!
 	 * \brief Push an item onto the queue.
-	 * \param [IN] Pointer to object of type T to push into queue.
+     * \param[in] Pointer to object of type T to push into queue.
 	 *
      * An item pushed on with this method will be deleted with
 	 * delete.
@@ -259,8 +259,8 @@ public:
 	}
 	/*!
 	 * \brief Push an array items onto the queue.
-	 * \param [IN] Pointer to object of type T to push into queue.
-	 * \param [IN] Number of items of type T pointed to by pItem.
+     * \param[in] Pointer to object of type T to push into queue.
+     * \param[in] Number of items of type T pointed to by pItem.
 	 *
      * Items pushed on with this method will be deleted with
 	 * delete[].
@@ -285,7 +285,7 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue if there are any else wait.
-	 * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \param[out] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return The popped item.
 	 *
      * Method will block forever or until an item is placed on the
@@ -306,8 +306,8 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue if there are any else return.
-	 * \param [OUT] The popped item.
-	 * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \param[out] The popped item.
+     * \param[out] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return True if item popped off queue, false otherwise.
 	 */
 	bool TryPop(T* &pItem, int* size = nullptr)
@@ -325,7 +325,7 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue..
-	 * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \param[out] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return A pointer to the popped item.
 	 *
 	 * This will throw xQueuePopQueueEmptyError if there are no items
@@ -351,9 +351,9 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue but only wait for a given amount of time.
-	 * \param [IN] Amount of time to wait.
-	 * \param [IN] The popped item.
-	 * \param [OUT] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \param[in] Amount of time to wait.
+     * \param[in] The popped item.
+     * \param[out] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return True if item popped successfully, false if timed out.
 	 */
     bool TimedPop(const unsigned int timeoutMilliseconds, T* &pItem, int* size = nullptr)
@@ -376,8 +376,8 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue but only wait for a given amount of time.
-	 * \param [IN] Amount of time to wait.
-	 * \param [OUT] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \param[in] Amount of time to wait.
+     * \param[out] Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return The popped item.
 	 *
 	 * If no items have been put onto the queue after the specified amount to time
@@ -408,8 +408,8 @@ public:
 	}
 	/*!
 	 * \brief Steal an item from the back of the queue if there are any else return.
-	 * \param [OUT] The stolen item.
-	 * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \param[out] The stolen item.
+     * \param[out] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return True if item stolen off queue, false otherwise.
 	 */
 	bool TrySteal(T* &pItem, int* size = nullptr)
@@ -427,7 +427,7 @@ public:
 	}
 	/*!
 	 * \brief Steal an item from the back of the queue.
-	 * \param [OUT] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+     * \param[out] Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return A pointer to the stolen item.
 	 *
 	 * This will throw xQueuePopQueueEmptyError if there are no items
@@ -453,8 +453,8 @@ public:
 	}
 	/*!
 	 * \brief Take a peek at an item at a given index on the queue.
-	 * \param [IN] Zero-based index of the queue item to peek at.
-	 * \param [OUT] Number of objects of type T pointed to by returned pointer.
+     * \param[in] Zero-based index of the queue item to peek at.
+     * \param[out] Number of objects of type T pointed to by returned pointer.
 	 * \return The peeked item.
 	 *
      * This method returns nullptr if the index does not exist in the queue.
@@ -536,8 +536,8 @@ private:
 
 	/*!
 	 * \brief Pop an item off the queue.
-	 * \param [OUT] Number of items of type T pointed to by returned pointer.
-     * \param [OUT] (Optional) Flag indicating if queue was empty on entry to method.
+     * \param[out] Number of items of type T pointed to by returned pointer.
+     * \param[out] (Optional) Flag indicating if queue was empty on entry to method.
 	 * \return The popped item or null if there is a problem.
 	 */
 	T* PopNow(int& size
@@ -575,7 +575,7 @@ private:
 
     /*!
      * \brief Pop an item off the front of the queue.
-     * \param [OUT] Number of items of type T pointed to by returned pointer.
+     * \param[out] Number of items of type T pointed to by returned pointer.
      * \return The popped item.
      */
     T* PopFront(int& size)
@@ -590,7 +590,7 @@ private:
 
     /*!
      * \brief Pop an item off the back of the queue.
-     * \param [OUT] Number of items of type T pointed to by returned pointer.
+     * \param[out] Number of items of type T pointed to by returned pointer.
      * \return The popped item.
      */
     T* PopBack(int& size)

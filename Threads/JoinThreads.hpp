@@ -51,7 +51,7 @@ public:
 	typedef C<std::thread, std::allocator<std::thread>> container_type;
 	/*!
 	 * \brief Initialisation constructor.
-	 * \param [IN] Containr of std::threads.
+     * \param[in] Containr of std::threads.
 	 */
 	explicit JoinThreads(container_type& threads)
 		: m_threads(threads)
@@ -94,7 +94,7 @@ public:
 	typedef C<std::thread*, std::allocator<std::thread*>> container_type;
 	/*!
 	 * \brief Initialisation constructor.
-	 * \param [IN] Containr of std::threads.
+     * \param[in] Containr of std::threads.
 	 */
 	explicit JoinThreadsP(container_type& threads)
 		: m_threads(threads)

@@ -57,7 +57,7 @@ public:
 	typedef typename boost::call_traits<value_type>::param_type param_type;
 	/*!
 	 * \brief Constructor.
-	 * \param [IN] The capacity for the underlying circular buffer.
+     * \param[in] The capacity for the underlying circular buffer.
 	 */
 	explicit BoundedBuffer(const size_type capacity)
 		: m_container{capacity}
@@ -69,7 +69,7 @@ public:
 	BoundedBuffer& operator=(const BoundedBuffer&) = delete;
 	/*!
 	 * \brief Push new item to the front.
-	 * \param [IN] The item to push to the front.
+     * \param[in] The item to push to the front.
 	 *
 	 * This function blocks if the buffer is at
 	 * capacity.
@@ -89,7 +89,7 @@ public:
 	}
 	/*!
 	 * \brief Pop item from the back.
-	 * \param [OUT] The item to pop from the back.
+     * \param[out] The item to pop from the back.
 	 *
 	 * This function blocks if the buffer is at
 	 * capacity.

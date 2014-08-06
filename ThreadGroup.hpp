@@ -52,7 +52,7 @@ public:
 	xThreadGroupError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xThreadGroupError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -87,19 +87,19 @@ public:
 	bool IsThisThreadIn() const;
 	/*!
 	 * \brief Is given thread in group.
-	 * \param [IN] Pointer to thread.
+     * \param[in] Pointer to thread.
 	 * \return True if in group, false otherwise.
 	 */
 	bool IsThreadIn(std::thread* threadPtr) const;
 	/*!
 	 * \brief Is given thread in group.
-	 * \param [IN] Thread ID.
+     * \param[in] Thread ID.
 	 * \return True if in group, false otherwise.
 	 */
 	bool IsThreadIn(const std::thread::id& id) const;
 	/*!
 	 * \brief Create and add thread to group.
-	 * \param [IN] Thread function to use with created thread.
+     * \param[in] Thread function to use with created thread.
 	 * \return Pointer to the created thread.
 	 */
 	template<typename F>
@@ -112,7 +112,7 @@ public:
 	}
 	/*!
 	 * \brief Add thread to group.
-	 * \param [IN] Pointer to thread.
+     * \param[in] Pointer to thread.
 	 *
 	 * Throws xThreadGroupError if called with a thread that
 	 * already belongs to the thread group.
@@ -120,12 +120,12 @@ public:
 	void AddThread(std::thread* threadPtr);
 	/*!
 	 * \brief Remove thread from group.
-	 * \param [IN] Pointer to thread.
+     * \param[in] Pointer to thread.
 	 */
 	void RemoveThread(std::thread* threadPtr);
 	/*!
 	 * \brief Remove thread from group.
-	 * \param [IN] Thread ID.
+     * \param[in] Thread ID.
 	 * \return Pointer to thread.
 	 *
 	 * This function returns nullptr if the id cannot be found.
@@ -164,13 +164,13 @@ private:
 	bool IsThisThreadInNoMutex() const;
 	/*!
 	 * \brief Is given thread in group (no mutex).
-	 * \param [IN] Thread ID.
+     * \param[in] Thread ID.
 	 * \return True if in group, false otherwise.
 	 */
 	bool IsThreadInNoMutex(const std::thread::id& id) const;
 	/*!
 	 * \brief Delete thread object.
-	 * \param [IN] Pointer to thread.
+     * \param[in] Pointer to thread.
 	 */
 	static void DeleteThread(std::thread* threadPtr);
 };

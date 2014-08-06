@@ -54,7 +54,7 @@ public:
 	xIniFileDataConvertError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xIniFileDataConvertError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -74,7 +74,7 @@ public:
 	xIniFileParserError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xIniFileParserError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -94,7 +94,7 @@ public:
 	xIniFileSaveError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xIniFileSaveError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -115,7 +115,7 @@ public:
 	xIniFileInvalidKeyError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xIniFileInvalidKeyError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -135,7 +135,7 @@ public:
 	xIniFileInvalidSectionError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xIniFileInvalidSectionError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -178,7 +178,7 @@ public:
 	IniFile(IniFile&&) = default;
 	/**
 	 * \brief INI path based constructor.
-	 * \param [IN] Path to INI file.
+     * \param[in] Path to INI file.
 	 *
 	 * Create an INI file object from an INI file path.
 	 */
@@ -191,14 +191,14 @@ public:
 	IniFile& operator=(IniFile&&) = default;
 	/**
 	 * \brief Load an INI file.
-	 * \param [IN] Path to an INI file.
+     * \param[in] Path to an INI file.
 	 *
 	 *  Load from an INI file path.
 	 */
 	void LoadFile(const std::string& iniFilePath);
 	/**
 	 * \brief Update the file.
-	 * \param [IN] Optional override path to save to alternative location.
+     * \param[in] Optional override path to save to alternative location.
 	 *
 	 * Write settings back to file on disk.
 	 */
@@ -212,20 +212,20 @@ public:
 	typedef std::list<std::pair<std::string, std::string>> keys_list;
 	/**
 	 *  \brief Get section's key-value pairs.
-	 *  \param [IN] section Parameter_Description
+     *  \param[in] section Parameter_Description
 	 *  \return A list of key-value pairs for an INI file section.
 	 */
 	keys_list GetSection(const std::string& section) const;
 	/**
 	 *  \brief Check if a section exists.
-	 *  \param [IN] Section name.
+     *  \param[in] Section name.
 	 *  \return True if section name exists, false otherwise.
 	 */
 	bool SectionExists(const std::string& section) const;
 	/**
 	 *  \brief Check if a key exists for a section.
-	 *  \param [IN] Section name.
-	 *  \param [IN] Key name.
+     *  \param[in] Section name.
+     *  \param[in] Key name.
 	 *  \return True if key exists, false otherwise.
 	 */
 	bool KeyExists(const std::string& section
@@ -233,9 +233,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section      Parameter_Description
-	 *  \param [IN] key          Parameter_Description
-	 *  \param [IN] defaultValue Parameter_Description
+     *  \param[in] section      Parameter_Description
+     *  \param[in] key          Parameter_Description
+     *  \param[in] defaultValue Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -246,9 +246,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section      Parameter_Description
-	 *  \param [IN] key          Parameter_Description
-	 *  \param [IN] defaultValue Parameter_Description
+     *  \param[in] section      Parameter_Description
+     *  \param[in] key          Parameter_Description
+     *  \param[in] defaultValue Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -259,9 +259,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section      Parameter_Description
-	 *  \param [IN] key          Parameter_Description
-	 *  \param [IN] defaultValue Parameter_Description
+     *  \param[in] section      Parameter_Description
+     *  \param[in] key          Parameter_Description
+     *  \param[in] defaultValue Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -272,9 +272,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section      Parameter_Description
-	 *  \param [IN] key          Parameter_Description
-	 *  \param [IN] defaultValue Parameter_Description
+     *  \param[in] section      Parameter_Description
+     *  \param[in] key          Parameter_Description
+     *  \param[in] defaultValue Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -285,9 +285,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section      Parameter_Description
-	 *  \param [IN] key          Parameter_Description
-	 *  \param [IN] defaultValue Parameter_Description
+     *  \param[in] section      Parameter_Description
+     *  \param[in] key          Parameter_Description
+     *  \param[in] defaultValue Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -298,9 +298,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section      Parameter_Description
-	 *  \param [IN] key          Parameter_Description
-	 *  \param [IN] defaultValue Parameter_Description
+     *  \param[in] section      Parameter_Description
+     *  \param[in] key          Parameter_Description
+     *  \param[in] defaultValue Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -311,9 +311,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
-	 *  \param [IN] key     Parameter_Description
-	 *  \param [IN] value   Parameter_Description
+     *  \param[in] section Parameter_Description
+     *  \param[in] key     Parameter_Description
+     *  \param[in] value   Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -324,9 +324,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
-	 *  \param [IN] key     Parameter_Description
-	 *  \param [IN] value   Parameter_Description
+     *  \param[in] section Parameter_Description
+     *  \param[in] key     Parameter_Description
+     *  \param[in] value   Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -337,9 +337,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
-	 *  \param [IN] key     Parameter_Description
-	 *  \param [IN] value   Parameter_Description
+     *  \param[in] section Parameter_Description
+     *  \param[in] key     Parameter_Description
+     *  \param[in] value   Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -350,9 +350,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
-	 *  \param [IN] key     Parameter_Description
-	 *  \param [IN] value   Parameter_Description
+     *  \param[in] section Parameter_Description
+     *  \param[in] key     Parameter_Description
+     *  \param[in] value   Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -363,9 +363,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
-	 *  \param [IN] key     Parameter_Description
-	 *  \param [IN] value   Parameter_Description
+     *  \param[in] section Parameter_Description
+     *  \param[in] key     Parameter_Description
+     *  \param[in] value   Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -376,9 +376,9 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
-	 *  \param [IN] key     Parameter_Description
-	 *  \param [IN] value   Parameter_Description
+     *  \param[in] section Parameter_Description
+     *  \param[in] key     Parameter_Description
+     *  \param[in] value   Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -389,7 +389,7 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
+     *  \param[in] section Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -406,8 +406,8 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
-	 *  \param [IN] key     Parameter_Description
+     *  \param[in] section Parameter_Description
+     *  \param[in] key     Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details
@@ -417,7 +417,7 @@ public:
 	/**
 	 *  \brief Brief
 	 *
-	 *  \param [IN] section Parameter_Description
+     *  \param[in] section Parameter_Description
 	 *  \return Return_Description
 	 *
 	 *  \details Details

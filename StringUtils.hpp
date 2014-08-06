@@ -40,7 +40,7 @@ namespace string_utils {
 
 /*!
  * \brief Tidy a string obtained from getline function.
- * \param [IN/OUT] A string obtained using getline.
+ * \param[in,out] A string obtained using getline.
  *
  * Safely convert string into sensible form due to bug in some implementations
  * of std::getline() (looking at you Emarcadero C++ Builder) where size is
@@ -61,7 +61,7 @@ public:
 	xSplitStringBadDelim();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xSplitStringBadDelim(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -81,7 +81,7 @@ public:
 	xSplitStringTooManySubstrings();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param [IN] A user specifed message string.
+     * \param[in] A user specifed message string.
 	 */
 	explicit xSplitStringTooManySubstrings(const std::string& message);
 	/*! \brief Virtual destructor.*/
@@ -104,11 +104,11 @@ enum class eSplitStringResult
 
 /*!
  * \brief Split a string into two parts given delimiters.
- * \param [OUT] First output substring.
- * \param [OUT] Second output substring.
- * \param [IN] Input string to be split into two.
- * \param [IN] Delimiters to look for to split around.
- * \param [IN] Options to formt resultant substrings.
+ * \param[out] First output substring.
+ * \param[out] Second output substring.
+ * \param[in] Input string to be split into two.
+ * \param[in] Delimiters to look for to split around.
+ * \param[in] Options to formt resultant substrings.
  *
  * Given an input string and a string containing delimiters the input
  * string is split into two parts either side of the deilimiter string.
@@ -137,9 +137,9 @@ enum class eFloatStringFormat
 
 /*!
  * \brief Convert a floating point value to a string representation.
- * \param [IN] Floating point value to convert to a string.
- * \param [IN] Precision to display the number to as a string.
- * \param [IN] Formatting options.
+ * \param[in] Floating point value to convert to a string.
+ * \param[in] Precision to display the number to as a string.
+ * \param[in] Formatting options.
  * return Resultant string.
  *
  * Convert a single or double precision floating point number to a
