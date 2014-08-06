@@ -168,7 +168,7 @@ static const size_t BYTES_IN_MEBIBYTE{1024 * 1024};
  * ever exist the <log>.txt and <log>_old.txt. The default log
  * size if 5MiB.
  */
-template<typename Formatter>
+template<class Formatter>
 class DebugLog final
 {
 public:

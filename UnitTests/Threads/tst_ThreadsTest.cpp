@@ -7,6 +7,7 @@
 #include <vector>
 #include <set>
 #include <limits>
+#include <algorithm>
 #include "../../SyncEvent.hpp"
 #include "../../ThreadBase.hpp"
 #include "../../ThreadGroup.hpp"
@@ -822,69 +823,82 @@ void ThreadsTest::testCase_ThreadBase()
 // ****************************************************************************
 // ConcurrentQueue tests
 // ****************************************************************************
+static char* CreateCharArray(const size_t size, const char defValue = 'A')
+{
+    char* carr = new char[size];
+    std::fill(carr, carr + size, defValue);
+    return carr;
+}
+
+static char* CreateChar(const char defValue = 'A')
+{
+    char* ch = new char;
+    *ch = defValue;
+    return ch;
+}
+
 
 void ThreadsTest::testCase_ConcurrentQueue1()
 {
 	QueuedThread1 qt;
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	QVERIFY(qt.GetCounter() == 0);
-	char* temp = new char[10];
-	std::fill(temp, temp + 10, 'A');
-	qt.Push(temp, 10);
-	temp = new char[5];
-	std::fill(temp, temp + 5, 'B');
-	qt.Push(temp, 5);
-	temp = new char[1];
-	std::fill(temp, temp + 1, 'C');
-	qt.Push(temp, 1);
-	temp = new char;
-	*temp = 'D';
-	qt.Push(temp);
+    qt.Push(CreateCharArray(10), 10);
+    qt.Push(CreateCharArray(5), 5);
+    qt.Push(CreateCharArray(1), 1);
+    qt.Push(CreateChar());
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	QVERIFY(qt.GetCounter() == 4);
+}
+
+static bool CheckArray(const char* array, const size_t size, const char compChar = 'A')
+{
+    return std::all_of(array, array + size, [compChar](const char ch){return ch == compChar;});
 }
 
 void ThreadsTest::testCase_ConcurrentQueue2()
 {
 	core_lib::threads::ConcurrentQueue<char> m_queue;
 	QVERIFY(m_queue.Empty());
-	char* temp = new char[2];
-	std::fill(temp, temp + 2, 'A');
-	m_queue.Push(temp, 2);
-	temp = new char[3];
-	std::fill(temp, temp + 3, 'B');
-	m_queue.Push(temp, 3);
-	temp = new char[4];
-	std::fill(temp, temp + 4, 'C');
-	m_queue.Push(temp, 4);
+    m_queue.Push(CreateCharArray(2), 2);
+    m_queue.Push(CreateCharArray(3), 3);
+    m_queue.Push(CreateCharArray(4), 4);
 	m_queue.Push();
 	QVERIFY(m_queue.Size() == 4);
+
 	int size;
-	const char* item = nullptr;
-	/*const char* item = m_queue.Peek(0, &size);
-	QVERIFY(item != nullptr);
+    const char* ctemp = m_queue.Peek(0, &size);
+    QVERIFY(ctemp != nullptr);
 	QVERIFY(size == 2);
-	item = m_queue.Peek(1, &size);
-	QVERIFY(item != nullptr);
+    QVERIFY(CheckArray(ctemp, size));
+    ctemp = m_queue.Peek(1, &size);
+    QVERIFY(ctemp != nullptr);
 	QVERIFY(size == 3);
-	item = m_queue.Peek(2, &size);
-	QVERIFY(item != nullptr);
+    QVERIFY(CheckArray(ctemp, size));
+    ctemp = m_queue.Peek(2, &size);
+    QVERIFY(ctemp != nullptr);
 	QVERIFY(size =  4);
-	item = m_queue.Peek(3, &size);
-	QVERIFY(item == nullptr);
+    QVERIFY(CheckArray(ctemp, size));
+    ctemp = m_queue.Peek(3, &size);
+    QVERIFY(ctemp == nullptr);
 	QVERIFY(size == 0);
-	QVERIFY(!m_queue.Empty());*/
+    QVERIFY(!m_queue.Empty());
+
+    char* temp = nullptr;
 	QVERIFY(m_queue.TimedPop(100, temp, &size));
 	QVERIFY(temp != nullptr);
 	QVERIFY(size == 2);
+    QVERIFY(CheckArray(temp, size));
 	delete [] temp;
 	QVERIFY(m_queue.TimedPop(100, temp, &size));
 	QVERIFY(temp != nullptr);
 	QVERIFY(size == 3);
+    QVERIFY(CheckArray(temp, size));
 	delete [] temp;
 	QVERIFY(m_queue.TimedPop(100, temp, &size));
 	QVERIFY(temp != nullptr);
 	QVERIFY(size == 4);
+    QVERIFY(CheckArray(temp, size));
 	delete [] temp;
 	QVERIFY(m_queue.TimedPop(100, temp, &size));
 	QVERIFY(temp == nullptr);
@@ -897,8 +911,8 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 
 	try
 	{
-		item = m_queue.TimedPopThrow(100,&size);
-		(void)item;
+        temp = m_queue.TimedPopThrow(100,&size);
+        (void)temp;
 		correctException = false;
 	}
 	catch(core_lib::threads::xQueuePopTimeoutError&)
@@ -912,26 +926,27 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 
 	QVERIFY(correctException);
 
-	m_queue.Push(new char[2], 2);
+    m_queue.Push(CreateCharArray(2), 2);
 	QVERIFY(m_queue.TryPop(temp, &size));
 	QVERIFY(temp != nullptr);
 	QVERIFY(size == 2);
+    QVERIFY(CheckArray(temp, size));
 	delete [] temp;
 
 	QVERIFY(!m_queue.TryPop(temp, &size));
 	QVERIFY(temp == nullptr);
-	QVERIFY(size == 0);
-	delete [] temp;
+    QVERIFY(size == 0);
 
-	m_queue.Push(new char[2], 2);
+    m_queue.Push(CreateCharArray(2), 2);
 
 	try
 	{
-		item = m_queue.TryPopThrow(&size);
+        temp = m_queue.TryPopThrow(&size);
 		correctException = false;
-		QVERIFY(item != nullptr);
+        QVERIFY(temp != nullptr);
 		QVERIFY(size == 2);
-		delete [] item;
+        QVERIFY(CheckArray(temp, size));
+        delete [] temp;
 	}
 	catch(core_lib::threads::xQueuePopTimeoutError&)
 	{
@@ -946,8 +961,8 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 
 	try
 	{
-		item = m_queue.TryPopThrow(&size);
-		delete [] item;
+        temp = m_queue.TryPopThrow(&size);
+        delete [] temp;
 		correctException = false;
 	}
 	catch(core_lib::threads::xQueuePopQueueEmptyError&)
@@ -961,29 +976,30 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 
 	QVERIFY(correctException);
 
-	m_queue.Push(new char[2], 2);
-	m_queue.Push(new char[4], 4);
+    m_queue.Push(CreateCharArray(2), 2);
+    m_queue.Push(CreateCharArray(4), 4);
 	QVERIFY(m_queue.TrySteal(temp, &size));
 	QVERIFY(temp != nullptr);
 	QVERIFY(size == 4);
+    QVERIFY(CheckArray(temp, size));
 	delete [] temp;
 	m_queue.Clear();
 
 	QVERIFY(!m_queue.TrySteal(temp, &size));
 	QVERIFY(temp == nullptr);
-	QVERIFY(size == 0);
-	delete [] temp;
+    QVERIFY(size == 0);
 
-	m_queue.Push(new char[2], 2);
-	m_queue.Push(new char[4], 4);
+    m_queue.Push(CreateCharArray(2), 2);
+    m_queue.Push(CreateCharArray(4), 4);
 
 	try
 	{
-		item = m_queue.TryStealThrow(&size);
+        temp = m_queue.TryStealThrow(&size);
 		correctException = false;
-		QVERIFY(item != nullptr);
+        QVERIFY(temp != nullptr);
 		QVERIFY(size == 4);
-		delete [] item;
+        QVERIFY(CheckArray(temp, size));
+        delete [] temp;
 	}
 	catch(core_lib::threads::xQueuePopTimeoutError&)
 	{
@@ -999,8 +1015,8 @@ void ThreadsTest::testCase_ConcurrentQueue2()
 
 	try
 	{
-		item = m_queue.TryStealThrow(&size);
-		delete [] item;
+        temp = m_queue.TryStealThrow(&size);
+        delete [] temp;
 		correctException = false;
 	}
 	catch(core_lib::threads::xQueuePopQueueEmptyError&)

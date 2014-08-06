@@ -79,8 +79,7 @@ enum class eOnDestroyOptions
  * MessageId    - define the type used for message ID.
  * MessageType  - define the type used for the message.
  */
-template< typename MessageId
-		  , typename MessageType >
+template<typename MessageId, typename MessageType>
 class MessageQueueThread final : public ThreadBase
 {
 public:
@@ -94,7 +93,7 @@ public:
 	 * is a signel item and not and array of items of type MessageType
 	 * the the length will be the special value of -1.
 	 */
-	typedef std::function< MessageId (const MessageType*, const int ) > msg_id_decoder;
+    typedef std::function<MessageId (const MessageType*, const int )> msg_id_decoder;
 	/*!
 	 * \brief Default constructor.
 	 * \param [IN] Function object that returns the message ID for a message.
@@ -141,7 +140,7 @@ public:
 	 * is a signel item and not and array of items of type MessageType
 	 * the the length will be the special value of -1.
 	 */
-	typedef std::function< bool (MessageType*, const int ) > msg_handler;
+    typedef std::function<bool (MessageType*, const int )> msg_handler;
 	/*!
 	 * \brief Register a function to handle a particular message.
 	 * \param [IN] Message ID.
