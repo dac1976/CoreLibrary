@@ -5,13 +5,12 @@
 #-------------------------------------------------
 
 QT       += testlib
-
 QT       -= gui
 
 TARGET = tst_IniFileTest
 CONFIG   += console
 CONFIG   -= app_bundle
-CONFIG += boost
+CONFIG += core_lib
 
 QMAKE_CXXFLAGS += -std=c++11
 
@@ -20,12 +19,8 @@ TEMPLATE = app
 CONFIG(debug, debug|release) {
   # TARGET = $$join(TARGET,,,d) # if compiling in debug mode, append a "d" to the application name
   DESTDIR = debug
-  LIBS += /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_filesystem.a \
-		  /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_system.a
 } else {
   DESTDIR = release
-  LIBS += /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_filesystem.a \
-		  /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_system.a
 }
 
 OBJECTS_DIR = $${DESTDIR}/obj

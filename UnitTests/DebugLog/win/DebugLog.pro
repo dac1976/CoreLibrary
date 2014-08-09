@@ -3,7 +3,6 @@
 # Project created by QtCreator 2013-12-30T12:33:11
 #
 #-------------------------------------------------
-DEFINES += LOKI_CLASS_LEVEL_THREADING
 
 QT       += testlib
 QT       -= gui
@@ -11,8 +10,7 @@ QT       -= gui
 TARGET = tst_DebugLogTest
 CONFIG   += console
 CONFIG   -= app_bundle
-CONFIG += boost
-CONFIG += loki
+CONFIG += core_lib
 
 QMAKE_CXXFLAGS += -std=c++11
 
@@ -21,12 +19,8 @@ TEMPLATE = app
 CONFIG(debug, debug|release) {
   # TARGET = $$join(TARGET,,,d) # if compiling in debug mode, append a "d" to the application name
   DESTDIR = debug
-  LIBS += D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_filesystem-mgw48-d-1_55.a \
-          D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_system-mgw48-d-1_55.a
 } else {
   DESTDIR = release
-  LIBS += D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_filesystem-mgw48-1_55.a \
-          D:/Projects/ThirdParty/boost_1_55_0/stage/lib/libboost_system-mgw48-1_55.a
 }
 
 OBJECTS_DIR = $${DESTDIR}/obj

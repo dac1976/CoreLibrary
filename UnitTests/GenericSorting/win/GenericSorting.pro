@@ -5,13 +5,12 @@
 #-------------------------------------------------
 
 QT       += testlib
-
 QT       -= gui
 
 TARGET = tst_GenericSortingTest
 CONFIG   += console
 CONFIG   -= app_bundle
-CONFIG += boost
+CONFIG += core_lib
 
 QMAKE_CXXFLAGS += -std=c++11
 

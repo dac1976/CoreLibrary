@@ -1,0 +1,9 @@
+DEFINES += BOOST_THREAD_USE_LIB
+
+CONFIG(debug, debug|release) {
+  LIBS += /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_filesystem.a \
+		  /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_system.a
+} else {
+  LIBS += /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_filesystem.a \
+		  /home/duncan/Projects/ThirdParty/boost_1_55_0/lib/libboost_system.a
+}
