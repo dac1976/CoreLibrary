@@ -1,2 +1,2 @@
-INCLUDEPATH += D:\Projects\ThirdParty\boost_1_55_0
-LIBS += -LD:\Projects\ThirdParty\boost_1_55_0\stage\lib
+INCLUDEPATH += D:\Projects\ThirdParty\boost_1_56_0
+LIBS += -LD:\Projects\ThirdParty\boost_1_56_0\stage\lib
