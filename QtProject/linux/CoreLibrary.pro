@@ -9,7 +9,7 @@ QT       -= gui
 TARGET = CoreLibrary
 TEMPLATE = lib
 CONFIG += staticlib debug_and_release build_all
-CONFIG += core_lib
+CONFIG += core_lib_settings
 
 QMAKE_CXXFLAGS += -std=c++11
 

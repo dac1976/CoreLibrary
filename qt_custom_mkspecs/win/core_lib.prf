@@ -1,5 +1,4 @@
-CONFIG += boost
+CONFIG += core_lib_settings
 CONFIG += boost_libs
-CONFIG += loki
 
 LIBS += -lws2_32

@@ -1,9 +1,9 @@
 DEFINES += BOOST_THREAD_USE_LIB
 
 CONFIG(debug, debug|release) {
-  LIBS += D:/Projects/ThirdParty/boost_1_56_0/stage/lib/libboost_filesystem-mgw48-d-1_55.a \
-          D:/Projects/ThirdParty/boost_1_56_0/stage/lib/libboost_system-mgw48-d-1_55.a
+  LIBS += D:/Projects/ThirdParty/boost/stage/lib/libboost_filesystem-mgw48-d-1_56.a \
+          D:/Projects/ThirdParty/boost/stage/lib/libboost_system-mgw48-d-1_56.a
 } else {
-  LIBS += D:/Projects/ThirdParty/boost_1_56_0/stage/lib/libboost_filesystem-mgw48-1_55.a \
-          D:/Projects/ThirdParty/boost_1_56_0/stage/lib/libboost_system-mgw48-1_55.a
+  LIBS += D:/Projects/ThirdParty/boost/stage/lib/libboost_filesystem-mgw48-1_56.a \
+          D:/Projects/ThirdParty/boost/stage/lib/libboost_system-mgw48-1_56.a
 }

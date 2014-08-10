@@ -1,3 +1,2 @@
-CONFIG += boost
+CONFIG += core_lib_settings
 CONFIG += boost_libs
-CONFIG += loki
