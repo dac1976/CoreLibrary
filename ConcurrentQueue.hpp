@@ -92,7 +92,7 @@ enum class eQueueOptions
 namespace cq_private {
 
 /*! \brief Class to hold queue item. */
-template <class T>
+template <typename T>
 class QueueItem final
 {
 public:
@@ -195,7 +195,7 @@ private:
  * used as single/multiple producer and single/multiple consumer,
  * in any combination.
  */
-template<class T>
+template<typename T>
 class ConcurrentQueue final
 {
 private:
