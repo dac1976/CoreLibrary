@@ -1,11 +1,11 @@
 DEFINES += BOOST_THREAD_USE_LIB
 
-LIBS += -L../../../ThirdParty/boost/lib/lib-mingw-32
+LIBS += -LD:/Projects/ThirdParty/boost/lib/lib-mingw-32
 
 CONFIG(debug, debug|release) {
-  LIBS += ../../../ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-d-1_56.a \
-          ../../../ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-d-1_56.a
+  LIBS += D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-d-1_56.a \
+          D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-d-1_56.a
 } else {
-  LIBS += ../../../ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-1_56.a \
-          ../../../ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-1_56.a
+  LIBS += D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-1_56.a \
+          D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-1_56.a
 }
