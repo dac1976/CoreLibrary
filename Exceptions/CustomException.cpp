@@ -21,7 +21,7 @@
 
 
 /*!
- * \file ExceptionsBase.hpp
+ * \file CustomException.hpp
  * \brief File containing definitions relating to custom exception handling.
  */
 
