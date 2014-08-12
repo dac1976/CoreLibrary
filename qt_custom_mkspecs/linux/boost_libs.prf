@@ -3,9 +3,9 @@ DEFINES += BOOST_THREAD_USE_LIB
 LIBS += -L/home/duncan/Projects/ThirdParty/boost/lib/lib-mingw-32
 
 CONFIG(debug, debug|release) {
-  LIBS += libboost_filesystem-mgw48-d-1_56.a \
-          libboost_system-mgw48-d-1_56.a
+  LIBS += /home/duncan/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-d-1_56.a \
+          /home/duncan/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-d-1_56.a
 } else {
-  LIBS += libboost_filesystem-mgw48-1_56.a \
-          libboost_system-mgw48-1_56.a
+  LIBS += /home/duncan/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-1_56.a \
+          /home/duncan/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-1_56.a
 }
