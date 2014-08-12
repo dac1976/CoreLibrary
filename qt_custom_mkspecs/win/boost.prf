@@ -1,2 +1,1 @@
-INCLUDEPATH += D:\Projects\ThirdParty\boost\include
-LIBS += -LD:\Projects\ThirdParty\boost\lib\lib-mingw-32
+INCLUDEPATH += D:/Projects/ThirdParty/boost/include

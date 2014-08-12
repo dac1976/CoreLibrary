@@ -1,2 +1,2 @@
-CONFIG += boost
-CONFIG += loki
+CONFIG += loki  \
+          boost

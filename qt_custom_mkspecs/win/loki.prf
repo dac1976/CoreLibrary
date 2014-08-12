@@ -1,2 +1,3 @@
 DEFINES += LOKI_CLASS_LEVEL_THREADING
-INCLUDEPATH += D:\Projects\ThirdParty\loki\include
+
+INCLUDEPATH += D:/Projects/ThirdParty/loki/include
