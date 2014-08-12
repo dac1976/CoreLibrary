@@ -1,1 +1,1 @@
-INCLUDEPATH += D:/Projects/ThirdParty/boost/include
+INCLUDEPATH += ../../../ThirdParty/boost/include

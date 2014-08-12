@@ -1,1 +1,1 @@
-INCLUDEPATH +=/home/duncan/Projects/ThirdParty/boost/include
+INCLUDEPATH += ../../../ThirdParty/boost/include
