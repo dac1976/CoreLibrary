@@ -1,4 +1,2 @@
 CONFIG += core_lib_settings \
           boost_libs
-
-LIBS += -lws2_32
