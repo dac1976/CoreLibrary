@@ -732,7 +732,7 @@ void IniFile::WriteString(const std::string& section
 
 void IniFile::WriteValue(const std::string& section
 						 , const std::string& key
-						 , std::string&& value)
+						 , const std::string& value)
 {
 	if (section == "")
 	{
@@ -788,60 +788,60 @@ void IniFile::WriteValue(const std::string& section
 }
 
 void IniFile::WriteValue(const std::string& section
-						 , const std::string& key
-						 , const std::string& value)
+                         , const std::string& key
+                         , std::string&& value)
 {
-	if (section == "")
-	{
-		BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
-	}
+    if (section == "")
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
+    }
 
-	if (key == "")
-	{
-		BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
-	}
+    if (key == "")
+    {
+        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
+    }
 
-	bool addNewKey = false;
-	section_iter sectIt{m_sectionMap.find(section)};
+    bool addNewKey = false;
+    section_iter sectIt{m_sectionMap.find(section)};
 
-	if (sectIt == m_sectionMap.end())
-	{
-		line_iter secLineIter{m_lines.insert(m_lines.end()
-											 , std::make_shared<SectionLine>(section))};
-		std::pair<section_iter, bool>
-				result{m_sectionMap.insert(std::make_pair(section
-														  , SectionDetails(secLineIter)))};
-		sectIt = result.first;
-		addNewKey = true;
-	}
-	else
-	{
-		if (sectIt->second.KeyExists(key))
-		{
-			sectIt->second.UpdateKey(key, value);
-		}
-		else
-		{
-			addNewKey = true;
-		}
-	}
+    if (sectIt == m_sectionMap.end())
+    {
+        line_iter secLineIter{m_lines.insert(m_lines.end()
+                                             , std::make_shared<SectionLine>(section))};
+        std::pair<section_iter, bool>
+                result{m_sectionMap.insert(std::make_pair(section
+                                                          , SectionDetails(secLineIter)))};
+        sectIt = result.first;
+        addNewKey = true;
+    }
+    else
+    {
+        if (sectIt->second.KeyExists(key))
+        {
+            sectIt->second.UpdateKey(key, value);
+        }
+        else
+        {
+            addNewKey = true;
+        }
+    }
 
-	if (addNewKey)
-	{
-		line_iter insertPos{sectIt->second.LineIterator()};
+    if (addNewKey)
+    {
+        line_iter insertPos{sectIt->second.LineIterator()};
 
-		do
-		{
-			++insertPos;
-		}
-		while(!std::dynamic_pointer_cast<SectionLine>(*insertPos));
+        do
+        {
+            ++insertPos;
+        }
+        while(!std::dynamic_pointer_cast<SectionLine>(*insertPos));
 
-		line_iter keyLineIter{m_lines.insert(insertPos
-											 , std::make_shared<KeyLine>(key, value))};
-		sectIt->second.AddKey(keyLineIter);
-	}
+        line_iter keyLineIter{m_lines.insert(insertPos
+                                             , std::make_shared<KeyLine>(key, value))};
+        sectIt->second.AddKey(keyLineIter);
+    }
 
-	m_changesMade = true;
+    m_changesMade = true;
 }
 
 void IniFile::EraseSection(const std::string& section)

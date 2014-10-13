@@ -77,9 +77,9 @@ public:
 	SyncEvent() = default;
 	/*!
 	 * \brief Intialising constructor.
-     * \param[in] Notify type.
-     * \param[in] Reset condition.
-     * \param[in] Initial condition.
+     * \param[in] notifyCondition - Notify type.
+     * \param[in] resetCondition - Reset condition.
+     * \param[in] initialCondition - Initial condition.
 	 *
 	 * Create the SyncEvent setting whether auto-
 	 * or manual reset is to be used. Also setting
@@ -108,7 +108,7 @@ public:
 	void Wait();
 	/*!
 	 * \brief Wait for event for a period of time.
-     * \param[in] Number of milliseconds to wait.
+     * \param[in] milliseconds - Number of milliseconds to wait.
 	 * \return true if signalled, false if timed out.
 	 *
 	 * Blocking function that waits until underlying condition
