@@ -31,10 +31,14 @@ UI_DIR = $${DESTDIR}/ui
 SOURCES += ../tst_IniFileTest.cpp \
     ../../../IniFile/IniFile.cpp \
     ../../../StringUtils/StringUtils.cpp \
-    ../../../Exceptions/CustomException.cpp
+    ../../../Exceptions/CustomException.cpp \
+    ../../../IniFile/IniFileLines.cpp \
+    ../../../IniFile/IniFileSectionDetails.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     ../../../StringUtils.hpp \
     ../../../IniFile.hpp \
-    ../../../Exceptions/CustomException.hpp
+    ../../../Exceptions/CustomException.hpp \
+    ../../../IniFile/IniFileLines.hpp \
+    ../../../IniFile/IniFileSectionDetails.hpp

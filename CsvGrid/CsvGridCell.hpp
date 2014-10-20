@@ -54,35 +54,35 @@ public:
 	Cell(Cell&&) = default;
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The initial value.
+     * \param[in] value - The initial value.
 	 *
 	 * Initialise the cell with a string.
 	 */
 	explicit Cell(const std::string& value);
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The initial value.
+     * \param[in] value - The initial value.
 	 *
 	 * Initialise the cell with a 32bit integer value.
 	 */
 	explicit Cell(const int32_t value);
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The initial value.
+     * \param[in] value - The initial value.
 	 *
 	 * Initialise the cell with a 64bit integer value.
 	 */
 	explicit Cell(const int64_t value);
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The initial value.
+     * \param[in] value - The initial value.
 	 *
 	 * Initialise the cell with a double precision floating point value.
 	 */
 	explicit Cell(const double value);
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The initial value.
+     * \param[in] value - The initial value.
 	 *
 	 * Initialise the cell with a long double precision floating point value.
 	 */
@@ -95,7 +95,7 @@ public:
 	Cell& operator=(Cell&&) = default;
 	/*!
 	 * \brief Value assignment operator.
-     * \param[in] The value to assign.
+     * \param[in] rhs - The value to assign.
 	 * \return Modified Cell object.
 	 *
 	 * Assign to a string.
@@ -103,7 +103,7 @@ public:
 	Cell& operator=(const std::string& rhs);
 	/*!
 	 * \brief Value assignment operator.
-     * \param[in] The value to assign.
+     * \param[in] rhs - The value to assign.
 	 * \return Modified Cell object.
 	 *
 	 * Assign to a 32bit integer value.
@@ -111,7 +111,7 @@ public:
 	Cell& operator=(const int32_t rhs);
 	/*!
 	 * \brief Value assignment operator.
-     * \param[in] The value to assign.
+     * \param[in] rhs - The value to assign.
 	 * \return Modified Cell object.
 	 *
 	 * Assign to a 64bit integer value.
@@ -119,7 +119,7 @@ public:
 	Cell& operator=(const int64_t rhs);
 	/*!
 	 * \brief Value assignment operator.
-     * \param[in] The value to assign.
+     * \param[in] rhs - The value to assign.
 	 * \return Modified Cell object.
 	 *
 	 * Assign to a double precision floating point value.
@@ -127,7 +127,7 @@ public:
 	Cell& operator=(const double rhs);
 	/*!
 	 * \brief Value assignment operator.
-     * \param[in] The value to assign.
+     * \param[in] rhs - The value to assign.
 	 * \return Modified Cell object.
 	 *
 	 * Assign to a long double precision floating point value.
@@ -182,7 +182,7 @@ public:
 	operator long double() const;
 	/*!
 	 * \brief Conversion function
-     * \param[in] The default value to return in case of a failure.
+     * \param[in] defval - The default value to return in case of a failure.
 	 * \return Cell value as a 32bit integer.
 	 *
 	 * Convert the cell to a 32bit integer and if this cannot be
@@ -191,7 +191,7 @@ public:
 	int32_t ToInt32Def(const int32_t defval) const noexcept;
 	/*!
 	 * \brief Conversion function
-     * \param[in] The default value to return in case of a failure.
+     * \param[in] defval - The default value to return in case of a failure.
 	 * \return Cell value as a 64bit integer.
 	 *
 	 * Convert the cell to a 64bit integer and if this cannot be
@@ -200,7 +200,7 @@ public:
 	int64_t ToInt64Def(const int64_t defval) const noexcept;
 	/*!
 	 * \brief Conversion function
-     * \param[in] The default value to return in case of a failure.
+     * \param[in] defval - The default value to return in case of a failure.
 	 * \return Cell value as a double.
 	 *
 	 * Convert the cell to a double and if this cannot be performed
@@ -209,7 +209,7 @@ public:
 	double ToDoubleDef(const double defval) const noexcept;
 	/*!
 	 * \brief Conversion function
-     * \param[in] The default value to return in case of a failure.
+     * \param[in] defval - The default value to return in case of a failure.
 	 * \return Cell value as a long double.
 	 *
 	 * Convert the cell to a long double and if this cannot be performed

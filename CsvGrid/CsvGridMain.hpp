@@ -50,7 +50,7 @@ public:
 	xCsvGridDimensionError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] A user specifed message string.
+     * \param[in] message - A user specifed message string.
 	 */
 	explicit xCsvGridDimensionError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -70,7 +70,7 @@ public:
 	xCsvGridRowOutOfRangeError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] A user specifed message string.
+     * \param[in] message - A user specifed message string.
 	 */
 	explicit xCsvGridRowOutOfRangeError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -90,7 +90,7 @@ public:
 	xCsvGridCreateFileStreamError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] A user specifed message string.
+     * \param[in] message - A user specifed message string.
 	 */
 	explicit xCsvGridCreateFileStreamError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -147,8 +147,8 @@ public:
 	TCsvGrid(TCsvGrid&&) = default;
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The number of rows.
-     * \param[in] The number of columns.
+     * \param[in] rows - The number of rows.
+     * \param[in] cols - The number of columns.
 	 *
 	 * Create the rectangular grid object with a non-zero number of rows and
 	 * columns. If rows or columns are 0 then xCsvGridDimensionError exception
@@ -165,8 +165,8 @@ public:
 	}
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The full path name of the CSV file to load.
-     * \param[in] Cell formatting options.
+     * \param[in] filename - The full path name of the CSV file to load.
+     * \param[in] options - Cell formatting options.
 	 *
 	 * Create a grid object from a CSV file. If cells are wrapped in double
 	 * quotes in the CSV file then set options = doubleQuotedCells else set
@@ -179,7 +179,7 @@ public:
 	}
 	/*!
 	 * \brief Initializer list constructor
-     * \param[in] The initial list of rows.
+     * \param[in] rows - The initial list of rows.
 	 *
 	 * Create the CsvGrid from the given list of rows.
 	 */
@@ -195,7 +195,7 @@ public:
 	TCsvGrid& operator=(TCsvGrid&&) = default;
 	/*!
 	 * \brief Subscript operator.
-     * \param[in] A 0-based row index.
+     * \param[in] row - A 0-based row index.
 	 * \return The row at the given row index.
 	 *
 	 * Retrieve the row at a given row index within a grid.
@@ -221,7 +221,7 @@ public:
 	}
 	/*!
 	 * \brief Get the number of columns for a given row.
-     * \param[in] A 0-based row index.
+     * \param[in] row - A 0-based row index.
 	 * \return The number of columns for this row.
 	 *
 	 * \note
@@ -240,8 +240,8 @@ public:
 	}
 	/*!
 	 * \brief Resize the grid.
-     * \param[in] The number of rows.
-     * \param[in] The number of columns for newly created rows.
+     * \param[in] rows - The number of rows.
+     * \param[in] defaultCols - The number of columns for newly created rows.
 	 *
 	 * Resize the grid, adding or dropping rows as necessary.
 	 */
@@ -251,7 +251,7 @@ public:
 	}
 	/*!
 	 * \brief Add a new row.
-     * \param[in] The default number of cells for the new row.
+     * \param[in] cols - The default number of cells for the new row.
 	 *
 	 * Resize the grid, adding a new row with the given number of cells.
 	 */
@@ -273,8 +273,8 @@ public:
 	}
 	/*!
 	 * \brief Insert a new row.
-     * \param[in] The row index at which the new row is to be inserted.
-     * \param[in] The default number of columns for the new row.
+     * \param[in] row - The row index at which the new row is to be inserted.
+     * \param[in] defaultCols - The default number of columns for the new row.
 	 *
 	 * Insert a new row at a given row index in the grid. If the row index is
 	 * out of range a xCsvGridRowOutOfRangeError exception is thrown.
@@ -290,7 +290,7 @@ public:
 	}
 	/*!
 	 * \brief Insert a new column in all rows.
-     * \param[in] The column index at which the new column is to be inserted.
+     * \param[in] col - The column index at which the new column is to be inserted.
 	 *
 	 * The column is only inserted if the column index is within range of
 	 * the row in the grid otherwise a column is not added to the row.
@@ -329,10 +329,10 @@ public:
 	}
 	/*!
 	 * \brief Load a csv file into the grid.
-     * \param[in] The full path name of the CSV file to load.
-     * \param[in] Cell formating options.
-     * \param[in] (Optional) First row to load into the grid (zero-based).
-     * \param[in] (Optional) Limit number of rows read in to grid.
+     * \param[in] filename - The full path name of the CSV file to load.
+     * \param[in] options - Cell formating options.
+     * \param[in] firstRowToLoad - (Optional) First row to load into the grid (zero-based).
+     * \param[in] maxNumRowsToLoad - (Optional) Limit number of rows read in to grid.
 	 *
 	 * Create a grid object from a CSV file. If cells are wrapped in double
 	 * quotes in the CSV file then set options = doubleQuotedCells else set
@@ -342,7 +342,7 @@ public:
 	void LoadFromCSVFile(const std::string& filename
 						 , const eCellFormatOptions options
 						 , const size_t firstRowToLoad = 0
-														 , const size_t maxNumRowsToLoad = std::numeric_limits<size_t>::max())
+                         , const size_t maxNumRowsToLoad = std::numeric_limits<size_t>::max())
 	{
 		std::ifstream csvfile{filename.c_str()};
 
@@ -383,8 +383,8 @@ public:
 	}
 	/*!
 	 * \brief Save the grid to a CSV file.
-     * \param[in] The full path name of the CSV file to load.
-     * \param[in] Save to file options: append to or overwrite existing file.
+     * \param[in] filename - The full path name of the CSV file to load.
+     * \param[in] option - (Optional) Save to file options: append to or overwrite existing file.
 	 *
 	 * Create a CSV file from a grid object. If the file stream cannot
 	 * be created or opened the a xCsvGridCreateFileStreamError exception
@@ -420,7 +420,7 @@ private:
 	container_type m_grid;
 	/*!
 	 * \brief Output the grid to a stream object.
-     * \param[in] The stream object.
+     * \param[in] os - The stream object.
 	 *
 	 * Write the grid in CSV format to a stream object.
 	 */

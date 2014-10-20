@@ -58,8 +58,8 @@ public:
 
 	/*!
 	 * \brief In-place static sort function.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
 	 * This function sorts a collections (vector, list etc)
 	 * of items of type T between a begin and end iterator.
@@ -105,8 +105,8 @@ public:
 
 	/*!
 	 * \brief In-place static sort function.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
 	 * This function sorts a collections (vector, list etc)
 	 * of items of type T between a begin and end iterator.
@@ -149,8 +149,8 @@ public:
 
 	/*!
 	 * \brief In-place static sort function.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
 	 * This function sorts a collections (vector, list etc)
 	 * of items of type T between a begin and end iterator.
@@ -198,8 +198,8 @@ public:
 
 	/*!
 	 * \brief In-place static sort function.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
 	 * This function sorts a collections (vector, list etc)
 	 * of items of type T between a begin and end iterator.
@@ -228,9 +228,9 @@ public:
 private:
 	/*!
 	 * \brief Static partitioning function.
-     * \param[in] The begining of the sub-collection to sort.
-     * \param[in] The end of the sub-collection to sort (in STL fashion this is the item just after the last otem to be sorted).
-     * \param[in] Pivot point within the collection about which to partition.
+     * \param[in] begin - The begining of the sub-collection to sort.
+     * \param[in] end - The end of the sub-collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] pivot - Pivot point within the collection about which to partition.
 	 * \return The new pivot iterator.
 	 *
 	 * This function partitions the sub-collection as part of
@@ -288,7 +288,7 @@ public:
 	xBucketValueOutOfRangeError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] A user specifed message string.
+     * \param[in] message - A user specifed message string.
 	 */
 	explicit xBucketValueOutOfRangeError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -317,10 +317,10 @@ public:
 
 	/*!
 	 * \brief In-place static sort function.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
-     * \param[in] The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
-     * \param[out] The collection of buckets containing the values for each bucket range.
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
+     * \param[in] bucketDefinitions - The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
+     * \param[out] bucketValues - The collection of buckets containing the values for each bucket range.
 	 *
 	 * This function sorts a collection (vector, list etc)
 	 * of items of type T between a begin and end iterator.
@@ -345,9 +345,9 @@ public:
 
 	/*!
 	 * \brief Static sort function.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
-     * \param[in] The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
+     * \param[in] bucketDefinitions - The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
 	 *
 	 * This function sorts a collections (vector, list etc)
 	 * of items of type T between a begin and end iterator.
@@ -366,8 +366,8 @@ private:
 
 	/*!
 	 * \brief Static function to check bucket values collection size.
-     * \param[in] The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
-     * \param[in] The bucket values collection.
+     * \param[in] bucketDefinitions - The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
+     * \param[in] bucketValues - The bucket values collection.
 	 *
 	 * This function compares the size of the bucket values collection to
 	 * that of the bucket definitions collection and resizes the bucket value
@@ -384,8 +384,8 @@ private:
 
 	/*!
 	 * \brief Static compute the correct bucket index for a given item.
-     * \param[in] The item to put in to a bucket.
-     * \param[in] The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
+     * \param[in] value - The item to put in to a bucket.
+     * \param[in] bucketDefinitions - The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
 	 *
 	 * This function iterates over the buckets until it finds the
 	 * correct one to hold the given item.
@@ -414,10 +414,10 @@ private:
 
 	/*!
 	 * \brief Static to put the items in to the correct buckets.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
-     * \param[in] The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
-     * \param[out] The collection of buckets containing the values for each bucket range.
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] bucketDefinitions - The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
+     * \param[out] bucketValues - The collection of buckets containing the values for each bucket range.
 	 *
 	 * This function builds up the buckets with the correct items.
 	 */
@@ -437,8 +437,8 @@ private:
 
 	/*!
 	 * \brief Static to move the items from the buckets back into the original collection.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The collection of buckets containing the values for each bucket range.
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] bucketValues - The collection of buckets containing the values for each bucket range.
 	 *
 	 * This function moves each bucket item, in bucket order, back into the
 	 * original collection, overwriting the original collection. After calling
@@ -458,8 +458,8 @@ private:
 
 	/*!
 	 * \brief Static to perform a final sort on the collection.
-     * \param[in] The begining of the collection to sort.
-     * \param[in] The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] begin - The begining of the collection to sort.
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
 	 * This function performs an insertion sort on the modified
 	 * bucket ordered collection to obtain the sorted result.

@@ -50,7 +50,7 @@ class IoServiceThreadGroup final
 public:
 	/*!
 	 * \brief Initialising constuctor.
-     * \param[in] (Optional) Number of threads to create.
+     * \param[in] numThreads - (Optional) Number of threads to create.
 	 *
 	 * If the number of threads is not specified then the value
 	 * will be assigned using std::thread::hardware_concurrency().

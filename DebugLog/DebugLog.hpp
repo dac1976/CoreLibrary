@@ -317,10 +317,10 @@ public:
 	}
 	/*!
 	 * \brief Initialisation constructor.
-     * \param[in] Version of software that "owns" the log.
-     * \param[in] Folder path (with trailing slash) where log will be created.
-     * \param[in] File name of log file without extension.
-     * \param[in] (Optional) The maxium size for the log file.
+     * \param[in] softwareVersion - Version of software that "owns" the log.
+     * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
+     * \param[in] logName - File name of log file without extension.
+     * \param[in] maxLogSize - (Optional) The maxium size for the log file.
 	 *
 	 * Create the DebugLog in given folder with given name. A ".txt"
 	 * extension is automatically appending to log file's name.
@@ -351,10 +351,10 @@ public:
 	}
 	/*!
 	 * \brief Instantiate a default constructor DebugLog object.
-     * \param[in] Version of software that "owns" the log.
-     * \param[in] Folder path (with trailing slash) where log will be created.
-     * \param[in] File name of log file without extension.
-     * \param[in] (Optional) The maxium size for the log file.
+     * \param[in] softwareVersion - Version of software that "owns" the log.
+     * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
+     * \param[in] logName - File name of log file without extension.
+     * \param[in] maxLogSize - (Optional) The maxium size for the log file.
 	 *
 	 * Instantiate the DebugLog in given folder with given name. A ".txt"
 	 * extension is automatically appending to log file's name.
@@ -386,7 +386,7 @@ public:
 	}
 	/*!
 	 * \brief Add level to filter.
-     * \param[in] Message level to filter out of log.
+     * \param[in] logMessageLevel - Message level to filter out of log.
 	 *
 	 * You can dynamically filter out log message from appearing
 	 * in the log file based on adding message levels to the
@@ -406,7 +406,7 @@ public:
 	}
 	/*!
 	 * \brief Remove level from filter.
-     * \param[in] Message level to remove from filter set.
+     * \param[in] logMessageLevel - Message level to remove from filter set.
 	 *
 	 * If you want to make sure messages of a given level
 	 * appear back in the log file after having called
@@ -437,7 +437,7 @@ public:
 	}
 	/*!
 	 * \brief Add message to the log file.
-     * \param[in] Message to add to log.
+     * \param[in] message - Message to add to log.
 	 *
 	 * Add a simple message to the log without any extra
 	 * properties set, such as file, line no. etc.
@@ -457,10 +457,10 @@ public:
 
 	/*!
 	 * \brief Add message to the log file.
-     * \param[in] Message to add to log.
-     * \param[in] Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
-     * \param[in] Line number in the source file where AddLogMessage was called, e.g. __LINE__.
-     * \param[in] Message level.
+     * \param[in] message - Message to add to log.
+     * \param[in] file - Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
+     * \param[in] lineNo - Line number in the source file where AddLogMessage was called, e.g. __LINE__.
+     * \param[in] logMsgLevel - Message level.
 	 *
 	 * Add a message to the log with extra properties set, such as
 	 * file, line no. etc.
@@ -536,8 +536,8 @@ private:
 	}
 	/*!
 	 * \brief Method to decode message ID.
-     * \param[in] Message to decode.
-     * \param[in] Message length.
+     * \param[in] message - Message to decode.
+     * \param[in] length - Message length.
 	 * \return Message ID.
 	 */
     int MessageDecoder(const log_queue_message_t* message, const int length)
@@ -551,8 +551,8 @@ private:
 	}
 	/*!
 	 * \brief Method to process message.
-     * \param[in] Message to process.
-     * \param[in] Message length.
+     * \param[in] message - Message to process.
+     * \param[in] length - Message length.
 	 * \return LogQueueMessage reference.
 	 */
     bool MessageHandler(log_queue_message_t* message, const int length)
@@ -568,7 +568,7 @@ private:
 	}
 	/*!
 	 * \brief Is message level in map.
-     * \param[in] Message level.
+     * \param[in] logMessageLevel - Message level.
 	 * \return True if message level is found, false otherwise.
 	 */
 	bool IsLogMsgLevelInLookup(const eLogMessageLevel logMessageLevel) const
@@ -577,7 +577,7 @@ private:
 	}
 	/*!
 	 * \brief Get message level as a string.
-     * \param[in] Message level.
+     * \param[in] logMessageLevel - Message level.
 	 * \return Message level string.
 	 */
 	const std::string& GetLogMsgLevelAsString(const eLogMessageLevel logMessageLevel) const
@@ -588,7 +588,7 @@ private:
 	}
 	/*!
 	 * \brief Is message level in filter set (no mutex).
-     * \param[in] Message level.
+     * \param[in] logMessageLevel - Message level.
 	 * \return True if message level is found, false otherwise.
 	 */
 	bool IsLogMsgLevelFilterSetNoMutex(const eLogMessageLevel logMessageLevel) const
@@ -597,7 +597,7 @@ private:
 	}
 	/*!
 	 * \brief Is message level in filter set (with mutex).
-     * \param[in] Message level.
+     * \param[in] logMessageLevel - Message level.
 	 * \return True if message level is found, false otherwise.
 	 */
 	bool IsLogMsgLevelFilterSet(const eLogMessageLevel logMessageLevel) const
@@ -615,8 +615,8 @@ private:
 	};
 	/*!
 	 * \brief Open file stream.
-     * \param[in] File path.
-     * \param[in] FIle options (truncate or append).
+     * \param[in] filePath - File path.
+     * \param[in] fileOptions - File options (truncate or append).
 	 */
 	void OpenOfStream(const std::string& filePath, const eFileOpenOptions fileOptions)
 	{
@@ -666,7 +666,7 @@ private:
 	}
 	/*!
 	 * \brief Check size of current log file.
-     * \param[in] Space required in file to write new message.
+     * \param[in] requiredSpace - Space required in file to write new message.
 	 */
 	void CheckLogFileSize(const long requiredSpace)
 	{
@@ -687,7 +687,7 @@ private:
 	}
 	/*!
 	 * \brief Write log message to file stream.
-     * \param[in] Log message (r-value).
+     * \param[in] logMessage - Log message (r-value).
 	 */
     void WriteMessageToLog(log_queue_message_t&& logMessage)
 	{
@@ -702,7 +702,7 @@ private:
 	}
 	/*!
 	 * \brief Write log message to file stream.
-     * \param[in] Log message (l-value).
+     * \param[in] logMessage - Log message (l-value).
 	 */
     void WriteMessageToLog(const log_queue_message_t& logMessage)
 	{

@@ -71,7 +71,7 @@ public:
 	xCustomException();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] A user specifed message string.
+     * \param[in] message - A user specifed message string.
 	 */
 	explicit xCustomException(const std::string& message);
 	/*! \brief Virtual destructor. */
