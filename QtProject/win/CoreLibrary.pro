@@ -52,9 +52,9 @@ HEADERS +=                               \
     ../../DebugLogging.hpp               \
     ../../IniFile.hpp                    \
     ../../Threads/JoinThreads.hpp        \
-    ../../Asio/IoServiceThreadGroup.hpp \
+    ../../Asio/IoServiceThreadGroup.hpp  \
     ../../DebugLog/DebugLogSingleton.hpp \
-    ../../IniFile/IniFileLines.hpp \
+    ../../IniFile/IniFileLines.hpp       \
     ../../IniFile/IniFileSectionDetails.hpp
 
 SOURCES +=                               \
@@ -71,6 +71,6 @@ SOURCES +=                               \
     ../../Threads/MessageQueueThread.cpp \
     ../../DebugLog/DebugLog.cpp          \
     ../../IniFile/IniFile.cpp            \
-    ../../Asio/IoServiceThreadGroup.cpp \
-    ../../IniFile/IniFileLines.cpp \
+    ../../Asio/IoServiceThreadGroup.cpp  \
+    ../../IniFile/IniFileLines.cpp       \
     ../../IniFile/IniFileSectionDetails.cpp
