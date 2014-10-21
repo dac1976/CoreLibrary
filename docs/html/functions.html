@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -101,12 +108,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_t.html#index_t"><span>t</span></a></li>
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
+      <li><a href="functions_v.html#index_v"><span>v</span></a></li>
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_~.html#index_~"><span>~</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -131,6 +153,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>AddColumnToAllRows()
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a7bcb903673789282804132372780741c">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
 </li>
+<li>AddKey()
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a3a192c4fa950241a54e362368ff56527">core_lib::ini_file::if_private::SectionDetails</a>
+</li>
 <li>AddLogMessage()
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a23ed25d92041dcffdd57e15c407766b5">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
@@ -146,13 +171,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>append_file
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a51affdd46da3c324ae68a39aeb6bd8b3a68d6f7dc0052547e64165d32b2d0126b">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
+<li>argument_t
+: <a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a3adabed9dec03b9671bd7a25be499607">std::hash&lt; core_lib::log::eLogMessageLevel &gt;</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -4,10 +4,17 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Core Library: D:/Projects/CoreLibrary/ThreadBase.hpp Source File</title>
+<title>Core Library: C:/Projects/duncan/CoreLibrary/ThreadBase.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -67,6 +74,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('_thread_base_8hpp_source.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">D:/Projects/CoreLibrary/ThreadBase.hpp</div>  </div>
+<div class="title">C:/Projects/duncan/CoreLibrary/ThreadBase.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This file is part of CoreLibrary containing useful reusable utility</span></div>
@@ -113,7 +134,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;Exceptions/CustomException.hpp&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_custom_exception_8hpp.html">Exceptions/CustomException.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>core_lib {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">namespace </span>threads {</div>
@@ -174,6 +195,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_base_html_a628c235499fd5b7a624605d283e8c9db"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_base.html#a628c235499fd5b7a624605d283e8c9db">core_lib::threads::ThreadBase::m_thread</a></div><div class="ttdeci">std::thread m_thread</div><div class="ttdoc">Underlying std::thread object. </div><div class="ttdef"><b>Definition:</b> ThreadBase.hpp:162</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_base_html_a61e240d612d040281231cec7f6b3a0d8"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_base.html#a61e240d612d040281231cec7f6b3a0d8">core_lib::threads::ThreadBase::SetTerminating</a></div><div class="ttdeci">void SetTerminating(const bool terminating=true)</div><div class="ttdoc">Set terminating flag. </div><div class="ttdef"><b>Definition:</b> ThreadBase.cpp:161</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_base_html_a3367be7d69a967e73557da0986567ed5"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_base.html#a3367be7d69a967e73557da0986567ed5">core_lib::threads::ThreadBase::m_threadId</a></div><div class="ttdeci">std::thread::id m_threadId</div><div class="ttdoc">Thread ID of started thread object. </div><div class="ttdef"><b>Definition:</b> ThreadBase.hpp:158</div></div>
+<div class="ttc" id="_custom_exception_8hpp_html"><div class="ttname"><a href="_custom_exception_8hpp.html">CustomException.hpp</a></div><div class="ttdoc">File containing definitions relating to custom exception handling. </div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_base_html_a850e8d45e3f215a46be934e7dac50ad6"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_base.html#a850e8d45e3f215a46be934e7dac50ad6">core_lib::threads::ThreadBase::m_started</a></div><div class="ttdeci">bool m_started</div><div class="ttdoc">Boolean flag to mark thread as started. </div><div class="ttdef"><b>Definition:</b> ThreadBase.hpp:154</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_base_html_a731faf3add0166eabf45105304bcfd50"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_base.html#a731faf3add0166eabf45105304bcfd50">core_lib::threads::ThreadBase::m_nativeHandle</a></div><div class="ttdeci">std::thread::native_handle_type m_nativeHandle</div><div class="ttdoc">Native thread handle (where supported) of started thread. </div><div class="ttdef"><b>Definition:</b> ThreadBase.hpp:160</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_base_html_af2db263f1e0fc8a28aaafd3905565488"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_base.html#af2db263f1e0fc8a28aaafd3905565488">core_lib::threads::ThreadBase::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">Start the thread. </div><div class="ttdef"><b>Definition:</b> ThreadBase.cpp:67</div></div>
@@ -192,11 +214,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classcore__lib_1_1threads_1_1x_thread_not_started_error_html_aa0b143c8bcb39073c409a22eedb80591"><div class="ttname"><a href="classcore__lib_1_1threads_1_1x_thread_not_started_error.html#aa0b143c8bcb39073c409a22eedb80591">core_lib::threads::xThreadNotStartedError::~xThreadNotStartedError</a></div><div class="ttdeci">virtual ~xThreadNotStartedError()</div><div class="ttdoc">Virtual destructor. </div><div class="ttdef"><b>Definition:</b> ThreadBase.cpp:54</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_base_html_ae97b0148575373485e73becdbfc26f57"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_base.html#ae97b0148575373485e73becdbfc26f57">core_lib::threads::ThreadBase::SetStarted</a></div><div class="ttdeci">void SetStarted(const bool started=true)</div><div class="ttdoc">Set started flag. </div><div class="ttdef"><b>Definition:</b> ThreadBase.cpp:155</div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>ThreadBase.hpp</b></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:10 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

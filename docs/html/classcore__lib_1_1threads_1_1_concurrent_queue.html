@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classcore__lib_1_1threads_1_1_concurrent_queue.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -207,7 +224,7 @@ std::deque&lt; <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queu
 <tr class="separator:a9f40988c7b5508a28f39bc4371ab8005"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class T&gt;<br />
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
 class core_lib::threads::ConcurrentQueue&lt; T &gt;</h3>
 
 <p>Class defining a concurrent queue. </p>
@@ -217,7 +234,7 @@ class core_lib::threads::ConcurrentQueue&lt; T &gt;</h3>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -250,7 +267,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -273,7 +290,7 @@ template&lt;class T&gt; </div>
 <p>Initialising constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">(Optional)</td><td>Set the queue's delete option.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">queueOptions</td><td>- (Optional) Set the queue's delete option.</td></tr>
   </table>
   </dd>
 </dl>
@@ -286,7 +303,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -315,7 +332,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -343,7 +360,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -376,8 +393,8 @@ template&lt;class T&gt; </div>
 <p>Take a peek at an item at a given index on the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Zero-based</td><td>index of the queue item to peek at. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of objects of type T pointed to by returned pointer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- Zero-based index of the queue item to peek at. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of objects of type T pointed to by returned pointer. </td></tr>
   </table>
   </dd>
 </dl>
@@ -390,7 +407,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -413,7 +430,7 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the queue if there are any else wait. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
   </table>
   </dd>
 </dl>
@@ -426,7 +443,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -449,7 +466,7 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the back of the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. </td></tr>
   </table>
   </dd>
 </dl>
@@ -461,7 +478,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -484,7 +501,7 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the front of the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. </td></tr>
   </table>
   </dd>
 </dl>
@@ -496,7 +513,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -535,8 +552,9 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">(Optional)</td><td>Flag indicating if queue was empty on entry to method. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">pIsEmpty</td><td>- (Optional) Flag indicating if queue was empty on entry to method. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">whichEnd</td><td>- (Optional) Which end to pop from. </td></tr>
   </table>
   </dd>
 </dl>
@@ -548,7 +566,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -571,7 +589,7 @@ template&lt;class T&gt; </div>
 <p>Push an item onto the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Pointer</td><td>to object of type T to push into queue.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pItem</td><td>- Pointer to object of type T to push into queue.</td></tr>
   </table>
   </dd>
 </dl>
@@ -583,7 +601,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -616,8 +634,8 @@ template&lt;class T&gt; </div>
 <p>Push an array items onto the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Pointer</td><td>to object of type T to push into queue. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Number</td><td>of items of type T pointed to by pItem.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pItem</td><td>- Pointer to object of type T to push into queue. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by pItem.</td></tr>
   </table>
   </dd>
 </dl>
@@ -629,7 +647,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -657,7 +675,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -685,7 +703,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -724,9 +742,9 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the queue but only wait for a given amount of time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Amount</td><td>of time to wait. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>popped item. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of objects of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeoutMilliseconds</td><td>- Amount of time to wait. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pItem</td><td>- The popped item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
   </table>
   </dd>
 </dl>
@@ -738,7 +756,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -771,8 +789,8 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the queue but only wait for a given amount of time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Amount</td><td>of time to wait. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of objects of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeoutMilliseconds</td><td>- Amount of time to wait. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
   </table>
   </dd>
 </dl>
@@ -785,7 +803,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -818,8 +836,8 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the queue if there are any else return. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">The</td><td>popped item. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">pItem</td><td>- The popped item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
   </table>
   </dd>
 </dl>
@@ -831,7 +849,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -854,7 +872,7 @@ template&lt;class T&gt; </div>
 <p>Pop an item off the queue.. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
   </table>
   </dd>
 </dl>
@@ -867,7 +885,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -900,8 +918,8 @@ template&lt;class T&gt; </div>
 <p>Steal an item from the back of the queue if there are any else return. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">The</td><td>stolen item. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">pItem</td><td>- The stolen item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
   </table>
   </dd>
 </dl>
@@ -913,7 +931,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -936,7 +954,7 @@ template&lt;class T&gt; </div>
 <p>Steal an item from the back of the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">Number</td><td>of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>- Number of items of type T pointed to by returned pointer. Special value of -1 implies single item. </td></tr>
   </table>
   </dd>
 </dl>
@@ -950,7 +968,7 @@ template&lt;class T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T&gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -974,14 +992,18 @@ template&lt;class T&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Projects/CoreLibrary/<a class="el" href="_concurrent_queue_8hpp_source.html">ConcurrentQueue.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/<a class="el" href="_concurrent_queue_8hpp_source.html">ConcurrentQueue.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

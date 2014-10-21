@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -66,6 +73,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="namespacemembers.html"><span>Namespace&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('namespacecore__lib_1_1string__utils.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -80,11 +102,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1string__utils.html">string_utils</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -238,9 +255,9 @@ template&lt;typename T &gt; </div>
 <p>Convert a floating point value to a string representation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Floating</td><td>point value to convert to a string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Precision</td><td>to display the number to as a string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Formatting</td><td>options. return Resultant string.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Floating point value to convert to a string. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">precision</td><td>- Precision to display the number to as a string. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fsf</td><td>- Formatting options. return Resultant string.</td></tr>
   </table>
   </dd>
 </dl>
@@ -265,7 +282,7 @@ template&lt;typename T &gt; </div>
 <p>Tidy a string obtained from getline function. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>string obtained using getline.</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">line</td><td>- A string obtained using getline.</td></tr>
   </table>
   </dd>
 </dl>
@@ -318,11 +335,11 @@ template&lt;typename T &gt; </div>
 <p>Split a string into two parts given delimiters. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">First</td><td>output substring. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Second</td><td>output substring. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Input</td><td>string to be split into two. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Delimiters</td><td>to look for to split around. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Options</td><td>to formt resultant substrings.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">subStr1</td><td>- First output substring. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">subStr2</td><td>- Second output substring. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">toSplit</td><td>- Input string to be split into two. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">delim</td><td>- Delimiters to look for to split around. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">option</td><td>- Options to formt resultant substrings.</td></tr>
   </table>
   </dd>
 </dl>
@@ -331,11 +348,15 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1string__utils.html">string_utils</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

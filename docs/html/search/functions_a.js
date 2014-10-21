@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['line',['Line',['../classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a51d6c8885296c2521bdd1299e18de1da',1,'core_lib::ini_file::if_private::Line::Line()=default'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a4c3a6ba16c615d05f4ce2857f42db400',1,'core_lib::ini_file::if_private::Line::Line(const Line &amp;)=default'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a358f9eace3e460dcce7e79dc576f6c6c',1,'core_lib::ini_file::if_private::Line::Line(Line &amp;&amp;)=default']]],
+  ['lineiterator',['LineIterator',['../classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a7cfae3777fbe482c0ec064352ccad482',1,'core_lib::ini_file::if_private::SectionDetails']]],
   ['lineno',['LineNo',['../classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a2559b7424343f51a7c35c2e7e3c5ac1b',1,'core_lib::log::dl_private::LogQueueMessage']]],
   ['loadfile',['LoadFile',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a9e57474a11a28d89d9bffc3a557dd1f0',1,'core_lib::ini_file::IniFile']]],
   ['loadfromcsvfile',['LoadFromCSVFile',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a0dd4ade8f18af3ad878a3872b73e795d',1,'core_lib::csv_grid::TCsvGrid']]],

@@ -6,6 +6,7 @@ var searchData=
   ['readinteger64',['ReadInteger64',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a91b956c8f40d6f28214ba0503df2021c',1,'core_lib::ini_file::IniFile']]],
   ['readlongdouble',['ReadLongDouble',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a9f8fcff8c37ffaf9dff1e811600cb44f',1,'core_lib::ini_file::IniFile']]],
   ['readstring',['ReadString',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a321ae7a92148b213a2d36fbbc085e836',1,'core_lib::ini_file::IniFile']]],
+  ['readvalue',['ReadValue',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a2e1cb5e1e991095ea41a0c8f1586ffc5',1,'core_lib::ini_file::IniFile::ReadValue(const std::string &amp;section, const std::string &amp;key, const std::string &amp;defaultValue) const '],['../classcore__lib_1_1ini__file_1_1_ini_file.html#a3db417fcf1b4cca4ae5c8317e6dbda26',1,'core_lib::ini_file::IniFile::ReadValue(const std::string &amp;section, const std::string &amp;key, std::string &amp;&amp;defaultValue) const ']]],
   ['registerlogqueuemessageid',['RegisterLogQueueMessageId',['../classcore__lib_1_1log_1_1_debug_log.html#ac65fc28bb54534f8e95dff7499fedd7a',1,'core_lib::log::DebugLog']]],
   ['registermessagehandler',['RegisterMessageHandler',['../classcore__lib_1_1threads_1_1_message_queue_thread.html#aa9b9ba0442d80e23900960814bc61245',1,'core_lib::threads::MessageQueueThread']]],
   ['release',['Release',['../classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#a2918630aa4cde57e3fbbaedf418ff7df',1,'core_lib::threads::cq_private::QueueItem']]],

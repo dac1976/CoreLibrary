@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -101,12 +108,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_func_t.html#index_t"><span>t</span></a></li>
       <li><a href="functions_func_u.html#index_u"><span>u</span></a></li>
+      <li><a href="functions_func_v.html#index_v"><span>v</span></a></li>
       <li><a href="functions_func_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_func_x.html#index_x"><span>x</span></a></li>
       <li class="current"><a href="functions_func_~.html#index_~"><span>~</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_func_~.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -125,8 +147,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_~"></a>- ~ -</h3><ul>
+<li>~BlankLine()
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_blank_line.html#a0dcf2fe98312f26e2f8a93b0a8c3baf0">core_lib::ini_file::if_private::BlankLine</a>
+</li>
 <li>~Cell()
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a3a3ab0e700fe0d5dfaf0ddd51cd73837">core_lib::csv_grid::Cell</a>
+</li>
+<li>~CommentLine()
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a42a48999334919bd6b33ae31ba064c33">core_lib::ini_file::if_private::CommentLine</a>
 </li>
 <li>~ConcurrentQueue()
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a26f3df82263ff6c7e1fbb1b4053569a2">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
@@ -146,6 +174,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>~JoinThreadsP()
 : <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#aa1d2db467703b6cd43d4ce6b8ac23b20">core_lib::threads::JoinThreadsP&lt; C &gt;</a>
 </li>
+<li>~KeyLine()
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#af4ff1c1455f7f49d398a8b8673589057">core_lib::ini_file::if_private::KeyLine</a>
+</li>
+<li>~Line()
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#aa1312203fe040a796433082384a6a157">core_lib::ini_file::if_private::Line</a>
+</li>
 <li>~LogQueueMessage()
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a130345749b29f6e3764e2aa8f6fa7510">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
@@ -154,6 +188,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>~QueueItem()
 : <a class="el" href="classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#a407113307b0bed5d0bf95dc55d04a208">core_lib::threads::cq_private::QueueItem&lt; T &gt;</a>
+</li>
+<li>~SectionLine()
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#afab4a3ab52ddd5d886c7240d4790657e">core_lib::ini_file::if_private::SectionLine</a>
 </li>
 <li>~SyncEvent()
 : <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#a0db93de77ad9b5c58fdfd23c218bbf46">core_lib::threads::SyncEvent</a>
@@ -232,11 +269,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -4,10 +4,17 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Core Library: D:/Projects/CoreLibrary/ThreadGroup.hpp Source File</title>
+<title>Core Library: C:/Projects/duncan/CoreLibrary/ThreadGroup.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -67,6 +74,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('_thread_group_8hpp_source.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">D:/Projects/CoreLibrary/ThreadGroup.hpp</div>  </div>
+<div class="title">C:/Projects/duncan/CoreLibrary/ThreadGroup.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="_thread_group_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This file is part of CoreLibrary containing useful reusable utility</span></div>
@@ -115,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;list&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;Exceptions/CustomException.hpp&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_custom_exception_8hpp.html">Exceptions/CustomException.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">namespace </span>core_lib {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">namespace </span>threads {</div>
@@ -176,6 +197,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_group_html_a0aaa1ca16351e9bd855886aa4d8e8f55"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_group.html#a0aaa1ca16351e9bd855886aa4d8e8f55">core_lib::threads::ThreadGroup::JoinAll</a></div><div class="ttdeci">void JoinAll()</div><div class="ttdoc">Call join on all registered threads. </div><div class="ttdef"><b>Definition:</b> ThreadGroup.cpp:145</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1x_thread_group_error_html_a0a7b5a0bfc36c35b85faeebf4f4c7f36"><div class="ttname"><a href="classcore__lib_1_1threads_1_1x_thread_group_error.html#a0a7b5a0bfc36c35b85faeebf4f4c7f36">core_lib::threads::xThreadGroupError::~xThreadGroupError</a></div><div class="ttdeci">virtual ~xThreadGroupError()</div><div class="ttdoc">Virtual destructor. </div><div class="ttdef"><b>Definition:</b> ThreadGroup.cpp:47</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_group_html_abc31b7026c4b470e3a8d4725c977e7a2"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_group.html#abc31b7026c4b470e3a8d4725c977e7a2">core_lib::threads::ThreadGroup::IsThreadIn</a></div><div class="ttdeci">bool IsThreadIn(std::thread *threadPtr) const </div><div class="ttdoc">Is given thread in group. </div><div class="ttdef"><b>Definition:</b> ThreadGroup.cpp:67</div></div>
+<div class="ttc" id="_custom_exception_8hpp_html"><div class="ttname"><a href="_custom_exception_8hpp.html">CustomException.hpp</a></div><div class="ttdoc">File containing definitions relating to custom exception handling. </div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_group_html_a9844891e52512a7e8e0317a065f6bc01"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_group.html#a9844891e52512a7e8e0317a065f6bc01">core_lib::threads::ThreadGroup::RemoveThread</a></div><div class="ttdeci">void RemoveThread(std::thread *threadPtr)</div><div class="ttdoc">Remove thread from group. </div><div class="ttdef"><b>Definition:</b> ThreadGroup.cpp:102</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_group_html"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_group.html">core_lib::threads::ThreadGroup</a></div><div class="ttdoc">Thread group class. </div><div class="ttdef"><b>Definition:</b> ThreadGroup.hpp:72</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_group_html_a6f0110cb15c0fd035c052998baf8526c"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_group.html#a6f0110cb15c0fd035c052998baf8526c">core_lib::threads::ThreadGroup::Empty</a></div><div class="ttdeci">bool Empty() const </div><div class="ttdoc">Check if we have any threads registered. </div><div class="ttdef"><b>Definition:</b> ThreadGroup.cpp:163</div></div>
@@ -190,11 +212,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_group_html_ad7d5e15d7d90344a2a22ea16d9db1b90"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_group.html#ad7d5e15d7d90344a2a22ea16d9db1b90">core_lib::threads::ThreadGroup::DeleteThread</a></div><div class="ttdeci">static void DeleteThread(std::thread *threadPtr)</div><div class="ttdoc">Delete thread object. </div><div class="ttdef"><b>Definition:</b> ThreadGroup.cpp:187</div></div>
 <div class="ttc" id="classcore__lib_1_1threads_1_1_thread_group_html_a7670fd4708e9d031e47ffd1bead43218"><div class="ttname"><a href="classcore__lib_1_1threads_1_1_thread_group.html#a7670fd4708e9d031e47ffd1bead43218">core_lib::threads::ThreadGroup::IsThisThreadInNoMutex</a></div><div class="ttdeci">bool IsThisThreadInNoMutex() const </div><div class="ttdoc">Is current thread in group (no mutex). </div><div class="ttdef"><b>Definition:</b> ThreadGroup.cpp:169</div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="_thread_group_8hpp.html">ThreadGroup.hpp</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:10 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

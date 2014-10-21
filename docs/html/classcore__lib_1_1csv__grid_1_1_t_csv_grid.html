@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classcore__lib_1_1csv__grid_1_1_t_csv_grid.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -249,8 +266,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Initializing constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>number of rows. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>number of columns.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rows</td><td>- The number of rows. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cols</td><td>- The number of columns.</td></tr>
   </table>
   </dd>
 </dl>
@@ -295,8 +312,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Initializing constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>full path name of the CSV file to load. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html" title="Class defining a single cell within a row of the grid. ">Cell</a></td><td>formatting options.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>- The full path name of the CSV file to load. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>- <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html" title="Class defining a single cell within a row of the grid. ">Cell</a> formatting options.</td></tr>
   </table>
   </dd>
 </dl>
@@ -331,7 +348,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Initializer list constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>initial list of rows.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rows</td><td>- The initial list of rows.</td></tr>
   </table>
   </dd>
 </dl>
@@ -395,7 +412,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Add a new row. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>default number of cells for the new row.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cols</td><td>- The default number of cells for the new row.</td></tr>
   </table>
   </dd>
 </dl>
@@ -458,7 +475,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Get the number of columns for a given row. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>0-based row index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>- A 0-based row index. </td></tr>
   </table>
   </dd>
 </dl>
@@ -522,7 +539,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Insert a new column in all rows. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>column index at which the new column is to be inserted.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- The column index at which the new column is to be inserted.</td></tr>
   </table>
   </dd>
 </dl>
@@ -567,8 +584,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Insert a new row. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>row index at which the new row is to be inserted. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>default number of columns for the new row.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>- The row index at which the new row is to be inserted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultCols</td><td>- The default number of columns for the new row.</td></tr>
   </table>
   </dd>
 </dl>
@@ -625,10 +642,10 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Load a csv file into the grid. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>full path name of the CSV file to load. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html" title="Class defining a single cell within a row of the grid. ">Cell</a></td><td>formating options. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(Optional)</td><td>First row to load into the grid (zero-based). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">(Optional)</td><td>Limit number of rows read in to grid.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>- The full path name of the CSV file to load. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>- <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html" title="Class defining a single cell within a row of the grid. ">Cell</a> formating options. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">firstRowToLoad</td><td>- (Optional) First row to load into the grid (zero-based). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxNumRowsToLoad</td><td>- (Optional) Limit number of rows read in to grid.</td></tr>
   </table>
   </dd>
 </dl>
@@ -663,7 +680,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Subscript operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>0-based row index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>- A 0-based row index. </td></tr>
   </table>
   </dd>
 </dl>
@@ -700,7 +717,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Output the grid to a stream object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>stream object.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">os</td><td>- The stream object.</td></tr>
   </table>
   </dd>
 </dl>
@@ -773,8 +790,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Save the grid to a CSV file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>full path name of the CSV file to load. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Save</td><td>to file options: append to or overwrite existing file.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>- The full path name of the CSV file to load. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">option</td><td>- (Optional) Save to file options: append to or overwrite existing file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -819,8 +836,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Resize the grid. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>number of rows. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>number of columns for newly created rows.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rows</td><td>- The number of rows. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultCols</td><td>- The number of columns for newly created rows.</td></tr>
   </table>
   </dd>
 </dl>
@@ -829,14 +846,18 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Projects/CoreLibrary/CsvGrid/<a class="el" href="_csv_grid_main_8hpp_source.html">CsvGridMain.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/CsvGrid/<a class="el" href="_csv_grid_main_8hpp_source.html">CsvGridMain.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:10 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

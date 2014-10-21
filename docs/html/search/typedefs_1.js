@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['container_5ftype',['container_type',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#ae288eb85d706dd73fca398f9c024c6d5',1,'core_lib::csv_grid::TCsvGrid::container_type()'],['../classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a4d2ed0a08f9067f9d760125ec9cf99ef',1,'core_lib::csv_grid::reserver::ContainerReserver::container_type()'],['../classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html#a94ce0171d60dfbbfd894a5f1b8c9a7ca',1,'core_lib::csv_grid::reserver::ContainerReserver&lt; std::vector, T &gt;::container_type()'],['../classcore__lib_1_1csv__grid_1_1_t_row.html#a4406a3a1bdc3ff80f9456ff302a4bb06',1,'core_lib::csv_grid::TRow::container_type()'],['../classcore__lib_1_1threads_1_1_join_threads.html#a3f8fbbd9f072f29d41db04e64217ff70',1,'core_lib::threads::JoinThreads::container_type()'],['../classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9',1,'core_lib::threads::JoinThreadsP::container_type()']]],
-  ['csvgrid',['CsvGrid',['../namespacecore__lib_1_1csv__grid.html#a934bc95ebfb6000fc771b8da1a096ff6',1,'core_lib::csv_grid']]],
-  ['csvgridl',['CsvGridL',['../namespacecore__lib_1_1csv__grid.html#aa3426acd11bd45eb05437e351020bcf7',1,'core_lib::csv_grid']]],
-  ['csvgridv',['CsvGridV',['../namespacecore__lib_1_1csv__grid.html#a429f55b021add7a1a61baaa4f674aabb',1,'core_lib::csv_grid']]]
+  ['bucket_5fdefinitions',['bucket_definitions',['../classcore__lib_1_1sorting_1_1_bucket.html#accd9f4d83dbbbbe1cfe613898f771747',1,'core_lib::sorting::Bucket']]],
+  ['bucket_5fvalues',['bucket_values',['../classcore__lib_1_1sorting_1_1_bucket.html#a11472a1dfa4fdbdff2e79a07b7853477',1,'core_lib::sorting::Bucket']]]
 ];

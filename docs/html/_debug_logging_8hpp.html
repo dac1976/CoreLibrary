@@ -4,10 +4,17 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Core Library: D:/Projects/CoreLibrary/DebugLogging.hpp File Reference</title>
+<title>Core Library: C:/Projects/duncan/CoreLibrary/DebugLogging.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -66,6 +73,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('_debug_logging_8hpp.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -80,12 +102,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">D:/Projects/CoreLibrary/DebugLogging.hpp File Reference</div>  </div>
+<div class="title">C:/Projects/duncan/CoreLibrary/DebugLogging.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -113,10 +134,10 @@ Macros</h2></td></tr>
 <tr class="memdesc:ab04c676a1044b4f98393f66e0257fe4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to clear filter set.  <a href="#ab04c676a1044b4f98393f66e0257fe4f">More...</a><br /></td></tr>
 <tr class="separator:ab04c676a1044b4f98393f66e0257fe4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8c6b7fcffe8a677f2cc52a5c09c8447"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_debug_logging_8hpp.html#ad8c6b7fcffe8a677f2cc52a5c09c8447">DEBUG_MESSAGE_INSTANTIATE</a>(v, p, f)&#160;&#160;&#160;core_lib::log::DebugLogSingleton::Instance().Instantiate(v, p, f)</td></tr>
-<tr class="memdesc:ad8c6b7fcffe8a677f2cc52a5c09c8447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to simplify instantiatation of debug log.  <a href="#ad8c6b7fcffe8a677f2cc52a5c09c8447">More...</a><br /></td></tr>
+<tr class="memdesc:ad8c6b7fcffe8a677f2cc52a5c09c8447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to simplify instantiation of debug log.  <a href="#ad8c6b7fcffe8a677f2cc52a5c09c8447">More...</a><br /></td></tr>
 <tr class="separator:ad8c6b7fcffe8a677f2cc52a5c09c8447"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3faab69ff9d9abbc8774ac456b97ec82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_debug_logging_8hpp.html#a3faab69ff9d9abbc8774ac456b97ec82">DEBUG_MESSAGE_INSTANTIATE_EX</a>(v, p, f, s)&#160;&#160;&#160;core_lib::log::DebugLogSingleton::Instance().Instantiate(v, p, f, s)</td></tr>
-<tr class="memdesc:a3faab69ff9d9abbc8774ac456b97ec82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to simplify instantiatation of debug log.  <a href="#a3faab69ff9d9abbc8774ac456b97ec82">More...</a><br /></td></tr>
+<tr class="memdesc:a3faab69ff9d9abbc8774ac456b97ec82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to simplify instantiation of debug log.  <a href="#a3faab69ff9d9abbc8774ac456b97ec82">More...</a><br /></td></tr>
 <tr class="separator:a3faab69ff9d9abbc8774ac456b97ec82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebd765dac78bc4f48911a40498b66381"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_debug_logging_8hpp.html#aebd765dac78bc4f48911a40498b66381">DEBUG_MESSAGE</a>(m)&#160;&#160;&#160;<a class="el" href="_debug_logging_8hpp.html#acef1a1074cfed889f46c18bde95916a9">DEBUG_LOG</a>(core_lib::log::DebugLogSingleton::Instance(), m)</td></tr>
 <tr class="memdesc:aebd765dac78bc4f48911a40498b66381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple macro to simplify logging.  <a href="#aebd765dac78bc4f48911a40498b66381">More...</a><br /></td></tr>
@@ -128,7 +149,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:af1749e16d7e0482552b2dbd866ec32e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to add message level to filter set.  <a href="#af1749e16d7e0482552b2dbd866ec32e5">More...</a><br /></td></tr>
 <tr class="separator:af1749e16d7e0482552b2dbd866ec32e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddd4d7273729790f280820ab9d13552"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_debug_logging_8hpp.html#a0ddd4d7273729790f280820ab9d13552">DEBUG_MESSAGE_REMOVE_FILTER</a>(l)&#160;&#160;&#160;<a class="el" href="_debug_logging_8hpp.html#a5d69ae8564a69962da44f1a4ae278cb9">DEBUG_LOG_ADD_FILTER</a>(core_lib::log::DebugLogSingleton::Instance(), l)</td></tr>
-<tr class="memdesc:a0ddd4d7273729790f280820ab9d13552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to remove message level to filter set.  <a href="#a0ddd4d7273729790f280820ab9d13552">More...</a><br /></td></tr>
+<tr class="memdesc:a0ddd4d7273729790f280820ab9d13552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to remove message level from filter set.  <a href="#a0ddd4d7273729790f280820ab9d13552">More...</a><br /></td></tr>
 <tr class="separator:a0ddd4d7273729790f280820ab9d13552"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86a326baa381a31fe860f0979d23bd96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_debug_logging_8hpp.html#a86a326baa381a31fe860f0979d23bd96">DEBUG_MESSAGE_CLEAR_FILTERS</a>()&#160;&#160;&#160;<a class="el" href="_debug_logging_8hpp.html#ab04c676a1044b4f98393f66e0257fe4f">DEBUG_LOG_CLEAR_FILTERS</a>(core_lib::log::DebugLogSingleton::Instance())</td></tr>
 <tr class="memdesc:a86a326baa381a31fe860f0979d23bd96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to clear filter set.  <a href="#a86a326baa381a31fe860f0979d23bd96">More...</a><br /></td></tr>
@@ -170,8 +191,8 @@ Macros</h2></td></tr>
 <p>Simple macro to simplify logging. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">DebugLog</td><td>object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Object</td><td>to be used as message in DebugLog (must be convertible to string via std::ostringstream). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>- DebugLog object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>- Object to be used as message in DebugLog (must be convertible to string via std::ostringstream). </td></tr>
   </table>
   </dd>
 </dl>
@@ -205,8 +226,8 @@ Macros</h2></td></tr>
 <p>Macro to add message level to filter set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">DebugLog</td><td>object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>message level, e.g. info, debug, warning, error etc. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>- DebugLog object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>- Log message level from enum eLogMessageLevel. </td></tr>
   </table>
   </dd>
 </dl>
@@ -230,7 +251,7 @@ Macros</h2></td></tr>
 <p>Macro to clear filter set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">DebugLog</td><td>object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>- DebugLog object. </td></tr>
   </table>
   </dd>
 </dl>
@@ -276,9 +297,9 @@ Macros</h2></td></tr>
 <p>Macro to simplify logging adding message and level. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">DebugLog</td><td>object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Object</td><td>to be used as message in DebugLog (must be convertible to string via std::ostringstream). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Level</td><td>associated with message. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>- DebugLog object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>- Object to be used as message in DebugLog (must be convertible to string via std::ostringstream). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>- Log message level from enum eLogMessageLevel. </td></tr>
   </table>
   </dd>
 </dl>
@@ -312,8 +333,8 @@ Macros</h2></td></tr>
 <p>Macro to remove message level to filter set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">DebugLog</td><td>object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>message level, e.g. info, debug, warning, error etc. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x-</td><td>DebugLog object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>- Log message level from enum eLogMessageLevel. </td></tr>
   </table>
   </dd>
 </dl>
@@ -337,7 +358,7 @@ Macros</h2></td></tr>
 <p>Simple macro to simplify logging. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Object</td><td>to be used as message in DebugLog (must be convertible to string via std::ostringstream).</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>- Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).</td></tr>
   </table>
   </dd>
 </dl>
@@ -362,7 +383,7 @@ Macros</h2></td></tr>
 <p>Macro to add message level to filter set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>message level, e.g. info, debug, warning, error etc.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>- Log message level from enum eLogMessageLevel.</td></tr>
   </table>
   </dd>
 </dl>
@@ -415,8 +436,8 @@ Macros</h2></td></tr>
 <p>Macro to simplify logging adding message and level. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Object</td><td>to be used as message in DebugLog (must be convertible to string via std::ostringstream). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Level</td><td>associated with message.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>- Object to be used as message in DebugLog (must be convertible to string via std::ostringstream). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>- Log message level from enum eLogMessageLevel.</td></tr>
   </table>
   </dd>
 </dl>
@@ -454,12 +475,12 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Macro to simplify instantiatation of debug log. </p>
+<p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Software</td><td>version string must be convertible to std::string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>file path string with trailing backslash must be convertible to std::string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>file name string without file extension with trailing backslash must be convertible to std::string.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>- Software version string must be convertible to std::string. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>- Log file path string with trailing backslash must be convertible to std::string. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>- Log file name string without file extension with trailing backslash must be convertible to std::string.</td></tr>
   </table>
   </dd>
 </dl>
@@ -503,13 +524,13 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Macro to simplify instantiatation of debug log. </p>
+<p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Software</td><td>version string must be convertible to std::string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>file path string with trailing backslash must be convertible to std::string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>file name string without file extension with trailing backslash must be convertible to std::string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>maxium size for the log file.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>- Software version string must be convertible to std::string. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>- Log file path string with trailing backslash must be convertible to std::string. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>- Log file name string without file extension with trailing backslash must be convertible to std::string. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>- The maximum size for the log file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -531,10 +552,10 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Macro to remove message level to filter set. </p>
+<p>Macro to remove message level from filter set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Log</td><td>message level, e.g. info, debug, warning, error etc.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>- Log message level from enum eLogMessageLevel.</td></tr>
   </table>
   </dd>
 </dl>
@@ -543,11 +564,15 @@ Macros</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="_debug_logging_8hpp.html">DebugLogging.hpp</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:10 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

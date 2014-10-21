@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -85,6 +92,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_vars.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -112,6 +133,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_cells
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#aa5c3af749b45bd55dea211da905e6e0c">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
+<li>m_changesMade
+: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a36ec77e5b9a1cc249f78969ca276a4e9">core_lib::ini_file::IniFile</a>
+</li>
+<li>m_comment
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#ac65b5ccf8adbbd09251997d260fcbd35">core_lib::ini_file::if_private::CommentLine</a>
+</li>
 <li>m_container
 : <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a927469a979c8ed0c034ed067d8c039e8">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
 </li>
@@ -127,6 +154,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_grid
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#af0868d5d5560ea52aa65568b6b330eae">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
 </li>
+<li>m_iniFilePath
+: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a21d873a4bbac05e843be4104d9ac295f">core_lib::ini_file::IniFile</a>
+</li>
 <li>m_ioService
 : <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a4a89380b72fca6b9d2be3e21c42d9759">core_lib::asio::IoServiceThreadGroup</a>
 </li>
@@ -136,8 +166,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_itemEvent
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a3f4eb3c57b9cf483da061255555ae0b0">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
+<li>m_key
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#aedb11873bae1f43e95419bee2a624006">core_lib::ini_file::if_private::KeyLine</a>
+</li>
+<li>m_keyIters
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a93413c5c96546455633362f264d45d3a">core_lib::ini_file::if_private::SectionDetails</a>
+</li>
 <li>m_lineNo
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a27376b0646c0d5b03dd13bb8802e6d9d">core_lib::log::dl_private::LogQueueMessage</a>
+</li>
+<li>m_lines
+: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0d5f4ce788ee215617abf217a940f2c6">core_lib::ini_file::IniFile</a>
 </li>
 <li>m_logFilePath
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#af2da10d4e2ca9cea6d5dbfed34790247">core_lib::log::DebugLog&lt; Formatter &gt;</a>
@@ -205,6 +244,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>m_reserve
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a08ba848ed78a7ff2111f3045e4e5d49e">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
+<li>m_section
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#a8eb500762d12bb29c9b7e8c88b64d519">core_lib::ini_file::if_private::SectionLine</a>
+</li>
+<li>m_sectionMap
+: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a5942db8c4fcd69463591f1755418722a">core_lib::ini_file::IniFile</a>
+</li>
+<li>m_sectIter
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a5dccd60d7bdc0166370b7e3b9630446c">core_lib::ini_file::if_private::SectionDetails</a>
+</li>
 <li>m_signalAllThreads
 : <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#ac18a113f8da3c90b74da5dc83b4bda29">core_lib::threads::SyncEvent</a>
 </li>
@@ -257,17 +305,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>m_value
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#ab329bc0ea13f4c63726aee9f42fe680e">core_lib::csv_grid::Cell</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#ad89c4bbe6abb811235a4ba8cd1a22149">core_lib::ini_file::if_private::KeyLine</a>
 </li>
 <li>MESSAGE_ID
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a882ca8babff300ef40788ae5d3c3b02c">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

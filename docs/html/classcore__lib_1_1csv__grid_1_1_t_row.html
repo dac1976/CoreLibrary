@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classcore__lib_1_1csv__grid_1_1_t_row.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">TRow</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -289,8 +306,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Initializing constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>initial value string - a comma separated line from a CSV file. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>line format.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>- The initial value string - a comma separated line from a CSV file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>- The line format.</td></tr>
   </table>
   </dd>
 </dl>
@@ -325,7 +342,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Initializer list constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>initial list of cells.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cells</td><td>- The initial list of cells.</td></tr>
   </table>
   </dd>
 </dl>
@@ -363,7 +380,7 @@ template&lt;typename V &gt; </div>
 <p>Add a column with the given value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>cell's value for the new column.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- The cell's value for the new column.</td></tr>
   </table>
   </dd>
 </dl>
@@ -494,8 +511,8 @@ template&lt;typename V &gt; </div>
 <p>Insert a new cell. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>column index at which the new cell is to be inserted. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>value to assign to the newly inserted cell.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- The column index at which the new cell is to be inserted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname"></td><td>- The value to assign to the newly inserted cell.</td></tr>
   </table>
   </dd>
 </dl>
@@ -530,7 +547,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Insert a new cell. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>column index at which the new cell is to be inserted.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- The column index at which the new cell is to be inserted.</td></tr>
   </table>
   </dd>
 </dl>
@@ -575,8 +592,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Load a row from a line in a CSV file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>line from the CSV file. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>cell format options.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>- The line from the CSV file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>- The cell format options.</td></tr>
   </table>
   </dd>
 </dl>
@@ -611,7 +628,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Subscript operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>0-based column index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- A 0-based column index. </td></tr>
   </table>
   </dd>
 </dl>
@@ -648,7 +665,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Write the row's contents to a stream object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">The</td><td>stream object to write to.</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">os</td><td>- The stream object to write to.</td></tr>
   </table>
   </dd>
 </dl>
@@ -711,7 +728,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Set the number of columns in the row. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>number of columns to set.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cols</td><td>- The number of columns to set.</td></tr>
   </table>
   </dd>
 </dl>
@@ -746,7 +763,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Tokenize a row with simple cells. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>CSV file's line of text.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>- A CSV file's line of text.</td></tr>
   </table>
   </dd>
 </dl>
@@ -781,7 +798,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <p>Tokenize a row with double quoted cells. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>CSV file's line of text.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>- A CSV file's line of text.</td></tr>
   </table>
   </dd>
 </dl>
@@ -790,14 +807,18 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Projects/CoreLibrary/CsvGrid/<a class="el" href="_csv_grid_row_8hpp_source.html">CsvGridRow.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/CsvGrid/<a class="el" href="_csv_grid_row_8hpp_source.html">CsvGridRow.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">TRow</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:10 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

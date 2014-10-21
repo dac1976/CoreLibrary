@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['bucket_5fdefinitions',['bucket_definitions',['../classcore__lib_1_1sorting_1_1_bucket.html#accd9f4d83dbbbbe1cfe613898f771747',1,'core_lib::sorting::Bucket']]],
-  ['bucket_5fvalues',['bucket_values',['../classcore__lib_1_1sorting_1_1_bucket.html#a11472a1dfa4fdbdff2e79a07b7853477',1,'core_lib::sorting::Bucket']]]
+  ['argument_5ft',['argument_t',['../structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a3adabed9dec03b9671bd7a25be499607',1,'std::hash&lt; core_lib::log::eLogMessageLevel &gt;']]]
 ];

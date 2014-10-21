@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classcore__lib_1_1ini__file_1_1_ini_file.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,15 +104,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html">IniFile</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
@@ -106,29 +121,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="_ini_file_8hpp_source.html">IniFile.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_blank_line.html">BlankLine</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_comment_line.html">CommentLine</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_key_line.html">KeyLine</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_line.html">Line</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_section_details.html">SectionDetails</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_section_line.html">SectionLine</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:ad10755a54ad82e56a40ed20a87fe679c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad10755a54ad82e56a40ed20a87fe679c"></a>
-typedef std::list&lt; std::pair<br class="typebreak" />
-&lt; std::string, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad10755a54ad82e56a40ed20a87fe679c">keys_list</a></td></tr>
-<tr class="memdesc:ad10755a54ad82e56a40ed20a87fe679c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining the key-value pair list for section entries. <br /></td></tr>
-<tr class="separator:ad10755a54ad82e56a40ed20a87fe679c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1d8e45200f5784b73d8c539d2c423d71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d8e45200f5784b73d8c539d2c423d71"></a>
@@ -167,9 +159,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4a795edfb8aec386344e5d5a86c47648"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a4a795edfb8aec386344e5d5a86c47648">GetSections</a> () const </td></tr>
 <tr class="memdesc:a4a795edfb8aec386344e5d5a86c47648"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get sections.  <a href="#a4a795edfb8aec386344e5d5a86c47648">More...</a><br /></td></tr>
 <tr class="separator:a4a795edfb8aec386344e5d5a86c47648"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0038fba4097a34c0d99d348495069551"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad10755a54ad82e56a40ed20a87fe679c">keys_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0038fba4097a34c0d99d348495069551">GetSection</a> (const std::string &amp;section) const </td></tr>
-<tr class="memdesc:a0038fba4097a34c0d99d348495069551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get section's key-value pairs.  <a href="#a0038fba4097a34c0d99d348495069551">More...</a><br /></td></tr>
-<tr class="separator:a0038fba4097a34c0d99d348495069551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a351e6de9d93426ae22de9aca640a0c35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1ini__file.html#ae761b2040bcf6477afe9eb14a58c5d26">keys_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a351e6de9d93426ae22de9aca640a0c35">GetSection</a> (const std::string &amp;section) const </td></tr>
+<tr class="memdesc:a351e6de9d93426ae22de9aca640a0c35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get section's key-value pairs.  <a href="#a351e6de9d93426ae22de9aca640a0c35">More...</a><br /></td></tr>
+<tr class="separator:a351e6de9d93426ae22de9aca640a0c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bf71e52e202fa4a6c47d9262548de53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a6bf71e52e202fa4a6c47d9262548de53">SectionExists</a> (const std::string &amp;section) const </td></tr>
 <tr class="memdesc:a6bf71e52e202fa4a6c47d9262548de53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a section exists.  <a href="#a6bf71e52e202fa4a6c47d9262548de53">More...</a><br /></td></tr>
 <tr class="separator:a6bf71e52e202fa4a6c47d9262548de53"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,110 +169,108 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9b5d61a40e4e3300b999c5fb0d266541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a key exists for a section.  <a href="#a9b5d61a40e4e3300b999c5fb0d266541">More...</a><br /></td></tr>
 <tr class="separator:a9b5d61a40e4e3300b999c5fb0d266541"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5c3a2e81c386577615ab01369564f35"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ae5c3a2e81c386577615ab01369564f35">ReadBool</a> (const std::string &amp;section, const std::string &amp;key, const bool defaultValue=false) const </td></tr>
-<tr class="memdesc:ae5c3a2e81c386577615ab01369564f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#ae5c3a2e81c386577615ab01369564f35">More...</a><br /></td></tr>
+<tr class="memdesc:ae5c3a2e81c386577615ab01369564f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read boolean value.  <a href="#ae5c3a2e81c386577615ab01369564f35">More...</a><br /></td></tr>
 <tr class="separator:ae5c3a2e81c386577615ab01369564f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11175033e9f6a8620828952344faa5de"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a11175033e9f6a8620828952344faa5de">ReadInteger</a> (const std::string &amp;section, const std::string &amp;key, const int32_t defaultValue=0) const </td></tr>
-<tr class="memdesc:a11175033e9f6a8620828952344faa5de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a11175033e9f6a8620828952344faa5de">More...</a><br /></td></tr>
+<tr class="memdesc:a11175033e9f6a8620828952344faa5de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 32 bit integer value.  <a href="#a11175033e9f6a8620828952344faa5de">More...</a><br /></td></tr>
 <tr class="separator:a11175033e9f6a8620828952344faa5de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91b956c8f40d6f28214ba0503df2021c"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a91b956c8f40d6f28214ba0503df2021c">ReadInteger64</a> (const std::string &amp;section, const std::string &amp;key, const int64_t defaultValue=0L) const </td></tr>
-<tr class="memdesc:a91b956c8f40d6f28214ba0503df2021c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a91b956c8f40d6f28214ba0503df2021c">More...</a><br /></td></tr>
+<tr class="memdesc:a91b956c8f40d6f28214ba0503df2021c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 64 bit integer value.  <a href="#a91b956c8f40d6f28214ba0503df2021c">More...</a><br /></td></tr>
 <tr class="separator:a91b956c8f40d6f28214ba0503df2021c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e36d1c8edfba1cd3ffda5e5803845b3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a5e36d1c8edfba1cd3ffda5e5803845b3">ReadDouble</a> (const std::string &amp;section, const std::string &amp;key, const double defaultValue=0.0) const </td></tr>
-<tr class="memdesc:a5e36d1c8edfba1cd3ffda5e5803845b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a5e36d1c8edfba1cd3ffda5e5803845b3">More...</a><br /></td></tr>
+<tr class="memdesc:a5e36d1c8edfba1cd3ffda5e5803845b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read double value.  <a href="#a5e36d1c8edfba1cd3ffda5e5803845b3">More...</a><br /></td></tr>
 <tr class="separator:a5e36d1c8edfba1cd3ffda5e5803845b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f8fcff8c37ffaf9dff1e811600cb44f"><td class="memItemLeft" align="right" valign="top">long double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a9f8fcff8c37ffaf9dff1e811600cb44f">ReadLongDouble</a> (const std::string &amp;section, const std::string &amp;key, const long double defaultValue=0.0L) const </td></tr>
-<tr class="memdesc:a9f8fcff8c37ffaf9dff1e811600cb44f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a9f8fcff8c37ffaf9dff1e811600cb44f">More...</a><br /></td></tr>
+<tr class="memdesc:a9f8fcff8c37ffaf9dff1e811600cb44f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read long double value.  <a href="#a9f8fcff8c37ffaf9dff1e811600cb44f">More...</a><br /></td></tr>
 <tr class="separator:a9f8fcff8c37ffaf9dff1e811600cb44f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a321ae7a92148b213a2d36fbbc085e836"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a321ae7a92148b213a2d36fbbc085e836">ReadString</a> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;defaultValue=&quot;&quot;) const </td></tr>
-<tr class="memdesc:a321ae7a92148b213a2d36fbbc085e836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a321ae7a92148b213a2d36fbbc085e836">More...</a><br /></td></tr>
+<tr class="memdesc:a321ae7a92148b213a2d36fbbc085e836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read string value.  <a href="#a321ae7a92148b213a2d36fbbc085e836">More...</a><br /></td></tr>
 <tr class="separator:a321ae7a92148b213a2d36fbbc085e836"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a000c75a943391507ba1ac0bc0f6c987b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a000c75a943391507ba1ac0bc0f6c987b">WriteBool</a> (const std::string &amp;section, const std::string &amp;key, const bool value)</td></tr>
-<tr class="memdesc:a000c75a943391507ba1ac0bc0f6c987b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a000c75a943391507ba1ac0bc0f6c987b">More...</a><br /></td></tr>
+<tr class="memdesc:a000c75a943391507ba1ac0bc0f6c987b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write boolean value.  <a href="#a000c75a943391507ba1ac0bc0f6c987b">More...</a><br /></td></tr>
 <tr class="separator:a000c75a943391507ba1ac0bc0f6c987b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bfbed3c65c1087bdad2d389ae56558e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0bfbed3c65c1087bdad2d389ae56558e">WriteInteger</a> (const std::string &amp;section, const std::string &amp;key, const int32_t value)</td></tr>
-<tr class="memdesc:a0bfbed3c65c1087bdad2d389ae56558e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a0bfbed3c65c1087bdad2d389ae56558e">More...</a><br /></td></tr>
+<tr class="memdesc:a0bfbed3c65c1087bdad2d389ae56558e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 32 bit integer value.  <a href="#a0bfbed3c65c1087bdad2d389ae56558e">More...</a><br /></td></tr>
 <tr class="separator:a0bfbed3c65c1087bdad2d389ae56558e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3c96786dfbf59cbc93c1bdc2c9b5340"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad3c96786dfbf59cbc93c1bdc2c9b5340">WriteInteger64</a> (const std::string &amp;section, const std::string &amp;key, const int64_t value)</td></tr>
-<tr class="memdesc:ad3c96786dfbf59cbc93c1bdc2c9b5340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#ad3c96786dfbf59cbc93c1bdc2c9b5340">More...</a><br /></td></tr>
+<tr class="memdesc:ad3c96786dfbf59cbc93c1bdc2c9b5340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 64 bit integer value.  <a href="#ad3c96786dfbf59cbc93c1bdc2c9b5340">More...</a><br /></td></tr>
 <tr class="separator:ad3c96786dfbf59cbc93c1bdc2c9b5340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7276c5f81a5ab455d3c589630b27ae8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a7276c5f81a5ab455d3c589630b27ae8b">WriteDouble</a> (const std::string &amp;section, const std::string &amp;key, const double value)</td></tr>
-<tr class="memdesc:a7276c5f81a5ab455d3c589630b27ae8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a7276c5f81a5ab455d3c589630b27ae8b">More...</a><br /></td></tr>
+<tr class="memdesc:a7276c5f81a5ab455d3c589630b27ae8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write double value.  <a href="#a7276c5f81a5ab455d3c589630b27ae8b">More...</a><br /></td></tr>
 <tr class="separator:a7276c5f81a5ab455d3c589630b27ae8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63541a7b67a6b82cafc45f5d332707f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a63541a7b67a6b82cafc45f5d332707f1">WriteLongDouble</a> (const std::string &amp;section, const std::string &amp;key, const long double value)</td></tr>
-<tr class="memdesc:a63541a7b67a6b82cafc45f5d332707f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a63541a7b67a6b82cafc45f5d332707f1">More...</a><br /></td></tr>
+<tr class="memdesc:a63541a7b67a6b82cafc45f5d332707f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write long double value.  <a href="#a63541a7b67a6b82cafc45f5d332707f1">More...</a><br /></td></tr>
 <tr class="separator:a63541a7b67a6b82cafc45f5d332707f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0e738e786f334855db59d826c698219"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad0e738e786f334855db59d826c698219">WriteString</a> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;value)</td></tr>
-<tr class="memdesc:ad0e738e786f334855db59d826c698219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#ad0e738e786f334855db59d826c698219">More...</a><br /></td></tr>
+<tr class="memdesc:ad0e738e786f334855db59d826c698219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write string value.  <a href="#ad0e738e786f334855db59d826c698219">More...</a><br /></td></tr>
 <tr class="separator:ad0e738e786f334855db59d826c698219"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af91c8ea4d5405f231e4c74a0e84c8734"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#af91c8ea4d5405f231e4c74a0e84c8734">EraseSection</a> (const std::string &amp;section)</td></tr>
-<tr class="memdesc:af91c8ea4d5405f231e4c74a0e84c8734"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#af91c8ea4d5405f231e4c74a0e84c8734">More...</a><br /></td></tr>
+<tr class="memdesc:af91c8ea4d5405f231e4c74a0e84c8734"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase a whole section.  <a href="#af91c8ea4d5405f231e4c74a0e84c8734">More...</a><br /></td></tr>
 <tr class="separator:af91c8ea4d5405f231e4c74a0e84c8734"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa64282b790d097df9b190ba0f68b8970"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#aa64282b790d097df9b190ba0f68b8970">EraseSections</a> ()</td></tr>
-<tr class="memdesc:aa64282b790d097df9b190ba0f68b8970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#aa64282b790d097df9b190ba0f68b8970">More...</a><br /></td></tr>
+<tr class="memitem:aa64282b790d097df9b190ba0f68b8970"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa64282b790d097df9b190ba0f68b8970"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#aa64282b790d097df9b190ba0f68b8970">EraseSections</a> ()</td></tr>
+<tr class="memdesc:aa64282b790d097df9b190ba0f68b8970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase all the sections. <br /></td></tr>
 <tr class="separator:aa64282b790d097df9b190ba0f68b8970"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7664d74f21f18775b86202d11d21f4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ae7664d74f21f18775b86202d11d21f4e">EraseKey</a> (const std::string &amp;section, const std::string &amp;key)</td></tr>
-<tr class="memdesc:ae7664d74f21f18775b86202d11d21f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#ae7664d74f21f18775b86202d11d21f4e">More...</a><br /></td></tr>
+<tr class="memdesc:ae7664d74f21f18775b86202d11d21f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase a key within a section.  <a href="#ae7664d74f21f18775b86202d11d21f4e">More...</a><br /></td></tr>
 <tr class="separator:ae7664d74f21f18775b86202d11d21f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43aa77dbbbb369c3fa38a3356c4f37bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a43aa77dbbbb369c3fa38a3356c4f37bb">EraseKeys</a> (const std::string &amp;section)</td></tr>
-<tr class="memdesc:a43aa77dbbbb369c3fa38a3356c4f37bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brief.  <a href="#a43aa77dbbbb369c3fa38a3356c4f37bb">More...</a><br /></td></tr>
+<tr class="memdesc:a43aa77dbbbb369c3fa38a3356c4f37bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase all keys in a section.  <a href="#a43aa77dbbbb369c3fa38a3356c4f37bb">More...</a><br /></td></tr>
 <tr class="separator:a43aa77dbbbb369c3fa38a3356c4f37bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:ac01e75fe6ba6383753b5da5e5cfc7377"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac01e75fe6ba6383753b5da5e5cfc7377"></a>
-typedef std::list<br class="typebreak" />
-&lt; std::shared_ptr&lt; <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_line.html">Line</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>line_list</b></td></tr>
-<tr class="separator:ac01e75fe6ba6383753b5da5e5cfc7377"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc254f3103ec7e94edbc78056c15551b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc254f3103ec7e94edbc78056c15551b"></a>
-typedef line_list::iterator&#160;</td><td class="memItemRight" valign="bottom"><b>line_iter</b></td></tr>
-<tr class="separator:acc254f3103ec7e94edbc78056c15551b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f716f78962f83bf02841287e2b0547e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f716f78962f83bf02841287e2b0547e"></a>
-typedef line_list::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>line_citer</b></td></tr>
-<tr class="separator:a5f716f78962f83bf02841287e2b0547e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cbd7dd266a805c6a5864c5a8ed885b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4cbd7dd266a805c6a5864c5a8ed885b6"></a>
+<tr class="memitem:a4daeae3eb4c5b41e183244c6d4cbb6ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4daeae3eb4c5b41e183244c6d4cbb6ac"></a>
 typedef std::map&lt; std::string, <br class="typebreak" />
-<a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file_1_1_section_details.html">SectionDetails</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>section_map</b></td></tr>
-<tr class="separator:a4cbd7dd266a805c6a5864c5a8ed885b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html">if_private::SectionDetails</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a4daeae3eb4c5b41e183244c6d4cbb6ac">section_map</a></td></tr>
+<tr class="memdesc:a4daeae3eb4c5b41e183244c6d4cbb6ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map typedef. <br /></td></tr>
+<tr class="separator:a4daeae3eb4c5b41e183244c6d4cbb6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a61e1d021218e999917651dcfb04455"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a61e1d021218e999917651dcfb04455"></a>
-typedef section_map::iterator&#160;</td><td class="memItemRight" valign="bottom"><b>section_iter</b></td></tr>
+typedef section_map::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a6a61e1d021218e999917651dcfb04455">section_iter</a></td></tr>
+<tr class="memdesc:a6a61e1d021218e999917651dcfb04455"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map iterator typedef. <br /></td></tr>
 <tr class="separator:a6a61e1d021218e999917651dcfb04455"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b21fd73ed14ee5fadca7ac096c66c0a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b21fd73ed14ee5fadca7ac096c66c0a"></a>
-typedef section_map::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>section_citer</b></td></tr>
+typedef section_map::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a9b21fd73ed14ee5fadca7ac096c66c0a">section_citer</a></td></tr>
+<tr class="memdesc:a9b21fd73ed14ee5fadca7ac096c66c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map const iterator typedef. <br /></td></tr>
 <tr class="separator:a9b21fd73ed14ee5fadca7ac096c66c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a2e1cb5e1e991095ea41a0c8f1586ffc5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e1cb5e1e991095ea41a0c8f1586ffc5"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>ReadValue</b> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;defaultValue) const </td></tr>
+<tr class="memitem:a2e1cb5e1e991095ea41a0c8f1586ffc5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a2e1cb5e1e991095ea41a0c8f1586ffc5">ReadValue</a> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;defaultValue) const </td></tr>
+<tr class="memdesc:a2e1cb5e1e991095ea41a0c8f1586ffc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read value from INI file.  <a href="#a2e1cb5e1e991095ea41a0c8f1586ffc5">More...</a><br /></td></tr>
 <tr class="separator:a2e1cb5e1e991095ea41a0c8f1586ffc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3db417fcf1b4cca4ae5c8317e6dbda26"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3db417fcf1b4cca4ae5c8317e6dbda26"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>ReadValue</b> (const std::string &amp;section, const std::string &amp;key, std::string &amp;&amp;defaultValue) const </td></tr>
+<tr class="memitem:a3db417fcf1b4cca4ae5c8317e6dbda26"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a3db417fcf1b4cca4ae5c8317e6dbda26">ReadValue</a> (const std::string &amp;section, const std::string &amp;key, std::string &amp;&amp;defaultValue) const </td></tr>
+<tr class="memdesc:a3db417fcf1b4cca4ae5c8317e6dbda26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read value from INI file.  <a href="#a3db417fcf1b4cca4ae5c8317e6dbda26">More...</a><br /></td></tr>
 <tr class="separator:a3db417fcf1b4cca4ae5c8317e6dbda26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59c21b3273498bf7fe05f5ade3b329d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59c21b3273498bf7fe05f5ade3b329d6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>WriteValue</b> (const std::string &amp;section, const std::string &amp;key, std::string &amp;&amp;value)</td></tr>
-<tr class="separator:a59c21b3273498bf7fe05f5ade3b329d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a32467649d2c4e7eafcb8ff482aaae6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a32467649d2c4e7eafcb8ff482aaae6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>WriteValue</b> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;value)</td></tr>
+<tr class="memitem:a8a32467649d2c4e7eafcb8ff482aaae6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a8a32467649d2c4e7eafcb8ff482aaae6">WriteValue</a> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;value)</td></tr>
+<tr class="memdesc:a8a32467649d2c4e7eafcb8ff482aaae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write value to INI file.  <a href="#a8a32467649d2c4e7eafcb8ff482aaae6">More...</a><br /></td></tr>
 <tr class="separator:a8a32467649d2c4e7eafcb8ff482aaae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59c21b3273498bf7fe05f5ade3b329d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a59c21b3273498bf7fe05f5ade3b329d6">WriteValue</a> (const std::string &amp;section, const std::string &amp;key, std::string &amp;&amp;value)</td></tr>
+<tr class="memdesc:a59c21b3273498bf7fe05f5ade3b329d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write value to INI file.  <a href="#a59c21b3273498bf7fe05f5ade3b329d6">More...</a><br /></td></tr>
+<tr class="separator:a59c21b3273498bf7fe05f5ade3b329d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a36ec77e5b9a1cc249f78969ca276a4e9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36ec77e5b9a1cc249f78969ca276a4e9"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>m_changesMade</b> {false}</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a36ec77e5b9a1cc249f78969ca276a4e9">m_changesMade</a> {false}</td></tr>
+<tr class="memdesc:a36ec77e5b9a1cc249f78969ca276a4e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes made flag. <br /></td></tr>
 <tr class="separator:a36ec77e5b9a1cc249f78969ca276a4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21d873a4bbac05e843be4104d9ac295f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21d873a4bbac05e843be4104d9ac295f"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>m_iniFilePath</b> {&quot;config.ini&quot;}</td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a21d873a4bbac05e843be4104d9ac295f">m_iniFilePath</a> {&quot;config.ini&quot;}</td></tr>
+<tr class="memdesc:a21d873a4bbac05e843be4104d9ac295f"><td class="mdescLeft">&#160;</td><td class="mdescRight">INI file path. <br /></td></tr>
 <tr class="separator:a21d873a4bbac05e843be4104d9ac295f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5942db8c4fcd69463591f1755418722a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5942db8c4fcd69463591f1755418722a"></a>
-section_map&#160;</td><td class="memItemRight" valign="bottom"><b>m_sectionMap</b></td></tr>
+<a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a4daeae3eb4c5b41e183244c6d4cbb6ac">section_map</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a5942db8c4fcd69463591f1755418722a">m_sectionMap</a></td></tr>
+<tr class="memdesc:a5942db8c4fcd69463591f1755418722a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sectin map. <br /></td></tr>
 <tr class="separator:a5942db8c4fcd69463591f1755418722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91c675631bbe58d86033974dbeb2da1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91c675631bbe58d86033974dbeb2da1d"></a>
-line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td></tr>
-<tr class="separator:a91c675631bbe58d86033974dbeb2da1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d5f4ce788ee215617abf217a940f2c6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d5f4ce788ee215617abf217a940f2c6"></a>
+<a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a9cffe96815a2aae645017f3a2c365cb9">if_private::line_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0d5f4ce788ee215617abf217a940f2c6">m_lines</a></td></tr>
+<tr class="memdesc:a0d5f4ce788ee215617abf217a940f2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line list. <br /></td></tr>
+<tr class="separator:a0d5f4ce788ee215617abf217a940f2c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Ini file class. </p>
-<p>Here is an example of what a ini file may look like:</p>
+<p>Here is an example of what a ini file could look like:</p>
 <p>; I am an opening comment.</p>
 <p>[Section1] ; I am a comment in a section. Section1_Key1=Section1_Value1 Section1_Key2=Section1_Value2 Section1_Key3=Section1_Value3</p>
 <p>[Section2] Section2_Key1=Section2_Value1 Section2_Key2=Section2_Value2 ; I am also a comment in a section. Section2_Key3=Section2_Value3 ; I am yet another comment in a section.</p>
@@ -311,7 +301,7 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
 <p>INI path based constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Path</td><td>to INI file.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">iniFilePath</td><td>- Path to INI file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -344,16 +334,14 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Erase a key within a section. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Section name. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
@@ -371,15 +359,13 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Erase all keys in a section. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
@@ -397,43 +383,22 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Erase a whole section. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
-<a class="anchor" id="aa64282b790d097df9b190ba0f68b8970"></a>
+<a class="anchor" id="a351e6de9d93426ae22de9aca640a0c35"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void core_lib::ini_file::IniFile::EraseSections </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Brief. </p>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
-
-</div>
-</div>
-<a class="anchor" id="a0038fba4097a34c0d99d348495069551"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad10755a54ad82e56a40ed20a87fe679c">IniFile::keys_list</a> core_lib::ini_file::IniFile::GetSection </td>
+          <td class="memname"><a class="el" href="namespacecore__lib_1_1ini__file.html#ae761b2040bcf6477afe9eb14a58c5d26">keys_list</a> core_lib::ini_file::IniFile::GetSection </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>section</em></td><td>)</td>
@@ -445,7 +410,7 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
 <p>Get section's key-value pairs. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- section Parameter_Description </td></tr>
   </table>
   </dd>
 </dl>
@@ -498,8 +463,8 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
 <p>Check if a key exists for a section. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Section</td><td>name. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Key</td><td>name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
   </table>
   </dd>
 </dl>
@@ -524,7 +489,7 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
 <p>Load an INI file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Path</td><td>to an INI file.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">iniFilePath</td><td>- Path to an INI file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -562,17 +527,16 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Read boolean value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>- Default value if key not found. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the value stored in the INI file. </dd></dl>
 
 </div>
 </div>
@@ -606,17 +570,16 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Read double value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>- Default value if key not found. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the value stored in the INI file. </dd></dl>
 
 </div>
 </div>
@@ -650,17 +613,16 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Read 32 bit integer value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>- Default value if key not found. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the value stored in the INI file. </dd></dl>
 
 </div>
 </div>
@@ -694,17 +656,16 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Read 64 bit integer value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>- Default value if key not found. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the value stored in the INI file. </dd></dl>
 
 </div>
 </div>
@@ -738,17 +699,16 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Read long double value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>- Default value if key not found. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the value stored in the INI file. </dd></dl>
 
 </div>
 </div>
@@ -782,17 +742,118 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Read string value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">defaultValue</td><td>- Default value if key not found. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the value stored in the INI file. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2e1cb5e1e991095ea41a0c8f1586ffc5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core_lib::ini_file::IniFile::ReadValue </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>section</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>defaultValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read value from INI file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- The section. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- The key. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">int]</td><td>defaultValue - Default value if key not found as const reference. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3db417fcf1b4cca4ae5c8317e6dbda26"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core_lib::ini_file::IniFile::ReadValue </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>section</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&amp;&#160;</td>
+          <td class="paramname"><em>defaultValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read value from INI file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- The section. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- The key. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">int]</td><td>defaultValue - Default value if key not found as r-value reference. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
 
 </div>
 </div>
@@ -813,7 +874,7 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
 <p>Check if a section exists. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Section</td><td>name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
   </table>
   </dd>
 </dl>
@@ -838,7 +899,7 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
 <p>Update the file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Optional</td><td>override path to save to alternative location.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overridePath</td><td>- Optional override path to save to alternative location.</td></tr>
   </table>
   </dd>
 </dl>
@@ -876,17 +937,15 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Write boolean value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Value to write to file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
@@ -920,17 +979,15 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Write double value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Value to write to file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
@@ -964,17 +1021,15 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Write 32 bit integer value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Value to write to file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
@@ -1008,17 +1063,15 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Write 64 bit integer value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Value to write to file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
@@ -1052,17 +1105,15 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Write long double value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Value to write to file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
 
 </div>
 </div>
@@ -1096,30 +1147,132 @@ line_list&#160;</td><td class="memItemRight" valign="bottom"><b>m_lines</b></td>
       </table>
 </div><div class="memdoc">
 
-<p>Brief. </p>
+<p>Write string value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Parameter_Description </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>Parameter_Description </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- Section name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- Key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Value to write to file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return_Description</dd></dl>
-<p>Details </p>
+
+</div>
+</div>
+<a class="anchor" id="a8a32467649d2c4e7eafcb8ff482aaae6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::ini_file::IniFile::WriteValue </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>section</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write value to INI file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- The section. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- The key. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">int]</td><td>value - Value to write as const reference. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a59c21b3273498bf7fe05f5ade3b329d6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::ini_file::IniFile::WriteValue </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>section</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write value to INI file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">section</td><td>- The section. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>- The key. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">int]</td><td>value - Value to write as r-value reference. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>D:/Projects/CoreLibrary/<a class="el" href="_ini_file_8hpp_source.html">IniFile.hpp</a></li>
-<li>D:/Projects/CoreLibrary/IniFile/<a class="el" href="_ini_file_8cpp.html">IniFile.cpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/<a class="el" href="_ini_file_8hpp_source.html">IniFile.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/IniFile/<a class="el" href="_ini_file_8cpp.html">IniFile.cpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html">IniFile</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:10 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

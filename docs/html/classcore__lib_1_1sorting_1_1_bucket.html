@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classcore__lib_1_1sorting_1_1_bucket.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1sorting.html">sorting</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html">Bucket</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -196,8 +213,8 @@ template&lt;typename T , typename Pred  = std::less&lt;T&gt;&gt; </div>
 <p>Static function to check bucket values collection size. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>definition of the ranges of the different buckets, e.g. the min and max values per bucket. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>bucket values collection.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bucketDefinitions</td><td>- The definition of the ranges of the different buckets, e.g. the min and max values per bucket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bucketValues</td><td>- The bucket values collection.</td></tr>
   </table>
   </dd>
 </dl>
@@ -242,8 +259,8 @@ template&lt;typename T , typename Pred  = std::less&lt;T&gt;&gt; </div>
 <p>Static compute the correct bucket index for a given item. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>item to put in to a bucket. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>definition of the ranges of the different buckets, e.g. the min and max values per bucket.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- The item to put in to a bucket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bucketDefinitions</td><td>- The definition of the ranges of the different buckets, e.g. the min and max values per bucket.</td></tr>
   </table>
   </dd>
 </dl>
@@ -302,10 +319,10 @@ template&lt;typename TIterator &gt; </div>
 <p>Static to put the items in to the correct buckets. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>begining of the collection to sort. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>definition of the ranges of the different buckets, e.g. the min and max values per bucket. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">The</td><td>collection of buckets containing the values for each bucket range.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>- The begining of the collection to sort. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>- The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bucketDefinitions</td><td>- The definition of the ranges of the different buckets, e.g. the min and max values per bucket. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bucketValues</td><td>- The collection of buckets containing the values for each bucket range.</td></tr>
   </table>
   </dd>
 </dl>
@@ -364,10 +381,10 @@ template&lt;typename TIterator &gt; </div>
 <p>In-place static sort function. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>begining of the collection to sort. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>end of the collection to sort (in STL fashion this is the item just after the last item to be sorted). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>definition of the ranges of the different buckets, e.g. the min and max values per bucket. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">The</td><td>collection of buckets containing the values for each bucket range.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>- The begining of the collection to sort. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>- The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bucketDefinitions</td><td>- The definition of the ranges of the different buckets, e.g. the min and max values per bucket. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bucketValues</td><td>- The collection of buckets containing the values for each bucket range.</td></tr>
   </table>
   </dd>
 </dl>
@@ -420,9 +437,9 @@ template&lt;typename TIterator &gt; </div>
 <p>Static sort function. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>begining of the collection to sort. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>end of the collection to sort (in STL fashion this is the item just after the last item to be sorted). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>definition of the ranges of the different buckets, e.g. the min and max values per bucket.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>- The begining of the collection to sort. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>- The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bucketDefinitions</td><td>- The definition of the ranges of the different buckets, e.g. the min and max values per bucket.</td></tr>
   </table>
   </dd>
 </dl>
@@ -469,8 +486,8 @@ template&lt;typename TIterator &gt; </div>
 <p>Static to perform a final sort on the collection. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>begining of the collection to sort. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>- The begining of the collection to sort. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>- The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).</td></tr>
   </table>
   </dd>
 </dl>
@@ -517,8 +534,8 @@ template&lt;typename TIterator &gt; </div>
 <p>Static to move the items from the buckets back into the original collection. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>begining of the collection to sort. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">The</td><td>collection of buckets containing the values for each bucket range.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>- The begining of the collection to sort. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bucketValues</td><td>- The collection of buckets containing the values for each bucket range.</td></tr>
   </table>
   </dd>
 </dl>
@@ -527,14 +544,18 @@ template&lt;typename TIterator &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Projects/CoreLibrary/<a class="el" href="_generic_sorting_8hpp_source.html">GenericSorting.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/<a class="el" href="_generic_sorting_8hpp_source.html">GenericSorting.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1sorting.html">sorting</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html">Bucket</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

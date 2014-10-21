@@ -68,14 +68,25 @@ enum class eLogMessageLevel
 } // namespace log
 } // namespace core_lib
 
+/*! \brief The std namespace. */
 namespace std {
+
+/*! \brief Template specialisation of std::hash for enum eLogMessageLevel. */
 template <>
 struct hash<core_lib::log::eLogMessageLevel>
 {
+    /*! \brief Typedef for argument type. */
 	typedef core_lib::log::eLogMessageLevel argument_t;
+    /*! \brief Typedef for result type. */
 	typedef std::size_t                     result_t;
+    /*! \brief Typedef for underlying type. */
 	typedef typename std::underlying_type<argument_t>::type enumType_t;
 
+    /*!
+     * \brief Function operator to perform the hash.
+     * \param[in] a - Argument to be hashed.
+     * \return The hash value.
+     */
 	result_t operator()(const argument_t& a) const
 	{
 		enumType_t a2 = static_cast<enumType_t>(a);
@@ -83,6 +94,7 @@ struct hash<core_lib::log::eLogMessageLevel>
 		return h(a2);
 	}
 };
+
 } // namespace std
 
 /*! \brief The core_lib namespace. */
@@ -103,7 +115,7 @@ public:
 	xLogMsgHandlerError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] A user specified message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xLogMsgHandlerError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -123,7 +135,7 @@ public:
 	xInstantiationrError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] A user specified message string.
+     * \param[in]  message - A user specified message string.
 	 */
 	explicit xInstantiationrError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -141,6 +153,16 @@ public:
  */
 struct DefaultLogFormat
 {
+    /*!
+     * \brief Function operator to perform the line formatting.
+     * \param[out] os - Output stream to write formatted line to.
+     * \param[in] timeStamp -The timestamp.
+     * \param[in] message - The actual message.
+     * \param[in] logMsgLevel - Log message level.
+     * \param[in] file - File where log message was generated.
+     * \param[in] lineNo - Line number where log message was generated.
+     * \param[in] threadID - Thread ID fo where log message was generated.
+     */
 	void operator() (std::ostream& os
 					 , const std::time_t timeStamp
 					 , const std::string& message
@@ -290,8 +312,9 @@ private:
  *
  * The template args comprise the a formatter type
  * and which should be a function object with same
- * prototype as DefaultLogFormat::operator ()(). The
- * second arg is optional and controls the size at which
+ * prototype as DefaultLogFormat::operator ()().
+ *
+ * The second arg is optional and controls the size at which
  * the log will close and switch to a new file. Only 2 files
  * ever exist the <log>.txt and <log>_old.txt. The default log
  * size if 5MiB.

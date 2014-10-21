@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('structcore__lib_1_1log_1_1_default_log_format.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1log.html">log</a></li><li class="navelem"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html">DefaultLogFormat</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,24 +120,99 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abcef21c3089d3ad2357a3f769e9baeec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abcef21c3089d3ad2357a3f769e9baeec"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (std::ostream &amp;os, const std::time_t timeStamp, const std::string &amp;message, const std::string &amp;logMsgLevel, const std::string &amp;file, const int lineNo, const std::thread::id &amp;threadID) const </td></tr>
+<tr class="memitem:abcef21c3089d3ad2357a3f769e9baeec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html#abcef21c3089d3ad2357a3f769e9baeec">operator()</a> (std::ostream &amp;os, const std::time_t timeStamp, const std::string &amp;message, const std::string &amp;logMsgLevel, const std::string &amp;file, const int lineNo, const std::thread::id &amp;threadID) const </td></tr>
+<tr class="memdesc:abcef21c3089d3ad2357a3f769e9baeec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator to perform the line formatting.  <a href="#abcef21c3089d3ad2357a3f769e9baeec">More...</a><br /></td></tr>
 <tr class="separator:abcef21c3089d3ad2357a3f769e9baeec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Default log line formater. </p>
 <p>This functor formats the log message elements into a single line in the log following default formatting.</p>
 <p>&lt; "Date/Time" &gt;&lt; "Message" &gt;&lt; "Level" &gt;&lt; File = "..." &gt;&lt; Line = "..." &gt;&lt; Thread ID = "..." &gt; </p>
-</div><hr/>The documentation for this struct was generated from the following files:<ul>
-<li>D:/Projects/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8hpp_source.html">DebugLog.hpp</a></li>
-<li>D:/Projects/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8cpp.html">DebugLog.cpp</a></li>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="abcef21c3089d3ad2357a3f769e9baeec"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::log::DefaultLogFormat::operator() </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::time_t&#160;</td>
+          <td class="paramname"><em>timeStamp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>logMsgLevel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>lineNo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::thread::id &amp;&#160;</td>
+          <td class="paramname"><em>threadID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function operator to perform the line formatting. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">os</td><td>- Output stream to write formatted line to. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeStamp</td><td>-The timestamp. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The actual message. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">logMsgLevel</td><td>- Log message level. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>- File where log message was generated. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lineNo</td><td>- Line number where log message was generated. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">threadID</td><td>- Thread ID fo where log message was generated. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>C:/Projects/duncan/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8hpp_source.html">DebugLog.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8cpp.html">DebugLog.cpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1log.html">log</a></li><li class="navelem"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html">DefaultLogFormat</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:10 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

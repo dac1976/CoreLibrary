@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classcore__lib_1_1threads_1_1_thread_base.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -350,7 +367,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <p>Set started flag. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">True</td><td>if started, false otherwise. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">started</td><td>- True if started, false otherwise. </td></tr>
   </table>
   </dd>
 </dl>
@@ -382,7 +399,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <p>Set terminating flag. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">True</td><td>if terminating, false otherwise. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">terminating</td><td>- True if terminating, false otherwise. </td></tr>
   </table>
   </dd>
 </dl>
@@ -424,8 +441,8 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <p>Store thread ID and native handle. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Thread</td><td>ID. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Native</td><td>handle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">threadId</td><td>- Thread ID. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nativeHandle</td><td>- Native handle. </td></tr>
   </table>
   </dd>
 </dl>
@@ -457,7 +474,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <p>Make this thread sleep for a period of time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Time</td><td>period in milliseconds.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">milliSecs</td><td>- Time period in milliseconds.</td></tr>
   </table>
   </dd>
 </dl>
@@ -550,15 +567,19 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>D:/Projects/CoreLibrary/<a class="el" href="_thread_base_8hpp_source.html">ThreadBase.hpp</a></li>
-<li>D:/Projects/CoreLibrary/Threads/<a class="el" href="_thread_base_8cpp.html">ThreadBase.cpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/<a class="el" href="_thread_base_8hpp_source.html">ThreadBase.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/Threads/<a class="el" href="_thread_base_8cpp.html">ThreadBase.cpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

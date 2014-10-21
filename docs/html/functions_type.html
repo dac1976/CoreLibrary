@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -80,6 +87,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_type.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,6 +117,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="contents">
 &#160;<ul>
+<li>argument_t
+: <a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a3adabed9dec03b9671bd7a25be499607">std::hash&lt; core_lib::log::eLogMessageLevel &gt;</a>
+</li>
 <li>bucket_definitions
 : <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#accd9f4d83dbbbbe1cfe613898f771747">core_lib::sorting::Bucket&lt; T, Pred &gt;</a>
 </li>
@@ -110,6 +134,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classcore__lib_1_1threads_1_1_join_threads.html#a3f8fbbd9f072f29d41db04e64217ff70">core_lib::threads::JoinThreads&lt; C &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9">core_lib::threads::JoinThreadsP&lt; C &gt;</a>
 </li>
+<li>enumType_t
+: <a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abd70d35c6584b2bee458d3807a276bb2">std::hash&lt; core_lib::log::eLogMessageLevel &gt;</a>
+</li>
 <li>item_compare
 : <a class="el" href="classcore__lib_1_1sorting_1_1_bubble.html#a90a6d8022f80ef017f32f0e5f5ac729d">core_lib::sorting::Bubble&lt; T, Pred &gt;</a>
 , <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ad9bd892b42526d6ade0d3c2daa5ce7ad">core_lib::sorting::Bucket&lt; T, Pred &gt;</a>
@@ -117,8 +144,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classcore__lib_1_1sorting_1_1_quick.html#a511b61460d3d12d494c88dcfdd88d04d">core_lib::sorting::Quick&lt; T, Pred &gt;</a>
 , <a class="el" href="classcore__lib_1_1sorting_1_1_selection.html#a7d85f384a2057116ab8fea24780b523e">core_lib::sorting::Selection&lt; T, Pred &gt;</a>
 </li>
-<li>keys_list
-: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad10755a54ad82e56a40ed20a87fe679c">core_lib::ini_file::IniFile</a>
+<li>keys_iter
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a2653b50d89dac181908fd36d6e027c53">core_lib::ini_file::if_private::SectionDetails</a>
+</li>
+<li>line_iter_list
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#abd7ac11e9655d6d714018341a3243938">core_lib::ini_file::if_private::SectionDetails</a>
 </li>
 <li>log_msg_queue
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#afddec9a93cfed87c98c1a17f7faad3c1">core_lib::log::DebugLog&lt; Formatter &gt;</a>
@@ -135,16 +165,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>queue_item_t
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a08f76ca0ae86aa2bafd2ef6ed8ac626a">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
+<li>result_t
+: <a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a26b82c3b9798fd2881924383d0f726d8">std::hash&lt; core_lib::log::eLogMessageLevel &gt;</a>
+</li>
 <li>row_type
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
 </li>
+<li>section_citer
+: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a9b21fd73ed14ee5fadca7ac096c66c0a">core_lib::ini_file::IniFile</a>
+</li>
+<li>section_iter
+: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a6a61e1d021218e999917651dcfb04455">core_lib::ini_file::IniFile</a>
+</li>
+<li>section_map
+: <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a4daeae3eb4c5b41e183244c6d4cbb6ac">core_lib::ini_file::IniFile</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -8,6 +8,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -68,6 +75,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><b>std</b></li><li class="navelem"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html">hash< core_lib::log::eLogMessageLevel ></a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -96,36 +113,87 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">std::hash&lt; core_lib::log::eLogMessageLevel &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Template specialisation of std::hash for enum eLogMessageLevel.  
+ <a href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_debug_log_8hpp_source.html">DebugLog.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a3adabed9dec03b9671bd7a25be499607"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3adabed9dec03b9671bd7a25be499607"></a>
 typedef <br class="typebreak" />
-<a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">core_lib::log::eLogMessageLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><b>argument_t</b></td></tr>
+<a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">core_lib::log::eLogMessageLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a3adabed9dec03b9671bd7a25be499607">argument_t</a></td></tr>
+<tr class="memdesc:a3adabed9dec03b9671bd7a25be499607"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for argument type. <br /></td></tr>
 <tr class="separator:a3adabed9dec03b9671bd7a25be499607"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26b82c3b9798fd2881924383d0f726d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a26b82c3b9798fd2881924383d0f726d8"></a>
-typedef std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>result_t</b></td></tr>
+typedef std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a26b82c3b9798fd2881924383d0f726d8">result_t</a></td></tr>
+<tr class="memdesc:a26b82c3b9798fd2881924383d0f726d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for result type. <br /></td></tr>
 <tr class="separator:a26b82c3b9798fd2881924383d0f726d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd70d35c6584b2bee458d3807a276bb2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd70d35c6584b2bee458d3807a276bb2"></a>
 typedef std::underlying_type<br class="typebreak" />
-&lt; <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><b>enumType_t</b></td></tr>
+&lt; <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abd70d35c6584b2bee458d3807a276bb2">enumType_t</a></td></tr>
+<tr class="memdesc:abd70d35c6584b2bee458d3807a276bb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for underlying type. <br /></td></tr>
 <tr class="separator:abd70d35c6584b2bee458d3807a276bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9b886cbc30dcc3da535179e971bbcf5f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b886cbc30dcc3da535179e971bbcf5f"></a>
-result_t&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &amp;a) const </td></tr>
+<tr class="memitem:a9b886cbc30dcc3da535179e971bbcf5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a26b82c3b9798fd2881924383d0f726d8">result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a9b886cbc30dcc3da535179e971bbcf5f">operator()</a> (const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &amp;a) const </td></tr>
+<tr class="memdesc:a9b886cbc30dcc3da535179e971bbcf5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator to perform the hash.  <a href="#a9b886cbc30dcc3da535179e971bbcf5f">More...</a><br /></td></tr>
 <tr class="separator:a9b886cbc30dcc3da535179e971bbcf5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;&gt;<br />
+struct std::hash&lt; core_lib::log::eLogMessageLevel &gt;</h3>
+
+<p>Template specialisation of std::hash for enum eLogMessageLevel. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a9b886cbc30dcc3da535179e971bbcf5f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a26b82c3b9798fd2881924383d0f726d8">result_t</a> std::hash&lt; <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">core_lib::log::eLogMessageLevel</a> &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Function operator to perform the hash. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>- Argument to be hashed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The hash value. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>D:/Projects/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8hpp_source.html">DebugLog.hpp</a></li>
+<li>C:/Projects/duncan/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8hpp_source.html">DebugLog.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 6 2014 23:38:58 for Core Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacestd.html">std</a></li><li class="navelem"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html">hash< core_lib::log::eLogMessageLevel ></a></li>
+    <li class="footer">Generated on Tue Oct 21 2014 10:55:11 for Core Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>
