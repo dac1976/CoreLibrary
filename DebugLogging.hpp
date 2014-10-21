@@ -47,7 +47,7 @@
  * \brief Macro to simplify logging adding message and level.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
- * \param[in] l - Level associated with message.
+ * \param[in] l - Log message level from enum eLogMessageLevel.
  */
 #define DEBUG_LOG_EX(x, m, l)   \
 	do                          \
@@ -60,7 +60,7 @@
 /*!
  * \brief Macro to add message level to filter set.
  * \param[in] x - DebugLog object.
- * \param[in] l - Log message level, e.g. info, debug, warning, error etc.
+ * \param[in] l - Log message level from enum eLogMessageLevel.
  */
 #define DEBUG_LOG_ADD_FILTER(x, l) \
 	x.AddLogMsgLevelFilter(l)
@@ -68,7 +68,7 @@
 /*!
  * \brief Macro to remove message level to filter set.
  * \param[in] x- DebugLog object.
- * \param[in] l - Log message level, e.g. info, debug, warning, error etc.
+ * \param[in] l - Log message level from enum eLogMessageLevel.
  */
 #define DEBUG_LOG_REMOVE_FILTER(x, l) \
 	x.RemoveLogMsgLevelFilter(l)
@@ -81,7 +81,7 @@
 	x.ClearLogMsgLevelFilters()
 
 /*!
- * \brief Macro to simplify instantiatation of debug log.
+ * \brief Macro to simplify instantiation of debug log.
  * \param[in] v - Software version string must be convertible to std::string.
  * \param[in] p - Log file path string with trailing backslash must be convertible to std::string.
  * \param[in] f - Log file name string without file extension with trailing backslash must be convertible to std::string.
@@ -92,11 +92,11 @@
 	core_lib::log::DebugLogSingleton::Instance().Instantiate(v, p, f)
 
 /*!
- * \brief Macro to simplify instantiatation of debug log.
+ * \brief Macro to simplify instantiation of debug log.
  * \param[in] v - Software version string must be convertible to std::string.
  * \param[in] p - Log file path string with trailing backslash must be convertible to std::string.
  * \param[in] f - Log file name string without file extension with trailing backslash must be convertible to std::string.
- * \param[in] s - The maxium size for the log file.
+ * \param[in] s - The maximum size for the log file.
  *
  * This version uses a singleton to maintain a global log object.
  */
@@ -115,7 +115,7 @@
 /*!
  * \brief Macro to simplify logging adding message and level.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
- * \param[in] l - Level associated with message.
+ * \param[in] l - Log message level from enum eLogMessageLevel.
  *
  *  This version uses a singleton to maintain a global log object.
  */
@@ -124,7 +124,7 @@
 
 /*!
  * \brief Macro to add message level to filter set.
- * \param[in] l - Log message level, e.g. info, debug, warning, error etc.
+ * \param[in] l - Log message level from enum eLogMessageLevel.
  *
  *  This version uses a singleton to maintain a global log object.
  */
@@ -132,8 +132,8 @@
 	DEBUG_LOG_ADD_FILTER(core_lib::log::DebugLogSingleton::Instance(), l)
 
 /*!
- * \brief Macro to remove message level to filter set.
- * \param[in] l - Log message level, e.g. info, debug, warning, error etc.
+ * \brief Macro to remove message level from filter set.
+ * \param[in] l - Log message level from enum eLogMessageLevel.
  *
  *  This version uses a singleton to maintain a global log object.
  */

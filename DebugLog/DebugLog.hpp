@@ -320,7 +320,7 @@ public:
      * \param[in] softwareVersion - Version of software that "owns" the log.
      * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
      * \param[in] logName - File name of log file without extension.
-     * \param[in] maxLogSize - (Optional) The maxium size for the log file.
+     * \param[in] maxLogSize - (Optional) The maximum size for the log file.
 	 *
 	 * Create the DebugLog in given folder with given name. A ".txt"
 	 * extension is automatically appending to log file's name.
@@ -354,7 +354,7 @@ public:
      * \param[in] softwareVersion - Version of software that "owns" the log.
      * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
      * \param[in] logName - File name of log file without extension.
-     * \param[in] maxLogSize - (Optional) The maxium size for the log file.
+     * \param[in] maxLogSize - (Optional) The maximum size for the log file.
 	 *
 	 * Instantiate the DebugLog in given folder with given name. A ".txt"
 	 * extension is automatically appending to log file's name.
