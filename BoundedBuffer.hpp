@@ -50,14 +50,17 @@ template<typename T>
 class BoundedBuffer final
 {
 public:
-	// public typedefs
+	/*! \brief Typedef for containter type. */
 	typedef boost::circular_buffer<T> container_type;
+	/*! \brief Typedef for containter size type. */
 	typedef typename container_type::size_type size_type;
+	/*! \brief Typedef for containter value type. */
 	typedef typename container_type::value_type value_type;
+	/*! \brief Typedef for containter param type. */
 	typedef typename boost::call_traits<value_type>::param_type param_type;
 	/*!
 	 * \brief Constructor.
-     * \param[in] capacity - The capacity for the underlying circular buffer.
+	 * \param[in] capacity - The capacity for the underlying circular buffer.
 	 */
 	explicit BoundedBuffer(const size_type capacity)
 		: m_container{capacity}
@@ -69,7 +72,7 @@ public:
 	BoundedBuffer& operator=(const BoundedBuffer&) = delete;
 	/*!
 	 * \brief Push new item to the front.
-     * \param[in] item - The item to push to the front.
+	 * \param[in] item - The item to push to the front.
 	 *
 	 * This function blocks if the buffer is at
 	 * capacity.
@@ -89,7 +92,7 @@ public:
 	}
 	/*!
 	 * \brief Pop item from the back.
-     * \param[out] item - The item to pop from the back.
+	 * \param[out] item - The item to pop from the back.
 	 *
 	 * This function blocks if the buffer is at
 	 * capacity.

@@ -52,7 +52,7 @@ public:
 	xIniFileDataConvertError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xIniFileDataConvertError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -72,7 +72,7 @@ public:
 	xIniFileParserError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xIniFileParserError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -92,7 +92,7 @@ public:
 	xIniFileSaveError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xIniFileSaveError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -113,7 +113,7 @@ public:
 	xIniFileInvalidKeyError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xIniFileInvalidKeyError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -133,7 +133,7 @@ public:
 	xIniFileInvalidSectionError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xIniFileInvalidSectionError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -168,255 +168,255 @@ public:
 class IniFile final
 {
 public:
-    /*! \brief Default constructor. */
+	/*! \brief Default constructor. */
 	IniFile() = default;
-    /*! \brief Copy constructor. */
+	/*! \brief Copy constructor. */
 	IniFile(const IniFile&) = default;
-    /*! \brief Move constructor. */
+	/*! \brief Move constructor. */
 	IniFile(IniFile&&) = default;
-    /*!
+	/*!
 	 * \brief INI path based constructor.
-     * \param[in] iniFilePath - Path to INI file.
+	 * \param[in] iniFilePath - Path to INI file.
 	 *
 	 * Create an INI file object from an INI file path.
 	 */
 	explicit IniFile(const std::string& iniFilePath);
-    /*! \brief Destructor. */
+	/*! \brief Destructor. */
 	~IniFile() = default;
-    /*! \brief Copy assignment operator. */
+	/*! \brief Copy assignment operator. */
 	IniFile& operator=(const IniFile&) = default;
-    /*! \brief Move assignment operator. */
+	/*! \brief Move assignment operator. */
 	IniFile& operator=(IniFile&&) = default;
-    /*!
+	/*!
 	 * \brief Load an INI file.
-     * \param[in] iniFilePath - Path to an INI file.
+	 * \param[in] iniFilePath - Path to an INI file.
 	 *
 	 *  Load from an INI file path.
 	 */
 	void LoadFile(const std::string& iniFilePath);
-    /*!
+	/*!
 	 * \brief Update the file.
-     * \param[in] overridePath - Optional override path to save to alternative location.
+	 * \param[in] overridePath - Optional override path to save to alternative location.
 	 *
 	 * Write settings back to file on disk.
 	 */
 	void UpdateFile(const std::string& overridePath = "") const;
-    /*!
+	/*!
 	 * \brief Get sections.
 	 * \return A list of INI file section names.
 	 */
 	std::list<std::string> GetSections() const;
-    /*!
-     * \brief Get section's key-value pairs.
-     * \param[in] section - section Parameter_Description
-     * \return A list of key-value pairs for an INI file section.
+	/*!
+	 * \brief Get section's key-value pairs.
+	 * \param[in] section - section Parameter_Description
+	 * \return A list of key-value pairs for an INI file section.
 	 */
 	keys_list GetSection(const std::string& section) const;
-    /*!
-     * \brief Check if a section exists.
-     * \param[in] section - Section name.
-     * \return True if section name exists, false otherwise.
+	/*!
+	 * \brief Check if a section exists.
+	 * \param[in] section - Section name.
+	 * \return True if section name exists, false otherwise.
 	 */
 	bool SectionExists(const std::string& section) const;
-    /*!
-     * \brief Check if a key exists for a section.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \return True if key exists, false otherwise.
+	/*!
+	 * \brief Check if a key exists for a section.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \return True if key exists, false otherwise.
 	 */
 	bool KeyExists(const std::string& section
 				   , const std::string& key) const;
-    /*!
-     * \brief Read boolean value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] defaultValue - Default value if key not found.
-     * \return Returns the value stored in the INI file.
+	/*!
+	 * \brief Read boolean value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] defaultValue - Default value if key not found.
+	 * \return Returns the value stored in the INI file.
 	 */
 	bool ReadBool(const std::string& section
 				  , const std::string& key
 				  , const bool defaultValue = false) const;
-    /*!
-     * \brief Read 32 bit integer value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] defaultValue - Default value if key not found.
-     * \return Returns the value stored in the INI file.
+	/*!
+	 * \brief Read 32 bit integer value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] defaultValue - Default value if key not found.
+	 * \return Returns the value stored in the INI file.
 	 */
 	int32_t ReadInteger(const std::string& section
 						, const std::string&key
 						, const int32_t defaultValue = 0) const;
-    /*!
-     * \brief Read 64 bit integer value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] defaultValue - Default value if key not found.
-     * \return Returns the value stored in the INI file.
+	/*!
+	 * \brief Read 64 bit integer value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] defaultValue - Default value if key not found.
+	 * \return Returns the value stored in the INI file.
 	 */
 	int64_t ReadInteger64(const std::string& section
 						  , const std::string& key
 						  , const int64_t defaultValue = 0L) const;
-    /*!
-     * \brief Read double value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] defaultValue - Default value if key not found.
-     * \return Returns the value stored in the INI file.
+	/*!
+	 * \brief Read double value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] defaultValue - Default value if key not found.
+	 * \return Returns the value stored in the INI file.
 	 */
 	double ReadDouble(const std::string& section
 					  , const std::string& key
 					  , const double defaultValue = 0.0) const;
-    /*!
-     * \brief Read long double value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] defaultValue - Default value if key not found.
-     * \return Returns the value stored in the INI file.
+	/*!
+	 * \brief Read long double value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] defaultValue - Default value if key not found.
+	 * \return Returns the value stored in the INI file.
 	 */
 	long double ReadLongDouble(const std::string& section
 							   , const std::string& key
 							   , const long double defaultValue = 0.0L) const;
-    /*!
-     * \brief Read string value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] defaultValue - Default value if key not found.
-     * \return Returns the value stored in the INI file.
+	/*!
+	 * \brief Read string value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] defaultValue - Default value if key not found.
+	 * \return Returns the value stored in the INI file.
 	 */
 	std::string ReadString(const std::string& section
 						   , const std::string& key
 						   , const std::string& defaultValue = "") const;
-    /*!
-     * \brief Write boolean value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] value - Value to write to file.
+	/*!
+	 * \brief Write boolean value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] value - Value to write to file.
 	 */
 	void WriteBool(const std::string& section
 				   , const std::string& key
 				   , const bool value);
-    /*!
-     * \brief Write 32 bit integer value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] value - Value to write to file.
+	/*!
+	 * \brief Write 32 bit integer value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] value - Value to write to file.
 	 */
 	void WriteInteger(const std::string& section
 					  , const std::string& key
 					  , const int32_t value);
-    /*!
-     * \brief Write 64 bit integer value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] value - Value to write to file.
+	/*!
+	 * \brief Write 64 bit integer value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] value - Value to write to file.
 	 */
 	void WriteInteger64(const std::string& section
 						, const std::string& key
 						, const int64_t value);
-    /*!
-     * \brief Write double value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] value - Value to write to file.
+	/*!
+	 * \brief Write double value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] value - Value to write to file.
 	 */
 	void WriteDouble(const std::string& section
 					 , const std::string& key
 					 , const double value);
-    /*!
-     * \brief Write long double value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] value - Value to write to file.
+	/*!
+	 * \brief Write long double value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] value - Value to write to file.
 	 */
 	void WriteLongDouble(const std::string& section
 						 , const std::string& key
 						 , const long double value);
-    /*!
-     * \brief Write string value.
-     * \param[in] section - Section name.
-     * \param[in] key - Key name.
-     * \param[in] value - Value to write to file.
+	/*!
+	 * \brief Write string value.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Key name.
+	 * \param[in] value - Value to write to file.
 	 */
 	void WriteString(const std::string& section
 					 , const std::string& key
 					 , const std::string& value);
-    /*!
-     * \brief Erase a whole section.
-     * \param[in] section - Section name.
+	/*!
+	 * \brief Erase a whole section.
+	 * \param[in] section - Section name.
 	 */
 	void EraseSection(const std::string& section);
-    /*!
-     * \brief Erase all the sections.
+	/*!
+	 * \brief Erase all the sections.
 	 */
 	void EraseSections();
-    /*!
-     * \brief Erase a key within a section.
-     * \param[in] section - Section name.
-     * \param[in] key - Section name.
+	/*!
+	 * \brief Erase a key within a section.
+	 * \param[in] section - Section name.
+	 * \param[in] key - Section name.
 	 */
 	void EraseKey(const std::string& section
 				  , const std::string& key);
-    /*!
-     * \brief Erase all keys in a section.
-     * \param[in] section - Section name.
+	/*!
+	 * \brief Erase all keys in a section.
+	 * \param[in] section - Section name.
 	 */
 	void EraseKeys(const std::string& section);
 
 private:
-    
-    /*! \brief Changes made flag. */
-	mutable bool m_changesMade{false};
-    /*! \brief INI file path. */
-	std::string m_iniFilePath{"config.ini"};
-    /*! \brief Section map typedef. */
-	typedef std::map<std::string, if_private::SectionDetails> section_map;
-    /*! \brief Sectin map. */
-	section_map m_sectionMap;
-    /*! \brief Section map iterator typedef. */
-	typedef section_map::iterator section_iter;
-    /*! \brief Section map const iterator typedef. */
-	typedef section_map::const_iterator section_citer;
-    /*! \brief Line list. */
-    if_private::line_list m_lines;
 
-    /*!
-     * \brief Read value from INI file.
-     * \param[in] section - The section.
-     * \param[in] key - The key.
-     * \param[int] defaultValue - Default value if key not found as const reference.
-     * \return The value.
-     */
+	/*! \brief Changes made flag. */
+	mutable bool m_changesMade{false};
+	/*! \brief INI file path. */
+	std::string m_iniFilePath{"config.ini"};
+	/*! \brief Section map typedef. */
+	typedef std::map<std::string, if_private::SectionDetails> section_map;
+	/*! \brief Sectin map. */
+	section_map m_sectionMap;
+	/*! \brief Section map iterator typedef. */
+	typedef section_map::iterator section_iter;
+	/*! \brief Section map const iterator typedef. */
+	typedef section_map::const_iterator section_citer;
+	/*! \brief Line list. */
+	if_private::line_list m_lines;
+
+	/*!
+	 * \brief Read value from INI file.
+	 * \param[in] section - The section.
+	 * \param[in] key - The key.
+	 * \param[in] defaultValue - Default value if key not found as const reference.
+	 * \return The value.
+	 */
 	std::string ReadValue(const std::string& section
 						  , const std::string& key
 						  , const std::string& defaultValue) const;
-    /*!
-     * \brief Read value from INI file.
-     * \param[in] section - The section.
-     * \param[in] key - The key.
-     * \param[int] defaultValue - Default value if key not found as r-value reference.
-     * \return The value.
-     */
+	/*!
+	 * \brief Read value from INI file.
+	 * \param[in] section - The section.
+	 * \param[in] key - The key.
+	 * \param[in] defaultValue - Default value if key not found as r-value reference.
+	 * \return The value.
+	 */
 	std::string ReadValue(const std::string& section
 						  , const std::string& key
 						  , std::string&& defaultValue) const;
-    /*!
-     * \brief Write value to INI file.
-     * \param[in] section - The section.
-     * \param[in] key - The key.
-     * \param[int] value - Value to write as const reference.
-     */
+	/*!
+	 * \brief Write value to INI file.
+	 * \param[in] section - The section.
+	 * \param[in] key - The key.
+	 * \param[in] value - Value to write as const reference.
+	 */
 	void WriteValue(const std::string& section
 					, const std::string& key
 					, const std::string& value);
-    /*!
-     * \brief Write value to INI file.
-     * \param[in] section - The section.
-     * \param[in] key - The key.
-     * \param[int] value - Value to write as r-value reference.
-     */
-    void WriteValue(const std::string& section
-                    , const std::string& key
-                    , std::string&& value);
+	/*!
+	 * \brief Write value to INI file.
+	 * \param[in] section - The section.
+	 * \param[in] key - The key.
+	 * \param[in] value - Value to write as r-value reference.
+	 */
+	void WriteValue(const std::string& section
+					, const std::string& key
+					, std::string&& value);
 };
 
 } // namespace ini_file

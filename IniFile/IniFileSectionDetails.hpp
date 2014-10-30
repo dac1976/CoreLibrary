@@ -24,7 +24,7 @@
  * \file IniFileSectionDetails.hpp
  * \brief File containing declarations relating the IniFile support classes.
  */
- 
+
 #include "IniFileLines.hpp"
 
 #ifndef INIFILESECTIONDETAILS_HPP
@@ -84,7 +84,7 @@ public:
 	 * \return True if erased, false otherwise.
 	 */
 	bool EraseKey(const std::string& key
-                  , line_iter& lineIter);
+				  , line_iter& lineIter);
 	/*!
 	 * \brief Get a key's value from the section.
 	 * \param[in] key - The key.
@@ -95,7 +95,7 @@ public:
 						 , const std::string& defaultValue = "") const;
 	/*!
 	 * \brief Get a list of keys in the section.
-	 * \param[out] key - The list of keys.
+	 * \param[out] keys - The list of keys.
 	 */
 	void GetKeys(keys_list& keys) const;
 	/*!

@@ -52,7 +52,7 @@ public:
 	xQueuePopTimeoutError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xQueuePopTimeoutError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -72,7 +72,7 @@ public:
 	xQueuePopQueueEmptyError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xQueuePopQueueEmptyError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -96,94 +96,95 @@ template <typename T>
 class QueueItem final
 {
 public:
-    /*! \brief Default constructor. */
-    QueueItem() = default;
-    /*!
-     * \brief Initialising constuctor.
-     * \param[in] pItem - Pointer to an item.
-     *
-     * Items created with this constructor will
-     * be deleted with delete. And their size will
-     * be stored as the special value of -1.
-     */
-    QueueItem(T* pItem)
-        : m_pItem{pItem}, m_size{-1}
-    {  }
-    /*!
-     * \brief Initialising constuctor.
-     * \param[in] pItem - Pointer to an array of items.
-     * \param[in] size - Number of objects of type T pointed to by returned pointer.
-     *
-     * Items created with this constructor will
-     * be deleted with delete[] if size is > 0.
-     */
-    QueueItem(T* pItem, const int size)
-        : m_pItem{pItem}, m_size{size}
-    {  }
-    /*! \brief Copy constructor. */
-    QueueItem(const QueueItem& qi)
-        : m_pItem{qi.m_pItem}, m_size{qi.m_size}
-    {
-    }
-    /*! \brief Move constructor. */
-    QueueItem(QueueItem&& qi)
-    {
-        *this = std::move(qi);
-    }
-    /*! \brief Destructor. */
-    ~QueueItem()
-    {
-        if (m_pItem)
-        {
-            if (m_size > 0)
-            {
-                delete [] m_pItem;
-            }
-            else
-            {
-                delete m_pItem;
-            }
-        }
-    }
-    /*! \brief Copy assignment operator. */
-    QueueItem& operator=(const QueueItem& qi)
-    {
-        std::swap(*this, QueueItem(qi));
-        return *this;
-    }
-    /*! \brief Move assignment operator. */
-    QueueItem& operator=(QueueItem&& qi)
-    {
-        std::swap(m_pItem, qi.m_pItem);
-        std::swap(m_size, qi.m_size);
-        return *this;
-    }
-    /*! \brief Release member data without deleting memory. */
-    void Release()
-    {
-        m_pItem = nullptr;
-        m_size = 0;
-    }
-    /*! \brief Get item pointer. */
-    T* pItem()
-    {
-        return m_pItem;
-    }
-    const T* pItem() const
-    {
-        return m_pItem;
-    }
-    /*! \brief Get size in terms of number of items of type T. */
-    int Size() const
-    {
-        return m_size;
-    }
+	/*! \brief Default constructor. */
+	QueueItem() = default;
+	/*!
+	 * \brief Initialising constuctor.
+	 * \param[in] pItem - Pointer to an item.
+	 *
+	 * Items created with this constructor will
+	 * be deleted with delete. And their size will
+	 * be stored as the special value of -1.
+	 */
+	QueueItem(T* pItem)
+		: m_pItem{pItem}, m_size{-1}
+	{  }
+	/*!
+	 * \brief Initialising constuctor.
+	 * \param[in] pItem - Pointer to an array of items.
+	 * \param[in] size - Number of objects of type T pointed to by returned pointer.
+	 *
+	 * Items created with this constructor will
+	 * be deleted with delete[] if size is > 0.
+	 */
+	QueueItem(T* pItem, const int size)
+		: m_pItem{pItem}, m_size{size}
+	{  }
+	/*! \brief Copy constructor. */
+	QueueItem(const QueueItem& qi)
+		: m_pItem{qi.m_pItem}, m_size{qi.m_size}
+	{
+	}
+	/*! \brief Move constructor. */
+	QueueItem(QueueItem&& qi)
+	{
+		*this = std::move(qi);
+	}
+	/*! \brief Destructor. */
+	~QueueItem()
+	{
+		if (m_pItem)
+		{
+			if (m_size > 0)
+			{
+				delete [] m_pItem;
+			}
+			else
+			{
+				delete m_pItem;
+			}
+		}
+	}
+	/*! \brief Copy assignment operator. */
+	QueueItem& operator=(const QueueItem& qi)
+	{
+		std::swap(*this, QueueItem(qi));
+		return *this;
+	}
+	/*! \brief Move assignment operator. */
+	QueueItem& operator=(QueueItem&& qi)
+	{
+		std::swap(m_pItem, qi.m_pItem);
+		std::swap(m_size, qi.m_size);
+		return *this;
+	}
+	/*! \brief Release member data without deleting memory. */
+	void Release()
+	{
+		m_pItem = nullptr;
+		m_size = 0;
+	}
+	/*! \brief Get item pointer. */
+	T* pItem()
+	{
+		return m_pItem;
+	}
+	/*! \brief Get const item pointer. */
+	const T* pItem() const
+	{
+		return m_pItem;
+	}
+	/*! \brief Get size in terms of number of items of type T. */
+	int Size() const
+	{
+		return m_size;
+	}
 
 private:
-    /*! \brief Pointer to item. */
-    T* m_pItem{};
-    /*! \brief Number of objects of type T pointer to by m_item. */
-    int m_size{};
+	/*! \brief Pointer to item. */
+	T* m_pItem{};
+	/*! \brief Number of objects of type T pointer to by m_item. */
+	int m_size{};
 };
 
 } // namespace cq_private
@@ -199,13 +200,13 @@ template<typename T>
 class ConcurrentQueue final
 {
 private:
-    /*! \brief Queue item typedef. */
-    typedef cq_private::QueueItem<T> queue_item_t;
+	/*! \brief Queue item typedef. */
+	typedef cq_private::QueueItem<T> queue_item_t;
 
 public:
 	/*!
 	 * \brief Initialising constructor.
-     * \param[in] queueOptions - (Optional) Set the queue's delete option.
+	 * \param[in] queueOptions - (Optional) Set the queue's delete option.
 	 *
 	 * Queue is created to not auto-delete objects.
 	 */
@@ -243,33 +244,33 @@ public:
 	}
 	/*!
 	 * \brief Push an item onto the queue.
-     * \param[in] pItem - Pointer to object of type T to push into queue.
+	 * \param[in] pItem - Pointer to object of type T to push into queue.
 	 *
-     * An item pushed on with this method will be deleted with
+	 * An item pushed on with this method will be deleted with
 	 * delete.
 	 */
 	void Push(T* pItem)
 	{
 		{
 			std::lock_guard<std::mutex> lock{m_mutex};
-            m_queue.push_back(queue_item_t(pItem));
+			m_queue.push_back(queue_item_t(pItem));
 		}
 
 		m_itemEvent.Signal();
 	}
 	/*!
 	 * \brief Push an array items onto the queue.
-     * \param[in] pItem - Pointer to object of type T to push into queue.
-     * \param[in] size - Number of items of type T pointed to by pItem.
+	 * \param[in] pItem - Pointer to object of type T to push into queue.
+	 * \param[in] size - Number of items of type T pointed to by pItem.
 	 *
-     * Items pushed on with this method will be deleted with
+	 * Items pushed on with this method will be deleted with
 	 * delete[].
 	 */
 	void Push(T* pItem, const int size)
-    {
+	{
 		{
 			std::lock_guard<std::mutex> lock{m_mutex};
-            m_queue.push_back(queue_item_t(pItem, size));
+			m_queue.push_back(queue_item_t(pItem, size));
 		}
 
 		m_itemEvent.Signal();
@@ -285,10 +286,10 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue if there are any else wait.
-     * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return The popped item.
 	 *
-     * Method will block forever or until an item is placed on the
+	 * Method will block forever or until an item is placed on the
 	 * queue.
 	 */
 	T* Pop(int* size = nullptr)
@@ -306,8 +307,8 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue if there are any else return.
-     * \param[out] pItem - The popped item.
-     * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+	 * \param[out] pItem - The popped item.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return True if item popped off queue, false otherwise.
 	 */
 	bool TryPop(T* &pItem, int* size = nullptr)
@@ -325,7 +326,7 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue..
-     * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return A pointer to the popped item.
 	 *
 	 * This will throw xQueuePopQueueEmptyError if there are no items
@@ -351,12 +352,12 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue but only wait for a given amount of time.
-     * \param[in] timeoutMilliseconds - Amount of time to wait.
-     * \param[in] pItem - The popped item.
-     * \param[out] size - Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
+	 * \param[in] timeoutMilliseconds - Amount of time to wait.
+	 * \param[in] pItem - The popped item.
+	 * \param[out] size - Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return True if item popped successfully, false if timed out.
 	 */
-    bool TimedPop(const unsigned int timeoutMilliseconds, T* &pItem, int* size = nullptr)
+	bool TimedPop(const unsigned int timeoutMilliseconds, T* &pItem, int* size = nullptr)
 	{
 		pItem = nullptr;
 		int tempSize{};
@@ -376,8 +377,8 @@ public:
 	}
 	/*!
 	 * \brief Pop an item off the queue but only wait for a given amount of time.
-     * \param[in] timeoutMilliseconds - Amount of time to wait.
-     * \param[out] size - Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
+	 * \param[in] timeoutMilliseconds - Amount of time to wait.
+	 * \param[out] size - Number of objects of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return The popped item.
 	 *
 	 * If no items have been put onto the queue after the specified amount to time
@@ -408,8 +409,8 @@ public:
 	}
 	/*!
 	 * \brief Steal an item from the back of the queue if there are any else return.
-     * \param[out] pItem - The stolen item.
-     * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+	 * \param[out] pItem - The stolen item.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return True if item stolen off queue, false otherwise.
 	 */
 	bool TrySteal(T* &pItem, int* size = nullptr)
@@ -427,7 +428,7 @@ public:
 	}
 	/*!
 	 * \brief Steal an item from the back of the queue.
-     * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer. Special value of -1 implies single item.
 	 * \return A pointer to the stolen item.
 	 *
 	 * This will throw xQueuePopQueueEmptyError if there are no items
@@ -453,19 +454,19 @@ public:
 	}
 	/*!
 	 * \brief Take a peek at an item at a given index on the queue.
-     * \param[in] index - Zero-based index of the queue item to peek at.
-     * \param[out] size - Number of objects of type T pointed to by returned pointer.
+	 * \param[in] index - Zero-based index of the queue item to peek at.
+	 * \param[out] size - Number of objects of type T pointed to by returned pointer.
 	 * \return The peeked item.
 	 *
-     * This method returns nullptr if the index does not exist in the queue.
-     * The use of this method can be dangerous if there are multiple consumers.
-     * or if there is a single consumer but the method is called from a different
+	 * This method returns nullptr if the index does not exist in the queue.
+	 * The use of this method can be dangerous if there are multiple consumers.
+	 * or if there is a single consumer but the method is called from a different
 	 * thread to the consumer.
 	 */
-    const T* Peek(const size_t index, int* size = nullptr) const
+	const T* Peek(const size_t index, int* size = nullptr) const
 	{
 		std::lock_guard<std::mutex> lock{m_mutex};
-        const T* pItem{};
+		const T* pItem{};
 
 		if (m_queue.empty() || (index >= m_queue.size()))
 		{
@@ -476,7 +477,7 @@ public:
 		}
 		else
 		{
-            const queue_item_t& queueItem = m_queue[index];
+			const queue_item_t& queueItem = m_queue[index];
 			pItem = queueItem.pItem();
 
 			if (size)
@@ -490,12 +491,12 @@ public:
 	/*!
 	 * \brief Clear the queue.
 	 *
-     * This method will clear the queue of its contents and if
+	 * This method will clear the queue of its contents and if
 	 * the correct options are set then the items on the queue are
 	 * deleted.
 	 *
-     * The method should only be called when no threads are blocked
-     * on any of the pop methods.
+	 * The method should only be called when no threads are blocked
+	 * on any of the pop methods.
 	 */
 	void Clear()
 	{
@@ -523,22 +524,22 @@ private:
 						  , eResetCondition::manualReset
 						  , eIntialCondition::notSignalled};
 	/*! \brief Underlying deque container acting as the queue. */
-    std::deque<queue_item_t> m_queue;
+	std::deque<queue_item_t> m_queue;
 
-    /*! \brief Enumeration controlling end of queue to pop from. */
+	/*! \brief Enumeration controlling end of queue to pop from. */
 	enum eQueueEnd
 	{
-        /*! \brief Pop front of the queue. */
+		/*! \brief Pop front of the queue. */
 		front,
-        /*! \brief Pop back of the queue. */
+		/*! \brief Pop back of the queue. */
 		back
 	};
 
 	/*!
 	 * \brief Pop an item off the queue.
-     * \param[out] size - Number of items of type T pointed to by returned pointer.
-     * \param[out] pIsEmpty - (Optional) Flag indicating if queue was empty on entry to method.
-     * \param[in] whichEnd - (Optional) Which end to pop from.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer.
+	 * \param[out] pIsEmpty - (Optional) Flag indicating if queue was empty on entry to method.
+	 * \param[in] whichEnd - (Optional) Which end to pop from.
 	 * \return The popped item or null if there is a problem.
 	 */
 	T* PopNow(int& size
@@ -554,9 +555,9 @@ private:
 
 			if (!isEmpty)
 			{
-                pItem = whichEnd == front
-                        ? PopFront(size)
-                        : PopBack(size);
+				pItem = whichEnd == front
+						? PopFront(size)
+						: PopBack(size);
 			}
 
 			if (m_queue.empty())
@@ -574,35 +575,35 @@ private:
 	}
 
 
-    /*!
-     * \brief Pop an item off the front of the queue.
-     * \param[out] size - Number of items of type T pointed to by returned pointer.
-     * \return The popped item.
-     */
-    T* PopFront(int& size)
-    {
-        queue_item_t& queueItem = m_queue.front();
-        T* pItem{queueItem.pItem()};
-        size = queueItem.Size();
-        queueItem.Release();
-        m_queue.pop_front();
-        return pItem;
-    }
+	/*!
+	 * \brief Pop an item off the front of the queue.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer.
+	 * \return The popped item.
+	 */
+	T* PopFront(int& size)
+	{
+		queue_item_t& queueItem = m_queue.front();
+		T* pItem{queueItem.pItem()};
+		size = queueItem.Size();
+		queueItem.Release();
+		m_queue.pop_front();
+		return pItem;
+	}
 
-    /*!
-     * \brief Pop an item off the back of the queue.
-     * \param[out] size - Number of items of type T pointed to by returned pointer.
-     * \return The popped item.
-     */
-    T* PopBack(int& size)
-    {
-        queue_item_t& queueItem = m_queue.back();
-        T* pItem{queueItem.pItem()};
-        size = queueItem.Size();
-        queueItem.Release();
-        m_queue.pop_back();
-        return pItem;
-    }
+	/*!
+	 * \brief Pop an item off the back of the queue.
+	 * \param[out] size - Number of items of type T pointed to by returned pointer.
+	 * \return The popped item.
+	 */
+	T* PopBack(int& size)
+	{
+		queue_item_t& queueItem = m_queue.back();
+		T* pItem{queueItem.pItem()};
+		size = queueItem.Size();
+		queueItem.Release();
+		m_queue.pop_back();
+		return pItem;
+	}
 };
 
 } // namespace threads

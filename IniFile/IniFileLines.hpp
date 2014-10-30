@@ -61,7 +61,7 @@ public:
 	Line& operator=(Line&&) = default;
 	/*!
 	 * \brief Virtual Print function
-	 * \param[in][out] os - Stream to write to.
+	 * \param[in,out] os - Stream to write to.
 	 * \param[in] addLineFeed - (Optional) add a line feed.
 	 */
 	virtual void Print(std::ostream &os, const bool addLineFeed = true) const = 0;
@@ -85,7 +85,7 @@ public:
 	BlankLine& operator=(BlankLine&&) = default;
 	/*!
 	 * \brief Virtual Print function
-	 * \param[in][out] os - Stream to write to.
+	 * \param[in,out] os - Stream to write to.
 	 * \param[in] addLineFeed - (Optional) add a line feed.
 	 */
 	virtual void Print(std::ostream &os, const bool addLineFeed = true) const;
@@ -116,7 +116,7 @@ public:
 	const std::string& Comment() const;
 	/*!
 	 * \brief Virtual Print function
-	 * \param[in][out] os - Stream to write to.
+	 * \param[in,out] os - Stream to write to.
 	 * \param[in] addLineFeed - (Optional) add a line feed.
 	 */
 	virtual void Print(std::ostream &os, const bool addLineFeed = true) const;
@@ -151,7 +151,7 @@ public:
 	const std::string& Section() const;
 	/*!
 	 * \brief Virtual Print function
-	 * \param[in][out] os - Stream to write to.
+	 * \param[in,out] os - Stream to write to.
 	 * \param[in] addLineFeed - (Optional) add a line feed.
 	 */
 	virtual void Print(std::ostream &os, const bool addLineFeed = true) const;
@@ -201,7 +201,7 @@ public:
 	void Value(std::string&& value);
 	/*!
 	 * \brief Virtual Print function
-	 * \param[in][out] os - Stream to write to.
+	 * \param[in,out] os - Stream to write to.
 	 * \param[in] addLineFeed - (Optional) add a line feed.
 	 */
 	virtual void Print(std::ostream &os, const bool addLineFeed = true) const;

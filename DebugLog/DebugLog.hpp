@@ -75,18 +75,18 @@ namespace std {
 template <>
 struct hash<core_lib::log::eLogMessageLevel>
 {
-    /*! \brief Typedef for argument type. */
+	/*! \brief Typedef for argument type. */
 	typedef core_lib::log::eLogMessageLevel argument_t;
-    /*! \brief Typedef for result type. */
+	/*! \brief Typedef for result type. */
 	typedef std::size_t                     result_t;
-    /*! \brief Typedef for underlying type. */
+	/*! \brief Typedef for underlying type. */
 	typedef typename std::underlying_type<argument_t>::type enumType_t;
 
-    /*!
-     * \brief Function operator to perform the hash.
-     * \param[in] a - Argument to be hashed.
-     * \return The hash value.
-     */
+	/*!
+	 * \brief Function operator to perform the hash.
+	 * \param[in] a - Argument to be hashed.
+	 * \return The hash value.
+	 */
 	result_t operator()(const argument_t& a) const
 	{
 		enumType_t a2 = static_cast<enumType_t>(a);
@@ -115,7 +115,7 @@ public:
 	xLogMsgHandlerError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xLogMsgHandlerError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -135,7 +135,7 @@ public:
 	xInstantiationrError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in]  message - A user specified message string.
+	 * \param[in]  message - A user specified message string.
 	 */
 	explicit xInstantiationrError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -153,16 +153,16 @@ public:
  */
 struct DefaultLogFormat
 {
-    /*!
-     * \brief Function operator to perform the line formatting.
-     * \param[out] os - Output stream to write formatted line to.
-     * \param[in] timeStamp -The timestamp.
-     * \param[in] message - The actual message.
-     * \param[in] logMsgLevel - Log message level.
-     * \param[in] file - File where log message was generated.
-     * \param[in] lineNo - Line number where log message was generated.
-     * \param[in] threadID - Thread ID fo where log message was generated.
-     */
+	/*!
+	 * \brief Function operator to perform the line formatting.
+	 * \param[out] os - Output stream to write formatted line to.
+	 * \param[in] timeStamp -The timestamp.
+	 * \param[in] message - The actual message.
+	 * \param[in] logMsgLevel - Log message level.
+	 * \param[in] file - File where log message was generated.
+	 * \param[in] lineNo - Line number where log message was generated.
+	 * \param[in] threadID - Thread ID fo where log message was generated.
+	 */
 	void operator() (std::ostream& os
 					 , const std::time_t timeStamp
 					 , const std::string& message
@@ -187,119 +187,105 @@ namespace dl_private
 class LogQueueMessage
 {
 public:
-    /*! \brief Static message ID to register on message queue.*/
-    static const int MESSAGE_ID{1};
-    /*! \brief Default constructor.*/
-    LogQueueMessage() = default;
-    /*!
-     * \brief Initialising constructor.
-     * \param[in] Message to add to log.
-     * \param[in] Date/Time stamp for message.
-     * \param[in] Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
-     * \param[in] Line number in the source file where AddLogMessage was called, e.g. __LINE__.
-     * \param[in] Thread ID where message was added from.
-     * \param[in] Message level.
-     */
-    LogQueueMessage(const std::string& message,
-                    const time_t timeStamp,
-                    const std::string& file,
-                    const int lineNo,
-                    const std::thread::id& threadID,
-                    const eLogMessageLevel errorLevel)
-        : m_message{message}
-        , m_timeStamp{timeStamp}
-        , m_file{file}
-        , m_lineNo{lineNo}
-        , m_threadID{threadID}
-        , m_errorLevel{errorLevel}
-    {
-    }
-    /*!
-     * \brief Copy constructor.
-     * \param[in] Message to copy.
-     */
-    LogQueueMessage(const LogQueueMessage&) = default;
-    /*!
-     * \brief Move constructor.
-     * \param[in] Message to move.
-     */
-    LogQueueMessage(LogQueueMessage&&) = default;
-    /*! \brief Destructor.*/
-    ~LogQueueMessage() = default;
-    /*!
-     * \brief Copy assignment operator.
-     * \param[in] Message to copy.
-     * \return LogQueueMessage reference.
-     */
-    LogQueueMessage& operator=(const LogQueueMessage&) = default;
-    /*!
-     * \brief Move assignment operator.
-     * \param[in] Message to move.
-     * \return LogQueueMessage reference.
-     */
-    LogQueueMessage& operator=(LogQueueMessage&&) = default;
-    /*!
-     * \brief Get message string.
-     * \return Message string.
-     */
-    const std::string& Message() const
-    {
-        return m_message;
-    }
-    /*!
-     * \brief Get time stamp.
-     * \return Time stamp.
-     */
-    time_t TimeStamp() const
-    {
-        return m_timeStamp;
-    }
-    /*!
-     * \brief Get source file name string.
-     * \return File name string.
-     */
-    const std::string& File() const
-    {
-        return m_file;
-    }
-    /*!
-     * \brief Get source file line number.
-     * \return Line number.
-     */
-    int LineNo() const
-    {
-        return m_lineNo;
-    }
-    /*!
-     * \brief Get thread ID where message originated.
-     * \return Thread ID.
-     */
-    const std::thread::id& ThreadID() const
-    {
-        return m_threadID;
-    }
-    /*!
-     * \brief Get message error level.
-     * \return Error level.
-     */
-    eLogMessageLevel ErrorLevel() const
-    {
-        return m_errorLevel;
-    }
+	/*! \brief Static message ID to register on message queue.*/
+	static const int MESSAGE_ID{1};
+	/*! \brief Default constructor.*/
+	LogQueueMessage() = default;
+	/*!
+	 * \brief Initialising constructor.
+	 * \param[in] message - Message to add to log.
+	 * \param[in] timeStamp - Date/Time stamp for message.
+	 * \param[in] file - Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
+	 * \param[in] lineNo - Line number in the source file where AddLogMessage was called, e.g. __LINE__.
+	 * \param[in] threadID - Thread ID where message was added from.
+	 * \param[in] errorLevel - Message level.
+	 */
+	LogQueueMessage(const std::string& message,
+					const time_t timeStamp,
+					const std::string& file,
+					const int lineNo,
+					const std::thread::id& threadID,
+					const eLogMessageLevel errorLevel)
+		: m_message{message}
+		, m_timeStamp{timeStamp}
+		, m_file{file}
+		, m_lineNo{lineNo}
+		, m_threadID{threadID}
+		, m_errorLevel{errorLevel}
+	{
+	}
+	/*! \brief Copy constructor. */
+	LogQueueMessage(const LogQueueMessage& ) = default;
+	/*! \brief Move constructor. */
+	LogQueueMessage(LogQueueMessage&& ) = default;
+	/*! \brief Destructor.*/
+	~LogQueueMessage() = default;
+	/*! \brief Copy assignment operator. */
+	LogQueueMessage& operator=(const LogQueueMessage&) = default;
+	/*! \brief Move assignment operator. */
+	LogQueueMessage& operator=(LogQueueMessage&&) = default;
+	/*!
+	 * \brief Get message string.
+	 * \return Message string.
+	 */
+	const std::string& Message() const
+	{
+		return m_message;
+	}
+	/*!
+	 * \brief Get time stamp.
+	 * \return Time stamp.
+	 */
+	time_t TimeStamp() const
+	{
+		return m_timeStamp;
+	}
+	/*!
+	 * \brief Get source file name string.
+	 * \return File name string.
+	 */
+	const std::string& File() const
+	{
+		return m_file;
+	}
+	/*!
+	 * \brief Get source file line number.
+	 * \return Line number.
+	 */
+	int LineNo() const
+	{
+		return m_lineNo;
+	}
+	/*!
+	 * \brief Get thread ID where message originated.
+	 * \return Thread ID.
+	 */
+	const std::thread::id& ThreadID() const
+	{
+		return m_threadID;
+	}
+	/*!
+	 * \brief Get message error level.
+	 * \return Error level.
+	 */
+	eLogMessageLevel ErrorLevel() const
+	{
+		return m_errorLevel;
+	}
 
 private:
-    /*! \brief Message string.*/
-    std::string m_message;
-    /*! \brief Time stamp.*/
-    time_t m_timeStamp{0};
-    /*! \brief Source file name.*/
-    std::string m_file;
-    /*! \brief Line number in source file.*/
-    int m_lineNo{0};
-    /*! \brief Thread ID where message originated.*/
-    std::thread::id m_threadID;
-    /*! \brief Message error level.*/
-    eLogMessageLevel m_errorLevel{eLogMessageLevel::not_defined};
+	/*! \brief Message string.*/
+	std::string m_message;
+	/*! \brief Time stamp.*/
+	time_t m_timeStamp{0};
+	/*! \brief Source file name.*/
+	std::string m_file;
+	/*! \brief Line number in source file.*/
+	int m_lineNo{0};
+	/*! \brief Thread ID where message originated.*/
+	std::thread::id m_threadID;
+	/*! \brief Message error level.*/
+	eLogMessageLevel m_errorLevel{eLogMessageLevel::not_defined};
 };
 
 } //namespace dl_private
@@ -316,14 +302,15 @@ private:
  *
  * The second arg is optional and controls the size at which
  * the log will close and switch to a new file. Only 2 files
- * ever exist the <log>.txt and <log>_old.txt. The default log
+ * ever exist the 'log'.txt and 'log'_old.txt. The default log
  * size if 5MiB.
  */
 template<class Formatter>
 class DebugLog final
 {
 private:
-    typedef dl_private::LogQueueMessage log_queue_message_t;
+	/*! \brief Typedef defining log queue message type. */
+	typedef dl_private::LogQueueMessage log_queue_message_t;
 public:
 	/*!
 	 * \brief Default constructor.
@@ -340,10 +327,10 @@ public:
 	}
 	/*!
 	 * \brief Initialisation constructor.
-     * \param[in] softwareVersion - Version of software that "owns" the log.
-     * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
-     * \param[in] logName - File name of log file without extension.
-     * \param[in] maxLogSize - (Optional) The maximum size for the log file.
+	 * \param[in] softwareVersion - Version of software that "owns" the log.
+	 * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
+	 * \param[in] logName - File name of log file without extension.
+	 * \param[in] maxLogSize - (Optional) The maximum size for the log file.
 	 *
 	 * Create the DebugLog in given folder with given name. A ".txt"
 	 * extension is automatically appending to log file's name.
@@ -374,10 +361,10 @@ public:
 	}
 	/*!
 	 * \brief Instantiate a default constructor DebugLog object.
-     * \param[in] softwareVersion - Version of software that "owns" the log.
-     * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
-     * \param[in] logName - File name of log file without extension.
-     * \param[in] maxLogSize - (Optional) The maximum size for the log file.
+	 * \param[in] softwareVersion - Version of software that "owns" the log.
+	 * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
+	 * \param[in] logName - File name of log file without extension.
+	 * \param[in] maxLogSize - (Optional) The maximum size for the log file.
 	 *
 	 * Instantiate the DebugLog in given folder with given name. A ".txt"
 	 * extension is automatically appending to log file's name.
@@ -409,7 +396,7 @@ public:
 	}
 	/*!
 	 * \brief Add level to filter.
-     * \param[in] logMessageLevel - Message level to filter out of log.
+	 * \param[in] logMessageLevel - Message level to filter out of log.
 	 *
 	 * You can dynamically filter out log message from appearing
 	 * in the log file based on adding message levels to the
@@ -429,7 +416,7 @@ public:
 	}
 	/*!
 	 * \brief Remove level from filter.
-     * \param[in] logMessageLevel - Message level to remove from filter set.
+	 * \param[in] logMessageLevel - Message level to remove from filter set.
 	 *
 	 * If you want to make sure messages of a given level
 	 * appear back in the log file after having called
@@ -460,7 +447,7 @@ public:
 	}
 	/*!
 	 * \brief Add message to the log file.
-     * \param[in] message - Message to add to log.
+	 * \param[in] message - Message to add to log.
 	 *
 	 * Add a simple message to the log without any extra
 	 * properties set, such as file, line no. etc.
@@ -470,7 +457,7 @@ public:
 		time_t messageTime;
 		time(&messageTime);
 		std::thread::id noThread;
-        m_logMsgQueueThread->Push(new log_queue_message_t(message,
+		m_logMsgQueueThread->Push(new log_queue_message_t(message,
 													  messageTime,
 													  "",
 													  -1,
@@ -480,10 +467,10 @@ public:
 
 	/*!
 	 * \brief Add message to the log file.
-     * \param[in] message - Message to add to log.
-     * \param[in] file - Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
-     * \param[in] lineNo - Line number in the source file where AddLogMessage was called, e.g. __LINE__.
-     * \param[in] logMsgLevel - Message level.
+	 * \param[in] message - Message to add to log.
+	 * \param[in] file - Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
+	 * \param[in] lineNo - Line number in the source file where AddLogMessage was called, e.g. __LINE__.
+	 * \param[in] logMsgLevel - Message level.
 	 *
 	 * Add a message to the log with extra properties set, such as
 	 * file, line no. etc.
@@ -497,7 +484,7 @@ public:
 		{
 			time_t messageTime;
 			time(&messageTime);
-            m_logMsgQueueThread->Push(new log_queue_message_t(message,
+			m_logMsgQueueThread->Push(new log_queue_message_t(message,
 														  messageTime,
 														  file,
 														  lineNo,
@@ -534,7 +521,7 @@ private:
 	/*! \brief Path to old log file.*/
 	std::string m_oldLogFilePath;
 	/*! \brief Typedef for message queue thread.*/
-    typedef threads::MessageQueueThread<int, log_queue_message_t> log_msg_queue;
+	typedef threads::MessageQueueThread<int, log_queue_message_t> log_msg_queue;
 	/*! \brief Unique_ptr holding message queue thread.*/
 	std::unique_ptr<log_msg_queue>
 	m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
@@ -551,7 +538,7 @@ private:
 	/*! \brief Register the log queue message ID. */
 	void RegisterLogQueueMessageId()
 	{
-        m_logMsgQueueThread->RegisterMessageHandler(log_queue_message_t::MESSAGE_ID
+		m_logMsgQueueThread->RegisterMessageHandler(log_queue_message_t::MESSAGE_ID
 													, std::bind(&DebugLog::MessageHandler
 																, this
 																, std::placeholders::_1
@@ -559,26 +546,26 @@ private:
 	}
 	/*!
 	 * \brief Method to decode message ID.
-     * \param[in] message - Message to decode.
-     * \param[in] length - Message length.
+	 * \param[in] message - Message to decode.
+	 * \param[in] length - Message length.
 	 * \return Message ID.
 	 */
-    int MessageDecoder(const log_queue_message_t* message, const int length)
+	int MessageDecoder(const log_queue_message_t* message, const int length)
 	{
 		if (!message || (length == 0))
 		{
 			BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageDecoder"));
 		}
 
-        return log_queue_message_t::MESSAGE_ID;
+		return log_queue_message_t::MESSAGE_ID;
 	}
 	/*!
 	 * \brief Method to process message.
-     * \param[in] message - Message to process.
-     * \param[in] length - Message length.
+	 * \param[in] message - Message to process.
+	 * \param[in] length - Message length.
 	 * \return LogQueueMessage reference.
 	 */
-    bool MessageHandler(log_queue_message_t* message, const int length)
+	bool MessageHandler(log_queue_message_t* message, const int length)
 	{
 		if (!message || (length == 0))
 		{
@@ -591,7 +578,7 @@ private:
 	}
 	/*!
 	 * \brief Is message level in map.
-     * \param[in] logMessageLevel - Message level.
+	 * \param[in] logMessageLevel - Message level.
 	 * \return True if message level is found, false otherwise.
 	 */
 	bool IsLogMsgLevelInLookup(const eLogMessageLevel logMessageLevel) const
@@ -600,7 +587,7 @@ private:
 	}
 	/*!
 	 * \brief Get message level as a string.
-     * \param[in] logMessageLevel - Message level.
+	 * \param[in] logMessageLevel - Message level.
 	 * \return Message level string.
 	 */
 	const std::string& GetLogMsgLevelAsString(const eLogMessageLevel logMessageLevel) const
@@ -611,7 +598,7 @@ private:
 	}
 	/*!
 	 * \brief Is message level in filter set (no mutex).
-     * \param[in] logMessageLevel - Message level.
+	 * \param[in] logMessageLevel - Message level.
 	 * \return True if message level is found, false otherwise.
 	 */
 	bool IsLogMsgLevelFilterSetNoMutex(const eLogMessageLevel logMessageLevel) const
@@ -620,7 +607,7 @@ private:
 	}
 	/*!
 	 * \brief Is message level in filter set (with mutex).
-     * \param[in] logMessageLevel - Message level.
+	 * \param[in] logMessageLevel - Message level.
 	 * \return True if message level is found, false otherwise.
 	 */
 	bool IsLogMsgLevelFilterSet(const eLogMessageLevel logMessageLevel) const
@@ -638,8 +625,8 @@ private:
 	};
 	/*!
 	 * \brief Open file stream.
-     * \param[in] filePath - File path.
-     * \param[in] fileOptions - File options (truncate or append).
+	 * \param[in] filePath - File path.
+	 * \param[in] fileOptions - File options (truncate or append).
 	 */
 	void OpenOfStream(const std::string& filePath, const eFileOpenOptions fileOptions)
 	{
@@ -655,7 +642,7 @@ private:
 		time_t messageTime;
 		time(&messageTime);
 		std::thread::id noThread;
-        WriteMessageToLog(log_queue_message_t("DEBUG LOG STARTED"
+		WriteMessageToLog(log_queue_message_t("DEBUG LOG STARTED"
 										  , messageTime, "", -1
 										  , noThread
 										  , eLogMessageLevel::not_defined));
@@ -664,7 +651,7 @@ private:
 		{
 			std::string message("Software Version ");
 			message += m_softwareVersion;
-            WriteMessageToLog(log_queue_message_t(message, messageTime
+			WriteMessageToLog(log_queue_message_t(message, messageTime
 											  , "", -1
 											  , noThread
 											  , eLogMessageLevel::not_defined));
@@ -681,7 +668,7 @@ private:
 		time_t messageTime;
 		time(&messageTime);
 		std::thread::id noThread;
-        WriteMessageToLog(log_queue_message_t("DEBUG LOG STOPPED"
+		WriteMessageToLog(log_queue_message_t("DEBUG LOG STOPPED"
 										  , messageTime, "", -1
 										  , noThread
 										  , eLogMessageLevel::not_defined));
@@ -689,7 +676,7 @@ private:
 	}
 	/*!
 	 * \brief Check size of current log file.
-     * \param[in] requiredSpace - Space required in file to write new message.
+	 * \param[in] requiredSpace - Space required in file to write new message.
 	 */
 	void CheckLogFileSize(const long requiredSpace)
 	{
@@ -710,9 +697,9 @@ private:
 	}
 	/*!
 	 * \brief Write log message to file stream.
-     * \param[in] logMessage - Log message (r-value).
+	 * \param[in] logMessage - Log message (r-value).
 	 */
-    void WriteMessageToLog(log_queue_message_t&& logMessage)
+	void WriteMessageToLog(log_queue_message_t&& logMessage)
 	{
 		m_logFormatter(m_ofStream
 					   , logMessage.TimeStamp()
@@ -725,9 +712,9 @@ private:
 	}
 	/*!
 	 * \brief Write log message to file stream.
-     * \param[in] logMessage - Log message (l-value).
+	 * \param[in] logMessage - Log message (l-value).
 	 */
-    void WriteMessageToLog(const log_queue_message_t& logMessage)
+	void WriteMessageToLog(const log_queue_message_t& logMessage)
 	{
 		m_logFormatter(m_ofStream
 					   , logMessage.TimeStamp()

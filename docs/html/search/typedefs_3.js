@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['enumtype_5ft',['enumType_t',['../structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abd70d35c6584b2bee458d3807a276bb2',1,'std::hash&lt; core_lib::log::eLogMessageLevel &gt;']]]
+  ['debuglogsingleton',['DebugLogSingleton',['../namespacecore__lib_1_1log.html#acb4f0a1df582f3cecfd5dfcf16cfa876',1,'core_lib::log']]],
+  ['default_5flog_5ft',['default_log_t',['../namespacecore__lib_1_1log.html#ac8170d34fa79016d45d9b4d4af2998d1',1,'core_lib::log']]]
 ];

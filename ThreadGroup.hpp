@@ -52,7 +52,7 @@ public:
 	xThreadGroupError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xThreadGroupError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -87,19 +87,19 @@ public:
 	bool IsThisThreadIn() const;
 	/*!
 	 * \brief Is given thread in group.
-     * \param[in] threadPtr - Pointer to thread.
+	 * \param[in] threadPtr - Pointer to thread.
 	 * \return True if in group, false otherwise.
 	 */
 	bool IsThreadIn(std::thread* threadPtr) const;
 	/*!
 	 * \brief Is given thread in group.
-     * \param[in] id - Thread ID.
+	 * \param[in] id - Thread ID.
 	 * \return True if in group, false otherwise.
 	 */
 	bool IsThreadIn(const std::thread::id& id) const;
 	/*!
 	 * \brief Create and add thread to group.
-     * \param[in] threadfunction - Thread function to use with created thread.
+	 * \param[in] threadfunction - Thread function to use with created thread.
 	 * \return Pointer to the created thread.
 	 */
 	template<typename F>
@@ -112,7 +112,7 @@ public:
 	}
 	/*!
 	 * \brief Add thread to group.
-     * \param[in] threadPtr - Pointer to thread.
+	 * \param[in] threadPtr - Pointer to thread.
 	 *
 	 * Throws xThreadGroupError if called with a thread that
 	 * already belongs to the thread group.
@@ -120,12 +120,12 @@ public:
 	void AddThread(std::thread* threadPtr);
 	/*!
 	 * \brief Remove thread from group.
-     * \param[in] threadPtr - Pointer to thread.
+	 * \param[in] threadPtr - Pointer to thread.
 	 */
 	void RemoveThread(std::thread* threadPtr);
 	/*!
 	 * \brief Remove thread from group.
-     * \param[in] id - Thread ID.
+	 * \param[in] id - Thread ID.
 	 * \return Pointer to thread.
 	 *
 	 * This function returns nullptr if the id cannot be found.
@@ -152,8 +152,9 @@ public:
 private:
 	/*! \brief Access mutex for private data. */
 	mutable std::mutex m_mutex;
-	// Typedefs for thread list.
+	/*! \brief Typedef for thread list type. */
 	typedef std::list<std::thread*> thread_list;
+	/*! \brief Typedef for thread list iterator type. */
 	typedef thread_list::iterator thread_list_iter;
 	/*! \brief List containing threads. */
 	thread_list m_threadGroup;
@@ -164,13 +165,13 @@ private:
 	bool IsThisThreadInNoMutex() const;
 	/*!
 	 * \brief Is given thread in group (no mutex).
-     * \param[in] id - Thread ID.
+	 * \param[in] id - Thread ID.
 	 * \return True if in group, false otherwise.
 	 */
 	bool IsThreadInNoMutex(const std::thread::id& id) const;
 	/*!
 	 * \brief Delete thread object.
-     * \param[in] threadPtr - Pointer to thread.
+	 * \param[in] threadPtr - Pointer to thread.
 	 */
 	static void DeleteThread(std::thread* threadPtr);
 };

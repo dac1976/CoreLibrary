@@ -3,7 +3,7 @@ var searchData=
   ['packstdstring',['PackStdString',['../namespacecore__lib_1_1string__utils.html#a0016720d11e6e4fe751381d7cb121630',1,'core_lib::string_utils']]],
   ['partition',['Partition',['../classcore__lib_1_1sorting_1_1_quick.html#aaedad17ddc115ebe239f7d0d5e8ed42f',1,'core_lib::sorting::Quick']]],
   ['peek',['Peek',['../classcore__lib_1_1threads_1_1_concurrent_queue.html#a88661e3b1d725d747572502d9671f472',1,'core_lib::threads::ConcurrentQueue']]],
-  ['pitem',['pItem',['../classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#aa925f14484cde9892e79254158e4c06e',1,'core_lib::threads::cq_private::QueueItem']]],
+  ['pitem',['pItem',['../classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#aa925f14484cde9892e79254158e4c06e',1,'core_lib::threads::cq_private::QueueItem::pItem()'],['../classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#a84cd3461b912e87fa071ab33be866d8e',1,'core_lib::threads::cq_private::QueueItem::pItem() const ']]],
   ['pop',['Pop',['../classcore__lib_1_1threads_1_1_concurrent_queue.html#ae69478ab5fdbabdd35043ff6266cdd35',1,'core_lib::threads::ConcurrentQueue']]],
   ['popback',['PopBack',['../classcore__lib_1_1threads_1_1_bounded_buffer.html#ad0a19eb3bb5e2bc06188d2198a147da3',1,'core_lib::threads::BoundedBuffer::PopBack()'],['../classcore__lib_1_1threads_1_1_concurrent_queue.html#aeba570000eaacadd65c2f5dd325f7954',1,'core_lib::threads::ConcurrentQueue::PopBack()']]],
   ['popfront',['PopFront',['../classcore__lib_1_1threads_1_1_concurrent_queue.html#a7b08b45f6e22976ecab99c6bd78aa06a',1,'core_lib::threads::ConcurrentQueue']]],

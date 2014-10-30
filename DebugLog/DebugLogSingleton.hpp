@@ -36,8 +36,10 @@ namespace core_lib {
 /*! \brief The log namespace. */
 namespace log {
 
+/*! \brief Typedef defining our default log's type. */
 typedef DebugLog<DefaultLogFormat> default_log_t;
 
+/*! \brief Typedef defining our actual log's singelton. */
 typedef Loki::SingletonHolder<default_log_t
 , Loki::CreateUsingNew
 , Loki::DeletableSingleton>

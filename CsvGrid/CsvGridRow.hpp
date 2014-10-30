@@ -56,7 +56,7 @@ public:
 	xCsvGridColOutOfRangeError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specifed message string.
 	 */
 	explicit xCsvGridColOutOfRangeError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -90,15 +90,18 @@ public:
 	typedef C<T, std::allocator<T>> container_type;
 	/*!
 	 * \brief Function operator.
-     * \param[in] container - Container to reserve space in.
-     * \param[in] size - Number of items to reserve space for.
+	 * \param[in] container - Container to reserve space in.
+	 * \param[in] size - Number of items to reserve space for.
 	 *
 	 * This default functor does nothing as it is intended
 	 * for containers that do not have a built-in reserve
 	 * method.
 	 */
-	void operator() (container_type& /*container*/, const size_t /*size*/) const
+	void operator() (container_type& container, const size_t size) const
 	{
+		(void) container;
+		(void) size;
+
 		// Do nothing.
 	}
 };
@@ -112,8 +115,8 @@ public:
 	typedef std::vector<T> container_type;
 	/*!
 	 * \brief Function operator.
-     * \param[in] container - Container to reserve space in.
-     * \param[in] size - Number of items to reserve space for.
+	 * \param[in] container - Container to reserve space in.
+	 * \param[in] size - Number of items to reserve space for.
 	 *
 	 * This version of the functor calls the vector's built-in
 	 * reserve method.
@@ -153,7 +156,7 @@ public:
 	TRow(TRow&&) = default;
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] The initial number of columns.
+	 * \param[in] numCols - The initial number of columns.
 	 *
 	 * Create the row with an initial number of columns.
 	 */
@@ -163,8 +166,8 @@ public:
 	}
 	/*!
 	 * \brief Initializing constructor
-     * \param[in] line - The initial value string - a comma separated line from a CSV file.
-     * \param[in] options - The line format.
+	 * \param[in] line - The initial value string - a comma separated line from a CSV file.
+	 * \param[in] options - The line format.
 	 *
 	 * Create the row with an initial value and specify whether cells
 	 * are wrapped in double quotes in the CSV file.
@@ -175,7 +178,7 @@ public:
 	}
 	/*!
 	 * \brief Initializer list constructor
-     * \param[in] cells - The initial list of cells.
+	 * \param[in] cells - The initial list of cells.
 	 *
 	 * Create the row from the given list of cells.
 	 */
@@ -191,7 +194,7 @@ public:
 	TRow& operator=(TRow&&) = default;
 	/*!
 	 * \brief Subscript operator.
-     * \param[in] col - A 0-based column index.
+	 * \param[in] col - A 0-based column index.
 	 * \return The cell at the given column index.
 	 *
 	 * Retrieve the cell at a given column index within a row.
@@ -219,7 +222,7 @@ public:
 	}
 	/*!
 	* \brief Set the number of columns in the row.
-    * \param[in] cols - The number of columns to set.
+	* \param[in] cols - The number of columns to set.
 	*
 	* If the number of columns are being increased then existing content
 	* is preserved and new cells are added at the end of the row forming
@@ -231,7 +234,7 @@ public:
 	}
 	/*!
 	* \brief Add a column with the given value.
-    * \param[in] value - The cell's value for the new column.
+	* \param[in] value - The cell's value for the new column.
 	*
 	* The column count is increased by one and the new cell is initialised
 	* with the given string.
@@ -253,8 +256,8 @@ public:
 	}
 	/*!
 	* \brief Insert a new cell.
-    * \param[in] col - The column index at which the new cell is to be inserted.
-    * \param[in]value - The value to assign to the newly inserted cell.
+	* \param[in] col - The column index at which the new cell is to be inserted.
+	* \param[in] value - The value to assign to the newly inserted cell.
 	*
 	* The column count is increased by one and the new cell is initialised
 	* with the given string.
@@ -271,7 +274,7 @@ public:
 	}
 	/*!
 	* \brief Insert a new cell.
-    * \param[in] col - The column index at which the new cell is to be inserted.
+	* \param[in] col - The column index at which the new cell is to be inserted.
 	*
 	* The column count is increased by one and the new cell is initialised
 	* with the default cell constructor.
@@ -313,8 +316,8 @@ private:
 	container_type m_cells;
 	/*!
 	* \brief Load a row from a line in a CSV file.
-    * \param[in] line - The line from the CSV file.
-    * \param[in] options - The cell format options.
+	* \param[in] line - The line from the CSV file.
+	* \param[in] options - The cell format options.
 	*
 	* Create a row by loading it from a line read in from a CSV file.
 	* The options parameter is used to decide how to tokenize the line.
@@ -333,7 +336,7 @@ private:
 	}
 	/*!
 	* \brief Write the row's contents to a stream object.
-    * \param[in,out] os - The stream object to write to.
+	* \param[in,out] os - The stream object to write to.
 	*
 	* The row's contents are formated using CSV formating and output to the
 	* stream object.
@@ -377,7 +380,7 @@ private:
 	}
 	/*!
 	* \brief Tokenize a row with double quoted cells.
-    * \param[in] line - A CSV file's line of text.
+	* \param[in] line - A CSV file's line of text.
 	*
 	* The comma separated row's tokens are extracted using a boost
 	* tokenizer object. This does impact the performance slightly.
@@ -398,7 +401,7 @@ private:
 	}
 	/*!
 	* \brief Tokenize a row with simple cells.
-    * \param[in] line - A CSV file's line of text.
+	* \param[in] line - A CSV file's line of text.
 	*
 	* The comma separated row's tokens are extracted using a
 	* simple getline based algorithm. This versio ncannot handle
