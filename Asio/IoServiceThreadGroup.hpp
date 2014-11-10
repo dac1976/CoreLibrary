@@ -82,4 +82,3 @@ private:
 } //namespace core_lib
 
 #endif // #define IOSERVICETHREADGROUP_HPP
-

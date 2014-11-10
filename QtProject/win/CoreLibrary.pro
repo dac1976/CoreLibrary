@@ -55,7 +55,8 @@ HEADERS +=                               \
     ../../Asio/IoServiceThreadGroup.hpp  \
     ../../DebugLog/DebugLogSingleton.hpp \
     ../../IniFile/IniFileLines.hpp       \
-    ../../IniFile/IniFileSectionDetails.hpp
+    ../../IniFile/IniFileSectionDetails.hpp \
+    ../../Serialization/SerializeToVector.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
