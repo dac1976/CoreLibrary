@@ -27,9 +27,7 @@
 #ifndef SERIALIZETOVECTOR_HPP
 #define SERIALIZETOVECTOR_HPP
 
-#include <cstdint>
 #include <vector>
-#include <utility>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
@@ -41,38 +39,38 @@ namespace core_lib {
 /*! \brief The serialize namespace. */
 namespace serialize {
 
-/*! \brief Typede for byte vector. */
-typedef std::vector<uint8_t> byte_vector;
+/*! \brief Typede for char vector. */
+typedef std::vector<char> char_vector;
 
 /*!
- * \brief Serialize an object into a byte vector.
+ * \brief Serialize an object into a char vector.
  * \param[in] object - A boost serializable object of type T.
- * \return A byte vector containing serialized object. 
+ * \param[in,out] charVector - A char vector to receive serialized object.
  */
 template <typename T>
-byte_vector ObjectToByteVector() (T&& object)
+char_vector ObjectToCharVector(const T& object)
 {
-    byte_vector byteVector;
-    boost::iostreams::filtering_ostream os{boost_io::back_inserter(byteVector)};
-	boost::archive::text_oarchive oa{os};
-	oa << std::forward<T>(object);    
-	return byteVector;
-};
+    char_vector charVector;
+    boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));
+    boost::archive::text_oarchive oa(os);
+    oa << object;
+    return charVector;
+}
 
 
 /*!
- * \brief Deserialize a byte vector into a corresponding object.
- * \param[in] A byte vector containing a boost serialized object of type T.
- * \return A deserialized object of type T. 
+ * \brief Deserialize a char vector into a corresponding object.
+ * \param[in] charVector - A char vector containing a boost serialized object of type T.
+ * \param[in,out] object - A boost serializable object of type T to receive deserialized vector.
  */
 template <typename T>
-T ByteVectorToObject() (const byte_vector& byteVector)
+T CharVectorToObject(const char_vector& charVector)
 {
-	boost::iostreams::filtering_istream is{boost::make_iterator_range(byteVector)};
-	boost::archive::text_iarchive ia{is};
-	T object;
-	ia >> object;
-	return object;
+    boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
+    boost::archive::text_iarchive ia(is);
+    T object;
+    ia >> object;
+    return object;
 }
 
 } //namespace serialize
