@@ -475,7 +475,7 @@ private Q_SLOTS:
 	void testCase_BoundedBuffer1();
 	void testCase_BoundedBuffer2();
 	void testCase_BoundedBuffer3();
-	void testCase_MessageQueuetThread1();
+    void testCase_MessageQueueThread1();
 	void testCase_IoThreadGroup();
 };
 
@@ -1087,7 +1087,7 @@ void ThreadsTest::testCase_BoundedBuffer3()
 // MessageQueuetThread tests
 // ****************************************************************************
 
-void ThreadsTest::testCase_MessageQueuetThread1()
+void ThreadsTest::testCase_MessageQueueThread1()
 {
 	MessageQueueThreadTest mqtt;
 	mqtt.PushMessageId(MessageQueueThreadTest::M1);
