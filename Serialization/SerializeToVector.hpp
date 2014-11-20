@@ -48,7 +48,7 @@ typedef std::vector<char> char_vector;
  * \param[in,out] charVector - A char vector to receive serialized object.
  */
 template <typename T>
-char_vector ObjectToCharVector(const T& object)
+char_vector ToCharVector(const T& object)
 {
     char_vector charVector;
     boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));
@@ -64,7 +64,7 @@ char_vector ObjectToCharVector(const T& object)
  * \param[in,out] object - A boost serializable object of type T to receive deserialized vector.
  */
 template <typename T>
-T CharVectorToObject(const char_vector& charVector)
+T ToObject(const char_vector& charVector)
 {
     boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
     boost::archive::text_iarchive ia(is);

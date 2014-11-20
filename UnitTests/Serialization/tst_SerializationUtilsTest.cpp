@@ -15,6 +15,13 @@ public:
     std::string Harry() const { return harry; }
     void Harry(const std::string& _harry) { harry = _harry; }
 
+    bool operator==(const MyObject& obj) const
+    {
+        return (this == &obj)
+               || ((fred == obj.fred)
+                   && (harry == obj.harry));
+    }
+
 private:
     float fred{5.0};
     std::string harry{"Wibble!"};
@@ -60,11 +67,13 @@ void SerializationUtilsTest::testCase_SerializeObject()
     using namespace core_lib::serialize;
     MyObject objectIn{};
     MyObject objectOut{};
-    objectOut.Fred(10.0);
-    objectOut.Harry("jnkjn");
+    objectIn.Fred(10.0);
+    objectIn.Harry("jnkjn");
     char_vector charVector;
-    charVector = ObjectToCharVector(objectIn);
-    objectOut = CharVectorToObject<MyObject>(charVector);
+    charVector = ToCharVector(objectIn);
+    objectOut = ToObject<MyObject>(charVector);
+
+    QVERIFY(objectOut == objectIn);
 }
 
 QTEST_APPLESS_MAIN(SerializationUtilsTest)
