@@ -29,6 +29,7 @@
 
 #include "../ThreadGroup.hpp"
 #include <boost/asio.hpp>
+#include <functional>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -68,6 +69,15 @@ public:
 	 * \return A reference to the I/O service.
 	 */
 	boost::asio::io_service& IoService();
+    /*!
+     * \brief Post a function object to be run by one of our threads.
+     * \param[in] function - Function to be run by one of our threads.
+     */
+    template <typename F>
+    void Post(F function)
+    {
+        m_ioService.post(function);
+    }
 
 private:
 	/*! \brief Boost ASIO I/O service.*/

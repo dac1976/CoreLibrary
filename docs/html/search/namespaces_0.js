@@ -9,6 +9,7 @@ var searchData=
   ['ini_5ffile',['ini_file',['../namespacecore__lib_1_1ini__file.html',1,'core_lib']]],
   ['log',['log',['../namespacecore__lib_1_1log.html',1,'core_lib']]],
   ['reserver',['reserver',['../namespacecore__lib_1_1csv__grid_1_1reserver.html',1,'core_lib::csv_grid']]],
+  ['serialize',['serialize',['../namespacecore__lib_1_1serialize.html',1,'core_lib']]],
   ['sorting',['sorting',['../namespacecore__lib_1_1sorting.html',1,'core_lib']]],
   ['string_5futils',['string_utils',['../namespacecore__lib_1_1string__utils.html',1,'core_lib']]],
   ['threads',['threads',['../namespacecore__lib_1_1threads.html',1,'core_lib']]]

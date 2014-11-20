@@ -45,7 +45,7 @@ typedef std::vector<char> char_vector;
 /*!
  * \brief Serialize an object into a char vector.
  * \param[in] object - A boost serializable object of type T.
- * \param[in,out] charVector - A char vector to receive serialized object.
+ * \return A char vector to receive serialized object.
  */
 template <typename T>
 char_vector ToCharVector(const T& object)
@@ -61,7 +61,7 @@ char_vector ToCharVector(const T& object)
 /*!
  * \brief Deserialize a char vector into a corresponding object.
  * \param[in] charVector - A char vector containing a boost serialized object of type T.
- * \param[in,out] object - A boost serializable object of type T to receive deserialized vector.
+ * \return A boost serializable object of type T to receive deserialized vector.
  */
 template <typename T>
 T ToObject(const char_vector& charVector)

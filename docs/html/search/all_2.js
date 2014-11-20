@@ -3,6 +3,7 @@ var searchData=
   ['asio',['asio',['../namespacecore__lib_1_1asio.html',1,'core_lib']]],
   ['cell',['Cell',['../classcore__lib_1_1csv__grid_1_1_cell.html',1,'core_lib::csv_grid']]],
   ['cell',['Cell',['../classcore__lib_1_1csv__grid_1_1_cell.html#afb48f5c10fa71f7d9ae4a46781888995',1,'core_lib::csv_grid::Cell::Cell()=default'],['../classcore__lib_1_1csv__grid_1_1_cell.html#a7081fc5394efaf3ed7afd2e476b1fe26',1,'core_lib::csv_grid::Cell::Cell(const Cell &amp;)=default'],['../classcore__lib_1_1csv__grid_1_1_cell.html#ae2cfaeda9bc6578508939e031e971ab9',1,'core_lib::csv_grid::Cell::Cell(Cell &amp;&amp;)=default'],['../classcore__lib_1_1csv__grid_1_1_cell.html#adfb5ae6654a2a3a02c3b1418d37a9d01',1,'core_lib::csv_grid::Cell::Cell(const std::string &amp;value)'],['../classcore__lib_1_1csv__grid_1_1_cell.html#a832ead76b76c25710adf5ee62e71a916',1,'core_lib::csv_grid::Cell::Cell(const int32_t value)'],['../classcore__lib_1_1csv__grid_1_1_cell.html#a89efb00a1cc0b7638869bd8272267f52',1,'core_lib::csv_grid::Cell::Cell(const int64_t value)'],['../classcore__lib_1_1csv__grid_1_1_cell.html#a3258d3bb6e9633e021978548e6df42b7',1,'core_lib::csv_grid::Cell::Cell(const double value)'],['../classcore__lib_1_1csv__grid_1_1_cell.html#a46785c191eb042cdd765cc6ce7fe3604',1,'core_lib::csv_grid::Cell::Cell(const long double value)']]],
+  ['char_5fvector',['char_vector',['../namespacecore__lib_1_1serialize.html#a8b6022e2754bc2b7f80a9548a95e1ece',1,'core_lib::serialize']]],
   ['checkbucketssize',['CheckBucketsSize',['../classcore__lib_1_1sorting_1_1_bucket.html#a7bec6a87797ff6191fa6b6c510711901',1,'core_lib::sorting::Bucket']]],
   ['checklogfilesize',['CheckLogFileSize',['../classcore__lib_1_1log_1_1_debug_log.html#af15b1bad961d7db1578afcceb2e57c0a',1,'core_lib::log::DebugLog']]],
   ['clear',['Clear',['../classcore__lib_1_1threads_1_1_concurrent_queue.html#a3dad5b5d8a631dbe9151432494144e90',1,'core_lib::threads::ConcurrentQueue']]],
@@ -40,6 +41,7 @@ var searchData=
   ['ini_5ffile',['ini_file',['../namespacecore__lib_1_1ini__file.html',1,'core_lib']]],
   ['log',['log',['../namespacecore__lib_1_1log.html',1,'core_lib']]],
   ['reserver',['reserver',['../namespacecore__lib_1_1csv__grid_1_1reserver.html',1,'core_lib::csv_grid']]],
+  ['serialize',['serialize',['../namespacecore__lib_1_1serialize.html',1,'core_lib']]],
   ['sorting',['sorting',['../namespacecore__lib_1_1sorting.html',1,'core_lib']]],
   ['string_5futils',['string_utils',['../namespacecore__lib_1_1string__utils.html',1,'core_lib']]],
   ['threads',['threads',['../namespacecore__lib_1_1threads.html',1,'core_lib']]]

@@ -139,6 +139,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3c948ae5e1d037a661656e8981ebb3e"><td class="memItemLeft" align="right" valign="top">boost::asio::io_service &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#ac3c948ae5e1d037a661656e8981ebb3e">IoService</a> ()</td></tr>
 <tr class="memdesc:ac3c948ae5e1d037a661656e8981ebb3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the I/O service.  <a href="#ac3c948ae5e1d037a661656e8981ebb3e">More...</a><br /></td></tr>
 <tr class="separator:ac3c948ae5e1d037a661656e8981ebb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23651d0ab14a4a166f296f7c796458aa"><td class="memTemplParams" colspan="2">template&lt;typename F &gt; </td></tr>
+<tr class="memitem:a23651d0ab14a4a166f296f7c796458aa"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a23651d0ab14a4a166f296f7c796458aa">Post</a> (F function)</td></tr>
+<tr class="memdesc:a23651d0ab14a4a166f296f7c796458aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post a function object to be run by one of our threads.  <a href="#a23651d0ab14a4a166f296f7c796458aa">More...</a><br /></td></tr>
+<tr class="separator:a23651d0ab14a4a166f296f7c796458aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -211,9 +215,43 @@ boost::asio::io_service::work&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
+<a class="anchor" id="a23651d0ab14a4a166f296f7c796458aa"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::asio::IoServiceThreadGroup::Post </td>
+          <td>(</td>
+          <td class="paramtype">F&#160;</td>
+          <td class="paramname"><em>function</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Post a function object to be run by one of our threads. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">function</td><td>- Function to be run by one of our threads. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/duncan/Projects/CoreLibrary/Asio/<a class="el" href="_io_service_thread_group_8hpp_source.html">IoServiceThreadGroup.hpp</a></li>
-<li>/home/duncan/Projects/CoreLibrary/Asio/<a class="el" href="_io_service_thread_group_8cpp.html">IoServiceThreadGroup.cpp</a></li>
+<li>D:/Projects/CoreLibrary/Asio/<a class="el" href="_io_service_thread_group_8hpp_source.html">IoServiceThreadGroup.hpp</a></li>
+<li>D:/Projects/CoreLibrary/Asio/<a class="el" href="_io_service_thread_group_8cpp.html">IoServiceThreadGroup.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -221,7 +259,7 @@ boost::asio::io_service::work&#160;</td><td class="memItemRight" valign="bottom"
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html">IoServiceThreadGroup</a></li>
-    <li class="footer">Generated on Thu Oct 30 2014 20:59:32 for Core Library by
+    <li class="footer">Generated on Thu Nov 20 2014 22:11:15 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

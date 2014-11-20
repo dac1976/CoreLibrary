@@ -12,6 +12,7 @@ var searchData=
   ['sectionline',['SectionLine',['../classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#aa8e4c0793cbaec8a63f6b5d7c3a6db99',1,'core_lib::ini_file::if_private::SectionLine::SectionLine()=default'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#a281ca68598661e31f7904c9bce8ba736',1,'core_lib::ini_file::if_private::SectionLine::SectionLine(const SectionLine &amp;)=default'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#a83a3123b3b9fb02d13fb4eed15954ada',1,'core_lib::ini_file::if_private::SectionLine::SectionLine(SectionLine &amp;&amp;)=default'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#a40eea414ffab96f9310b83fce4d120dc',1,'core_lib::ini_file::if_private::SectionLine::SectionLine(const std::string &amp;section)']]],
   ['sectionline',['SectionLine',['../classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html',1,'core_lib::ini_file::if_private']]],
   ['selection',['Selection',['../classcore__lib_1_1sorting_1_1_selection.html',1,'core_lib::sorting']]],
+  ['serializetovector_2ehpp',['SerializeToVector.hpp',['../_serialize_to_vector_8hpp.html',1,'']]],
   ['setrowcount',['SetRowCount',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#aa0faa059ab31dbc5616dfcfc8661f67e',1,'core_lib::csv_grid::TCsvGrid']]],
   ['setsize',['SetSize',['../classcore__lib_1_1csv__grid_1_1_t_row.html#a6cda0cee76daa8393dfb48794ce40d07',1,'core_lib::csv_grid::TRow']]],
   ['setstarted',['SetStarted',['../classcore__lib_1_1threads_1_1_thread_base.html#ae97b0148575373485e73becdbfc26f57',1,'core_lib::threads::ThreadBase']]],
@@ -30,8 +31,8 @@ var searchData=
   ['stop',['Stop',['../classcore__lib_1_1threads_1_1_thread_base.html#ae02768d77e55ad3d5f72863b73a84007',1,'core_lib::threads::ThreadBase']]],
   ['stringutils_2ecpp',['StringUtils.cpp',['../_string_utils_8cpp.html',1,'']]],
   ['stringutils_2ehpp',['StringUtils.hpp',['../_string_utils_8hpp.html',1,'']]],
-  ['syncevent',['SyncEvent',['../classcore__lib_1_1threads_1_1_sync_event.html',1,'core_lib::threads']]],
   ['syncevent',['SyncEvent',['../classcore__lib_1_1threads_1_1_sync_event.html#a5fc8409d6250a6641da4cc2e8eba0e03',1,'core_lib::threads::SyncEvent::SyncEvent()=default'],['../classcore__lib_1_1threads_1_1_sync_event.html#afd5f68d8f6b614c157554fa748e38405',1,'core_lib::threads::SyncEvent::SyncEvent(const eNotifyType notifyCondition, const eResetCondition resetCondition, const eIntialCondition initialCondition)'],['../classcore__lib_1_1threads_1_1_sync_event.html#a90b960db33f2a0f3be4ad6b71321636b',1,'core_lib::threads::SyncEvent::SyncEvent(const SyncEvent &amp;)=delete']]],
+  ['syncevent',['SyncEvent',['../classcore__lib_1_1threads_1_1_sync_event.html',1,'core_lib::threads']]],
   ['syncevent_2ecpp',['SyncEvent.cpp',['../_sync_event_8cpp.html',1,'']]],
   ['syncevent_2ehpp',['SyncEvent.hpp',['../_sync_event_8hpp.html',1,'']]]
 ];
