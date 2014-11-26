@@ -355,12 +355,11 @@ private:
 			// extra quote...
 			size_t pos{cell.find('"')};
 
-			while (pos != std::string::npos)
-			{
-				pos = cell.find('"', pos);
-				cell.insert(pos, "\"");
-				++pos;
-			}
+			while (pos < cell.length())
+            {
+                cell.insert(pos, "\"");
+                pos = cell.find('"', pos + 2);
+            }
 
 			// if cell contains ',', '\n' or '\r' wrap it in quotes...
 			if (cell.find_first_of(",\r\n") != std::string::npos)
