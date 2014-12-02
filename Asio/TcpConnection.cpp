@@ -21,14 +21,19 @@
 
 /*!
  * \file TcpConnection.cpp
- * \brief File containing TCP connection classes' definitions.
+ * \brief File containing TCP connection class definition.
  */ 
  
- #include "TcpConnection.hpp" 
- #include <exception>
+#include "TcpConnection.hpp" 
+#include "TcpConnections.hpp" 
+#include <iterator>
+#include <algorithm>
 
 namespace core_lib {
 namespace tcp_conn{
+
+// Reserve 0.5 MiB for each buffer.
+static const size_t DEFAULT_RESERVED_SIZE = 512*1024;
  
 // ****************************************************************************
 // 'class TcpConnection' definition
@@ -37,30 +42,48 @@ namespace tcp_conn{
 TcpConnection::TcpConnection(boost::asio::io_service& ioService
 							 , TcpConnections& connections
 							 , const size_t minAmountToRead
-							 , const check_bytes_left_to_read& checkBytesLeftToRead
-							 , const message_received_handler& messageReceivedHandler
+							 , const asio_defs::check_bytes_left_to_read& checkBytesLeftToRead
+							 , const asio_defs::message_received_handler& messageReceivedHandler
 							 , const eSendOption sendImmediately)
 	: m_closing{false}
 	, m_ioService{ioService}
+	, m_strand{ioService}
+	, m_socket(ioService}
 	, m_connections{connections}
 	, m_minAmountToRead{minAmountToRead}
 	, m_checkBytesLeftToRead{checkBytesLeftToRead}
 	, m_messageReceivedHandler{messageReceivedHandler}
 	, m_sendImmediately{sendImmediately}	
 {
+	m_receiveBuffer.reserve(RESERVED_SIZE);
+	m_messageBuffer.reserve(RESERVED_SIZE);
+}
+
+TcpConnection::boost_tcp::socket& Socket()
+{
+}
+
+void TcpConnection::Connect(const TcpConnection::boost_tcp::endpoint& tcpEndpoint)
+{
+	m_socket.connect(tcpEndpoint);
+		
+	boost_tcp::no_delay Option(m_SendImmediately);
+	m_socket.set_option(Option);
+	
+	StartAsyncRead();
 }
 
 void TcpConnection::CloseConnection()
 {
-	if (m_socket.is_open())
+	if (!m_socket.is_open())
 	{
 		return;
 	}
 	
 	SetClosing(true);
 	
-	m_ioService.post(std::bind(&TcpConnection::ProcessCloseSocket
-	                           , shared_from_this()));
+	m_ioService.post(m_strand.wrap(std::bind(&TcpConnection::ProcessCloseSocket
+	                                         , shared_from_this())));
 	
 	m_closedEvent.Wait();
 
@@ -68,13 +91,13 @@ void TcpConnection::CloseConnection()
 
 void TcpConnection::SetClosing(const bool closing)
 {
-	std::lock_guard<std::mutex> lock{m_closingMutex};
+	std::lock_guard<std::mutex> lock{m_mutex};
 	m_closing = Closing;
 }
 
 bool TcpConnection::IsClosing() const
 {
-	std::lock_guard<std::mutex> lock{m_closingMutex};
+	std::lock_guard<std::mutex> lock{m_mutex};
 	return m_closing;
 }
 
@@ -84,126 +107,94 @@ void TcpConnection::ProcessCloseSocket()
 	m_closedEvent.Signal();
 }
 
-void TcpConnection::Connect(const boost_tcp::endpoint& tcpEndpoint)
+void TcpConnection::DestroySelf()
 {
-	m_Socket.connect(TCPEndpoint);
-	
-	boost_tcp::no_delay Option(m_SendImmediately);
-	m_Socket.set_option(Option);
-	
-	StartAsyncRead();
+	if (!IsClosing())
+	{
+		m_connections.Remove(shared_from_this());
+	}
 }
 
 void TcpConnection::StartAsyncRead()
 {
 	m_connections.Add(shared_from_this());
 	
-	StartAsyncReadFromSocket(m_minAmountToRead);
+	AsyncReadFromSocket(m_minAmountToRead);
 }
 
-void TcpConnection::StartAsyncReadFromSocket(const size_t amountToRead)
+void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 {
-	ResizeReceiveBuffer(m_minAmountToRead);
+	m_receiveBuffer.resize(amountToRead);
 
-	boost::asio::async_read(m_socket,
-							boost::asio::buffer(*m_receiveBuffer, m_minAmountToRead),
-							std::bind(&TcpConnection::ReadSomeData
-									  , shared_from_this()
-									  , boost::asio::placeholders::error
-									  , boost::asio::placeholders::bytes_transferred
-									  , m_minAmountToRead));
-}
-
-void TcpConnection::ResizeReceiveBuffer(const size_t newSize)
-{
-	if (m_receiveBuffer.size() < newSize)
-	{
-		m_receiveBuffer.resize(newSize, 0);
-	}
+	boost::asio::async_read(m_socket, boost::asio::buffer(m_receiveBuffer, amountToRead)
+							, m_strand.wrap(std::bind(&TcpConnection::ReadSomeData
+												      , shared_from_this()
+												      , boost::asio::placeholders::error
+												      , boost::asio::placeholders::bytes_transferred
+												      , amountToRead)));
 }
 
 void TcpConnection::ReadSomeData(const boost::system::error_code& error
 								 , const size_t bytesReceived
 								 , const size_t bytesExpected)
 {
-	bool restartReading = false;
-	size_t amountToRead = m_minAmountToRead;
+	size_t numBytes = 0;
+	bool clearMsgBuf = false;
 	
-	if (error || (bytesReceived != bytesExpected))
+	if (error)
 	{
-		if (error)
-		{
-			DestroySelf();
-		}
-		else
-		{
-			restartReading = true;
-		}
+		DestroySelf();
+    }
+	else if (bytesReceived != bytesExpected)
+	{
+		numBytes = m_minAmountToRead;
+		clearMsgBuf = true;
     }
 	else
 	{
 		try
 		{
-			size_t bytesRemaining = checkBytesLeftToRead(&m_receiveBuffer.front()
-			                                             , bytesReceived);
-			
-			if (bytesRemaining > 0)
-			{
-				ResizeMessageBuffer(bytesReceived + bytesRemaining);
+			std::copy(m_receiveBuffer.begin()
+			          , m_receiveBuffer.end()
+					  , std::back_inserter(m_messageBuffer));
 				
-				// TODO: Fill message buffer from received buffer then read some more data.
-			}
-			else
-			{
-				messageReceivedHandler(m_receiveBuffer);
-				restartReading = true;
-			}
+			numBytes = checkBytesLeftToRead(m_messageBuffer);
 			
-			
-			//decode message header and store it...
-			m_MessageHeader = *m_ReadVec;
-			//make sure message buffer is big enough to hold
-			//entire message...
-			ResizeMessageBuffer(m_MessageHeader.TotalMessageLength());
-			//Accumulate message...
-			FillMessageBufferFromReceiveBuffer(0, m_HeaderSize);
-			//Do we need to read more data?
-			if (m_MessageHeader.TotalMessageLength() > m_HeaderSize)
+			if (numBytes == 0)
 			{
-				//read the rest of the message...
-				StartAsyncReadBody(m_MessageHeader.TotalMessageLength());
-			}
-			else
-			{
-				//Need to call dispatch message callback as no more to read for this message...
-				MessageDispatcher(m_MessageHeader, *m_MessageVec);
-				//go back to reading next header...
-				StartAsyncReadHeader();
+				messageReceivedHandler(m_messageBuffer);
+				numBytes = m_minAmountToRead;
+				clearMsgBuf = true;
 			}
 		}
 		catch(const std::exception& e)
 		{
-			restartReading = true;;
+			numBytes = m_minAmountToRead;
+			clearMsgBuf = true;
 		}
 	}
 	
-	if (restartReading)
+	if (clearMsgBuf)
 	{
-		StartAsyncReadFromSocket(amountToRead);
+		m_messageBuffer.clear();
+	}
+	
+	if (numBytes > 0)
+	{
+		AsyncReadFromSocket(numBytes);
 	}	
 }
 
-void TcpConnection::ResizeMessageBuffer(const size_t newSize)
+void TcpConnection::SendMessageAsync(const asio_defs::char_vector& message)
 {
-	if (m_messageBuffer.size() < newSize)
-	{
-		m_messageBuffer.resize(newSize, 0);
-	}
+	// TODO:
 }
-
-// ****************************************************************************
-// 'class TcpConnections' definition
-// ****************************************************************************
+					   
+bool TcpConnection::SendMessageSync(const asio_defs::char_vector& message)
+{
+	// TODO:
+	return false;
+}
 
 } // namespace tcp_conn
 } // namespace core_lib
