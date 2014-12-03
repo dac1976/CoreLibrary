@@ -29,7 +29,6 @@
 
 #include "../SyncEvent.hpp"
 #include "AsioDefines.hpp"
-#include <boost/enable_shared_from_this.hpp>
 #include <mutex>
 
 /*! \brief The core_lib namespace. */
@@ -40,23 +39,21 @@ namespace tcp_conn{
 class TcpConnections;
 
 class TcpConnection final
-    : public boost::enable_shared_from_this <TcpConnection>
+    : public std::enable_shared_from_this<TcpConnection>
 {
 public:
-	typedef boost::asio::ip::tcp boost_tcp;
-
 	enum eSendOption
 	{
-		nagleOff,
+        nagleOff, // Implies send immediately.
 		nagleOn
 	};
 	
-	TcpConnection(boost::asio::io_service& ioService
+	TcpConnection(boost_ioservice& ioService
 				  , TcpConnections& connections
 				  , const size_t minAmountToRead
 				  , const asio_defs::check_bytes_left_to_read& checkBytesLeftToRead
 				  , const asio_defs::message_received_handler& messageReceivedHandler
-				  , const eSendOption sendImmediately = nagleOn);
+                  , const eSendOption sendOption = nagleOn);
 				  
 	TcpConnection(const TcpConnection& ) = delete;
 	
@@ -64,9 +61,9 @@ public:
 	
 	virtual ~TcpConnection() = default;
 	
-	boost_tcp::socket& Socket();
+	const boost_tcp::socket& Socket() const;
 	
-	void Connect(const boost_tcp::endpoint& tcpEndpoint);
+	void Connect(const boost_tcp::endpoint& tcpEndPoint);
 	
 	void CloseConnection();
 	
@@ -74,22 +71,24 @@ public:
 	
 	void SendMessageAsync(const asio_defs::char_vector& message);
 					   
-	bool SendMessageSync(const asio_defs::char_vector& message);
+	bool SendMessageSync(asio_defs::char_vector message);
 
 private:
 	mutable std::mutex m_mutex;	
-	core_lib::threads::SyncEvent m_closedEvent;	
+	threads::SyncEvent m_closedEvent;	
+	threads::SyncEvent m_sendEvent;	
 	bool m_closing;	
-	boost::asio::io_service& m_ioService;	
-	boost::asio::io_service::strand m_strand;
+	boost_ioservice& m_ioService;	
+	boost_ioservice::strand m_strand;
 	boost_tcp::socket m_socket;	
 	TcpConnections& m_connections;	
 	const size_t m_minAmountToRead;
 	asio_defs::check_bytes_left_to_read m_checkBytesLeftToRead;	
 	asio_defs::message_received_handler m_messageReceivedHandler;	
-	const eSendOption m_sendImmediately;	
+    const eSendOption m_sendOption;
 	asio_defs::char_vector m_receiveBuffer;
 	asio_defs::char_vector m_messageBuffer;
+	bool m_sendSuccess;
 	
 	void SetClosing(const bool closing);
 	
@@ -101,9 +100,16 @@ private:
 	
 	void AsyncReadFromSocket(const size_t amountToRead);
 	
-	void ReadSomeData(const boost::system::error_code& error
+	void ReadSomeData(const boost_sys::error_code& error
 					  , const size_t bytesReceived
 					  , const size_t bytesExpected);
+					  
+	void AsyncWriteToSocket(asio_defs::char_vector message);
+	
+	void SyncWriteToSocket(const asio_defs::char_vector& message);
+	
+	void WriteComplete(const boost_sys::error_code& error
+	                   , const bool synchronous);
 };
 
 

@@ -30,6 +30,14 @@
 #include <boost/asio.hpp>
 #include <vector>
 #include <functional>
+#include <memory>
+
+namespace boost_sys = boost::system;
+namespace boost_asio = boost::asio;
+namespace boost_placeholders = boost::asio::placeholders;
+
+typedef boost_asio::io_service boost_ioservice;
+typedef boost::asio::ip::tcp boost_tcp;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -48,7 +56,7 @@ typedef std::function< size_t (const char_vector& ) > check_bytes_left_to_read;
 	
 typedef std::function< void (const char_vector& ) > message_received_handler;
 
-typedef boost::shared_ptr< tcp_conn::TcpConnection > tcp_conn_ptr;
+typedef std::shared_ptr<tcp_conn::TcpConnection> tcp_conn_ptr;
 
 } // namespace asio_defs
 } // namespace core_lib

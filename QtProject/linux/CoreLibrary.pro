@@ -56,7 +56,10 @@ HEADERS +=                               \
     ../../DebugLog/DebugLogSingleton.hpp \
 	../../IniFile/IniFileLines.hpp       \
     ../../IniFile/IniFileSectionDetails.hpp \
-    ../../Serialization/SerializeToVector.hpp
+    ../../Serialization/SerializeToVector.hpp \
+	../../Asio/AsioDefines.hpp \
+    ../../Asio/TcpConnection.hpp \
+    ../../Asio/TcpConnections.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
@@ -74,4 +77,6 @@ SOURCES +=                               \
     ../../IniFile/IniFile.cpp            \
     ../../Asio/IoServiceThreadGroup.cpp  \
 	../../IniFile/IniFileLines.cpp       \
-    ../../IniFile/IniFileSectionDetails.cpp
+    ../../IniFile/IniFileSectionDetails.cpp \
+	../../Asio/TcpConnection.cpp \
+    ../../Asio/TcpConnections.cpp

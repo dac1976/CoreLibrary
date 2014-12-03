@@ -428,7 +428,7 @@ private:
 	{
 		size_t row = 0;
 
-		for (auto rowItem : m_grid)
+        for (const auto& rowItem : m_grid)
 		{
 			rowItem.OutputRowToStream(os);
 

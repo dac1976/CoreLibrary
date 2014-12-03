@@ -28,9 +28,8 @@
 #define TCPCONNECTIONS_H
 
 #include "AsioDefines.hpp"
-#include <boost/shared_ptr.hpp>
-#include <set>
-#include <string>
+#include <map>
+#include <mutex>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -42,9 +41,13 @@ class TcpConnection;
 class TcpConnections final
 {
 public:	
-	TcpConnections();
+	TcpConnections() = default;
 	
 	~TcpConnections() = default;
+	
+	TcpConnections(const TcpConnections& ) = delete;
+	
+	const TcpConnections& operator=(const TcpConnections& ) = delete;
 	
 	void Add(asio_defs::tcp_conn_ptr Connection);
 	
@@ -52,28 +55,24 @@ public:
 	
 	void CloseConnections();
 	
-	size_t NumberOfConnections() const;
+	size_t Size() const;
 	
-	void SendMessageAsync(const std::string& targetIp
-					      , unsigned short targetPort
+	void SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
 						  , const asio_defs::char_vector& message);
 					   
-	bool SendMessageSync(const std::string& targetIp
-					      , unsigned short targetPort
+	bool SendMessageSync(const boost_tcp::endpoint& targetEndPoint
 						  , const asio_defs::char_vector& message);
 
     void SendMessageToAll(const asio_defs::char_vector& message);
-
-	std::string GetLocalIPForRemoteConnection(const std::string& targetIp, 
-											  unsigned short targetPort) const;
 	
-	unsigned short GetLocalPortForRemoteConnection(const std::string& targetIp, 
-												   unsigned short targetPort) const;
+	bool GetLocalEndPointForRemoteEndPoint(const boost_tcp::endpoint& remoteEndPoint
+	                                       , boost_tcp::endpoint& localEndPoint) const;
 
 private:
-	mutable boost::mutex m_mutex;
-	typedef std::set<asio_defs::tcp_conn_ptr> tcp_conn_set;
-	tcp_conn_set m_connections;	
+	mutable std::mutex m_mutex;
+    typedef std::map<boost_tcp::endpoint
+                     , asio_defs::tcp_conn_ptr> tcp_conn_map;
+    tcp_conn_map m_connections;
 };
 
 
