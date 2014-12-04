@@ -7,47 +7,48 @@
 class MyObject
 {
 public:
-    MyObject() = default;
-    ~MyObject() { }
+	MyObject() = default;
+	~MyObject() { }
 
-    float Fred() const { return fred; }
-    void Fred(float _fred) { fred = _fred; }
-    std::string Harry() const { return harry; }
-    void Harry(const std::string& _harry) { harry = _harry; }
+	float Fred() const { return fred; }
+	void Fred(float _fred) { fred = _fred; }
+	std::string Harry() const { return harry; }
+	void Harry(const std::string& _harry) { harry = _harry; }
 
-    bool operator==(const MyObject& obj) const
-    {
-        return (this == &obj)
-               || ((fred == obj.fred)
-                   && (harry == obj.harry));
-    }
+	bool operator==(const MyObject& obj) const
+	{
+		return (this == &obj)
+			   || ((fred == obj.fred)
+				   && (harry == obj.harry));
+	}
 
 private:
-    float fred{5.0};
-    std::string harry{"Wibble!"};
+	float fred{5.0};
+	std::string harry{"Wibble!"};
 
-    friend class boost::serialization::access;
+	friend class boost::serialization::access;
 
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int /*version*/)
-    {
-        ar & fred;
-        ar & harry;
-    }
+	template<class Archive>
+	void serialize(Archive & ar, const unsigned int /*version*/)
+	{
+		ar & fred;
+		ar & harry;
+	}
 };
 
 class SerializationUtilsTest : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    SerializationUtilsTest();
+	SerializationUtilsTest();
 
 private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
+	void initTestCase();
+	void cleanupTestCase();
 
-    void testCase_SerializeObject();
+	void testCase_SerializeObjectBinArch();
+	void testCase_SerializeObjectTextArch();
 };
 
 SerializationUtilsTest::SerializationUtilsTest()
@@ -62,19 +63,34 @@ void SerializationUtilsTest::cleanupTestCase()
 {
 }
 
-void SerializationUtilsTest::testCase_SerializeObject()
+void SerializationUtilsTest::testCase_SerializeObjectBinArch()
 {
-    using namespace core_lib::serialize;
-    MyObject objectIn{};
-    MyObject objectOut{};
-    objectIn.Fred(10.0);
-    objectIn.Harry("jnkjn");
-    char_vector charVector;
-    charVector = ToCharVector(objectIn);
-    objectOut = ToObject<MyObject>(charVector);
+	using namespace core_lib::serialize;
+	MyObject objectIn{};
+	MyObject objectOut{};
+	objectIn.Fred(10.0);
+	objectIn.Harry("jnkjn");
+	char_vector charVector;
+	charVector = ToCharVector(objectIn);
+	objectOut = ToObject<MyObject>(charVector);
 
-    QVERIFY(objectOut == objectIn);
+	QVERIFY(objectOut == objectIn);
 }
+
+void SerializationUtilsTest::testCase_SerializeObjectTextArch()
+{
+	using namespace core_lib::serialize;
+	MyObject objectIn{};
+	MyObject objectOut{};
+	objectIn.Fred(10.0);
+	objectIn.Harry("jnkjn");
+	char_vector charVector;
+	charVector = ToCharVector<MyObject, boost_arch::text_oarchive>(objectIn);
+	objectOut = ToObject<MyObject, boost_arch::text_iarchive>(charVector);
+
+	QVERIFY(objectOut == objectIn);
+}
+
 
 QTEST_APPLESS_MAIN(SerializationUtilsTest)
 
