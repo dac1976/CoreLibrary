@@ -37,7 +37,7 @@ namespace boost_asio = boost::asio;
 namespace boost_placeholders = boost::asio::placeholders;
 
 typedef boost_asio::io_service boost_ioservice;
-typedef boost::asio::ip::tcp boost_tcp;
+typedef boost_asio::ip::tcp boost_tcp;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

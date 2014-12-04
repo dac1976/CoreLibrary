@@ -100,7 +100,7 @@ private:
 	
 	void AsyncReadFromSocket(const size_t amountToRead);
 	
-	void ReadSomeData(const boost_sys::error_code& error
+    void ReadComplete(const boost_sys::error_code& error
 					  , const size_t bytesReceived
 					  , const size_t bytesExpected);
 					  

@@ -28,6 +28,7 @@
 #define IOSERVICETHREADGROUP_HPP
 
 #include "../ThreadGroup.hpp"
+#include "AsioDefines.hpp"
 #include <boost/asio.hpp>
 #include <functional>
 
@@ -68,7 +69,7 @@ public:
 	 * \brief Get the I/O service.
 	 * \return A reference to the I/O service.
 	 */
-	boost::asio::io_service& IoService();
+    boost_ioservice& IoService();
     /*!
      * \brief Post a function object to be run by one of our threads.
      * \param[in] function - Function to be run by one of our threads.
@@ -81,9 +82,9 @@ public:
 
 private:
 	/*! \brief Boost ASIO I/O service.*/
-	boost::asio::io_service m_ioService;
+    boost_ioservice m_ioService;
 	/*! \brief Boost ASIO I/O service work object.*/
-	boost::asio::io_service::work m_ioWork;
+    boost_ioservice::work m_ioWork;
 	/*! \brief Our thread group.*/
 	threads::ThreadGroup m_threadGroup;
 };

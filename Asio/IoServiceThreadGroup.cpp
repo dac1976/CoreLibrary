@@ -48,8 +48,7 @@ IoServiceThreadGroup::~IoServiceThreadGroup()
 	m_ioService.stop();
 	m_threadGroup.JoinAll();
 }
-
-boost::asio::io_service& IoServiceThreadGroup::IoService()
+boost_ioservice& IoServiceThreadGroup::IoService()
 {
 	return m_ioService;
 }

@@ -89,7 +89,6 @@ void TcpConnection::CloseConnection()
                                                , shared_from_this())));
 	
 	m_closedEvent.Wait();
-
 }
 
 void TcpConnection::SetClosing(const bool closing)
@@ -130,14 +129,14 @@ void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 	m_receiveBuffer.resize(amountToRead);
 
 	boost::asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
-                            , m_strand.wrap(boost::bind(&TcpConnection::ReadSomeData
+                            , m_strand.wrap(boost::bind(&TcpConnection::ReadComplete
                                                         , shared_from_this()
                                                         , boost_placeholders::error
                                                         , boost_placeholders::bytes_transferred
                                                         , amountToRead)));
 }
 
-void TcpConnection::ReadSomeData(const boost_sys::error_code& error
+void TcpConnection::ReadComplete(const boost_sys::error_code& error
 								 , const size_t bytesReceived
 								 , const size_t bytesExpected)
 {
@@ -170,7 +169,7 @@ void TcpConnection::ReadSomeData(const boost_sys::error_code& error
 				clearMsgBuf = true;
 			}
 		}
-		catch(const std::exception& e)
+        catch(...)
 		{
 			numBytes = m_minAmountToRead;
 			clearMsgBuf = true;
@@ -202,7 +201,8 @@ void TcpConnection::AsyncWriteToSocket(asio_defs::char_vector message)
 									                     , shared_from_this()
 									                     , boost_placeholders::error
 														 , false)));
-		
+    // Wait here until WriteComplete signals, this makes sure the
+    // message vector remains viable.
 	m_sendEvent.Wait();
 }
 					   
@@ -210,8 +210,10 @@ bool TcpConnection::SendMessageSync(asio_defs::char_vector message)
 {
     m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::SyncWriteToSocket
 							                   , shared_from_this()
-							                   , message)));
-												
+                                               , message)));
+
+    // Wait here until WriteComplete signals, this makes sure the
+    // message vector remains viable.
 	m_sendEvent.Wait();											
 											   
 	return m_sendSuccess;
