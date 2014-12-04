@@ -22,8 +22,8 @@
 /*!
  * \file TcpConnection.hpp
  * \brief File containing TCP connection class declaration.
- */ 
- 
+ */
+
 #ifndef TCPCONNECTION_H
 #define TCPCONNECTION_H
 
@@ -39,77 +39,77 @@ namespace tcp_conn{
 class TcpConnections;
 
 class TcpConnection final
-    : public std::enable_shared_from_this<TcpConnection>
+	: public std::enable_shared_from_this<TcpConnection>
 {
 public:
 	enum eSendOption
 	{
-        nagleOff, // Implies send immediately.
+		nagleOff, // Implies send immediately.
 		nagleOn
 	};
-	
+
 	TcpConnection(boost_ioservice& ioService
 				  , TcpConnections& connections
 				  , const size_t minAmountToRead
 				  , const asio_defs::check_bytes_left_to_read& checkBytesLeftToRead
 				  , const asio_defs::message_received_handler& messageReceivedHandler
-                  , const eSendOption sendOption = nagleOn);
-				  
+				  , const eSendOption sendOption = nagleOn);
+
 	TcpConnection(const TcpConnection& ) = delete;
-	
+
 	const TcpConnection& operator=(const TcpConnection& ) = delete;
-	
+
 	virtual ~TcpConnection() = default;
-	
+
 	const boost_tcp::socket& Socket() const;
-	
+
 	void Connect(const boost_tcp::endpoint& tcpEndPoint);
-	
+
 	void CloseConnection();
-	
-	void StartAsyncRead();    
-	
-	void SendMessageAsync(const asio_defs::char_vector& message);
-					   
-	bool SendMessageSync(asio_defs::char_vector message);
+
+	void StartAsyncRead();
+
+	void SendMessageAsync(const asio_defs::char_buffer& message);
+
+	bool SendMessageSync(asio_defs::char_buffer message);
 
 private:
-	mutable std::mutex m_mutex;	
-	threads::SyncEvent m_closedEvent;	
-	threads::SyncEvent m_sendEvent;	
-	bool m_closing;	
-	boost_ioservice& m_ioService;	
+	mutable std::mutex m_mutex;
+	threads::SyncEvent m_closedEvent;
+	threads::SyncEvent m_sendEvent;
+	bool m_closing;
+	boost_ioservice& m_ioService;
 	boost_ioservice::strand m_strand;
-	boost_tcp::socket m_socket;	
-	TcpConnections& m_connections;	
+	boost_tcp::socket m_socket;
+	TcpConnections& m_connections;
 	const size_t m_minAmountToRead;
-	asio_defs::check_bytes_left_to_read m_checkBytesLeftToRead;	
-	asio_defs::message_received_handler m_messageReceivedHandler;	
-    const eSendOption m_sendOption;
-	asio_defs::char_vector m_receiveBuffer;
-	asio_defs::char_vector m_messageBuffer;
+	asio_defs::check_bytes_left_to_read m_checkBytesLeftToRead;
+	asio_defs::message_received_handler m_messageReceivedHandler;
+	const eSendOption m_sendOption;
+	asio_defs::char_buffer m_receiveBuffer;
+	asio_defs::char_buffer m_messageBuffer;
 	bool m_sendSuccess;
-	
+
 	void SetClosing(const bool closing);
-	
+
 	bool IsClosing() const;
-	
-	void ProcessCloseSocket();	
-	
+
+	void ProcessCloseSocket();
+
 	void DestroySelf();
-	
+
 	void AsyncReadFromSocket(const size_t amountToRead);
-	
-    void ReadComplete(const boost_sys::error_code& error
+
+	void ReadComplete(const boost_sys::error_code& error
 					  , const size_t bytesReceived
 					  , const size_t bytesExpected);
-					  
-	void AsyncWriteToSocket(asio_defs::char_vector message);
-	
-	void SyncWriteToSocket(const asio_defs::char_vector& message);
-	
+
+	void AsyncWriteToSocket(asio_defs::char_buffer message);
+
+	void SyncWriteToSocket(const asio_defs::char_buffer& message);
+
 	void WriteComplete(const boost_sys::error_code& error
-	                   , const bool synchronous);
+					   , const bool synchronous);
 };
 
 

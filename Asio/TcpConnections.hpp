@@ -22,8 +22,8 @@
 /*!
  * \file TcpConnections.hpp
  * \brief File containing TCP connections class declaration.
- */ 
- 
+ */
+
 #ifndef TCPCONNECTIONS_H
 #define TCPCONNECTIONS_H
 
@@ -40,39 +40,39 @@ class TcpConnection;
 
 class TcpConnections final
 {
-public:	
+public:
 	TcpConnections() = default;
-	
-	~TcpConnections() = default;
-	
-	TcpConnections(const TcpConnections& ) = delete;
-	
-	const TcpConnections& operator=(const TcpConnections& ) = delete;
-	
-	void Add(asio_defs::tcp_conn_ptr Connection);
-	
-	void Remove(asio_defs::tcp_conn_ptr Connection);
-	
-	void CloseConnections();
-	
-	size_t Size() const;
-	
-	void SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
-						  , const asio_defs::char_vector& message);
-					   
-	bool SendMessageSync(const boost_tcp::endpoint& targetEndPoint
-						  , const asio_defs::char_vector& message);
 
-    void SendMessageToAll(const asio_defs::char_vector& message);
-	
+	~TcpConnections() = default;
+
+	TcpConnections(const TcpConnections& ) = delete;
+
+	const TcpConnections& operator=(const TcpConnections& ) = delete;
+
+	void Add(asio_defs::tcp_conn_ptr Connection);
+
+	void Remove(asio_defs::tcp_conn_ptr Connection);
+
+	void CloseConnections();
+
+	size_t Size() const;
+
+	void SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
+						  , const asio_defs::char_buffer& message);
+
+	bool SendMessageSync(const boost_tcp::endpoint& targetEndPoint
+						  , const asio_defs::char_buffer& message);
+
+	void SendMessageToAll(const asio_defs::char_buffer& message);
+
 	bool GetLocalEndPointForRemoteEndPoint(const boost_tcp::endpoint& remoteEndPoint
-	                                       , boost_tcp::endpoint& localEndPoint) const;
+										   , boost_tcp::endpoint& localEndPoint) const;
 
 private:
 	mutable std::mutex m_mutex;
-    typedef std::map<boost_tcp::endpoint
-                     , asio_defs::tcp_conn_ptr> tcp_conn_map;
-    tcp_conn_map m_connections;
+	typedef std::map<boost_tcp::endpoint
+					 , asio_defs::tcp_conn_ptr> tcp_conn_map;
+	tcp_conn_map m_connections;
 };
 
 

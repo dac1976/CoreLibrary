@@ -22,10 +22,10 @@
 /*!
  * \file TcpConnection.cpp
  * \brief File containing TCP connection class definition.
- */ 
- 
-#include "TcpConnection.hpp" 
-#include "TcpConnections.hpp" 
+ */
+
+#include "TcpConnection.hpp"
+#include "TcpConnections.hpp"
 #include <iterator>
 #include <algorithm>
 #include <boost/bind.hpp>
@@ -35,30 +35,30 @@ namespace tcp_conn{
 
 // Reserve 0.5 MiB for each buffer.
 static const size_t DEFAULT_RESERVED_SIZE = 512*1024;
- 
+
 // ****************************************************************************
 // 'class TcpConnection' definition
 // ****************************************************************************
-	
+
 TcpConnection::TcpConnection(boost_ioservice& ioService
 							 , TcpConnections& connections
 							 , const size_t minAmountToRead
 							 , const asio_defs::check_bytes_left_to_read& checkBytesLeftToRead
 							 , const asio_defs::message_received_handler& messageReceivedHandler
-                             , const eSendOption sendOption)
+							 , const eSendOption sendOption)
 	: m_closing{false}
-    , m_ioService(ioService)
+	, m_ioService(ioService)
 	, m_strand{ioService}
-    , m_socket{ioService}
-    , m_connections(connections)
+	, m_socket{ioService}
+	, m_connections(connections)
 	, m_minAmountToRead{minAmountToRead}
 	, m_checkBytesLeftToRead{checkBytesLeftToRead}
 	, m_messageReceivedHandler{messageReceivedHandler}
-    , m_sendOption{sendOption}
-	, m_sendSuccess{false}	
+	, m_sendOption{sendOption}
+	, m_sendSuccess{false}
 {
-    m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
-    m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
+	m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
+	m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
 }
 
 const boost_tcp::socket& TcpConnection::Socket() const
@@ -68,11 +68,11 @@ const boost_tcp::socket& TcpConnection::Socket() const
 
 void TcpConnection::Connect(const boost_tcp::endpoint& tcpEndPoint)
 {
-    m_socket.connect(tcpEndPoint);
-		
-    boost_tcp::no_delay option(m_sendOption == nagleOff);
-    m_socket.set_option(option);
-	
+	m_socket.connect(tcpEndPoint);
+
+	boost_tcp::no_delay option(m_sendOption == nagleOff);
+	m_socket.set_option(option);
+
 	StartAsyncRead();
 }
 
@@ -82,19 +82,19 @@ void TcpConnection::CloseConnection()
 	{
 		return;
 	}
-	
+
 	SetClosing(true);
-	
-    m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::ProcessCloseSocket
-                                               , shared_from_this())));
-	
+
+	m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::ProcessCloseSocket
+											   , shared_from_this())));
+
 	m_closedEvent.Wait();
 }
 
 void TcpConnection::SetClosing(const bool closing)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
-    m_closing = closing;
+	m_closing = closing;
 }
 
 bool TcpConnection::IsClosing() const
@@ -120,7 +120,7 @@ void TcpConnection::DestroySelf()
 void TcpConnection::StartAsyncRead()
 {
 	m_connections.Add(shared_from_this());
-	
+
 	AsyncReadFromSocket(m_minAmountToRead);
 }
 
@@ -129,11 +129,11 @@ void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 	m_receiveBuffer.resize(amountToRead);
 
 	boost::asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
-                            , m_strand.wrap(boost::bind(&TcpConnection::ReadComplete
-                                                        , shared_from_this()
-                                                        , boost_placeholders::error
-                                                        , boost_placeholders::bytes_transferred
-                                                        , amountToRead)));
+							, m_strand.wrap(boost::bind(&TcpConnection::ReadComplete
+														, shared_from_this()
+														, boost_placeholders::error
+														, boost_placeholders::bytes_transferred
+														, amountToRead)));
 }
 
 void TcpConnection::ReadComplete(const boost_sys::error_code& error
@@ -142,109 +142,109 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error
 {
 	size_t numBytes = 0;
 	bool clearMsgBuf = false;
-	
+
 	if (error)
 	{
-        DestroySelf();
-    }
+		DestroySelf();
+	}
 	else if (bytesReceived != bytesExpected)
 	{
 		numBytes = m_minAmountToRead;
 		clearMsgBuf = true;
-    }
+	}
 	else
 	{
 		try
 		{
 			std::copy(m_receiveBuffer.begin()
-			          , m_receiveBuffer.end()
+					  , m_receiveBuffer.end()
 					  , std::back_inserter(m_messageBuffer));
-				
-            numBytes = m_checkBytesLeftToRead(m_messageBuffer);
-			
+
+			numBytes = m_checkBytesLeftToRead(m_messageBuffer);
+
 			if (numBytes == 0)
 			{
-                m_messageReceivedHandler(m_messageBuffer);
+				m_messageReceivedHandler(m_messageBuffer);
 				numBytes = m_minAmountToRead;
 				clearMsgBuf = true;
 			}
 		}
-        catch(...)
+		catch(...)
 		{
 			numBytes = m_minAmountToRead;
 			clearMsgBuf = true;
 		}
 	}
-	
+
 	if (clearMsgBuf)
 	{
 		m_messageBuffer.clear();
 	}
-	
+
 	if (numBytes > 0)
 	{
 		AsyncReadFromSocket(numBytes);
-	}	
+	}
 }
 
-void TcpConnection::SendMessageAsync(const asio_defs::char_vector& message)
+void TcpConnection::SendMessageAsync(const asio_defs::char_buffer& message)
 {
-    m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::AsyncWriteToSocket
-							                   , shared_from_this()
-							                   , message)));
+	m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::AsyncWriteToSocket
+											   , shared_from_this()
+											   , message)));
 }
 
-void TcpConnection::AsyncWriteToSocket(asio_defs::char_vector message)
+void TcpConnection::AsyncWriteToSocket(asio_defs::char_buffer message)
 {
 	boost::asio::async_write(m_socket, boost_asio::buffer(message)
-                             , m_strand.wrap(boost::bind(&TcpConnection::WriteComplete
-									                     , shared_from_this()
-									                     , boost_placeholders::error
+							 , m_strand.wrap(boost::bind(&TcpConnection::WriteComplete
+														 , shared_from_this()
+														 , boost_placeholders::error
 														 , false)));
-    // Wait here until WriteComplete signals, this makes sure the
-    // message vector remains viable.
+	// Wait here until WriteComplete signals, this makes sure the
+	// message vector remains viable.
 	m_sendEvent.Wait();
 }
-					   
-bool TcpConnection::SendMessageSync(asio_defs::char_vector message)
-{
-    m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::SyncWriteToSocket
-							                   , shared_from_this()
-                                               , message)));
 
-    // Wait here until WriteComplete signals, this makes sure the
-    // message vector remains viable.
-	m_sendEvent.Wait();											
-											   
+bool TcpConnection::SendMessageSync(asio_defs::char_buffer message)
+{
+	m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::SyncWriteToSocket
+											   , shared_from_this()
+											   , message)));
+
+	// Wait here until WriteComplete signals, this makes sure the
+	// message vector remains viable.
+	m_sendEvent.Wait();
+
 	return m_sendSuccess;
 }
 
-void TcpConnection::SyncWriteToSocket(const asio_defs::char_vector& message)
+void TcpConnection::SyncWriteToSocket(const asio_defs::char_buffer& message)
 {
 	boost::asio::async_write(m_socket, boost_asio::buffer(message)
-                             , m_strand.wrap(boost::bind(&TcpConnection::WriteComplete
-									                     , shared_from_this()
-									                     , boost_placeholders::error
+							 , m_strand.wrap(boost::bind(&TcpConnection::WriteComplete
+														 , shared_from_this()
+														 , boost_placeholders::error
 														 , true)));
 }
-	
+
 void TcpConnection::WriteComplete(const boost_sys::error_code& error
-                                  , const bool synchronous)
+								  , const bool synchronous)
 {
 	if (synchronous)
 	{
 		m_sendSuccess = !error;
 	}
-	
+
 	m_sendEvent.Signal();
-	
+
 	if (error)
-	{		
+	{
 		DestroySelf();
 	}
 }
 
 } // namespace tcp_conn
 } // namespace core_lib
- 
- 
+
+

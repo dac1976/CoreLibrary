@@ -22,8 +22,8 @@
 /*!
  * \file AsioDefines.hpp
  * \brief File containing useful definitions.
- */ 
- 
+ */
+
 #ifndef ASIODEFINES_H
 #define ASIODEFINES_H
 
@@ -50,11 +50,11 @@ namespace tcp_conn {
 /*! \brief The asio_defs namespace. */
 namespace asio_defs {
 
-typedef std::vector<char> char_vector;
+typedef std::vector<char> char_buffer;
 
-typedef std::function< size_t (const char_vector& ) > check_bytes_left_to_read;
-	
-typedef std::function< void (const char_vector& ) > message_received_handler;
+typedef std::function< size_t (const char_buffer& ) > check_bytes_left_to_read;
+
+typedef std::function< void (const char_buffer& ) > message_received_handler;
 
 typedef std::shared_ptr<tcp_conn::TcpConnection> tcp_conn_ptr;
 
