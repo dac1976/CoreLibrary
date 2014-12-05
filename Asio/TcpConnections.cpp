@@ -29,20 +29,21 @@
 #include <utility>
 
 namespace core_lib {
-namespace tcp_conn{
+namespace asio {
+namespace tcp {
 
 // ****************************************************************************
 // 'class TcpConnections' definition
 // ****************************************************************************
 
-void TcpConnections::Add(asio_defs::tcp_conn_ptr connection)
+void TcpConnections::Add(defs::tcp_conn_ptr connection)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 	m_connections.insert(std::make_pair(connection->Socket().remote_endpoint()
 										, connection));
 }
 
-void TcpConnections::Remove(asio_defs::tcp_conn_ptr connection)
+void TcpConnections::Remove(defs::tcp_conn_ptr connection)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 	m_connections.erase(connection->Socket().remote_endpoint());
@@ -67,7 +68,7 @@ size_t TcpConnections::Size() const
 }
 
 void TcpConnections::SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
-									  , const asio_defs::char_buffer& message)
+									  , const defs::char_buffer& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 	tcp_conn_map::iterator connIt{m_connections.find(targetEndPoint)};
@@ -79,7 +80,7 @@ void TcpConnections::SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
 }
 
 bool TcpConnections::SendMessageSync(const boost_tcp::endpoint& targetEndPoint
-									 , const asio_defs::char_buffer& message)
+									 , const defs::char_buffer& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 	tcp_conn_map::iterator connIt{m_connections.find(targetEndPoint)};
@@ -88,7 +89,7 @@ bool TcpConnections::SendMessageSync(const boost_tcp::endpoint& targetEndPoint
 		   : connIt->second->SendMessageSync(message);
 }
 
-void TcpConnections::SendMessageToAll(const asio_defs::char_buffer& message)
+void TcpConnections::SendMessageToAll(const defs::char_buffer& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -115,7 +116,8 @@ bool TcpConnections::GetLocalEndPointForRemoteEndPoint(const boost_tcp::endpoint
 	}
 }
 
-} // namespace tcp_conn
+} // namespace tcp
+} // namespace asio
 } // namespace core_lib
 
 

@@ -31,7 +31,8 @@
 #include <boost/bind.hpp>
 
 namespace core_lib {
-namespace tcp_conn{
+namespace asio {
+namespace tcp {
 
 // Reserve 0.5 MiB for each buffer.
 static const size_t DEFAULT_RESERVED_SIZE = 512*1024;
@@ -43,8 +44,8 @@ static const size_t DEFAULT_RESERVED_SIZE = 512*1024;
 TcpConnection::TcpConnection(boost_ioservice& ioService
 							 , TcpConnections& connections
 							 , const size_t minAmountToRead
-							 , const asio_defs::check_bytes_left_to_read& checkBytesLeftToRead
-							 , const asio_defs::message_received_handler& messageReceivedHandler
+							 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+							 , const defs::message_received_handler& messageReceivedHandler
 							 , const eSendOption sendOption)
 	: m_closing{false}
 	, m_ioService(ioService)
@@ -85,8 +86,8 @@ void TcpConnection::CloseConnection()
 
 	SetClosing(true);
 
-    m_ioService.post(boost::bind(&TcpConnection::ProcessCloseSocket
-                                 , shared_from_this()));
+	m_ioService.post(boost::bind(&TcpConnection::ProcessCloseSocket
+								 , shared_from_this()));
 
 	m_closedEvent.Wait();
 }
@@ -106,7 +107,7 @@ bool TcpConnection::IsClosing() const
 void TcpConnection::ProcessCloseSocket()
 {
 	m_socket.close();
-    m_sendEvent.Signal();
+	m_sendEvent.Signal();
 	m_closedEvent.Signal();
 }
 
@@ -130,11 +131,11 @@ void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 	m_receiveBuffer.resize(amountToRead);
 
 	boost::asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
-                            , boost::bind(&TcpConnection::ReadComplete
-                                          , shared_from_this()
-                                          , boost_placeholders::error
-                                          , boost_placeholders::bytes_transferred
-                                          , amountToRead));
+							, boost::bind(&TcpConnection::ReadComplete
+										  , shared_from_this()
+										  , boost_placeholders::error
+										  , boost_placeholders::bytes_transferred
+										  , amountToRead));
 }
 
 void TcpConnection::ReadComplete(const boost_sys::error_code& error
@@ -188,47 +189,46 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error
 	}
 }
 
-void TcpConnection::SendMessageAsync(const asio_defs::char_buffer& message)
+void TcpConnection::SendMessageAsync(const defs::char_buffer& message)
 {
-    m_ioService.post(boost::bind(&TcpConnection::AsyncWriteToSocket
-                                 , shared_from_this()
-                                 , message
-                                 , false));
+	// Wrap in strand to make sure we don't get weird issues
+	// with the send event signalling and waiting.
+	m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::AsyncWriteToSocket
+											   , shared_from_this()
+											   , message
+											   , false)));
 }
 
-bool TcpConnection::SendMessageSync(const asio_defs::char_buffer& message)
+bool TcpConnection::SendMessageSync(const defs::char_buffer& message)
 {
-    SyncWriteToSocket(message, true);
+	SyncWriteToSocket(message, true);
 	return m_sendSuccess;
 }
 
-void TcpConnection::AsyncWriteToSocket(asio_defs::char_buffer message
-                                       , const bool setSuccessFlag)
+void TcpConnection::AsyncWriteToSocket(defs::char_buffer message
+									   , const bool setSuccessFlag)
 {
-    SyncWriteToSocket(message, setSuccessFlag);
+	SyncWriteToSocket(message, setSuccessFlag);
 }
 
-void TcpConnection::SyncWriteToSocket(const asio_defs::char_buffer& message
-                                      , const bool setSuccessFlag)
+void TcpConnection::SyncWriteToSocket(const defs::char_buffer& message
+									  , const bool setSuccessFlag)
 {
-    // Note: We need to wrap this handler in a boost strand so that
-    // it cannot run concurrently with itself, this is needed to make
-    // sure we dont get sendEvent signalling issues when we get here
-    // as a result of a call to SendMessageAsync.
-    boost::asio::async_write(m_socket, boost_asio::buffer(message)
-                             , m_strand.wrap(boost::bind(&TcpConnection::WriteComplete
-                                                         , shared_from_this()
-                                                         , boost_placeholders::error
-                                                         , setSuccessFlag)));
-    // Wait here until WriteComplete signals, this makes sure the
-    // message vector remains viable.
-    m_sendEvent.Wait();
+	boost::asio::async_write(m_socket, boost_asio::buffer(message)
+							 , boost::bind(&TcpConnection::WriteComplete
+										   , shared_from_this()
+										   , boost_placeholders::error
+										   , setSuccessFlag));
+
+	// Wait here until WriteComplete signals, this makes sure the
+	// message vector remains viable.
+	m_sendEvent.Wait();
 }
 
 void TcpConnection::WriteComplete(const boost_sys::error_code& error
-                                  , const bool setSuccessFlag)
+								  , const bool setSuccessFlag)
 {
-    if (setSuccessFlag)
+	if (setSuccessFlag)
 	{
 		m_sendSuccess = !error;
 	}
@@ -241,7 +241,8 @@ void TcpConnection::WriteComplete(const boost_sys::error_code& error
 	}
 }
 
-} // namespace tcp_conn
+} // namespace tcp
+} // namespace asio
 } // namespace core_lib
 
 

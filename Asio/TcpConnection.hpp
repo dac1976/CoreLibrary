@@ -33,8 +33,10 @@
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
-/*! \brief The tcp_conn namespace. */
-namespace tcp_conn{
+/*! \brief The asio namespace. */
+namespace asio {
+/*! \brief The tcp namespace. */
+namespace tcp {
 
 class TcpConnections;
 
@@ -51,8 +53,8 @@ public:
 	TcpConnection(boost_ioservice& ioService
 				  , TcpConnections& connections
 				  , const size_t minAmountToRead
-				  , const asio_defs::check_bytes_left_to_read& checkBytesLeftToRead
-				  , const asio_defs::message_received_handler& messageReceivedHandler
+				  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+				  , const defs::message_received_handler& messageReceivedHandler
 				  , const eSendOption sendOption = nagleOn);
 
 	TcpConnection(const TcpConnection& ) = delete;
@@ -69,9 +71,9 @@ public:
 
 	void StartAsyncRead();
 
-	void SendMessageAsync(const asio_defs::char_buffer& message);
+	void SendMessageAsync(const defs::char_buffer& message);
 
-    bool SendMessageSync(const asio_defs::char_buffer& message);
+	bool SendMessageSync(const defs::char_buffer& message);
 
 private:
 	mutable std::mutex m_mutex;
@@ -83,11 +85,11 @@ private:
 	boost_tcp::socket m_socket;
 	TcpConnections& m_connections;
 	const size_t m_minAmountToRead;
-	asio_defs::check_bytes_left_to_read m_checkBytesLeftToRead;
-	asio_defs::message_received_handler m_messageReceivedHandler;
+	defs::check_bytes_left_to_read m_checkBytesLeftToRead;
+	defs::message_received_handler m_messageReceivedHandler;
 	const eSendOption m_sendOption;
-	asio_defs::char_buffer m_receiveBuffer;
-	asio_defs::char_buffer m_messageBuffer;
+	defs::char_buffer m_receiveBuffer;
+	defs::char_buffer m_messageBuffer;
 	bool m_sendSuccess;
 
 	void SetClosing(const bool closing);
@@ -104,18 +106,19 @@ private:
 					  , const size_t bytesReceived
 					  , const size_t bytesExpected);
 
-    void AsyncWriteToSocket(asio_defs::char_buffer message
-                            , const bool setSuccessFlag);
+	void AsyncWriteToSocket(defs::char_buffer message
+							, const bool setSuccessFlag);
 
-    void SyncWriteToSocket(const asio_defs::char_buffer& message
-                           , const bool setSuccessFlag);
+	void SyncWriteToSocket(const defs::char_buffer& message
+						   , const bool setSuccessFlag);
 
 	void WriteComplete(const boost_sys::error_code& error
-                       , const bool setSuccessFlag);
+					   , const bool setSuccessFlag);
 };
 
 
-} // namespace tcp_conn
+} // namespace tcp
+} // namespace asio
 } // namespace core_lib
 
 #endif // TCPCONNECTION_H

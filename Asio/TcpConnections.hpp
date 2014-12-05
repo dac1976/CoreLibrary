@@ -33,8 +33,10 @@
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
-/*! \brief The tcp_conn namespace. */
-namespace tcp_conn{
+/*! \brief The asio namespace. */
+namespace asio {
+/*! \brief The tcp namespace. */
+namespace tcp {
 
 class TcpConnection;
 
@@ -49,21 +51,21 @@ public:
 
 	const TcpConnections& operator=(const TcpConnections& ) = delete;
 
-	void Add(asio_defs::tcp_conn_ptr Connection);
+	void Add(defs::tcp_conn_ptr Connection);
 
-	void Remove(asio_defs::tcp_conn_ptr Connection);
+	void Remove(defs::tcp_conn_ptr Connection);
 
 	void CloseConnections();
 
 	size_t Size() const;
 
 	void SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
-						  , const asio_defs::char_buffer& message);
+						  , const defs::char_buffer& message);
 
 	bool SendMessageSync(const boost_tcp::endpoint& targetEndPoint
-						  , const asio_defs::char_buffer& message);
+						  , const defs::char_buffer& message);
 
-	void SendMessageToAll(const asio_defs::char_buffer& message);
+	void SendMessageToAll(const defs::char_buffer& message);
 
 	bool GetLocalEndPointForRemoteEndPoint(const boost_tcp::endpoint& remoteEndPoint
 										   , boost_tcp::endpoint& localEndPoint) const;
@@ -71,12 +73,13 @@ public:
 private:
 	mutable std::mutex m_mutex;
 	typedef std::map<boost_tcp::endpoint
-					 , asio_defs::tcp_conn_ptr> tcp_conn_map;
+					 , defs::tcp_conn_ptr> tcp_conn_map;
 	tcp_conn_map m_connections;
 };
 
 
-} // namespace tcp_conn
+} // namespace tcp
+} // namespace asio
 } // namespace core_lib
 
 #endif // TCPCONNECTIONS_H

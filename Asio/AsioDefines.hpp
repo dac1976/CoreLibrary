@@ -41,14 +41,16 @@ typedef boost_asio::ip::tcp boost_tcp;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
+/*! \brief The asio namespace. */
+namespace asio {
 
 /*! \brief The tcp_conn namespace. */
-namespace tcp_conn {
+namespace tcp {
 	class TcpConnection;
 } // namespace tcp_conn
 
 /*! \brief The asio_defs namespace. */
-namespace asio_defs {
+namespace defs {
 
 typedef std::vector<char> char_buffer;
 
@@ -56,9 +58,10 @@ typedef std::function< size_t (const char_buffer& ) > check_bytes_left_to_read;
 
 typedef std::function< void (const char_buffer& ) > message_received_handler;
 
-typedef std::shared_ptr<tcp_conn::TcpConnection> tcp_conn_ptr;
+typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr;
 
-} // namespace asio_defs
+} // namespace defs
+} // namespace asio
 } // namespace core_lib
 
 #endif // ASIODEFINES_H
