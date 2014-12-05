@@ -71,7 +71,7 @@ public:
 
 	void SendMessageAsync(const asio_defs::char_buffer& message);
 
-	bool SendMessageSync(asio_defs::char_buffer message);
+    bool SendMessageSync(const asio_defs::char_buffer& message);
 
 private:
 	mutable std::mutex m_mutex;
@@ -104,12 +104,14 @@ private:
 					  , const size_t bytesReceived
 					  , const size_t bytesExpected);
 
-	void AsyncWriteToSocket(asio_defs::char_buffer message);
+    void AsyncWriteToSocket(asio_defs::char_buffer message
+                            , const bool setSuccessFlag);
 
-	void SyncWriteToSocket(const asio_defs::char_buffer& message);
+    void SyncWriteToSocket(const asio_defs::char_buffer& message
+                           , const bool setSuccessFlag);
 
 	void WriteComplete(const boost_sys::error_code& error
-					   , const bool synchronous);
+                       , const bool setSuccessFlag);
 };
 
 
