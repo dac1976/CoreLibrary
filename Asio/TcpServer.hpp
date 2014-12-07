@@ -28,7 +28,10 @@
 #ifndef TCPSERVER_HPP
 #define TCPSERVER_HPP
 
+#include "../SyncEvent.hpp"
 #include "AsioDefines.hpp"
+#include "IoServiceThreadGroup.hpp"
+#include "TcpConnections.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -37,6 +40,61 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
+class TcpServer final
+{
+public:
+	TcpServer(boost_ioservice& ioService
+              , const unsigned short listenPort
+              , const size_t minAmountToRead
+              , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+              , const defs::message_received_handler& messageReceivedHandler
+              , const eSendOption sendOption = nagleOn);
+              
+    TcpServer(const size_t minAmountToRead
+              , const unsigned short listenPort
+              , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+              , const defs::message_received_handler& messageReceivedHandler
+              , const eSendOption sendOption = nagleOn);
+
+	~TcpServer();
+    
+    TcpServer(const TcpServer& ) = delete;
+
+	const TcpServer& operator=(const TcpServer& ) = delete;
+	
+    void CloseAcceptor();
+	
+    void OpenAcceptor();
+	
+    void SendMessageToClientAsync(const defs::connection_address& client
+							      , const defs::char_buffer& message);
+                             
+    bool SendMessageToClientSync(const defs::connection_address& client
+							     , const defs::char_buffer& message);
+
+    void SendMessageToAllClients(const defs::char_buffer& message);
+
+	std::string GetServerIPForClient(const defs::connection_address& client) const;
+
+private:
+    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+	boost_ioservice& m_ioService;
+    std::unique_ptr<boost_tcp_acceptor> m_acceptor;
+    const unsigned short m_listenPort;
+	const size_t m_minAmountToRead;
+	defs::check_bytes_left_to_read m_checkBytesLeftToRead;
+    defs::message_received_handler m_messageReceivedHandler;
+    const eSendOption m_sendOption;
+	TcpConnections m_clientConnections;
+    threads::SyncEvent m_closedEvent;
+
+	void AcceptConnection();
+    
+	void AcceptHandler(defs::tcp_conn_ptr connection
+					   , const boost_sys::error_code& error);
+                       
+	void ProcessCloseAcceptor();
+};
 
 } // namespace tcp
 } // namespace asio

@@ -59,7 +59,8 @@ HEADERS +=                               \
     ../../Serialization/SerializeToVector.hpp \
     ../../Asio/AsioDefines.hpp \
     ../../Asio/TcpConnection.hpp \
-    ../../Asio/TcpConnections.hpp
+    ../../Asio/TcpConnections.hpp \
+    ../../Asio/TcpServer.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
@@ -79,4 +80,5 @@ SOURCES +=                               \
     ../../IniFile/IniFileLines.cpp       \
     ../../IniFile/IniFileSectionDetails.cpp \
     ../../Asio/TcpConnection.cpp \
-    ../../Asio/TcpConnections.cpp
+    ../../Asio/TcpConnections.cpp \
+    ../../Asio/TcpServer.cpp

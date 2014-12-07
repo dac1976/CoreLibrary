@@ -59,21 +59,20 @@ public:
 
 	size_t Size() const;
 
-	void SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
+	void SendMessageAsync(const defs::connection_address& target                     
 						  , const defs::char_buffer& message);
 
-	bool SendMessageSync(const boost_tcp::endpoint& targetEndPoint
-						  , const defs::char_buffer& message);
+	bool SendMessageSync(const defs::connection_address& target  
+						 , const defs::char_buffer& message);
 
 	void SendMessageToAll(const defs::char_buffer& message);
 
-	bool GetLocalEndPointForRemoteEndPoint(const boost_tcp::endpoint& remoteEndPoint
-										   , boost_tcp::endpoint& localEndPoint) const;
+	bool GetLocalEndForRemoteEnd(const defs::connection_address& remoteEnd 
+								 , defs::connection_address& localEnd) const;
 
 private:
 	mutable std::mutex m_mutex;
-	typedef std::map<boost_tcp::endpoint
-					 , defs::tcp_conn_ptr> tcp_conn_map;
+	typedef std::map<defs::connection_address, defs::tcp_conn_ptr> tcp_conn_map;
 	tcp_conn_map m_connections;
 };
 

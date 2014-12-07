@@ -44,12 +44,6 @@ class TcpConnection final
 	: public std::enable_shared_from_this<TcpConnection>
 {
 public:
-	enum eSendOption
-	{
-		nagleOff, // Implies send immediately.
-		nagleOn
-	};
-
 	TcpConnection(boost_ioservice& ioService
 				  , TcpConnections& connections
 				  , const size_t minAmountToRead
@@ -62,6 +56,8 @@ public:
 	const TcpConnection& operator=(const TcpConnection& ) = delete;
 
 	virtual ~TcpConnection() = default;
+
+    boost_tcp::socket& Socket();
 
 	const boost_tcp::socket& Socket() const;
 

@@ -31,6 +31,8 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include <utility>
+#include <string>
 
 namespace boost_sys = boost::system;
 namespace boost_asio = boost::asio;
@@ -38,6 +40,7 @@ namespace boost_placeholders = boost::asio::placeholders;
 
 typedef boost_asio::io_service boost_ioservice;
 typedef boost_asio::ip::tcp boost_tcp;
+typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -46,6 +49,13 @@ namespace asio {
 
 /*! \brief The tcp_conn namespace. */
 namespace tcp {
+
+    enum eSendOption
+	{
+		nagleOff, // Implies send immediately.
+		nagleOn
+	};
+    
 	class TcpConnection;
 } // namespace tcp_conn
 
@@ -57,6 +67,8 @@ typedef std::vector<char> char_buffer;
 typedef std::function< size_t (const char_buffer& ) > check_bytes_left_to_read;
 
 typedef std::function< void (const char_buffer& ) > message_received_handler;
+
+typedef std::pair<std::string, unsigned short> connection_address;
 
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr;
 

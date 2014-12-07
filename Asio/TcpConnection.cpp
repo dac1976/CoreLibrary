@@ -62,9 +62,14 @@ TcpConnection::TcpConnection(boost_ioservice& ioService
 	m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
 }
 
+boost_tcp::socket& TcpConnection::Socket()
+{
+   return m_socket;
+}
+
 const boost_tcp::socket& TcpConnection::Socket() const
 {
-	return m_socket;
+    return m_socket;
 }
 
 void TcpConnection::Connect(const boost_tcp::endpoint& tcpEndPoint)

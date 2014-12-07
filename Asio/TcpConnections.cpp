@@ -26,7 +26,6 @@
 
 #include "TcpConnections.hpp"
 #include "TcpConnection.hpp"
-#include <utility>
 
 namespace core_lib {
 namespace asio {
@@ -38,15 +37,18 @@ namespace tcp {
 
 void TcpConnections::Add(defs::tcp_conn_ptr connection)
 {
-	std::lock_guard<std::mutex> lock{m_mutex};
-	m_connections.insert(std::make_pair(connection->Socket().remote_endpoint()
-										, connection));
+	std::lock_guard<std::mutex> lock{m_mutex};    
+    defs::connection_address 
+        connDetails{std::make_pair(connection->Socket().remote_endpoint().address().to_string()
+                                   , connection->Socket().remote_endpoint().port())};
+	m_connections.insert(std::make_pair(connDetails, connection));
 }
 
 void TcpConnections::Remove(defs::tcp_conn_ptr connection)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
-	m_connections.erase(connection->Socket().remote_endpoint());
+    m_connections.erase(std::make_pair(connection->Socket().remote_endpoint().address().to_string()
+                                       , connection->Socket().remote_endpoint().port()));
 }
 
 void TcpConnections::CloseConnections()
@@ -67,11 +69,11 @@ size_t TcpConnections::Size() const
 	return m_connections.size();
 }
 
-void TcpConnections::SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
+void TcpConnections::SendMessageAsync(const defs::connection_address& target 
 									  , const defs::char_buffer& message)
 {
-	std::lock_guard<std::mutex> lock{m_mutex};
-	tcp_conn_map::iterator connIt{m_connections.find(targetEndPoint)};
+	std::lock_guard<std::mutex> lock{m_mutex};    
+	tcp_conn_map::iterator connIt{m_connections.find(target)};
 
 	if (connIt != m_connections.end())
 	{
@@ -79,11 +81,11 @@ void TcpConnections::SendMessageAsync(const boost_tcp::endpoint& targetEndPoint
 	}
 }
 
-bool TcpConnections::SendMessageSync(const boost_tcp::endpoint& targetEndPoint
+bool TcpConnections::SendMessageSync(const defs::connection_address& target 
 									 , const defs::char_buffer& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
-	tcp_conn_map::iterator connIt{m_connections.find(targetEndPoint)};
+	tcp_conn_map::iterator connIt{m_connections.find(target)};
 	return connIt == m_connections.end()
 		   ? false
 		   : connIt->second->SendMessageSync(message);
@@ -99,11 +101,11 @@ void TcpConnections::SendMessageToAll(const defs::char_buffer& message)
 	}
 }
 
-bool TcpConnections::GetLocalEndPointForRemoteEndPoint(const boost_tcp::endpoint& remoteEndPoint
-													   , boost_tcp::endpoint& localEndPoint) const
+bool TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_address& remoteEnd 
+										     , defs::connection_address& localEnd) const
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
-	tcp_conn_map::const_iterator connIt{m_connections.find(remoteEndPoint)};
+	tcp_conn_map::const_iterator connIt{m_connections.find(remoteEnd)};
 
 	if (connIt == m_connections.end())
 	{
@@ -111,7 +113,8 @@ bool TcpConnections::GetLocalEndPointForRemoteEndPoint(const boost_tcp::endpoint
 	}
 	else
 	{
-		localEndPoint = connIt->second->Socket().local_endpoint();
+        localEnd = std::make_pair(connIt->second->Socket().local_endpoint().address().to_string()
+                                  , connIt->second->Socket().local_endpoint().port());
 		return true;
 	}
 }
