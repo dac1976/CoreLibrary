@@ -205,7 +205,7 @@ public:
 	 * \brief Get sections.
 	 * \return A list of INI file section names.
 	 */
-	std::list<std::string> GetSections() const;
+    auto GetSections() -> std::list<std::string> const;
 	/*!
 	 * \brief Get section's key-value pairs.
 	 * \param[in] section - section Parameter_Description

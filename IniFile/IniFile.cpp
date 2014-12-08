@@ -308,7 +308,7 @@ void IniFile::UpdateFile(const std::string& overridePath) const
 	}
 }
 
-std::list<std::string> IniFile::GetSections() const
+auto IniFile::GetSections() -> std::list<std::string> const
 {
 	std::list<std::string> sections;
 

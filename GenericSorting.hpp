@@ -33,6 +33,7 @@
 #include <utility>
 #include <vector>
 #include <list>
+#include <iterator>
 #include "Exceptions/CustomException.hpp"
 
 /*! \brief The core_lib namespace. */
@@ -74,7 +75,7 @@ public:
 		{
 			changesMade = false;
 
-			for (TIterator item = begin; item != end - 1; ++item)
+            for (auto item = begin; item != end - 1; ++item)
 			{
 				if (compare(*(item + 1), *item))
 				{
@@ -115,11 +116,11 @@ public:
 	static void Sort(TIterator begin, TIterator end)
 	{
 		item_compare compare;
-		TIterator item{begin};
+        TIterator item{begin};
 
-		while (item != end)
+        while(item != end)
 		{
-			TIterator minValue{std::min_element(item, end, compare)};
+            TIterator minValue{std::min_element(item, end, compare)};
 
 			if (minValue != item)
 			{
@@ -150,7 +151,7 @@ public:
 	/*!
 	 * \brief In-place static sort function.
      * \param[in] begin - The begining of the collection to sort.
-     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+     * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
 	 *
 	 * This function sorts a collections (vector, list etc)
 	 * of items of type T between a begin and end iterator.
@@ -163,18 +164,10 @@ public:
 		// we'll iterate over our items and for each item we'll move it to
 		// the correct position in the collection inserting it and shuffling
 		// the other items in the correct direction.
-		for (TIterator item = begin; item != end; ++item)
+        for (auto item = begin; item != end; ++item)
 		{
-			T valueToInsert{*item};
-			TIterator holePos{item};
-
-			while ((holePos != begin) && compare(valueToInsert, *(holePos - 1)))
-			{
-				*holePos = *(holePos - 1);
-				--holePos;
-			}
-
-			*holePos = valueToInsert;
+            std::rotate(std::upper_bound(begin, item, *item, compare)
+                        , item, std::next(item));
 		}
 	}
 };
@@ -204,74 +197,23 @@ public:
 	 * This function sorts a collections (vector, list etc)
 	 * of items of type T between a begin and end iterator.
 	 */
-	template <typename TIterator>
-	static void Sort(TIterator begin, TIterator end)
-	{
-		if (begin >= end)
-		{
-			return;
-		}
+    template <typename TIterator>
+    static void Sort(TIterator begin, TIterator end)
+    {
+        auto const length = std::distance(begin, end);
 
-		// choose pivot
-		TIterator pivot{begin + ((end - begin) / 2)};
+        if (length <= 1)
+        {
+            return;
+        }
 
-		// partition
-		pivot = Partition(begin, end, pivot);
+        auto const pivot = std::next(begin, length / 2);
+        item_compare compare;
+        std::nth_element(begin, pivot, end, compare);
 
-		// recurse on left half [begin, pivot)
-		Sort(begin, pivot);
-
-		// recurse on right half (pivot, end)
-		Sort(pivot + 1, end);
-	}
-
-private:
-	/*!
-	 * \brief Static partitioning function.
-     * \param[in] begin - The begining of the sub-collection to sort.
-     * \param[in] end - The end of the sub-collection to sort (in STL fashion this is the item just after the last otem to be sorted).
-     * \param[in] pivot - Pivot point within the collection about which to partition.
-	 * \return The new pivot iterator.
-	 *
-	 * This function partitions the sub-collection as part of
-	 * the quick sort algorithm.
-	 */
-	template <typename TIterator>
-	static TIterator Partition(TIterator begin
-							   , TIterator end
-							   , TIterator pivot)
-	{
-		item_compare compare;
-
-		// swap pivot value with right-most item
-		std::swap(*pivot, *(end - 1));
-
-		// update current pivot again
-		pivot = end - 1;
-
-		// initialise new pivot
-		TIterator newPivot{begin};
-
-		// perform partitioning moving items < pivot
-		// into left half
-		TIterator item{begin};
-
-		while(item != end - 1)
-		{
-			if (compare(*item, *pivot))
-			{
-				std::swap(*item, *newPivot++);
-			}
-
-			++item;
-		}
-
-		// move pivot value to final place
-		std::swap(*newPivot, *(end - 1));
-
-		// return pivot
-		return newPivot;
-	}
+        Sort(begin, pivot);
+        Sort(std::next(pivot), end);
+    }
 };
 
 /*!
@@ -428,9 +370,9 @@ private:
 	{
 		CheckBucketsSize(bucketDefinitions, bucketValues);
 
-		for (TIterator item = begin; item != end; ++item)
+        for (auto item = begin; item != end; ++item)
 		{
-			size_t bucketIndex = GetBucketIndex(*item, bucketDefinitions);
+            size_t bucketIndex{GetBucketIndex(*item, bucketDefinitions)};
 			bucketValues[bucketIndex].push_back(*item);
 		}
 	}
@@ -447,7 +389,7 @@ private:
 	template <typename TIterator>
 	static void WriteBackBuckets(TIterator begin, const bucket_values& bucketValues)
 	{
-		TIterator pos{begin};
+        TIterator pos{begin};
 
 		for (auto& bucket : bucketValues)
 		{

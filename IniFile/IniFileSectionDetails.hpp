@@ -58,7 +58,7 @@ public:
 	 * \brief Get the section.
 	 * \return The section.
 	 */
-	const std::string& Section() const;
+    const std::string& Section() const;
 	/*!
 	 * \brief Does a key exist
 	 * \param[in] key - The key.
