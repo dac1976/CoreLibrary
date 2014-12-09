@@ -28,7 +28,6 @@
 #ifndef TCPSERVER_HPP
 #define TCPSERVER_HPP
 
-#include "../SyncEvent.hpp"
 #include "AsioDefines.hpp"
 #include "IoServiceThreadGroup.hpp"
 #include "TcpConnections.hpp"
@@ -40,62 +39,51 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
-class TcpServer final
+class TcpClient final
 {
 public:
-	TcpServer(boost_ioservice& ioService
-              , const unsigned short listenPort
+	TcpClient(boost_ioservice& ioService
+	          , const defs::connection_address& server
               , const size_t minAmountToRead
               , const defs::check_bytes_left_to_read& checkBytesLeftToRead
               , const defs::message_received_handler& messageReceivedHandler
               , const eSendOption sendOption = eSendOption::nagleOn);
               
-    TcpServer(const size_t minAmountToRead
-              , const unsigned short listenPort
+    TcpClient(const defs::connection_address& server
+              , const size_t minAmountToRead
               , const defs::check_bytes_left_to_read& checkBytesLeftToRead
               , const defs::message_received_handler& messageReceivedHandler
               , const eSendOption sendOption = eSendOption::nagleOn);
 
-	~TcpServer();
+	~TcpClient();
     
-    TcpServer(const TcpServer& ) = delete;
+    TcpClient(const TcpClient& ) = delete;
 
-	const TcpServer& operator=(const TcpServer& ) = delete;
+	const TcpClient& operator=(const TcpClient& ) = delete;
 	
-    void CloseAcceptor();
-	
-    void OpenAcceptor();
-	
-    void SendMessageToClientAsync(const defs::connection_address& client
-							      , const defs::char_buffer& message);
+	void CloseConnection();
+
+	void SendMessageToServerAsync(const defs::char_buffer& message);
                              
-    bool SendMessageToClientSync(const defs::connection_address& client
-							     , const defs::char_buffer& message);
+    bool SendMessageToServerSync(const defs::char_buffer& message);
 
-    void SendMessageToAllClients(const defs::char_buffer& message);
-
-    // Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetServerDetailsForClient(const defs::connection_address& client)
-             -> defs::connection_address const;
+	// Throws xUnknownConnectionError is remoteEnd is not valid.
+	auto GetClientDetailsForServer(const defs::connection_address& server) 
+	         -> defs::connection_address const;    
 
 private:
     std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
 	boost_ioservice& m_ioService;
-    std::unique_ptr<boost_tcp_acceptor> m_acceptor;
-    const unsigned short m_listenPort;
+	const defs::connection_address m_server;
 	const size_t m_minAmountToRead;
 	defs::check_bytes_left_to_read m_checkBytesLeftToRead;
     defs::message_received_handler m_messageReceivedHandler;
     const eSendOption m_sendOption;
-	TcpConnections m_clientConnections;
-    threads::SyncEvent m_closedEvent;
+	TcpConnections m_serverConnection;
+	
+	void CreateConnection();
 
-	void AcceptConnection();
-    
-	void AcceptHandler(defs::tcp_conn_ptr connection
-					   , const boost_sys::error_code& error);
-                       
-	void ProcessCloseAcceptor();
+	void CheckAndCreateConnection();
 };
 
 } // namespace tcp

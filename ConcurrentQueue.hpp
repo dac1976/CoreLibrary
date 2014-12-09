@@ -52,7 +52,7 @@ public:
 	xQueuePopTimeoutError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xQueuePopTimeoutError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -72,7 +72,7 @@ public:
 	xQueuePopQueueEmptyError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xQueuePopQueueEmptyError(const std::string& message);
 	/*! \brief Virtual destructor. */

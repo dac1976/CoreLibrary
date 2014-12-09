@@ -20,16 +20,34 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /*!
- * \file TcpConnection.cpp
+ * \file TcpConnections.cpp
  * \brief File containing TCP connections class definition.
  */
 
 #include "TcpConnections.hpp"
 #include "TcpConnection.hpp"
+#include <boost/throw_exception.hpp>
 
 namespace core_lib {
 namespace asio {
 namespace tcp {
+
+// ****************************************************************************
+// 'class xUnknownConnectionError' definition
+// ****************************************************************************
+xUnknownConnectionError::xUnknownConnectionError()
+    : exceptions::xCustomException("unknown connection")
+{
+}
+
+xUnknownConnectionError::xUnknownConnectionError(const std::string& message)
+    : exceptions::xCustomException(message)
+{
+}
+
+xUnknownConnectionError::~xUnknownConnectionError()
+{
+}
 
 // ****************************************************************************
 // 'class TcpConnections' definition
@@ -38,9 +56,8 @@ namespace tcp {
 void TcpConnections::Add(defs::tcp_conn_ptr connection)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};    
-    defs::connection_address 
-        connDetails{std::make_pair(connection->Socket().remote_endpoint().address().to_string()
-                                   , connection->Socket().remote_endpoint().port())};
+    auto connDetails = std::make_pair(connection->Socket().remote_endpoint().address().to_string()
+                                      , connection->Socket().remote_endpoint().port());
 	m_connections.insert(std::make_pair(connDetails, connection));
 }
 
@@ -51,29 +68,35 @@ void TcpConnections::Remove(defs::tcp_conn_ptr connection)
                                        , connection->Socket().remote_endpoint().port()));
 }
 
-void TcpConnections::CloseConnections()
-{
-	std::lock_guard<std::mutex> lock{m_mutex};
-
-	for (auto& connection : m_connections)
-	{
-		connection.second->CloseConnection();
-	}
-
-	m_connections.clear();
-}
-
 size_t TcpConnections::Size() const
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 	return m_connections.size();
 }
 
+bool TcpConnections::Empty() const
+{
+    std::lock_guard<std::mutex> lock{m_mutex};
+    return m_connections.empty();
+}
+
+void TcpConnections::CloseConnections()
+{
+    std::lock_guard<std::mutex> lock{m_mutex};
+
+    for (auto& connection : m_connections)
+    {
+        connection.second->CloseConnection();
+    }
+
+    m_connections.clear();
+}
+
 void TcpConnections::SendMessageAsync(const defs::connection_address& target 
 									  , const defs::char_buffer& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};    
-	tcp_conn_map::iterator connIt{m_connections.find(target)};
+    auto connIt = m_connections.find(target);
 
 	if (connIt != m_connections.end())
 	{
@@ -85,7 +108,7 @@ bool TcpConnections::SendMessageSync(const defs::connection_address& target
 									 , const defs::char_buffer& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
-	tcp_conn_map::iterator connIt{m_connections.find(target)};
+    auto connIt = m_connections.find(target);
 	return connIt == m_connections.end()
 		   ? false
 		   : connIt->second->SendMessageSync(message);
@@ -101,22 +124,24 @@ void TcpConnections::SendMessageToAll(const defs::char_buffer& message)
 	}
 }
 
-bool TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_address& remoteEnd 
-										     , defs::connection_address& localEnd) const
+auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_address& remoteEnd)
+                         -> defs::connection_address const
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
-	tcp_conn_map::const_iterator connIt{m_connections.find(remoteEnd)};
+    defs::connection_address localEnd;
+    auto connIt = m_connections.find(remoteEnd);
 
 	if (connIt == m_connections.end())
 	{
-		return false;
+        BOOST_THROW_EXCEPTION(xUnknownConnectionError());
 	}
 	else
 	{
         localEnd = std::make_pair(connIt->second->Socket().local_endpoint().address().to_string()
                                   , connIt->second->Socket().local_endpoint().port());
-		return true;
 	}
+
+    return localEnd;
 }
 
 } // namespace tcp

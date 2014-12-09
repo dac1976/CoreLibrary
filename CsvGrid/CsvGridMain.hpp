@@ -50,7 +50,7 @@ public:
 	xCsvGridDimensionError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xCsvGridDimensionError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -70,7 +70,7 @@ public:
 	xCsvGridRowOutOfRangeError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xCsvGridRowOutOfRangeError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -90,7 +90,7 @@ public:
 	xCsvGridCreateFileStreamError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xCsvGridCreateFileStreamError(const std::string& message);
 	/*! \brief Virtual destructor. */

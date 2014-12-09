@@ -72,13 +72,11 @@ const boost_tcp::socket& TcpConnection::Socket() const
     return m_socket;
 }
 
-void TcpConnection::Connect(const boost_tcp::endpoint& tcpEndPoint)
+void TcpConnection::Connect(const boost_tcp::endpoint& endPoint)
 {
-	m_socket.connect(tcpEndPoint);
-
-	boost_tcp::no_delay option(m_sendOption == nagleOff);
+    m_socket.connect(endPoint);
+    boost_tcp::no_delay option(m_sendOption == eSendOption::nagleOff);
 	m_socket.set_option(option);
-
 	StartAsyncRead();
 }
 
@@ -90,10 +88,8 @@ void TcpConnection::CloseConnection()
 	}
 
 	SetClosing(true);
-
 	m_ioService.post(boost::bind(&TcpConnection::ProcessCloseSocket
 								 , shared_from_this()));
-
 	m_closedEvent.Wait();
 }
 
@@ -127,14 +123,12 @@ void TcpConnection::DestroySelf()
 void TcpConnection::StartAsyncRead()
 {
 	m_connections.Add(shared_from_this());
-
 	AsyncReadFromSocket(m_minAmountToRead);
 }
 
 void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 {
 	m_receiveBuffer.resize(amountToRead);
-
 	boost::asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
 							, boost::bind(&TcpConnection::ReadComplete
 										  , shared_from_this()
@@ -224,7 +218,6 @@ void TcpConnection::SyncWriteToSocket(const defs::char_buffer& message
 										   , shared_from_this()
 										   , boost_placeholders::error
 										   , setSuccessFlag));
-
 	// Wait here until WriteComplete signals, this makes sure the
 	// message vector remains viable.
 	m_sendEvent.Wait();

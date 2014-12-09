@@ -116,11 +116,11 @@ public:
 	static void Sort(TIterator begin, TIterator end)
 	{
 		item_compare compare;
-        TIterator item{begin};
+        auto item = begin;
 
         while(item != end)
 		{
-            TIterator minValue{std::min_element(item, end, compare)};
+            auto minValue = std::min_element(item, end, compare);
 
 			if (minValue != item)
 			{
@@ -230,7 +230,7 @@ public:
 	xBucketValueOutOfRangeError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xBucketValueOutOfRangeError(const std::string& message);
 	/*! \brief Virtual destructor. */

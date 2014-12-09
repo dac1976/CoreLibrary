@@ -20,7 +20,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /*!
- * \file TcpConnection.cpp
+ * \file TcpServer.cpp
  * \brief File containing TCP server class definition.
  */
 
@@ -53,16 +53,15 @@ TcpServer::TcpServer(const size_t minAmountToRead
                      , const defs::check_bytes_left_to_read& checkBytesLeftToRead
                      , const defs::message_received_handler& messageReceivedHandler
                      , const eSendOption sendOption)
-    : m_ioThreadGroup{new IoServiceThreadGroup()}
+    : m_ioThreadGroup{new IoServiceThreadGroup(std::thread::hardware_concurrency())}
     , m_ioService(m_ioThreadGroup->IoService())
     , m_listenPort{listenPort}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
-    , m_sendOption{sendOption}
-
-       
+    , m_sendOption{sendOption}    
 {
+    OpenAcceptor();
 }
 
 TcpServer::~TcpServer()
@@ -72,7 +71,7 @@ TcpServer::~TcpServer()
 
 void TcpServer::CloseAcceptor()
 {
-    if (m_acceptor->is_open())
+    if (m_acceptor && m_acceptor->is_open())
 	{
 		m_ioService.post(boost::bind(&TcpServer::ProcessCloseAcceptor, this));		
         m_closedEvent.Wait();
@@ -83,7 +82,7 @@ void TcpServer::CloseAcceptor()
 
 void TcpServer::OpenAcceptor()
 {
-    if (!m_acceptor->is_open())
+    if (!m_acceptor || !m_acceptor->is_open())
 	{
 		m_acceptor.reset(new boost_tcp_acceptor(m_ioService,
 												boost_tcp::endpoint(boost_tcp::v4()
@@ -109,29 +108,20 @@ void TcpServer::SendMessageToAllClients(const defs::char_buffer& message)
     m_clientConnections.SendMessageToAll(message);
 }
 
-std::string TcpServer::GetServerIPForClient(const defs::connection_address& client) const
+auto TcpServer::GetServerDetailsForClient(const defs::connection_address& client)
+                    -> defs::connection_address const
 {
-    defs::connection_address server;
-    
-    if (m_clientConnections.GetLocalEndForRemoteEnd(client, server))
-    {
-        return server.first;
-    }
-    else
-    {
-        return "";
-    }    
+    return m_clientConnections.GetLocalEndForRemoteEnd(client);
 }
 
 void TcpServer::AcceptConnection()
 {
-    defs::tcp_conn_ptr connection{std::make_shared<TcpConnection>(m_ioService
-                                                            , m_clientConnections
-                                                            , m_minAmountToRead
-                                                            , m_checkBytesLeftToRead
-                                                            , m_messageReceivedHandler
-                                                            , m_sendOption)};
-
+    auto connection = std::make_shared<TcpConnection>(m_ioService
+                                                      , m_clientConnections
+                                                      , m_minAmountToRead
+                                                      , m_checkBytesLeftToRead
+                                                      , m_messageReceivedHandler
+                                                      , m_sendOption);
     m_acceptor->async_accept(connection->Socket(),
 							 boost::bind(&TcpServer::AcceptHandler
 									     , this

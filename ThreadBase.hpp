@@ -51,7 +51,7 @@ public:
 	xThreadNotStartedError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xThreadNotStartedError(const std::string& message);
 	/*! \brief Virtual destructor. */

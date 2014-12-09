@@ -61,7 +61,7 @@ public:
 	xSplitStringBadDelim();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xSplitStringBadDelim(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -81,7 +81,7 @@ public:
 	xSplitStringTooManySubstrings();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specifed message string.
+     * \param[in] message - A user specified message string.
 	 */
 	explicit xSplitStringTooManySubstrings(const std::string& message);
 	/*! \brief Virtual destructor.*/

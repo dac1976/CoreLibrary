@@ -49,7 +49,7 @@ public:
 				  , const size_t minAmountToRead
 				  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
 				  , const defs::message_received_handler& messageReceivedHandler
-				  , const eSendOption sendOption = nagleOn);
+                  , const eSendOption sendOption = eSendOption::nagleOn);
 
 	TcpConnection(const TcpConnection& ) = delete;
 
@@ -61,7 +61,7 @@ public:
 
 	const boost_tcp::socket& Socket() const;
 
-	void Connect(const boost_tcp::endpoint& tcpEndPoint);
+	void Connect(const boost_tcp::endpoint& endPoint);
 
 	void CloseConnection();
 

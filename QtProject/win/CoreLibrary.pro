@@ -60,7 +60,8 @@ HEADERS +=                               \
     ../../Asio/AsioDefines.hpp \
     ../../Asio/TcpConnection.hpp \
     ../../Asio/TcpConnections.hpp \
-    ../../Asio/TcpServer.hpp
+    ../../Asio/TcpServer.hpp \
+    ../../Asio/TcpClient.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
@@ -81,4 +82,5 @@ SOURCES +=                               \
     ../../IniFile/IniFileSectionDetails.cpp \
     ../../Asio/TcpConnection.cpp \
     ../../Asio/TcpConnections.cpp \
-    ../../Asio/TcpServer.cpp
+    ../../Asio/TcpServer.cpp \
+    ../../Asio/TcpClient.cpp

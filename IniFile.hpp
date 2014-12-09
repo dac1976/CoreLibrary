@@ -52,7 +52,7 @@ public:
 	xIniFileDataConvertError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xIniFileDataConvertError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -72,7 +72,7 @@ public:
 	xIniFileParserError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xIniFileParserError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -92,7 +92,7 @@ public:
 	xIniFileSaveError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xIniFileSaveError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -113,7 +113,7 @@ public:
 	xIniFileInvalidKeyError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xIniFileInvalidKeyError(const std::string& message);
 	/*! \brief Virtual destructor. */
@@ -133,7 +133,7 @@ public:
 	xIniFileInvalidSectionError();
 	/*!
 	 * \brief Initializing constructor.
-	 * \param[in] message - A user specifed message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xIniFileInvalidSectionError(const std::string& message);
 	/*! \brief Virtual destructor. */

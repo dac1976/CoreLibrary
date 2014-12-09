@@ -41,6 +41,7 @@ namespace boost_placeholders = boost::asio::placeholders;
 typedef boost_asio::io_service boost_ioservice;
 typedef boost_asio::ip::tcp boost_tcp;
 typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor;
+typedef boost::asio::ip::address boost_address;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -50,7 +51,7 @@ namespace asio {
 /*! \brief The tcp_conn namespace. */
 namespace tcp {
 
-    enum eSendOption
+    enum class eSendOption
 	{
 		nagleOff, // Implies send immediately.
 		nagleOn

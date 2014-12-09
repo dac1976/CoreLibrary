@@ -28,6 +28,7 @@
 #define TCPCONNECTIONS_H
 
 #include "AsioDefines.hpp"
+#include "../Exceptions/CustomException.hpp"
 #include <map>
 #include <mutex>
 
@@ -37,6 +38,26 @@ namespace core_lib {
 namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
+
+/*!
+ * \brief Unknown connection exception.
+ *
+ * This exception class is intended to be thrown when an unknown
+ * connection is specified as an argument.
+ */
+class xUnknownConnectionError : public exceptions::xCustomException
+{
+public:
+    /*! \brief Default constructor. */
+    xUnknownConnectionError();
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xUnknownConnectionError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xUnknownConnectionError();
+};
 
 class TcpConnection;
 
@@ -55,9 +76,11 @@ public:
 
 	void Remove(defs::tcp_conn_ptr Connection);
 
-	void CloseConnections();
-
 	size_t Size() const;
+	
+	bool Empty() const;
+
+    void CloseConnections();
 
 	void SendMessageAsync(const defs::connection_address& target                     
 						  , const defs::char_buffer& message);
@@ -67,8 +90,9 @@ public:
 
 	void SendMessageToAll(const defs::char_buffer& message);
 
-	bool GetLocalEndForRemoteEnd(const defs::connection_address& remoteEnd 
-								 , defs::connection_address& localEnd) const;
+    // Throws xUnknownConnectionError is remoteEnd is not valid.
+    auto GetLocalEndForRemoteEnd(const defs::connection_address& remoteEnd)
+             -> defs::connection_address const;
 
 private:
 	mutable std::mutex m_mutex;
