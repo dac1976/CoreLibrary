@@ -1,1 +1,2 @@
-INCLUDEPATH += /home/duncan/Projects/ThirdParty/boost/include
+INCLUDEPATH += /home/duncan/Projects/ThirdParty/eos_portable_archive \
+               /home/duncan/Projects/ThirdParty/boost/include

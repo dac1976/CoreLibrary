@@ -32,4 +32,5 @@ SOURCES += ../tst_SerializationUtilsTest.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += ../../../Serialization/SerializeToVector.hpp
+HEADERS += ../../../Serialization/SerializeToVector.hpp \
+    ../../../Serialization/SerializationIncludes.hpp

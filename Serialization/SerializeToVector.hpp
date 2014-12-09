@@ -27,23 +27,15 @@
 #ifndef SERIALIZETOVECTOR_HPP
 #define SERIALIZETOVECTOR_HPP
 
+#include "SerializationIncludes.hpp"
 #include <vector>
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/archive/binary_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/iostreams/filtering_stream.hpp>
-#include <boost/iostreams/device/back_inserter.hpp>
-#include <boost/range/iterator_range.hpp>
-
-namespace boost_arch = boost::archive;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
 /*! \brief The serialize namespace. */
 namespace serialize {
 
-/*! \brief Typede for char vector. */
+/*! \brief Typedef for char vector. */
 typedef std::vector<char> char_vector;
 
 /*!
@@ -51,29 +43,30 @@ typedef std::vector<char> char_vector;
  * \param[in] object - A boost serializable object of type T.
  * \return A char vector to receive serialized object.
  */
-template <typename T, typename A = boost_arch::binary_oarchive>
+template <typename T, typename A = eos::portable_oarchive>
 char_vector ToCharVector(const T& object)
 {
 	char_vector charVector;
 	boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));
 	A oa(os);
-	oa << object;
+    // BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
+    oa << BOOST_SERIALIZATION_NVP(object);
 	return charVector;
 }
-
 
 /*!
  * \brief Deserialize a char vector into a corresponding object.
  * \param[in] charVector - A char vector containing a boost serialized object of type T.
  * \return A boost serializable object of type T to receive deserialized vector.
  */
-template <typename T, typename A = boost_arch::binary_iarchive>
+template <typename T, typename A = eos::portable_iarchive>
 T ToObject(const char_vector& charVector)
 {
 	boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
 	A ia(is);
 	T object;
-	ia >> object;
+    // BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
+    ia >> BOOST_SERIALIZATION_NVP(object);
 	return object;
 }
 

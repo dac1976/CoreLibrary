@@ -5,9 +5,11 @@ LIBS += -LD:/Projects/ThirdParty/boost/lib/lib-mingw-32
 CONFIG(debug, debug|release) {
   LIBS += D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-d-1_57.a \
           D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-d-1_57.a \
-		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_serialization-mgw48-d-1_57.a
+		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_serialization-mgw48-d-1_57.a \
+		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_program_options-mgw48-mt-d-1_57.a
 } else {
   LIBS += D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-1_57.a \
           D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-1_57.a \
-		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_serialization-mgw48-1_57.a
+		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_serialization-mgw48-1_57.a \
+		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_program_options-mgw48-mt-1_57.a
 }
