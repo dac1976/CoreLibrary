@@ -53,7 +53,7 @@ public:
 
 	TcpConnection(const TcpConnection& ) = delete;
 
-	const TcpConnection& operator=(const TcpConnection& ) = delete;
+    TcpConnection& operator=(const TcpConnection& ) = delete;
 
 	virtual ~TcpConnection() = default;
 

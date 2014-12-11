@@ -59,7 +59,7 @@ public:
     
     TcpClient(const TcpClient& ) = delete;
 
-	const TcpClient& operator=(const TcpClient& ) = delete;
+    TcpClient& operator=(const TcpClient& ) = delete;
 	
 	void CloseConnection();
 

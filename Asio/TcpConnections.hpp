@@ -70,7 +70,7 @@ public:
 
 	TcpConnections(const TcpConnections& ) = delete;
 
-	const TcpConnections& operator=(const TcpConnections& ) = delete;
+    TcpConnections& operator=(const TcpConnections& ) = delete;
 
 	void Add(defs::tcp_conn_ptr Connection);
 

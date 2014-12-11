@@ -60,7 +60,7 @@ public:
     
     TcpServer(const TcpServer& ) = delete;
 
-	const TcpServer& operator=(const TcpServer& ) = delete;
+    TcpServer& operator=(const TcpServer& ) = delete;
 	
     void CloseAcceptor();
 	
