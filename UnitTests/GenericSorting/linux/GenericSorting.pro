@@ -12,7 +12,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += core_lib
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
 
 TEMPLATE = app
 
@@ -29,10 +29,10 @@ RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
 SOURCES += ../tst_GenericSortingTest.cpp \
-    ../../../Exceptions/CustomException.cpp \
-    ../../../Sorting/GenericSorting.cpp
+	../../../Exceptions/CustomException.cpp \
+	../../../Sorting/GenericSorting.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    ../../../GenericSorting.hpp \
-    ../../../Exceptions/CustomException.hpp
+	../../../GenericSorting.hpp \
+	../../../Exceptions/CustomException.hpp
