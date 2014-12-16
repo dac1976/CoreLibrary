@@ -12,7 +12,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += core_lib
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
 
 TEMPLATE = app
 
@@ -28,9 +28,9 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += ../tst_SerializationUtilsTest.cpp 
+SOURCES += ../tst_SerializationUtilsTest.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += ../../../Serialization/SerializeToVector.hpp \
-           ../../../Serialization/SerializationIncludes.hpp
+		   ../../../Serialization/SerializationIncludes.hpp

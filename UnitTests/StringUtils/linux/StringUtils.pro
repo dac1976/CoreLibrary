@@ -12,7 +12,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += core_lib
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
 
 TEMPLATE = app
 
@@ -29,10 +29,10 @@ RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
 SOURCES += ../tst_StringUtilsTest.cpp      \
-    ../../../StringUtils/StringUtils.cpp \
-    ../../../Exceptions/CustomException.cpp
+	../../../StringUtils/StringUtils.cpp \
+	../../../Exceptions/CustomException.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += ../../../StringUtils.hpp \
-    ../../../Exceptions/CustomException.hpp
+	../../../Exceptions/CustomException.hpp
