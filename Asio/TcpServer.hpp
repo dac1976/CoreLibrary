@@ -44,57 +44,57 @@ class TcpServer final
 {
 public:
 	TcpServer(boost_ioservice& ioService
-              , const unsigned short listenPort
-              , const size_t minAmountToRead
-              , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-              , const defs::message_received_handler& messageReceivedHandler
-              , const eSendOption sendOption = eSendOption::nagleOn);
-              
-    TcpServer(const size_t minAmountToRead
-              , const unsigned short listenPort
-              , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-              , const defs::message_received_handler& messageReceivedHandler
-              , const eSendOption sendOption = eSendOption::nagleOn);
+			  , const unsigned short listenPort
+			  , const size_t minAmountToRead
+			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+			  , const defs::message_received_handler& messageReceivedHandler
+			  , const eSendOption sendOption = eSendOption::nagleOn);
+
+	TcpServer(const unsigned short listenPort
+			  , const size_t minAmountToRead
+			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+			  , const defs::message_received_handler& messageReceivedHandler
+			  , const eSendOption sendOption = eSendOption::nagleOn);
 
 	~TcpServer();
-    
-    TcpServer(const TcpServer& ) = delete;
 
-    TcpServer& operator=(const TcpServer& ) = delete;
-	
-    void CloseAcceptor();
-	
-    void OpenAcceptor();
-	
-    void SendMessageToClientAsync(const defs::connection_address& client
-							      , const defs::char_buffer& message);
-                             
-    bool SendMessageToClientSync(const defs::connection_address& client
-							     , const defs::char_buffer& message);
+	TcpServer(const TcpServer& ) = delete;
 
-    void SendMessageToAllClients(const defs::char_buffer& message);
+	TcpServer& operator=(const TcpServer& ) = delete;
 
-    // Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetServerDetailsForClient(const defs::connection_address& client)
-             -> defs::connection_address const;
+	void CloseAcceptor();
+
+	void OpenAcceptor();
+
+	void SendMessageToClientAsync(const defs::connection_address& client
+								  , const defs::char_buffer& message);
+
+	bool SendMessageToClientSync(const defs::connection_address& client
+								 , const defs::char_buffer& message);
+
+	void SendMessageToAllClients(const defs::char_buffer& message);
+
+	// Throws xUnknownConnectionError is remoteEnd is not valid.
+	auto GetServerDetailsForClient(const defs::connection_address& client)
+			 -> defs::connection_address const;
 
 private:
-    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
 	boost_ioservice& m_ioService;
-    std::unique_ptr<boost_tcp_acceptor> m_acceptor;
-    const unsigned short m_listenPort;
+	std::unique_ptr<boost_tcp_acceptor> m_acceptor;
+	const unsigned short m_listenPort;
 	const size_t m_minAmountToRead;
 	defs::check_bytes_left_to_read m_checkBytesLeftToRead;
-    defs::message_received_handler m_messageReceivedHandler;
-    const eSendOption m_sendOption;
+	defs::message_received_handler m_messageReceivedHandler;
+	const eSendOption m_sendOption;
 	TcpConnections m_clientConnections;
-    threads::SyncEvent m_closedEvent;
+	threads::SyncEvent m_closedEvent;
 
 	void AcceptConnection();
-    
+
 	void AcceptHandler(defs::tcp_conn_ptr connection
 					   , const boost_sys::error_code& error);
-                       
+
 	void ProcessCloseAcceptor();
 };
 

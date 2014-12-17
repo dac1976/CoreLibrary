@@ -33,35 +33,35 @@ namespace asio {
 namespace tcp {
 
 TcpServer::TcpServer(boost_ioservice& ioService
-                     , const unsigned short listenPort
-                     , const size_t minAmountToRead
-                     , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-                     , const defs::message_received_handler& messageReceivedHandler
-                     , const eSendOption sendOption)
-    : m_ioService(ioService)
-    , m_listenPort{listenPort}
-    , m_minAmountToRead{minAmountToRead}
-    , m_checkBytesLeftToRead{checkBytesLeftToRead}
-    , m_messageReceivedHandler{messageReceivedHandler}
-    , m_sendOption{sendOption}    
+					 , const unsigned short listenPort
+					 , const size_t minAmountToRead
+					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+					 , const defs::message_received_handler& messageReceivedHandler
+					 , const eSendOption sendOption)
+	: m_ioService(ioService)
+	, m_listenPort{listenPort}
+	, m_minAmountToRead{minAmountToRead}
+	, m_checkBytesLeftToRead{checkBytesLeftToRead}
+	, m_messageReceivedHandler{messageReceivedHandler}
+	, m_sendOption{sendOption}
 {
-    OpenAcceptor();
+	OpenAcceptor();
 }
-          
-TcpServer::TcpServer(const size_t minAmountToRead
-                     , const unsigned short listenPort
-                     , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-                     , const defs::message_received_handler& messageReceivedHandler
-                     , const eSendOption sendOption)
-    : m_ioThreadGroup{new IoServiceThreadGroup(std::thread::hardware_concurrency())}
-    , m_ioService(m_ioThreadGroup->IoService())
-    , m_listenPort{listenPort}
-    , m_minAmountToRead{minAmountToRead}
-    , m_checkBytesLeftToRead{checkBytesLeftToRead}
-    , m_messageReceivedHandler{messageReceivedHandler}
-    , m_sendOption{sendOption}    
+
+TcpServer::TcpServer(const unsigned short listenPort
+					 , const size_t minAmountToRead
+					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+					 , const defs::message_received_handler& messageReceivedHandler
+					 , const eSendOption sendOption)
+	: m_ioThreadGroup{new IoServiceThreadGroup(std::thread::hardware_concurrency())}
+	, m_ioService(m_ioThreadGroup->IoService())
+	, m_listenPort{listenPort}
+	, m_minAmountToRead{minAmountToRead}
+	, m_checkBytesLeftToRead{checkBytesLeftToRead}
+	, m_messageReceivedHandler{messageReceivedHandler}
+	, m_sendOption{sendOption}
 {
-    OpenAcceptor();
+	OpenAcceptor();
 }
 
 TcpServer::~TcpServer()
@@ -71,10 +71,10 @@ TcpServer::~TcpServer()
 
 void TcpServer::CloseAcceptor()
 {
-    if (m_acceptor && m_acceptor->is_open())
+	if (m_acceptor && m_acceptor->is_open())
 	{
-		m_ioService.post(boost::bind(&TcpServer::ProcessCloseAcceptor, this));		
-        m_closedEvent.Wait();
+		m_ioService.post(boost::bind(&TcpServer::ProcessCloseAcceptor, this));
+		m_closedEvent.Wait();
 	}
 
 	m_clientConnections.CloseConnections();
@@ -82,57 +82,57 @@ void TcpServer::CloseAcceptor()
 
 void TcpServer::OpenAcceptor()
 {
-    if (!m_acceptor || !m_acceptor->is_open())
+	if (!m_acceptor || !m_acceptor->is_open())
 	{
 		m_acceptor.reset(new boost_tcp_acceptor(m_ioService,
 												boost_tcp::endpoint(boost_tcp::v4()
-																	, m_listenPort)));		
-        AcceptConnection();
+																	, m_listenPort)));
+		AcceptConnection();
 	}
 }
 
 void TcpServer::SendMessageToClientAsync(const defs::connection_address& client
-                                         , const defs::char_buffer& message)
+										 , const defs::char_buffer& message)
 {
-    m_clientConnections.SendMessageAsync(client, message);
+	m_clientConnections.SendMessageAsync(client, message);
 }
-                         
+
 bool TcpServer::SendMessageToClientSync(const defs::connection_address& client
-                                        , const defs::char_buffer& message)
+										, const defs::char_buffer& message)
 {
-    return m_clientConnections.SendMessageSync(client, message);
+	return m_clientConnections.SendMessageSync(client, message);
 }
 
 void TcpServer::SendMessageToAllClients(const defs::char_buffer& message)
 {
-    m_clientConnections.SendMessageToAll(message);
+	m_clientConnections.SendMessageToAll(message);
 }
 
 auto TcpServer::GetServerDetailsForClient(const defs::connection_address& client)
-                    -> defs::connection_address const
+					-> defs::connection_address const
 {
-    return m_clientConnections.GetLocalEndForRemoteEnd(client);
+	return m_clientConnections.GetLocalEndForRemoteEnd(client);
 }
 
 void TcpServer::AcceptConnection()
 {
-    auto connection = std::make_shared<TcpConnection>(m_ioService
-                                                      , m_clientConnections
-                                                      , m_minAmountToRead
-                                                      , m_checkBytesLeftToRead
-                                                      , m_messageReceivedHandler
-                                                      , m_sendOption);
-    m_acceptor->async_accept(connection->Socket(),
+	auto connection = std::make_shared<TcpConnection>(m_ioService
+													  , m_clientConnections
+													  , m_minAmountToRead
+													  , m_checkBytesLeftToRead
+													  , m_messageReceivedHandler
+													  , m_sendOption);
+	m_acceptor->async_accept(connection->Socket(),
 							 boost::bind(&TcpServer::AcceptHandler
-									     , this
-									     , connection
-									     , boost_placeholders::error));
+										 , this
+										 , connection
+										 , boost_placeholders::error));
 }
-    
+
 void TcpServer::AcceptHandler(defs::tcp_conn_ptr connection
-                              , const boost_sys::error_code& error)
+							  , const boost_sys::error_code& error)
 {
-    if (!error)
+	if (!error)
 	{
 		connection->StartAsyncRead();
 	}
@@ -140,12 +140,12 @@ void TcpServer::AcceptHandler(defs::tcp_conn_ptr connection
 	if(error != boost_asio::error::operation_aborted)
 	{
 		AcceptConnection();
-    }
+	}
 }
-                   
+
 void TcpServer::ProcessCloseAcceptor()
 {
-    m_acceptor->close();
+	m_acceptor->close();
 	m_closedEvent.Signal();
 }
 

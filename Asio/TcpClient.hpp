@@ -21,12 +21,12 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /*!
- * \file TcpServer.hpp
- * \brief File containing TCP server class declaration.
+ * \file TcpClient.hpp
+ * \brief File containing TCP client class declaration.
  */
 
-#ifndef TCPSERVER_HPP
-#define TCPSERVER_HPP
+#ifndef TCPCLIENT_HPP
+#define TCPCLIENT_HPP
 
 #include "AsioDefines.hpp"
 #include "IoServiceThreadGroup.hpp"
@@ -43,44 +43,44 @@ class TcpClient final
 {
 public:
 	TcpClient(boost_ioservice& ioService
-	          , const defs::connection_address& server
-              , const size_t minAmountToRead
-              , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-              , const defs::message_received_handler& messageReceivedHandler
-              , const eSendOption sendOption = eSendOption::nagleOn);
-              
-    TcpClient(const defs::connection_address& server
-              , const size_t minAmountToRead
-              , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-              , const defs::message_received_handler& messageReceivedHandler
-              , const eSendOption sendOption = eSendOption::nagleOn);
+			  , const defs::connection_address& server
+			  , const size_t minAmountToRead
+			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+			  , const defs::message_received_handler& messageReceivedHandler
+			  , const eSendOption sendOption = eSendOption::nagleOn);
+
+	TcpClient(const defs::connection_address& server
+			  , const size_t minAmountToRead
+			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+			  , const defs::message_received_handler& messageReceivedHandler
+			  , const eSendOption sendOption = eSendOption::nagleOn);
 
 	~TcpClient();
-    
-    TcpClient(const TcpClient& ) = delete;
 
-    TcpClient& operator=(const TcpClient& ) = delete;
-	
+	TcpClient(const TcpClient& ) = delete;
+
+	TcpClient& operator=(const TcpClient& ) = delete;
+
 	void CloseConnection();
 
 	void SendMessageToServerAsync(const defs::char_buffer& message);
-                             
-    bool SendMessageToServerSync(const defs::char_buffer& message);
+
+	bool SendMessageToServerSync(const defs::char_buffer& message);
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetClientDetailsForServer(const defs::connection_address& server) 
-	         -> defs::connection_address const;    
+	auto GetClientDetailsForServer(const defs::connection_address& server)
+			 -> defs::connection_address const;
 
 private:
-    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
 	boost_ioservice& m_ioService;
 	const defs::connection_address m_server;
 	const size_t m_minAmountToRead;
 	defs::check_bytes_left_to_read m_checkBytesLeftToRead;
-    defs::message_received_handler m_messageReceivedHandler;
-    const eSendOption m_sendOption;
+	defs::message_received_handler m_messageReceivedHandler;
+	const eSendOption m_sendOption;
 	TcpConnections m_serverConnection;
-	
+
 	void CreateConnection();
 
 	void CheckAndCreateConnection();
@@ -90,4 +90,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // TCPSERVER_HPP
+#endif // TCPCLIENT_HPP
