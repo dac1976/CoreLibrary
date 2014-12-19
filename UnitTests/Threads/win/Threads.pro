@@ -12,7 +12,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += core_lib
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
 
 TEMPLATE = app
 
@@ -36,8 +36,7 @@ SOURCES += ../tst_ThreadsTest.cpp \
     ../../../Threads/SyncEvent.cpp \
     ../../../Threads/ThreadBase.cpp \
     ../../../Threads/ThreadGroup.cpp \
-    ../../../Exceptions/CustomException.cpp \
-    ../../../Asio/IoServiceThreadGroup.cpp
+    ../../../Exceptions/CustomException.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -49,5 +48,4 @@ HEADERS += \
     ../../../ThreadBase.hpp \
     ../../../ThreadGroup.hpp \
     ../../../BoundedBuffer.hpp \
-    ../../../Threads/JoinThreads.hpp \
-    ../../../Asio/IoServiceThreadGroup.hpp
+    ../../../Threads/JoinThreads.hpp

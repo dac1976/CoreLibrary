@@ -49,8 +49,8 @@ char_vector ToCharVector(const T& object)
 	char_vector charVector;
 	boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));
 	A oa(os);
-    // BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
-    oa << BOOST_SERIALIZATION_NVP(object);
+	// BOOST_SERIALIZATION_NVP is required to fully support xml_oarchive
+	oa << BOOST_SERIALIZATION_NVP(object);
 	return charVector;
 }
 
@@ -65,8 +65,8 @@ T ToObject(const char_vector& charVector)
 	boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
 	A ia(is);
 	T object;
-    // BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
-    ia >> BOOST_SERIALIZATION_NVP(object);
+	// BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
+	ia >> BOOST_SERIALIZATION_NVP(object);
 	return object;
 }
 

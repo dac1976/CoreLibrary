@@ -12,7 +12,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += core_lib
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
 
 TEMPLATE = app
 
@@ -43,7 +43,8 @@ HEADERS +=                               \
     ../../../Asio/TcpConnections.hpp \
     ../../../Asio/TcpServer.hpp \
     ../../../Asio/TcpClient.hpp \
-    ../../../Serialization/SerializationIncludes.hpp
+    ../../../Serialization/SerializationIncludes.hpp \
+../../../Serialization/SerializeToVector.hpp
 
 SOURCES +=                               \
     ../tst_AsioTest.cpp                  \

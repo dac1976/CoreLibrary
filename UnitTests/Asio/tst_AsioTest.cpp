@@ -1,5 +1,6 @@
 #include <QString>
 #include <QtTest>
+#include "../../Asio/IoServiceThreadGroup.hpp"
 #include "../../Asio/TcpServer.hpp"
 #include "../../Asio/TcpClient.hpp"
 #include "../../Serialization/SerializeToVector.hpp"
@@ -18,6 +19,39 @@ using namespace core_lib::threads;
 // ****************************************************************************
 // Helper classes/functions
 // ****************************************************************************
+class Sum
+{
+public:
+	Sum() = default;
+	Sum(const Sum&) = delete;
+	Sum& operator=(const Sum&) = delete;
+
+	void Add(const uint64_t n)
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		m_total += n;
+		m_threadIds.insert(std::this_thread::get_id());
+	}
+
+	uint64_t Total() const
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		return m_total;
+	}
+
+	size_t NumThreadsUsed() const
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		return m_threadIds.size();
+	}
+
+private:
+	mutable std::mutex m_mutex;
+	uint64_t m_total{0};
+	std::set<std::thread::id> m_threadIds;
+
+};
+
 #pragma pack(push, 1)
 struct MyHeader
 {
@@ -31,6 +65,11 @@ struct MyMessage
 {
 	std::string			name;
 	std::vector<double> data;
+
+	bool operator==(const MyMessage& m) const
+	{
+		return (name == m.name) && (data == m.data);
+	}
 
 	void FillMessage()
 	{
@@ -77,7 +116,12 @@ public:
 			throw std::runtime_error("cannot find magic string");
 		}
 
-		return message.size() - pHeader->totalLength;
+		if (pHeader->totalLength < message.size())
+		{
+			throw std::length_error("invalid total length in header");
+		}
+
+		return pHeader->totalLength - message.size();
 	}
 
 	void MessageReceivedHandler(const char_buffer& message)
@@ -126,8 +170,13 @@ public:
 	AsioTest();
 
 private Q_SLOTS:
-	// Thread group tests
-	void testCase_Test1();
+	// Asio tests
+	void testCase_IoThreadGroup1();
+	void testCase_IoThreadGroup2();
+	void testCase_TestAsync();
+	void testCase_TestSync();
+	void testCase_TestAsync_ExternalIoService();
+	void testCase_TestSync_ExternalIoService();
 };
 
 AsioTest::AsioTest()
@@ -135,9 +184,55 @@ AsioTest::AsioTest()
 }
 
 // ****************************************************************************
-// ThreadGroup tests
+// Asio tests
 // ****************************************************************************
-void AsioTest::testCase_Test1()
+void AsioTest::testCase_IoThreadGroup1()
+{
+	Sum sum1{};
+	Sum sum2{};
+
+	{
+		core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
+
+		for (uint64_t i = 1; i <= 1000000; ++i)
+		{
+			ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum1, i));
+			ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum2, i));
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+
+	QVERIFY(sum1.Total() == static_cast<uint64_t>(500000500000));
+	QVERIFY(sum2.Total() == static_cast<uint64_t>(500000500000));
+	QVERIFY(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
+	QVERIFY(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
+}
+
+void AsioTest::testCase_IoThreadGroup2()
+{
+	Sum sum1{};
+	Sum sum2{};
+
+	{
+		core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
+
+		for (uint64_t i = 1; i <= 1000000; ++i)
+		{
+			ioThreadGroup.Post(std::bind(&Sum::Add, &sum1, i));
+			ioThreadGroup.Post(std::bind(&Sum::Add, &sum2, i));
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+
+	QVERIFY(sum1.Total() == static_cast<uint64_t>(500000500000));
+	QVERIFY(sum2.Total() == static_cast<uint64_t>(500000500000));
+	QVERIFY(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
+	QVERIFY(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
+}
+
+void AsioTest::testCase_TestAsync()
 {
 	char_buffer message = BuildMessage();
 	MessageReceiver svrReceiver;
@@ -149,6 +244,112 @@ void AsioTest::testCase_Test1()
 	TcpClient client(std::make_pair("127.0.0.1", 22222), sizeof(MyHeader)
 					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
 					 , std::bind(&MessageReceiver::MessageReceivedHandler, &cltReceiver, std::placeholders::_1));
+
+	client.SendMessageToServerAsync(message);
+
+	svrReceiver.WaitForMessage(3000);
+	MyMessage expectedMessage;
+	expectedMessage.FillMessage();
+	MyMessage receivedMessage = svrReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+
+	auto clientConn = client.GetClientDetailsForServer();
+	server.SendMessageToClientAsync(clientConn, message);
+
+	cltReceiver.WaitForMessage(3000);
+	receivedMessage = cltReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+}
+
+void AsioTest::testCase_TestSync()
+{
+	char_buffer message = BuildMessage();
+	MessageReceiver svrReceiver;
+	TcpServer server(22222, sizeof(MyHeader)
+					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &svrReceiver, std::placeholders::_1));
+
+	MessageReceiver cltReceiver;
+	TcpClient client(std::make_pair("127.0.0.1", 22222), sizeof(MyHeader)
+					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &cltReceiver, std::placeholders::_1));
+
+	QVERIFY(client.SendMessageToServerSync(message) == true);
+
+	svrReceiver.WaitForMessage(3000);
+	MyMessage expectedMessage;
+	expectedMessage.FillMessage();
+	MyMessage receivedMessage = svrReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+
+	auto clientConn = client.GetClientDetailsForServer();
+	QVERIFY(server.SendMessageToClientSync(clientConn, message) == true);
+
+	cltReceiver.WaitForMessage(3000);
+	receivedMessage = cltReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+}
+
+void AsioTest::testCase_TestAsync_ExternalIoService()
+{
+	IoServiceThreadGroup ioThreadGroup;
+
+	char_buffer message = BuildMessage();
+	MessageReceiver svrReceiver;
+	TcpServer server(ioThreadGroup.IoService(), 22222, sizeof(MyHeader)
+					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &svrReceiver, std::placeholders::_1));
+
+	MessageReceiver cltReceiver;
+	TcpClient client(ioThreadGroup.IoService(), std::make_pair("127.0.0.1", 22222), sizeof(MyHeader)
+					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &cltReceiver, std::placeholders::_1));
+
+	client.SendMessageToServerAsync(message);
+
+	svrReceiver.WaitForMessage(3000);
+	MyMessage expectedMessage;
+	expectedMessage.FillMessage();
+	MyMessage receivedMessage = svrReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+
+	auto clientConn = client.GetClientDetailsForServer();
+	server.SendMessageToClientAsync(clientConn, message);
+
+	cltReceiver.WaitForMessage(3000);
+	receivedMessage = cltReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+}
+
+void AsioTest::testCase_TestSync_ExternalIoService()
+{
+	IoServiceThreadGroup ioThreadGroup;
+
+	char_buffer message = BuildMessage();
+	MessageReceiver svrReceiver;
+	TcpServer server(ioThreadGroup.IoService(), 22222, sizeof(MyHeader)
+					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &svrReceiver, std::placeholders::_1));
+
+	MessageReceiver cltReceiver;
+	TcpClient client(ioThreadGroup.IoService(), std::make_pair("127.0.0.1", 22222), sizeof(MyHeader)
+					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &cltReceiver, std::placeholders::_1));
+
+	QVERIFY(client.SendMessageToServerSync(message) == true);
+
+	svrReceiver.WaitForMessage(3000);
+	MyMessage expectedMessage;
+	expectedMessage.FillMessage();
+	MyMessage receivedMessage = svrReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+
+	auto clientConn = client.GetClientDetailsForServer();
+	QVERIFY(server.SendMessageToClientSync(clientConn, message) == true);
+
+	cltReceiver.WaitForMessage(3000);
+	receivedMessage = cltReceiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
 }
 
 

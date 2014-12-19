@@ -69,13 +69,13 @@ boost_tcp::socket& TcpConnection::Socket()
 
 const boost_tcp::socket& TcpConnection::Socket() const
 {
-    return m_socket;
+	return m_socket;
 }
 
 void TcpConnection::Connect(const boost_tcp::endpoint& endPoint)
 {
-    m_socket.connect(endPoint);
-    boost_tcp::no_delay option(m_sendOption == eSendOption::nagleOff);
+	m_socket.connect(endPoint);
+	boost_tcp::no_delay option(m_sendOption == eSendOption::nagleOff);
 	m_socket.set_option(option);
 	StartAsyncRead();
 }
@@ -129,6 +129,10 @@ void TcpConnection::StartAsyncRead()
 void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 {
 	m_receiveBuffer.resize(amountToRead);
+	// We do not need a strand here as a conenction object
+	// can only read serially from one so for one connection
+	// object it cannot be doing more than one async read
+	// at a time in multiple threads.
 	boost::asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
 							, boost::bind(&TcpConnection::ReadComplete
 										  , shared_from_this()
@@ -190,8 +194,11 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error
 
 void TcpConnection::SendMessageAsync(const defs::char_buffer& message)
 {
-	// Wrap in strand to make sure we don't get weird issues
-	// with the send event signalling and waiting.
+	// Wrap in a strand to make sure we don't get weird issues
+	// with the send event signalling and waiting. As we're
+	// sending async in this case so we could get another
+	// call to this method before the original async write
+	// has completed.
 	m_ioService.post(m_strand.wrap(boost::bind(&TcpConnection::AsyncWriteToSocket
 											   , shared_from_this()
 											   , message

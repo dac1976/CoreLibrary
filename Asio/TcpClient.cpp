@@ -32,29 +32,29 @@ namespace asio {
 namespace tcp {
 
 TcpClient::TcpClient(boost_ioservice& ioService
-                     , const defs::connection_address& server
-                     , const size_t minAmountToRead
-                     , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-                     , const defs::message_received_handler& messageReceivedHandler
-                     , const eSendOption sendOption)
+					 , const defs::connection_address& server
+					 , const size_t minAmountToRead
+					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+					 , const defs::message_received_handler& messageReceivedHandler
+					 , const eSendOption sendOption)
 	: m_ioService(ioService), m_server{server}
-    , m_minAmountToRead{minAmountToRead}
-    , m_checkBytesLeftToRead{checkBytesLeftToRead}	
+	, m_minAmountToRead{minAmountToRead}
+	, m_checkBytesLeftToRead{checkBytesLeftToRead}
 	, m_messageReceivedHandler{messageReceivedHandler}
 	, m_sendOption{sendOption}
 {
 	CreateConnection();
 }
-		  
+
 TcpClient::TcpClient(const defs::connection_address& server
-                     , const size_t minAmountToRead
-                     , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-                     , const defs::message_received_handler& messageReceivedHandler
-                     , const eSendOption sendOption)
+					 , const size_t minAmountToRead
+					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
+					 , const defs::message_received_handler& messageReceivedHandler
+					 , const eSendOption sendOption)
 	: m_ioThreadGroup{new IoServiceThreadGroup(2)}
 	, m_ioService(m_ioThreadGroup->IoService())
 	, m_server{server}, m_minAmountToRead{minAmountToRead}
-    , m_checkBytesLeftToRead{checkBytesLeftToRead}	
+	, m_checkBytesLeftToRead{checkBytesLeftToRead}
 	, m_messageReceivedHandler{messageReceivedHandler}
 	, m_sendOption{sendOption}
 {
@@ -73,20 +73,19 @@ void TcpClient::CloseConnection()
 
 void TcpClient::SendMessageToServerAsync(const defs::char_buffer& message)
 {
-	CheckAndCreateConnection();	
+	CheckAndCreateConnection();
 	m_serverConnection.SendMessageAsync(m_server, message);
 }
-						 
+
 bool TcpClient::SendMessageToServerSync(const defs::char_buffer& message)
 {
-	CheckAndCreateConnection();	
+	CheckAndCreateConnection();
 	return m_serverConnection.SendMessageSync(m_server, message);
 }
 
-auto TcpClient::GetClientDetailsForServer(const defs::connection_address& server) 
-    -> defs::connection_address const
+auto TcpClient::GetClientDetailsForServer() -> defs::connection_address const
 {
-	return m_serverConnection.GetLocalEndForRemoteEnd(server);
+	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
 }
 
 void TcpClient::CreateConnection()
@@ -98,18 +97,18 @@ void TcpClient::CreateConnection()
 														  , m_minAmountToRead
 														  , m_checkBytesLeftToRead
 														  , m_messageReceivedHandler
-														  , m_sendOption);		
+														  , m_sendOption);
 		connection->Connect(boost_tcp::endpoint(boost_address::from_string(m_server.first)
-		                                        , m_server.second));
+												, m_server.second));
 	}
-    catch(boost::system::system_error& )
+	catch(boost::system::system_error& )
 	{
 		//NOTE: We catch here because if this fails in constructor
 		// we want our TcpClient to stay viable as calling
 		// TcpClient::SendMessageToServer* later will attempt
 		// to reconnect. Only catch boost::system::system_error
-        // exceptions as any other ones are a problem we should
-		// definitely still throw.
+		// exceptions as any other ones are a problem we should
+		// definitely still propogate.
 	}
 }
 
