@@ -32,7 +32,7 @@ namespace asio {
 namespace tcp {
 
 TcpClient::TcpClient(boost_ioservice& ioService
-					 , const defs::connection_address& server
+					 , const defs::connection& server
 					 , const size_t minAmountToRead
 					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
 					 , const defs::message_received_handler& messageReceivedHandler
@@ -46,7 +46,7 @@ TcpClient::TcpClient(boost_ioservice& ioService
 	CreateConnection();
 }
 
-TcpClient::TcpClient(const defs::connection_address& server
+TcpClient::TcpClient(const defs::connection& server
 					 , const size_t minAmountToRead
 					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
 					 , const defs::message_received_handler& messageReceivedHandler
@@ -66,6 +66,11 @@ TcpClient::~TcpClient()
 	CloseConnection();
 }
 
+defs::connection TcpClient::ServerConnection() const
+{
+    return m_server;
+}
+
 void TcpClient::CloseConnection()
 {
 	m_serverConnection.CloseConnections();
@@ -83,7 +88,7 @@ bool TcpClient::SendMessageToServerSync(const defs::char_buffer& message)
 	return m_serverConnection.SendMessageSync(m_server, message);
 }
 
-auto TcpClient::GetClientDetailsForServer() -> defs::connection_address const
+auto TcpClient::GetClientDetailsForServer() -> defs::connection const
 {
 	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
 }

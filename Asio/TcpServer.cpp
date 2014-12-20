@@ -91,13 +91,13 @@ void TcpServer::OpenAcceptor()
 	}
 }
 
-void TcpServer::SendMessageToClientAsync(const defs::connection_address& client
+void TcpServer::SendMessageToClientAsync(const defs::connection& client
 										 , const defs::char_buffer& message)
 {
 	m_clientConnections.SendMessageAsync(client, message);
 }
 
-bool TcpServer::SendMessageToClientSync(const defs::connection_address& client
+bool TcpServer::SendMessageToClientSync(const defs::connection& client
 										, const defs::char_buffer& message)
 {
 	return m_clientConnections.SendMessageSync(client, message);
@@ -108,8 +108,8 @@ void TcpServer::SendMessageToAllClients(const defs::char_buffer& message)
 	m_clientConnections.SendMessageToAll(message);
 }
 
-auto TcpServer::GetServerDetailsForClient(const defs::connection_address& client)
-					-> defs::connection_address const
+auto TcpServer::GetServerDetailsForClient(const defs::connection& client)
+					-> defs::connection const
 {
 	return m_clientConnections.GetLocalEndForRemoteEnd(client);
 }

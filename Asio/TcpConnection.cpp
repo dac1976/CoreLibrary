@@ -35,7 +35,7 @@ namespace asio {
 namespace tcp {
 
 // Reserve 0.5 MiB for each buffer.
-static const size_t DEFAULT_RESERVED_SIZE = 512*1024;
+static constexpr size_t DEFAULT_RESERVED_SIZE{512 * 1024};
 
 // ****************************************************************************
 // 'class TcpConnection' definition

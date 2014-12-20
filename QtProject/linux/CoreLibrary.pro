@@ -35,51 +35,55 @@ RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
 HEADERS +=                               \
-	../../StringUtils.hpp                \
+    ../../StringUtils.hpp                \
 	../../CsvGrid/CsvGridCell.hpp        \
 	../../CsvGrid/CsvGridRow.hpp         \
 	../../CsvGrid/CsvGridMain.hpp        \
 	../../CsvGrid.hpp                    \
-	../../Exceptions/CustomException.hpp \
-	../../GenericSorting.hpp             \
-	../../SyncEvent.hpp                  \
-	../../ConcurrentQueue.hpp            \
-	../../ThreadBase.hpp                 \
-	../../ThreadGroup.hpp                \
-	../../MessageQueueThread.hpp         \
-	../../BoundedBuffer.hpp              \
-	../../DebugLog/DebugLog.hpp          \
-	../../DebugLogging.hpp               \
-	../../IniFile.hpp                    \
-	../../Threads/JoinThreads.hpp        \
-	../../Asio/IoServiceThreadGroup.hpp  \
-	../../DebugLog/DebugLogSingleton.hpp \
-	../../IniFile/IniFileLines.hpp       \
-	../../IniFile/IniFileSectionDetails.hpp \
-	../../Serialization/SerializeToVector.hpp \
-	../../Asio/AsioDefines.hpp \
-	../../Asio/TcpConnection.hpp \
-	../../Asio/TcpConnections.hpp \
-	../../Asio/TcpServer.hpp \
-	../../Serialization/SerializationIncludes.hpp
+    ../../Exceptions/CustomException.hpp \
+    ../../GenericSorting.hpp             \
+    ../../SyncEvent.hpp                  \
+    ../../ConcurrentQueue.hpp            \
+    ../../ThreadBase.hpp                 \
+    ../../ThreadGroup.hpp                \
+    ../../MessageQueueThread.hpp         \
+    ../../BoundedBuffer.hpp              \
+    ../../DebugLog/DebugLog.hpp          \
+    ../../DebugLogging.hpp               \
+    ../../IniFile.hpp                    \
+    ../../Threads/JoinThreads.hpp        \
+    ../../Asio/IoServiceThreadGroup.hpp  \
+    ../../DebugLog/DebugLogSingleton.hpp \
+    ../../IniFile/IniFileLines.hpp       \
+    ../../IniFile/IniFileSectionDetails.hpp \
+    ../../Serialization/SerializeToVector.hpp \
+    ../../Asio/AsioDefines.hpp \
+    ../../Asio/TcpConnection.hpp \
+    ../../Asio/TcpConnections.hpp \
+    ../../Asio/TcpServer.hpp \
+    ../../Asio/TcpClient.hpp \
+    ../../Serialization/SerializationIncludes.hpp \
+    ../../TcpTypedClient.hpp
 
 SOURCES +=                               \
-	../../StringUtils/StringUtils.cpp    \
-	../../CsvGrid/CsvGridCell.cpp        \
+    ../../StringUtils/StringUtils.cpp    \
+    ../../CsvGrid/CsvGridCell.cpp        \
 	../../CsvGrid/CsvGridRow.cpp         \
 	../../CsvGrid/CsvGridMain.cpp        \
-	../../Exceptions/CustomException.cpp \
-	../../Sorting/GenericSorting.cpp     \
-	../../Threads/SyncEvent.cpp          \
-	../../Threads/ConcurrentQueue.cpp    \
-	../../Threads/ThreadBase.cpp         \
-	../../Threads/ThreadGroup.cpp        \
-	../../Threads/MessageQueueThread.cpp \
-	../../DebugLog/DebugLog.cpp          \
-	../../IniFile/IniFile.cpp            \
-	../../Asio/IoServiceThreadGroup.cpp  \
-	../../IniFile/IniFileLines.cpp       \
-	../../IniFile/IniFileSectionDetails.cpp \
-	../../Asio/TcpConnection.cpp \
-	../../Asio/TcpConnections.cpp \
-	../../Asio/TcpServer.cpp
+    ../../Exceptions/CustomException.cpp \
+    ../../Sorting/GenericSorting.cpp     \
+    ../../Threads/SyncEvent.cpp          \
+    ../../Threads/ConcurrentQueue.cpp    \
+    ../../Threads/ThreadBase.cpp         \
+    ../../Threads/ThreadGroup.cpp        \
+    ../../Threads/MessageQueueThread.cpp \
+    ../../DebugLog/DebugLog.cpp          \
+    ../../IniFile/IniFile.cpp            \
+    ../../Asio/IoServiceThreadGroup.cpp  \
+    ../../IniFile/IniFileLines.cpp       \
+    ../../IniFile/IniFileSectionDetails.cpp \
+    ../../Asio/TcpConnection.cpp \
+    ../../Asio/TcpConnections.cpp \
+    ../../Asio/TcpServer.cpp \
+    ../../Asio/TcpClient.cpp \
+    ../../Asio/TcpTypedClient.cpp

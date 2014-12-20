@@ -173,7 +173,7 @@ struct DefaultLogFormat
 };
 
 /*! \brief Static constant defining number of bytes in a mebibyte. */
-static const size_t BYTES_IN_MEBIBYTE{1024 * 1024};
+static constexpr size_t BYTES_IN_MEBIBYTE{1024 * 1024};
 
 namespace dl_private
 {
@@ -188,7 +188,7 @@ class LogQueueMessage
 {
 public:
 	/*! \brief Static message ID to register on message queue.*/
-	static const int MESSAGE_ID{1};
+    static constexpr int MESSAGE_ID{1};
 	/*! \brief Default constructor.*/
 	LogQueueMessage() = default;
 	/*!

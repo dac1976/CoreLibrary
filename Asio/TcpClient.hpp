@@ -43,13 +43,13 @@ class TcpClient final
 {
 public:
 	TcpClient(boost_ioservice& ioService
-			  , const defs::connection_address& server
+              , const defs::connection& server
 			  , const size_t minAmountToRead
 			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
 			  , const defs::message_received_handler& messageReceivedHandler
 			  , const eSendOption sendOption = eSendOption::nagleOn);
 
-	TcpClient(const defs::connection_address& server
+    TcpClient(const defs::connection& server
 			  , const size_t minAmountToRead
 			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
 			  , const defs::message_received_handler& messageReceivedHandler
@@ -60,6 +60,8 @@ public:
 	TcpClient(const TcpClient& ) = delete;
 
 	TcpClient& operator=(const TcpClient& ) = delete;
+    
+    defs::connection ServerConnection() const;
 
 	void CloseConnection();
 
@@ -68,12 +70,12 @@ public:
 	bool SendMessageToServerSync(const defs::char_buffer& message);
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetClientDetailsForServer() -> defs::connection_address const;
+    auto GetClientDetailsForServer() -> defs::connection const;
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
 	boost_ioservice& m_ioService;
-	const defs::connection_address m_server;
+    const defs::connection m_server;
 	const size_t m_minAmountToRead;
 	defs::check_bytes_left_to_read m_checkBytesLeftToRead;
 	defs::message_received_handler m_messageReceivedHandler;

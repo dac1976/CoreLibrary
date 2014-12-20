@@ -82,21 +82,21 @@ public:
 
     void CloseConnections();
 
-	void SendMessageAsync(const defs::connection_address& target                     
+    void SendMessageAsync(const defs::connection& target
 						  , const defs::char_buffer& message);
 
-	bool SendMessageSync(const defs::connection_address& target  
+    bool SendMessageSync(const defs::connection& target
 						 , const defs::char_buffer& message);
 
 	void SendMessageToAll(const defs::char_buffer& message);
 
     // Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetLocalEndForRemoteEnd(const defs::connection_address& remoteEnd)
-             -> defs::connection_address const;
+    auto GetLocalEndForRemoteEnd(const defs::connection& remoteEnd)
+             -> defs::connection const;
 
 private:
 	mutable std::mutex m_mutex;
-	typedef std::map<defs::connection_address, defs::tcp_conn_ptr> tcp_conn_map;
+    typedef std::map<defs::connection, defs::tcp_conn_ptr> tcp_conn_map;
 	tcp_conn_map m_connections;
 };
 

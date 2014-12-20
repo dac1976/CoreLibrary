@@ -62,7 +62,8 @@ HEADERS +=                               \
     ../../Asio/TcpConnections.hpp \
     ../../Asio/TcpServer.hpp \
     ../../Asio/TcpClient.hpp \
-    ../../Serialization/SerializationIncludes.hpp
+    ../../Serialization/SerializationIncludes.hpp \
+    ../../TcpTypedClient.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
@@ -84,4 +85,5 @@ SOURCES +=                               \
     ../../Asio/TcpConnection.cpp \
     ../../Asio/TcpConnections.cpp \
     ../../Asio/TcpServer.cpp \
-    ../../Asio/TcpClient.cpp
+    ../../Asio/TcpClient.cpp \
+    ../../Asio/TcpTypedClient.cpp

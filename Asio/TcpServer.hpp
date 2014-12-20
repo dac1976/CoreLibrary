@@ -66,17 +66,17 @@ public:
 
 	void OpenAcceptor();
 
-	void SendMessageToClientAsync(const defs::connection_address& client
+	void SendMessageToClientAsync(const defs::connection& client
 								  , const defs::char_buffer& message);
 
-	bool SendMessageToClientSync(const defs::connection_address& client
+	bool SendMessageToClientSync(const defs::connection& client
 								 , const defs::char_buffer& message);
 
 	void SendMessageToAllClients(const defs::char_buffer& message);
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetServerDetailsForClient(const defs::connection_address& client)
-			 -> defs::connection_address const;
+	auto GetServerDetailsForClient(const defs::connection& client)
+			 -> defs::connection const;
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
