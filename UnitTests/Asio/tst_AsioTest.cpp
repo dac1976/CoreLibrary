@@ -55,15 +55,15 @@ private:
 #pragma pack(push, 1)
 struct MyHeader
 {
-    char         magicString[16];
+	char         magicString[16];
 	int          command{1};
 	unsigned int totalLength{sizeof(*this)};
 
-    MyHeader()
-        : magicString{"MyHeader"}
-    {
+	MyHeader()
+		: magicString{"MyHeader"}
+	{
 
-    }
+	}
 };
 #pragma pack(pop)
 

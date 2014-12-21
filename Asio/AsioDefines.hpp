@@ -34,6 +34,7 @@
 #include <utility>
 #include <string>
 #include <cstdint>
+#include <cstring>
 
 namespace boost_sys = boost::system;
 namespace boost_asio = boost::asio;
@@ -52,17 +53,17 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
-    enum class eSendOption
+	enum class eSendOption
 	{
 		nagleOff, // Implies send immediately.
 		nagleOn
 	};
-    
+
 	class TcpConnection;
 } // namespace tcp
 
-/*! \brief The messages namespace. */
-namespace messages {
+/*! \brief The asio_defs namespace. */
+namespace defs {
 
 static constexpr uint32_t MAGIC_STRING_LEN{16};
 static constexpr uint32_t RESPONSE_ADDRESS_LEN{16};
@@ -70,43 +71,44 @@ static constexpr char MAGIC_STRING[]{"MESSAGE_START"};
 
 enum class eArchiveType : uint8_t
 {
-    portableBinary,
-    text,
-    binary,
-    xml
+	portableBinary,
+	text,
+	binary,
+	xml
 };
 
 #pragma pack(push, 1)
 struct MessageHeader
 {
-    char magicString[MAGIC_STRING_LEN];
-    char responseAddress[RESPONSE_ADDRESS_LEN];
-    uint16_t responsePort{};
-    uint32_t messageId{};
-    eArchiveType archiveType{eArchiveType::portableBinary};
-    uint32_t totalLength{sizeof(*this)};
+	char magicString[MAGIC_STRING_LEN];
+	char responseAddress[RESPONSE_ADDRESS_LEN];
+	uint16_t responsePort{};
+	uint32_t messageId{};
+	eArchiveType archiveType{eArchiveType::portableBinary};
+	uint32_t totalLength{sizeof(*this)};
 
-    MessageHeader()
-        : magicString{MAGIC_STRING}
-        , responseAddress{"0.0.0.0"}
-    {
-    }
+	MessageHeader()
+		: responseAddress{"0.0.0.0"}
+	{
+		strncpy(magicString, MAGIC_STRING, sizeof(magicString));
+		magicString[MAGIC_STRING_LEN - 1] = 0;
+	}
 };
 #pragma pack(pop)
 
-} // namespace messages
-
-/*! \brief The asio_defs namespace. */
-namespace defs {
-
 typedef std::vector<char> char_buffer;
+
+struct ReceivedMessage
+{
+	MessageHeader header;
+	char_buffer body;
+};
+
+typedef std::function< void (const ReceivedMessage& ) > message_dispatcher;
 
 typedef std::function< size_t (const char_buffer& ) > check_bytes_left_to_read;
 
 typedef std::function< void (const char_buffer& ) > message_received_handler;
-
-typedef std::function< void (const messages::MessageHeader&
-                             , const char_buffer& ) > message_dispatcher;
 
 typedef std::pair<std::string, uint16_t> connection;
 
