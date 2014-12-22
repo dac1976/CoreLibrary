@@ -62,6 +62,12 @@ public:
 
 	TcpServer& operator=(const TcpServer& ) = delete;
 
+	// Throws xUnknownConnectionError is remoteEnd is not valid.
+	auto GetServerDetailsForClient(const defs::connection& client) const
+			 -> defs::connection;
+
+	unsigned short ListenPort() const;
+
 	void CloseAcceptor();
 
 	void OpenAcceptor();
@@ -73,10 +79,6 @@ public:
 								 , const defs::char_buffer& message);
 
 	void SendMessageToAllClients(const defs::char_buffer& message);
-
-	// Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetServerDetailsForClient(const defs::connection& client) const
-             -> defs::connection;
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};

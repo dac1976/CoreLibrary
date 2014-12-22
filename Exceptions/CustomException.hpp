@@ -71,11 +71,19 @@ public:
 	xCustomException();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xCustomException(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xCustomException();
+	/*! \brief Copy constructor. */
+	xCustomException(const xCustomException&) = default;
+	/*! \brief Move constructor. */
+	xCustomException(xCustomException&&) = default;
+	/*! \brief Copy assignment operator. */
+	xCustomException& operator=(const xCustomException&) = default;
+	/*! \brief Move assignment operator. */
+	xCustomException& operator=(xCustomException&&) = default;
 	/*!
 	 * \brief Function to get the exception message.
 	 * \return The exception message.

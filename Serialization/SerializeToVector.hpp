@@ -44,7 +44,7 @@ typedef std::vector<char> char_vector;
  * \return A char vector to receive serialized object.
  */
 template <typename T, typename A = eos::portable_oarchive>
-char_vector ToCharVector(T&& object)
+char_vector ToCharVector(const T& object)
 {
 	char_vector charVector;
 	boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));

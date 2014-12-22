@@ -61,6 +61,14 @@ public:
 	explicit xCsvGridColOutOfRangeError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xCsvGridColOutOfRangeError();
+	/*! \brief Copy constructor. */
+	xCsvGridColOutOfRangeError(const xCsvGridColOutOfRangeError&) = default;
+	/*! \brief Move constructor. */
+	xCsvGridColOutOfRangeError(xCsvGridColOutOfRangeError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xCsvGridColOutOfRangeError& operator=(const xCsvGridColOutOfRangeError&) = default;
+	/*! \brief Move assignment operator. */
+	xCsvGridColOutOfRangeError& operator=(xCsvGridColOutOfRangeError&&) = default;
 };
 
 /*!
@@ -356,10 +364,10 @@ private:
 			size_t pos{cell.find('"')};
 
 			while (pos < cell.length())
-            {
-                cell.insert(pos, "\"");
-                pos = cell.find('"', pos + 2);
-            }
+			{
+				cell.insert(pos, "\"");
+				pos = cell.find('"', pos + 2);
+			}
 
 			// if cell contains ',', '\n' or '\r' wrap it in quotes...
 			if (cell.find_first_of(",\r\n") != std::string::npos)

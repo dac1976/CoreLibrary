@@ -29,6 +29,7 @@
 #define MESSAGEUTILS_HPP
 
 #include "AsioDefines.hpp"
+#include "../Exceptions/CustomException.hpp"
 #include "../Serialization/SerializeToVector.hpp"
 #include <iterator>
 #include <algorithm>
@@ -41,6 +42,63 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace messages {
 
+/*!
+ * \brief Message length error exception.
+ *
+ * This exception class is intended to be thrown when a message
+ * is received whose length doesn't match what is in the message
+ * header.
+ */
+class xMessageLengthError : public exceptions::xCustomException
+{
+public:
+	/*! \brief Default constructor. */
+	xMessageLengthError();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param[in] message - A user specified message string.
+	 */
+	explicit xMessageLengthError(const std::string& message);
+	/*! \brief Virtual destructor. */
+	virtual ~xMessageLengthError();
+	/*! \brief Copy constructor. */
+	xMessageLengthError(const xMessageLengthError&) = default;
+	/*! \brief Move constructor. */
+	xMessageLengthError(xMessageLengthError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xMessageLengthError& operator=(const xMessageLengthError&) = default;
+	/*! \brief Move assignment operator. */
+	xMessageLengthError& operator=(xMessageLengthError&&) = default;
+};
+
+/*!
+ * \brief Magic string error exception.
+ *
+ * This exception class is intended to be thrown when a message
+ * is received whose magic string does not match what is expected.
+ */
+class xMagicStringError : public exceptions::xCustomException
+{
+public:
+	/*! \brief Default constructor. */
+	xMagicStringError();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param[in] message - A user specified message string.
+	 */
+	explicit xMagicStringError(const std::string& message);
+	/*! \brief Virtual destructor. */
+	virtual ~xMagicStringError();
+	/*! \brief Copy constructor. */
+	xMagicStringError(const xMagicStringError&) = default;
+	/*! \brief Move constructor. */
+	xMagicStringError(xMagicStringError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xMagicStringError& operator=(const xMagicStringError&) = default;
+	/*! \brief Move assignment operator. */
+	xMagicStringError& operator=(xMagicStringError&&) = default;
+};
+
 class MessageHandler final
 {
 public:
@@ -48,8 +106,6 @@ public:
 	~MessageHandler() = default;
 	MessageHandler(const MessageHandler& ) = delete;
 	MessageHandler& operator=(const MessageHandler& ) = delete;
-
-	// TODO: define custom exceptions for the errors that can occur in these functions.
 
 	static size_t CheckBytesLeftToRead(const defs::char_buffer& message);
 
@@ -61,32 +117,13 @@ private:
 	static void CheckMessage(const defs::char_buffer& message);
 };
 
-template<typename T>
-defs::char_buffer BuildMessageBufferHeaderOnly(const uint32_t messageId
-											   , const defs::connection& responseAddress
-											   , const defs::eArchiveType archive)
-{
-	defs::MessageHeader header;
-	strncpy(header.responseAddress, responseAddress.first.c_str(), responseAddress.first.length());
-	header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
-	header.responsePort = responseAddress.second;
-	header.messageId = messageId;
-	header.archiveType = archive;
-
-	defs::char_buffer messageBuffer;
-	messageBuffer.reserve(header.totalLength);
-
-	const char* headerCharBuf = reinterpret_cast<const char*>(&header);
-	std::copy(headerCharBuf, headerCharBuf + sizeof(header)
-			  , std::back_inserter(messageBuffer));
-
-	return messageBuffer;
-}
+auto BuildMessageBufferHeaderOnly(const uint32_t messageId, const defs::connection& responseAddress
+							   , const defs::eArchiveType archive) -> defs::char_buffer;
 
 template<typename T>
-defs::char_buffer BuildMessageBuffer(T&& message, const uint32_t messageId
-									 , const defs::connection& responseAddress
-									 , const defs::eArchiveType archive)
+auto BuildMessageBuffer(const T& message, const uint32_t messageId, const defs::connection& responseAddress
+						, const defs::eArchiveType archive)
+	-> defs::char_buffer
 {
 	defs::MessageHeader header;
 	strncpy(header.responseAddress, responseAddress.first.c_str(), responseAddress.first.length());
@@ -119,8 +156,8 @@ defs::char_buffer BuildMessageBuffer(T&& message, const uint32_t messageId
 	defs::char_buffer messageBuffer;
 	messageBuffer.reserve(header.totalLength);
 
-    auto pHeaderCharBuf = reinterpret_cast<const char*>(&header);
-    std::copy(pHeaderCharBuf, pHeaderCharBuf + sizeof(header)
+	auto pHeaderCharBuf = reinterpret_cast<const char*>(&header);
+	std::copy(pHeaderCharBuf, pHeaderCharBuf + sizeof(header)
 			  , std::back_inserter(messageBuffer));
 
 	std::copy(body.begin(), body.end()

@@ -66,9 +66,14 @@ TcpClient::~TcpClient()
 	CloseConnection();
 }
 
-defs::connection TcpClient::ServerConnection() const
+auto TcpClient::ServerConnection() const -> defs::connection
 {
-    return m_server;
+	return m_server;
+}
+
+auto TcpClient::GetClientDetailsForServer() const -> defs::connection
+{
+	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
 }
 
 void TcpClient::CloseConnection()
@@ -86,11 +91,6 @@ bool TcpClient::SendMessageToServerSync(const defs::char_buffer& message)
 {
 	CheckAndCreateConnection();
 	return m_serverConnection.SendMessageSync(m_server, message);
-}
-
-auto TcpClient::GetClientDetailsForServer() const -> defs::connection
-{
-	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
 }
 
 void TcpClient::CreateConnection()

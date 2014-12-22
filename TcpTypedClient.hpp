@@ -57,39 +57,53 @@ public:
 	TcpTypedClient(const TcpTypedClient& ) = delete;
 	TcpTypedClient& operator=(const TcpTypedClient& ) = delete;
 
+	auto ServerConnection() const -> defs::connection;
+
+	auto GetClientDetailsForServer() const -> defs::connection;
+
 	void CloseConnection();
 
-    defs::connection GetClientDetailsForServer() const;
+	void SendMessageToServerAsync(const uint32_t messageId
+								  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
+								  , const defs::connection& responseAddress = defs::NULL_CONNECTION);
+
+	bool SendMessageToServerSync(const uint32_t messageId
+								 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
+								 , const defs::connection& responseAddress = defs::NULL_CONNECTION);
 
 	template<typename T>
-    void SendMessageToServerAsync(T&& message, const uint32_t messageId
-                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION)
+	void SendMessageToServerAsync(const T& message, const uint32_t messageId
+								  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
+								  , const defs::connection& responseAddress = defs::NULL_CONNECTION)
 	{
-        defs::connection responseConn = (responseAddress == defs::NULL_CONNECTION)
-                                        ? GetClientDetailsForServer()
-                                        : responseAddress;
-        auto messageBuffer = messages::BuildMessageBuffer(std::forward(message), messageId
-                                                          , responseConn, archive);
+		auto messageBuffer = BuildMessage(message, messageId, responseAddress, archive);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
 	}
 
 	template<typename T>
-    bool SendMessageToServerSync(T&& message, const uint32_t messageId
-                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION)
+	bool SendMessageToServerSync(const T& message, const uint32_t messageId
+								 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
+								 , const defs::connection& responseAddress = defs::NULL_CONNECTION)
 	{
-        defs::connection responseConn = (responseAddress == defs::NULL_CONNECTION)
-                                        ? GetClientDetailsForServer()
-                                        : responseAddress;
-        auto messageBuffer = messages::BuildMessageBuffer(std::forward(message), messageId
-                                                          , responseConn, archive);
+		auto messageBuffer = BuildMessage(message, messageId, responseAddress, archive);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
 
 private:
 	messages::MessageHandler m_messageHandler;
 	TcpClient m_tcpClient;
+
+	auto BuildMessageHeaderOnly(const uint32_t messageId, const defs::connection& responseAddress
+									   , const defs::eArchiveType archive) const -> defs::char_buffer;
+	template<typename T>
+	auto BuildMessage(T&& message, const uint32_t messageId, const defs::connection& responseAddress
+							 , const defs::eArchiveType archive) const -> defs::char_buffer
+	{
+		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
+							? GetClientDetailsForServer()
+							: responseAddress;
+		return messages::BuildMessageBuffer(message, messageId, responseConn, archive);
+	}
 };
 
 } // namespace tcp

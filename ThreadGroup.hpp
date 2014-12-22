@@ -57,6 +57,14 @@ public:
 	explicit xThreadGroupError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xThreadGroupError();
+	/*! \brief Copy constructor. */
+	xThreadGroupError(const xThreadGroupError&) = default;
+	/*! \brief Move constructor. */
+	xThreadGroupError(xThreadGroupError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xThreadGroupError& operator=(const xThreadGroupError&) = default;
+	/*! \brief Move assignment operator. */
+	xThreadGroupError& operator=(xThreadGroupError&&) = default;
 };
 
 /*!

@@ -51,11 +51,19 @@ public:
 	xThreadNotStartedError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xThreadNotStartedError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xThreadNotStartedError();
+	/*! \brief Copy constructor. */
+	xThreadNotStartedError(const xThreadNotStartedError&) = default;
+	/*! \brief Move constructor. */
+	xThreadNotStartedError(xThreadNotStartedError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xThreadNotStartedError& operator=(const xThreadNotStartedError&) = default;
+	/*! \brief Move assignment operator. */
+	xThreadNotStartedError& operator=(xThreadNotStartedError&&) = default;
 };
 
 /*!
@@ -119,7 +127,7 @@ protected:
 	bool IsTerminating() const;
 	/*!
 	 * \brief Make this thread sleep for a period of time.
-     * \param[in] milliSecs - Time period in milliseconds.
+	 * \param[in] milliSecs - Time period in milliseconds.
 	 *
 	 * This function throws a xThreadNotStartedError exception
 	 * if thread not fully started and therefore cannot be
@@ -163,19 +171,19 @@ private:
 
 	/*!
 	 * \brief Store thread ID and native handle.
-     * \param[in] threadId - Thread ID.
-     * \param[in] nativeHandle - Native handle.
+	 * \param[in] threadId - Thread ID.
+	 * \param[in] nativeHandle - Native handle.
 	 */
 	void SetThreadIdAndNativeHandle(const std::thread::id& threadId
 									, const std::thread::native_handle_type& nativeHandle);
 	/*!
 	 * \brief Set terminating flag.
-     * \param[in] terminating - True if terminating, false otherwise.
+	 * \param[in] terminating - True if terminating, false otherwise.
 	 */
 	void SetTerminating(const bool terminating = true);
 	/*!
 	 * \brief Set started flag.
-     * \param[in] started - True if started, false otherwise.
+	 * \param[in] started - True if started, false otherwise.
 	 */
 	void SetStarted(const bool started = true);
 	/*!

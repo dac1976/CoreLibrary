@@ -69,6 +69,19 @@ TcpServer::~TcpServer()
 	CloseAcceptor();
 }
 
+auto TcpServer::GetServerDetailsForClient(const defs::connection& client) const
+					-> defs::connection
+{
+	return client == defs::NULL_CONNECTION
+			? std::make_pair("0.0.0.0", m_listenPort)
+			: m_clientConnections.GetLocalEndForRemoteEnd(client);
+}
+
+unsigned short TcpServer::ListenPort() const
+{
+	return m_listenPort;
+}
+
 void TcpServer::CloseAcceptor()
 {
 	if (m_acceptor && m_acceptor->is_open())
@@ -106,12 +119,6 @@ bool TcpServer::SendMessageToClientSync(const defs::connection& client
 void TcpServer::SendMessageToAllClients(const defs::char_buffer& message)
 {
 	m_clientConnections.SendMessageToAll(message);
-}
-
-auto TcpServer::GetServerDetailsForClient(const defs::connection& client) const
-                    -> defs::connection
-{
-	return m_clientConnections.GetLocalEndForRemoteEnd(client);
 }
 
 void TcpServer::AcceptConnection()

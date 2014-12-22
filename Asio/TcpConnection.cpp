@@ -174,7 +174,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error
 				clearMsgBuf = true;
 			}
 		}
-		catch(...)
+		catch(const std::exception& /*e*/)
 		{
 			numBytes = m_minAmountToRead;
 			clearMsgBuf = true;

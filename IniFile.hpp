@@ -57,6 +57,14 @@ public:
 	explicit xIniFileDataConvertError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileDataConvertError();
+	/*! \brief Copy constructor. */
+	xIniFileDataConvertError(const xIniFileDataConvertError&) = default;
+	/*! \brief Move constructor. */
+	xIniFileDataConvertError(xIniFileDataConvertError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xIniFileDataConvertError& operator=(const xIniFileDataConvertError&) = default;
+	/*! \brief Move assignment operator. */
+	xIniFileDataConvertError& operator=(xIniFileDataConvertError&&) = default;
 };
 
 /*!
@@ -77,6 +85,14 @@ public:
 	explicit xIniFileParserError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileParserError();
+	/*! \brief Copy constructor. */
+	xIniFileParserError(const xIniFileParserError&) = default;
+	/*! \brief Move constructor. */
+	xIniFileParserError(xIniFileParserError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xIniFileParserError& operator=(const xIniFileParserError&) = default;
+	/*! \brief Move assignment operator. */
+	xIniFileParserError& operator=(xIniFileParserError&&) = default;
 };
 
 /*!
@@ -97,6 +113,14 @@ public:
 	explicit xIniFileSaveError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileSaveError();
+	/*! \brief Copy constructor. */
+	xIniFileSaveError(const xIniFileSaveError&) = default;
+	/*! \brief Move constructor. */
+	xIniFileSaveError(xIniFileSaveError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xIniFileSaveError& operator=(const xIniFileSaveError&) = default;
+	/*! \brief Move assignment operator. */
+	xIniFileSaveError& operator=(xIniFileSaveError&&) = default;
 };
 
 
@@ -118,6 +142,14 @@ public:
 	explicit xIniFileInvalidKeyError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileInvalidKeyError();
+	/*! \brief Copy constructor. */
+	xIniFileInvalidKeyError(const xIniFileInvalidKeyError&) = default;
+	/*! \brief Move constructor. */
+	xIniFileInvalidKeyError(xIniFileInvalidKeyError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xIniFileInvalidKeyError& operator=(const xIniFileInvalidKeyError&) = default;
+	/*! \brief Move assignment operator. */
+	xIniFileInvalidKeyError& operator=(xIniFileInvalidKeyError&&) = default;
 };
 
 /*!
@@ -138,6 +170,14 @@ public:
 	explicit xIniFileInvalidSectionError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileInvalidSectionError();
+	/*! \brief Copy constructor. */
+	xIniFileInvalidSectionError(const xIniFileInvalidSectionError&) = default;
+	/*! \brief Move constructor. */
+	xIniFileInvalidSectionError(xIniFileInvalidSectionError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xIniFileInvalidSectionError& operator=(const xIniFileInvalidSectionError&) = default;
+	/*! \brief Move assignment operator. */
+	xIniFileInvalidSectionError& operator=(xIniFileInvalidSectionError&&) = default;
 };
 
 /*!
@@ -205,7 +245,7 @@ public:
 	 * \brief Get sections.
 	 * \return A list of INI file section names.
 	 */
-    auto GetSections() -> std::list<std::string> const;
+	auto GetSections() -> std::list<std::string> const;
 	/*!
 	 * \brief Get section's key-value pairs.
 	 * \param[in] section - section Parameter_Description

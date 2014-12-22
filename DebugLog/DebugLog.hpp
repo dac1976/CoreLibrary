@@ -120,6 +120,14 @@ public:
 	explicit xLogMsgHandlerError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xLogMsgHandlerError();
+	/*! \brief Copy constructor. */
+	xLogMsgHandlerError(const xLogMsgHandlerError&) = default;
+	/*! \brief Move constructor. */
+	xLogMsgHandlerError(xLogMsgHandlerError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xLogMsgHandlerError& operator=(const xLogMsgHandlerError&) = default;
+	/*! \brief Move assignment operator. */
+	xLogMsgHandlerError& operator=(xLogMsgHandlerError&&) = default;
 };
 
 /*!
@@ -140,6 +148,14 @@ public:
 	explicit xInstantiationrError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xInstantiationrError();
+	/*! \brief Copy constructor. */
+	xInstantiationrError(const xInstantiationrError&) = default;
+	/*! \brief Move constructor. */
+	xInstantiationrError(xInstantiationrError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xInstantiationrError& operator=(const xInstantiationrError&) = default;
+	/*! \brief Move assignment operator. */
+	xInstantiationrError& operator=(xInstantiationrError&&) = default;
 };
 
 /*!
@@ -188,7 +204,7 @@ class LogQueueMessage
 {
 public:
 	/*! \brief Static message ID to register on message queue.*/
-    static constexpr int MESSAGE_ID{1};
+	static constexpr int MESSAGE_ID{1};
 	/*! \brief Default constructor.*/
 	LogQueueMessage() = default;
 	/*!

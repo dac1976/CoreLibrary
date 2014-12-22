@@ -48,15 +48,23 @@ namespace tcp {
 class xUnknownConnectionError : public exceptions::xCustomException
 {
 public:
-    /*! \brief Default constructor. */
-    xUnknownConnectionError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xUnknownConnectionError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    virtual ~xUnknownConnectionError();
+	/*! \brief Default constructor. */
+	xUnknownConnectionError();
+	/*!
+	 * \brief Initializing constructor.
+	 * \param[in] message - A user specified message string.
+	 */
+	explicit xUnknownConnectionError(const std::string& message);
+	/*! \brief Virtual destructor. */
+	virtual ~xUnknownConnectionError();
+	/*! \brief Copy constructor. */
+	xUnknownConnectionError(const xUnknownConnectionError&) = default;
+	/*! \brief Move constructor. */
+	xUnknownConnectionError(xUnknownConnectionError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xUnknownConnectionError& operator=(const xUnknownConnectionError&) = default;
+	/*! \brief Move assignment operator. */
+	xUnknownConnectionError& operator=(xUnknownConnectionError&&) = default;
 };
 
 class TcpConnection;
@@ -70,33 +78,33 @@ public:
 
 	TcpConnections(const TcpConnections& ) = delete;
 
-    TcpConnections& operator=(const TcpConnections& ) = delete;
+	TcpConnections& operator=(const TcpConnections& ) = delete;
 
 	void Add(defs::tcp_conn_ptr Connection);
 
 	void Remove(defs::tcp_conn_ptr Connection);
 
 	size_t Size() const;
-	
+
 	bool Empty() const;
 
-    void CloseConnections();
+	void CloseConnections();
 
-    void SendMessageAsync(const defs::connection& target
+	void SendMessageAsync(const defs::connection& target
 						  , const defs::char_buffer& message);
 
-    bool SendMessageSync(const defs::connection& target
+	bool SendMessageSync(const defs::connection& target
 						 , const defs::char_buffer& message);
 
 	void SendMessageToAll(const defs::char_buffer& message);
 
-    // Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetLocalEndForRemoteEnd(const defs::connection& remoteEnd) const
-             -> defs::connection;
+	// Throws xUnknownConnectionError is remoteEnd is not valid.
+	auto GetLocalEndForRemoteEnd(const defs::connection& remoteEnd) const
+			 -> defs::connection;
 
 private:
 	mutable std::mutex m_mutex;
-    typedef std::map<defs::connection, defs::tcp_conn_ptr> tcp_conn_map;
+	typedef std::map<defs::connection, defs::tcp_conn_ptr> tcp_conn_map;
 	tcp_conn_map m_connections;
 };
 

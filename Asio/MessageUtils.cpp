@@ -26,6 +26,7 @@
  */
 
 #include "MessageUtils.hpp"
+#include <boost/throw_exception.hpp>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -33,6 +34,45 @@ namespace core_lib {
 namespace asio {
 /*! \brief The tcp namespace. */
 namespace messages {
+
+// ****************************************************************************
+// 'class xMessageLengthError' definition
+// ****************************************************************************
+xMessageLengthError::xMessageLengthError()
+	: exceptions::xCustomException("incorrect message length")
+{
+}
+
+xMessageLengthError::xMessageLengthError(const std::string& message)
+	: exceptions::xCustomException(message)
+{
+}
+
+xMessageLengthError::~xMessageLengthError()
+{
+}
+
+// ****************************************************************************
+// 'class xMagicStringError' definition
+// ****************************************************************************
+xMagicStringError::xMagicStringError()
+	: exceptions::xCustomException("incorrect magic string")
+{
+}
+
+xMagicStringError::xMagicStringError(const std::string& message)
+	: exceptions::xCustomException(message)
+{
+}
+
+xMagicStringError::~xMagicStringError()
+{
+}
+
+
+// ****************************************************************************
+// 'class MessageHandler' definition
+// ****************************************************************************
 
 MessageHandler::MessageHandler(defs::message_dispatcher messageDispatcher)
 	: m_messageDispatcher{messageDispatcher}
@@ -43,7 +83,7 @@ void MessageHandler::CheckMessage(const defs::char_buffer& message)
 {
 	if (message.size() < sizeof(defs::MessageHeader))
 	{
-		throw std::length_error("message buffer contains too few bytes");
+		BOOST_THROW_EXCEPTION(xMessageLengthError());
 	}
 }
 
@@ -51,16 +91,16 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message)
 {
 	CheckMessage(message);
 
-    auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
+	auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
 
 	if (std::string(pHeader->magicString) != defs::MAGIC_STRING)
 	{
-		throw std::runtime_error("cannot find magic string");
+		BOOST_THROW_EXCEPTION(xMagicStringError());
 	}
 
 	if (pHeader->totalLength < message.size())
 	{
-		throw std::length_error("invalid total length in header");
+		BOOST_THROW_EXCEPTION(xMessageLengthError());
 	}
 
 	return pHeader->totalLength - message.size();
@@ -70,12 +110,37 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message)
 {
 	CheckMessage(message);
 
-    auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
-    auto receivedMessage = std::make_shared<defs::ReceivedMessage>();
-    receivedMessage->header = *pHeader;
-    receivedMessage->body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
+	auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
+	auto receivedMessage = std::make_shared<defs::ReceivedMessage>();
+	receivedMessage->header = *pHeader;
+	receivedMessage->body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
 
 	m_messageDispatcher(receivedMessage);
+}
+
+// ****************************************************************************
+// Utility function definitions
+// ****************************************************************************
+
+auto BuildMessageBufferHeaderOnly(const uint32_t messageId, const defs::connection& responseAddress
+								  , const defs::eArchiveType archive)
+	 -> defs::char_buffer
+{
+	defs::MessageHeader header;
+	strncpy(header.responseAddress, responseAddress.first.c_str(), responseAddress.first.length());
+	header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
+	header.responsePort = responseAddress.second;
+	header.messageId = messageId;
+	header.archiveType = archive;
+
+	defs::char_buffer messageBuffer;
+	messageBuffer.reserve(header.totalLength);
+
+	const char* headerCharBuf = reinterpret_cast<const char*>(&header);
+	std::copy(headerCharBuf, headerCharBuf + sizeof(header)
+			  , std::back_inserter(messageBuffer));
+
+	return messageBuffer;
 }
 
 } // namespace messages

@@ -61,11 +61,19 @@ public:
 	xSplitStringBadDelim();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xSplitStringBadDelim(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xSplitStringBadDelim();
+	/*! \brief Copy constructor. */
+	xSplitStringBadDelim(const xSplitStringBadDelim&) = default;
+	/*! \brief Move constructor. */
+	xSplitStringBadDelim(xSplitStringBadDelim&&) = default;
+	/*! \brief Copy assignment operator. */
+	xSplitStringBadDelim& operator=(const xSplitStringBadDelim&) = default;
+	/*! \brief Move assignment operator. */
+	xSplitStringBadDelim& operator=(xSplitStringBadDelim&&) = default;
 };
 
 /*!
@@ -81,11 +89,19 @@ public:
 	xSplitStringTooManySubstrings();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xSplitStringTooManySubstrings(const std::string& message);
 	/*! \brief Virtual destructor.*/
 	virtual ~xSplitStringTooManySubstrings();
+	/*! \brief Copy constructor. */
+	xSplitStringTooManySubstrings(const xSplitStringTooManySubstrings&) = default;
+	/*! \brief Move constructor. */
+	xSplitStringTooManySubstrings(xSplitStringTooManySubstrings&&) = default;
+	/*! \brief Copy assignment operator. */
+	xSplitStringTooManySubstrings& operator=(const xSplitStringTooManySubstrings&) = default;
+	/*! \brief Move assignment operator. */
+	xSplitStringTooManySubstrings& operator=(xSplitStringTooManySubstrings&&) = default;
 };
 
 /*!

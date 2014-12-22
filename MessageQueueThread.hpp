@@ -51,11 +51,19 @@ public:
 	xMsgHandlerError();
 	/*!
 	 * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
+	 * \param[in] message - A user specified message string.
 	 */
 	explicit xMsgHandlerError(const std::string& message);
 	/*! \brief Virtual destructor. */
 	virtual ~xMsgHandlerError();
+	/*! \brief Copy constructor. */
+	xMsgHandlerError(const xMsgHandlerError&) = default;
+	/*! \brief Move constructor. */
+	xMsgHandlerError(xMsgHandlerError&&) = default;
+	/*! \brief Copy assignment operator. */
+	xMsgHandlerError& operator=(const xMsgHandlerError&) = default;
+	/*! \brief Move assignment operator. */
+	xMsgHandlerError& operator=(xMsgHandlerError&&) = default;
 };
 /*! \brief Control how messages get destroyed in destructor. */
 enum class eOnDestroyOptions
@@ -85,20 +93,20 @@ class MessageQueueThread final : public ThreadBase
 public:
 	/*!
 	 * \brief Typedef defining message ID decoder function.
-     * \param[in] message - Pointer to message.
-     * \param[in] count - Number of objects of type MessageType pointed to by msg.
+	 * \param[in] message - Pointer to message.
+	 * \param[in] count - Number of objects of type MessageType pointed to by msg.
 	 * \return Unique ID of the message to be processed.
 	 *
 	 * The decoder function should not throw any exceptions. If the message
 	 * is a signel item and not and array of items of type MessageType
 	 * the the length will be the special value of -1.
 	 */
-    typedef std::function<MessageId (const MessageType*, const int )> msg_id_decoder;
+	typedef std::function<MessageId (const MessageType*, const int )> msg_id_decoder;
 	/*!
 	 * \brief Default constructor.
-     * \param[in] messageIdDecoder - Function object that returns the message ID for a message.
-     * \param[in] destroyOptions - (Optional) Set the Message threads destroy option.
-     * \param[in] queueOptions - (Optional) Set the queue's delete option.
+	 * \param[in] messageIdDecoder - Function object that returns the message ID for a message.
+	 * \param[in] destroyOptions - (Optional) Set the Message threads destroy option.
+	 * \param[in] queueOptions - (Optional) Set the queue's delete option.
 	 */
 	explicit MessageQueueThread(msg_id_decoder messageIdDecoder
 								, eOnDestroyOptions destroyOptions
@@ -132,19 +140,19 @@ public:
 	}
 	/*!
 	 * \brief Typedef defining message handler function.
-     * \param[in] message - Pointer to message.
-     * \param[in] count - Number of objects of type MessageType pointed to by msg.
+	 * \param[in] message - Pointer to message.
+	 * \param[in] count - Number of objects of type MessageType pointed to by msg.
 	 * \return True if message can be deleted, false otherwise.
 	 *
 	 * The decoder function should not throw any exceptions. If the message
 	 * is a signel item and not and array of items of type MessageType
 	 * the the length will be the special value of -1.
 	 */
-    typedef std::function<bool (MessageType*, const int )> msg_handler;
+	typedef std::function<bool (MessageType*, const int )> msg_handler;
 	/*!
 	 * \brief Register a function to handle a particular message.
-     * \param[in] messageID - Message ID.
-     * \param[in] messageHandler - Function object to handle messages with specified message ID.
+	 * \param[in] messageID - Message ID.
+	 * \param[in] messageHandler - Function object to handle messages with specified message ID.
 	 *
 	 * Throws a xMsgHandlerError exception if handler for message ID is
 	 * already defined.
@@ -163,7 +171,7 @@ public:
 	}
 	/*!
 	 * \brief Push a message onto this thread's queue.
-     * \param[in] msg - Pointer to message.
+	 * \param[in] msg - Pointer to message.
 	 *
 	 * Messages pushed on using this function will be deleted
 	 * with delete.
@@ -175,8 +183,8 @@ public:
 
 	/*!
 	 * \brief Push a message as an array of items onto this thread's queue.
-     * \param[in] msg - Pointer to message.
-     * \param[in] length - Number of objects of type MessageType pointed to by msg.
+	 * \param[in] msg - Pointer to message.
+	 * \param[in] length - Number of objects of type MessageType pointed to by msg.
 	 *
 	 * Messages pushed on using this function will be deleted
 	 * with delete[] if length > 0.
