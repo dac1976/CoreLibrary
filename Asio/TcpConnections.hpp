@@ -91,8 +91,8 @@ public:
 	void SendMessageToAll(const defs::char_buffer& message);
 
     // Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetLocalEndForRemoteEnd(const defs::connection& remoteEnd)
-             -> defs::connection const;
+    auto GetLocalEndForRemoteEnd(const defs::connection& remoteEnd) const
+             -> defs::connection;
 
 private:
 	mutable std::mutex m_mutex;

@@ -119,8 +119,8 @@ defs::char_buffer BuildMessageBuffer(T&& message, const uint32_t messageId
 	defs::char_buffer messageBuffer;
 	messageBuffer.reserve(header.totalLength);
 
-	const char* headerCharBuf = reinterpret_cast<const char*>(&header);
-	std::copy(headerCharBuf, headerCharBuf + sizeof(header)
+    auto pHeaderCharBuf = reinterpret_cast<const char*>(&header);
+    std::copy(pHeaderCharBuf, pHeaderCharBuf + sizeof(header)
 			  , std::back_inserter(messageBuffer));
 
 	std::copy(body.begin(), body.end()

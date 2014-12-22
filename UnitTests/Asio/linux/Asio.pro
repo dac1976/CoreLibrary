@@ -30,31 +30,31 @@ UI_DIR = $${DESTDIR}/ui
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS +=                               \
-	../../../Exceptions/CustomException.hpp \
-	../../../SyncEvent.hpp                  \
-	../../../ThreadGroup.hpp                \
-	../../../Threads/JoinThreads.hpp        \
-	../../../Asio/IoServiceThreadGroup.hpp  \
-	../../../Asio/AsioDefines.hpp \
-	../../../Asio/TcpConnection.hpp \
-	../../../Asio/TcpConnections.hpp \
-	../../../Asio/TcpServer.hpp \
-	../../../Asio/TcpClient.hpp \
-	../../../Serialization/SerializationIncludes.hpp \
-	../../../Serialization/SerializeToVector.hpp \
-	../../../TcpTypedClient.hpp \
+HEADERS +=                                  \
+    ../../../Exceptions/CustomException.hpp \
+    ../../../SyncEvent.hpp                  \
+    ../../../ThreadGroup.hpp                \
+    ../../../Threads/JoinThreads.hpp        \
+    ../../../Asio/IoServiceThreadGroup.hpp  \
+    ../../../Asio/AsioDefines.hpp           \
+    ../../../Asio/TcpConnection.hpp         \
+    ../../../Asio/TcpConnections.hpp        \
+    ../../../Asio/TcpServer.hpp             \
+    ../../../Asio/TcpClient.hpp             \
+    ../../../Serialization/SerializationIncludes.hpp \
+    ../../../Serialization/SerializeToVector.hpp     \
+    ../../../TcpTypedClient.hpp                      \
     ../../../Asio/MessageUtils.hpp
 
-SOURCES +=                               \
-	../tst_AsioTest.cpp                  \
-	../../../Exceptions/CustomException.cpp \
-	../../../Threads/SyncEvent.cpp          \
-	../../../Threads/ThreadGroup.cpp        \
-	../../../Asio/IoServiceThreadGroup.cpp  \
-	../../../Asio/TcpConnection.cpp \
-	../../../Asio/TcpConnections.cpp \
-	../../../Asio/TcpServer.cpp \
-	../../../Asio/TcpClient.cpp \
-	../../../Asio/TcpTypedClient.cpp \
-    ../../../Asio/MessageUtils.cpp
+SOURCES +=                                  \
+    ../tst_AsioTest.cpp                     \
+    ../../../Exceptions/CustomException.cpp \
+    ../../../Threads/SyncEvent.cpp          \
+    ../../../Threads/ThreadGroup.cpp        \
+    ../../../Asio/IoServiceThreadGroup.cpp  \
+    ../../../Asio/TcpConnection.cpp         \
+    ../../../Asio/TcpConnections.cpp        \
+    ../../../Asio/TcpServer.cpp             \
+    ../../../Asio/TcpClient.cpp             \
+    ../../../Asio/MessageUtils.cpp          \
+    ../../../Asio/TcpTypedClient.cpp

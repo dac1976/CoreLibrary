@@ -57,7 +57,12 @@ TcpTypedClient::TcpTypedClient(const defs::connection& server
 
 void TcpTypedClient::CloseConnection()
 {
-	m_tcpClient.CloseConnection();
+    m_tcpClient.CloseConnection();
+}
+
+defs::connection TcpTypedClient::GetClientDetailsForServer() const
+{
+    return m_tcpClient.GetClientDetailsForServer();
 }
 
 } // namespace tcp

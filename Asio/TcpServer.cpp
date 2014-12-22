@@ -108,8 +108,8 @@ void TcpServer::SendMessageToAllClients(const defs::char_buffer& message)
 	m_clientConnections.SendMessageToAll(message);
 }
 
-auto TcpServer::GetServerDetailsForClient(const defs::connection& client)
-					-> defs::connection const
+auto TcpServer::GetServerDetailsForClient(const defs::connection& client) const
+                    -> defs::connection
 {
 	return m_clientConnections.GetLocalEndForRemoteEnd(client);
 }

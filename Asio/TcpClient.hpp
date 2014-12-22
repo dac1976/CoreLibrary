@@ -70,7 +70,7 @@ public:
 	bool SendMessageToServerSync(const defs::char_buffer& message);
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetClientDetailsForServer() -> defs::connection const;
+    auto GetClientDetailsForServer() const -> defs::connection;
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};

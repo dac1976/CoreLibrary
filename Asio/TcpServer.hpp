@@ -75,8 +75,8 @@ public:
 	void SendMessageToAllClients(const defs::char_buffer& message);
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetServerDetailsForClient(const defs::connection& client)
-			 -> defs::connection const;
+    auto GetServerDetailsForClient(const defs::connection& client) const
+             -> defs::connection;
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};

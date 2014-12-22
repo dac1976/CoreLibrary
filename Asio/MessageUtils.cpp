@@ -51,8 +51,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message)
 {
 	CheckMessage(message);
 
-	const defs::MessageHeader* pHeader
-		= reinterpret_cast<const defs::MessageHeader*>(&message.front());
+    auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
 
 	if (std::string(pHeader->magicString) != defs::MAGIC_STRING)
 	{
@@ -71,12 +70,10 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message)
 {
 	CheckMessage(message);
 
-	const defs::MessageHeader* pHeader
-		= reinterpret_cast<const defs::MessageHeader*>(&message.front());
-
-	defs::ReceivedMessage receivedMessage;
-	receivedMessage.header = *pHeader;
-	receivedMessage.body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
+    auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
+    auto receivedMessage = std::make_shared<defs::ReceivedMessage>();
+    receivedMessage->header = *pHeader;
+    receivedMessage->body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
 
 	m_messageDispatcher(receivedMessage);
 }

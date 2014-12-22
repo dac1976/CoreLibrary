@@ -88,7 +88,7 @@ bool TcpClient::SendMessageToServerSync(const defs::char_buffer& message)
 	return m_serverConnection.SendMessageSync(m_server, message);
 }
 
-auto TcpClient::GetClientDetailsForServer() -> defs::connection const
+auto TcpClient::GetClientDetailsForServer() const -> defs::connection
 {
 	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
 }

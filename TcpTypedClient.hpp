@@ -59,45 +59,31 @@ public:
 
 	void CloseConnection();
 
+    defs::connection GetClientDetailsForServer() const;
+
 	template<typename T>
-	void SendMessageToServerAsync(T&& message, const uint32_t messageId
-								  , const defs::connection& responseAddress
-								  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
+    void SendMessageToServerAsync(T&& message, const uint32_t messageId
+                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
+                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION)
 	{
-		defs::char_buffer messageBuffer{messages::BuildMessageBuffer(std::forward(message), messageId
-														  , responseAddress, archive)};
+        defs::connection responseConn = (responseAddress == defs::NULL_CONNECTION)
+                                        ? GetClientDetailsForServer()
+                                        : responseAddress;
+        auto messageBuffer = messages::BuildMessageBuffer(std::forward(message), messageId
+                                                          , responseConn, archive);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
 	}
 
 	template<typename T>
-	bool SendMessageToServerSync(T&& message, const uint32_t messageId
-								 , const defs::connection& responseAddress
-								 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
+    bool SendMessageToServerSync(T&& message, const uint32_t messageId
+                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
+                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION)
 	{
-		defs::char_buffer messageBuffer{messages::BuildMessageBuffer(std::forward(message), messageId
-														   , responseAddress, archive)};
-		return m_tcpClient.SendMessageToServerSync(messageBuffer);
-	}
-
-	template<typename T>
-	void SendMessageToServerAsync(T&& message, const uint32_t messageId
-								   , const defs::eArchiveType archive
-										= defs::eArchiveType::portableBinary)
-	{
-		auto responseAddress = m_tcpClient.GetClientDetailsForServer();
-		defs::char_buffer messageBuffer{messages::BuildMessageBuffer(std::forward(message), messageId
-														   , responseAddress, archive)};
-		m_tcpClient.SendMessageToServerAsync(messageBuffer);
-	}
-
-	template<typename T>
-	bool SendMessageToServerSync(T&& message, const uint32_t messageId
-								 , const defs::eArchiveType archive
-								   = defs::eArchiveType::portableBinary)
-	{
-		auto responseAddress = m_tcpClient.GetClientDetailsForServer();
-		defs::char_buffer messageBuffer{messages::BuildMessageBuffer(std::forward(message), messageId
-														   , responseAddress, archive)};
+        defs::connection responseConn = (responseAddress == defs::NULL_CONNECTION)
+                                        ? GetClientDetailsForServer()
+                                        : responseAddress;
+        auto messageBuffer = messages::BuildMessageBuffer(std::forward(message), messageId
+                                                          , responseConn, archive);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
 

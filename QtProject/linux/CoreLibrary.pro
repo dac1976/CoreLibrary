@@ -55,15 +55,16 @@ HEADERS +=                               \
     ../../Asio/IoServiceThreadGroup.hpp  \
     ../../DebugLog/DebugLogSingleton.hpp \
     ../../IniFile/IniFileLines.hpp       \
-    ../../IniFile/IniFileSectionDetails.hpp \
-    ../../Serialization/SerializeToVector.hpp \
-    ../../Asio/AsioDefines.hpp \
-    ../../Asio/TcpConnection.hpp \
-    ../../Asio/TcpConnections.hpp \
-    ../../Asio/TcpServer.hpp \
-    ../../Asio/TcpClient.hpp \
+    ../../IniFile/IniFileSectionDetails.hpp       \
+    ../../Serialization/SerializeToVector.hpp     \
+    ../../Asio/AsioDefines.hpp                    \
+    ../../Asio/TcpConnection.hpp                  \
+    ../../Asio/TcpConnections.hpp                 \
+    ../../Asio/TcpServer.hpp                      \
+    ../../Asio/TcpClient.hpp                      \
     ../../Serialization/SerializationIncludes.hpp \
-    ../../TcpTypedClient.hpp
+    ../../TcpTypedClient.hpp                      \
+    ../../Asio/MessageUtils.hpp
 
 SOURCES +=                               \
     ../../StringUtils/StringUtils.cpp    \
@@ -82,8 +83,9 @@ SOURCES +=                               \
     ../../Asio/IoServiceThreadGroup.cpp  \
     ../../IniFile/IniFileLines.cpp       \
     ../../IniFile/IniFileSectionDetails.cpp \
-    ../../Asio/TcpConnection.cpp \
-    ../../Asio/TcpConnections.cpp \
-    ../../Asio/TcpServer.cpp \
-    ../../Asio/TcpClient.cpp \
-    ../../Asio/TcpTypedClient.cpp
+    ../../Asio/TcpConnection.cpp            \
+    ../../Asio/TcpConnections.cpp           \
+    ../../Asio/TcpServer.cpp                \
+    ../../Asio/TcpClient.cpp                \
+    ../../Asio/TcpTypedClient.cpp           \
+    ../../Asio/MessageUtils.cpp

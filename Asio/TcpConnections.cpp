@@ -124,8 +124,8 @@ void TcpConnections::SendMessageToAll(const defs::char_buffer& message)
 	}
 }
 
-auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection& remoteEnd)
-                         -> defs::connection const
+auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection& remoteEnd) const
+                         -> defs::connection
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
     defs::connection localEnd;

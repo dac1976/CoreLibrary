@@ -92,7 +92,13 @@ struct MessageHeader
 	{
 		strncpy(magicString, MAGIC_STRING, sizeof(magicString));
 		magicString[MAGIC_STRING_LEN - 1] = 0;
-	}
+    }
+
+    ~MessageHeader() = default;
+    MessageHeader(const MessageHeader&) = default;
+    MessageHeader(MessageHeader&&) = default;
+    MessageHeader& operator=(const MessageHeader&) = default;
+    MessageHeader& operator=(MessageHeader&&) = default;
 };
 #pragma pack(pop)
 
@@ -102,15 +108,24 @@ struct ReceivedMessage
 {
 	MessageHeader header;
 	char_buffer body;
+
+    ReceivedMessage() = default;
+    ~ReceivedMessage() = default;
+    ReceivedMessage(const ReceivedMessage&) = default;
+    ReceivedMessage(ReceivedMessage&&) = default;
+    ReceivedMessage& operator=(const ReceivedMessage&) = default;
+    ReceivedMessage& operator=(ReceivedMessage&&) = default;
 };
 
-typedef std::function< void (const ReceivedMessage& ) > message_dispatcher;
+typedef std::function< void (std::shared_ptr<ReceivedMessage> ) > message_dispatcher;
 
 typedef std::function< size_t (const char_buffer& ) > check_bytes_left_to_read;
 
 typedef std::function< void (const char_buffer& ) > message_received_handler;
 
 typedef std::pair<std::string, uint16_t> connection;
+
+static const connection NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
 
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr;
 
