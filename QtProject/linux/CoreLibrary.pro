@@ -34,7 +34,7 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-HEADERS +=                               \
+HEADERS +=                                   \
 	../../StringUtils.hpp                \
 	../../CsvGrid/CsvGridCell.hpp        \
 	../../CsvGrid/CsvGridRow.hpp         \
@@ -67,7 +67,7 @@ HEADERS +=                               \
 	../../TcpTypedClient.hpp                      \
 	../../TcpTypedServer.hpp
 
-SOURCES +=                               \
+SOURCES +=                                   \
 	../../StringUtils/StringUtils.cpp    \
 	../../CsvGrid/CsvGridCell.cpp        \
 	../../CsvGrid/CsvGridRow.cpp         \

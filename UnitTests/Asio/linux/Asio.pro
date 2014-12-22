@@ -30,7 +30,7 @@ UI_DIR = $${DESTDIR}/ui
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS +=                                  \
+HEADERS +=                                      \
 	../../../Exceptions/CustomException.hpp \
 	../../../SyncEvent.hpp                  \
 	../../../ThreadGroup.hpp                \
@@ -47,7 +47,7 @@ HEADERS +=                                  \
 	../../../TcpTypedClient.hpp                      \
 	../../../TcpTypedServer.hpp
 
-SOURCES +=                                  \
+SOURCES +=                                      \
 	../tst_AsioTest.cpp                     \
 	../../../Exceptions/CustomException.cpp \
 	../../../Threads/SyncEvent.cpp          \
