@@ -81,14 +81,6 @@ MessageHandler::MessageHandler(defs::message_dispatcher messageDispatcher
 {
 }
 
-void MessageHandler::CheckMessage(const defs::char_buffer& message)
-{
-	if (message.size() < sizeof(defs::MessageHeader))
-	{
-		BOOST_THROW_EXCEPTION(xMessageLengthError());
-	}
-}
-
 size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message) const
 {
 	CheckMessage(message);
@@ -120,20 +112,46 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message) co
 	m_messageDispatcher(receivedMessage);
 }
 
+std::string MessageHandler::MagicString() const
+{
+	return m_magicString;
+}
+
+void MessageHandler::CheckMessage(const defs::char_buffer& message)
+{
+	if (message.size() < sizeof(defs::MessageHeader))
+	{
+		BOOST_THROW_EXCEPTION(xMessageLengthError());
+	}
+}
+
 // ****************************************************************************
 // Utility function definitions
 // ****************************************************************************
 
-auto BuildMessageBufferHeaderOnly(const uint32_t messageId, const defs::connection& responseAddress
-								  , const defs::eArchiveType archive)
-	 -> defs::char_buffer
+auto FillHeader(const std::string& magicString, const uint32_t messageId
+				, const defs::connection& responseAddress
+				, const defs::eArchiveType archive) -> defs::MessageHeader
 {
 	defs::MessageHeader header;
-	strncpy(header.responseAddress, responseAddress.first.c_str(), responseAddress.first.length());
+
+	strncpy(header.magicString, magicString.c_str(), defs::MAGIC_STRING_LEN - 1);
+	header.magicString[defs::MAGIC_STRING_LEN - 1] = 0;
+	strncpy(header.responseAddress, responseAddress.first.c_str(), defs::RESPONSE_ADDRESS_LEN - 1);
 	header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
 	header.responsePort = responseAddress.second;
 	header.messageId = messageId;
 	header.archiveType = archive;
+
+	return header;
+}
+
+auto BuildMessageBuffer(const std::string& magicString, const uint32_t messageId
+						, const defs::connection& responseAddress
+						, const defs::eArchiveType archive)
+	 -> defs::char_buffer
+{
+	auto header = FillHeader(magicString, messageId, responseAddress, archive);
 
 	defs::char_buffer messageBuffer;
 	messageBuffer.reserve(header.totalLength);

@@ -132,7 +132,6 @@ static const connection NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr;
 
 } // namespace defs
-
 } // namespace asio
 } // namespace core_lib
 

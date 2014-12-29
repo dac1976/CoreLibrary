@@ -95,16 +95,18 @@ private:
 	messages::MessageHandler m_messageHandler;
 	TcpClient m_tcpClient;
 
-	auto BuildMessageHeaderOnly(const uint32_t messageId, const defs::connection& responseAddress
-									   , const defs::eArchiveType archive) const -> defs::char_buffer;
+	auto BuildMessage(const uint32_t messageId, const defs::connection& responseAddress
+					  , const defs::eArchiveType archive) const -> defs::char_buffer;
+
 	template<typename T>
-	auto BuildMessage(T&& message, const uint32_t messageId, const defs::connection& responseAddress
-							 , const defs::eArchiveType archive) const -> defs::char_buffer
+	auto BuildMessage(const T& message, const uint32_t messageId, const defs::connection& responseAddress
+					  , const defs::eArchiveType archive) const -> defs::char_buffer
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-		return messages::BuildMessageBuffer(message, messageId, responseConn, archive);
+		return messages::BuildMessageBuffer(m_messageHandler.MagicString(), message, messageId
+											, responseConn, archive);
 	}
 };
 

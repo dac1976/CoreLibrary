@@ -83,7 +83,7 @@ void TcpTypedServer::SendMessageToClientAsync(const defs::connection& client, co
 											  , const defs::eArchiveType archive
 											  , const defs::connection& responseAddress)
 {
-	auto messageBuffer = BuildMessageHeaderOnly(client, messageId, responseAddress, archive);
+	auto messageBuffer = BuildMessage(client, messageId, responseAddress, archive);
 	m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
 }
 
@@ -91,27 +91,26 @@ bool TcpTypedServer::SendMessageToClientSync(const defs::connection& client, con
 											 , const defs::eArchiveType archive
 											 , const defs::connection& responseAddress)
 {
-	auto messageBuffer = BuildMessageHeaderOnly(client, messageId, responseAddress, archive);
+	auto messageBuffer = BuildMessage(client, messageId, responseAddress, archive);
 	return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
 }
 
 void TcpTypedServer::SendMessageToAllClients(const uint32_t messageId, const defs::eArchiveType archive
 											 , const defs::connection& responseAddress)
 {
-	auto messageBuffer = BuildMessageHeaderOnly(defs::NULL_CONNECTION, messageId, responseAddress
-												, archive);
+	auto messageBuffer = BuildMessage(defs::NULL_CONNECTION, messageId, responseAddress, archive);
 	m_tcpServer.SendMessageToAllClients(messageBuffer);
 }
 
-auto TcpTypedServer::BuildMessageHeaderOnly(const defs::connection& client, const uint32_t messageId
-											, const defs::connection& responseAddress
-											, const defs::eArchiveType archive) const
+auto TcpTypedServer::BuildMessage(const defs::connection& client, const uint32_t messageId
+								  , const defs::connection& responseAddress
+								  , const defs::eArchiveType archive) const
 		 -> defs::char_buffer
 {
 	auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 						? GetServerDetailsForClient(client)
 						: responseAddress;
-	return messages::BuildMessageBufferHeaderOnly(messageId, responseConn, archive);
+	return messages::BuildMessageBuffer(m_messageHandler.MagicString(), messageId, responseConn, archive);
 }
 
 

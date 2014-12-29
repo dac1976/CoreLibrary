@@ -77,26 +77,26 @@ void TcpTypedClient::CloseConnection()
 void TcpTypedClient::SendMessageToServerAsync(const uint32_t messageId, const defs::eArchiveType archive
 											  , const defs::connection& responseAddress)
 {
-	auto messageBuffer = BuildMessageHeaderOnly(messageId, responseAddress, archive);
+	auto messageBuffer = BuildMessage(messageId, responseAddress, archive);
 	m_tcpClient.SendMessageToServerAsync(messageBuffer);
 }
 
 bool TcpTypedClient::SendMessageToServerSync(const uint32_t messageId, const defs::eArchiveType archive
 											 , const defs::connection& responseAddress)
 {
-	auto messageBuffer = BuildMessageHeaderOnly(messageId, responseAddress, archive);
+	auto messageBuffer = BuildMessage(messageId, responseAddress, archive);
 	return m_tcpClient.SendMessageToServerSync(messageBuffer);
 }
 
-auto TcpTypedClient::BuildMessageHeaderOnly(const uint32_t messageId
-											, const defs::connection& responseAddress
-											, const defs::eArchiveType archive) const
+auto TcpTypedClient::BuildMessage(const uint32_t messageId
+								  , const defs::connection& responseAddress
+								  , const defs::eArchiveType archive) const
 		 -> defs::char_buffer
 {
 	auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 						? GetClientDetailsForServer()
 						: responseAddress;
-	return messages::BuildMessageBufferHeaderOnly(messageId, responseConn, archive);
+	return messages::BuildMessageBuffer(m_messageHandler.MagicString(), messageId, responseConn, archive);
 }
 
 

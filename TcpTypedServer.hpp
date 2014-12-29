@@ -95,7 +95,7 @@ public:
 								 , const defs::connection& responseAddress = defs::NULL_CONNECTION)
 	{
 		auto messageBuffer = BuildMessage(message, client, messageId, responseAddress, archive);
-		return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+		return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
 	}
 
 	template<typename T>
@@ -108,12 +108,11 @@ public:
 		m_tcpServer.SendMessageToAllClients(messageBuffer);
 	}
 
-
 private:
 	messages::MessageHandler m_messageHandler;
 	TcpServer m_tcpServer;
 
-	auto BuildMessageHeaderOnly(const defs::connection& client, const uint32_t messageId
+	auto BuildMessage(const defs::connection& client, const uint32_t messageId
 								, const defs::connection& responseAddress
 								, const defs::eArchiveType archive) const -> defs::char_buffer;
 	template<typename T>
@@ -124,7 +123,8 @@ private:
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetServerDetailsForClient(client)
 							: responseAddress;
-		return messages::BuildMessageBuffer(message, messageId, responseConn, archive);
+		return messages::BuildMessageBuffer(m_messageHandler.MagicString(), message, messageId
+											, responseConn, archive);
 	}
 };
 

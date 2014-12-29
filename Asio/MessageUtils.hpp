@@ -112,6 +112,8 @@ public:
 
 	void MessageReceivedHandler(const defs::char_buffer& message) const;
 
+	std::string MagicString() const;
+
 private:
 	defs::message_dispatcher m_messageDispatcher;
 	const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
@@ -119,20 +121,21 @@ private:
 	static void CheckMessage(const defs::char_buffer& message);
 };
 
-auto BuildMessageBufferHeaderOnly(const uint32_t messageId, const defs::connection& responseAddress
-							   , const defs::eArchiveType archive) -> defs::char_buffer;
+auto FillHeader(const std::string& magicString, const uint32_t messageId
+				, const defs::connection& responseAddress
+				, const defs::eArchiveType archive) -> defs::MessageHeader;
+
+auto BuildMessageBuffer(const std::string& magicString, const uint32_t messageId
+						, const defs::connection& responseAddress
+						, const defs::eArchiveType archive) -> defs::char_buffer;
 
 template<typename T>
-auto BuildMessageBuffer(const T& message, const uint32_t messageId, const defs::connection& responseAddress
+auto BuildMessageBuffer(const std::string& magicString, const T& message, const uint32_t messageId
+						, const defs::connection& responseAddress
 						, const defs::eArchiveType archive)
 	-> defs::char_buffer
 {
-	defs::MessageHeader header;
-	strncpy(header.responseAddress, responseAddress.first.c_str(), responseAddress.first.length());
-	header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
-	header.responsePort = responseAddress.second;
-	header.messageId = messageId;
-	header.archiveType = archive;
+	auto header = FillHeader(magicString, messageId, responseAddress, archive);
 
 	serialize::char_vector body;
 
