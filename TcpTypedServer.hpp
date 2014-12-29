@@ -47,11 +47,13 @@ public:
 	TcpTypedServer(boost_ioservice& ioService
 				   , const unsigned short listenPort
 				   , const defs::message_dispatcher& messageDispatcher
-				   , const eSendOption sendOption = eSendOption::nagleOn);
+				   , const eSendOption sendOption = eSendOption::nagleOn
+				   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
 
 	TcpTypedServer(const unsigned short listenPort
 				   , const defs::message_dispatcher& messageDispatcher
-				   , const eSendOption sendOption = eSendOption::nagleOn);
+				   , const eSendOption sendOption = eSendOption::nagleOn
+				   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
 
 	~TcpTypedServer() = default;
 	TcpTypedServer(const TcpTypedServer& ) = delete;

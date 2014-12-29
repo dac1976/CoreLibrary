@@ -47,11 +47,13 @@ public:
 	TcpTypedClient(boost_ioservice& ioService
 			  , const defs::connection& server
 			  , const defs::message_dispatcher& messageDispatcher
-			  , const eSendOption sendOption = eSendOption::nagleOn);
+			  , const eSendOption sendOption = eSendOption::nagleOn
+			  , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
 
 	TcpTypedClient(const defs::connection& server
 			  , const defs::message_dispatcher& messageHandler
-			  , const eSendOption sendOption = eSendOption::nagleOn);
+			  , const eSendOption sendOption = eSendOption::nagleOn
+			  , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
 
 	~TcpTypedClient() = default;
 	TcpTypedClient(const TcpTypedClient& ) = delete;

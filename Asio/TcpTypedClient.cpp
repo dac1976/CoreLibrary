@@ -33,25 +33,29 @@ namespace tcp {
 TcpTypedClient::TcpTypedClient(boost_ioservice& ioService
 							   , const defs::connection& server
 							   , const defs::message_dispatcher& messageDispatcher
-							   , const eSendOption sendOption)
-	: m_messageHandler(messageDispatcher)
-	, m_tcpClient(ioService, server, sizeof(defs::MessageHeader)
-				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, std::placeholders::_1)
+							   , const eSendOption sendOption
+							   , const std::string& magicString)
+	: m_messageHandler{messageDispatcher, magicString}
+	, m_tcpClient{ioService, server, sizeof(defs::MessageHeader)
+				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead
+							  , &m_messageHandler, std::placeholders::_1)
 				  , std::bind(&messages::MessageHandler::MessageReceivedHandler
 							  , &m_messageHandler, std::placeholders::_1)
-				  , sendOption)
+				  , sendOption}
 {
 }
 
 TcpTypedClient::TcpTypedClient(const defs::connection& server
 							   , const defs::message_dispatcher& messageDispatcher
-							   , const eSendOption sendOption)
-	: m_messageHandler(messageDispatcher)
-	, m_tcpClient(server, sizeof(defs::MessageHeader)
-				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, std::placeholders::_1)
+							   , const eSendOption sendOption
+							   , const std::string& magicString)
+	: m_messageHandler{messageDispatcher, magicString}
+	, m_tcpClient{server, sizeof(defs::MessageHeader)
+				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead
+							  , &m_messageHandler, std::placeholders::_1)
 				  , std::bind(&messages::MessageHandler::MessageReceivedHandler
 							  , &m_messageHandler, std::placeholders::_1)
-				  , sendOption)
+				  , sendOption}
 {
 }
 

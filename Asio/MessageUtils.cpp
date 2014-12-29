@@ -74,8 +74,10 @@ xMagicStringError::~xMagicStringError()
 // 'class MessageHandler' definition
 // ****************************************************************************
 
-MessageHandler::MessageHandler(defs::message_dispatcher messageDispatcher)
+MessageHandler::MessageHandler(defs::message_dispatcher messageDispatcher
+							   , const std::string& magicString)
 	: m_messageDispatcher{messageDispatcher}
+	, m_magicString{magicString}
 {
 }
 
@@ -87,13 +89,13 @@ void MessageHandler::CheckMessage(const defs::char_buffer& message)
 	}
 }
 
-size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message)
+size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message) const
 {
 	CheckMessage(message);
 
 	auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
 
-	if (std::string(pHeader->magicString) != defs::MAGIC_STRING)
+	if (m_magicString != pHeader->magicString)
 	{
 		BOOST_THROW_EXCEPTION(xMagicStringError());
 	}
@@ -106,7 +108,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message)
 	return pHeader->totalLength - message.size();
 }
 
-void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message)
+void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message) const
 {
 	CheckMessage(message);
 

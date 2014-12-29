@@ -67,7 +67,7 @@ namespace defs {
 
 static constexpr uint32_t MAGIC_STRING_LEN{16};
 static constexpr uint32_t RESPONSE_ADDRESS_LEN{16};
-static constexpr char MAGIC_STRING[]{"MESSAGE_START"};
+static constexpr char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 enum class eArchiveType : uint8_t
 {
@@ -90,15 +90,15 @@ struct MessageHeader
 	MessageHeader()
 		: responseAddress{"0.0.0.0"}
 	{
-		strncpy(magicString, MAGIC_STRING, sizeof(magicString));
+		strncpy(magicString, DEFAULT_MAGIC_STRING, sizeof(magicString));
 		magicString[MAGIC_STRING_LEN - 1] = 0;
-    }
+	}
 
-    ~MessageHeader() = default;
-    MessageHeader(const MessageHeader&) = default;
-    MessageHeader(MessageHeader&&) = default;
-    MessageHeader& operator=(const MessageHeader&) = default;
-    MessageHeader& operator=(MessageHeader&&) = default;
+	~MessageHeader() = default;
+	MessageHeader(const MessageHeader&) = default;
+	MessageHeader(MessageHeader&&) = default;
+	MessageHeader& operator=(const MessageHeader&) = default;
+	MessageHeader& operator=(MessageHeader&&) = default;
 };
 #pragma pack(pop)
 
@@ -109,15 +109,17 @@ struct ReceivedMessage
 	MessageHeader header;
 	char_buffer body;
 
-    ReceivedMessage() = default;
-    ~ReceivedMessage() = default;
-    ReceivedMessage(const ReceivedMessage&) = default;
-    ReceivedMessage(ReceivedMessage&&) = default;
-    ReceivedMessage& operator=(const ReceivedMessage&) = default;
-    ReceivedMessage& operator=(ReceivedMessage&&) = default;
+	ReceivedMessage() = default;
+	~ReceivedMessage() = default;
+	ReceivedMessage(const ReceivedMessage&) = default;
+	ReceivedMessage(ReceivedMessage&&) = default;
+	ReceivedMessage& operator=(const ReceivedMessage&) = default;
+	ReceivedMessage& operator=(ReceivedMessage&&) = default;
 };
 
-typedef std::function< void (std::shared_ptr<ReceivedMessage> ) > message_dispatcher;
+typedef std::shared_ptr<ReceivedMessage> received_message_ptr;
+
+typedef std::function< void (received_message_ptr ) > message_dispatcher;
 
 typedef std::function< size_t (const char_buffer& ) > check_bytes_left_to_read;
 

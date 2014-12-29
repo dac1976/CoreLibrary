@@ -33,25 +33,29 @@ namespace tcp {
 TcpTypedServer::TcpTypedServer(boost_ioservice& ioService
 			   , const unsigned short listenPort
 			   , const defs::message_dispatcher& messageDispatcher
-			   , const eSendOption sendOption)
-	: m_messageHandler(messageDispatcher)
-	, m_tcpServer(ioService, listenPort, sizeof(defs::MessageHeader)
-				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, std::placeholders::_1)
+			   , const eSendOption sendOption
+			   , const std::string& magicString)
+	: m_messageHandler{messageDispatcher, magicString}
+	, m_tcpServer{ioService, listenPort, sizeof(defs::MessageHeader)
+				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead
+							  , &m_messageHandler, std::placeholders::_1)
 				  , std::bind(&messages::MessageHandler::MessageReceivedHandler
 							  , &m_messageHandler, std::placeholders::_1)
-				  , sendOption)
+				  , sendOption}
 {
 }
 
 TcpTypedServer::TcpTypedServer(const unsigned short listenPort
 			   , const defs::message_dispatcher& messageDispatcher
-			   , const eSendOption sendOption)
-	: m_messageHandler(messageDispatcher)
-	, m_tcpServer(listenPort, sizeof(defs::MessageHeader)
-				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, std::placeholders::_1)
+			   , const eSendOption sendOption
+			   , const std::string& magicString)
+	: m_messageHandler{messageDispatcher, magicString}
+	, m_tcpServer{listenPort, sizeof(defs::MessageHeader)
+				  , std::bind(&messages::MessageHandler::CheckBytesLeftToRead
+							  , &m_messageHandler, std::placeholders::_1)
 				  , std::bind(&messages::MessageHandler::MessageReceivedHandler
 							  , &m_messageHandler, std::placeholders::_1)
-				  , sendOption)
+				  , sendOption}
 {
 }
 

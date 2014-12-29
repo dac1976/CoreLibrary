@@ -102,17 +102,19 @@ public:
 class MessageHandler final
 {
 public:
-	MessageHandler(defs::message_dispatcher messageDispatcher);
+	MessageHandler(defs::message_dispatcher messageDispatcher
+				   , const std::string& magicString);
 	~MessageHandler() = default;
 	MessageHandler(const MessageHandler& ) = delete;
 	MessageHandler& operator=(const MessageHandler& ) = delete;
 
-	static size_t CheckBytesLeftToRead(const defs::char_buffer& message);
+	size_t CheckBytesLeftToRead(const defs::char_buffer& message) const;
 
-	void MessageReceivedHandler(const defs::char_buffer& message);
+	void MessageReceivedHandler(const defs::char_buffer& message) const;
 
 private:
 	defs::message_dispatcher m_messageDispatcher;
+	const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 
 	static void CheckMessage(const defs::char_buffer& message);
 };
