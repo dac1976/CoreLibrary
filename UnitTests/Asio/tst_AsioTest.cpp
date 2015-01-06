@@ -217,12 +217,12 @@ private Q_SLOTS:
 	// Asio tests
 	void testCase_IoThreadGroup1();
 	void testCase_IoThreadGroup2();
-	void testCase_TestAsync();
+    void testCase_TestAsync();
 	void testCase_TestSync();
 	void testCase_TestAsync_ExternalIoService();
 	void testCase_TestSync_ExternalIoService();
 	void testCase_TestTypedAsync();
-	void testCase_TestTypedSync();
+    void testCase_TestTypedSync();
 };
 
 AsioTest::AsioTest()
@@ -461,7 +461,6 @@ void AsioTest::testCase_TestTypedSync()
 
 	QVERIFY(respAddress == serverConn);
 }
-
 
 QTEST_APPLESS_MAIN(AsioTest)
 

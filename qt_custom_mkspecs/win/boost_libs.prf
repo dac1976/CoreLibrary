@@ -1,15 +1,17 @@
 DEFINES += BOOST_THREAD_USE_LIB
 
-LIBS += -LD:/Projects/ThirdParty/boost/lib/lib-mingw-32
+LIBS += -lws2_32 -lmswsock
 
 CONFIG(debug, debug|release) {
-  LIBS += D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-d-1_57.a \
-          D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-d-1_57.a \
-		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_serialization-mgw48-d-1_57.a \
-		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_program_options-mgw48-d-1_57.a
+  LIBS += -LD:/Projects/ThirdParty/boost/lib/lib-mingw-32 \
+          -llibboost_filesystem-mgw48-d-1_57 \
+          -llibboost_system-mgw48-d-1_57 \
+		  -llibboost_serialization-mgw48-d-1_57 \
+		  -llibboost_program_options-mgw48-d-1_57
 } else {
-  LIBS += D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_filesystem-mgw48-1_57.a \
-          D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_system-mgw48-1_57.a \
-		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_serialization-mgw48-1_57.a \
-		  D:/Projects/ThirdParty/boost/lib/lib-mingw-32/libboost_program_options-mgw48-1_57.a
+  LIBS += -LD:/Projects/ThirdParty/boost/lib/lib-mingw-32 \
+          -llibboost_filesystem-mgw48-1_57 \
+          -llibboost_system-mgw48-1_57 \
+		  -llibboost_serialization-mgw48-1_57 \
+		  -llibboost_program_options-mgw48-1_57
 }

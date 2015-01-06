@@ -23,8 +23,6 @@ CONFIG(debug, debug|release) {
   DESTDIR = release
 }
 
-LIBS += -lws2_32
-
 OBJECTS_DIR = $${DESTDIR}/obj
 MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
