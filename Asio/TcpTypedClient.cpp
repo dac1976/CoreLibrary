@@ -74,15 +74,17 @@ void TcpTypedClient::CloseConnection()
 	m_tcpClient.CloseConnection();
 }
 
-void TcpTypedClient::SendMessageToServerAsync(const uint32_t messageId, const defs::eArchiveType archive
-											  , const defs::connection& responseAddress)
+void TcpTypedClient::SendMessageToServerAsync(const uint32_t messageId
+                                              , const defs::connection& responseAddress
+                                              , const defs::eArchiveType archive)
 {
 	auto messageBuffer = BuildMessage(messageId, responseAddress, archive);
 	m_tcpClient.SendMessageToServerAsync(messageBuffer);
 }
 
-bool TcpTypedClient::SendMessageToServerSync(const uint32_t messageId, const defs::eArchiveType archive
-											 , const defs::connection& responseAddress)
+bool TcpTypedClient::SendMessageToServerSync(const uint32_t messageId
+                                             , const defs::connection& responseAddress
+                                             , const defs::eArchiveType archive)
 {
 	auto messageBuffer = BuildMessage(messageId, responseAddress, archive);
 	return m_tcpClient.SendMessageToServerSync(messageBuffer);

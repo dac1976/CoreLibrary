@@ -129,8 +129,8 @@ void TcpConnection::StartAsyncRead()
 void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 {
 	m_receiveBuffer.resize(amountToRead);
-	// We do not need a strand here as a conenction object
-	// can only read serially from one so for one connection
+    // We do not need a strand here as a connection object
+    // can only read serially from one, so for one connection
 	// object it cannot be doing more than one async read
 	// at a time in multiple threads.
 	boost::asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)

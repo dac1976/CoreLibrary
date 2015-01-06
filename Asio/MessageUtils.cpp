@@ -107,7 +107,11 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message) co
 	auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
 	auto receivedMessage = std::make_shared<defs::ReceivedMessage>();
 	receivedMessage->header = *pHeader;
-	receivedMessage->body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
+
+    if (pHeader->totalLength > sizeof(defs::MessageHeader))
+    {
+        receivedMessage->body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
+    }
 
 	m_messageDispatcher(receivedMessage);
 }

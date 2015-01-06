@@ -68,22 +68,22 @@ public:
 
 	void OpenAcceptor();
 
-	void SendMessageToClientAsync(const defs::connection& client, const uint32_t messageId
-								  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-								  , const defs::connection& responseAddress = defs::NULL_CONNECTION);
+	void SendMessageToClientAsync(const defs::connection& client, const uint32_t messageId								  
+                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION
+                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
 
 	bool SendMessageToClientSync(const defs::connection& client, const uint32_t messageId
-								 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-								 , const defs::connection& responseAddress = defs::NULL_CONNECTION);
+                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
+                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
 
 	void SendMessageToAllClients(const uint32_t messageId
-								 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-								 , const defs::connection& responseAddress = defs::NULL_CONNECTION);
+                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
+                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
 
 	template<typename T>
 	void SendMessageToClientAsync(const T& message, const defs::connection& client, const uint32_t messageId
-								  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-								  , const defs::connection& responseAddress = defs::NULL_CONNECTION)
+                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION
+                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
 	{
 		auto messageBuffer = BuildMessage(message, client, messageId, responseAddress, archive);
 		m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
@@ -91,8 +91,8 @@ public:
 
 	template<typename T>
 	bool SendMessageToClientSync(const T& message, const defs::connection& client, const uint32_t messageId
-								 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-								 , const defs::connection& responseAddress = defs::NULL_CONNECTION)
+                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
+                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
 	{
 		auto messageBuffer = BuildMessage(message, client, messageId, responseAddress, archive);
 		return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
@@ -100,8 +100,8 @@ public:
 
 	template<typename T>
 	void SendMessageToAllClients(const T& message, const uint32_t messageId
-								 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary
-								 , const defs::connection& responseAddress = defs::NULL_CONNECTION)
+                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
+                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
 	{
 		auto messageBuffer = BuildMessage(message, defs::NULL_CONNECTION, messageId
 										  , responseAddress, archive);

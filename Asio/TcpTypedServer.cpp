@@ -80,23 +80,24 @@ void TcpTypedServer::OpenAcceptor()
 }
 
 void TcpTypedServer::SendMessageToClientAsync(const defs::connection& client, const uint32_t messageId
-											  , const defs::eArchiveType archive
-											  , const defs::connection& responseAddress)
+                                              , const defs::connection& responseAddress
+                                              , const defs::eArchiveType archive)
 {
 	auto messageBuffer = BuildMessage(client, messageId, responseAddress, archive);
 	m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
 }
 
 bool TcpTypedServer::SendMessageToClientSync(const defs::connection& client, const uint32_t messageId
-											 , const defs::eArchiveType archive
-											 , const defs::connection& responseAddress)
+                                             , const defs::connection& responseAddress
+                                             , const defs::eArchiveType archive)
 {
 	auto messageBuffer = BuildMessage(client, messageId, responseAddress, archive);
 	return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
 }
 
-void TcpTypedServer::SendMessageToAllClients(const uint32_t messageId, const defs::eArchiveType archive
-											 , const defs::connection& responseAddress)
+void TcpTypedServer::SendMessageToAllClients(const uint32_t messageId
+                                             , const defs::connection& responseAddress
+                                             , const defs::eArchiveType archive)
 {
 	auto messageBuffer = BuildMessage(defs::NULL_CONNECTION, messageId, responseAddress, archive);
 	m_tcpServer.SendMessageToAllClients(messageBuffer);
