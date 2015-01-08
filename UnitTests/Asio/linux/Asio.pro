@@ -45,7 +45,9 @@ HEADERS +=                                      \
 	../../../Serialization/SerializationIncludes.hpp \
 	../../../Serialization/SerializeToVector.hpp     \
 	../../../TcpTypedClient.hpp                      \
-	../../../TcpTypedServer.hpp
+	../../../TcpTypedServer.hpp \
+    ../../../SimpleTcpClient.hpp \
+    ../../../SimpleTcpServer.hpp
 
 SOURCES +=                                      \
 	../tst_AsioTest.cpp                     \
@@ -57,6 +59,6 @@ SOURCES +=                                      \
 	../../../Asio/TcpConnection.cpp         \
 	../../../Asio/TcpConnections.cpp        \
 	../../../Asio/TcpServer.cpp             \
-	../../../Asio/TcpClient.cpp             \
-	../../../Asio/TcpTypedClient.cpp        \
-	../../../Asio/TcpTypedServer.cpp
+	../../../Asio/TcpClient.cpp \
+    ../../../Asio/SimpleTcpServer.cpp \
+    ../../../Asio/SimpleTcpClient.cpp
