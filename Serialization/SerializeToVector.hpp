@@ -36,7 +36,7 @@ namespace core_lib {
 namespace serialize {
 
 /*! \brief Typedef for char vector. */
-typedef std::vector<char> char_vector;
+typedef std::vector<char> char_vector_t;
 
 /*!
  * \brief Serialize an object into a char vector.
@@ -44,9 +44,9 @@ typedef std::vector<char> char_vector;
  * \return A char vector to receive serialized object.
  */
 template <typename T, typename A = eos::portable_oarchive>
-char_vector ToCharVector(const T& object)
+char_vector_t ToCharVector(const T& object)
 {
-	char_vector charVector;
+    char_vector_t charVector;
 	boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));
 	A oa(os);
 	// BOOST_SERIALIZATION_NVP is required to fully support xml_oarchive
@@ -60,7 +60,7 @@ char_vector ToCharVector(const T& object)
  * \return A boost serializable object of type T to receive deserialized vector.
  */
 template <typename T, typename A = eos::portable_iarchive>
-T ToObject(const char_vector& charVector)
+T ToObject(const char_vector_t& charVector)
 {
 	boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
 	A ia(is);

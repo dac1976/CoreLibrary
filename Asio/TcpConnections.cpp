@@ -53,7 +53,7 @@ xUnknownConnectionError::~xUnknownConnectionError()
 // 'class TcpConnections' definition
 // ****************************************************************************
 
-void TcpConnections::Add(defs::tcp_conn_ptr connection)
+void TcpConnections::Add(defs::tcp_conn_ptr_t connection)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};    
     auto connDetails = std::make_pair(connection->Socket().remote_endpoint().address().to_string()
@@ -61,7 +61,7 @@ void TcpConnections::Add(defs::tcp_conn_ptr connection)
 	m_connections.insert(std::make_pair(connDetails, connection));
 }
 
-void TcpConnections::Remove(defs::tcp_conn_ptr connection)
+void TcpConnections::Remove(defs::tcp_conn_ptr_t connection)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
     m_connections.erase(std::make_pair(connection->Socket().remote_endpoint().address().to_string()
@@ -92,8 +92,8 @@ void TcpConnections::CloseConnections()
     m_connections.clear();
 }
 
-void TcpConnections::SendMessageAsync(const defs::connection& target 
-									  , const defs::char_buffer& message)
+void TcpConnections::SendMessageAsync(const defs::connection_t& target 
+									  , const defs::char_buffer_t& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};    
     auto connIt = m_connections.find(target);
@@ -104,8 +104,8 @@ void TcpConnections::SendMessageAsync(const defs::connection& target
 	}
 }
 
-bool TcpConnections::SendMessageSync(const defs::connection& target 
-									 , const defs::char_buffer& message)
+bool TcpConnections::SendMessageSync(const defs::connection_t& target 
+									 , const defs::char_buffer_t& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
     auto connIt = m_connections.find(target);
@@ -114,7 +114,7 @@ bool TcpConnections::SendMessageSync(const defs::connection& target
 		   : connIt->second->SendMessageSync(message);
 }
 
-void TcpConnections::SendMessageToAll(const defs::char_buffer& message)
+void TcpConnections::SendMessageToAll(const defs::char_buffer_t& message)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -124,11 +124,11 @@ void TcpConnections::SendMessageToAll(const defs::char_buffer& message)
 	}
 }
 
-auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection& remoteEnd) const
-                         -> defs::connection
+auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const
+                         -> defs::connection_t
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
-    defs::connection localEnd;
+    defs::connection_t localEnd;
     auto connIt = m_connections.find(remoteEnd);
 
 	if (connIt == m_connections.end())

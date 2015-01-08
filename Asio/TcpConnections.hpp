@@ -80,9 +80,9 @@ public:
 
 	TcpConnections& operator=(const TcpConnections& ) = delete;
 
-	void Add(defs::tcp_conn_ptr Connection);
+	void Add(defs::tcp_conn_ptr_t Connection);
 
-	void Remove(defs::tcp_conn_ptr Connection);
+	void Remove(defs::tcp_conn_ptr_t Connection);
 
 	size_t Size() const;
 
@@ -90,21 +90,21 @@ public:
 
 	void CloseConnections();
 
-	void SendMessageAsync(const defs::connection& target
-						  , const defs::char_buffer& message);
+	void SendMessageAsync(const defs::connection_t& target
+						  , const defs::char_buffer_t& message);
 
-	bool SendMessageSync(const defs::connection& target
-						 , const defs::char_buffer& message);
+	bool SendMessageSync(const defs::connection_t& target
+						 , const defs::char_buffer_t& message);
 
-	void SendMessageToAll(const defs::char_buffer& message);
+	void SendMessageToAll(const defs::char_buffer_t& message);
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetLocalEndForRemoteEnd(const defs::connection& remoteEnd) const
-			 -> defs::connection;
+	auto GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const
+			 -> defs::connection_t;
 
 private:
 	mutable std::mutex m_mutex;
-	typedef std::map<defs::connection, defs::tcp_conn_ptr> tcp_conn_map;
+	typedef std::map<defs::connection_t, defs::tcp_conn_ptr_t> tcp_conn_map;
 	tcp_conn_map m_connections;
 };
 

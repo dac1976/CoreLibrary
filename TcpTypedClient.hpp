@@ -41,73 +41,112 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
+template<typename MsgBldr>
 class TcpTypedClient final
 {
 public:
-	TcpTypedClient(boost_ioservice& ioService
-			  , const defs::connection& server
-			  , const defs::message_dispatcher& messageDispatcher
-			  , const eSendOption sendOption = eSendOption::nagleOn
-			  , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
+    TcpTypedClient(boost_ioservice_t& ioService
+                   , const defs::connection_t& server
+                   , const size_t minAmountToRead
+                   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                   , const defs::message_received_handler_t& messageReceivedHandler
+                   , const MsgBldr& messageBuilder
+                   , const eSendOption sendOption = eSendOption::nagleOn
+                   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING)
+        : m_messageBuilder(messageBuilder), m_magicString{magicString}
+        , m_tcpClient{ioService, server, minAmountToRead
+                      , checkBytesLeftToRead, messageReceivedHandler
+                      , sendOption}
+    {
+    }
 
-	TcpTypedClient(const defs::connection& server
-			  , const defs::message_dispatcher& messageHandler
-			  , const eSendOption sendOption = eSendOption::nagleOn
-			  , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
+    TcpTypedClient(const defs::connection_t& server
+                   , const size_t minAmountToRead
+                   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                   , const defs::message_received_handler_t& messageReceivedHandler
+                   , const MsgBldr& messageBuilder
+                   , const eSendOption sendOption = eSendOption::nagleOn
+                   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING)
+        : m_messageBuilder(messageBuilder), m_magicString{magicString}
+        , m_tcpClient{server, minAmountToRead
+                      , checkBytesLeftToRead, messageReceivedHandler
+                      , sendOption}
+    {
+    }
 
 	~TcpTypedClient() = default;
 	TcpTypedClient(const TcpTypedClient& ) = delete;
 	TcpTypedClient& operator=(const TcpTypedClient& ) = delete;
 
-	auto ServerConnection() const -> defs::connection;
+    auto ServerConnection() const -> defs::connection_t
+    {
+        return m_tcpClient.ServerConnection();
+    }
 
-	auto GetClientDetailsForServer() const -> defs::connection;
+    auto GetClientDetailsForServer() const -> defs::connection_t
+    {
+        return m_tcpClient.GetClientDetailsForServer();
+    }
 
-	void CloseConnection();
+    void CloseConnection()
+    {
+        m_tcpClient.CloseConnection();
+    }
 
-	void SendMessageToServerAsync(const uint32_t messageId
-                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
+    void SendMessageToServerAsync(const uint32_t messageId
+                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        auto messageBuffer = BuildMessage(messageId, responseAddress);
+        m_tcpClient.SendMessageToServerAsync(messageBuffer);
+    }
 
-	bool SendMessageToServerSync(const uint32_t messageId
-                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
+    bool SendMessageToServerSync(const uint32_t messageId
+                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        auto messageBuffer = BuildMessage(messageId, responseAddress);
+        return m_tcpClient.SendMessageToServerSync(messageBuffer);
+    }
 
 	template<typename T>
 	void SendMessageToServerAsync(const T& message, const uint32_t messageId
-                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
+                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, messageId, responseAddress, archive);
+        auto messageBuffer = BuildMessage(message, messageId, responseAddress);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
 	}
 
 	template<typename T>
 	bool SendMessageToServerSync(const T& message, const uint32_t messageId
-                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
+                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, messageId, responseAddress, archive);
+        auto messageBuffer = BuildMessage(message, messageId, responseAddress);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
 
 private:
-	messages::MessageHandler m_messageHandler;
+    const MsgBldr& m_messageBuilder;
+    const std::string m_magicString;
 	TcpClient m_tcpClient;
 
-	auto BuildMessage(const uint32_t messageId, const defs::connection& responseAddress
-					  , const defs::eArchiveType archive) const -> defs::char_buffer;
+    auto BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress) const
+        -> defs::char_buffer_t
+    {
+        auto responseConn = (responseAddress == defs::NULL_CONNECTION)
+                            ? GetClientDetailsForServer()
+                            : responseAddress;
+        return m_messageBuilder.BuildBufferHeaderOnly(m_magicString, messageId, responseConn);
+    }
 
 	template<typename T>
     auto BuildMessage(const T& message, const uint32_t messageId
-                      , const defs::connection& responseAddress
-					  , const defs::eArchiveType archive) const -> defs::char_buffer
+                      , const defs::connection_t& responseAddress) const
+        -> defs::char_buffer_t
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-		return messages::BuildMessageBuffer(m_messageHandler.MagicString(), message, messageId
-											, responseConn, archive);
+        return m_messageBuilder.BuildBufferHeaderAndBody(m_magicString, message, messageId
+                                                         , responseConn);
 	}
 };
 

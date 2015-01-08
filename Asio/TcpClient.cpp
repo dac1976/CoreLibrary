@@ -31,11 +31,11 @@ namespace core_lib {
 namespace asio {
 namespace tcp {
 
-TcpClient::TcpClient(boost_ioservice& ioService
-					 , const defs::connection& server
+TcpClient::TcpClient(boost_ioservice_t& ioService
+                     , const defs::connection_t& server
 					 , const size_t minAmountToRead
-					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-					 , const defs::message_received_handler& messageReceivedHandler
+                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                     , const defs::message_received_handler_t& messageReceivedHandler
 					 , const eSendOption sendOption)
 	: m_ioService(ioService), m_server{server}
 	, m_minAmountToRead{minAmountToRead}
@@ -46,10 +46,10 @@ TcpClient::TcpClient(boost_ioservice& ioService
 	CreateConnection();
 }
 
-TcpClient::TcpClient(const defs::connection& server
+TcpClient::TcpClient(const defs::connection_t& server
 					 , const size_t minAmountToRead
-					 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-					 , const defs::message_received_handler& messageReceivedHandler
+                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                     , const defs::message_received_handler_t& messageReceivedHandler
 					 , const eSendOption sendOption)
 	: m_ioThreadGroup{new IoServiceThreadGroup(2)}
 	, m_ioService(m_ioThreadGroup->IoService())
@@ -66,12 +66,12 @@ TcpClient::~TcpClient()
 	CloseConnection();
 }
 
-auto TcpClient::ServerConnection() const -> defs::connection
+auto TcpClient::ServerConnection() const -> defs::connection_t
 {
 	return m_server;
 }
 
-auto TcpClient::GetClientDetailsForServer() const -> defs::connection
+auto TcpClient::GetClientDetailsForServer() const -> defs::connection_t
 {
 	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
 }
@@ -81,13 +81,13 @@ void TcpClient::CloseConnection()
 	m_serverConnection.CloseConnections();
 }
 
-void TcpClient::SendMessageToServerAsync(const defs::char_buffer& message)
+void TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
 {
 	CheckAndCreateConnection();
 	m_serverConnection.SendMessageAsync(m_server, message);
 }
 
-bool TcpClient::SendMessageToServerSync(const defs::char_buffer& message)
+bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
 {
 	CheckAndCreateConnection();
 	return m_serverConnection.SendMessageSync(m_server, message);
@@ -103,7 +103,7 @@ void TcpClient::CreateConnection()
 														  , m_checkBytesLeftToRead
 														  , m_messageReceivedHandler
 														  , m_sendOption);
-		connection->Connect(boost_tcp::endpoint(boost_address::from_string(m_server.first)
+        connection->Connect(boost_tcp_t::endpoint(boost_address_t::from_string(m_server.first)
 												, m_server.second));
 	}
 	catch(boost::system::system_error& )

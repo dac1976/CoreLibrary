@@ -41,11 +41,11 @@ static constexpr size_t DEFAULT_RESERVED_SIZE{512 * 1024};
 // 'class TcpConnection' definition
 // ****************************************************************************
 
-TcpConnection::TcpConnection(boost_ioservice& ioService
+TcpConnection::TcpConnection(boost_ioservice_t& ioService
 							 , TcpConnections& connections
 							 , const size_t minAmountToRead
-							 , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-							 , const defs::message_received_handler& messageReceivedHandler
+                             , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                             , const defs::message_received_handler_t& messageReceivedHandler
 							 , const eSendOption sendOption)
 	: m_closing{false}
 	, m_ioService(ioService)
@@ -62,20 +62,20 @@ TcpConnection::TcpConnection(boost_ioservice& ioService
 	m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
 }
 
-boost_tcp::socket& TcpConnection::Socket()
+boost_tcp_t::socket& TcpConnection::Socket()
 {
    return m_socket;
 }
 
-const boost_tcp::socket& TcpConnection::Socket() const
+const boost_tcp_t::socket& TcpConnection::Socket() const
 {
 	return m_socket;
 }
 
-void TcpConnection::Connect(const boost_tcp::endpoint& endPoint)
+void TcpConnection::Connect(const boost_tcp_t::endpoint& endPoint)
 {
 	m_socket.connect(endPoint);
-	boost_tcp::no_delay option(m_sendOption == eSendOption::nagleOff);
+    boost_tcp_t::no_delay option(m_sendOption == eSendOption::nagleOff);
 	m_socket.set_option(option);
 	StartAsyncRead();
 }
@@ -192,7 +192,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error
 	}
 }
 
-void TcpConnection::SendMessageAsync(const defs::char_buffer& message)
+void TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 {
 	// Wrap in a strand to make sure we don't get weird issues
 	// with the send event signalling and waiting. As we're
@@ -205,19 +205,19 @@ void TcpConnection::SendMessageAsync(const defs::char_buffer& message)
 											   , false)));
 }
 
-bool TcpConnection::SendMessageSync(const defs::char_buffer& message)
+bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
 {
 	SyncWriteToSocket(message, true);
 	return m_sendSuccess;
 }
 
-void TcpConnection::AsyncWriteToSocket(defs::char_buffer message
+void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message
 									   , const bool setSuccessFlag)
 {
 	SyncWriteToSocket(message, setSuccessFlag);
 }
 
-void TcpConnection::SyncWriteToSocket(const defs::char_buffer& message
+void TcpConnection::SyncWriteToSocket(const defs::char_buffer_t& message
 									  , const bool setSuccessFlag)
 {
 	boost::asio::async_write(m_socket, boost_asio::buffer(message)

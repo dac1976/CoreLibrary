@@ -74,14 +74,14 @@ xMagicStringError::~xMagicStringError()
 // 'class MessageHandler' definition
 // ****************************************************************************
 
-MessageHandler::MessageHandler(defs::message_dispatcher messageDispatcher
+MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher
 							   , const std::string& magicString)
 	: m_messageDispatcher{messageDispatcher}
 	, m_magicString{magicString}
 {
 }
 
-size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message) const
+size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) const
 {
 	CheckMessage(message);
 
@@ -100,12 +100,12 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer& message) co
 	return pHeader->totalLength - message.size();
 }
 
-void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message) const
+void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) const
 {
 	CheckMessage(message);
 
 	auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
-	auto receivedMessage = std::make_shared<defs::ReceivedMessage>();
+    auto receivedMessage = std::make_shared<defs::default_received_message_t>();
 	receivedMessage->header = *pHeader;
 
     if (pHeader->totalLength > sizeof(defs::MessageHeader))
@@ -116,12 +116,7 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer& message) co
 	m_messageDispatcher(receivedMessage);
 }
 
-std::string MessageHandler::MagicString() const
-{
-	return m_magicString;
-}
-
-void MessageHandler::CheckMessage(const defs::char_buffer& message)
+void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 {
 	if (message.size() < sizeof(defs::MessageHeader))
 	{
@@ -130,41 +125,45 @@ void MessageHandler::CheckMessage(const defs::char_buffer& message)
 }
 
 // ****************************************************************************
-// Utility function definitions
+// 'class MessageBuilder' definition
 // ****************************************************************************
 
-auto FillHeader(const std::string& magicString, const uint32_t messageId
-				, const defs::connection& responseAddress
-				, const defs::eArchiveType archive) -> defs::MessageHeader
+MessageBuilder::MessageBuilder(const defs::eArchiveType archiveType)
+    : m_archiveType(archiveType)
 {
-	defs::MessageHeader header;
-
-	strncpy(header.magicString, magicString.c_str(), defs::MAGIC_STRING_LEN - 1);
-	header.magicString[defs::MAGIC_STRING_LEN - 1] = 0;
-	strncpy(header.responseAddress, responseAddress.first.c_str(), defs::RESPONSE_ADDRESS_LEN - 1);
-	header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
-	header.responsePort = responseAddress.second;
-	header.messageId = messageId;
-	header.archiveType = archive;
-
-	return header;
 }
 
-auto BuildMessageBuffer(const std::string& magicString, const uint32_t messageId
-						, const defs::connection& responseAddress
-						, const defs::eArchiveType archive)
-	 -> defs::char_buffer
+auto MessageBuilder::BuildBufferHeaderOnly(const std::string& magicString, const uint32_t messageId
+                                           , const defs::connection_t& responseAddress) const
+    -> defs::char_buffer_t
 {
-	auto header = FillHeader(magicString, messageId, responseAddress, archive);
+    auto header = FillHeader(magicString, messageId, responseAddress);
 
-	defs::char_buffer messageBuffer;
-	messageBuffer.reserve(header.totalLength);
+    defs::char_buffer_t messageBuffer;
+    messageBuffer.reserve(header.totalLength);
 
-	const char* headerCharBuf = reinterpret_cast<const char*>(&header);
-	std::copy(headerCharBuf, headerCharBuf + sizeof(header)
-			  , std::back_inserter(messageBuffer));
+    const char* headerCharBuf = reinterpret_cast<const char*>(&header);
+    std::copy(headerCharBuf, headerCharBuf + sizeof(header)
+              , std::back_inserter(messageBuffer));
 
-	return messageBuffer;
+    return messageBuffer;
+}
+
+auto MessageBuilder::FillHeader(const std::string& magicString, const uint32_t messageId
+                                , const defs::connection_t& responseAddress) const
+    -> defs::MessageHeader
+{
+    defs::MessageHeader header;
+
+    strncpy(header.magicString, magicString.c_str(), defs::MAGIC_STRING_LEN - 1);
+    header.magicString[defs::MAGIC_STRING_LEN - 1] = 0;
+    strncpy(header.responseAddress, responseAddress.first.c_str(), defs::RESPONSE_ADDRESS_LEN - 1);
+    header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
+    header.responsePort = responseAddress.second;
+    header.messageId = messageId;
+    header.archiveType = m_archiveType;
+
+    return header;
 }
 
 } // namespace messages

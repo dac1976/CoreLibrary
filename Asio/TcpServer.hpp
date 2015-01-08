@@ -43,17 +43,17 @@ namespace tcp {
 class TcpServer final
 {
 public:
-	TcpServer(boost_ioservice& ioService
+    TcpServer(boost_ioservice_t& ioService
 			  , const unsigned short listenPort
 			  , const size_t minAmountToRead
-			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-			  , const defs::message_received_handler& messageReceivedHandler
+              , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+              , const defs::message_received_handler_t& messageReceivedHandler
 			  , const eSendOption sendOption = eSendOption::nagleOn);
 
 	TcpServer(const unsigned short listenPort
 			  , const size_t minAmountToRead
-			  , const defs::check_bytes_left_to_read& checkBytesLeftToRead
-			  , const defs::message_received_handler& messageReceivedHandler
+              , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+              , const defs::message_received_handler_t& messageReceivedHandler
 			  , const eSendOption sendOption = eSendOption::nagleOn);
 
 	~TcpServer();
@@ -63,8 +63,8 @@ public:
 	TcpServer& operator=(const TcpServer& ) = delete;
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetServerDetailsForClient(const defs::connection& client) const
-			 -> defs::connection;
+    auto GetServerDetailsForClient(const defs::connection_t& client) const
+             -> defs::connection_t;
 
 	unsigned short ListenPort() const;
 
@@ -72,29 +72,29 @@ public:
 
 	void OpenAcceptor();
 
-	void SendMessageToClientAsync(const defs::connection& client
-								  , const defs::char_buffer& message);
+    void SendMessageToClientAsync(const defs::connection_t& client
+                                  , const defs::char_buffer_t& message);
 
-	bool SendMessageToClientSync(const defs::connection& client
-								 , const defs::char_buffer& message);
+    bool SendMessageToClientSync(const defs::connection_t& client
+                                 , const defs::char_buffer_t& message);
 
-	void SendMessageToAllClients(const defs::char_buffer& message);
+    void SendMessageToAllClients(const defs::char_buffer_t& message);
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
-	boost_ioservice& m_ioService;
-	std::unique_ptr<boost_tcp_acceptor> m_acceptor;
+    boost_ioservice_t& m_ioService;
+    std::unique_ptr<boost_tcp_acceptor_t> m_acceptor;
 	const unsigned short m_listenPort;
 	const size_t m_minAmountToRead;
-	defs::check_bytes_left_to_read m_checkBytesLeftToRead;
-	defs::message_received_handler m_messageReceivedHandler;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::message_received_handler_t m_messageReceivedHandler;
 	const eSendOption m_sendOption;
 	TcpConnections m_clientConnections;
 	threads::SyncEvent m_closedEvent;
 
 	void AcceptConnection();
 
-	void AcceptHandler(defs::tcp_conn_ptr connection
+    void AcceptHandler(defs::tcp_conn_ptr_t connection
 					   , const boost_sys::error_code& error);
 
 	void ProcessCloseAcceptor();

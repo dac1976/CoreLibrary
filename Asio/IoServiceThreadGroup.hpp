@@ -69,7 +69,7 @@ public:
 	 * \brief Get the I/O service.
 	 * \return A reference to the I/O service.
 	 */
-    boost_ioservice& IoService();
+    boost_ioservice_t& IoService();
     /*!
      * \brief Post a function object to be run by one of our threads.
      * \param[in] function - Function to be run by one of our threads.
@@ -82,9 +82,9 @@ public:
 
 private:
 	/*! \brief Boost ASIO I/O service.*/
-    boost_ioservice m_ioService;
+    boost_ioservice_t m_ioService;
 	/*! \brief Boost ASIO I/O service work object.*/
-    boost_ioservice::work m_ioWork;
+    boost_ioservice_t::work m_ioWork;
 	/*! \brief Our thread group.*/
 	threads::ThreadGroup m_threadGroup;
 };

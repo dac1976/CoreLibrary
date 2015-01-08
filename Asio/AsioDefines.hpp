@@ -40,10 +40,10 @@ namespace boost_sys = boost::system;
 namespace boost_asio = boost::asio;
 namespace boost_placeholders = boost::asio::placeholders;
 
-typedef boost_asio::io_service boost_ioservice;
-typedef boost_asio::ip::tcp boost_tcp;
-typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor;
-typedef boost::asio::ip::address boost_address;
+typedef boost_asio::io_service boost_ioservice_t;
+typedef boost_asio::ip::tcp boost_tcp_t;
+typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor_t;
+typedef boost::asio::ip::address boost_address_t;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -65,8 +65,16 @@ namespace tcp {
 /*! \brief The asio_defs namespace. */
 namespace defs {
 
+typedef std::pair<std::string, uint16_t> connection_t;
+
+static const connection_t NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
+
+typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
+
 static constexpr uint32_t MAGIC_STRING_LEN{16};
+
 static constexpr uint32_t RESPONSE_ADDRESS_LEN{16};
+
 static constexpr char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 enum class eArchiveType : uint8_t
@@ -102,12 +110,14 @@ struct MessageHeader
 };
 #pragma pack(pop)
 
-typedef std::vector<char> char_buffer;
+typedef std::vector<char> char_buffer_t;
 
+template <typename Header>
 struct ReceivedMessage
 {
-	MessageHeader header;
-	char_buffer body;
+    typedef Header header_t;
+    header_t header;
+    char_buffer_t body;
 
 	ReceivedMessage() = default;
 	~ReceivedMessage() = default;
@@ -117,19 +127,15 @@ struct ReceivedMessage
 	ReceivedMessage& operator=(ReceivedMessage&&) = default;
 };
 
-typedef std::shared_ptr<ReceivedMessage> received_message_ptr;
+typedef ReceivedMessage<MessageHeader> default_received_message_t;
 
-typedef std::function< void (received_message_ptr ) > message_dispatcher;
+typedef std::shared_ptr<default_received_message_t> default_received_message_ptr_t;
 
-typedef std::function< size_t (const char_buffer& ) > check_bytes_left_to_read;
+typedef std::function< void (default_received_message_ptr_t ) > default_message_dispatcher_t;
 
-typedef std::function< void (const char_buffer& ) > message_received_handler;
+typedef std::function< size_t (const char_buffer_t& ) > check_bytes_left_to_read_t;
 
-typedef std::pair<std::string, uint16_t> connection;
-
-static const connection NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
-
-typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr;
+typedef std::function< void (const char_buffer_t& ) > message_received_handler_t;
 
 } // namespace defs
 } // namespace asio

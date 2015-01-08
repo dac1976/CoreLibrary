@@ -102,74 +102,82 @@ public:
 class MessageHandler final
 {
 public:
-	MessageHandler(defs::message_dispatcher messageDispatcher
+    MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher
 				   , const std::string& magicString);
 	~MessageHandler() = default;
 	MessageHandler(const MessageHandler& ) = delete;
 	MessageHandler& operator=(const MessageHandler& ) = delete;
 
-	size_t CheckBytesLeftToRead(const defs::char_buffer& message) const;
+    size_t CheckBytesLeftToRead(const defs::char_buffer_t& message) const;
 
-	void MessageReceivedHandler(const defs::char_buffer& message) const;
-
-	std::string MagicString() const;
+    void MessageReceivedHandler(const defs::char_buffer_t& message) const;
 
 private:
-	defs::message_dispatcher m_messageDispatcher;
+    defs::default_message_dispatcher_t m_messageDispatcher;
 	const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 
-	static void CheckMessage(const defs::char_buffer& message);
+    static void CheckMessage(const defs::char_buffer_t& message);
 };
 
-auto FillHeader(const std::string& magicString, const uint32_t messageId
-				, const defs::connection& responseAddress
-				, const defs::eArchiveType archive) -> defs::MessageHeader;
-
-auto BuildMessageBuffer(const std::string& magicString, const uint32_t messageId
-						, const defs::connection& responseAddress
-						, const defs::eArchiveType archive) -> defs::char_buffer;
-
-template<typename T>
-auto BuildMessageBuffer(const std::string& magicString, const T& message, const uint32_t messageId
-						, const defs::connection& responseAddress
-						, const defs::eArchiveType archive)
-	-> defs::char_buffer
+class MessageBuilder final
 {
-	auto header = FillHeader(magicString, messageId, responseAddress, archive);
+public:
+    MessageBuilder(const defs::eArchiveType archiveType);
 
-	serialize::char_vector body;
+    ~MessageBuilder() = default;
+    MessageBuilder(const MessageBuilder& ) = delete;
+    MessageBuilder& operator=(const MessageBuilder& ) = delete;
 
-	switch(archive)
-	{
-		case defs::eArchiveType::text:
-			body = serialize::ToCharVector<T, boost_arch::text_oarchive>(message);
-			break;
-		case defs::eArchiveType::binary:
-			body = serialize::ToCharVector<T, boost_arch::binary_oarchive>(message);
-			break;
-		case defs::eArchiveType::xml:
-			body = serialize::ToCharVector<T, boost_arch::xml_oarchive>(message);
-			break;
-		case defs::eArchiveType::portableBinary:
-		default:
-			body = serialize::ToCharVector<T, eos::portable_oarchive>(message);
-			break;
-	}
+    auto BuildBufferHeaderOnly(const std::string& magicString, const uint32_t messageId
+                               , const defs::connection_t& responseAddress) const -> defs::char_buffer_t;
 
-	header.totalLength += body.size();
+    template<typename T>
+    auto BuildBufferHeaderAndBody(const std::string& magicString, T&& message
+                                  , const uint32_t messageId
+                                  , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+    {
+        auto header = FillHeader(magicString, messageId, responseAddress);
 
-	defs::char_buffer messageBuffer;
-	messageBuffer.reserve(header.totalLength);
+        serialize::char_vector_t body;
 
-	auto pHeaderCharBuf = reinterpret_cast<const char*>(&header);
-	std::copy(pHeaderCharBuf, pHeaderCharBuf + sizeof(header)
-			  , std::back_inserter(messageBuffer));
+        switch(m_archiveType)
+        {
+            case defs::eArchiveType::text:
+                body = serialize::ToCharVector<T, boost_arch::text_oarchive>(message);
+                break;
+            case defs::eArchiveType::binary:
+                body = serialize::ToCharVector<T, boost_arch::binary_oarchive>(message);
+                break;
+            case defs::eArchiveType::xml:
+                body = serialize::ToCharVector<T, boost_arch::xml_oarchive>(message);
+                break;
+            case defs::eArchiveType::portableBinary:
+            default:
+                body = serialize::ToCharVector<T, eos::portable_oarchive>(message);
+                break;
+        }
 
-	std::copy(body.begin(), body.end()
-			  , std::back_inserter(messageBuffer));
+        header.totalLength += body.size();
 
-	return messageBuffer;
-}
+        defs::char_buffer_t messageBuffer;
+        messageBuffer.reserve(header.totalLength);
+
+        auto pHeaderCharBuf = reinterpret_cast<const char*>(&header);
+        std::copy(pHeaderCharBuf, pHeaderCharBuf + sizeof(header)
+                  , std::back_inserter(messageBuffer));
+
+        std::copy(body.begin(), body.end()
+                  , std::back_inserter(messageBuffer));
+
+        return messageBuffer;
+    }
+
+private:
+    const defs::eArchiveType m_archiveType{defs::eArchiveType::portableBinary};
+
+    auto FillHeader(const std::string& magicString, const uint32_t messageId
+                    , const defs::connection_t& responseAddress) const -> defs::MessageHeader;
+};
 
 } // namespace messages
 } // namespace asio

@@ -41,90 +41,133 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
+template<typename MsgBldr>
 class TcpTypedServer final
 {
 public:
-	TcpTypedServer(boost_ioservice& ioService
+    TcpTypedServer(boost_ioservice_t& ioService
 				   , const unsigned short listenPort
-				   , const defs::message_dispatcher& messageDispatcher
+                   , const size_t minAmountToRead
+                   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                   , const defs::message_received_handler_t& messageReceivedHandler
+                   , const MsgBldr& messageBuilder
 				   , const eSendOption sendOption = eSendOption::nagleOn
-				   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
+                   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING)
+        : m_messageBuilder(messageBuilder), m_magicString{magicString}
+        , m_tcpServer{ioService, listenPort, minAmountToRead
+                      , checkBytesLeftToRead, messageReceivedHandler
+                      , sendOption}
+    {
+    }
 
 	TcpTypedServer(const unsigned short listenPort
-				   , const defs::message_dispatcher& messageDispatcher
+                   , const size_t minAmountToRead
+                   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                   , const defs::message_received_handler_t& messageReceivedHandler
+                   , const MsgBldr& messageBuilder
 				   , const eSendOption sendOption = eSendOption::nagleOn
-				   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING);
+                   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING)
+        : m_messageBuilder(messageBuilder), m_magicString{magicString}
+        , m_tcpServer{listenPort, minAmountToRead
+                      , checkBytesLeftToRead, messageReceivedHandler
+                      , sendOption}
+    {
+    }
 
 	~TcpTypedServer() = default;
 	TcpTypedServer(const TcpTypedServer& ) = delete;
 	TcpTypedServer& operator=(const TcpTypedServer& ) = delete;
 
-	auto GetServerDetailsForClient(const defs::connection& client) const
-			 -> defs::connection;
+    auto GetServerDetailsForClient(const defs::connection_t& client)
+        const -> defs::connection_t
+    {
+        return m_tcpServer.GetServerDetailsForClient(client);
+    }
 
-	unsigned short ListenPort() const;
+    unsigned short ListenPort() const
+    {
+        return m_tcpServer.ListenPort();
+    }
 
-	void CloseAcceptor();
+    void CloseAcceptor()
+    {
+        m_tcpServer.CloseAcceptor();
+    }
 
-	void OpenAcceptor();
+    void OpenAcceptor()
+    {
+        m_tcpServer.OpenAcceptor();
+    }
 
-	void SendMessageToClientAsync(const defs::connection& client, const uint32_t messageId								  
-                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
+    void SendMessageToClientAsync(const defs::connection_t& client, const uint32_t messageId
+                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        auto messageBuffer = BuildMessage(client, messageId, responseAddress);
+        m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+    }
 
-	bool SendMessageToClientSync(const defs::connection& client, const uint32_t messageId
-                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
+    bool SendMessageToClientSync(const defs::connection_t& client, const uint32_t messageId
+                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        auto messageBuffer = BuildMessage(client, messageId, responseAddress);
+        return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+    }
 
-	void SendMessageToAllClients(const uint32_t messageId
-                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary);
+    void SendMessageToAllClients(const uint32_t messageId
+                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        auto messageBuffer = BuildMessage(defs::NULL_CONNECTION, messageId, responseAddress);
+        m_tcpServer.SendMessageToAllClients(messageBuffer);
+    }
 
 	template<typename T>
-	void SendMessageToClientAsync(const T& message, const defs::connection& client, const uint32_t messageId
-                                  , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                  , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
+    void SendMessageToClientAsync(T&& message, const defs::connection_t& client, const uint32_t messageId
+                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, client, messageId, responseAddress, archive);
+        auto messageBuffer = BuildMessage(message, client, messageId, responseAddress);
 		m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
 	}
 
 	template<typename T>
-	bool SendMessageToClientSync(const T& message, const defs::connection& client, const uint32_t messageId
-                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
+    bool SendMessageToClientSync(T&& message, const defs::connection_t& client, const uint32_t messageId
+                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, client, messageId, responseAddress, archive);
+        auto messageBuffer = BuildMessage(message, client, messageId, responseAddress);
 		return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
 	}
 
 	template<typename T>
-	void SendMessageToAllClients(const T& message, const uint32_t messageId
-                                 , const defs::connection& responseAddress = defs::NULL_CONNECTION
-                                 , const defs::eArchiveType archive = defs::eArchiveType::portableBinary)
+    void SendMessageToAllClients(T&& message, const uint32_t messageId
+                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
 		auto messageBuffer = BuildMessage(message, defs::NULL_CONNECTION, messageId
-										  , responseAddress, archive);
+                                          , responseAddress);
 		m_tcpServer.SendMessageToAllClients(messageBuffer);
 	}
 
 private:
-	messages::MessageHandler m_messageHandler;
+    const MsgBldr& m_messageBuilder;
+    const std::string m_magicString;
 	TcpServer m_tcpServer;
 
-	auto BuildMessage(const defs::connection& client, const uint32_t messageId
-								, const defs::connection& responseAddress
-								, const defs::eArchiveType archive) const -> defs::char_buffer;
+    auto BuildMessage(const defs::connection_t& client, const uint32_t messageId
+                      , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+    {
+        auto responseConn = (responseAddress == defs::NULL_CONNECTION)
+                            ? GetServerDetailsForClient(client)
+                            : responseAddress;
+        return m_messageBuilder.BuildBufferHeaderOnly(m_magicString, messageId, responseConn);
+    }
+
 	template<typename T>
-	auto BuildMessage(T&& message, const defs::connection& client, const uint32_t messageId
-					  , const defs::connection& responseAddress
-					  , const defs::eArchiveType archive) const -> defs::char_buffer
+    auto BuildMessage(T&& message, const defs::connection_t& client, const uint32_t messageId
+                      , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetServerDetailsForClient(client)
 							: responseAddress;
-		return messages::BuildMessageBuffer(m_messageHandler.MagicString(), message, messageId
-											, responseConn, archive);
+        return m_messageBuilder.BuildBufferHeaderAndBody(m_magicString, message, messageId
+                                                         , responseConn);
 	}
 };
 

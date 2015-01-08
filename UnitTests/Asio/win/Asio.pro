@@ -57,6 +57,4 @@ SOURCES +=                                      \
 	../../../Asio/TcpConnection.cpp         \
 	../../../Asio/TcpConnections.cpp        \
 	../../../Asio/TcpServer.cpp             \
-	../../../Asio/TcpClient.cpp             \
-	../../../Asio/TcpTypedClient.cpp        \
-	../../../Asio/TcpTypedServer.cpp
+	../../../Asio/TcpClient.cpp
