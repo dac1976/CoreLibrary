@@ -108,7 +108,7 @@ public:
     }
 
 	template<typename T>
-	void SendMessageToServerAsync(const T& message, const uint32_t messageId
+    void SendMessageToServerAsync(T&& message, const uint32_t messageId
                                   , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
         auto messageBuffer = BuildMessage(message, messageId, responseAddress);
@@ -116,7 +116,7 @@ public:
 	}
 
 	template<typename T>
-	bool SendMessageToServerSync(const T& message, const uint32_t messageId
+    bool SendMessageToServerSync(T&& message, const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
         auto messageBuffer = BuildMessage(message, messageId, responseAddress);
@@ -138,7 +138,7 @@ private:
     }
 
 	template<typename T>
-    auto BuildMessage(const T& message, const uint32_t messageId
+    auto BuildMessage(T&& message, const uint32_t messageId
                       , const defs::connection_t& responseAddress) const
         -> defs::char_buffer_t
 	{
