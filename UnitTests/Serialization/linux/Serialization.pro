@@ -28,9 +28,10 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += ../tst_SerializationUtilsTest.cpp
-
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += ../../../Serialization/SerializeToVector.hpp \
-		   ../../../Serialization/SerializationIncludes.hpp
+SOURCES += ../tst_SerializationUtilsTest.cpp 
+
+HEADERS +=                                                        \
+         ../../../Include/Serialization/SerializeToVector.hpp     \
+         ../../../Include/Serialization/SerializationIncludes.hpp

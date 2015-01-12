@@ -30,35 +30,35 @@ UI_DIR = $${DESTDIR}/ui
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS +=                                      \
-	../../../Exceptions/CustomException.hpp \
-	../../../SyncEvent.hpp                  \
-	../../../ThreadGroup.hpp                \
-	../../../Threads/JoinThreads.hpp        \
-	../../../Asio/IoServiceThreadGroup.hpp  \
-	../../../Asio/AsioDefines.hpp           \
-	../../../Asio/MessageUtils.hpp          \
-	../../../Asio/TcpConnection.hpp         \
-	../../../Asio/TcpConnections.hpp        \
-	../../../Asio/TcpServer.hpp             \
-	../../../Asio/TcpClient.hpp             \
-	../../../Serialization/SerializationIncludes.hpp \
-	../../../Serialization/SerializeToVector.hpp     \
-	../../../TcpTypedClient.hpp                      \
-	../../../TcpTypedServer.hpp \
-    ../../../SimpleTcpClient.hpp \
-    ../../../SimpleTcpServer.hpp
+HEADERS +=                                                   \
+	../../../Include/Exceptions/CustomException.hpp          \
+	../../../Include/Threads/SyncEvent.hpp                   \
+	../../../Include/Threads/ThreadGroup.hpp                 \
+	../../../Include/Threads/JoinThreads.hpp                 \
+	../../../Include/Asio/IoServiceThreadGroup.hpp           \
+	../../../Include/Asio/AsioDefines.hpp                    \
+	../../../Include/Asio/MessageUtils.hpp                   \
+	../../../Include/Asio/TcpConnection.hpp                  \
+	../../../Include/Asio/TcpConnections.hpp                 \
+	../../../Include/Asio/TcpServer.hpp                      \
+	../../../Include/Asio/TcpClient.hpp                      \
+	../../../Include/Serialization/SerializationIncludes.hpp \
+	../../../Include/Serialization/SerializeToVector.hpp     \
+	../../../Include/Asio/TcpTypedClient.hpp                 \
+	../../../Include/Asio/TcpTypedServer.hpp                 \
+    ../../../Include/Asio/SimpleTcpClient.hpp                \
+    ../../../Include/Asio/SimpleTcpServer.hpp
 
-SOURCES +=                                      \
-	../tst_AsioTest.cpp                     \
-	../../../Exceptions/CustomException.cpp \
-	../../../Threads/SyncEvent.cpp          \
-	../../../Threads/ThreadGroup.cpp        \
-	../../../Asio/IoServiceThreadGroup.cpp  \
-	../../../Asio/MessageUtils.cpp          \
-	../../../Asio/TcpConnection.cpp         \
-	../../../Asio/TcpConnections.cpp        \
-	../../../Asio/TcpServer.cpp             \
-	../../../Asio/TcpClient.cpp \
-    ../../../Asio/SimpleTcpServer.cpp \
-    ../../../Asio/SimpleTcpClient.cpp
+SOURCES +=                                         \
+	../tst_AsioTest.cpp                            \
+	../../../Source/Exceptions/CustomException.cpp \
+	../../../Source/Threads/SyncEvent.cpp          \
+	../../../Source/Threads/ThreadGroup.cpp        \
+	../../../Source/Asio/IoServiceThreadGroup.cpp  \
+	../../../Source/Asio/MessageUtils.cpp          \
+	../../../Source/Asio/TcpConnection.cpp         \
+	../../../Source/Asio/TcpConnections.cpp        \
+	../../../Source/Asio/TcpServer.cpp             \
+	../../../Source/Asio/TcpClient.cpp             \
+    ../../../Source/Asio/SimpleTcpServer.cpp       \
+    ../../../Source/Asio/SimpleTcpClient.cpp

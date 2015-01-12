@@ -1,6 +1,6 @@
 #include <QString>
 #include <QtTest>
-#include "../../StringUtils.hpp"
+#include "../../Include/StringUtils/StringUtils.hpp"
 #include "boost/predef.h"
 
 class StringUtilsTest : public QObject

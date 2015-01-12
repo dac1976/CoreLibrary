@@ -1,6 +1,6 @@
 #include <QString>
 #include <QtTest>
-#include "../../CsvGrid.hpp"
+#include "../../Include/CsvGrid/CsvGrid.hpp"
 #include <limits>
 #include <fstream>
 #include "boost/predef.h"

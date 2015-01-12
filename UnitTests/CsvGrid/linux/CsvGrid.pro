@@ -28,18 +28,19 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += ../tst_CsvGridTest.cpp        \
-	../../../CsvGrid/CsvGridCell.cpp     \
-	../../../CsvGrid/CsvGridRow.cpp      \
-	../../../CsvGrid/CsvGridMain.cpp     \
-	../../../StringUtils/StringUtils.cpp \
-	../../../Exceptions/CustomException.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += \
-	../../../StringUtils.hpp         \
-	../../../CsvGrid/CsvGridCell.hpp \
-	../../../CsvGrid/CsvGridRow.hpp  \
-	../../../CsvGrid/CsvGridMain.hpp  \
-	../../../CsvGrid.hpp             \
-	../../../Exceptions/CustomException.hpp
+HEADERS +=                                          \
+    ../../../Include/StringUtils/StringUtils.hpp    \
+	../../../Include/CsvGrid/CsvGridCell.hpp        \ 
+	../../../Include/CsvGrid/CsvGridRow.hpp         \
+	../../../Include/CsvGrid/CsvGridMain.hpp        \
+    ../../../Include/CsvGrid/CsvGrid.hpp            \
+    ../../../Include/Exceptions/CustomException.hpp
+
+SOURCES += ../tst_CsvGridTest.cpp                  \
+    ../../../Source/CsvGrid/CsvGridCell.cpp        \
+	../../../Source/CsvGrid/CsvGridRow.cpp         \
+    ../../../Source/CsvGrid/CsvGridMain.cpp        \
+    ../../../Source/StringUtils/StringUtils.cpp    \
+    ../../../Source/Exceptions/CustomException.cpp

@@ -1,16 +1,16 @@
 #include <QString>
 #include <QtTest>
-#include "../../Asio/IoServiceThreadGroup.hpp"
-#include "../../Asio/TcpServer.hpp"
-#include "../../Asio/TcpClient.hpp"
-#include "../../TcpTypedServer.hpp"
-#include "../../TcpTypedClient.hpp"
-#include "../../Serialization/SerializeToVector.hpp"
+#include "../../Include/Asio/IoServiceThreadGroup.hpp"
+#include "../../Include/Asio/TcpServer.hpp"
+#include "../../Include/Asio/TcpClient.hpp"
+#include "../../Include/Asio/TcpTypedServer.hpp"
+#include "../../Include/Asio/TcpTypedClient.hpp"
+#include "../../Include/Serialization/SerializeToVector.hpp"
 #include <cstring>
 #include <algorithm>
 #include <iterator>
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/string.hpp>
+#include "boost/serialization/vector.hpp"
+#include "boost/serialization/string.hpp"
 
 using namespace core_lib::asio;
 using namespace core_lib::asio::defs;

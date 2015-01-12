@@ -28,11 +28,12 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += ../tst_GenericSortingTest.cpp \
-    ../../../Exceptions/CustomException.cpp \
-    ../../../Sorting/GenericSorting.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += \
-    ../../../GenericSorting.hpp \
-    ../../../Exceptions/CustomException.hpp
+HEADERS +=                                          \
+    ../../../Include/Sorting/GenericSorting.hpp     \
+    ../../../Include/Exceptions/CustomException.hpp
+
+SOURCES += ../tst_GenericSortingTest.cpp           \
+    ../../../Source/Exceptions/CustomException.cpp \
+    ../../../Source/Sorting/GenericSorting.cpp

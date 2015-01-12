@@ -28,22 +28,22 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += ../tst_ThreadsTest.cpp \
-	../../../Threads/ConcurrentQueue.cpp \
-	../../../Threads/MessageQueueThread.cpp \
-	../../../Threads/SyncEvent.cpp \
-	../../../Threads/ThreadBase.cpp \
-	../../../Threads/ThreadGroup.cpp \
-	../../../Exceptions/CustomException.cpp
-
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += \
-	../../../ConcurrentQueue.hpp \
-	../../../Exceptions/CustomException.hpp \
-	../../../MessageQueueThread.hpp \
-	../../../SyncEvent.hpp \
-	../../../ThreadBase.hpp \
-	../../../ThreadGroup.hpp \
-	../../../BoundedBuffer.hpp \
-	../../../Threads/JoinThreads.hpp
+HEADERS +=                                          \
+    ../../../Include/Threads/ConcurrentQueue.hpp    \
+    ../../../Exceptions/CustomException.hpp         \
+    ../../../Include/Threads/MessageQueueThread.hpp \
+    ../../../Include/Threads/SyncEvent.hpp          \
+    ../../../Include/Threads/ThreadBase.hpp         \
+    ../../../Include/Threads/ThreadGroup.hpp        \
+    ../../../Include/Threads/BoundedBuffer.hpp      \
+    ../../../Include/Threads/JoinThreads.hpp
+
+SOURCES += ../tst_ThreadsTest.cpp                  \
+    ../../../Source/Threads/ConcurrentQueue.cpp    \
+    ../../../Source/Threads/MessageQueueThread.cpp \
+    ../../../Source/Threads/SyncEvent.cpp          \
+    ../../../Source/Threads/ThreadBase.cpp         \
+    ../../../Source/Threads/ThreadGroup.cpp        \
+    ../../../Source/Exceptions/CustomException.cpp

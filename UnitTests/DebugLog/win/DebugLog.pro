@@ -28,22 +28,22 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += ../tst_DebugLogTest.cpp \
-    ../../../DebugLog/DebugLog.cpp \
-    ../../../Threads/ConcurrentQueue.cpp \
-    ../../../Threads/MessageQueueThread.cpp \
-    ../../../Threads/SyncEvent.cpp \
-    ../../../Threads/ThreadBase.cpp \
-    ../../../Exceptions/CustomException.cpp
-
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += \
-    ../../../DebugLog/DebugLog.hpp \
-    ../../../ConcurrentQueue.hpp \
-    ../../../Exceptions/CustomException.hpp \
-    ../../../MessageQueueThread.hpp \
-    ../../../SyncEvent.hpp \
-    ../../../ThreadBase.hpp \
-    ../../../DebugLogging.hpp \
-    ../../../DebugLog/DebugLogSingleton.hpp
+HEADERS +=                                          \
+    ../../../Include/DebugLog/DebugLog.hpp          \
+    ../../../Include/Threads/ConcurrentQueue.hpp    \
+    ../../../Include/Exceptions/CustomException.hpp \
+    ../../../Include/Threads/MessageQueueThread.hpp \
+    ../../../Include/Threads/SyncEvent.hpp          \
+    ../../../Include/Threads/ThreadBase.hpp         \
+    ../../../Include/DebugLog/DebugLogging.hpp      \
+    ../../../Include/DebugLog/DebugLogSingleton.hpp
+
+SOURCES += ../tst_DebugLogTest.cpp                 \
+    ../../../Source/DebugLog/DebugLog.cpp          \
+    ../../../Source/Threads/ConcurrentQueue.cpp    \
+    ../../../Source/Threads/MessageQueueThread.cpp \
+    ../../../Source/Threads/SyncEvent.cpp          \
+    ../../../Source/Threads/ThreadBase.cpp         \
+    ../../../Source/Exceptions/CustomException.cpp

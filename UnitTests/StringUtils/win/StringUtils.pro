@@ -28,11 +28,12 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += ../tst_StringUtilsTest.cpp      \
-    ../../../StringUtils/StringUtils.cpp \
-    ../../../Exceptions/CustomException.cpp
-
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += ../../../StringUtils.hpp \
-    ../../../Exceptions/CustomException.hpp
+SOURCES += ../tst_StringUtilsTest.cpp             \
+    ../../../Source/StringUtils/StringUtils.cpp   \
+    ../../../Source/Exceptions/CustomException.cpp
+
+HEADERS +=                                          \
+    ../../../Include/StringUtils/StringUtils.hpp    \
+    ../../../Include/Exceptions/CustomException.hpp

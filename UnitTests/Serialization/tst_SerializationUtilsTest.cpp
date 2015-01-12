@@ -1,9 +1,9 @@
 #include <QString>
 #include <QtTest>
 #include <string>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/vector.hpp>
-#include "../../Serialization/SerializeToVector.hpp"
+#include "boost/serialization/string.hpp"
+#include "boost/serialization/vector.hpp"
+#include "../../Include/Serialization/SerializeToVector.hpp"
 
 class MyObject
 {
