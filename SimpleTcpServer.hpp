@@ -93,7 +93,7 @@ public:
 	}
 
 private:
-    messages::MessageBuilder m_messageBuilder{defs::eArchiveType::portableBinary};
+    messages::MessageBuilder m_messageBuilder{};
     messages::MessageHandler m_messageHandler;
     TcpTypedServer<messages::MessageBuilder> m_tcpTypedServer;
 };

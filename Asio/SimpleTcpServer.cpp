@@ -42,7 +42,7 @@ SimpleTcpServer::SimpleTcpServer(boost_ioservice_t& ioService
     , m_tcpTypedServer{ioService, listenPort, sizeof(defs::MessageHeader)
                        , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
                        , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                       , m_messageBuilder, sendOption, defs::DEFAULT_MAGIC_STRING}
+                       , m_messageBuilder, sendOption}
 {
 
 }
@@ -54,7 +54,7 @@ SimpleTcpServer::SimpleTcpServer(const unsigned short listenPort
     , m_tcpTypedServer{listenPort, sizeof(defs::MessageHeader)
                        , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
                        , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                       , m_messageBuilder, sendOption, defs::DEFAULT_MAGIC_STRING}
+                       , m_messageBuilder, sendOption}
 {
 }
 

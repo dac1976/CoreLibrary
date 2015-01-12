@@ -51,9 +51,8 @@ public:
                    , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                    , const defs::message_received_handler_t& messageReceivedHandler
                    , const MsgBldr& messageBuilder
-                   , const eSendOption sendOption = eSendOption::nagleOn
-                   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING)
-        : m_messageBuilder(messageBuilder), m_magicString{magicString}
+                   , const eSendOption sendOption = eSendOption::nagleOn)
+        : m_messageBuilder{messageBuilder}
         , m_tcpClient{ioService, server, minAmountToRead
                       , checkBytesLeftToRead, messageReceivedHandler
                       , sendOption}
@@ -65,9 +64,8 @@ public:
                    , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                    , const defs::message_received_handler_t& messageReceivedHandler
                    , const MsgBldr& messageBuilder
-                   , const eSendOption sendOption = eSendOption::nagleOn
-                   , const std::string& magicString = defs::DEFAULT_MAGIC_STRING)
-        : m_messageBuilder(messageBuilder), m_magicString{magicString}
+                   , const eSendOption sendOption = eSendOption::nagleOn)
+        : m_messageBuilder{messageBuilder}
         , m_tcpClient{server, minAmountToRead
                       , checkBytesLeftToRead, messageReceivedHandler
                       , sendOption}
@@ -125,7 +123,6 @@ public:
 
 private:
     const MsgBldr& m_messageBuilder;
-    const std::string m_magicString;
 	TcpClient m_tcpClient;
 
     auto BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress) const
@@ -134,7 +131,7 @@ private:
         auto responseConn = (responseAddress == defs::NULL_CONNECTION)
                             ? GetClientDetailsForServer()
                             : responseAddress;
-        return m_messageBuilder.BuildBufferHeaderOnly(m_magicString, messageId, responseConn);
+        return m_messageBuilder(messageId, responseConn);
     }
 
 	template<typename T>
@@ -145,8 +142,7 @@ private:
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-        return m_messageBuilder.BuildBufferHeaderAndBody(m_magicString, message, messageId
-                                                         , responseConn);
+        return m_messageBuilder(message, messageId, responseConn);
 	}
 };
 

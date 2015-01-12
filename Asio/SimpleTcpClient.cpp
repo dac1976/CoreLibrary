@@ -42,7 +42,7 @@ SimpleTcpClient::SimpleTcpClient(boost_ioservice_t& ioService
     , m_tcpTypedClient{ioService, server, sizeof(defs::MessageHeader)
                        , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
                        , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                       , m_messageBuilder, sendOption, defs::DEFAULT_MAGIC_STRING}
+                       , m_messageBuilder, sendOption}
 {
 }
 
@@ -53,7 +53,7 @@ SimpleTcpClient::SimpleTcpClient(const defs::connection_t& server
     , m_tcpTypedClient{server, sizeof(defs::MessageHeader)
                        , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
                        , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                       , m_messageBuilder, sendOption, defs::DEFAULT_MAGIC_STRING}
+                       , m_messageBuilder, sendOption}
 {
 }
 

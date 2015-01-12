@@ -125,32 +125,11 @@ void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 }
 
 // ****************************************************************************
-// 'class MessageBuilder' definition
+// Utility functions
 // ****************************************************************************
 
-MessageBuilder::MessageBuilder(const defs::eArchiveType archiveType)
-    : m_archiveType(archiveType)
-{
-}
-
-auto MessageBuilder::BuildBufferHeaderOnly(const std::string& magicString, const uint32_t messageId
-                                           , const defs::connection_t& responseAddress) const
-    -> defs::char_buffer_t
-{
-    auto header = FillHeader(magicString, messageId, responseAddress);
-
-    defs::char_buffer_t messageBuffer;
-    messageBuffer.reserve(header.totalLength);
-
-    const char* headerCharBuf = reinterpret_cast<const char*>(&header);
-    std::copy(headerCharBuf, headerCharBuf + sizeof(header)
-              , std::back_inserter(messageBuffer));
-
-    return messageBuffer;
-}
-
-auto MessageBuilder::FillHeader(const std::string& magicString, const uint32_t messageId
-                                , const defs::connection_t& responseAddress) const
+auto FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
+                , const uint32_t messageId, const defs::connection_t& responseAddress)
     -> defs::MessageHeader
 {
     defs::MessageHeader header;
@@ -161,9 +140,35 @@ auto MessageBuilder::FillHeader(const std::string& magicString, const uint32_t m
     header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
     header.responsePort = responseAddress.second;
     header.messageId = messageId;
-    header.archiveType = m_archiveType;
+    header.archiveType = archiveType;
 
     return header;
+}
+
+// ****************************************************************************
+// 'class MessageBuilder' definition
+// ****************************************************************************
+
+MessageBuilder::MessageBuilder(const defs::eArchiveType archiveType
+                               , const std::string& magicString)
+    : m_archiveType{archiveType}, m_magicString{magicString}
+{
+}
+
+auto MessageBuilder::operator()(const uint32_t messageId
+                                , const defs::connection_t& responseAddress) const
+    -> defs::char_buffer_t
+{
+    auto header = FillHeader(m_magicString, m_archiveType, messageId, responseAddress);
+
+    defs::char_buffer_t messageBuffer;
+    messageBuffer.reserve(header.totalLength);
+
+    const char* headerCharBuf = reinterpret_cast<const char*>(&header);
+    std::copy(headerCharBuf, headerCharBuf + sizeof(header)
+              , std::back_inserter(messageBuffer));
+
+    return messageBuffer;
 }
 
 } // namespace messages

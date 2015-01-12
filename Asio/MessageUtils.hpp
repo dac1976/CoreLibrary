@@ -119,24 +119,29 @@ private:
     static void CheckMessage(const defs::char_buffer_t& message);
 };
 
+auto FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
+                , const uint32_t messageId, const defs::connection_t& responseAddress)
+         -> defs::MessageHeader;
+
 class MessageBuilder final
 {
 public:
-    MessageBuilder(const defs::eArchiveType archiveType);
-
+    MessageBuilder() = default;
+    MessageBuilder(const defs::eArchiveType archiveType
+                   , const std::string& magicString);
     ~MessageBuilder() = default;
+
     MessageBuilder(const MessageBuilder& ) = delete;
     MessageBuilder& operator=(const MessageBuilder& ) = delete;
 
-    auto BuildBufferHeaderOnly(const std::string& magicString, const uint32_t messageId
-                               , const defs::connection_t& responseAddress) const -> defs::char_buffer_t;
+    auto operator()(const uint32_t messageId
+                    , const defs::connection_t& responseAddress) const -> defs::char_buffer_t;
 
     template<typename T>
-    auto BuildBufferHeaderAndBody(const std::string& magicString, T&& message
-                                  , const uint32_t messageId
-                                  , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+    auto operator()(T&& message, const uint32_t messageId
+                    , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
     {
-        auto header = FillHeader(magicString, messageId, responseAddress);
+        auto header = FillHeader(m_magicString, m_archiveType, messageId, responseAddress);
 
         serialize::char_vector_t body;
 
@@ -174,9 +179,7 @@ public:
 
 private:
     const defs::eArchiveType m_archiveType{defs::eArchiveType::portableBinary};
-
-    auto FillHeader(const std::string& magicString, const uint32_t messageId
-                    , const defs::connection_t& responseAddress) const -> defs::MessageHeader;
+    const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 };
 
 } // namespace messages

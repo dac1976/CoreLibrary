@@ -410,7 +410,7 @@ void AsioTest::testCase_TestSync_ExternalIoService()
 
 void AsioTest::testCase_TestTypedAsync()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
 	MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
@@ -451,7 +451,7 @@ void AsioTest::testCase_TestTypedAsync()
 
 void AsioTest::testCase_TestTypedSync()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
 	MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
@@ -492,7 +492,7 @@ void AsioTest::testCase_TestTypedSync()
 
 void AsioTest::testCase_TestTyped_SendToAll_1()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
     MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
@@ -552,7 +552,7 @@ void AsioTest::testCase_TestTyped_SendToAll_1()
 
 void AsioTest::testCase_TestTyped_SendToAll_2()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
     MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
@@ -612,7 +612,7 @@ void AsioTest::testCase_TestTyped_SendToAll_2()
 
 void AsioTest::testCase_TestTypedAsync_Hdr()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
     MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
@@ -644,7 +644,7 @@ void AsioTest::testCase_TestTypedAsync_Hdr()
 
 void AsioTest::testCase_TestTypedSync_Hdr()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
     MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
@@ -676,7 +676,7 @@ void AsioTest::testCase_TestTypedSync_Hdr()
 
 void AsioTest::testCase_TestTyped_SendToAll_1_Hdr()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
     MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
@@ -721,7 +721,7 @@ void AsioTest::testCase_TestTyped_SendToAll_1_Hdr()
 
 void AsioTest::testCase_TestTyped_SendToAll_2_Hdr()
 {
-    MessageBuilder messageBuilder(eArchiveType::portableBinary);
+    MessageBuilder messageBuilder;
     MessageDispatcher serverDispatcher;
     MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
