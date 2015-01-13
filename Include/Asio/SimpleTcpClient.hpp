@@ -78,7 +78,7 @@ public:
                                  , const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        return m_tcpTypedClient.SendMessageToServerAsync(message, messageId, responseAddress);
+        return m_tcpTypedClient.SendMessageToServerSync(message, messageId, responseAddress);
 	}
 
 private:
