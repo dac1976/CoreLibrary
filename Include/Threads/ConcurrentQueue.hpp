@@ -25,8 +25,8 @@
  * \brief File containing concurrent queue declaration.
  */
 
-#ifndef CONCURRENTQUEUE_HPP
-#define CONCURRENTQUEUE_HPP
+#ifndef CONCURRENTQUEUE
+#define CONCURRENTQUEUE
 
 #include <deque>
 #include <algorithm>
@@ -625,4 +625,4 @@ private:
 } // namespace threads
 } // namespace core_lib
 
-#endif // CONCURRENTQUEUE_HPP
+#endif // CONCURRENTQUEUE

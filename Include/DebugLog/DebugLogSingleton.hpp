@@ -25,8 +25,8 @@
  * \brief File containing declaration of DebugLog Singleton.
  */
 
-#ifndef DEBUGLOGSINGLETON_HPP
-#define DEBUGLOGSINGLETON_HPP
+#ifndef DEBUGLOGSINGLETON
+#define DEBUGLOGSINGLETON
 
 #include "DebugLog.hpp"
 #include "loki/Singleton.h"
@@ -49,4 +49,4 @@ DebugLogSingleton;
 } // namespace log
 } // namespace core_lib
 
-#endif // DEBUGLOGSINGLETON_HPP
+#endif // DEBUGLOGSINGLETON

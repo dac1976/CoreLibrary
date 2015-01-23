@@ -25,8 +25,8 @@
  * \brief File containing declaration of DebugLog class.
  */
 
-#ifndef DEBUGLOG_HPP
-#define DEBUGLOG_HPP
+#ifndef DEBUGLOG
+#define DEBUGLOG
 
 #include <ctime>
 #include <chrono>
@@ -746,4 +746,4 @@ private:
 } // namespace log
 } // namespace core_lib
 
-#endif // DEBUGLOG_HPP
+#endif // DEBUGLOG

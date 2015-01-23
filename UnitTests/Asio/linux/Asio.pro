@@ -47,7 +47,9 @@ HEADERS +=                                                   \
 	../../../Include/Asio/TcpTypedClient.hpp                 \
 	../../../Include/Asio/TcpTypedServer.hpp                 \
     ../../../Include/Asio/SimpleTcpClient.hpp                \
-    ../../../Include/Asio/SimpleTcpServer.hpp
+    ../../../Include/Asio/SimpleTcpServer.hpp                \
+    ../../../Include/Asio/UdpSender.hpp                      \
+    ../../../Include/Asio/UdpReceiver.hpp
 
 SOURCES +=                                         \
 	../tst_AsioTest.cpp                            \
@@ -61,4 +63,6 @@ SOURCES +=                                         \
 	../../../Source/Asio/TcpServer.cpp             \
 	../../../Source/Asio/TcpClient.cpp             \
     ../../../Source/Asio/SimpleTcpServer.cpp       \
-    ../../../Source/Asio/SimpleTcpClient.cpp
+    ../../../Source/Asio/SimpleTcpClient.cpp       \
+    ../../../Source/Asio/UdpSender.cpp             \
+    ../../../Source/Asio/UdpReceiver.cpp

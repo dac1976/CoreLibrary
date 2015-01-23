@@ -25,8 +25,8 @@
  * \brief File containing declarations relating the TCsvGrid class.
  */
 
-#ifndef CSVGRIDMAIN_HPP
-#define CSVGRIDMAIN_HPP
+#ifndef CSVGRIDMAIN
+#define CSVGRIDMAIN
 
 #include "CsvGridRow.hpp"
 #include <fstream>
@@ -468,4 +468,4 @@ private:
 }// namespace csv_grid
 }// namespace core_lib
 
-#endif // CSVGRIDMAIN_HPP
+#endif // CSVGRIDMAIN

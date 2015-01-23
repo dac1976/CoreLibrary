@@ -25,8 +25,8 @@
  * \brief File containing declarations relating various string utilities.
  */
 
-#ifndef STRINGUTILS_HPP
-#define STRINGUTILS_HPP
+#ifndef STRINGUTILS
+#define STRINGUTILS
 
 #include <string>
 #include <sstream>
@@ -194,4 +194,4 @@ std::string FormatFloatString(const T value, const int precision = 15,
 } // namespace string_utils
 } // namespace core_lib
 
-#endif // STRINGUTILS_HPP
+#endif // STRINGUTILS

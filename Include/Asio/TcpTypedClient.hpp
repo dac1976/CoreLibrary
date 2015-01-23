@@ -25,8 +25,8 @@
  * \brief File containing TCP typed client class declaration.
  */
 
-#ifndef TCPTYPEDCLIENT_HPP
-#define TCPTYPEDCLIENT_HPP
+#ifndef TCPTYPEDCLIENT
+#define TCPTYPEDCLIENT
 
 #include "TcpClient.hpp"
 #include "MessageUtils.hpp"
@@ -150,4 +150,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // TCPTYPEDCLIENT_HPP
+#endif // TCPTYPEDCLIENT

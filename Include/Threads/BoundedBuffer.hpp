@@ -25,8 +25,8 @@
  * \brief File containing bounded buffer declaration.
  */
 
-#ifndef BOUNDEDBUFFER_HPP
-#define BOUNDEDBUFFER_HPP
+#ifndef BOUNDEDBUFFER
+#define BOUNDEDBUFFER
 
 #include <mutex>
 #include <condition_variable>
@@ -141,4 +141,4 @@ private:
 
 } // namespace threads
 } // namespace core_lib
-#endif // BOUNDEDBUFFER_HPP
+#endif // BOUNDEDBUFFER

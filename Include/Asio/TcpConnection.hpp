@@ -24,8 +24,8 @@
  * \brief File containing TCP connection class declaration.
  */
 
-#ifndef TCPCONNECTION_H
-#define TCPCONNECTION_H
+#ifndef TCPCONNECTION
+#define TCPCONNECTION
 
 #include "../Threads/SyncEvent.hpp"
 #include "AsioDefines.hpp"
@@ -117,4 +117,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // TCPCONNECTION_H
+#endif // TCPCONNECTION

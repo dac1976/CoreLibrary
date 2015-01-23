@@ -24,8 +24,8 @@
  * \brief File containing TCP connections class declaration.
  */
 
-#ifndef TCPCONNECTIONS_H
-#define TCPCONNECTIONS_H
+#ifndef TCPCONNECTIONS
+#define TCPCONNECTIONS
 
 #include "AsioDefines.hpp"
 #include "../Exceptions/CustomException.hpp"
@@ -113,4 +113,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // TCPCONNECTIONS_H
+#endif // TCPCONNECTIONS

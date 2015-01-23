@@ -34,6 +34,9 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
+// ****************************************************************************
+// 'class SimpleTcpClient' definition
+// ****************************************************************************
 SimpleTcpClient::SimpleTcpClient(boost_ioservice_t& ioService
                , const defs::connection_t& server
                , const defs::default_message_dispatcher_t& messageDispatcher

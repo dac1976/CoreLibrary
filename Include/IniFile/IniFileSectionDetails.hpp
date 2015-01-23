@@ -27,8 +27,8 @@
 
 #include "IniFileLines.hpp"
 
-#ifndef INIFILESECTIONDETAILS_HPP
-#define INIFILESECTIONDETAILS_HPP
+#ifndef INIFILESECTIONDETAILS
+#define INIFILESECTIONDETAILS
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -121,4 +121,4 @@ private:
 } // namespace core_lib
 
 
-#endif //INIFILESECTIONDETAILS_HPP
+#endif //INIFILESECTIONDETAILS

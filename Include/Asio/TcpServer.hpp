@@ -25,8 +25,8 @@
  * \brief File containing TCP server class declaration.
  */
 
-#ifndef TCPSERVER_HPP
-#define TCPSERVER_HPP
+#ifndef TCPSERVER
+#define TCPSERVER
 
 #include "../Threads/SyncEvent.hpp"
 #include "AsioDefines.hpp"
@@ -44,13 +44,13 @@ class TcpServer final
 {
 public:
     TcpServer(boost_ioservice_t& ioService
-			  , const unsigned short listenPort
+              , const uint16_t listenPort
 			  , const size_t minAmountToRead
               , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
               , const defs::message_received_handler_t& messageReceivedHandler
 			  , const eSendOption sendOption = eSendOption::nagleOn);
 
-	TcpServer(const unsigned short listenPort
+    TcpServer(const uint16_t listenPort
 			  , const size_t minAmountToRead
               , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
               , const defs::message_received_handler_t& messageReceivedHandler
@@ -66,7 +66,7 @@ public:
     auto GetServerDetailsForClient(const defs::connection_t& client) const
              -> defs::connection_t;
 
-	unsigned short ListenPort() const;
+    uint16_t ListenPort() const;
 
 	void CloseAcceptor();
 
@@ -84,7 +84,7 @@ private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     boost_ioservice_t& m_ioService;
     std::unique_ptr<boost_tcp_acceptor_t> m_acceptor;
-	const unsigned short m_listenPort;
+    const uint16_t m_listenPort;
 	const size_t m_minAmountToRead;
     defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
     defs::message_received_handler_t m_messageReceivedHandler;
@@ -104,4 +104,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // TCPSERVER_HPP
+#endif // TCPSERVER

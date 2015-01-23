@@ -31,6 +31,9 @@ namespace core_lib {
 namespace asio {
 namespace tcp {
 
+// ****************************************************************************
+// 'class TcpClient' definition
+// ****************************************************************************
 TcpClient::TcpClient(boost_ioservice_t& ioService
                      , const defs::connection_t& server
 					 , const size_t minAmountToRead

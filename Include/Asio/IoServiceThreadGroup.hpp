@@ -24,8 +24,8 @@
  * \brief File containing declarations relating the IoServiceThreadGroup class.
  */
 
-#ifndef IOSERVICETHREADGROUP_HPP
-#define IOSERVICETHREADGROUP_HPP
+#ifndef IOSERVICETHREADGROUP
+#define IOSERVICETHREADGROUP
 
 #include "../Threads/ThreadGroup.hpp"
 #include "AsioDefines.hpp"
@@ -92,4 +92,4 @@ private:
 } //namespace asio
 } //namespace core_lib
 
-#endif // #define IOSERVICETHREADGROUP_HPP
+#endif // #define IOSERVICETHREADGROUP

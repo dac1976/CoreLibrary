@@ -25,8 +25,8 @@
  * \brief File containing TCP client class declaration.
  */
 
-#ifndef TCPCLIENT_HPP
-#define TCPCLIENT_HPP
+#ifndef TCPCLIENT
+#define TCPCLIENT
 
 #include "AsioDefines.hpp"
 #include "IoServiceThreadGroup.hpp"
@@ -91,4 +91,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // TCPCLIENT_HPP
+#endif // TCPCLIENT

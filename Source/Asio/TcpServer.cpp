@@ -32,8 +32,11 @@ namespace core_lib {
 namespace asio {
 namespace tcp {
 
+// ****************************************************************************
+// 'class TcpServer' definition
+// ****************************************************************************
 TcpServer::TcpServer(boost_ioservice_t& ioService
-					 , const unsigned short listenPort
+                     , const uint16_t listenPort
 					 , const size_t minAmountToRead
                      , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                      , const defs::message_received_handler_t& messageReceivedHandler
@@ -48,7 +51,7 @@ TcpServer::TcpServer(boost_ioservice_t& ioService
 	OpenAcceptor();
 }
 
-TcpServer::TcpServer(const unsigned short listenPort
+TcpServer::TcpServer(const uint16_t listenPort
 					 , const size_t minAmountToRead
                      , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                      , const defs::message_received_handler_t& messageReceivedHandler
@@ -77,7 +80,7 @@ auto TcpServer::GetServerDetailsForClient(const defs::connection_t& client) cons
 			: m_clientConnections.GetLocalEndForRemoteEnd(client);
 }
 
-unsigned short TcpServer::ListenPort() const
+uint16_t TcpServer::ListenPort() const
 {
 	return m_listenPort;
 }

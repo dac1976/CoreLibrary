@@ -25,8 +25,8 @@
  * \brief File containing declarations relating the CSVGridRow class.
  */
 
-#ifndef CSVGRIDROW_HPP
-#define CSVGRIDROW_HPP
+#ifndef CSVGRIDROW
+#define CSVGRIDROW
 
 #include "CsvGridCell.hpp"
 #include "../Exceptions/CustomException.hpp"
@@ -431,4 +431,4 @@ private:
 }// namespace csv_grid
 }// namespace core_lib
 
-#endif // CSVGRIDROW_HPP
+#endif // CSVGRIDROW

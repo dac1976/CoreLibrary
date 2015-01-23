@@ -24,8 +24,8 @@
  * \brief File containing includes for boost serialization.
  */
 
-#ifndef SERIALIZATIONINCLUDES_HPP
-#define SERIALIZATIONINCLUDES_HPP
+#ifndef SERIALIZATIONINCLUDES
+#define SERIALIZATIONINCLUDES
 
 #include "boost/archive/portable_oarchive.hpp"
 #include "boost/archive/portable_iarchive.hpp"
@@ -41,4 +41,4 @@
 
 namespace boost_arch = boost::archive;
 
-#endif // #define SERIALIZATIONINCLUDES_HPP
+#endif // #define SERIALIZATIONINCLUDES

@@ -25,8 +25,8 @@
  * \brief File containing declarations generic sorting algorithms.
  */
 
-#ifndef GENERICSORTING_HPP
-#define GENERICSORTING_HPP
+#ifndef GENERICSORTING
+#define GENERICSORTING
 
 #include <functional>
 #include <algorithm>
@@ -424,4 +424,4 @@ private:
 }// namespace sorting
 }// namespace core_lib
 
-#endif // GENERICSORTING_HPP
+#endif // GENERICSORTING

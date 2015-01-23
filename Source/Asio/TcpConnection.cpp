@@ -34,13 +34,9 @@ namespace core_lib {
 namespace asio {
 namespace tcp {
 
-// Reserve 0.5 MiB for each buffer.
-static constexpr size_t DEFAULT_RESERVED_SIZE{512 * 1024};
-
 // ****************************************************************************
 // 'class TcpConnection' definition
 // ****************************************************************************
-
 TcpConnection::TcpConnection(boost_ioservice_t& ioService
 							 , TcpConnections& connections
 							 , const size_t minAmountToRead
@@ -133,7 +129,7 @@ void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
     // can only read serially from one, so for one connection
 	// object it cannot be doing more than one async read
 	// at a time in multiple threads.
-	boost::asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
+    boost_asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
 							, boost::bind(&TcpConnection::ReadComplete
 										  , shared_from_this()
 										  , boost_placeholders::error
@@ -220,11 +216,11 @@ void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message
 void TcpConnection::SyncWriteToSocket(const defs::char_buffer_t& message
 									  , const bool setSuccessFlag)
 {
-	boost::asio::async_write(m_socket, boost_asio::buffer(message)
-							 , boost::bind(&TcpConnection::WriteComplete
-										   , shared_from_this()
-										   , boost_placeholders::error
-										   , setSuccessFlag));
+    boost_asio::async_write(m_socket, boost_asio::buffer(message)
+                            , boost::bind(&TcpConnection::WriteComplete
+                                          , shared_from_this()
+                                          , boost_placeholders::error
+                                          , setSuccessFlag));
 	// Wait here until WriteComplete signals, this makes sure the
 	// message vector remains viable.
 	m_sendEvent.Wait();

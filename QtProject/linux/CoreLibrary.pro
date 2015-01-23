@@ -67,7 +67,9 @@ HEADERS +=                                                \
 	../../Include/Threads/MessageQueueThread.hpp          \
 	../../Include/Threads/SyncEvent.hpp                   \	
 	../../Include/Threads/ThreadBase.hpp                  \
-	../../Include/Threads/ThreadGroup.hpp                
+	../../Include/Threads/ThreadGroup.hpp                 \                
+    ../../Include/Asio/UdpSender.hpp                      \
+    ../../Include/Asio/UdpReceiver.hpp                
 
 SOURCES +=                                                \
 	../../Source/Asio/IoServiceThreadGroup.cpp            \
@@ -92,4 +94,6 @@ SOURCES +=                                                \
 	../../Source/Threads/MessageQueueThread.cpp           \
 	../../Source/Threads/SyncEvent.cpp                    \	
 	../../Source/Threads/ThreadBase.cpp                   \
-	../../Source/Threads/ThreadGroup.cpp                  
+	../../Source/Threads/ThreadGroup.cpp                  \                  
+    ../../Source/Asio/UdpSender.cpp                       \
+    ../../Source/Asio/UdpReceiver.cpp                  

@@ -25,8 +25,8 @@
  * \brief File containing declaration of ThreadBase class.
  */
 
-#ifndef THREADBASE_HPP
-#define THREADBASE_HPP
+#ifndef THREADBASE
+#define THREADBASE
 
 #include <thread>
 #include <mutex>
@@ -199,4 +199,4 @@ private:
 } // namespace threads
 } // namespace core_lib
 
-#endif // THREADBASE_HPP
+#endif // THREADBASE

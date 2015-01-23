@@ -28,8 +28,8 @@
 #include <string>
 #include "boost/exception/all.hpp"
 
-#ifndef CUSTOMEXCEPTION_HPP
-#define CUSTOMEXCEPTION_HPP
+#ifndef CUSTOMEXCEPTION
+#define CUSTOMEXCEPTION
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -105,4 +105,4 @@ protected:
 } // namespace exceptions
 } // namespace core_lib
 
-#endif // CUSTOMEXCEPTION_HPP
+#endif // CUSTOMEXCEPTION

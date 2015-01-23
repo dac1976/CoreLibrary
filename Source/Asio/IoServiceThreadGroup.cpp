@@ -32,6 +32,9 @@
 namespace core_lib {
 namespace asio {
 
+// ****************************************************************************
+// 'class IoServiceThreadGroup' definition
+// ****************************************************************************
 IoServiceThreadGroup::IoServiceThreadGroup(const unsigned int numThreads)
 	: m_ioWork(m_ioService)
 {

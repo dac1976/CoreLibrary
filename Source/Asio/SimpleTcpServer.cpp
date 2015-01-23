@@ -34,8 +34,11 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
+// ****************************************************************************
+// 'class SimpleTcpServer' definition
+// ****************************************************************************
 SimpleTcpServer::SimpleTcpServer(boost_ioservice_t& ioService
-                , const unsigned short listenPort
+                , const uint16_t listenPort
                 , const defs::default_message_dispatcher_t& messageDispatcher
                 , const eSendOption sendOption)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
@@ -47,7 +50,7 @@ SimpleTcpServer::SimpleTcpServer(boost_ioservice_t& ioService
 
 }
 
-SimpleTcpServer::SimpleTcpServer(const unsigned short listenPort
+SimpleTcpServer::SimpleTcpServer(const uint16_t listenPort
                , const defs::default_message_dispatcher_t& messageDispatcher
                , const eSendOption sendOption)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
@@ -64,7 +67,7 @@ auto SimpleTcpServer::GetServerDetailsForClient(const defs::connection_t& client
     return m_tcpTypedServer.GetServerDetailsForClient(client);
 }
 
-unsigned short SimpleTcpServer::ListenPort() const
+uint16_t SimpleTcpServer::ListenPort() const
 {
     return m_tcpTypedServer.ListenPort();
 }

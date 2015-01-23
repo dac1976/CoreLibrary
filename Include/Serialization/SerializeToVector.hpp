@@ -24,8 +24,8 @@
  * \brief File containing utilities to serialize objects to byte vectors.
  */
 
-#ifndef SERIALIZETOVECTOR_HPP
-#define SERIALIZETOVECTOR_HPP
+#ifndef SERIALIZETOVECTOR
+#define SERIALIZETOVECTOR
 
 #include "SerializationIncludes.hpp"
 #include <vector>
@@ -73,4 +73,4 @@ T ToObject(const char_vector_t& charVector)
 } //namespace serialize
 } //namespace core_lib
 
-#endif // #define SERIALIZETOVECTOR_HPP
+#endif // #define SERIALIZETOVECTOR

@@ -25,8 +25,8 @@
  * \brief File containing declaration of SyncEvent class.
  */
 
-#ifndef SYNCEVENT_HPP
-#define SYNCEVENT_HPP
+#ifndef SYNCEVENT
+#define SYNCEVENT
 
 #include <mutex>
 #include <condition_variable>
@@ -153,4 +153,4 @@ private:
 } // namespace threads
 } // namespace core_lib
 
-#endif //SYNCEVENT_HPP
+#endif //SYNCEVENT

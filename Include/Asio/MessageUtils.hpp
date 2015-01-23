@@ -25,8 +25,8 @@
  * \brief File containing message utils declaration.
  */
 
-#ifndef MESSAGEUTILS_HPP
-#define MESSAGEUTILS_HPP
+#ifndef MESSAGEUTILS
+#define MESSAGEUTILS
 
 #include "AsioDefines.hpp"
 #include "../Exceptions/CustomException.hpp"
@@ -186,4 +186,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // MESSAGEUTILS_HPP
+#endif // MESSAGEUTILS

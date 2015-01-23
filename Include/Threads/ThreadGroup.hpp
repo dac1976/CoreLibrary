@@ -25,8 +25,8 @@
  * \brief File containing thread group declaration.
  */
 
-#ifndef THREADGROUP_HPP
-#define THREADGROUP_HPP
+#ifndef THREADGROUP
+#define THREADGROUP
 
 #include <thread>
 #include <mutex>
@@ -187,4 +187,4 @@ private:
 } // namespace threads
 } // namespace core_lib
 
-#endif // THREADGROUP_HPP
+#endif // THREADGROUP

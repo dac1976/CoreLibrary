@@ -25,8 +25,8 @@
  * \brief File containing the simple TCP client class declaration.
  */
 
-#ifndef SIMPLETCPCLIENT_HPP
-#define SIMPLETCPCLIENT_HPP
+#ifndef SIMPLETCPCLIENT
+#define SIMPLETCPCLIENT
 
 #include "TcpTypedClient.hpp"
 
@@ -91,4 +91,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // SIMPLETCPCLIENT_HPP
+#endif // SIMPLETCPCLIENT

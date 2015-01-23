@@ -25,8 +25,8 @@
  * \brief File containing the simple TCP server class declaration.
  */
 
-#ifndef SIMPLETCPSERVER_HPP
-#define SIMPLETCPSERVER_HPP
+#ifndef SIMPLETCPSERVER
+#define SIMPLETCPSERVER
 
 #include "TcpTypedServer.hpp"
 
@@ -41,11 +41,11 @@ class SimpleTcpServer final
 {
 public:
     SimpleTcpServer(boost_ioservice_t& ioService
-                    , const unsigned short listenPort
+                    , const uint16_t listenPort
                     , const defs::default_message_dispatcher_t& messageDispatcher
                     , const eSendOption sendOption = eSendOption::nagleOn);
 
-    SimpleTcpServer(const unsigned short listenPort
+    SimpleTcpServer(const uint16_t listenPort
                    , const defs::default_message_dispatcher_t& messageDispatcher
                    , const eSendOption sendOption = eSendOption::nagleOn);
 
@@ -56,7 +56,7 @@ public:
     auto GetServerDetailsForClient(const defs::connection_t& client)
         const -> defs::connection_t;
 
-    unsigned short ListenPort() const;
+    uint16_t ListenPort() const;
 
     void CloseAcceptor();
 
@@ -107,4 +107,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // SIMPLETCPSERVER_HPP
+#endif // SIMPLETCPSERVER

@@ -24,8 +24,8 @@
  * \brief File containing useful definitions.
  */
 
-#ifndef ASIODEFINES_H
-#define ASIODEFINES_H
+#ifndef ASIODEFINES
+#define ASIODEFINES
 
 #include "boost/asio.hpp"
 #include <vector>
@@ -43,6 +43,7 @@ namespace boost_placeholders = boost::asio::placeholders;
 typedef boost_asio::io_service boost_ioservice_t;
 typedef boost_asio::ip::tcp boost_tcp_t;
 typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor_t;
+typedef boost::asio::ip::udp boost_udp_t;
 typedef boost::asio::ip::address boost_address_t;
 
 /*! \brief The core_lib namespace. */
@@ -53,6 +54,9 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
+    // Reserve 0.5 MiB for each receive buffer.
+    static constexpr size_t DEFAULT_RESERVED_SIZE{512 * 1024};
+
 	enum class eSendOption
 	{
 		nagleOff, // Implies send immediately.
@@ -61,6 +65,23 @@ namespace tcp {
 
 	class TcpConnection;
 } // namespace tcp
+
+/*! \brief The udp namespace. */
+namespace udp {
+
+    enum class eUdpOption
+    {
+        broadcast,
+        unicast
+    };
+
+    // A UDP datagram can have a total max size of 65535 bytes,
+    // however the size available for "user" data is a bit less
+    // as we have to allow 8 bytes for UDP header and 20 bytes
+    // for the IP header.
+    static constexpr size_t UDP_DATAGRAM_MAX_SIZE{65507};
+
+} // namespace udp
 
 /*! \brief The asio_defs namespace. */
 namespace defs {
@@ -141,4 +162,4 @@ typedef std::function< void (const char_buffer_t& ) > message_received_handler_t
 } // namespace asio
 } // namespace core_lib
 
-#endif // ASIODEFINES_H
+#endif // ASIODEFINES

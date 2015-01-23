@@ -25,8 +25,8 @@
  * \brief File containing TCP typed server class declaration.
  */
 
-#ifndef TCPTYPEDSERVER_HPP
-#define TCPTYPEDSERVER_HPP
+#ifndef TCPTYPEDSERVER
+#define TCPTYPEDSERVER
 
 #include "TcpServer.hpp"
 #include "MessageUtils.hpp"
@@ -46,7 +46,7 @@ class TcpTypedServer final
 {
 public:
     TcpTypedServer(boost_ioservice_t& ioService
-				   , const unsigned short listenPort
+                   , const uint16_t listenPort
                    , const size_t minAmountToRead
                    , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                    , const defs::message_received_handler_t& messageReceivedHandler
@@ -59,7 +59,7 @@ public:
     {
     }
 
-	TcpTypedServer(const unsigned short listenPort
+    TcpTypedServer(const uint16_t listenPort
                    , const size_t minAmountToRead
                    , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                    , const defs::message_received_handler_t& messageReceivedHandler
@@ -82,7 +82,7 @@ public:
         return m_tcpServer.GetServerDetailsForClient(client);
     }
 
-    unsigned short ListenPort() const
+    uint16_t ListenPort() const
     {
         return m_tcpServer.ListenPort();
     }
@@ -171,4 +171,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // TCPTYPEDCLIENT_HPP
+#endif // TCPTYPEDCLIENT

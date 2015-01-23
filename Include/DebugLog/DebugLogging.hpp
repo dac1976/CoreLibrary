@@ -25,8 +25,8 @@
  * \brief Wrapper header linking to other logging headers.
  */
 
-#ifndef DEBUGLOGGING_HPP
-#define DEBUGLOGGING_HPP
+#ifndef DEBUGLOGGING
+#define DEBUGLOGGING
 
 #include "DebugLogSingleton.hpp"
 
@@ -148,4 +148,4 @@
 #define DEBUG_MESSAGE_CLEAR_FILTERS() \
 	DEBUG_LOG_CLEAR_FILTERS(core_lib::log::DebugLogSingleton::Instance())
 
-#endif // DEBUGLOGGING_HPP
+#endif // DEBUGLOGGING

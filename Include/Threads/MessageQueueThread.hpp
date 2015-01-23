@@ -25,8 +25,8 @@
  * \brief File containing declaration of MessageQueueThread class.
  */
 
-#ifndef MESSAGEQUEUETHREAD_HPP
-#define MESSAGEQUEUETHREAD_HPP
+#ifndef MESSAGEQUEUETHREAD
+#define MESSAGEQUEUETHREAD
 
 #include <functional>
 #include <map>
@@ -270,4 +270,4 @@ private:
 } // namespace threads
 } // namespace core_lib
 
-#endif // MESSAGEQUEUETHREAD_HPP
+#endif // MESSAGEQUEUETHREAD

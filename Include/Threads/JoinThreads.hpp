@@ -25,8 +25,8 @@
  * \brief File containing multi-thread joiner declaration.
  */
 
-#ifndef JOINTHREADS_HPP
-#define JOINTHREADS_HPP
+#ifndef JOINTHREADS
+#define JOINTHREADS
 
 #include <thread>
 
@@ -124,4 +124,4 @@ private:
 } // namespace threads
 } // namespace core_lib
 
-#endif // JOINTHREADS_HPP
+#endif // JOINTHREADS

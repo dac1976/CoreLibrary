@@ -25,8 +25,8 @@
  * \brief File containing declarations relating the IniFile support classes.
  */
 
-#ifndef INIFILELINES_HPP
-#define INIFILELINES_HPP
+#ifndef INIFILELINES
+#define INIFILELINES
 
 #include <string>
 #include <list>
@@ -225,4 +225,4 @@ typedef line_list::const_iterator line_citer;
 } // namespace core_lib
 
 
-#endif //INIFILELINES_HPP
+#endif //INIFILELINES

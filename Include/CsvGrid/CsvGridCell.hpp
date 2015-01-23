@@ -25,8 +25,8 @@
  * \brief File containing declarations relating the CSVGridCell class.
  */
 
-#ifndef CSVGRIDCELL_HPP
-#define CSVGRIDCELL_HPP
+#ifndef CSVGRIDCELL
+#define CSVGRIDCELL
 
 #include <cstdint>
 #include <string>
@@ -225,4 +225,4 @@ private:
 }// namespace csv_grid
 }// namespace core_lib
 
-#endif // CSVGRIDCELL_HPP
+#endif // CSVGRIDCELL

@@ -25,8 +25,8 @@
  * \brief File containing declarations relating the IniFile class.
  */
 
-#ifndef INIFILE_HPP
-#define INIFILE_HPP
+#ifndef INIFILE
+#define INIFILE
 
 #include <utility>
 #include <map>
@@ -463,4 +463,4 @@ private:
 } // namespace core_lib
 
 
-#endif //INIFILE_HPP
+#endif //INIFILE

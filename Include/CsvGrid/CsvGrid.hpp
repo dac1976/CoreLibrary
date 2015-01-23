@@ -25,8 +25,8 @@
  * \brief File containing declarations relating the CsvGrid objects.
  */
 
-#ifndef CSVGRID_HPP
-#define CSVGRID_HPP
+#ifndef CSVGRID
+#define CSVGRID
 
 #include "CsvGridMain.hpp"
 #include <vector>
@@ -53,4 +53,4 @@ typedef CsvGrid::row_type Row;
 }// namespace csv_grid
 }// namespace core_lib
 
-#endif // CSVGRID_HPP
+#endif // CSVGRID
