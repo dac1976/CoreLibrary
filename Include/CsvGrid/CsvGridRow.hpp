@@ -401,6 +401,7 @@ private:
 
 		while (tokIter != tokzr.end())
 		{
+			// cppcheck-suppress eraseDereference
 			std::string tok{*tokIter++};
 			boost::trim(tok);
 			m_cells.emplace_back(tok);
