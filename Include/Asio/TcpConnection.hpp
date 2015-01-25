@@ -61,7 +61,7 @@ public:
 
     const boost_tcp_t::socket& Socket() const;
 
-    void Connect(const boost_tcp_t::endpoint& endPoint);
+    void Connect(const defs::connection_t& endPoint);
 
 	void CloseConnection();
 

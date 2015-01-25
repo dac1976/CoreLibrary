@@ -42,7 +42,6 @@ class UdpReceiver final
 public:
     UdpReceiver(boost_ioservice_t& ioService
                 , const uint16_t listenPort
-                , const size_t minAmountToRead
                 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                 , const defs::message_received_handler_t& messageReceivedHandler
                 , const eUdpOption receiveOptions = eUdpOption::broadcast
@@ -54,12 +53,12 @@ public:
 
     ~UdpReceiver() = default;
 
-
+    uint16_t ListenPort() const;
 
 private:
     boost_ioservice_t& m_ioService;
+    const uint16_t m_listenPort;
     boost_udp_t::socket m_socket;
-    const size_t m_minAmountToRead;
     defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
     defs::message_received_handler_t m_messageReceivedHandler;
     defs::char_buffer_t m_receiveBuffer;

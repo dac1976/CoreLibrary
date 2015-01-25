@@ -42,14 +42,15 @@ UdpSender::UdpSender(boost_ioservice_t& ioService
                      , const eUdpOption sendOptions
                      , const size_t sendBufferSize)
     : m_ioService(ioService)
+    , m_receiver{receiver}
     , m_strand{ioService}
     , m_socket{ioService}
     , m_sendSuccess{false}
 {
     boost_udp_t::resolver receiverResolver(m_ioService);
     boost_udp_t::resolver::query resolverQuery(boost_udp_t::v4()
-                                               , receiver.first
-                                               , std::to_string(receiver.second));
+                                               , m_receiver.first
+                                               , std::to_string(m_receiver.second));
     m_receiverEndpoint = *receiverResolver.resolve(resolverQuery);
 
     m_socket.open(boost_udp_t::v4());
@@ -60,6 +61,11 @@ UdpSender::UdpSender(boost_ioservice_t& ioService
 
     boost_asio::socket_base::send_buffer_size sendBufOption(sendBufferSize);
     m_socket.set_option(sendBufOption);
+}
+
+auto UdpSender::ReceiverConnection() const -> defs::connection_t
+{
+    return m_receiver;
 }
 
 void UdpSender::SendMessageAsync(const defs::char_buffer_t& message)

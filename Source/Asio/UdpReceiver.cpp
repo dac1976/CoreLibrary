@@ -39,21 +39,20 @@ namespace udp {
 // ****************************************************************************
 UdpReceiver::UdpReceiver(boost_ioservice_t& ioService
                          , const uint16_t listenPort
-                         , const size_t minAmountToRead
                          , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                          , const defs::message_received_handler_t& messageReceivedHandler
                          , const eUdpOption receiveOptions
                          , const size_t receiveBufferSize)
     : m_ioService(ioService)
+    , m_listenPort{listenPort}
     , m_socket{ioService}
-    , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
 {
     m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
 
-    boost_udp_t::endpoint receiveEndpoint(boost_udp_t::v4(), listenPort);
+    boost_udp_t::endpoint receiveEndpoint(boost_udp_t::v4(), m_listenPort);
 
     m_socket.open(receiveEndpoint.protocol());
 
@@ -67,6 +66,11 @@ UdpReceiver::UdpReceiver(boost_ioservice_t& ioService
     m_socket.bind(receiveEndpoint);
 
     StartAsyncRead();
+}
+
+uint16_t UdpReceiver::ListenPort() const
+{
+    return m_listenPort;
 }
 
 void UdpReceiver::StartAsyncRead()
@@ -90,24 +94,21 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error
         return;
     }
 
-    if (bytesReceived >= m_minAmountToRead)
+    try
     {
-        try
-        {
-            std::copy(m_receiveBuffer.begin()
-                      , m_receiveBuffer.begin() + bytesReceived
-                      , std::back_inserter(m_messageBuffer));
+        std::copy(m_receiveBuffer.begin()
+                  , m_receiveBuffer.begin() + bytesReceived
+                  , std::back_inserter(m_messageBuffer));
 
-            const size_t numBytes = m_checkBytesLeftToRead(m_messageBuffer);
+        const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
 
-            if (numBytes == 0)
-            {
-                m_messageReceivedHandler(m_messageBuffer);
-            }
-        }
-        catch(const std::exception& /*e*/)
+        if (numBytesLeft == 0)
         {
+            m_messageReceivedHandler(m_messageBuffer);
         }
+    }
+    catch(const std::exception& /*e*/)
+    {
     }
 
     StartAsyncRead();

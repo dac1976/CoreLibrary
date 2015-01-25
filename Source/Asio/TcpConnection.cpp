@@ -68,11 +68,15 @@ const boost_tcp_t::socket& TcpConnection::Socket() const
 	return m_socket;
 }
 
-void TcpConnection::Connect(const boost_tcp_t::endpoint& endPoint)
+void TcpConnection::Connect(const defs::connection_t& endPoint)
 {
-	m_socket.connect(endPoint);
+    boost_tcp_t::endpoint tcpEndPoint(boost_address_t::from_string(endPoint.first)
+                                      , endPoint.second);
+
+    m_socket.connect(tcpEndPoint);
     boost_tcp_t::no_delay option(m_sendOption == eSendOption::nagleOff);
 	m_socket.set_option(option);
+
 	StartAsyncRead();
 }
 

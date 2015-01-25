@@ -142,7 +142,6 @@ public:
                     , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
     {
         auto header = FillHeader(m_magicString, m_archiveType, messageId, responseAddress);
-
         serialize::char_vector_t body;
 
         switch(m_archiveType)

@@ -106,8 +106,7 @@ void TcpClient::CreateConnection()
 														  , m_checkBytesLeftToRead
 														  , m_messageReceivedHandler
 														  , m_sendOption);
-        connection->Connect(boost_tcp_t::endpoint(boost_address_t::from_string(m_server.first)
-												, m_server.second));
+        connection->Connect(m_server);
 	}
 	catch(boost::system::system_error& )
 	{

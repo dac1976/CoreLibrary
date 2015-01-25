@@ -51,6 +51,8 @@ public:
 
     ~UdpSender() = default;
 
+    auto ReceiverConnection() const -> defs::connection_t;
+
     void SendMessageAsync(const defs::char_buffer_t& message);
 
     bool SendMessageSync(const defs::char_buffer_t& message);
@@ -58,6 +60,7 @@ public:
 private:
     threads::SyncEvent m_sendEvent;
     boost_ioservice_t& m_ioService;
+    const defs::connection_t m_receiver;
     boost_ioservice_t::strand m_strand;
     boost_udp_t::socket m_socket;
     boost_udp_t::endpoint m_receiverEndpoint;
