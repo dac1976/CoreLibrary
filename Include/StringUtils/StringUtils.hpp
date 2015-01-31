@@ -155,7 +155,7 @@ enum class eFloatStringFormat
  * \brief Convert a floating point value to a string representation.
  * \param[in] value - Floating point value to convert to a string.
  * \param[in] precision - Precision to display the number to as a string.
- * \param[in] fsf - Formatting options.
+ * \param[in] formatting - Formatting options.
  * return Resultant string.
  *
  * Convert a single or double precision floating point number to a
@@ -163,12 +163,12 @@ enum class eFloatStringFormat
  */
 template <typename T>
 std::string FormatFloatString(const T value, const int precision = 15,
-							  const eFloatStringFormat fsf
+							  const eFloatStringFormat formatting
 							  = eFloatStringFormat::normal)
 {
 	std::ostringstream ss;
 
-	switch(fsf)
+	switch(formatting)
 	{
 	case eFloatStringFormat::fixed:
 		ss << std::fixed;

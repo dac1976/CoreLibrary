@@ -34,12 +34,12 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-HEADERS +=                                                \	
+HEADERS +=                                                    \	
 	../../Include/Asio/IoServiceThreadGroup.hpp           \
 	../../Include/Asio/AsioDefines.hpp                    \
 	../../Include/Asio/MessageUtils.hpp                   \
 	../../Include/Asio/SimpleTcpClient.hpp                \
-    ../../Include/Asio/SimpleTcpServer.hpp                \	
+        ../../Include/Asio/SimpleTcpServer.hpp                \	
 	../../Include/Asio/TcpClient.hpp                      \
 	../../Include/Asio/TcpConnection.hpp                  \
 	../../Include/Asio/TcpConnections.hpp                 \
@@ -68,19 +68,19 @@ HEADERS +=                                                \
 	../../Include/Threads/SyncEvent.hpp                   \	
 	../../Include/Threads/ThreadBase.hpp                  \
 	../../Include/Threads/ThreadGroup.hpp                 \                
-    ../../Include/Asio/UdpSender.hpp                      \
+    ../../Include/Asio/UdpSender.hpp                          \
     ../../Include/Asio/UdpReceiver.hpp                
 
-SOURCES +=                                                \
+SOURCES +=                                                    \
 	../../Source/Asio/IoServiceThreadGroup.cpp            \
 	../../Source/Asio/MessageUtils.cpp                    \
 	../../Source/Asio/SimpleTcpClient.cpp                 \
-    ../../Source/Asio/SimpleTcpServer.cpp                 \
+    ../../Source/Asio/SimpleTcpServer.cpp                     \
 	../../Source/Asio/TcpClient.cpp                       \
 	../../Source/Asio/TcpConnection.cpp                   \
 	../../Source/Asio/TcpConnections.cpp                  \
 	../../Source/Asio/TcpServer.cpp                       \ 
-    ../../Source/CsvGrid/CsvGridCell.cpp                  \
+    ../../Source/CsvGrid/CsvGridCell.cpp                      \
 	../../Source/CsvGrid/CsvGridRow.cpp                   \
 	../../Source/CsvGrid/CsvGridMain.cpp                  \	
 	../../Source/DebugLog/DebugLog.cpp                    \
@@ -95,5 +95,5 @@ SOURCES +=                                                \
 	../../Source/Threads/SyncEvent.cpp                    \	
 	../../Source/Threads/ThreadBase.cpp                   \
 	../../Source/Threads/ThreadGroup.cpp                  \                  
-    ../../Source/Asio/UdpSender.cpp                       \
+    ../../Source/Asio/UdpSender.cpp                           \
     ../../Source/Asio/UdpReceiver.cpp                  

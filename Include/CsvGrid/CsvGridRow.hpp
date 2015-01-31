@@ -346,7 +346,7 @@ private:
 	* \brief Write the row's contents to a stream object.
 	* \param[in,out] os - The stream object to write to.
 	*
-	* The row's contents are formated using CSV formating and output to the
+	* The row's contents are formatted using CSV formating and output to the
 	* stream object.
 	*/
 	void OutputRowToStream(std::ostream& os) const

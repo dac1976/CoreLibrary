@@ -107,7 +107,7 @@ public:
 	/*! \brief Default constructor. */
 	xIniFileSaveError();
 	/*!
-	 * \brief Initializing constructor.
+	 * \brief Initializing constnructor.
 	 * \param[in] message - A user specified message string.
 	 */
 	explicit xIniFileSaveError(const std::string& message);
@@ -183,7 +183,7 @@ public:
 /*!
  * \brief Ini file class
  *
- * Here is an example of what a ini file could look like:
+ * Here is an example of what an ini file could look like:
  *
  *    ; I am an opening comment.
  *
@@ -191,11 +191,11 @@ public:
  *    ; I am a comment in a section.
  *    Section1_Key1=Section1_Value1
  *    Section1_Key2=Section1_Value2
- *    Section1_Key3=Section1_Value3
+ *    Section1_Key3 = Section1_Value3
  *
  *    [Section2]
  *    Section2_Key1=Section2_Value1
- *    Section2_Key2=Section2_Value2
+ *    Section2_Key2 = Section2_Value2
  *    ; I am also a comment in a section.
  *    Section2_Key3=Section2_Value3
  *    ; I am yet another comment in a section.
@@ -273,7 +273,7 @@ public:
 	 * \param[in] defaultValue - Default value if key not found.
 	 * \return Returns the value stored in the INI file.
 	 */
-	bool ReadBool(const std::string& section
+	bool ReadValue(const std::string& section
 				  , const std::string& key
 				  , const bool defaultValue = false) const;
 	/*!
@@ -283,7 +283,7 @@ public:
 	 * \param[in] defaultValue - Default value if key not found.
 	 * \return Returns the value stored in the INI file.
 	 */
-	int32_t ReadInteger(const std::string& section
+	int32_t ReadValue(const std::string& section
 						, const std::string&key
 						, const int32_t defaultValue = 0) const;
 	/*!
@@ -293,7 +293,7 @@ public:
 	 * \param[in] defaultValue - Default value if key not found.
 	 * \return Returns the value stored in the INI file.
 	 */
-	int64_t ReadInteger64(const std::string& section
+	int64_t ReadValue(const std::string& section
 						  , const std::string& key
 						  , const int64_t defaultValue = 0L) const;
 	/*!
@@ -303,7 +303,7 @@ public:
 	 * \param[in] defaultValue - Default value if key not found.
 	 * \return Returns the value stored in the INI file.
 	 */
-	double ReadDouble(const std::string& section
+	double ReadValue(const std::string& section
 					  , const std::string& key
 					  , const double defaultValue = 0.0) const;
 	/*!
@@ -313,7 +313,7 @@ public:
 	 * \param[in] defaultValue - Default value if key not found.
 	 * \return Returns the value stored in the INI file.
 	 */
-	long double ReadLongDouble(const std::string& section
+	long double ReadValue(const std::string& section
 							   , const std::string& key
 							   , const long double defaultValue = 0.0L) const;
 	/*!
@@ -323,16 +323,17 @@ public:
 	 * \param[in] defaultValue - Default value if key not found.
 	 * \return Returns the value stored in the INI file.
 	 */
-	std::string ReadString(const std::string& section
+	std::string ReadValue(const std::string& section
 						   , const std::string& key
 						   , const std::string& defaultValue = "") const;
+
 	/*!
 	 * \brief Write boolean value.
 	 * \param[in] section - Section name.
 	 * \param[in] key - Key name.
 	 * \param[in] value - Value to write to file.
 	 */
-	void WriteBool(const std::string& section
+	void WriteValue(const std::string& section
 				   , const std::string& key
 				   , const bool value);
 	/*!
@@ -341,7 +342,7 @@ public:
 	 * \param[in] key - Key name.
 	 * \param[in] value - Value to write to file.
 	 */
-	void WriteInteger(const std::string& section
+	void WriteValue(const std::string& section
 					  , const std::string& key
 					  , const int32_t value);
 	/*!
@@ -350,7 +351,7 @@ public:
 	 * \param[in] key - Key name.
 	 * \param[in] value - Value to write to file.
 	 */
-	void WriteInteger64(const std::string& section
+	void WriteValue(const std::string& section
 						, const std::string& key
 						, const int64_t value);
 	/*!
@@ -359,7 +360,7 @@ public:
 	 * \param[in] key - Key name.
 	 * \param[in] value - Value to write to file.
 	 */
-	void WriteDouble(const std::string& section
+	void WriteValue(const std::string& section
 					 , const std::string& key
 					 , const double value);
 	/*!
@@ -368,7 +369,7 @@ public:
 	 * \param[in] key - Key name.
 	 * \param[in] value - Value to write to file.
 	 */
-	void WriteLongDouble(const std::string& section
+	void WriteValue(const std::string& section
 						 , const std::string& key
 						 , const long double value);
 	/*!
@@ -377,7 +378,7 @@ public:
 	 * \param[in] key - Key name.
 	 * \param[in] value - Value to write to file.
 	 */
-	void WriteString(const std::string& section
+	void WriteValue(const std::string& section
 					 , const std::string& key
 					 , const std::string& value);
 	/*!
@@ -426,7 +427,7 @@ private:
 	 * \param[in] defaultValue - Default value if key not found as const reference.
 	 * \return The value.
 	 */
-	std::string ReadValue(const std::string& section
+	std::string ReadValueString(const std::string& section
 						  , const std::string& key
 						  , const std::string& defaultValue) const;
 	/*!
@@ -436,7 +437,7 @@ private:
 	 * \param[in] defaultValue - Default value if key not found as r-value reference.
 	 * \return The value.
 	 */
-	std::string ReadValue(const std::string& section
+	std::string ReadValueString(const std::string& section
 						  , const std::string& key
 						  , std::string&& defaultValue) const;
 	/*!
@@ -445,7 +446,7 @@ private:
 	 * \param[in] key - The key.
 	 * \param[in] value - Value to write as const reference.
 	 */
-	void WriteValue(const std::string& section
+	void WriteValueString(const std::string& section
 					, const std::string& key
 					, const std::string& value);
 	/*!
@@ -454,7 +455,7 @@ private:
 	 * \param[in] key - The key.
 	 * \param[in] value - Value to write as r-value reference.
 	 */
-	void WriteValue(const std::string& section
+	void WriteValueString(const std::string& section
 					, const std::string& key
 					, std::string&& value);
 };
