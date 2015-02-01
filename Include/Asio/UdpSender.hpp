@@ -29,6 +29,7 @@
 
 #include "../Threads/SyncEvent.hpp"
 #include "AsioDefines.hpp"
+#include "IoServiceThreadGroup.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -40,40 +41,49 @@ namespace udp {
 class UdpSender final
 {
 public:
-    UdpSender(boost_ioservice_t& ioService
-              , const defs::connection_t& receiver
-              , const eUdpOption sendOptions = eUdpOption::broadcast
-              , const size_t sendBufferSize = 8192);
+	UdpSender(boost_ioservice_t& ioService
+			  , const defs::connection_t& receiver
+			  , const eUdpOption sendOptions = eUdpOption::broadcast
+			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
-    UdpSender(const UdpSender& ) = delete;
+	UdpSender(const defs::connection_t& receiver
+			  , const eUdpOption sendOptions = eUdpOption::broadcast
+			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
-    UdpSender& operator=(const UdpSender& ) = delete;
 
-    ~UdpSender() = default;
+	UdpSender(const UdpSender& ) = delete;
 
-    auto ReceiverConnection() const -> defs::connection_t;
+	UdpSender& operator=(const UdpSender& ) = delete;
 
-    void SendMessageAsync(const defs::char_buffer_t& message);
+	~UdpSender() = default;
 
-    bool SendMessageSync(const defs::char_buffer_t& message);
+	auto ReceiverConnection() const -> defs::connection_t;
+
+	void SendMessageAsync(const defs::char_buffer_t& message);
+
+	bool SendMessageSync(const defs::char_buffer_t& message);
 
 private:
-    threads::SyncEvent m_sendEvent;
-    boost_ioservice_t& m_ioService;
-    const defs::connection_t m_receiver;
-    boost_ioservice_t::strand m_strand;
-    boost_udp_t::socket m_socket;
-    boost_udp_t::endpoint m_receiverEndpoint;
-    bool m_sendSuccess;
+	threads::SyncEvent m_sendEvent;
+	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+	boost_ioservice_t& m_ioService;
+	const defs::connection_t m_receiver;
+	boost_ioservice_t::strand m_strand;
+	boost_udp_t::socket m_socket;
+	boost_udp_t::endpoint m_receiverEndpoint;
+	bool m_sendSuccess{false};
 
-    void AsyncSendTo(defs::char_buffer_t message
-                     , const bool setSuccessFlag);
+	void CreateUdpSocket(const eUdpOption sendOptions
+						 , const size_t sendBufferSize);
 
-    void SyncSendTo(const defs::char_buffer_t& message
-                    , const bool setSuccessFlag);
+	void AsyncSendTo(defs::char_buffer_t message
+					 , const bool setSuccessFlag);
 
-    void SendComplete(const boost_sys::error_code& error
-                      , const bool setSuccessFlag);
+	void SyncSendTo(const defs::char_buffer_t& message
+					, const bool setSuccessFlag);
+
+	void SendComplete(const boost_sys::error_code& error
+					  , const bool setSuccessFlag);
 };
 
 } // namespace udp

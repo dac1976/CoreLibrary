@@ -29,6 +29,7 @@
 
 #include "../Threads/SyncEvent.hpp"
 #include "AsioDefines.hpp"
+#include "IoServiceThreadGroup.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -40,35 +41,45 @@ namespace udp {
 class UdpReceiver final
 {
 public:
-    UdpReceiver(boost_ioservice_t& ioService
-                , const uint16_t listenPort
-                , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                , const defs::message_received_handler_t& messageReceivedHandler
-                , const eUdpOption receiveOptions = eUdpOption::broadcast
-                , const size_t receiveBufferSize = 8192);
+	UdpReceiver(boost_ioservice_t& ioService
+				, const uint16_t listenPort
+				, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+				, const defs::message_received_handler_t& messageReceivedHandler
+				, const eUdpOption receiveOptions = eUdpOption::broadcast
+				, const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
 
-    UdpReceiver(const UdpReceiver& ) = delete;
+	UdpReceiver(const uint16_t listenPort
+				, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+				, const defs::message_received_handler_t& messageReceivedHandler
+				, const eUdpOption receiveOptions = eUdpOption::broadcast
+				, const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
 
-    UdpReceiver& operator=(const UdpReceiver& ) = delete;
+	UdpReceiver(const UdpReceiver& ) = delete;
 
-    ~UdpReceiver() = default;
+	UdpReceiver& operator=(const UdpReceiver& ) = delete;
 
-    uint16_t ListenPort() const;
+	~UdpReceiver() = default;
+
+	uint16_t ListenPort() const;
 
 private:
-    boost_ioservice_t& m_ioService;
-    const uint16_t m_listenPort;
-    boost_udp_t::socket m_socket;
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
-    defs::message_received_handler_t m_messageReceivedHandler;
-    defs::char_buffer_t m_receiveBuffer;
-    defs::char_buffer_t m_messageBuffer;
-    boost_udp_t::endpoint m_senderEndpoint;
+	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+	boost_ioservice_t& m_ioService;
+	const uint16_t m_listenPort{0};
+	boost_udp_t::socket m_socket;
+	defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+	defs::message_received_handler_t m_messageReceivedHandler;
+	defs::char_buffer_t m_receiveBuffer;
+	defs::char_buffer_t m_messageBuffer;
+	boost_udp_t::endpoint m_senderEndpoint;
 
-    void StartAsyncRead();
+	void CreateUdpSocket(const eUdpOption receiveOptions
+						 , const size_t receiveBufferSize);
 
-    void ReadComplete(const boost_sys::error_code& error
-                      , const size_t bytesReceived);
+	void StartAsyncRead();
+
+	void ReadComplete(const boost_sys::error_code& error
+					  , const size_t bytesReceived);
 
 };
 

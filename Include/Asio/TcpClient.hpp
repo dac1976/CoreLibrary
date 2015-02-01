@@ -42,17 +42,17 @@ namespace tcp {
 class TcpClient final
 {
 public:
-    TcpClient(boost_ioservice_t& ioService
-              , const defs::connection_t& server
+	TcpClient(boost_ioservice_t& ioService
+			  , const defs::connection_t& server
 			  , const size_t minAmountToRead
-              , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-              , const defs::message_received_handler_t& messageReceivedHandler
+			  , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+			  , const defs::message_received_handler_t& messageReceivedHandler
 			  , const eSendOption sendOption = eSendOption::nagleOn);
 
-    TcpClient(const defs::connection_t& server
+	TcpClient(const defs::connection_t& server
 			  , const size_t minAmountToRead
-              , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-              , const defs::message_received_handler_t& messageReceivedHandler
+			  , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+			  , const defs::message_received_handler_t& messageReceivedHandler
 			  , const eSendOption sendOption = eSendOption::nagleOn);
 
 	~TcpClient();
@@ -61,25 +61,25 @@ public:
 
 	TcpClient& operator=(const TcpClient& ) = delete;
 
-    auto ServerConnection() const -> defs::connection_t;
+	auto ServerConnection() const -> defs::connection_t;
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-    auto GetClientDetailsForServer() const -> defs::connection_t;
+	auto GetClientDetailsForServer() const -> defs::connection_t;
 
 	void CloseConnection();
 
-    void SendMessageToServerAsync(const defs::char_buffer_t& message);
+	void SendMessageToServerAsync(const defs::char_buffer_t& message);
 
-    bool SendMessageToServerSync(const defs::char_buffer_t& message);
+	bool SendMessageToServerSync(const defs::char_buffer_t& message);
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
-    boost_ioservice_t& m_ioService;
-    const defs::connection_t m_server;
-	const size_t m_minAmountToRead;
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
-    defs::message_received_handler_t m_messageReceivedHandler;
-	const eSendOption m_sendOption;
+	boost_ioservice_t& m_ioService;
+	const defs::connection_t m_server;
+	const size_t m_minAmountToRead{0};
+	defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+	defs::message_received_handler_t m_messageReceivedHandler;
+	const eSendOption m_sendOption{eSendOption::nagleOn};
 	TcpConnections m_serverConnection;
 
 	void CreateConnection();

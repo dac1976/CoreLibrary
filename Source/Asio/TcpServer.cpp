@@ -36,10 +36,10 @@ namespace tcp {
 // 'class TcpServer' definition
 // ****************************************************************************
 TcpServer::TcpServer(boost_ioservice_t& ioService
-                     , const uint16_t listenPort
+					 , const uint16_t listenPort
 					 , const size_t minAmountToRead
-                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                     , const defs::message_received_handler_t& messageReceivedHandler
+					 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+					 , const defs::message_received_handler_t& messageReceivedHandler
 					 , const eSendOption sendOption)
 	: m_ioService(ioService)
 	, m_listenPort{listenPort}
@@ -53,10 +53,10 @@ TcpServer::TcpServer(boost_ioservice_t& ioService
 
 TcpServer::TcpServer(const uint16_t listenPort
 					 , const size_t minAmountToRead
-                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                     , const defs::message_received_handler_t& messageReceivedHandler
+					 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+					 , const defs::message_received_handler_t& messageReceivedHandler
 					 , const eSendOption sendOption)
-	: m_ioThreadGroup{new IoServiceThreadGroup(std::thread::hardware_concurrency())}
+	: m_ioThreadGroup{new IoServiceThreadGroup(std::thread::hardware_concurrency())} // Num logical cores threads as we can send/receive to/from multiple clients
 	, m_ioService(m_ioThreadGroup->IoService())
 	, m_listenPort{listenPort}
 	, m_minAmountToRead{minAmountToRead}
@@ -73,7 +73,7 @@ TcpServer::~TcpServer()
 }
 
 auto TcpServer::GetServerDetailsForClient(const defs::connection_t& client) const
-                    -> defs::connection_t
+					-> defs::connection_t
 {
 	return client == defs::NULL_CONNECTION
 			? std::make_pair("0.0.0.0", m_listenPort)
@@ -100,21 +100,21 @@ void TcpServer::OpenAcceptor()
 {
 	if (!m_acceptor || !m_acceptor->is_open())
 	{
-        m_acceptor.reset(new boost_tcp_acceptor_t(m_ioService,
-                                                boost_tcp_t::endpoint(boost_tcp_t::v4()
+		m_acceptor.reset(new boost_tcp_acceptor_t(m_ioService,
+												boost_tcp_t::endpoint(boost_tcp_t::v4()
 																	, m_listenPort)));
 		AcceptConnection();
 	}
 }
 
 void TcpServer::SendMessageToClientAsync(const defs::connection_t& client
-                                         , const defs::char_buffer_t& message)
+										 , const defs::char_buffer_t& message)
 {
 	m_clientConnections.SendMessageAsync(client, message);
 }
 
 bool TcpServer::SendMessageToClientSync(const defs::connection_t& client
-                                        , const defs::char_buffer_t& message)
+										, const defs::char_buffer_t& message)
 {
 	return m_clientConnections.SendMessageSync(client, message);
 }

@@ -44,49 +44,49 @@ class TcpConnection final
 	: public std::enable_shared_from_this<TcpConnection>
 {
 public:
-    TcpConnection(boost_ioservice_t& ioService
+	TcpConnection(boost_ioservice_t& ioService
 				  , TcpConnections& connections
 				  , const size_t minAmountToRead
-                  , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                  , const defs::message_received_handler_t& messageReceivedHandler
-                  , const eSendOption sendOption = eSendOption::nagleOn);
+				  , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+				  , const defs::message_received_handler_t& messageReceivedHandler
+				  , const eSendOption sendOption = eSendOption::nagleOn);
 
 	TcpConnection(const TcpConnection& ) = delete;
 
-    TcpConnection& operator=(const TcpConnection& ) = delete;
+	TcpConnection& operator=(const TcpConnection& ) = delete;
 
 	virtual ~TcpConnection() = default;
 
-    boost_tcp_t::socket& Socket();
+	boost_tcp_t::socket& Socket();
 
-    const boost_tcp_t::socket& Socket() const;
+	const boost_tcp_t::socket& Socket() const;
 
-    void Connect(const defs::connection_t& endPoint);
+	void Connect(const defs::connection_t& endPoint);
 
 	void CloseConnection();
 
 	void StartAsyncRead();
 
-    void SendMessageAsync(const defs::char_buffer_t& message);
+	void SendMessageAsync(const defs::char_buffer_t& message);
 
-    bool SendMessageSync(const defs::char_buffer_t& message);
+	bool SendMessageSync(const defs::char_buffer_t& message);
 
 private:
 	mutable std::mutex m_mutex;
 	threads::SyncEvent m_closedEvent;
 	threads::SyncEvent m_sendEvent;
-	bool m_closing;
-    boost_ioservice_t& m_ioService;
-    boost_ioservice_t::strand m_strand;
-    boost_tcp_t::socket m_socket;
+	bool m_closing{false};
+	boost_ioservice_t& m_ioService;
+	boost_ioservice_t::strand m_strand;
+	boost_tcp_t::socket m_socket;
 	TcpConnections& m_connections;
-	const size_t m_minAmountToRead;
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
-    defs::message_received_handler_t m_messageReceivedHandler;
-	const eSendOption m_sendOption;
-    defs::char_buffer_t m_receiveBuffer;
-    defs::char_buffer_t m_messageBuffer;
-	bool m_sendSuccess;
+	const size_t m_minAmountToRead{0};
+	defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+	defs::message_received_handler_t m_messageReceivedHandler;
+	const eSendOption m_sendOption{eSendOption::nagleOn};
+	defs::char_buffer_t m_receiveBuffer;
+	defs::char_buffer_t m_messageBuffer;
+	bool m_sendSuccess{false};
 
 	void SetClosing(const bool closing);
 
@@ -102,10 +102,10 @@ private:
 					  , const size_t bytesReceived
 					  , const size_t bytesExpected);
 
-    void AsyncWriteToSocket(defs::char_buffer_t message
+	void AsyncWriteToSocket(defs::char_buffer_t message
 							, const bool setSuccessFlag);
 
-    void SyncWriteToSocket(const defs::char_buffer_t& message
+	void SyncWriteToSocket(const defs::char_buffer_t& message
 						   , const bool setSuccessFlag);
 
 	void WriteComplete(const boost_sys::error_code& error

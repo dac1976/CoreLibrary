@@ -35,10 +35,10 @@ namespace tcp {
 // 'class TcpClient' definition
 // ****************************************************************************
 TcpClient::TcpClient(boost_ioservice_t& ioService
-                     , const defs::connection_t& server
+					 , const defs::connection_t& server
 					 , const size_t minAmountToRead
-                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                     , const defs::message_received_handler_t& messageReceivedHandler
+					 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+					 , const defs::message_received_handler_t& messageReceivedHandler
 					 , const eSendOption sendOption)
 	: m_ioService(ioService), m_server{server}
 	, m_minAmountToRead{minAmountToRead}
@@ -51,10 +51,10 @@ TcpClient::TcpClient(boost_ioservice_t& ioService
 
 TcpClient::TcpClient(const defs::connection_t& server
 					 , const size_t minAmountToRead
-                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                     , const defs::message_received_handler_t& messageReceivedHandler
+					 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+					 , const defs::message_received_handler_t& messageReceivedHandler
 					 , const eSendOption sendOption)
-	: m_ioThreadGroup{new IoServiceThreadGroup(2)}
+	: m_ioThreadGroup{new IoServiceThreadGroup(2)} // 2 threads we can send/receive to/from the server
 	, m_ioService(m_ioThreadGroup->IoService())
 	, m_server{server}, m_minAmountToRead{minAmountToRead}
 	, m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -106,7 +106,7 @@ void TcpClient::CreateConnection()
 														  , m_checkBytesLeftToRead
 														  , m_messageReceivedHandler
 														  , m_sendOption);
-        connection->Connect(m_server);
+		connection->Connect(m_server);
 	}
 	catch(boost::system::system_error& )
 	{

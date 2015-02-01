@@ -54,8 +54,8 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
-    // Reserve 0.5 MiB for each receive buffer.
-    static constexpr size_t DEFAULT_RESERVED_SIZE{512 * 1024};
+	// Reserve 0.5 MiB for each receive buffer.
+	static constexpr size_t DEFAULT_RESERVED_SIZE{512 * 1024};
 
 	enum class eSendOption
 	{
@@ -69,17 +69,20 @@ namespace tcp {
 /*! \brief The udp namespace. */
 namespace udp {
 
-    enum class eUdpOption
-    {
-        broadcast,
-        unicast
-    };
+	enum class eUdpOption
+	{
+		broadcast,
+		unicast
+	};
 
-    // A UDP datagram can have a total max size of 65535 bytes,
-    // however the size available for "user" data is a bit less
-    // as we have to allow 8 bytes for UDP header and 20 bytes
-    // for the IP header.
-    static constexpr size_t UDP_DATAGRAM_MAX_SIZE{65507};
+	// A UDP datagram can have a total max size of 65535 bytes,
+	// however the size available for "user" data is a bit less
+	// as we have to allow 8 bytes for UDP header and 20 bytes
+	// for the IP header.
+	static constexpr size_t UDP_DATAGRAM_MAX_SIZE{65507};
+
+	//UDP send/receive buffer default size.
+	static constexpr size_t DEFAULT_UDP_BUF_SIZE{8192};
 
 } // namespace udp
 
@@ -136,9 +139,9 @@ typedef std::vector<char> char_buffer_t;
 template <typename Header>
 struct ReceivedMessage
 {
-    typedef Header header_t;
-    header_t header;
-    char_buffer_t body;
+	typedef Header header_t;
+	header_t header;
+	char_buffer_t body;
 
 	ReceivedMessage() = default;
 	~ReceivedMessage() = default;
