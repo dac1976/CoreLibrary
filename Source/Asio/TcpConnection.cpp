@@ -40,8 +40,8 @@ namespace tcp {
 TcpConnection::TcpConnection(boost_ioservice_t& ioService
 							 , TcpConnections& connections
 							 , const size_t minAmountToRead
-                             , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                             , const defs::message_received_handler_t& messageReceivedHandler
+							 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+							 , const defs::message_received_handler_t& messageReceivedHandler
 							 , const eSendOption sendOption)
 	: m_closing{false}
 	, m_ioService(ioService)
@@ -70,11 +70,11 @@ const boost_tcp_t::socket& TcpConnection::Socket() const
 
 void TcpConnection::Connect(const defs::connection_t& endPoint)
 {
-    boost_tcp_t::endpoint tcpEndPoint(boost_address_t::from_string(endPoint.first)
-                                      , endPoint.second);
+	boost_tcp_t::endpoint tcpEndPoint(boost_address_t::from_string(endPoint.first)
+									  , endPoint.second);
 
-    m_socket.connect(tcpEndPoint);
-    boost_tcp_t::no_delay option(m_sendOption == eSendOption::nagleOff);
+	m_socket.connect(tcpEndPoint);
+	boost_tcp_t::no_delay option(m_sendOption == eSendOption::nagleOff);
 	m_socket.set_option(option);
 
 	StartAsyncRead();
@@ -129,11 +129,11 @@ void TcpConnection::StartAsyncRead()
 void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
 {
 	m_receiveBuffer.resize(amountToRead);
-    // We do not need a strand here as a connection object
-    // can only read serially from one, so for one connection
+	// We do not need a strand here as a connection object
+	// can only read serially from one, so for one connection
 	// object it cannot be doing more than one async read
 	// at a time in multiple threads.
-    boost_asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
+	boost_asio::async_read(m_socket, boost_asio::buffer(m_receiveBuffer)
 							, boost::bind(&TcpConnection::ReadComplete
 										  , shared_from_this()
 										  , boost_placeholders::error
@@ -220,22 +220,24 @@ void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message
 void TcpConnection::SyncWriteToSocket(const defs::char_buffer_t& message
 									  , const bool setSuccessFlag)
 {
-    boost_asio::async_write(m_socket, boost_asio::buffer(message)
-                            , boost::bind(&TcpConnection::WriteComplete
-                                          , shared_from_this()
-                                          , boost_placeholders::error
-                                          , setSuccessFlag));
+	boost_asio::async_write(m_socket, boost_asio::buffer(message)
+							, boost::bind(&TcpConnection::WriteComplete
+										  , shared_from_this()
+										  , boost_placeholders::error
+										  , boost_placeholders::bytes_transferred
+										  , setSuccessFlag));
 	// Wait here until WriteComplete signals, this makes sure the
 	// message vector remains viable.
 	m_sendEvent.Wait();
 }
 
 void TcpConnection::WriteComplete(const boost_sys::error_code& error
+								  , const std::size_t bytesSent
 								  , const bool setSuccessFlag)
 {
 	if (setSuccessFlag)
 	{
-		m_sendSuccess = !error;
+		m_sendSuccess = !error && (bytesSent > 0);
 	}
 
 	m_sendEvent.Signal();

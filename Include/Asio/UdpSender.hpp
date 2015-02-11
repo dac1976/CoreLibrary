@@ -59,31 +59,20 @@ public:
 
 	auto ReceiverConnection() const -> defs::connection_t;
 
-	void SendMessageAsync(const defs::char_buffer_t& message);
-
-	bool SendMessageSync(const defs::char_buffer_t& message);
+	bool SendMessage(const defs::char_buffer_t& message);
 
 private:
 	threads::SyncEvent m_sendEvent;
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
 	boost_ioservice_t& m_ioService;
 	const defs::connection_t m_receiver;
-	boost_ioservice_t::strand m_strand;
 	boost_udp_t::socket m_socket;
 	boost_udp_t::endpoint m_receiverEndpoint;
-	bool m_sendSuccess{false};
 
 	void CreateUdpSocket(const eUdpOption sendOptions
 						 , const size_t sendBufferSize);
 
-	void AsyncSendTo(defs::char_buffer_t message
-					 , const bool setSuccessFlag);
-
-	void SyncSendTo(const defs::char_buffer_t& message
-					, const bool setSuccessFlag);
-
-	void SendComplete(const boost_sys::error_code& error
-					  , const bool setSuccessFlag);
+	bool SyncSendTo(const defs::char_buffer_t& message);
 };
 
 } // namespace udp

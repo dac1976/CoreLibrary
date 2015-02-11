@@ -109,6 +109,7 @@ private:
 						   , const bool setSuccessFlag);
 
 	void WriteComplete(const boost_sys::error_code& error
+					   , const std::size_t bytesSent
 					   , const bool setSuccessFlag);
 };
 

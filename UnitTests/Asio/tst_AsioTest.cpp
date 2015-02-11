@@ -1,5 +1,6 @@
 #include <QString>
 #include <QtTest>
+#include "../../Include/Serialization/SerializeToVector.hpp"
 #include "../../Include/Asio/IoServiceThreadGroup.hpp"
 #include "../../Include/Asio/TcpServer.hpp"
 #include "../../Include/Asio/TcpClient.hpp"
@@ -7,7 +8,8 @@
 #include "../../Include/Asio/TcpTypedClient.hpp"
 #include "../../Include/Asio/SimpleTcpServer.hpp"
 #include "../../Include/Asio/SimpleTcpClient.hpp"
-#include "../../Include/Serialization/SerializeToVector.hpp"
+#include "../../Include/Asio/UdpReceiver.hpp"
+#include "../../Include/Asio/UdpSender.hpp"
 #include <cstring>
 #include <algorithm>
 #include <iterator>
@@ -17,6 +19,7 @@
 using namespace core_lib::asio;
 using namespace core_lib::asio::defs;
 using namespace core_lib::asio::tcp;
+using namespace core_lib::asio::udp;
 using namespace core_lib::serialize;
 using namespace core_lib::threads;
 using namespace core_lib::asio::messages;
@@ -101,10 +104,10 @@ char_buffer_t BuildMessage()
 	MyHeader header;
 	MyMessage myMessage;
 	myMessage.FillMessage();
-    char_buffer_t body = ToCharVector(myMessage);
+	char_buffer_t body = ToCharVector(myMessage);
 	header.totalLength += body.size();
 	const char* headCharBuf = reinterpret_cast<const char*>(&header);
-    char_buffer_t message;
+	char_buffer_t message;
 	std::copy(headCharBuf, headCharBuf + sizeof(header)
 			  , std::back_inserter(message));
 	std::copy(body.begin(), body.end()
@@ -115,7 +118,7 @@ char_buffer_t BuildMessage()
 class MessageReceiver
 {
 public:
-    static size_t CheckBytesLeftToRead(const char_buffer_t& message)
+	static size_t CheckBytesLeftToRead(const char_buffer_t& message)
 	{
 		CheckMessage(message);
 
@@ -135,12 +138,12 @@ public:
 		return pHeader->totalLength - message.size();
 	}
 
-    void MessageReceivedHandler(const char_buffer_t& message)
+	void MessageReceivedHandler(const char_buffer_t& message)
 	{
 		CheckMessage(message);
 
 		{
-            char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
+			char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
 			m_myMessage = ToObject<MyMessage>(body);
 		}
 
@@ -161,7 +164,7 @@ private:
 	SyncEvent m_messageEvent;
 	MyMessage m_myMessage;
 
-    static void CheckMessage(const char_buffer_t& message)
+	static void CheckMessage(const char_buffer_t& message)
 	{
 		if (message.size() < sizeof(MyHeader))
 		{
@@ -173,16 +176,16 @@ private:
 class MessageDispatcher
 {
 public:
-    void DispatchMessage(default_received_message_ptr_t message)
+	void DispatchMessage(default_received_message_ptr_t message)
 	{
 		if (message->header.messageId == 666)
 		{
 			m_header = message->header;
 
-            if (!message->body.empty())
-            {
-                m_myMessage = ToObject<MyMessage>(message->body);
-            }
+			if (!message->body.empty())
+			{
+				m_myMessage = ToObject<MyMessage>(message->body);
+			}
 		}
 
 		m_messageEvent.Signal();
@@ -223,26 +226,28 @@ private Q_SLOTS:
 	// Asio tests
 	void testCase_IoThreadGroup1();
 	void testCase_IoThreadGroup2();
-    void testCase_TestAsync();
+	void testCase_TestAsync();
 	void testCase_TestSync();
 	void testCase_TestAsync_ExternalIoService();
 	void testCase_TestSync_ExternalIoService();
 	void testCase_TestTypedAsync();
-    void testCase_TestTypedSync();    
-    void testCase_TestTyped_SendToAll_1();
-    void testCase_TestTyped_SendToAll_2();
-    void testCase_TestTypedAsync_Hdr();
-    void testCase_TestTypedSync_Hdr();
-    void testCase_TestTyped_SendToAll_1_Hdr();
-    void testCase_TestTyped_SendToAll_2_Hdr();    
-    void testCase_TestSimpleAsync();
-    void testCase_TestSimpleSync();
-    void testCase_TestSimple_SendToAll_1();
-    void testCase_TestSimple_SendToAll_2();
-    void testCase_TestSimpleAsync_Hdr();
-    void testCase_TestSimpleSync_Hdr();
-    void testCase_TestSimple_SendToAll_1_Hdr();
-    void testCase_TestSimple_SendToAll_2_Hdr();
+	void testCase_TestTypedSync();
+	void testCase_TestTyped_SendToAll_1();
+	void testCase_TestTyped_SendToAll_2();
+	void testCase_TestTypedAsync_Hdr();
+	void testCase_TestTypedSync_Hdr();
+	void testCase_TestTyped_SendToAll_1_Hdr();
+	void testCase_TestTyped_SendToAll_2_Hdr();
+	void testCase_TestSimpleAsync();
+	void testCase_TestSimpleSync();
+	void testCase_TestSimple_SendToAll_1();
+	void testCase_TestSimple_SendToAll_2();
+	void testCase_TestSimpleAsync_Hdr();
+	void testCase_TestSimpleSync_Hdr();
+	void testCase_TestSimple_SendToAll_1_Hdr();
+	void testCase_TestSimple_SendToAll_2_Hdr();
+	void testCase_TestUdpBroadcast();
+	void testCase_TestUdpUnicast();
 };
 
 AsioTest::AsioTest()
@@ -300,7 +305,7 @@ void AsioTest::testCase_IoThreadGroup2()
 
 void AsioTest::testCase_TestAsync()
 {
-    char_buffer_t message = BuildMessage();
+	char_buffer_t message = BuildMessage();
 	MessageReceiver svrReceiver;
 	TcpServer server(22222, sizeof(MyHeader)
 					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
@@ -329,7 +334,7 @@ void AsioTest::testCase_TestAsync()
 
 void AsioTest::testCase_TestSync()
 {
-    char_buffer_t message = BuildMessage();
+	char_buffer_t message = BuildMessage();
 	MessageReceiver svrReceiver;
 	TcpServer server(22222, sizeof(MyHeader)
 					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
@@ -360,7 +365,7 @@ void AsioTest::testCase_TestAsync_ExternalIoService()
 {
 	IoServiceThreadGroup ioThreadGroup;
 
-    char_buffer_t message = BuildMessage();
+	char_buffer_t message = BuildMessage();
 	MessageReceiver svrReceiver;
 	TcpServer server(ioThreadGroup.IoService(), 22222, sizeof(MyHeader)
 					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
@@ -391,7 +396,7 @@ void AsioTest::testCase_TestSync_ExternalIoService()
 {
 	IoServiceThreadGroup ioThreadGroup;
 
-    char_buffer_t message = BuildMessage();
+	char_buffer_t message = BuildMessage();
 	MessageReceiver svrReceiver;
 	TcpServer server(ioThreadGroup.IoService(), 22222, sizeof(MyHeader)
 					 , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
@@ -420,21 +425,21 @@ void AsioTest::testCase_TestSync_ExternalIoService()
 
 void AsioTest::testCase_TestTypedAsync()
 {
-    MessageBuilder messageBuilder;
+	MessageBuilder messageBuilder;
 	MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 	MessageDispatcher clientDispatcher;
-    MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
@@ -446,7 +451,7 @@ void AsioTest::testCase_TestTypedAsync()
 	QVERIFY(receivedMessage == messageToSend);
 
 	MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
 	server.SendMessageToClientAsync(messageToSend, respAddress, 666);
 	clientDispatcher.WaitForMessage(3000);
 
@@ -461,21 +466,21 @@ void AsioTest::testCase_TestTypedAsync()
 
 void AsioTest::testCase_TestTypedSync()
 {
-    MessageBuilder messageBuilder;
+	MessageBuilder messageBuilder;
 	MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 	MessageDispatcher clientDispatcher;
-    MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
@@ -487,7 +492,7 @@ void AsioTest::testCase_TestTypedSync()
 	QVERIFY(receivedMessage == messageToSend);
 
 	MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
 	QVERIFY(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
 	clientDispatcher.WaitForMessage(3000);
 
@@ -502,546 +507,583 @@ void AsioTest::testCase_TestTypedSync()
 
 void AsioTest::testCase_TestTyped_SendToAll_1()
 {
-    MessageBuilder messageBuilder;
-    MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageBuilder messageBuilder;
+	MessageDispatcher serverDispatcher;
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
-                          , messageBuilder);
+	MessageDispatcher clientDispatcher1;
+	MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
+						  , messageBuilder);
 
-    MessageDispatcher clientDispatcher2;
-    MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
-                          , messageBuilder );
+	MessageDispatcher clientDispatcher2;
+	MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
+						  , messageBuilder );
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	MyMessage receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(messageToSend, 666);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    receivedMessage = clientDispatcher1.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher1.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 
-    receivedMessage = clientDispatcher2.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher2.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 }
 
 void AsioTest::testCase_TestTyped_SendToAll_2()
 {
-    MessageBuilder messageBuilder;
-    MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageBuilder messageBuilder;
+	MessageDispatcher serverDispatcher;
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
-                          , messageBuilder);
+	MessageDispatcher clientDispatcher1;
+	MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
+						  , messageBuilder);
 
-    MessageDispatcher clientDispatcher2;
-    MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
-                          , messageBuilder );
+	MessageDispatcher clientDispatcher2;
+	MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
+						  , messageBuilder );
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	MyMessage receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666, serverConn);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(messageToSend, 666, serverConn);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    receivedMessage = clientDispatcher1.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher1.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
 
-    receivedMessage = clientDispatcher2.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher2.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
 }
 
 void AsioTest::testCase_TestTypedAsync_Hdr()
 {
-    MessageBuilder messageBuilder;
-    MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageBuilder messageBuilder;
+	MessageDispatcher serverDispatcher;
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
-    MessageDispatcher clientDispatcher;
-    MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	MessageDispatcher clientDispatcher;
+	MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    client.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    server.SendMessageToClientAsync(respAddress, 666);
-    clientDispatcher.WaitForMessage(3000);
+	MessageHeader header = serverDispatcher.Header();
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	server.SendMessageToClientAsync(respAddress, 666);
+	clientDispatcher.WaitForMessage(3000);
 
-    header = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	header = clientDispatcher.Header();
+	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
-    QVERIFY(respAddress == serverConn);
+	QVERIFY(respAddress == serverConn);
 }
 
 void AsioTest::testCase_TestTypedSync_Hdr()
 {
-    MessageBuilder messageBuilder;
-    MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageBuilder messageBuilder;
+	MessageDispatcher serverDispatcher;
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
-    MessageDispatcher clientDispatcher;
-    MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	MessageDispatcher clientDispatcher;
+	MessageHandler cltMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    QVERIFY(client.SendMessageToServerSync(666) == true);
-    serverDispatcher.WaitForMessage(3000);
+	QVERIFY(client.SendMessageToServerSync(666) == true);
+	serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    QVERIFY(server.SendMessageToClientSync(respAddress, 666) == true);
-    clientDispatcher.WaitForMessage(3000);
+	MessageHeader header = serverDispatcher.Header();
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	QVERIFY(server.SendMessageToClientSync(respAddress, 666) == true);
+	clientDispatcher.WaitForMessage(3000);
 
-    header = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	header = clientDispatcher.Header();
+	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
-    QVERIFY(respAddress == serverConn);
+	QVERIFY(respAddress == serverConn);
 }
 
 void AsioTest::testCase_TestTyped_SendToAll_1_Hdr()
 {
-    MessageBuilder messageBuilder;
-    MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageBuilder messageBuilder;
+	MessageDispatcher serverDispatcher;
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
-                           , messageBuilder);
+	MessageDispatcher clientDispatcher1;
+	MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
+						   , messageBuilder);
 
-    MessageDispatcher clientDispatcher2;
-    MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
-                          , messageBuilder);
+	MessageDispatcher clientDispatcher2;
+	MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
+						  , messageBuilder);
 
-    client1.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    client2.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    server.SendMessageToAllClients(666);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(666);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 }
 
 void AsioTest::testCase_TestTyped_SendToAll_2_Hdr()
 {
-    MessageBuilder messageBuilder;
-    MessageDispatcher serverDispatcher;
-    MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
-                          , messageBuilder);
+	MessageBuilder messageBuilder;
+	MessageDispatcher serverDispatcher;
+	MessageHandler svrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedServer<MessageBuilder> server(22222, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1)
+						  , messageBuilder);
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
-                          , messageBuilder);
+	MessageDispatcher clientDispatcher1;
+	MessageHandler cltMessageHandler1(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client1(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler1, std::placeholders::_1)
+						  , messageBuilder);
 
-    MessageDispatcher clientDispatcher2;
-    MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-    TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
-                          , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
-                          , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
-                          , messageBuilder);
+	MessageDispatcher clientDispatcher2;
+	MessageHandler cltMessageHandler2(std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	TcpTypedClient<MessageBuilder> client2(serverConn, sizeof(MessageHeader)
+						  , std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1)
+						  , std::bind(&MessageHandler::MessageReceivedHandler, &cltMessageHandler2, std::placeholders::_1)
+						  , messageBuilder);
 
-    client1.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    client2.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    server.SendMessageToAllClients(666, serverConn);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(666, serverConn);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
 }
 
 //*************
 
 void AsioTest::testCase_TestSimpleAsync()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
-    MessageDispatcher clientDispatcher;
-    SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	MessageDispatcher clientDispatcher;
+	SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    client.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	MyMessage receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    server.SendMessageToClientAsync(messageToSend, respAddress, 666);
-    clientDispatcher.WaitForMessage(3000);
+	MessageHeader header = serverDispatcher.Header();
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	server.SendMessageToClientAsync(messageToSend, respAddress, 666);
+	clientDispatcher.WaitForMessage(3000);
 
-    receivedMessage = clientDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    header = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	header = clientDispatcher.Header();
+	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
-    QVERIFY(respAddress == serverConn);
+	QVERIFY(respAddress == serverConn);
 }
 
 void AsioTest::testCase_TestSimpleSync()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
-    MessageDispatcher clientDispatcher;
-    SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	MessageDispatcher clientDispatcher;
+	SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    QVERIFY(client.SendMessageToServerSync(messageToSend, 666) == true);
-    serverDispatcher.WaitForMessage(3000);
+	QVERIFY(client.SendMessageToServerSync(messageToSend, 666) == true);
+	serverDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	MyMessage receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    QVERIFY(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
-    clientDispatcher.WaitForMessage(3000);
+	MessageHeader header = serverDispatcher.Header();
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	QVERIFY(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
+	clientDispatcher.WaitForMessage(3000);
 
-    receivedMessage = clientDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    header = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	header = clientDispatcher.Header();
+	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
-    QVERIFY(respAddress == serverConn);
+	QVERIFY(respAddress == serverConn);
 }
 
 void AsioTest::testCase_TestSimple_SendToAll_1()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+	MessageDispatcher clientDispatcher1;
+	SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
 
-    MessageDispatcher clientDispatcher2;
-    SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+	MessageDispatcher clientDispatcher2;
+	SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	MyMessage receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(messageToSend, 666);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    receivedMessage = clientDispatcher1.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher1.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 
-    receivedMessage = clientDispatcher2.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher2.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 }
 
 void AsioTest::testCase_TestSimple_SendToAll_2()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+	MessageDispatcher clientDispatcher1;
+	SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
 
-    MessageDispatcher clientDispatcher2;
-    SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+	MessageDispatcher clientDispatcher2;
+	SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	MyMessage receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    receivedMessage = serverDispatcher.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = serverDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666, serverConn);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(messageToSend, 666, serverConn);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    receivedMessage = clientDispatcher1.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher1.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
 
-    receivedMessage = clientDispatcher2.Message();
-    QVERIFY(receivedMessage == messageToSend);
+	receivedMessage = clientDispatcher2.Message();
+	QVERIFY(receivedMessage == messageToSend);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
 }
 
 void AsioTest::testCase_TestSimpleAsync_Hdr()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
-    MessageDispatcher clientDispatcher;
-    SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	MessageDispatcher clientDispatcher;
+	SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
 
-    client.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    server.SendMessageToClientAsync(respAddress, 666);
-    clientDispatcher.WaitForMessage(3000);
+	MessageHeader header = serverDispatcher.Header();
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	server.SendMessageToClientAsync(respAddress, 666);
+	clientDispatcher.WaitForMessage(3000);
 
-    header = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	header = clientDispatcher.Header();
+	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
-    QVERIFY(respAddress == serverConn);
+	QVERIFY(respAddress == serverConn);
 }
 
 void AsioTest::testCase_TestSimpleSync_Hdr()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
-    MessageDispatcher clientDispatcher;
-    SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	MessageDispatcher clientDispatcher;
+	SimpleTcpClient client(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
 
-    QVERIFY(client.SendMessageToServerSync(666) == true);
-    serverDispatcher.WaitForMessage(3000);
+	QVERIFY(client.SendMessageToServerSync(666) == true);
+	serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    QVERIFY(server.SendMessageToClientSync(respAddress, 666) == true);
-    clientDispatcher.WaitForMessage(3000);
+	MessageHeader header = serverDispatcher.Header();
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	QVERIFY(server.SendMessageToClientSync(respAddress, 666) == true);
+	clientDispatcher.WaitForMessage(3000);
 
-    header = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	header = clientDispatcher.Header();
+	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
-    QVERIFY(respAddress == serverConn);
+	QVERIFY(respAddress == serverConn);
 }
 
 void AsioTest::testCase_TestSimple_SendToAll_1_Hdr()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+	MessageDispatcher clientDispatcher1;
+	SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
 
-    MessageDispatcher clientDispatcher2;
-    SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+	MessageDispatcher clientDispatcher2;
+	SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
 
-    client1.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    client2.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    server.SendMessageToAllClients(666);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(666);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == "0.0.0.0");
+	QVERIFY(header.responsePort == serverConn.second);
 }
 
 void AsioTest::testCase_TestSimple_SendToAll_2_Hdr()
 {
-    MessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	MessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
-    MessageDispatcher clientDispatcher1;
-    SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+	MessageDispatcher clientDispatcher1;
+	SimpleTcpClient client1(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
 
-    MessageDispatcher clientDispatcher2;
-    SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+	MessageDispatcher clientDispatcher2;
+	SimpleTcpClient client2(serverConn, std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
 
-    client1.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client1.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    client2.SendMessageToServerAsync(666);
-    serverDispatcher.WaitForMessage(3000);
+	client2.SendMessageToServerAsync(666);
+	serverDispatcher.WaitForMessage(3000);
 
-    server.SendMessageToAllClients(666, serverConn);
-    clientDispatcher1.WaitForMessage(3000);
-    clientDispatcher2.WaitForMessage(3000);
+	server.SendMessageToAllClients(666, serverConn);
+	clientDispatcher1.WaitForMessage(3000);
+	clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	MessageHeader header = clientDispatcher1.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
 
-    header = clientDispatcher2.Header();
-    QVERIFY(std::string(header.responseAddress) == serverConn.first);
-    QVERIFY(header.responsePort == serverConn.second);
+	header = clientDispatcher2.Header();
+	QVERIFY(std::string(header.responseAddress) == serverConn.first);
+	QVERIFY(header.responsePort == serverConn.second);
+}
+
+void AsioTest::testCase_TestUdpBroadcast()
+{
+	char_buffer_t message = BuildMessage();
+	MessageReceiver receiver;
+	UdpReceiver udpReceiver(22222, std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
+
+	UdpSender udpSender(std::make_pair("255.255.255.255", 22222));
+
+	QVERIFY(udpSender.SendMessage(message) == true);
+
+	receiver.WaitForMessage(3000);
+	MyMessage expectedMessage;
+	expectedMessage.FillMessage();
+	MyMessage receivedMessage = receiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
+}
+
+void AsioTest::testCase_TestUdpUnicast()
+{
+	char_buffer_t message = BuildMessage();
+	MessageReceiver receiver;
+	UdpReceiver udpReceiver(22223, std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+					 , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1)
+							, eUdpOption::unicast);
+
+	UdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
+
+	QVERIFY(udpSender.SendMessage(message) == true);
+
+	receiver.WaitForMessage(3000);
+	MyMessage expectedMessage;
+	expectedMessage.FillMessage();
+	MyMessage receivedMessage = receiver.Message();
+	QVERIFY(receivedMessage == expectedMessage);
 }
 
 QTEST_APPLESS_MAIN(AsioTest)

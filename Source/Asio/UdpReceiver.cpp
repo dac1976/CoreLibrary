@@ -95,7 +95,6 @@ void UdpReceiver::CreateUdpSocket(const eUdpOption receiveOptions
 	StartAsyncRead();
 }
 
-
 void UdpReceiver::StartAsyncRead()
 {
 	m_messageBuffer.clear();
@@ -132,6 +131,7 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error
 	}
 	catch(const std::exception& /*e*/)
 	{
+		// Nothing to do here for now.
 	}
 
 	StartAsyncRead();
