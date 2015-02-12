@@ -43,11 +43,11 @@ class UdpSender final
 public:
 	UdpSender(boost_ioservice_t& ioService
 			  , const defs::connection_t& receiver
-			  , const eUdpOption sendOptions = eUdpOption::broadcast
+			  , const eUdpOption sendOption = eUdpOption::broadcast
 			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
 	UdpSender(const defs::connection_t& receiver
-			  , const eUdpOption sendOptions = eUdpOption::broadcast
+			  , const eUdpOption sendOption = eUdpOption::broadcast
 			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
 
@@ -69,7 +69,7 @@ private:
 	boost_udp_t::socket m_socket;
 	boost_udp_t::endpoint m_receiverEndpoint;
 
-	void CreateUdpSocket(const eUdpOption sendOptions
+	void CreateUdpSocket(const eUdpOption sendOption
 						 , const size_t sendBufferSize);
 
 	bool SyncSendTo(const defs::char_buffer_t& message);

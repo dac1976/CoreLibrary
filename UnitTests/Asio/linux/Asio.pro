@@ -46,10 +46,11 @@ HEADERS +=                                                       \
 	../../../Include/Serialization/SerializeToVector.hpp     \
 	../../../Include/Asio/TcpTypedClient.hpp                 \
 	../../../Include/Asio/TcpTypedServer.hpp                 \
-        ../../../Include/Asio/SimpleTcpClient.hpp                \
-        ../../../Include/Asio/SimpleTcpServer.hpp                \
-        ../../../Include/Asio/UdpSender.hpp                      \
-        ../../../Include/Asio/UdpReceiver.hpp
+	../../../Include/Asio/SimpleTcpClient.hpp                \
+	../../../Include/Asio/SimpleTcpServer.hpp                \
+	../../../Include/Asio/UdpSender.hpp                      \
+	../../../Include/Asio/UdpReceiver.hpp                    \
+	../../../Include/Asio/UdpTypedSender.hpp
 
 SOURCES +=                                             \
 	../tst_AsioTest.cpp                            \
@@ -62,7 +63,7 @@ SOURCES +=                                             \
 	../../../Source/Asio/TcpConnections.cpp        \
 	../../../Source/Asio/TcpServer.cpp             \
 	../../../Source/Asio/TcpClient.cpp             \
-        ../../../Source/Asio/SimpleTcpServer.cpp       \
-        ../../../Source/Asio/SimpleTcpClient.cpp       \
-        ../../../Source/Asio/UdpSender.cpp             \
-        ../../../Source/Asio/UdpReceiver.cpp
+	../../../Source/Asio/SimpleTcpServer.cpp       \
+	../../../Source/Asio/SimpleTcpClient.cpp       \
+	../../../Source/Asio/UdpSender.cpp             \
+	../../../Source/Asio/UdpReceiver.cpp

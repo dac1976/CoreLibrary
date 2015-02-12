@@ -39,24 +39,24 @@ namespace udp {
 // ****************************************************************************
 UdpSender::UdpSender(boost_ioservice_t& ioService
 					 , const defs::connection_t& receiver
-					 , const eUdpOption sendOptions
+					 , const eUdpOption sendOption
 					 , const size_t sendBufferSize)
 	: m_ioService(ioService)
 	, m_receiver{receiver}
 	, m_socket{ioService}
 {
-	CreateUdpSocket(sendOptions, sendBufferSize);
+	CreateUdpSocket(sendOption, sendBufferSize);
 }
 
 UdpSender::UdpSender(const defs::connection_t& receiver
-					 , const eUdpOption sendOptions
+					 , const eUdpOption sendOption
 					 , const size_t sendBufferSize)
 	: m_ioThreadGroup{new IoServiceThreadGroup(1)}// 1 thread is sufficient only receive one message at a time
 	, m_ioService(m_ioThreadGroup->IoService())
 	, m_receiver{receiver}
 	, m_socket{m_ioService}
 {
-	CreateUdpSocket(sendOptions, sendBufferSize);
+	CreateUdpSocket(sendOption, sendBufferSize);
 }
 
 auto UdpSender::ReceiverConnection() const -> defs::connection_t
@@ -69,7 +69,7 @@ bool UdpSender::SendMessage(const defs::char_buffer_t& message)
 	return SyncSendTo(message);
 }
 
-void UdpSender::CreateUdpSocket(const eUdpOption sendOptions
+void UdpSender::CreateUdpSocket(const eUdpOption sendOption
 					 , const size_t sendBufferSize)
 {
 	boost_udp_t::resolver receiverResolver(m_ioService);
@@ -80,7 +80,7 @@ void UdpSender::CreateUdpSocket(const eUdpOption sendOptions
 
 	m_socket.open(boost_udp_t::v4());
 
-	boost_asio::socket_base::broadcast broadcastOption(sendOptions
+	boost_asio::socket_base::broadcast broadcastOption(sendOption
 														== eUdpOption::broadcast);
 	m_socket.set_option(broadcastOption);
 

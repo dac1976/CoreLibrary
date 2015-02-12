@@ -10,6 +10,7 @@
 #include "../../Include/Asio/SimpleTcpClient.hpp"
 #include "../../Include/Asio/UdpReceiver.hpp"
 #include "../../Include/Asio/UdpSender.hpp"
+#include "../../Include/Asio/UdpTypedSender.hpp"
 #include <cstring>
 #include <algorithm>
 #include <iterator>
@@ -248,6 +249,8 @@ private Q_SLOTS:
 	void testCase_TestSimple_SendToAll_2_Hdr();
 	void testCase_TestUdpBroadcast();
 	void testCase_TestUdpUnicast();
+	void testCase_TestTypedUdpBroadcast();
+	void testCase_TestTypedUdpUnicast();
 };
 
 AsioTest::AsioTest()
@@ -1073,7 +1076,7 @@ void AsioTest::testCase_TestUdpUnicast()
 	MessageReceiver receiver;
 	UdpReceiver udpReceiver(22223, std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
 					 , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1)
-							, eUdpOption::unicast);
+					 , eUdpOption::unicast);
 
 	UdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
 
@@ -1084,6 +1087,49 @@ void AsioTest::testCase_TestUdpUnicast()
 	expectedMessage.FillMessage();
 	MyMessage receivedMessage = receiver.Message();
 	QVERIFY(receivedMessage == expectedMessage);
+}
+
+void AsioTest::testCase_TestTypedUdpBroadcast()
+{
+	MessageBuilder messageBuilder;
+	MessageDispatcher rcvrDispatcher;
+	MessageHandler rcvrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	UdpReceiver udpReceiver(22222, std::bind(&MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1)
+					 , std::bind(&MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1));
+
+	UdpTypedSender<MessageBuilder> udpSender(std::make_pair("255.255.255.255", 22222), messageBuilder);
+
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
+
+	QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
+
+	rcvrDispatcher.WaitForMessage(3000);
+
+	MyMessage receivedMessage = rcvrDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
+}
+
+void AsioTest::testCase_TestTypedUdpUnicast()
+{
+	MessageBuilder messageBuilder;
+	MessageDispatcher rcvrDispatcher;
+	MessageHandler rcvrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+	UdpReceiver udpReceiver(22223, std::bind(&MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1)
+					 , std::bind(&MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1)
+					 , eUdpOption::unicast);
+
+	UdpTypedSender<MessageBuilder> udpSender(std::make_pair("127.0.0.1", 22223), messageBuilder, eUdpOption::unicast);
+
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
+
+	QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
+
+	rcvrDispatcher.WaitForMessage(3000);
+
+	MyMessage receivedMessage = rcvrDispatcher.Message();
+	QVERIFY(receivedMessage == messageToSend);
 }
 
 QTEST_APPLESS_MAIN(AsioTest)

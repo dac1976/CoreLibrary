@@ -30,9 +30,6 @@
 
 #include "TcpClient.hpp"
 #include "MessageUtils.hpp"
-#include <iterator>
-#include <algorithm>
-#include <cstring>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -45,104 +42,104 @@ template<typename MsgBldr>
 class TcpTypedClient final
 {
 public:
-    TcpTypedClient(boost_ioservice_t& ioService
-                   , const defs::connection_t& server
-                   , const size_t minAmountToRead
-                   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                   , const defs::message_received_handler_t& messageReceivedHandler
-                   , const MsgBldr& messageBuilder
-                   , const eSendOption sendOption = eSendOption::nagleOn)
-        : m_messageBuilder{messageBuilder}
-        , m_tcpClient{ioService, server, minAmountToRead
-                      , checkBytesLeftToRead, messageReceivedHandler
-                      , sendOption}
-    {
-    }
+	TcpTypedClient(boost_ioservice_t& ioService
+				   , const defs::connection_t& server
+				   , const size_t minAmountToRead
+				   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+				   , const defs::message_received_handler_t& messageReceivedHandler
+				   , const MsgBldr& messageBuilder
+				   , const eSendOption sendOption = eSendOption::nagleOn)
+		: m_messageBuilder{messageBuilder}
+		, m_tcpClient{ioService, server, minAmountToRead
+					  , checkBytesLeftToRead, messageReceivedHandler
+					  , sendOption}
+	{
+	}
 
-    TcpTypedClient(const defs::connection_t& server
-                   , const size_t minAmountToRead
-                   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                   , const defs::message_received_handler_t& messageReceivedHandler
-                   , const MsgBldr& messageBuilder
-                   , const eSendOption sendOption = eSendOption::nagleOn)
-        : m_messageBuilder{messageBuilder}
-        , m_tcpClient{server, minAmountToRead
-                      , checkBytesLeftToRead, messageReceivedHandler
-                      , sendOption}
-    {
-    }
+	TcpTypedClient(const defs::connection_t& server
+				   , const size_t minAmountToRead
+				   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+				   , const defs::message_received_handler_t& messageReceivedHandler
+				   , const MsgBldr& messageBuilder
+				   , const eSendOption sendOption = eSendOption::nagleOn)
+		: m_messageBuilder{messageBuilder}
+		, m_tcpClient{server, minAmountToRead
+					  , checkBytesLeftToRead, messageReceivedHandler
+					  , sendOption}
+	{
+	}
 
 	~TcpTypedClient() = default;
 	TcpTypedClient(const TcpTypedClient& ) = delete;
 	TcpTypedClient& operator=(const TcpTypedClient& ) = delete;
 
-    auto ServerConnection() const -> defs::connection_t
-    {
-        return m_tcpClient.ServerConnection();
-    }
+	auto ServerConnection() const -> defs::connection_t
+	{
+		return m_tcpClient.ServerConnection();
+	}
 
-    auto GetClientDetailsForServer() const -> defs::connection_t
-    {
-        return m_tcpClient.GetClientDetailsForServer();
-    }
+	auto GetClientDetailsForServer() const -> defs::connection_t
+	{
+		return m_tcpClient.GetClientDetailsForServer();
+	}
 
-    void CloseConnection()
-    {
-        m_tcpClient.CloseConnection();
-    }
+	void CloseConnection()
+	{
+		m_tcpClient.CloseConnection();
+	}
 
-    void SendMessageToServerAsync(const uint32_t messageId
-                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-    {
-        auto messageBuffer = BuildMessage(messageId, responseAddress);
-        m_tcpClient.SendMessageToServerAsync(messageBuffer);
-    }
+	void SendMessageToServerAsync(const uint32_t messageId
+								  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+	{
+		auto messageBuffer = BuildMessage(messageId, responseAddress);
+		m_tcpClient.SendMessageToServerAsync(messageBuffer);
+	}
 
-    bool SendMessageToServerSync(const uint32_t messageId
-                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-    {
-        auto messageBuffer = BuildMessage(messageId, responseAddress);
-        return m_tcpClient.SendMessageToServerSync(messageBuffer);
-    }
+	bool SendMessageToServerSync(const uint32_t messageId
+								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+	{
+		auto messageBuffer = BuildMessage(messageId, responseAddress);
+		return m_tcpClient.SendMessageToServerSync(messageBuffer);
+	}
 
 	template<typename T>
-    void SendMessageToServerAsync(T&& message, const uint32_t messageId
-                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+	void SendMessageToServerAsync(T&& message, const uint32_t messageId
+								  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = BuildMessage(message, messageId, responseAddress);
+		auto messageBuffer = BuildMessage(message, messageId, responseAddress);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
 	}
 
 	template<typename T>
-    bool SendMessageToServerSync(T&& message, const uint32_t messageId
-                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+	bool SendMessageToServerSync(T&& message, const uint32_t messageId
+								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = BuildMessage(message, messageId, responseAddress);
+		auto messageBuffer = BuildMessage(message, messageId, responseAddress);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
 
 private:
-    const MsgBldr& m_messageBuilder;
+	const MsgBldr& m_messageBuilder;
 	TcpClient m_tcpClient;
 
-    auto BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress) const
-        -> defs::char_buffer_t
-    {
-        auto responseConn = (responseAddress == defs::NULL_CONNECTION)
-                            ? GetClientDetailsForServer()
-                            : responseAddress;
-        return m_messageBuilder(messageId, responseConn);
-    }
-
-	template<typename T>
-    auto BuildMessage(T&& message, const uint32_t messageId
-                      , const defs::connection_t& responseAddress) const
-        -> defs::char_buffer_t
+	auto BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress) const
+		-> defs::char_buffer_t
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-        return m_messageBuilder(message, messageId, responseConn);
+		return m_messageBuilder(messageId, responseConn);
+	}
+
+	template<typename T>
+	auto BuildMessage(T&& message, const uint32_t messageId
+					  , const defs::connection_t& responseAddress) const
+		-> defs::char_buffer_t
+	{
+		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
+							? GetClientDetailsForServer()
+							: responseAddress;
+		return m_messageBuilder(message, messageId, responseConn);
 	}
 };
 
