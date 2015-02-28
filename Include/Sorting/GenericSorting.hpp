@@ -62,7 +62,7 @@ public:
 	 * \param[in] begin - The begining of the collection to sort.
 	 * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
-	 * This function sorts a collections (vector, list etc)
+	 * This function sorts a collection (vector, list etc)
 	 * of items of type T between a begin and end iterator.
 	 */
 	template <typename TIterator>
@@ -109,7 +109,7 @@ public:
 	 * \param[in] begin - The begining of the collection to sort.
 	 * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
-	 * This function sorts a collections (vector, list etc)
+	 * This function sorts a collection (vector, list etc)
 	 * of items of type T between a begin and end iterator.
 	 */
 	template <typename TIterator>
@@ -153,7 +153,7 @@ public:
 	 * \param[in] begin - The begining of the collection to sort.
 	 * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
 	 *
-	 * This function sorts a collections (vector, list etc)
+	 * This function sorts a collection (vector, list etc)
 	 * of items of type T between a begin and end iterator.
 	 */
 	template <typename TIterator>
@@ -192,9 +192,9 @@ public:
 	/*!
 	 * \brief In-place static sort function.
 	 * \param[in] begin - The begining of the collection to sort.
-	 * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
+	 * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
 	 *
-	 * This function sorts a collections (vector, list etc)
+	 * This function sorts a collection (vector, list etc)
 	 * of items of type T between a begin and end iterator.
 	 */
 	template <typename TIterator>
@@ -299,7 +299,7 @@ public:
 	 * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).
 	 * \param[in] bucketDefinitions - The definition of the ranges of the different buckets, e.g. the min and max values per bucket.
 	 *
-	 * This function sorts a collections (vector, list etc)
+	 * This function sorts a collection (vector, list etc)
 	 * of items of type T between a begin and end iterator.
 	 * This version can be used when the user is only interested
 	 * in the final result.
@@ -408,7 +408,7 @@ private:
 
 	/*!
 	 * \brief Static to perform a final sort on the collection.
-	 * \param[in] begin - The begining of the collection to sort.
+	 * \param[in] begin - The beginning of the collection to sort.
 	 * \param[in] end - The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).
 	 *
 	 * This function performs an insertion sort on the modified
