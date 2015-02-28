@@ -30,7 +30,7 @@ UI_DIR = $${DESTDIR}/ui
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS +=                                                       \
+HEADERS +=                                                   \
 	../../../Include/Exceptions/CustomException.hpp          \
 	../../../Include/Threads/SyncEvent.hpp                   \
 	../../../Include/Threads/ThreadGroup.hpp                 \
@@ -50,9 +50,10 @@ HEADERS +=                                                       \
 	../../../Include/Asio/SimpleTcpServer.hpp                \
 	../../../Include/Asio/UdpSender.hpp                      \
 	../../../Include/Asio/UdpReceiver.hpp                    \
-	../../../Include/Asio/UdpTypedSender.hpp
+	../../../Include/Asio/UdpTypedSender.hpp                 \
+    ../../../Include/Asio/SimpleUdpSender.hpp
 
-SOURCES +=                                             \
+SOURCES +=                                         \
 	../tst_AsioTest.cpp                            \
 	../../../Source/Exceptions/CustomException.cpp \
 	../../../Source/Threads/SyncEvent.cpp          \
@@ -66,4 +67,5 @@ SOURCES +=                                             \
 	../../../Source/Asio/SimpleTcpServer.cpp       \
 	../../../Source/Asio/SimpleTcpClient.cpp       \
 	../../../Source/Asio/UdpSender.cpp             \
-	../../../Source/Asio/UdpReceiver.cpp
+	../../../Source/Asio/UdpReceiver.cpp           \
+    ../../../Source/Asio/SimpleUdpSender.cpp

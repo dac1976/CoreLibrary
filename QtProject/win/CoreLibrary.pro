@@ -34,7 +34,7 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-HEADERS +=                                                    \
+HEADERS +=                                                \
 	../../Include/Asio/IoServiceThreadGroup.hpp           \
 	../../Include/Asio/AsioDefines.hpp                    \
 	../../Include/Asio/MessageUtils.hpp                   \
@@ -70,9 +70,10 @@ HEADERS +=                                                    \
 	../../Include/Threads/ThreadGroup.hpp                 \
 	../../Include/Asio/UdpSender.hpp                      \
 	../../Include/Asio/UdpReceiver.hpp                    \
-	../../Include/Asio/UdpTypedSender.hpp
+	../../Include/Asio/UdpTypedSender.hpp                 \
+    ../../Include/Asio/SimpleUdpSender.hpp
 
-SOURCES +=                                                    \
+SOURCES +=                                                \
 	../../Source/Asio/IoServiceThreadGroup.cpp            \
 	../../Source/Asio/MessageUtils.cpp                    \
 	../../Source/Asio/SimpleTcpClient.cpp                 \
@@ -97,7 +98,8 @@ SOURCES +=                                                    \
 	../../Source/Threads/ThreadBase.cpp                   \
 	../../Source/Threads/ThreadGroup.cpp                  \
 	../../Source/Asio/UdpSender.cpp                       \
-	../../Source/Asio/UdpReceiver.cpp
+	../../Source/Asio/UdpReceiver.cpp                     \
+    ../../Source/Asio/SimpleUdpSender.cpp
 	
 	
 	
