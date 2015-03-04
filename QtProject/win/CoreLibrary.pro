@@ -71,7 +71,8 @@ HEADERS +=                                                \
 	../../Include/Asio/UdpSender.hpp                      \
 	../../Include/Asio/UdpReceiver.hpp                    \
 	../../Include/Asio/UdpTypedSender.hpp                 \
-    ../../Include/Asio/SimpleUdpSender.hpp
+    ../../Include/Asio/SimpleUdpSender.hpp                \
+    ../../Include/Asio/SimpleUdpReceiver.hpp
 
 SOURCES +=                                                \
 	../../Source/Asio/IoServiceThreadGroup.cpp            \
@@ -99,7 +100,8 @@ SOURCES +=                                                \
 	../../Source/Threads/ThreadGroup.cpp                  \
 	../../Source/Asio/UdpSender.cpp                       \
 	../../Source/Asio/UdpReceiver.cpp                     \
-    ../../Source/Asio/SimpleUdpSender.cpp
+    ../../Source/Asio/SimpleUdpSender.cpp                 \
+    ../../Source/Asio/SimpleUdpReceiver.cpp
 	
 	
 	
