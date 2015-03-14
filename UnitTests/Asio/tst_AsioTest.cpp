@@ -11,6 +11,8 @@
 #include "../../Include/Asio/UdpReceiver.hpp"
 #include "../../Include/Asio/UdpSender.hpp"
 #include "../../Include/Asio/UdpTypedSender.hpp"
+#include "../../Include/Asio/SimpleUdpSender.hpp"
+#include "../../Include/Asio/SimpleUdpReceiver.hpp"
 #include <cstring>
 #include <algorithm>
 #include <iterator>
@@ -251,6 +253,8 @@ private Q_SLOTS:
 	void testCase_TestUdpUnicast();
 	void testCase_TestTypedUdpBroadcast();
 	void testCase_TestTypedUdpUnicast();
+    void testCase_TestSimpleUdpBroadcast();
+    void testCase_TestSimpleUdpUnicast();
 };
 
 AsioTest::AsioTest()
@@ -1130,6 +1134,43 @@ void AsioTest::testCase_TestTypedUdpUnicast()
 
 	MyMessage receivedMessage = rcvrDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
+}
+
+void AsioTest::testCase_TestSimpleUdpBroadcast()
+{
+    MessageDispatcher rcvrDispatcher;
+    SimpleUdpReceiver udpReceiver(22222 , std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1));
+
+    SimpleUdpSender udpSender(std::make_pair("255.255.255.255", 22222));
+
+    MyMessage messageToSend;
+    messageToSend.FillMessage();
+
+    QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
+
+    rcvrDispatcher.WaitForMessage(3000);
+
+    MyMessage receivedMessage = rcvrDispatcher.Message();
+    QVERIFY(receivedMessage == messageToSend);
+}
+
+void AsioTest::testCase_TestSimpleUdpUnicast()
+{
+    MessageDispatcher rcvrDispatcher;
+    SimpleUdpReceiver udpReceiver(22223 , std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1)
+                                  , eUdpOption::unicast);
+
+    SimpleUdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
+
+    MyMessage messageToSend;
+    messageToSend.FillMessage();
+
+    QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
+
+    rcvrDispatcher.WaitForMessage(3000);
+
+    MyMessage receivedMessage = rcvrDispatcher.Message();
+    QVERIFY(receivedMessage == messageToSend);
 }
 
 QTEST_APPLESS_MAIN(AsioTest)
