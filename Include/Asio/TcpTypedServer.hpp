@@ -115,27 +115,30 @@ public:
 		m_tcpServer.SendMessageToAllClients(messageBuffer);
 	}
 
-	template<typename T>
-	void SendMessageToClientAsync(T&& message, const defs::connection_t& client, const uint32_t messageId
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    void SendMessageToClientAsync(const T& message
+                                  , const defs::connection_t& client, const uint32_t messageId
 								  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, client, messageId, responseAddress);
+        auto messageBuffer = BuildMessage<T, A>(message, client, messageId, responseAddress);
 		m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
 	}
 
-	template<typename T>
-	bool SendMessageToClientSync(T&& message, const defs::connection_t& client, const uint32_t messageId
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    bool SendMessageToClientSync(const T& message
+                                 , const defs::connection_t& client, const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, client, messageId, responseAddress);
+        auto messageBuffer = BuildMessage<T, A>(message, client, messageId, responseAddress);
 		return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
 	}
 
-	template<typename T>
-	void SendMessageToAllClients(T&& message, const uint32_t messageId
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    void SendMessageToAllClients(const T& message
+                                 , const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, defs::NULL_CONNECTION, messageId
+        auto messageBuffer = BuildMessage<T, A>(message, defs::NULL_CONNECTION, messageId
 										  , responseAddress);
 		m_tcpServer.SendMessageToAllClients(messageBuffer);
 	}
@@ -150,17 +153,18 @@ private:
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetServerDetailsForClient(client)
 							: responseAddress;
-		return m_messageBuilder(messageId, responseConn);
+        return m_messageBuilder(messageId, responseConn);
 	}
 
-	template<typename T>
-	auto BuildMessage(T&& message, const defs::connection_t& client, const uint32_t messageId
+    template<typename T, typename A>
+    auto BuildMessage(const T& message
+                      , const defs::connection_t& client, const uint32_t messageId
 					  , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetServerDetailsForClient(client)
 							: responseAddress;
-		return m_messageBuilder(message, messageId, responseConn);
+        return m_messageBuilder<T,A>(message, messageId, responseConn);
 	}
 };
 

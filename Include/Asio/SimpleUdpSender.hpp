@@ -57,11 +57,12 @@ public:
     bool SendMessage(const uint32_t messageId
                      , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
 
-    template <typename T>
-    bool SendMessage(T&& message, const uint32_t messageId
+    template <typename T, typename A = serialize::archives::out_port_bin_t>
+    bool SendMessage(const T& message
+                     , const uint32_t messageId
                      , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
-        return m_udpTypedSender.SendMessage(message, messageId, responseAddress);
+        return m_udpTypedSender.SendMessage<T, A>(message, messageId, responseAddress);
     }
 
 private:

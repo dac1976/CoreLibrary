@@ -69,6 +69,23 @@ xMagicStringError::~xMagicStringError()
 {
 }
 
+// ****************************************************************************
+// 'class xArchiveTypeError' definition
+// ****************************************************************************
+xArchiveTypeError::xArchiveTypeError()
+    : exceptions::xCustomException("incorrect archive type")
+{
+}
+
+xArchiveTypeError::xArchiveTypeError(const std::string& message)
+    : exceptions::xCustomException(message)
+{
+}
+
+xArchiveTypeError::~xArchiveTypeError()
+{
+}
+
 
 // ****************************************************************************
 // 'class MessageHandler' definition
@@ -149,17 +166,16 @@ auto FillHeader(const std::string& magicString, const defs::eArchiveType archive
 // 'class MessageBuilder' definition
 // ****************************************************************************
 
-MessageBuilder::MessageBuilder(const defs::eArchiveType archiveType
-                               , const std::string& magicString)
-    : m_archiveType{archiveType}, m_magicString{magicString}
+MessageBuilder::MessageBuilder(const std::string& magicString)
+    : m_magicString{magicString}
 {
 }
 
 auto MessageBuilder::operator()(const uint32_t messageId
-                                , const defs::connection_t& responseAddress) const
+                           , const defs::connection_t& responseAddress) const
     -> defs::char_buffer_t
 {
-    auto header = FillHeader(m_magicString, m_archiveType, messageId, responseAddress);
+    auto header = FillHeader(m_magicString, defs::eArchiveType::raw, messageId, responseAddress);
 
     defs::char_buffer_t messageBuffer;
     messageBuffer.reserve(header.totalLength);

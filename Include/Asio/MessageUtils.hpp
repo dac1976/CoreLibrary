@@ -34,6 +34,7 @@
 #include <iterator>
 #include <algorithm>
 #include <cstring>
+#include <type_traits>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -99,6 +100,34 @@ public:
 	xMagicStringError& operator=(xMagicStringError&&) = default;
 };
 
+/*!
+ * \brief Archive type error.
+ *
+ * This exception class is intended to be thrown when a message
+ * is being constructed using an incorrect archive type.
+ */
+class xArchiveTypeError : public exceptions::xCustomException
+{
+public:
+    /*! \brief Default constructor. */
+    xArchiveTypeError();
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xArchiveTypeError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xArchiveTypeError();
+    /*! \brief Copy constructor. */
+    xArchiveTypeError(const xArchiveTypeError&) = default;
+    /*! \brief Move constructor. */
+    xArchiveTypeError(xArchiveTypeError&&) = default;
+    /*! \brief Copy assignment operator. */
+    xArchiveTypeError& operator=(const xArchiveTypeError&) = default;
+    /*! \brief Move assignment operator. */
+    xArchiveTypeError& operator=(xArchiveTypeError&&) = default;
+};
+
 class MessageHandler final
 {
 public:
@@ -127,38 +156,54 @@ class MessageBuilder final
 {
 public:
     MessageBuilder() = default;
-    MessageBuilder(const defs::eArchiveType archiveType
-                   , const std::string& magicString);
+    MessageBuilder(const std::string& magicString);
     ~MessageBuilder() = default;
 
     MessageBuilder(const MessageBuilder& ) = delete;
     MessageBuilder& operator=(const MessageBuilder& ) = delete;
 
     auto operator()(const uint32_t messageId
-                    , const defs::connection_t& responseAddress) const -> defs::char_buffer_t;
+               , const defs::connection_t& responseAddress) const -> defs::char_buffer_t;
 
-    template<typename T>
-    auto operator()(T&& message, const uint32_t messageId
-                    , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+    template<typename T, typename A>
+    auto operator()(const T& message
+               , const uint32_t messageId
+               , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
     {
-        auto header = FillHeader(m_magicString, m_archiveType, messageId, responseAddress);
-        serialize::char_vector_t body;
+        defs::eArchiveType archiveType;
 
-        switch(m_archiveType)
+        if (std::is_same<A, serialize::archives::out_bin_t>::value)
         {
-            case defs::eArchiveType::text:
-                body = serialize::ToCharVector<T, boost_arch::text_oarchive>(message);
-                break;
-            case defs::eArchiveType::binary:
-                body = serialize::ToCharVector<T, boost_arch::binary_oarchive>(message);
-                break;
-            case defs::eArchiveType::xml:
-                body = serialize::ToCharVector<T, boost_arch::xml_oarchive>(message);
-                break;
-            case defs::eArchiveType::portableBinary:
-            default:
-                body = serialize::ToCharVector<T, eos::portable_oarchive>(message);
-                break;
+            archiveType = defs::eArchiveType::binary;
+        }
+        else if (std::is_same<A, serialize::archives::out_port_bin_t>::value)
+        {
+            archiveType = defs::eArchiveType::portableBinary;
+        }
+        else if (std::is_same<A, serialize::archives::out_raw_t>::value)
+        {
+            archiveType = defs::eArchiveType::raw;
+        }
+        else if (std::is_same<A, serialize::archives::out_txt_t>::value)
+        {
+            archiveType = defs::eArchiveType::text;
+        }
+        else if (std::is_same<A, serialize::archives::out_xml_t>::value)
+        {
+            archiveType = defs::eArchiveType::xml;
+        }
+        else
+        {
+            BOOST_THROW_EXCEPTION(xArchiveTypeError("unknown archive type"));
+        }
+
+        auto header = FillHeader(m_magicString, archiveType, messageId, responseAddress);
+        serialize::char_vector_t body
+            = serialize::ToCharVector<T, A>(message);
+
+        if (body.empty())
+        {
+            BOOST_THROW_EXCEPTION(xArchiveTypeError());
         }
 
         header.totalLength += body.size();
@@ -177,7 +222,6 @@ public:
     }
 
 private:
-    const defs::eArchiveType m_archiveType{defs::eArchiveType::portableBinary};
     const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 };
 

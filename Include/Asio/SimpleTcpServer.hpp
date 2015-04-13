@@ -73,28 +73,28 @@ public:
     void SendMessageToAllClients(const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
 
-	template<typename T>
-    void SendMessageToClientAsync(T&& message
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    void SendMessageToClientAsync(const T& message
                                   , const defs::connection_t& client, const uint32_t messageId
                                   , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        m_tcpTypedServer.SendMessageToClientAsync(message, client, messageId, responseAddress);
+        m_tcpTypedServer.SendMessageToClientAsync<T, A>(message, client, messageId, responseAddress);
 	}
 
-	template<typename T>
-    bool SendMessageToClientSync(T&& message
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    bool SendMessageToClientSync(const T& message
                                  , const defs::connection_t& client, const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        return m_tcpTypedServer.SendMessageToClientSync(message, client, messageId, responseAddress);
+        return m_tcpTypedServer.SendMessageToClientSync<T, A>(message, client, messageId, responseAddress);
 	}
 
-	template<typename T>
-    void SendMessageToAllClients(T&& message
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    void SendMessageToAllClients(const T& message
                                  , const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        m_tcpTypedServer.SendMessageToAllClients(message, messageId, responseAddress);
+        m_tcpTypedServer.SendMessageToAllClients<T, A>(message, messageId, responseAddress);
 	}
 
 private:

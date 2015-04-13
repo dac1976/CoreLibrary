@@ -215,6 +215,65 @@ private:
 	MyMessage m_myMessage;
 };
 
+#pragma pack(push, 1)
+struct MyPodMessage
+{
+    int value;
+    char szString[8];
+    double dValues[100];
+};
+#pragma pack(pop)
+
+MyPodMessage PodMessageFactory()
+{
+    MyPodMessage message;
+
+    message.value = 666;
+    strcpy(message.szString, "666");
+    std::fill(message.dValues, message.dValues + 100, 666.0);
+
+    return message;
+}
+
+class PodMessageDispatcher
+{
+public:
+    void DispatchMessage(default_received_message_ptr_t message)
+    {
+        if (message->header.messageId == 666)
+        {
+            m_header = message->header;
+
+            if (!message->body.empty())
+            {
+                memcpy(&m_myMessage, message->body.data(), message->body.size());
+            }
+        }
+
+        m_messageEvent.Signal();
+    }
+
+    bool WaitForMessage(const size_t milliseconds)
+    {
+        return m_messageEvent.WaitForTime(milliseconds);
+    }
+
+    const MessageHeader& Header() const
+    {
+        return m_header;
+    }
+
+    const MyPodMessage& Message() const
+    {
+        return m_myMessage;
+    }
+
+private:
+    SyncEvent m_messageEvent;
+    MessageHeader m_header;
+    MyPodMessage m_myMessage;
+};
+
 // ****************************************************************************
 // Unit test wrapper
 // ****************************************************************************
@@ -255,6 +314,7 @@ private Q_SLOTS:
 	void testCase_TestTypedUdpUnicast();
     void testCase_TestSimpleUdpBroadcast();
     void testCase_TestSimpleUdpUnicast();
+    void testCase_TestSerializePOD();
 };
 
 AsioTest::AsioTest()
@@ -451,7 +511,7 @@ void AsioTest::testCase_TestTypedAsync()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	client.SendMessageToServerAsync(messageToSend, 666);
+    client.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -459,7 +519,7 @@ void AsioTest::testCase_TestTypedAsync()
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-	server.SendMessageToClientAsync(messageToSend, respAddress, 666);
+    server.SendMessageToClientAsync(messageToSend, respAddress, 666);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -492,7 +552,7 @@ void AsioTest::testCase_TestTypedSync()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	QVERIFY(client.SendMessageToServerSync(messageToSend, 666) == true);
+    QVERIFY(client.SendMessageToServerSync(messageToSend, 666) == true);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -500,7 +560,7 @@ void AsioTest::testCase_TestTypedSync()
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-	QVERIFY(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
+    QVERIFY(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -541,19 +601,19 @@ void AsioTest::testCase_TestTyped_SendToAll_1()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	client1.SendMessageToServerAsync(messageToSend, 666);
+    client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	client2.SendMessageToServerAsync(messageToSend, 666);
+    client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	server.SendMessageToAllClients(messageToSend, 666);
+    server.SendMessageToAllClients(messageToSend, 666);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -601,19 +661,19 @@ void AsioTest::testCase_TestTyped_SendToAll_2()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	client1.SendMessageToServerAsync(messageToSend, 666);
+    client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	client2.SendMessageToServerAsync(messageToSend, 666);
+    client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	server.SendMessageToAllClients(messageToSend, 666, serverConn);
+    server.SendMessageToAllClients(messageToSend, 666, serverConn);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -800,7 +860,7 @@ void AsioTest::testCase_TestSimpleAsync()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	client.SendMessageToServerAsync(messageToSend, 666);
+    client.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -808,7 +868,7 @@ void AsioTest::testCase_TestSimpleAsync()
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-	server.SendMessageToClientAsync(messageToSend, respAddress, 666);
+    server.SendMessageToClientAsync(messageToSend, respAddress, 666);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -832,7 +892,7 @@ void AsioTest::testCase_TestSimpleSync()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	QVERIFY(client.SendMessageToServerSync(messageToSend, 666) == true);
+    QVERIFY(client.SendMessageToServerSync(messageToSend, 666) == true);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -840,7 +900,7 @@ void AsioTest::testCase_TestSimpleSync()
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-	QVERIFY(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
+    QVERIFY(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -868,19 +928,19 @@ void AsioTest::testCase_TestSimple_SendToAll_1()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	client1.SendMessageToServerAsync(messageToSend, 666);
+    client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	client2.SendMessageToServerAsync(messageToSend, 666);
+    client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	server.SendMessageToAllClients(messageToSend, 666);
+    server.SendMessageToAllClients(messageToSend, 666);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -915,19 +975,19 @@ void AsioTest::testCase_TestSimple_SendToAll_2()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	client1.SendMessageToServerAsync(messageToSend, 666);
+    client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	client2.SendMessageToServerAsync(messageToSend, 666);
+    client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 
-	server.SendMessageToAllClients(messageToSend, 666, serverConn);
+    server.SendMessageToAllClients(messageToSend, 666, serverConn);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -1106,11 +1166,11 @@ void AsioTest::testCase_TestTypedUdpBroadcast()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
+    QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
 
 	rcvrDispatcher.WaitForMessage(3000);
 
-	MyMessage receivedMessage = rcvrDispatcher.Message();
+    MyMessage receivedMessage = rcvrDispatcher.Message();
 	QVERIFY(receivedMessage == messageToSend);
 }
 
@@ -1128,7 +1188,7 @@ void AsioTest::testCase_TestTypedUdpUnicast()
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-	QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
+    QVERIFY(udpSender.SendMessage(messageToSend, 666) == true);
 
 	rcvrDispatcher.WaitForMessage(3000);
 
@@ -1171,6 +1231,38 @@ void AsioTest::testCase_TestSimpleUdpUnicast()
 
     MyMessage receivedMessage = rcvrDispatcher.Message();
     QVERIFY(receivedMessage == messageToSend);
+}
+
+void AsioTest::testCase_TestSerializePOD()
+{
+    PodMessageDispatcher serverDispatcher;
+    SimpleTcpServer server(22222, std::bind(&PodMessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+
+    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+    PodMessageDispatcher clientDispatcher;
+    SimpleTcpClient client(serverConn, std::bind(&PodMessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+
+    MyPodMessage messageToSend = PodMessageFactory();
+    client.SendMessageToServerAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(messageToSend, 666);
+    serverDispatcher.WaitForMessage(3000);
+
+    MyPodMessage receivedMessage = serverDispatcher.Message();
+    QVERIFY(receivedMessage.value == messageToSend.value);
+    QVERIFY(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
+
+    MessageHeader header = serverDispatcher.Header();
+    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    server.SendMessageToClientAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(messageToSend, respAddress, 666);
+    clientDispatcher.WaitForMessage(3000);
+
+    receivedMessage = clientDispatcher.Message();
+    QVERIFY(receivedMessage.value == messageToSend.value);
+    QVERIFY(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
+
+    header = clientDispatcher.Header();
+    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+
+    QVERIFY(respAddress == serverConn);
 }
 
 QTEST_APPLESS_MAIN(AsioTest)

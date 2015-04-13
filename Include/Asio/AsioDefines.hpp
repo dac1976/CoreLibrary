@@ -103,10 +103,14 @@ static constexpr char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 enum class eArchiveType : uint8_t
 {
-	portableBinary,
-	text,
-	binary,
-	xml
+    // The following 4 all require boost serialization
+    // and eos portable binary archive in the first case.
+    portableBinary,
+    binary,
+    text,
+    xml,
+    // Only suitable for POD objects.
+    raw
 };
 
 #pragma pack(push, 1)
@@ -116,7 +120,7 @@ struct MessageHeader
 	char responseAddress[RESPONSE_ADDRESS_LEN];
 	uint16_t responsePort{};
 	uint32_t messageId{};
-	eArchiveType archiveType{eArchiveType::portableBinary};
+    eArchiveType archiveType{eArchiveType::portableBinary};
 	uint32_t totalLength{sizeof(*this)};
 
 	MessageHeader()

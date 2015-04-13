@@ -102,19 +102,21 @@ public:
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
 
-	template<typename T>
-	void SendMessageToServerAsync(T&& message, const uint32_t messageId
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    void SendMessageToServerAsync(const T& message
+                                  , const uint32_t messageId
 								  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, messageId, responseAddress);
+        auto messageBuffer = BuildMessage<T, A>(message, messageId, responseAddress);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
 	}
 
-	template<typename T>
-	bool SendMessageToServerSync(T&& message, const uint32_t messageId
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    bool SendMessageToServerSync(const T& message
+                                 , const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(message, messageId, responseAddress);
+        auto messageBuffer = BuildMessage<T, A>(message, messageId, responseAddress);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
 
@@ -128,18 +130,19 @@ private:
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-		return m_messageBuilder(messageId, responseConn);
+        return m_messageBuilder(messageId, responseConn);
 	}
 
-	template<typename T>
-	auto BuildMessage(T&& message, const uint32_t messageId
+    template<typename T, typename A>
+    auto BuildMessage(const T& message
+                      , const uint32_t messageId
 					  , const defs::connection_t& responseAddress) const
 		-> defs::char_buffer_t
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-		return m_messageBuilder(message, messageId, responseConn);
+        return m_messageBuilder<T,A>(message, messageId, responseConn);
 	}
 };
 

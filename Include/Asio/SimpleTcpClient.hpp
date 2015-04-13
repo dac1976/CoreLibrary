@@ -65,20 +65,20 @@ public:
     bool SendMessageToServerSync(const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
 
-	template<typename T>
-    void SendMessageToServerAsync(T&& message
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    void SendMessageToServerAsync(const T& message
                                   , const uint32_t messageId
                                   , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        m_tcpTypedClient.SendMessageToServerAsync(message, messageId, responseAddress);
+        m_tcpTypedClient.SendMessageToServerAsync<T, A>(message, messageId, responseAddress);
 	}
 
-	template<typename T>
-    bool SendMessageToServerSync(T&& message
+    template<typename T, typename A = serialize::archives::out_port_bin_t>
+    bool SendMessageToServerSync(const T& message
                                  , const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        return m_tcpTypedClient.SendMessageToServerSync(message, messageId, responseAddress);
+        return m_tcpTypedClient.SendMessageToServerSync<T, A>(message, messageId, responseAddress);
 	}
 
 private:
