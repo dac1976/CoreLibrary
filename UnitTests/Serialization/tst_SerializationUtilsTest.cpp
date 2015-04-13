@@ -96,8 +96,8 @@ void SerializationUtilsTest::testCase_SerializeObjectBinArch()
 	objectIn.Harry("jnkjn");
 	std::vector<unsigned int> vec{1, 2, 3, 4, 5};
 	objectIn.George(vec);
-	char_vector_t charVector = ToCharVector<MyObject, boost_arch::binary_oarchive>(objectIn);
-	objectOut = ToObject<MyObject, boost_arch::binary_iarchive>(charVector);
+    char_vector_t charVector = ToCharVector<MyObject, archives::out_bin_t>(objectIn);
+    objectOut = ToObject<MyObject, archives::in_bin_t>(charVector);
 
 	QVERIFY(objectOut == objectIn);
 }
@@ -112,8 +112,8 @@ void SerializationUtilsTest::testCase_SerializeObjectTextArch()
 	std::vector<unsigned int> vec{1, 2, 3, 4, 5};
 	objectIn.George(vec);
 	char_vector_t charVector;
-	charVector = ToCharVector<MyObject, boost_arch::text_oarchive>(objectIn);
-	objectOut = ToObject<MyObject, boost_arch::text_iarchive>(charVector);
+    charVector = ToCharVector<MyObject, archives::out_txt_t>(objectIn);
+    objectOut = ToObject<MyObject, archives::in_txt_t>(charVector);
 
 	QVERIFY(objectOut == objectIn);
 }
@@ -128,8 +128,8 @@ void SerializationUtilsTest::testCase_SerializeObjectXmlArch()
 	std::vector<unsigned int> vec{1, 2, 3, 4, 5};
 	objectIn.George(vec);
 	char_vector_t charVector;
-	charVector = ToCharVector<MyObject, boost_arch::xml_oarchive>(objectIn);
-	objectOut = ToObject<MyObject, boost_arch::xml_iarchive>(charVector);
+    charVector = ToCharVector<MyObject, archives::out_xml_t>(objectIn);
+    objectOut = ToObject<MyObject, archives::in_xml_t>(charVector);
 
 	QVERIFY(objectOut == objectIn);
 }
