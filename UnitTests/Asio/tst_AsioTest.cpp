@@ -176,7 +176,8 @@ private:
 	}
 };
 
-class MessageDispatcher
+template <typename T, typename A>
+class TMessageDispatcher
 {
 public:
 	void DispatchMessage(default_received_message_ptr_t message)
@@ -187,7 +188,7 @@ public:
 
 			if (!message->body.empty())
 			{
-				m_myMessage = ToObject<MyMessage>(message->body);
+                m_myMessage = core_lib::serialize::ToObject<T, A>(message->body);
 			}
 		}
 
@@ -199,12 +200,12 @@ public:
 		return m_messageEvent.WaitForTime(milliseconds);
 	}
 
-	const MessageHeader& Header() const
+    const MessageHeader& Header() const
 	{
 		return m_header;
 	}
 
-	const MyMessage& Message() const
+    const T& Message() const
 	{
 		return m_myMessage;
 	}
@@ -212,8 +213,10 @@ public:
 private:
 	SyncEvent m_messageEvent;
 	MessageHeader m_header;
-	MyMessage m_myMessage;
+    T m_myMessage;
 };
+
+typedef TMessageDispatcher<MyMessage, core_lib::serialize::archives::in_port_bin_t> MessageDispatcher;
 
 #pragma pack(push, 1)
 struct MyPodMessage
@@ -235,44 +238,7 @@ MyPodMessage PodMessageFactory()
     return message;
 }
 
-class PodMessageDispatcher
-{
-public:
-    void DispatchMessage(default_received_message_ptr_t message)
-    {
-        if (message->header.messageId == 666)
-        {
-            m_header = message->header;
-
-            if (!message->body.empty())
-            {
-                memcpy(&m_myMessage, message->body.data(), message->body.size());
-            }
-        }
-
-        m_messageEvent.Signal();
-    }
-
-    bool WaitForMessage(const size_t milliseconds)
-    {
-        return m_messageEvent.WaitForTime(milliseconds);
-    }
-
-    const MessageHeader& Header() const
-    {
-        return m_header;
-    }
-
-    const MyPodMessage& Message() const
-    {
-        return m_myMessage;
-    }
-
-private:
-    SyncEvent m_messageEvent;
-    MessageHeader m_header;
-    MyPodMessage m_myMessage;
-};
+typedef TMessageDispatcher<MyPodMessage, core_lib::serialize::archives::in_raw_t> PodMessageDispatcher;
 
 // ****************************************************************************
 // Unit test wrapper

@@ -92,19 +92,19 @@ struct ToCharVectorImpl<T, archives::out_raw_t>
 {
     char_vector_t operator()(const T& object) const
     {
-        char_vector_t messageBuffer;
+        char_vector_t charVector;
 
         if (!std::is_pod<T>::value)
         {
-            return messageBuffer;
+            return charVector;
         }
 
         const char* begin = reinterpret_cast<const char*>(&object);
         const char* end = begin + sizeof(T);
 
-        std::copy(begin, end, std::back_inserter(messageBuffer));
+        std::copy(begin, end, std::back_inserter(charVector));
 
-        return messageBuffer;
+        return charVector;
     }
 };
 

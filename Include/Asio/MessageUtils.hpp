@@ -34,7 +34,6 @@
 #include <iterator>
 #include <algorithm>
 #include <cstring>
-#include <type_traits>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -152,6 +151,62 @@ auto FillHeader(const std::string& magicString, const defs::eArchiveType archive
                 , const uint32_t messageId, const defs::connection_t& responseAddress)
          -> defs::MessageHeader;
 
+/*! \brief Archive type enumerators using template specialization. */
+template<typename A>
+struct ArchiveTypeToEnum
+{
+    defs::eArchiveType Enumerate() const
+    {
+        BOOST_THROW_EXCEPTION(xArchiveTypeError("unknown archive type"));
+        return defs::eArchiveType::raw;
+    }
+};
+
+template<>
+struct ArchiveTypeToEnum<serialize::archives::out_bin_t>
+{
+    defs::eArchiveType Enumerate() const
+    {
+        return defs::eArchiveType::binary;
+    }
+};
+
+template<>
+struct ArchiveTypeToEnum<serialize::archives::out_port_bin_t>
+{
+    defs::eArchiveType Enumerate() const
+    {
+        return defs::eArchiveType::portableBinary;
+    }
+};
+
+template<>
+struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
+{
+    defs::eArchiveType Enumerate() const
+    {
+        return defs::eArchiveType::raw;
+    }
+};
+
+template<>
+struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
+{
+    defs::eArchiveType Enumerate() const
+    {
+        return defs::eArchiveType::text;
+    }
+};
+
+template<>
+struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
+{
+    defs::eArchiveType Enumerate() const
+    {
+        return defs::eArchiveType::xml;
+    }
+};
+
 class MessageBuilder final
 {
 public:
@@ -170,32 +225,7 @@ public:
                , const uint32_t messageId
                , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
     {
-        defs::eArchiveType archiveType;
-
-        if (std::is_same<A, serialize::archives::out_bin_t>::value)
-        {
-            archiveType = defs::eArchiveType::binary;
-        }
-        else if (std::is_same<A, serialize::archives::out_port_bin_t>::value)
-        {
-            archiveType = defs::eArchiveType::portableBinary;
-        }
-        else if (std::is_same<A, serialize::archives::out_raw_t>::value)
-        {
-            archiveType = defs::eArchiveType::raw;
-        }
-        else if (std::is_same<A, serialize::archives::out_txt_t>::value)
-        {
-            archiveType = defs::eArchiveType::text;
-        }
-        else if (std::is_same<A, serialize::archives::out_xml_t>::value)
-        {
-            archiveType = defs::eArchiveType::xml;
-        }
-        else
-        {
-            BOOST_THROW_EXCEPTION(xArchiveTypeError("unknown archive type"));
-        }
+        const defs::eArchiveType archiveType = ArchiveTypeToEnum<A>().Enumerate();
 
         auto header = FillHeader(m_magicString, archiveType, messageId, responseAddress);
         serialize::char_vector_t body
