@@ -73,7 +73,7 @@ public:
 	bool SendMessage(const uint32_t messageId
 					 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        return m_udpSender.SendMessage(m_messageBuilder(messageId, responseAddress));
+        return m_udpSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
 	}
 
     template <typename T, class A = serialize::archives::out_port_bin_t>
@@ -81,7 +81,7 @@ public:
                      , const uint32_t messageId
 					 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        return m_udpSender.SendMessage(m_messageBuilder<T, A>(message, messageId, responseAddress));
+        return m_udpSender.SendMessage(m_messageBuilder.template Build<T, A>(message, messageId, responseAddress));
 	}
 
 private:

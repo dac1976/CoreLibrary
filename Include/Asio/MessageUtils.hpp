@@ -162,11 +162,11 @@ public:
     MessageBuilder(const MessageBuilder& ) = delete;
     MessageBuilder& operator=(const MessageBuilder& ) = delete;
 
-    auto operator()(const uint32_t messageId
+    auto Build(const uint32_t messageId
                , const defs::connection_t& responseAddress) const -> defs::char_buffer_t;
 
     template<typename T, typename A>
-    auto operator()(const T& message
+    auto Build(const T& message
                , const uint32_t messageId
                , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
     {

@@ -171,7 +171,7 @@ MessageBuilder::MessageBuilder(const std::string& magicString)
 {
 }
 
-auto MessageBuilder::operator()(const uint32_t messageId
+auto MessageBuilder::Build(const uint32_t messageId
                            , const defs::connection_t& responseAddress) const
     -> defs::char_buffer_t
 {

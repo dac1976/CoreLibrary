@@ -71,6 +71,7 @@ typedef raw_iarchive                in_raw_t;
 namespace impl
 {
 
+/*! \brief Serialization to char vector impl. */
 template <typename T, typename A>
 struct ToCharVectorImpl
 {
@@ -85,6 +86,7 @@ struct ToCharVectorImpl
     }
 };
 
+/*! \brief Serialization to char vector impl, specialization for POD. */
 template <typename T>
 struct ToCharVectorImpl<T, archives::out_raw_t>
 {
@@ -106,6 +108,7 @@ struct ToCharVectorImpl<T, archives::out_raw_t>
     }
 };
 
+/*! \brief Deserialization to object impl. */
 template <typename T, typename A>
 struct ToObjectImpl
 {
@@ -120,6 +123,7 @@ struct ToObjectImpl
     }
 };
 
+/*! \brief Deserialization to object impl, specialization for POD. */
 template <typename T>
 struct ToObjectImpl<T, archives::in_raw_t>
 {

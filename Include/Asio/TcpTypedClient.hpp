@@ -130,7 +130,7 @@ private:
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-        return m_messageBuilder(messageId, responseConn);
+        return m_messageBuilder.Build(messageId, responseConn);
 	}
 
     template<typename T, typename A>
@@ -142,7 +142,7 @@ private:
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetClientDetailsForServer()
 							: responseAddress;
-        return m_messageBuilder<T,A>(message, messageId, responseConn);
+        return m_messageBuilder.template Build<T,A>(message, messageId, responseConn);
 	}
 };
 
