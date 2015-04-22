@@ -1,2 +1,3 @@
 INCLUDEPATH += D:/Projects/ThirdParty/eos_portable_archive \
-               D:/Projects/ThirdParty/boost/include
+               D:/Projects/ThirdParty/boost/include        \
+			   D:/Projects/ThirdParty/tuple_serialization

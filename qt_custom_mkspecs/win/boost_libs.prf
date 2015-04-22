@@ -4,14 +4,14 @@ LIBS += -lws2_32 -lmswsock
 
 CONFIG(debug, debug|release) {
   LIBS += -LD:/Projects/ThirdParty/boost/lib/lib-mingw-32 \
-          -llibboost_filesystem-mgw48-d-1_57 \
-          -llibboost_system-mgw48-d-1_57 \
-		  -llibboost_serialization-mgw48-d-1_57 \
-		  -llibboost_program_options-mgw48-d-1_57
+          -llibboost_filesystem-mgw49-d-1_58 \
+          -llibboost_system-mgw49-d-1_58 \
+		  -llibboost_serialization-mgw49-d-1_58 \
+		  -llibboost_program_options-mgw49-d-1_58
 } else {
   LIBS += -LD:/Projects/ThirdParty/boost/lib/lib-mingw-32 \
-          -llibboost_filesystem-mgw48-1_57 \
-          -llibboost_system-mgw48-1_57 \
-		  -llibboost_serialization-mgw48-1_57 \
-		  -llibboost_program_options-mgw48-1_57
+          -llibboost_filesystem-mgw49-1_58 \
+          -llibboost_system-mgw49-1_58 \
+		  -llibboost_serialization-mgw49-1_58 \
+		  -llibboost_program_options-mgw49-1_58
 }
