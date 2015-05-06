@@ -50,13 +50,13 @@ template<typename T>
 class BoundedBuffer final
 {
 public:
-	/*! \brief Typedef for containter type. */
+	/*! \brief Typedef for container type. */
 	typedef boost::circular_buffer<T> container_type;
-	/*! \brief Typedef for containter size type. */
+	/*! \brief Typedef for container size type. */
 	typedef typename container_type::size_type size_type;
-	/*! \brief Typedef for containter value type. */
+	/*! \brief Typedef for container value type. */
 	typedef typename container_type::value_type value_type;
-	/*! \brief Typedef for containter param type. */
+	/*! \brief Typedef for container param type. */
 	typedef typename boost::call_traits<value_type>::param_type param_type;
 	/*!
 	 * \brief Constructor.
