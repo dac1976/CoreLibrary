@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <utility>
 #include <memory>
+#include <functional>
 #include <type_traits>
 #include "boost/call_traits.hpp"
 #include "ConcurrentQueue.hpp" // for exceptions
@@ -41,24 +42,6 @@ namespace core_lib {
 /*! \brief The threads namespace. */
 namespace threads {
  
-/*!
- * \brief Default deleter for queue item.
- *
- * This does nothing and assumes the item is managed elsewhere.
- */
-struct DefaultDeleter
-{
-	/*!
-	 * \brief Function operator.	
-	 * \param[in] p - Item to delete.
-	 */
-    template <typename T>
-	void operator()(T* p)
-	{
-		(void*)p;
-	}
-};
-
 /*!
  * \brief Single item deleter for queue item.
  *
@@ -70,8 +53,8 @@ struct SingleItemDeleter
 	 * \brief Function operator.	 
 	 * \param[in] p - Item to delete.
 	 */
-    template <typename T>
-	void operator()(T* p)
+    template <typename P>
+    void operator()(P* p) const
 	{
 		delete p;
 	}
@@ -88,8 +71,8 @@ struct ArrayDeleter
 	 * \brief Function operator.	 
 	 * \param[in] p - Item to delete.
 	 */
-    template <typename T>
-	void operator()(T* p)
+    template <typename P>
+    void operator()(P* p) const
 	{
 		delete[] p;
 	}
@@ -101,35 +84,11 @@ struct ArrayDeleter
  * This class implements a fully thread-safe queue, that can be
  * used as single/multiple producer and single/multiple consumer,
  * in any combination. 
- *
- * This class is templated and takes a type for the queue item 
- * and a type for the deleter. The deleter type must be for a 
- * function object with following design:
- *
- *     struct MyDeleter
- *     {
- *         template<typename T> 
- *         void operator()(T* p)
- *         {
- *             // Delete p using appropriate technique.
- *         }
- *     };
  */
-template<typename T, class D = DefaultDeleter>
+template<typename T>
 class ConcurrentQueue2 final
 {
 public:
-	/*! \brief Typedef for deleter type. */
-	typedef D deleter_type;
-	/*! \brief Typedef for container type. */
-	typedef std::deque<T> container_type;
-	/*! \brief Typedef for container size type. */
-	typedef typename container_type::size_type size_type;
-	/*! \brief Typedef for container value type. */
-	typedef typename container_type::value_type value_type;
-	/*! \brief Typedef for container param type. */
-	typedef typename boost::call_traits<value_type>::param_type param_type;
-	
 	/*!
 	 * \brief Default constructor.
 	 */
@@ -148,7 +107,7 @@ public:
 	 * \brief Size of the queue.
 	 * \return The number of items on the queue.
 	 */
-	size_t Size() const
+    size_t Size() const
 	{
 		std::lock_guard<std::mutex> lock{m_mutex};
 		return m_queue.size();
@@ -161,20 +120,59 @@ public:
 	{
 		std::lock_guard<std::mutex> lock{m_mutex};
 		return m_queue.empty();
-	}
+	}    
+    /*! \brief Typedef for Push method param type. */
+    typedef typename boost::call_traits<T>::param_type param_type_t;
+    /*! \brief Typedef for Push method deleter type. */
+    typedef typename std::function< void(T&) > deleter_type_t;
+    typedef typename boost::call_traits<deleter_type_t>::param_type del_param_type_t;
 	/*!
 	 * \brief Push an item onto the queue.
-	 * \param[in] item - object of type T to push onto queue.
-	 */
-	void Push(param_type item)
+     * \param[in] item - Object of type T to push onto queue.
+     * \param[in] deleter - Deleter for item.
+     *
+     * This method takes a template argument to control the deleter
+     * function object required to tidy up queue items of type T.
+     * This is only required when T is equivalent to an unmanaged raw
+     * pointer type., e.g. T is an int*.
+     *
+     * A valid deleter will have the following form.
+     *
+     *   struct Deleter
+     *   {
+     *       template <typename P>
+     *       void operator()(P* p)
+     *       {
+     *           delete p;
+     *       }
+     *   };
+     *
+     * This header includes definitions of 2 usable deleter function
+     * objects SingleItemDeleter and ArrayDeleter. This can be passed
+     * as the deleter in this method if appropriate, else the caller
+     * should use the default argument which is suitable for when T
+     * is a managed typed such as an RAII class or smart pointer.
+     */
+    void Push(param_type_t item, del_param_type_t deleter)
 	{
 		{
 			std::lock_guard<std::mutex> lock{m_mutex};
-			m_queue.push_back(std::move(item));
+            m_queue.emplace_back(item, deleter);
 		}
 
 		m_itemEvent.Signal();
 	}
+    /*!
+     * \brief Push an item onto the queue.
+     * \param[in] item - Object of type T to push onto queue.
+     *
+     * This versio nis when T is a managed type such as an RAII
+     * object or smart pointer.
+     */
+    void Push(param_type_t item)
+    {
+        Push(item, deleter_type_t());
+    }
 	/*!
 	 * \brief Break out of waiting on a Pop method.
 	 *
@@ -185,106 +183,196 @@ public:
 	{
 		m_itemEvent.Signal();
 	}
-	/*!
+    /*!
 	 * \brief Pop an item off the queue if there are any else wait.
 	 * \param[out] item - The popped item, only valid if returns true.
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 * \return True if item popped off queue, false otherwise.
 	 *
 	 * Method will block forever or until an item is placed on the
 	 * queue.
 	 */
-	bool Pop(value_type& item)
+    bool Pop(T& item, deleter_type_t& deleter)
 	{
 		m_itemEvent.Wait();
-		return PopNow(item);
+        return PopNow(item, deleter);
 	}
+    /*!
+     * \brief Pop an item off the queue if there are any else wait.
+     * \param[out] item - The popped item, only valid if returns true.
+     * \return True if item popped off queue, false otherwise.
+     *
+     * Method will block forever or until an item is placed on the
+     * queue.
+     */
+    bool Pop(T& item)
+    {
+        deleter_type_t deleter;
+        return Pop(item, deleter);
+    }
 	/*!
 	 * \brief Pop an item off the queue if there are any else return.
 	 * \param[out] item - The popped item, only valid if returns true.
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 * \return True if item popped off queue, false otherwise.
 	 */
-	bool TryPop(value_type& item)
+    bool TryPop(T& item, deleter_type_t& deleter)
 	{
-		return PopNow(item);
+        return PopNow(item, deleter);
 	}
+    /*!
+     * \brief Pop an item off the queue if there are any else return.
+     * \param[out] item - The popped item, only valid if returns true.
+     * \return True if item popped off queue, false otherwise.
+     */
+    bool TryPop(T& item)
+    {
+        deleter_type_t deleter;
+        return TryPop(item, deleter);
+    }
 	/*!
 	 * \brief Pop an item off the queue.
 	 * \param[out] item - The popped item.
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 *
 	 * This will throw xQueuePopQueueEmptyError if there are no items
 	 * on the queue when called.
 	 */
-	void TryPopThrow(value_type& item)
+    void TryPopThrow(T& item, deleter_type_t& deleter)
 	{
-		if (!PopNow(item))
+        if (!PopNow(item, deleter))
 		{
 			BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
 		}
 	}
+    /*!
+     * \brief Pop an item off the queue.
+     * \param[out] item - The popped item.
+     *
+     * This will throw xQueuePopQueueEmptyError if there are no items
+     * on the queue when called.
+     */
+    void TryPopThrow(T& item)
+    {
+        deleter_type_t deleter;
+        TryPopThrow(item, deleter);
+    }
 	/*!
 	 * \brief Pop an item off the queue but only wait for a given amount of time.
 	 * \param[in] timeoutMilliseconds - Amount of time to wait.
 	 * \param[out] item - The popped item, only valid if returns true.
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 * \return True if item popped successfully, false if timed out.
 	 */
-	bool TimedPop(const unsigned int timeoutMilliseconds, value_type& item)
+    bool TimedPop(const unsigned int timeoutMilliseconds, T& item
+                  , deleter_type_t& deleter)
 	{
 		bool popSuccess{false};
 
 		if (m_itemEvent.WaitForTime(timeoutMilliseconds))
 		{
-			popSuccess = PopNow(item);
+            popSuccess = PopNow(item, deleter);
 		}
 
 		return popSuccess;
 	}
+    /*!
+     * \brief Pop an item off the queue but only wait for a given amount of time.
+     * \param[in] timeoutMilliseconds - Amount of time to wait.
+     * \param[out] item - The popped item, only valid if returns true.
+     * \return True if item popped successfully, false if timed out.
+     */
+    bool TimedPop(const unsigned int timeoutMilliseconds, T& item)
+    {
+        deleter_type_t deleter;
+        return TimedPop(timeoutMilliseconds, item, deleter);
+    }
 	/*!
 	 * \brief Pop an item off the queue but only wait for a given amount of time.
 	 * \param[in] timeoutMilliseconds - Amount of time to wait.
 	 * \param[out] item - The popped item.
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 *
 	 * If no items have been put onto the queue after the specified amount to time
 	 * then a xQueuePopTimeoutError exception is throw.
 	 */
-	void TimedPopThrow(const unsigned int timeoutMilliseconds, value_type& item)
+    void TimedPopThrow(const unsigned int timeoutMilliseconds, T& item
+                       , deleter_type_t& deleter)
 	{
 		if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
 		{
 			BOOST_THROW_EXCEPTION(xQueuePopTimeoutError());
 		}
 
-		if (!PopNow(item))
+        if (!PopNow(item, deleter))
 		{
 			BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
 		}
 	}
+    /*!
+     * \brief Pop an item off the queue but only wait for a given amount of time.
+     * \param[in] timeoutMilliseconds - Amount of time to wait.
+     * \param[out] item - The popped item.
+     *
+     * If no items have been put onto the queue after the specified amount to time
+     * then a xQueuePopTimeoutError exception is throw.
+     */
+    void TimedPopThrow(const unsigned int timeoutMilliseconds, T& item)
+    {
+        deleter_type_t deleter;
+        TimedPopThrow(timeoutMilliseconds, item, deleter);
+    }
 	/*!
 	 * \brief Steal an item from the back of the queue if there are any else return.
 	 * \param[out] item - The stolen item, only valid if returns true.
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 * \return True if item stolen off queue, false otherwise.
 	 */
-	bool TrySteal(value_type& item)
+    bool TrySteal(T& item, deleter_type_t& deleter)
 	{
-		return PopNow(item, eQueueEnd::back);
+        return PopNow(item, deleter, eQueueEnd::back);
 	}
+    /*!
+     * \brief Steal an item from the back of the queue if there are any else return.
+     * \param[out] item - The stolen item, only valid if returns true.
+     * \return True if item stolen off queue, false otherwise.
+     */
+    bool TrySteal(T& item)
+    {
+        deleter_type_t deleter;
+        return TrySteal(item, deleter);
+    }
 	/*!
 	 * \brief Steal an item from the back of the queue.
 	 * \param[out] item - The stolen item.
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 *
 	 * This will throw xQueuePopQueueEmptyError if there are no items
 	 * on the queue when called.
 	 */
-	void TryStealThrow(value_type& item)
+    void TryStealThrow(T& item, deleter_type_t& deleter)
 	{
-		if (!PopNow(item, eQueueEnd::back))
+        if (!PopNow(item, deleter, eQueueEnd::back))
 		{
 			BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
 		}
 	}
+    /*!
+     * \brief Steal an item from the back of the queue.
+     * \param[out] item - The stolen item.
+     *
+     * This will throw xQueuePopQueueEmptyError if there are no items
+     * on the queue when called.
+     */
+    void TryStealThrow(T& item)
+    {
+        deleter_type_t deleter;
+        TryStealThrow(item, deleter);
+    }
 	/*!
 	 * \brief Take a peek at an item at a given index on the queue.
 	 * \param[in] index - Zero-based index of the queue item to peek at.
-	 * \return COnst pointer to item on queue being peeked at.
+     * \return Const pointer to item on queue being peeked at.
 	 *
 	 * This method returns a nullptr if the index does not exist in the queue.
 	 * The use of this method can be dangerous if there are multiple consumers.
@@ -298,7 +386,7 @@ public:
 		
 		if (!m_queue.empty() && (index < m_queue.size()))
 		{
-			const value_type& item = m_queue[index];
+            const T& item = m_queue[index].item;
 			pItem = &item;
 		}
 
@@ -318,12 +406,9 @@ public:
 	{
 		std::lock_guard<std::mutex> lock{m_mutex};
 
-		if (std::is_pointer<value_type>::value)
-		{
-			for (auto& item : m_queue)
-			{
-				m_deleter(item);
-			}
+        for (auto& qi : m_queue)
+        {
+            qi.Delete();
         }
 		
 		m_queue.clear();
@@ -331,16 +416,62 @@ public:
 	}
 
 private:
-	/*! \brief Item deleter. */
-	deleter_type m_deleter;
-	/*! \brief Null item. */
-	value_type m_nullItem;
 	/*! \brief Synchronization mutex. */
 	mutable std::mutex m_mutex;
 	/*! \brief Synchronization event. */
 	SyncEvent m_itemEvent{eNotifyType::signalOneThread
 						  , eResetCondition::manualReset
 						  , eIntialCondition::notSignalled};
+    /*! \brief QueItem wrapper object. */
+    struct QueueItem
+    {
+        T item;
+        deleter_type_t deleter;
+
+        QueueItem() = default;
+        ~QueueItem() = default;
+
+        QueueItem(param_type_t item
+                  , del_param_type_t deleter)
+            : item(item_)
+            , deleter(deleter_)
+        {
+        }
+
+        QueueItem(const QueueItem& qi)
+            : item(qi.item)
+            , deleter(qi.deleter)
+        {
+        }
+
+        QueueItem(QueueItem&& qi)
+        {
+            *this = std::move(qi);
+        }
+
+        QueueItem& operator=(const QueueItem& qi)
+        {
+            std::swap(*this, QueueItem(qi));
+            return *this;
+        }
+
+        QueueItem& operator=(QueueItem&& qi)
+        {
+            std::swap(item, qi.item);
+            std::swap(deleter, qi.deleter);
+            return *this;
+        }
+
+        void Delete()
+        {
+            if (qi.deleter)
+            {
+                qi.deleter(qi.item);
+            }
+        }
+    };
+    /*! \brief Typedef for container type. */
+    typedef std::deque<QueueItem> container_type;
 	/*! \brief Underlying deque container acting as the queue. */
 	container_type m_queue;
 
@@ -356,10 +487,11 @@ private:
 	/*!
 	 * \brief Pop an item off the queue.
 	 * \param[out] item - Item popped off queue
+     * \param[out] deleter - The popped item's deleter, only valid if returns true and if deleter not required this will be a null std::function..
 	 * \param[in] whichEnd - (Optional) Which end to pop from.
 	 * \return True if not empty, false if queue empty.
 	 */
-	bool PopNow(value_type& item
+    bool PopNow(T& item, deleter_type_t& deleter
 			    , const eQueueEnd whichEnd = eQueueEnd::front)
 	{
 		std::lock_guard<std::mutex> lock{m_mutex};
@@ -369,11 +501,11 @@ private:
 		{
 			if (whichEnd == eQueueEnd::front)
 			{
-				PopFront(item);
+                PopFront(item, deleter);
 			}
 			else
 			{
-			    PopBack(item);
+                PopBack(item, deleter);
 			}
 		}
 
@@ -388,21 +520,27 @@ private:
 
 	/*!
 	 * \brief Pop an item off the front of the queue.
-	 * \param[out] item - item popped off front.
+     * \param[out] item - Item popped off front.
+     * \param[out] deleter - The popped item's deleter.
 	 */
-	void PopFront(value_type& item)
+    void PopFront(T& item, deleter_type_t& deleter)
 	{
-		item = std::move(m_queue.front());
+        QueueItem& qi = m_queue.front();
+        item = std::move(qi.item);
+        deleter = std::move(qi.deleter);
 		m_queue.pop_front();
 	}
 
 	/*!
 	 * \brief Pop an item off the back of the queue.
-	 * \param[out] item - item popped off back.
+     * \param[out] item - Item popped off back.
+     * \param[out] deleter - The popped item's deleter.
 	 */
-	void PopBack(value_type& item)
+    void PopBack(T& item, deleter_type_t& deleter)
 	{
-		item = std::move(m_queue.back());
+        QueueItem& qi = m_queue.back();
+        item = std::move(qi.item);
+        deleter = std::move(qi.deleter);
 		m_queue.pop_back();
 	}
 };
