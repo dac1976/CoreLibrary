@@ -142,7 +142,7 @@ public:
 	 * Useful to force consumer(s) to break out
 	 * of wait on Pop etc.
 	 */
-	void BreakPop()
+	void BreakPopWait()
 	{
 		m_itemEvent.Signal();
 	}
@@ -158,6 +158,25 @@ public:
 	{
 		m_itemEvent.Wait();
         return PopNow(item);
+	}
+    /*!
+	 * \brief Pop an item off the queue if there are any else wait.
+	 * \param[out] item - The popped item, only valid if returns true.
+	 *
+	 * Method will block forever or until an item is placed on the
+	 * queue. 
+     *
+     * This will throw xQueuePopQueueEmptyError if there are no items
+	 * on the queue when called.
+	 */
+    void PopThrow(T& item)
+	{
+		m_itemEvent.Wait();
+        
+        if (!PopNow(item))
+        {
+            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
+        }
 	}
 	/*!
 	 * \brief Pop an item off the queue if there are any else return.
