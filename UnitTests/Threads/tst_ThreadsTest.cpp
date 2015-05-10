@@ -251,6 +251,11 @@ static Qt2Msg CreateQt2MsgObj(size_t size, int value)
     return Qt2Msg(size, value);
 }
 
+static Qt2Msg* CreateQt2MsgPtr(size_t size, int value)
+{
+    return new Qt2Msg(size, value);
+}
+
 template <typename T>
 class QueuedThread2 final : public core_lib::threads::ThreadBase
 {
@@ -304,7 +309,65 @@ private:
 
     virtual void ProcessTerminationConditions()
     {
-        m_queue.BreakPop();
+        m_queue.BreakPopWait();
+    }
+};
+
+class QueuedThread3 final : public core_lib::threads::ThreadBase
+{
+public:
+    QueuedThread3()
+        : ThreadBase()
+        , m_counter(0)
+    {
+        //Do this last in constructor.
+        Start();
+    }
+
+    virtual ~QueuedThread3()
+    {
+        //Do this first in destructor.
+        Stop();
+    }
+
+    size_t GetCounter() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_counter;
+    }
+
+    void Push(Qt2Msg* item)
+    {
+        m_queue.Push(std::move(item));
+    }
+
+private:
+    core_lib::threads::ConcurrentQueue2<Qt2Msg*> m_queue;
+    mutable std::mutex m_mutex;
+    size_t m_counter{};
+
+    virtual void ThreadIteration()
+    {
+        Qt2Msg* message{};
+
+        if (!m_queue.Pop(message) && message)
+        {
+            return;
+        }
+
+        delete message;
+
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_counter = m_counter == std::numeric_limits<size_t>::max()
+                        ? 0
+                        : m_counter + 1;
+        }
+    }
+
+    virtual void ProcessTerminationConditions()
+    {
+        m_queue.BreakPopWait();
     }
 };
 
@@ -532,6 +595,8 @@ private Q_SLOTS:
     void testCase_ConcurrentQueue2_1();
     void testCase_ConcurrentQueue2_2();
     void testCase_ConcurrentQueue2_3();
+    void testCase_ConcurrentQueue2_4();
+    void testCase_ConcurrentQueue2_5();
 	void testCase_BoundedBuffer1();
 	void testCase_BoundedBuffer2();
 	void testCase_BoundedBuffer3();
@@ -1128,6 +1193,24 @@ void ThreadsTest::testCase_ConcurrentQueue2_3()
     qt.Push(CreateQt2MsgObj(7, 666));
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     QVERIFY(qt.GetCounter() == 4);
+}
+
+void ThreadsTest::testCase_ConcurrentQueue2_4()
+{
+    QueuedThread3 qt;
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    QVERIFY(qt.GetCounter() == 0);
+    qt.Push(CreateQt2MsgPtr(10, 666));
+    qt.Push(CreateQt2MsgPtr(2, 666));
+    qt.Push(CreateQt2MsgPtr(5, 666));
+    qt.Push(CreateQt2MsgPtr(7, 666));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    QVERIFY(qt.GetCounter() == 4);
+}
+
+void ThreadsTest::testCase_ConcurrentQueue2_5()
+{
+
 }
 
 // ****************************************************************************
