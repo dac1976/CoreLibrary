@@ -12,7 +12,6 @@
 #include "../../Include/Threads/ThreadBase.hpp"
 #include "../../Include/Threads/ThreadGroup.hpp"
 #include "../../Include/Threads/ConcurrentQueue.hpp"
-#include "../../Include/Threads/ConcurrentQueue2.hpp"
 #include "../../Include/Threads/MessageQueueThread.hpp"
 #include "../../Include/Threads/BoundedBuffer.hpp"
 
@@ -155,112 +154,49 @@ private:
 	}
 };
 
-class QueuedThread1 final : public core_lib::threads::ThreadBase
-{
-public:
-	QueuedThread1()
-		: ThreadBase()
-		, m_counter(0)
-	{
-		//Do this last in constructor.
-		Start();
-	}
-
-	virtual ~QueuedThread1()
-	{
-		//Do this first in destructor.
-		Stop();
-	}
-
-	size_t GetCounter() const
-	{
-		std::lock_guard<std::mutex> lock(m_mutex);
-		return m_counter;
-	}
-
-	void Push(char* item, int size)
-	{
-		m_queue.Push(item, size);
-	}
-
-	void Push(char* item)
-	{
-		m_queue.Push(item);
-	}
-
-private:
-	core_lib::threads::ConcurrentQueue<char> m_queue;
-	mutable std::mutex m_mutex;
-	size_t m_counter;
-
-	virtual void ThreadIteration()
-	{
-		int size;
-		char* message = m_queue.Pop(&size);
-
-		if (message && (size != 0))
-		{
-			if (size > 0)
-				delete [] message;
-			else
-				delete message;
-
-			std::lock_guard<std::mutex> lock(m_mutex);
-			m_counter = m_counter == std::numeric_limits<size_t>::max()
-						? 0
-						: m_counter + 1;
-		}
-	}
-
-	virtual void ProcessTerminationConditions()
-	{
-		m_queue.Push();
-	}
-};
-
-struct Qt2Msg
+struct QueueMsg
 {
     std::vector<int> data;
 
-    Qt2Msg() = default;
-    ~Qt2Msg() = default;
-    Qt2Msg(const Qt2Msg& ) = default;
-    Qt2Msg(Qt2Msg&&) = default;
-    Qt2Msg& operator=(const Qt2Msg& ) = default;
-    Qt2Msg& operator=(Qt2Msg&&) = default;
+    QueueMsg() = default;
+    ~QueueMsg() = default;
+    QueueMsg(const QueueMsg& ) = default;
+    QueueMsg(QueueMsg&&) = default;
+    QueueMsg& operator=(const QueueMsg& ) = default;
+    QueueMsg& operator=(QueueMsg&&) = default;
 
-    Qt2Msg(size_t size, int value)
+    QueueMsg(size_t size, int value)
         : data(size, value)
     {
     }
 };
 
-static std::shared_ptr<Qt2Msg> CreateQt2Msg(size_t size, int value)
+static std::shared_ptr<QueueMsg> CreateQueueMsg(size_t size, int value)
 {
-    return std::make_shared<Qt2Msg>(size, value);
+    return std::make_shared<QueueMsg>(size, value);
 }
 
-static std::shared_ptr<char> CreateQt2ArrayMsg(size_t size)
+static std::shared_ptr<char> CreateQueueArrayMsg(size_t size)
 {
     return std::shared_ptr<char>(new char[size]
                                  , core_lib::threads::ArrayDeleter<char>());
 }
 
-static Qt2Msg CreateQt2MsgObj(size_t size, int value)
+static QueueMsg CreateQueueMsgObj(size_t size, int value)
 {
-    return Qt2Msg(size, value);
+    return QueueMsg(size, value);
 }
 
-static Qt2Msg* CreateQt2MsgPtr(size_t size, int value)
+static QueueMsg* CreateQueueMsgPtr(size_t size, int value)
 {
-    return new Qt2Msg(size, value);
+    return new QueueMsg(size, value);
 }
 
 template <typename T>
-class QueuedThread2 final : public core_lib::threads::ThreadBase
+class QueuedThread1 final : public core_lib::threads::ThreadBase
 {
 public:
-    QueuedThread2()
+    QueuedThread1()
         : ThreadBase()
         , m_counter(0)
     {
@@ -268,7 +204,7 @@ public:
         Start();
     }
 
-    virtual ~QueuedThread2()
+    virtual ~QueuedThread1()
     {
         //Do this first in destructor.
         Stop();
@@ -286,7 +222,7 @@ public:
     }
 
 private:
-    core_lib::threads::ConcurrentQueue2<T> m_queue;
+    core_lib::threads::ConcurrentQueue<T> m_queue;
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
@@ -313,10 +249,10 @@ private:
     }
 };
 
-class QueuedThread3 final : public core_lib::threads::ThreadBase
+class QueuedThread2 final : public core_lib::threads::ThreadBase
 {
 public:
-    QueuedThread3()
+    QueuedThread2()
         : ThreadBase()
         , m_counter(0)
     {
@@ -324,7 +260,7 @@ public:
         Start();
     }
 
-    virtual ~QueuedThread3()
+    virtual ~QueuedThread2()
     {
         //Do this first in destructor.
         Stop();
@@ -336,19 +272,19 @@ public:
         return m_counter;
     }
 
-    void Push(Qt2Msg* item)
+    void Push(QueueMsg* item)
     {
         m_queue.Push(std::move(item));
     }
 
 private:
-    core_lib::threads::ConcurrentQueue2<Qt2Msg*> m_queue;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> m_queue;
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
     virtual void ThreadIteration()
     {
-        Qt2Msg* message{};
+        QueueMsg* message{};
 
         if (!m_queue.Pop(message) && message)
         {
@@ -589,14 +525,12 @@ private Q_SLOTS:
 	void testCase_SyncEvent5();
 	void testCase_SyncEvent6();
 	void testCase_SyncEvent7();
-	void testCase_ThreadBase();
-	void testCase_ConcurrentQueue1();
-	void testCase_ConcurrentQueue2();
-    void testCase_ConcurrentQueue2_1();
-    void testCase_ConcurrentQueue2_2();
-    void testCase_ConcurrentQueue2_3();
-    void testCase_ConcurrentQueue2_4();
-    void testCase_ConcurrentQueue2_5();
+    void testCase_ThreadBase();
+    void testCase_ConcurrentQueue1();
+    void testCase_ConcurrentQueue2();
+    void testCase_ConcurrentQueue3();
+    void testCase_ConcurrentQueue4();
+    void testCase_ConcurrentQueue5();
 	void testCase_BoundedBuffer1();
 	void testCase_BoundedBuffer2();
 	void testCase_BoundedBuffer3();
@@ -947,270 +881,246 @@ void ThreadsTest::testCase_ThreadBase()
 // ****************************************************************************
 // ConcurrentQueue tests
 // ****************************************************************************
-static char* CreateCharArray(const size_t size, const char defValue = 'A')
-{
-	char* carr = new char[size];
-	std::fill(carr, carr + size, defValue);
-	return carr;
-}
-
-static char* CreateChar(const char defValue = 'A')
-{
-	char* ch = new char;
-	*ch = defValue;
-	return ch;
-}
-
 
 void ThreadsTest::testCase_ConcurrentQueue1()
 {
-	QueuedThread1 qt;
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	QVERIFY(qt.GetCounter() == 0);
-	qt.Push(CreateCharArray(10), 10);
-	qt.Push(CreateCharArray(5), 5);
-	qt.Push(CreateCharArray(1), 1);
-	qt.Push(CreateChar());
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	QVERIFY(qt.GetCounter() == 4);
-}
-
-static bool CheckArray(const char* array, const size_t size, const char compChar = 'A')
-{
-	return std::all_of(array, array + size, [compChar](const char ch){return ch == compChar;});
+    QueuedThread1< std::shared_ptr<QueueMsg> > qt;
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    QVERIFY(qt.GetCounter() == 0);
+    qt.Push(CreateQueueMsg(10, 666));
+    qt.Push(CreateQueueMsg(2, 666));
+    qt.Push(CreateQueueMsg(5, 666));
+    qt.Push(CreateQueueMsg(7, 666));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    QVERIFY(qt.GetCounter() == 4);
 }
 
 void ThreadsTest::testCase_ConcurrentQueue2()
 {
-	core_lib::threads::ConcurrentQueue<char> m_queue;
-	QVERIFY(m_queue.Empty());
-	m_queue.Push(CreateCharArray(2), 2);
-	m_queue.Push(CreateCharArray(3), 3);
-	m_queue.Push(CreateCharArray(4), 4);
-	m_queue.Push();
-	QVERIFY(m_queue.Size() == 4);
-
-	int size;
-	const char* ctemp = m_queue.Peek(0, &size);
-	QVERIFY(ctemp != nullptr);
-	QVERIFY(size == 2);
-	QVERIFY(CheckArray(ctemp, size));
-	ctemp = m_queue.Peek(1, &size);
-	QVERIFY(ctemp != nullptr);
-	QVERIFY(size == 3);
-	QVERIFY(CheckArray(ctemp, size));
-	ctemp = m_queue.Peek(2, &size);
-	QVERIFY(ctemp != nullptr);
-	QVERIFY(size =  4);
-	QVERIFY(CheckArray(ctemp, size));
-	ctemp = m_queue.Peek(3, &size);
-	QVERIFY(ctemp == nullptr);
-	QVERIFY(size == 0);
-	QVERIFY(!m_queue.Empty());
-
-	char* temp = nullptr;
-	QVERIFY(m_queue.TimedPop(100, temp, &size));
-	QVERIFY(temp != nullptr);
-	QVERIFY(size == 2);
-	QVERIFY(CheckArray(temp, size));
-	delete [] temp;
-	QVERIFY(m_queue.TimedPop(100, temp, &size));
-	QVERIFY(temp != nullptr);
-	QVERIFY(size == 3);
-	QVERIFY(CheckArray(temp, size));
-	delete [] temp;
-	QVERIFY(m_queue.TimedPop(100, temp, &size));
-	QVERIFY(temp != nullptr);
-	QVERIFY(size == 4);
-	QVERIFY(CheckArray(temp, size));
-	delete [] temp;
-	QVERIFY(m_queue.TimedPop(100, temp, &size));
-	QVERIFY(temp == nullptr);
-	QVERIFY(size == 0);
-	QVERIFY(m_queue.Empty());
-	QVERIFY(m_queue.Size() == 0);
-	QVERIFY(!m_queue.TimedPop(100, temp, &size));
-
-	bool correctException;
-
-	try
-	{
-		temp = m_queue.TimedPopThrow(100,&size);
-		(void)temp;
-		correctException = false;
-	}
-	catch(core_lib::threads::xQueuePopTimeoutError&)
-	{
-		correctException = true;
-	}
-	catch(...)
-	{
-		correctException = false;
-	}
-
-	QVERIFY(correctException);
-
-	m_queue.Push(CreateCharArray(2), 2);
-	QVERIFY(m_queue.TryPop(temp, &size));
-	QVERIFY(temp != nullptr);
-	QVERIFY(size == 2);
-	QVERIFY(CheckArray(temp, size));
-	delete [] temp;
-
-	QVERIFY(!m_queue.TryPop(temp, &size));
-	QVERIFY(temp == nullptr);
-	QVERIFY(size == 0);
-
-	m_queue.Push(CreateCharArray(2), 2);
-
-	try
-	{
-		temp = m_queue.TryPopThrow(&size);
-		correctException = false;
-		QVERIFY(temp != nullptr);
-		QVERIFY(size == 2);
-		QVERIFY(CheckArray(temp, size));
-		delete [] temp;
-	}
-	catch(core_lib::threads::xQueuePopTimeoutError&)
-	{
-		correctException = true;
-	}
-	catch(...)
-	{
-		correctException = false;
-	}
-
-	QVERIFY(!correctException);
-
-	try
-	{
-		temp = m_queue.TryPopThrow(&size);
-		delete [] temp;
-		correctException = false;
-	}
-	catch(core_lib::threads::xQueuePopQueueEmptyError&)
-	{
-		correctException = true;
-	}
-	catch(...)
-	{
-		correctException = false;
-	}
-
-	QVERIFY(correctException);
-
-	m_queue.Push(CreateCharArray(2), 2);
-	m_queue.Push(CreateCharArray(4), 4);
-	QVERIFY(m_queue.TrySteal(temp, &size));
-	QVERIFY(temp != nullptr);
-	QVERIFY(size == 4);
-	QVERIFY(CheckArray(temp, size));
-	delete [] temp;
-	m_queue.Clear();
-
-	QVERIFY(!m_queue.TrySteal(temp, &size));
-	QVERIFY(temp == nullptr);
-	QVERIFY(size == 0);
-
-	m_queue.Push(CreateCharArray(2), 2);
-	m_queue.Push(CreateCharArray(4), 4);
-
-	try
-	{
-		temp = m_queue.TryStealThrow(&size);
-		correctException = false;
-		QVERIFY(temp != nullptr);
-		QVERIFY(size == 4);
-		QVERIFY(CheckArray(temp, size));
-		delete [] temp;
-	}
-	catch(core_lib::threads::xQueuePopTimeoutError&)
-	{
-		correctException = true;
-	}
-	catch(...)
-	{
-		correctException = false;
-	}
-
-	QVERIFY(!correctException);
-	m_queue.Clear();
-
-	try
-	{
-		temp = m_queue.TryStealThrow(&size);
-		delete [] temp;
-		correctException = false;
-	}
-	catch(core_lib::threads::xQueuePopQueueEmptyError&)
-	{
-		correctException = true;
-	}
-	catch(...)
-	{
-		correctException = false;
-	}
-
-	QVERIFY(correctException);
-}
-
-
-void ThreadsTest::testCase_ConcurrentQueue2_1()
-{
-    QueuedThread2< std::shared_ptr<Qt2Msg> > qt;
+    QueuedThread1< std::shared_ptr<char> > qt;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     QVERIFY(qt.GetCounter() == 0);
-    qt.Push(CreateQt2Msg(10, 666));
-    qt.Push(CreateQt2Msg(2, 666));
-    qt.Push(CreateQt2Msg(5, 666));
-    qt.Push(CreateQt2Msg(7, 666));
+    qt.Push(CreateQueueArrayMsg(10));
+    qt.Push(CreateQueueArrayMsg(2));
+    qt.Push(CreateQueueArrayMsg(5));
+    qt.Push(CreateQueueArrayMsg(7));
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     QVERIFY(qt.GetCounter() == 4);
 }
 
-void ThreadsTest::testCase_ConcurrentQueue2_2()
+void ThreadsTest::testCase_ConcurrentQueue3()
 {
-    QueuedThread2< std::shared_ptr<char> > qt;
+    QueuedThread1< QueueMsg > qt;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     QVERIFY(qt.GetCounter() == 0);
-    qt.Push(CreateQt2ArrayMsg(10));
-    qt.Push(CreateQt2ArrayMsg(2));
-    qt.Push(CreateQt2ArrayMsg(5));
-    qt.Push(CreateQt2ArrayMsg(7));
+    qt.Push(CreateQueueMsgObj(10, 666));
+    qt.Push(CreateQueueMsgObj(2, 666));
+    qt.Push(CreateQueueMsgObj(5, 666));
+    qt.Push(CreateQueueMsgObj(7, 666));
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     QVERIFY(qt.GetCounter() == 4);
 }
 
-void ThreadsTest::testCase_ConcurrentQueue2_3()
+void ThreadsTest::testCase_ConcurrentQueue4()
 {
-    QueuedThread2< Qt2Msg > qt;
+    QueuedThread2 qt;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     QVERIFY(qt.GetCounter() == 0);
-    qt.Push(CreateQt2MsgObj(10, 666));
-    qt.Push(CreateQt2MsgObj(2, 666));
-    qt.Push(CreateQt2MsgObj(5, 666));
-    qt.Push(CreateQt2MsgObj(7, 666));
+    qt.Push(CreateQueueMsgPtr(10, 666));
+    qt.Push(CreateQueueMsgPtr(2, 666));
+    qt.Push(CreateQueueMsgPtr(5, 666));
+    qt.Push(CreateQueueMsgPtr(7, 666));
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     QVERIFY(qt.GetCounter() == 4);
 }
 
-void ThreadsTest::testCase_ConcurrentQueue2_4()
+static bool CheckQueueMsg(const QueueMsg& msg, const int compValue = 666)
 {
-    QueuedThread3 qt;
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    QVERIFY(qt.GetCounter() == 0);
-    qt.Push(CreateQt2MsgPtr(10, 666));
-    qt.Push(CreateQt2MsgPtr(2, 666));
-    qt.Push(CreateQt2MsgPtr(5, 666));
-    qt.Push(CreateQt2MsgPtr(7, 666));
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    QVERIFY(qt.GetCounter() == 4);
+
+    return std::all_of(msg.data.begin(), msg.data.end()
+                       , [compValue](const int value){return value == compValue;});
 }
 
-void ThreadsTest::testCase_ConcurrentQueue2_5()
+void ThreadsTest::testCase_ConcurrentQueue5()
 {
+    core_lib::threads::ConcurrentQueue< std::shared_ptr<QueueMsg> > m_queue;
+    QVERIFY(m_queue.Empty());
+    m_queue.Push(CreateQueueMsg(2, 666));
+    m_queue.Push(CreateQueueMsg(3, 666));
+    m_queue.Push(CreateQueueMsg(4, 666));
+    QVERIFY(m_queue.Size() == 3);
 
+    const std::shared_ptr<QueueMsg>* pTempPtr = m_queue.Peek(0);
+
+    QVERIFY(pTempPtr != nullptr);
+    QVERIFY((*pTempPtr)->data.size() == 2);
+    QVERIFY(CheckQueueMsg(*(*pTempPtr), 666));
+    pTempPtr = m_queue.Peek(1);
+    QVERIFY(pTempPtr != nullptr);
+    QVERIFY((*pTempPtr)->data.size() == 3);
+    QVERIFY(CheckQueueMsg(*(*pTempPtr), 666));
+    pTempPtr = m_queue.Peek(2);
+    QVERIFY(pTempPtr != nullptr);
+    QVERIFY((*pTempPtr)->data.size() ==  4);
+    QVERIFY(CheckQueueMsg(*(*pTempPtr), 666));
+
+    std::shared_ptr<QueueMsg> tempPtr;
+
+    QVERIFY(m_queue.Pop(tempPtr));
+    QVERIFY(tempPtr->data.size() == 2);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+
+    QVERIFY(m_queue.Pop(tempPtr));
+    QVERIFY(tempPtr->data.size() == 3);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+
+    bool correctException;
+
+    try
+    {
+        m_queue.PopThrow(tempPtr);
+        correctException = true;
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+    QVERIFY(tempPtr->data.size() == 4);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+
+    try
+    {
+        m_queue.BreakPopWait();
+        m_queue.PopThrow(tempPtr);
+        correctException = false;
+    }
+    catch(...)
+    {
+        correctException = true;
+    }
+
+    QVERIFY(correctException);
+
+    QVERIFY(m_queue.Empty());
+    m_queue.Push(CreateQueueMsg(2, 666));
+    m_queue.Push(CreateQueueMsg(3, 666));
+    m_queue.Push(CreateQueueMsg(4, 666));
+    QVERIFY(m_queue.Size() == 3);
+
+    QVERIFY(m_queue.TimedPop(100, tempPtr));
+    QVERIFY(tempPtr->data.size() == 2);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+    QVERIFY(m_queue.TimedPop(100, tempPtr));
+    QVERIFY(tempPtr->data.size() == 3);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+    QVERIFY(m_queue.TimedPop(100, tempPtr));
+    QVERIFY(tempPtr->data.size() == 4);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+
+    try
+    {
+        m_queue.TimedPopThrow(100, tempPtr);
+        correctException = false;
+    }
+    catch(core_lib::threads::xQueuePopTimeoutError&)
+    {
+        correctException = true;
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+
+    QVERIFY(m_queue.Empty());
+    m_queue.Push(CreateQueueMsg(2, 666));
+
+    QVERIFY(m_queue.TryPop(tempPtr));
+    QVERIFY(tempPtr->data.size() == 2);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+    QVERIFY(!m_queue.TryPop(tempPtr));
+
+    QVERIFY(m_queue.Empty());
+    m_queue.Push(CreateQueueMsg(2, 666));
+
+    try
+    {
+        m_queue.TryPopThrow(tempPtr);
+        correctException = true;
+        QVERIFY(tempPtr->data.size() == 2);
+        QVERIFY(CheckQueueMsg(*tempPtr, 666));
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+
+    try
+    {
+        m_queue.TryPopThrow(tempPtr);
+        correctException = false;
+    }
+    catch(core_lib::threads::xQueuePopQueueEmptyError&)
+    {
+        correctException = true;
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+
+    QVERIFY(m_queue.Empty());
+    m_queue.Push(CreateQueueMsg(2, 666));
+    m_queue.Push(CreateQueueMsg(4, 666));
+
+    QVERIFY(m_queue.TrySteal(tempPtr));
+    QVERIFY(tempPtr->data.size() == 4);
+    QVERIFY(CheckQueueMsg(*tempPtr, 666));
+    m_queue.Clear();
+
+    QVERIFY(!m_queue.TrySteal(tempPtr));
+
+    QVERIFY(m_queue.Empty());
+    m_queue.Push(CreateQueueMsg(2, 666));
+    m_queue.Push(CreateQueueMsg(4, 666));
+
+    try
+    {
+        QVERIFY(m_queue.TrySteal(tempPtr));
+        QVERIFY(tempPtr->data.size() == 4);
+        QVERIFY(CheckQueueMsg(*tempPtr, 666));
+        correctException = true;
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
+    m_queue.Clear();
+
+    try
+    {
+        m_queue.TryStealThrow(tempPtr);
+        correctException = false;
+    }
+    catch(core_lib::threads::xQueuePopQueueEmptyError&)
+    {
+        correctException = true;
+    }
+    catch(...)
+    {
+        correctException = false;
+    }
+
+    QVERIFY(correctException);
 }
 
 // ****************************************************************************
