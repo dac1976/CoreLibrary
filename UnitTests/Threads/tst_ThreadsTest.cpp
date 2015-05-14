@@ -440,14 +440,14 @@ public:
 
 	MessageQueueThreadTest()
 		: m_mqt(std::bind(&MessageQueueThreadTest::MessageDecoder, this
-						  , std::placeholders::_1, std::placeholders::_2))
+                          , std::placeholders::_1))
 	{
 		m_mqt.RegisterMessageHandler(M1, std::bind(&MessageQueueThreadTest::MessageHandler, this
-												 , std::placeholders::_1, std::placeholders::_2));
+                                                 , std::placeholders::_1));
 		m_mqt.RegisterMessageHandler(M2, std::bind(&MessageQueueThreadTest::MessageHandler, this
-												 , std::placeholders::_1, std::placeholders::_2));
+                                                 , std::placeholders::_1));
 		m_mqt.RegisterMessageHandler(M3, std::bind(&MessageQueueThreadTest::MessageHandler, this
-												 , std::placeholders::_1, std::placeholders::_2));
+                                                 , std::placeholders::_1));
 		m_countMap[M1] = 0;
 		m_countMap[M2] = 0;
 		m_countMap[M3] = 0;
@@ -459,8 +459,7 @@ public:
 
 	void PushMessageId(MessageIds id)
 	{
-		Message* message = new Message(id);
-		m_mqt.Push(message);
+        m_mqt.Push(std::make_shared<Message>(id));
 	}
 
 	size_t CountMessageId(MessageIds id)
@@ -469,12 +468,13 @@ public:
 	}
 
 private:
-	core_lib::threads::MessageQueueThread<int, Message> m_mqt;
+    typedef std::shared_ptr<Message> message_t;
+    core_lib::threads::MessageQueueThread<int, message_t> m_mqt;
 	std::map<int, size_t> m_countMap;
 
-	int MessageDecoder(const Message* message, const int length)
+    int MessageDecoder(const message_t& message)
 	{
-		if (!message || (length == 0))
+        if (!message)
 		{
 			throw std::runtime_error("invalid message");
 		}
@@ -482,9 +482,9 @@ private:
 		return message->id;
 	}
 
-	bool MessageHandler(Message* message, const int length)
+    bool MessageHandler(message_t& message)
 	{
-		if (!message || (length == 0))
+        if (!message)
 		{
 			throw std::runtime_error("invalid message");
 		}

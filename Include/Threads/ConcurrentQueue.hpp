@@ -31,7 +31,6 @@
 #include <deque>
 #include <algorithm>
 #include <utility>
-#include <memory>
 #include "SyncEvent.hpp"
 #include "../Exceptions/CustomException.hpp"
 
@@ -341,13 +340,9 @@ public:
 		return pItem;
 	}
 	/*!
-	 * \brief Clear the queue.
-	 *
-	 * This method will clear the queue of its contents and calling
-	 * the deleter on each item of the queue if the queue item's 
-	 * type is a pointer type.
-	 *
-	 * The method should only be called when no threads are blocked
+     * \brief Clear the queue.
+     *
+     * The method should only be called when no threads are blocked
      * on any of the pop methods. If the queue items are unmanaged
      * e.g. raw pointers then the user should instead individually
      * pop each item off the queue and destroy it appropriately. If
@@ -436,4 +431,4 @@ private:
 } // namespace threads
 } // namespace core_lib
 
-#endif // ConcurrentQueue
+#endif // CONCURRENTQUEUE
