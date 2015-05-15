@@ -50,9 +50,9 @@ public:
 	/*! \brief Default constructor. */
 	Line() = default;
 	/*! \brief Copy constructor. */
-	Line(const Line&) = default;
+	explicit Line(const Line&) = default;
 	/*! \brief Move constructor. */
-	Line(Line&&) = default;
+	explicit Line(Line&&) = default;
 	/*! \brief Virtual destructor. */
 	virtual ~Line() = default;
 	/*! \brief Copy assignment operator. */
@@ -102,7 +102,7 @@ public:
 	/*! \brief Move constructor. */
 	CommentLine(CommentLine&&) = default;
 	/*! \brief Initialising constructor. */
-	CommentLine(const std::string& comment);
+	explicit CommentLine(const std::string& comment);
 	/*! \brief Virtual destructor. */
 	virtual ~CommentLine() = default;
 	/*! \brief Copy assignment operator. */
@@ -137,7 +137,7 @@ public:
 	/*! \brief Move constructor. */
 	SectionLine(SectionLine&&) = default;
 	/*! \brief Initialising constructor. */
-	SectionLine(const std::string& section);
+	explicit SectionLine(const std::string& section);
 	/*! \brief Virtual destructor. */
 	virtual ~SectionLine() = default;
 	/*! \brief Copy assignment operator. */

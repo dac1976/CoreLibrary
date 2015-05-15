@@ -207,6 +207,7 @@ public:
 	 *
 	 * Create the CsvGrid from the given list of rows.
 	 */
+	// cppcheck-suppress noExplicitConstructor
 	TCsvGrid(std::initializer_list<row_type> rows)
 		: m_grid{rows}
 	{

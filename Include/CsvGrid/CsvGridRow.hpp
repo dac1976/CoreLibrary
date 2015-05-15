@@ -190,6 +190,7 @@ public:
 	 *
 	 * Create the row from the given list of cells.
 	 */
+	// cppcheck-suppress noExplicitConstructor
 	TRow(std::initializer_list<T> cells)
 		: m_cells{cells}
 	{

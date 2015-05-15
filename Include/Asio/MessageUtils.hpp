@@ -211,7 +211,7 @@ class MessageBuilder final
 {
 public:
     MessageBuilder() = default;
-    MessageBuilder(const std::string& magicString);
+    explicit MessageBuilder(const std::string& magicString);
     ~MessageBuilder() = default;
 
     MessageBuilder(const MessageBuilder& ) = delete;
