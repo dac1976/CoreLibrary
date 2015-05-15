@@ -104,6 +104,16 @@
 	core_lib::log::DebugLogSingleton::Instance().Instantiate(v, p, f, s)
 
 /*!
+ * \brief Macro to gracefully delete the debug singleton.
+ *
+ * This macro should rarely need to be used and only in the case
+ * where you do not want to let the singleton manage the destruction
+ * of the debug log object.
+ */
+#define DEBUG_MESSAGE_DELETE_SINGLETON() \
+    Loki::DeletableSingleton<core_lib::log::default_log_t>::GracefulDelete()
+
+/*!
  * \brief Simple macro to simplify logging.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
  *

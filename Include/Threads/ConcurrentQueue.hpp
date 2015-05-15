@@ -142,6 +142,8 @@ struct ArrayDeleter
  * get deallocated correctly. Preferable by using RAII objects
  * or wrapping in std::shared_ptr (using a custom deallocator if
  * necessary).
+ *
+ * The template T must be to a copyable and movable type.
  */
 template<typename T>
 class ConcurrentQueue final

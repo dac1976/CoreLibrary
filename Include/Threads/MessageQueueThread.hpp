@@ -253,19 +253,21 @@ private:
      */
     void DeleteNextMessage()
     {
+        if (!m_messageDeleter)
+        {
+            return;
+        }
+
         MessageType msg{};
 
-        if (m_messageQueue.Pop(msg))
+        if (!m_messageQueue.Pop(msg))
         {
             return;
         }
 
         try
         {
-            if (m_messageDeleter)
-            {
-                m_messageDeleter(msg);
-            }
+            m_messageDeleter(msg);
         }
         catch(...)
         {

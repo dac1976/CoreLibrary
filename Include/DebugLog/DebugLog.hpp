@@ -165,7 +165,7 @@ public:
  * into a single line in the log following default
  * formatting.
  *
- * < "Date/Time" >< "Message" >< "Level" >< File = "..." >< Line = "..." >< Thread ID = "..." >
+ * "Date/Time" | "Message" | "Level" | File = "..." | Line = "..." | Thread ID = "..."
  */
 struct DefaultLogFormat
 {
@@ -327,6 +327,7 @@ class DebugLog final
 private:
 	/*! \brief Typedef defining log queue message type. */
 	typedef dl_private::LogQueueMessage log_queue_message_t;
+
 public:
 	/*!
 	 * \brief Default constructor.
@@ -473,7 +474,7 @@ public:
 		time_t messageTime;
 		time(&messageTime);
 		std::thread::id noThread;
-		m_logMsgQueueThread->Push(new log_queue_message_t(message,
+        m_logMsgQueueThread->Push(log_queue_message_t(message,
 													  messageTime,
 													  "",
 													  -1,
@@ -500,7 +501,7 @@ public:
 		{
 			time_t messageTime;
 			time(&messageTime);
-			m_logMsgQueueThread->Push(new log_queue_message_t(message,
+            m_logMsgQueueThread->Push(log_queue_message_t(message,
 														  messageTime,
 														  file,
 														  lineNo,
@@ -542,8 +543,7 @@ private:
 	std::unique_ptr<log_msg_queue>
 	m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
 													, this
-													, std::placeholders::_1
-													, std::placeholders::_2)
+                                                    , std::placeholders::_1)
 										  , threads::eOnDestroyOptions::processRemainingItems)};
 
 	/*! \brief Get the max log size. */
@@ -557,8 +557,7 @@ private:
 		m_logMsgQueueThread->RegisterMessageHandler(log_queue_message_t::MESSAGE_ID
 													, std::bind(&DebugLog::MessageHandler
 																, this
-																, std::placeholders::_1
-																, std::placeholders::_2));
+                                                                , std::placeholders::_1));
 	}
 	/*!
 	 * \brief Method to decode message ID.
@@ -566,14 +565,9 @@ private:
 	 * \param[in] length - Message length.
 	 * \return Message ID.
 	 */
-	int MessageDecoder(const log_queue_message_t* message, const int length)
+    int MessageDecoder(const log_queue_message_t& message)
 	{
-		if (!message || (length == 0))
-		{
-			BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageDecoder"));
-		}
-
-		return log_queue_message_t::MESSAGE_ID;
+        return message.MESSAGE_ID;
 	}
 	/*!
 	 * \brief Method to process message.
@@ -581,15 +575,10 @@ private:
 	 * \param[in] length - Message length.
 	 * \return LogQueueMessage reference.
 	 */
-	bool MessageHandler(log_queue_message_t* message, const int length)
+    bool MessageHandler(log_queue_message_t& message)
 	{
-		if (!message || (length == 0))
-		{
-			BOOST_THROW_EXCEPTION(xLogMsgHandlerError("invalid message in DebugLog::MessageHandler"));
-		}
-
-		CheckLogFileSize(message->Message().size());
-		WriteMessageToLog(*message);
+        CheckLogFileSize(message.Message().size());
+        WriteMessageToLog(std::forward<log_queue_message_t>(message));
 		return true;
 	}
 	/*!
@@ -668,9 +657,9 @@ private:
 			std::string message("Software Version ");
 			message += m_softwareVersion;
 			WriteMessageToLog(log_queue_message_t(message, messageTime
-											  , "", -1
-											  , noThread
-											  , eLogMessageLevel::not_defined));
+                                                  , "", -1
+                                                  , noThread
+                                                  , eLogMessageLevel::not_defined));
 		}
 	}
 	/*! \brief Close file stream. */
@@ -713,7 +702,7 @@ private:
 	}
 	/*!
 	 * \brief Write log message to file stream.
-	 * \param[in] logMessage - Log message (r-value).
+     * \param[in] logMessage - Log message, pefectly forwarded.
 	 */
 	void WriteMessageToLog(log_queue_message_t&& logMessage)
 	{
@@ -725,22 +714,7 @@ private:
 					   , logMessage.LineNo()
 					   , logMessage.ThreadID());
 		m_ofStream.flush();
-	}
-	/*!
-	 * \brief Write log message to file stream.
-	 * \param[in] logMessage - Log message (l-value).
-	 */
-	void WriteMessageToLog(const log_queue_message_t& logMessage)
-	{
-		m_logFormatter(m_ofStream
-					   , logMessage.TimeStamp()
-					   , logMessage.Message()
-					   , GetLogMsgLevelAsString(logMessage.ErrorLevel())
-					   , logMessage.File()
-					   , logMessage.LineNo()
-					   , logMessage.ThreadID());
-		m_ofStream.flush();
-	}
+    }
 };
 
 } // namespace log
