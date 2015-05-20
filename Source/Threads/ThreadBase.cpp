@@ -64,7 +64,7 @@ bool ThreadBase::IsStarted() const
 	return m_started;
 }
 
-void ThreadBase::Start()
+bool ThreadBase::Start()
 {
 	if (!IsStarted() && !IsTerminating())
 	{
@@ -73,31 +73,28 @@ void ThreadBase::Start()
 		SetThreadIdAndNativeHandle(m_thread.get_id()
 								   , m_thread.native_handle());
 	}
+
+    return IsStarted();
 }
 
-void ThreadBase::Stop()
+bool ThreadBase::Stop()
 {
 	if (IsStarted() && !IsTerminating())
 	{
-		SetTerminating(true);
-
-		try
-		{
-			ProcessTerminationConditions();
-		}
-		catch(...)
-		{
-			// Do nothing but we want to make sure we
-			// call join if required.
-		}
+		SetTerminating(true);        
+        ProcessTerminationConditions();
 
 		if (m_thread.joinable())
 		{
 			m_thread.join();
 		}
-
-		SetTerminating(false);
+        else
+        {
+            SetTerminating(false);
+        }
 	}
+
+    return !IsStarted();
 }
 
 std::thread::id ThreadBase::ThreadID() const
@@ -138,7 +135,7 @@ void ThreadBase::SleepForTime(const unsigned int milliSecs) const
 	std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));
 }
 
-void ThreadBase::ProcessTerminationConditions()
+void ThreadBase::ProcessTerminationConditions() noexcept
 {
 	// nothing required here but override in derived class
 }
@@ -168,10 +165,11 @@ void ThreadBase::Run()
 {
 	while (!IsTerminating())
 	{
-		ThreadIteration();
+        ThreadIteration();
 	}
 
 	SetStarted(false);
+    SetTerminating(false);
 }
 
 } // namespace threads

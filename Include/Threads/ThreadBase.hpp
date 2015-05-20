@@ -87,18 +87,22 @@ public:
 	 * \return Returns true if started, false otherwise.
 	 */
 	bool IsStarted() const;
-	/*! \brief Start the thread.
+    /*!
+     * \brief Start the thread.
+     * \return True if started, false otherwise.
 	 *
 	 * Typically called at the end of the derived classes
 	 * constructor.
 	 */
-	void Start();
-	/*! \brief Safely stop the thread.
+    bool Start();
+    /*!
+     * \brief Safely stop the thread.
+     * \return True if started, false otherwise.
 	 *
 	 * Typically called at the start of the derived classes
 	 * destructor.
 	 */
-	void Stop();
+    bool Stop();
 	/*!
 	 * \brief Get this thread's thread ID.
 	 * \return Returns thread ID.
@@ -143,7 +147,7 @@ protected:
 	 *
 	 * This function is called in the loop within Run();
 	 */
-	virtual void ThreadIteration() = 0;
+    virtual void ThreadIteration() noexcept = 0;
 	/*!
 	 * \brief Perform any special termination actions.
 	 *
@@ -153,7 +157,7 @@ protected:
 	 * required after the terminting flag is set but before
 	 * we call join on our underlying std::thread object.
 	 */
-	virtual void ProcessTerminationConditions();
+    virtual void ProcessTerminationConditions() noexcept;
 
 private:
 	/*! \brief Access mutex to protect private data.*/

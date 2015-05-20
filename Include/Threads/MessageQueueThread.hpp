@@ -121,7 +121,10 @@ public:
         , m_destroyOptions{destroyOptions}
         , m_messageDeleter{messageDeleter}
 	{
-		Start();
+        if (!Start())
+        {
+            BOOST_THROW_EXCEPTION(xThreadNotStartedError("ThreadBase::Start() returned false"));
+        }
 	}
 	/*! \brief Copy constructor deleted.*/
 	MessageQueueThread(const MessageQueueThread&) = delete;
@@ -200,12 +203,12 @@ private:
 	ConcurrentQueue<MessageType> m_messageQueue;
 
 	/*! \brief Execute a single iteration of the thread. */
-	virtual void ThreadIteration()
+    virtual void ThreadIteration() noexcept
 	{
 		ProcessNextMessage();
 	}
 	/*! \brief Perform any special termination actions.*/
-	virtual void ProcessTerminationConditions()
+    virtual void ProcessTerminationConditions() noexcept
 	{
 		// Make sure we break out of m_messageQueue.Pop();
         m_messageQueue.BreakPopWait();
@@ -245,7 +248,14 @@ private:
 
         if (canDeleteMsg && m_messageDeleter)
         {
-            m_messageDeleter(msg);
+            try
+            {
+                m_messageDeleter(msg);
+            }
+            catch(...)
+            {
+                // Do nothing.
+            }
         }
 	}
     /*!

@@ -133,7 +133,7 @@ private:
 	size_t m_counter;
 	bool* m_pTerminateCondition;
 
-	virtual void ThreadIteration()
+    virtual void ThreadIteration() noexcept
 	{
 		{
 			std::lock_guard<std::mutex> lock(m_mutex);
@@ -145,7 +145,7 @@ private:
 		SleepForTime(100);
 	}
 
-	virtual void ProcessTerminationConditions()
+    virtual void ProcessTerminationConditions() noexcept
 	{
 		if (m_pTerminateCondition)
 		{
@@ -226,7 +226,7 @@ private:
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
-    virtual void ThreadIteration()
+    virtual void ThreadIteration() noexcept
     {
         T message{};
 
@@ -243,7 +243,7 @@ private:
         }
     }
 
-    virtual void ProcessTerminationConditions()
+    virtual void ProcessTerminationConditions() noexcept
     {
         m_queue.BreakPopWait();
     }
@@ -282,7 +282,7 @@ private:
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
-    virtual void ThreadIteration()
+    virtual void ThreadIteration() noexcept
     {
         QueueMsg* message{};
 
@@ -301,7 +301,7 @@ private:
         }
     }
 
-    virtual void ProcessTerminationConditions()
+    virtual void ProcessTerminationConditions() noexcept
     {
         m_queue.BreakPopWait();
     }
@@ -336,7 +336,7 @@ private:
 	mutable std::mutex m_mutex;
 	bool m_blocked;
 
-	virtual void ThreadIteration()
+    virtual void ThreadIteration() noexcept
 	{
 		SetBlocked(true);
 		int temp;
@@ -344,7 +344,7 @@ private:
 		SetBlocked(false);
 	}
 
-	virtual void ProcessTerminationConditions()
+    virtual void ProcessTerminationConditions() noexcept
 	{
 		if (GetBlocked())
 		{
@@ -388,14 +388,14 @@ private:
 	mutable std::mutex m_mutex;
 	bool m_blocked;
 
-	virtual void ThreadIteration()
+    virtual void ThreadIteration() noexcept
 	{
 		SetBlocked(true);
 		m_buf.PushFront(6);
 		SetBlocked(false);
 	}
 
-	virtual void ProcessTerminationConditions()
+    virtual void ProcessTerminationConditions() noexcept
 	{
 		if (GetBlocked())
 		{
