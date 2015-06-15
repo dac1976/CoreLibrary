@@ -25,7 +25,7 @@
  * \brief File containing definition of MessageQueueThread class.
  */
 
-#include "../../Include/Threads/MessageQueueThread.hpp"
+#include "../../Include/Threads/MessageQueueThread.h"
 
 namespace core_lib {
 namespace threads {

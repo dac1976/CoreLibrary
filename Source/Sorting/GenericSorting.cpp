@@ -25,7 +25,7 @@
  * \brief File containing definitions generic sorting algorithms.
  */
 
-#include "../../Include/Sorting/GenericSorting.hpp"
+#include "../../Include/Sorting/GenericSorting.h"
 
 namespace core_lib {
 namespace sorting {

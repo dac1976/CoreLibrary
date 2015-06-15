@@ -32,7 +32,7 @@
  * \brief File containing definition of ThreadBase class.
  */
 
-#include "../../Include/Threads/ThreadBase.hpp"
+#include "../../Include/Threads/ThreadBase.h"
 #include <chrono>
 
 namespace core_lib {

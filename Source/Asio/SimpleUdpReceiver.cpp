@@ -24,7 +24,7 @@
  * \brief File containing simple UDP receiver class definition.
  */
 
-#include "../../Include/Asio/SimpleUdpReceiver.hpp"
+#include "../../Include/Asio/SimpleUdpReceiver.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

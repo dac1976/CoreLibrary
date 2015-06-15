@@ -31,28 +31,28 @@ UI_DIR = $${DESTDIR}/ui
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS +=                                                   \
-	../../../Include/Exceptions/CustomException.hpp          \
-	../../../Include/Threads/SyncEvent.hpp                   \
-	../../../Include/Threads/ThreadGroup.hpp                 \
-	../../../Include/Threads/JoinThreads.hpp                 \
-	../../../Include/Asio/IoServiceThreadGroup.hpp           \
-	../../../Include/Asio/AsioDefines.hpp                    \
-	../../../Include/Asio/MessageUtils.hpp                   \
-	../../../Include/Asio/TcpConnection.hpp                  \
-	../../../Include/Asio/TcpConnections.hpp                 \
-	../../../Include/Asio/TcpServer.hpp                      \
-	../../../Include/Asio/TcpClient.hpp                      \
-	../../../Include/Serialization/SerializationIncludes.hpp \
-	../../../Include/Serialization/SerializeToVector.hpp     \
-	../../../Include/Asio/TcpTypedClient.hpp                 \
-	../../../Include/Asio/TcpTypedServer.hpp                 \
-	../../../Include/Asio/SimpleTcpClient.hpp                \
-	../../../Include/Asio/SimpleTcpServer.hpp                \
-	../../../Include/Asio/UdpSender.hpp                      \
-	../../../Include/Asio/UdpReceiver.hpp                    \
-	../../../Include/Asio/UdpTypedSender.hpp                 \
-    ../../../Include/Asio/SimpleUdpSender.hpp                \
-    ../../../Include/Asio/SimpleUdpReceiver.hpp
+	../../../Include/Exceptions/CustomException.h          \
+	../../../Include/Threads/SyncEvent.h                   \
+	../../../Include/Threads/ThreadGroup.h                 \
+	../../../Include/Threads/JoinThreads.h                 \
+	../../../Include/Asio/IoServiceThreadGroup.h           \
+	../../../Include/Asio/AsioDefines.h                    \
+	../../../Include/Asio/MessageUtils.h                   \
+	../../../Include/Asio/TcpConnection.h                  \
+	../../../Include/Asio/TcpConnections.h                 \
+	../../../Include/Asio/TcpServer.h                      \
+	../../../Include/Asio/TcpClient.h                      \
+	../../../Include/Serialization/SerializationIncludes.h \
+	../../../Include/Serialization/SerializeToVector.h     \
+	../../../Include/Asio/TcpTypedClient.h                 \
+	../../../Include/Asio/TcpTypedServer.h                 \
+	../../../Include/Asio/SimpleTcpClient.h                \
+	../../../Include/Asio/SimpleTcpServer.h                \
+	../../../Include/Asio/UdpSender.h                      \
+	../../../Include/Asio/UdpReceiver.h                    \
+	../../../Include/Asio/UdpTypedSender.h                 \
+    ../../../Include/Asio/SimpleUdpSender.h                \
+    ../../../Include/Asio/SimpleUdpReceiver.h
 
 SOURCES +=                                         \
 	../tst_AsioTest.cpp                            \

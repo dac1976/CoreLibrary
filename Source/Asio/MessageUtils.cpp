@@ -25,7 +25,7 @@
  * \brief File containing message utils definitions.
  */
 
-#include "../../Include/Asio/MessageUtils.hpp"
+#include "../../Include/Asio/MessageUtils.h"
 #include "boost/throw_exception.hpp"
 
 /*! \brief The core_lib namespace. */

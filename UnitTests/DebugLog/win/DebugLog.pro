@@ -31,14 +31,14 @@ UI_DIR = $${DESTDIR}/ui
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS +=                                          \
-    ../../../Include/DebugLog/DebugLog.hpp          \
-    ../../../Include/Threads/ConcurrentQueue.hpp    \
-    ../../../Include/Exceptions/CustomException.hpp \
-    ../../../Include/Threads/MessageQueueThread.hpp \
-    ../../../Include/Threads/SyncEvent.hpp          \
-    ../../../Include/Threads/ThreadBase.hpp         \
-    ../../../Include/DebugLog/DebugLogging.hpp      \
-    ../../../Include/DebugLog/DebugLogSingleton.hpp
+    ../../../Include/DebugLog/DebugLog.h          \
+    ../../../Include/Threads/ConcurrentQueue.h    \
+    ../../../Include/Exceptions/CustomException.h \
+    ../../../Include/Threads/MessageQueueThread.h \
+    ../../../Include/Threads/SyncEvent.h          \
+    ../../../Include/Threads/ThreadBase.h         \
+    ../../../Include/DebugLog/DebugLogging.h      \
+    ../../../Include/DebugLog/DebugLogSingleton.h
 
 SOURCES += ../tst_DebugLogTest.cpp                 \
     ../../../Source/DebugLog/DebugLog.cpp          \

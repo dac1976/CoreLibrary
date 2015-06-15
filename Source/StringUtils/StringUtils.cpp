@@ -25,7 +25,7 @@
  * \brief File containing definitions relating various string utilities.
  */
 
-#include "../../Include/StringUtils/StringUtils.hpp"
+#include "../../Include/StringUtils/StringUtils.h"
 #include <vector>
 #include "boost/algorithm/string/trim.hpp"
 #include "boost/algorithm/string/split.hpp"

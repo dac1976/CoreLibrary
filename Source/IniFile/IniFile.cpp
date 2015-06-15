@@ -25,12 +25,12 @@
  * \brief File containing definitions relating the IniFile class.
  */
 
-#include "../../Include/IniFile/IniFile.hpp"
+#include "../../Include/IniFile/IniFile.h"
 #include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <iterator>
-#include "../../Include/StringUtils/StringUtils.hpp"
+#include "../../Include/StringUtils/StringUtils.h"
 #include "boost/algorithm/string/trim.hpp"
 
 namespace core_lib {

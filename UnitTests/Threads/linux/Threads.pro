@@ -31,14 +31,14 @@ UI_DIR = $${DESTDIR}/ui
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS +=                                          \
-    ../../../Include/Threads/ConcurrentQueue.hpp    \
-    ../../../Exceptions/CustomException.hpp         \
-    ../../../Include/Threads/MessageQueueThread.hpp \
-    ../../../Include/Threads/SyncEvent.hpp          \
-    ../../../Include/Threads/ThreadBase.hpp         \
-    ../../../Include/Threads/ThreadGroup.hpp        \
-    ../../../Include/Threads/BoundedBuffer.hpp      \
-    ../../../Include/Threads/JoinThreads.hpp
+    ../../../Include/Threads/ConcurrentQueue.h    \
+    ../../../Exceptions/CustomException.h         \
+    ../../../Include/Threads/MessageQueueThread.h \
+    ../../../Include/Threads/SyncEvent.h          \
+    ../../../Include/Threads/ThreadBase.h         \
+    ../../../Include/Threads/ThreadGroup.h        \
+    ../../../Include/Threads/BoundedBuffer.h      \
+    ../../../Include/Threads/JoinThreads.h
 
 SOURCES += ../tst_ThreadsTest.cpp                  \
     ../../../Source/Threads/ConcurrentQueue.cpp    \

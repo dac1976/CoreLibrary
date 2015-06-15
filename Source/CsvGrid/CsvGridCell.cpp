@@ -25,8 +25,8 @@
  * \brief File containing definitions relating the CSVGridCell class.
  */
 
-#include "../../Include/CsvGrid/CsvGridCell.hpp"
-#include "../../Include/StringUtils/StringUtils.hpp"
+#include "../../Include/CsvGrid/CsvGridCell.h"
+#include "../../Include/StringUtils/StringUtils.h"
 
 namespace core_lib {
 namespace csv_grid {

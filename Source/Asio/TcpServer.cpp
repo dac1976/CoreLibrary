@@ -24,8 +24,8 @@
  * \brief File containing TCP server class definition.
  */
 
-#include "../../Include/Asio/TcpServer.hpp"
-#include "../../Include/Asio/TcpConnection.hpp"
+#include "../../Include/Asio/TcpServer.h"
+#include "../../Include/Asio/TcpConnection.h"
 #include "boost/bind.hpp"
 
 namespace core_lib {

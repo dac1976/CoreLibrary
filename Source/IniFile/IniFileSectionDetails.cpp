@@ -25,7 +25,7 @@
  * \brief File containing definitions relating the IniFile support classes.
  */
  
-#include "../../Include/IniFile/IniFileSectionDetails.hpp"
+#include "../../Include/IniFile/IniFileSectionDetails.h"
  
 /*! \brief The core_lib namespace. */
 namespace core_lib {

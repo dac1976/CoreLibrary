@@ -8,12 +8,12 @@
 #include <set>
 #include <limits>
 #include <algorithm>
-#include "../../Include/Threads/SyncEvent.hpp"
-#include "../../Include/Threads/ThreadBase.hpp"
-#include "../../Include/Threads/ThreadGroup.hpp"
-#include "../../Include/Threads/ConcurrentQueue.hpp"
-#include "../../Include/Threads/MessageQueueThread.hpp"
-#include "../../Include/Threads/BoundedBuffer.hpp"
+#include "../../Include/Threads/SyncEvent.h"
+#include "../../Include/Threads/ThreadBase.h"
+#include "../../Include/Threads/ThreadGroup.h"
+#include "../../Include/Threads/ConcurrentQueue.h"
+#include "../../Include/Threads/MessageQueueThread.h"
+#include "../../Include/Threads/BoundedBuffer.h"
 
 // ****************************************************************************
 // Helper classes for tests

@@ -25,8 +25,8 @@
  * \brief File containing definitions relating the TCsvGrid class.
  */
 
-#include "../../Include/CsvGrid/CsvGridMain.hpp"
-#include "../../Include/StringUtils/StringUtils.hpp"
+#include "../../Include/CsvGrid/CsvGridMain.h"
+#include "../../Include/StringUtils/StringUtils.h"
 
 namespace core_lib {
 namespace csv_grid {

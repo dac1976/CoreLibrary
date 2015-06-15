@@ -24,7 +24,7 @@
  * \brief File containing simple UDP sender class definition.
  */
 
-#include "../../Include/Asio/SimpleUdpSender.hpp"
+#include "../../Include/Asio/SimpleUdpSender.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

@@ -35,5 +35,5 @@ SOURCES += ../tst_StringUtilsTest.cpp             \
     ../../../Source/Exceptions/CustomException.cpp
 
 HEADERS +=                                          \
-    ../../../Include/StringUtils/StringUtils.hpp    \
-    ../../../Include/Exceptions/CustomException.hpp
+    ../../../Include/StringUtils/StringUtils.h    \
+    ../../../Include/Exceptions/CustomException.h

@@ -24,7 +24,7 @@
  * \brief File containing UDP sender class definition.
  */
 
-#include "../../Include/Asio/UdpSender.hpp"
+#include "../../Include/Asio/UdpSender.h"
 #include "boost/bind.hpp"
 
 /*! \brief The core_lib namespace. */

@@ -31,8 +31,8 @@ UI_DIR = $${DESTDIR}/ui
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS +=                                          \
-    ../../../Include/Sorting/GenericSorting.hpp     \
-    ../../../Include/Exceptions/CustomException.hpp
+    ../../../Include/Sorting/GenericSorting.h     \
+    ../../../Include/Exceptions/CustomException.h
 
 SOURCES += ../tst_GenericSortingTest.cpp           \
     ../../../Source/Exceptions/CustomException.cpp \

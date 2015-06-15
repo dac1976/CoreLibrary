@@ -1,7 +1,7 @@
 #include <QString>
 #include <QtTest>
 #include <vector>
-#include "../../Include/Sorting/GenericSorting.hpp"
+#include "../../Include/Sorting/GenericSorting.h"
 
 class GenericSortingTest : public QObject
 {

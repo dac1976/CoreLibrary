@@ -24,8 +24,8 @@
  * \brief File containing TCP connection class definition.
  */
 
-#include "../../Include/Asio/TcpConnection.hpp"
-#include "../../Include/Asio/TcpConnections.hpp"
+#include "../../Include/Asio/TcpConnection.h"
+#include "../../Include/Asio/TcpConnections.h"
 #include <iterator>
 #include <algorithm>
 #include "boost/bind.hpp"

@@ -21,11 +21,11 @@
 
 
 /*!
- * \file CustomException.hpp
+ * \file CustomException.cpp
  * \brief File containing definitions relating to custom exception handling.
  */
 
-#include "../../Include/Exceptions/CustomException.hpp"
+#include "../../Include/Exceptions/CustomException.h"
 
 namespace core_lib {
 namespace exceptions {
