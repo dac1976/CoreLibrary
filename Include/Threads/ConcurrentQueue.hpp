@@ -348,7 +348,7 @@ public:
      * on any of the pop methods. If the queue items are unmanaged
      * e.g. raw pointers then the user should instead individually
      * pop each item off the queue and destroy it appropriately. If
-     * not calling this method will result in leaked memory.
+     * not then calling this method will result in leaked memory.
 	 */
 	void Clear()
 	{

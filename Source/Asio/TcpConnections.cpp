@@ -56,9 +56,9 @@ xUnknownConnectionError::~xUnknownConnectionError()
 void TcpConnections::Add(defs::tcp_conn_ptr_t connection)
 {
 	std::lock_guard<std::mutex> lock{m_mutex};    
-    auto connDetails = std::make_pair(connection->Socket().remote_endpoint().address().to_string()
-                                      , connection->Socket().remote_endpoint().port());
-	m_connections.insert(std::make_pair(connDetails, connection));
+    m_connections.emplace(std::make_pair(connection->Socket().remote_endpoint().address().to_string()
+                                         , connection->Socket().remote_endpoint().port())
+                          , connection);
 }
 
 void TcpConnections::Remove(defs::tcp_conn_ptr_t connection)
