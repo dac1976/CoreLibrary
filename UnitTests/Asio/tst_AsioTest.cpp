@@ -180,6 +180,8 @@ template <typename T, typename A>
 class TMessageDispatcher
 {
 public:
+    TMessageDispatcher() = default;
+
 	void DispatchMessage(default_received_message_ptr_t message)
 	{
 		if (message->header.messageId == 666)
@@ -211,8 +213,8 @@ public:
 	}
 
 private:
-	SyncEvent m_messageEvent;
-	MessageHeader m_header;
+    SyncEvent m_messageEvent;
+    MessageHeader m_header;
     T m_myMessage;
 };
 

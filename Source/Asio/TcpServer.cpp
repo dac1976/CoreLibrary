@@ -108,18 +108,18 @@ void TcpServer::OpenAcceptor()
 }
 
 void TcpServer::SendMessageToClientAsync(const defs::connection_t& client
-										 , const defs::char_buffer_t& message)
+                                         , const defs::char_buffer_t& message) const
 {
 	m_clientConnections.SendMessageAsync(client, message);
 }
 
 bool TcpServer::SendMessageToClientSync(const defs::connection_t& client
-										, const defs::char_buffer_t& message)
+                                        , const defs::char_buffer_t& message) const
 {
 	return m_clientConnections.SendMessageSync(client, message);
 }
 
-void TcpServer::SendMessageToAllClients(const defs::char_buffer_t& message)
+void TcpServer::SendMessageToAllClients(const defs::char_buffer_t& message) const
 {
 	m_clientConnections.SendMessageToAll(message);
 }

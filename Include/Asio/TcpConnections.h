@@ -91,12 +91,12 @@ public:
 	void CloseConnections();
 
 	void SendMessageAsync(const defs::connection_t& target
-						  , const defs::char_buffer_t& message);
+                          , const defs::char_buffer_t& message) const;
 
 	bool SendMessageSync(const defs::connection_t& target
-						 , const defs::char_buffer_t& message);
+                         , const defs::char_buffer_t& message) const;
 
-	void SendMessageToAll(const defs::char_buffer_t& message);
+	void SendMessageToAll(const defs::char_buffer_t& message) const;
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
 	auto GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const

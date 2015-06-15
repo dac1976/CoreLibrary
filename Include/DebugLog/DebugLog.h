@@ -541,8 +541,7 @@ private:
 	typedef threads::MessageQueueThread<int, log_queue_message_t> log_msg_queue;
 	/*! \brief Unique_ptr holding message queue thread.*/
 	std::unique_ptr<log_msg_queue>
-	m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
-													, this
+    m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
                                                     , std::placeholders::_1)
 										  , threads::eOnDestroyOptions::processRemainingItems)};
 
@@ -565,7 +564,7 @@ private:
 	 * \param[in] length - Message length.
 	 * \return Message ID.
 	 */
-    int MessageDecoder(const log_queue_message_t& message)
+    static int MessageDecoder(const log_queue_message_t& message)
 	{
         return message.MESSAGE_ID;
 	}

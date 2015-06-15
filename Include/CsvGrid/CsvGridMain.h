@@ -289,7 +289,8 @@ public:
 	 *
 	 * Resize the grid, adding a new column to each row.
 	 */
-	void AddColumnToAllRows()
+    // cppcheck-suppress functionConst
+    void AddColumnToAllRows()
 	{
 		for (auto& row : m_grid)
 		{
@@ -320,7 +321,8 @@ public:
 	 * The column is only inserted if the column index is within range of
 	 * the row in the grid otherwise a column is not added to the row.
 	 */
-	void InsertColumnInAllRows(const size_t col)
+    // cppcheck-suppress functionConst
+    void InsertColumnInAllRows(const size_t col)
 	{
 		for (auto& row : m_grid)
 		{
@@ -336,7 +338,8 @@ public:
 	* The contents of each cell in the grid is cleared but the row and
 	* column counts remain unchanged.
 	*/
-	void ClearCells()
+    // cppcheck-suppress functionConst
+    void ClearCells()
 	{
 		for (auto& row : m_grid)
 		{

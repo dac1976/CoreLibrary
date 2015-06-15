@@ -93,7 +93,7 @@ void TcpConnections::CloseConnections()
 }
 
 void TcpConnections::SendMessageAsync(const defs::connection_t& target 
-									  , const defs::char_buffer_t& message)
+                                      , const defs::char_buffer_t& message) const
 {
 	std::lock_guard<std::mutex> lock{m_mutex};    
     auto connIt = m_connections.find(target);
@@ -105,7 +105,7 @@ void TcpConnections::SendMessageAsync(const defs::connection_t& target
 }
 
 bool TcpConnections::SendMessageSync(const defs::connection_t& target 
-									 , const defs::char_buffer_t& message)
+                                     , const defs::char_buffer_t& message) const
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
     auto connIt = m_connections.find(target);
@@ -114,7 +114,7 @@ bool TcpConnections::SendMessageSync(const defs::connection_t& target
 		   : connIt->second->SendMessageSync(message);
 }
 
-void TcpConnections::SendMessageToAll(const defs::char_buffer_t& message)
+void TcpConnections::SendMessageToAll(const defs::char_buffer_t& message) const
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 

@@ -73,12 +73,12 @@ public:
 	void OpenAcceptor();
 
 	void SendMessageToClientAsync(const defs::connection_t& client
-								  , const defs::char_buffer_t& message);
+                                  , const defs::char_buffer_t& message) const;
 
 	bool SendMessageToClientSync(const defs::connection_t& client
-								 , const defs::char_buffer_t& message);
+                                 , const defs::char_buffer_t& message) const;
 
-	void SendMessageToAllClients(const defs::char_buffer_t& message);
+    void SendMessageToAllClients(const defs::char_buffer_t& message) const;
 
 private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};

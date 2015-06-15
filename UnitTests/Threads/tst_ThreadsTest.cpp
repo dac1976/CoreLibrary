@@ -53,7 +53,7 @@ private:
 class ThreadTestHelper2
 {
 public:
-	ThreadTestHelper2(core_lib::threads::SyncEvent& event)
+	explicit ThreadTestHelper2(core_lib::threads::SyncEvent& event)
 		: m_event(event)
 	{
 	}
@@ -107,7 +107,7 @@ private:
 class ThreadDerived final : public core_lib::threads::ThreadBase
 {
 public:
-	ThreadDerived(bool* pTerminateCondition)
+	explicit ThreadDerived(bool* pTerminateCondition)
 		: ThreadBase()
 		, m_counter(0)
 		, m_pTerminateCondition(pTerminateCondition)
@@ -310,7 +310,7 @@ private:
 class BoundedBufThread final : public core_lib::threads::ThreadBase
 {
 public:
-	BoundedBufThread(core_lib::threads::BoundedBuffer<int>& buf)
+	explicit BoundedBufThread(core_lib::threads::BoundedBuffer<int>& buf)
 		: ThreadBase()
 		, m_buf(buf)
 		, m_blocked(false)
@@ -362,7 +362,7 @@ private:
 class BoundedBufThread2 final : public core_lib::threads::ThreadBase
 {
 public:
-	BoundedBufThread2(core_lib::threads::BoundedBuffer<int>& buf)
+	explicit BoundedBufThread2(core_lib::threads::BoundedBuffer<int>& buf)
 		: ThreadBase()
 		, m_buf(buf)
 		, m_blocked(false)
@@ -425,7 +425,7 @@ public:
 		Message& operator=(const Message& ) = default;
 		Message& operator=(Message&&) = default;
 
-		Message(int id_)
+		explicit Message(int id_)
 			: id(id_)
 		{
 		}
@@ -439,7 +439,7 @@ public:
 	};
 
 	MessageQueueThreadTest()
-		: m_mqt(std::bind(&MessageQueueThreadTest::MessageDecoder, this
+        : m_mqt(std::bind(&MessageQueueThreadTest::MessageDecoder
                           , std::placeholders::_1))
 	{
 		m_mqt.RegisterMessageHandler(M1, std::bind(&MessageQueueThreadTest::MessageHandler, this
@@ -472,7 +472,7 @@ private:
     core_lib::threads::MessageQueueThread<int, message_t> m_mqt;
 	std::map<int, size_t> m_countMap;
 
-    int MessageDecoder(const message_t& message)
+    static int MessageDecoder(const message_t& message)
 	{
         if (!message)
 		{

@@ -83,19 +83,19 @@ void SimpleTcpServer::OpenAcceptor()
 }
 
 void SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t& client, const uint32_t messageId
-                                               , const defs::connection_t& responseAddress)
+                                               , const defs::connection_t& responseAddress) const
 {
     m_tcpTypedServer.SendMessageToClientAsync(client, messageId, responseAddress);
 }
 
 bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t& client, const uint32_t messageId
-                                              , const defs::connection_t& responseAddress)
+                                              , const defs::connection_t& responseAddress) const
 {
     return m_tcpTypedServer.SendMessageToClientSync(client, messageId, responseAddress);
 }
 
 void SimpleTcpServer::SendMessageToAllClients(const uint32_t messageId
-                                              , const defs::connection_t& responseAddress)
+                                              , const defs::connection_t& responseAddress) const
 {
     m_tcpTypedServer.SendMessageToAllClients(messageId, responseAddress);
 }

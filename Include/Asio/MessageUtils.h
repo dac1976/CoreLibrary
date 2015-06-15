@@ -155,7 +155,7 @@ auto FillHeader(const std::string& magicString, const defs::eArchiveType archive
 template<typename A>
 struct ArchiveTypeToEnum
 {
-    defs::eArchiveType Enumerate() const
+    static defs::eArchiveType Enumerate()
     {
         BOOST_THROW_EXCEPTION(xArchiveTypeError("unknown archive type"));
         return defs::eArchiveType::raw;
@@ -165,7 +165,7 @@ struct ArchiveTypeToEnum
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_bin_t>
 {
-    defs::eArchiveType Enumerate() const
+    static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::binary;
     }
@@ -174,7 +174,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_bin_t>
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_port_bin_t>
 {
-    defs::eArchiveType Enumerate() const
+    static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::portableBinary;
     }
@@ -183,7 +183,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_port_bin_t>
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
 {
-    defs::eArchiveType Enumerate() const
+    static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::raw;
     }
@@ -192,7 +192,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
 {
-    defs::eArchiveType Enumerate() const
+    static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::text;
     }
@@ -201,7 +201,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
 {
-    defs::eArchiveType Enumerate() const
+    static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::xml;
     }
@@ -231,6 +231,7 @@ public:
         serialize::char_vector_t body
             = serialize::ToCharVector<T, A>(message);
 
+		// cppcheck-suppress functionStatic
         if (body.empty())
         {
             BOOST_THROW_EXCEPTION(xArchiveTypeError());

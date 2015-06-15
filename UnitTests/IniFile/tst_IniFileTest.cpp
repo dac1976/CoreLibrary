@@ -63,7 +63,7 @@ void IniFileTest::Case1_InvalidLine()
 		}
 		else
 		{
-			correctException = true;
+			correctException = false;
 		}
 	}
 	catch(...)
@@ -95,7 +95,7 @@ void IniFileTest::Case2_InvalidKey()
 		}
 		else
 		{
-			correctException = true;
+			correctException = false;
 		}
 	}
 	catch(...)
@@ -127,7 +127,7 @@ void IniFileTest::Case3_InvalidSection()
 		}
 		else
 		{
-			correctException = true;
+			correctException = false;
 		}
 	}
 	catch(...)
@@ -159,7 +159,7 @@ void IniFileTest::Case4_DuplicateKey()
 		}
 		else
 		{
-			correctException = true;
+			correctException = false;
 		}
 	}
 	catch(...)
@@ -191,7 +191,7 @@ void IniFileTest::Case5_DuplicateSection()
 		}
 		else
 		{
-			correctException = true;
+			correctException = false;
 		}
 	}
 	catch(...)
@@ -223,7 +223,7 @@ void IniFileTest::Case6_InvalidFile()
 		}
 		else
 		{
-			correctException = true;
+			correctException = false;
 		}
 	}
 	catch(...)
