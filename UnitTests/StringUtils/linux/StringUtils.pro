@@ -32,7 +32,8 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 SOURCES += ../tst_StringUtilsTest.cpp             \
     ../../../Source/StringUtils/StringUtils.cpp   \
-    ../../../Source/Exceptions/CustomException.cpp
+    ../../../Source/Exceptions/CustomException.cpp \
+	../../../Include/Platform/PlatformDefines.h
 
 HEADERS +=                                          \
     ../../../Include/StringUtils/StringUtils.h    \

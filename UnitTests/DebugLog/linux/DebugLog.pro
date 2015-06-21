@@ -38,7 +38,8 @@ HEADERS +=                                          \
     ../../../Include/Threads/SyncEvent.h          \
     ../../../Include/Threads/ThreadBase.h         \
     ../../../Include/DebugLog/DebugLogging.h      \
-    ../../../Include/DebugLog/DebugLogSingleton.h
+    ../../../Include/DebugLog/DebugLogSingleton.h \
+	../../../Include/Platform/PlatformDefines.h
 
 SOURCES += ../tst_DebugLogTest.cpp                 \
     ../../../Source/DebugLog/DebugLog.cpp          \

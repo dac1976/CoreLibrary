@@ -38,7 +38,8 @@ HEADERS +=                                          \
     ../../../Include/Threads/ThreadBase.h         \
     ../../../Include/Threads/ThreadGroup.h        \
     ../../../Include/Threads/BoundedBuffer.h      \
-    ../../../Include/Threads/JoinThreads.h
+    ../../../Include/Threads/JoinThreads.h \
+	../../../Include/Platform/PlatformDefines.h
 
 SOURCES += ../tst_ThreadsTest.cpp                  \
     ../../../Source/Threads/ConcurrentQueue.cpp    \
