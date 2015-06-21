@@ -49,12 +49,12 @@ xCustomException::~xCustomException()
 {
 }
 
-const char* xCustomException::what() const noexcept
+const char* xCustomException::what() const __NOEXCEPT__
 {
 	return m_message.c_str();
 }
 
-const std::string& xCustomException::whatStr() const noexcept
+const std::string& xCustomException::whatStr() const __NOEXCEPT__
 {
 	return m_message;
 }

@@ -30,6 +30,7 @@
 
 #include <functional>
 #include <map>
+#include "../Platform/PlatformDefines.h"
 #include "ThreadBase.h"
 #include "ConcurrentQueue.h"
 
@@ -203,12 +204,12 @@ private:
 	ConcurrentQueue<MessageType> m_messageQueue;
 
 	/*! \brief Execute a single iteration of the thread. */
-    virtual void ThreadIteration() noexcept
+    virtual void ThreadIteration() __NOEXCEPT__
 	{
 		ProcessNextMessage();
 	}
 	/*! \brief Perform any special termination actions.*/
-    virtual void ProcessTerminationConditions() noexcept
+    virtual void ProcessTerminationConditions() __NOEXCEPT__
 	{
 		// Make sure we break out of m_messageQueue.Pop();
         m_messageQueue.BreakPopWait();

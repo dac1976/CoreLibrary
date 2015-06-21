@@ -30,6 +30,7 @@
 
 #include <cstdint>
 #include <string>
+#include "../Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -188,7 +189,7 @@ public:
 	 * Convert the cell to a 32bit integer and if this cannot be
 	 * performed safely return the default value instead.
 	 */
-	int32_t ToInt32Def(const int32_t defval) const noexcept;
+	int32_t ToInt32Def(const int32_t defval) const __NOEXCEPT__;
 	/*!
 	 * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -197,7 +198,7 @@ public:
 	 * Convert the cell to a 64bit integer and if this cannot be
 	 * performed safely return the default value instead.
 	 */
-	int64_t ToInt64Def(const int64_t defval) const noexcept;
+	int64_t ToInt64Def(const int64_t defval) const __NOEXCEPT__;
 	/*!
 	 * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -206,7 +207,7 @@ public:
 	 * Convert the cell to a double and if this cannot be performed
 	 * safely return the default value instead.
 	 */
-	double ToDoubleDef(const double defval) const noexcept;
+	double ToDoubleDef(const double defval) const __NOEXCEPT__;
 	/*!
 	 * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -215,7 +216,7 @@ public:
 	 * Convert the cell to a long double and if this cannot be performed
 	 * safely return the default value instead.
 	 */
-	long double ToLongDoubleDef(const long double defval) const noexcept;
+	long double ToLongDoubleDef(const long double defval) const __NOEXCEPT__;
 
 private:
 	/*! \brief The cell's value data memeber. */

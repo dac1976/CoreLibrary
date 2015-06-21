@@ -135,7 +135,7 @@ void ThreadBase::SleepForTime(const unsigned int milliSecs) const
 	std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));
 }
 
-void ThreadBase::ProcessTerminationConditions() noexcept
+void ThreadBase::ProcessTerminationConditions() __NOEXCEPT__
 {
 	// nothing required here but override in derived class
 }

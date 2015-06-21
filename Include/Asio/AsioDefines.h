@@ -27,14 +27,18 @@
 #ifndef ASIODEFINES
 #define ASIODEFINES
 
-#include "boost/asio.hpp"
 #include <vector>
 #include <functional>
 #include <memory>
 #include <utility>
+#ifdef __USE_EXPLICIT_MOVE__
+    #include <algorithm>
+#endif
 #include <string>
 #include <cstdint>
 #include <cstring>
+#include "boost/asio.hpp"
+#include "../Platform/PlatformDefines.h"
 
 namespace boost_sys = boost::system;
 namespace boost_asio = boost::asio;
@@ -131,10 +135,34 @@ struct MessageHeader
 	}
 
 	~MessageHeader() = default;
-	MessageHeader(const MessageHeader&) = default;
-	MessageHeader(MessageHeader&&) = default;
-	MessageHeader& operator=(const MessageHeader&) = default;
-	MessageHeader& operator=(MessageHeader&&) = default;
+	MessageHeader(const MessageHeader&) = default;	
+    MessageHeader& operator=(const MessageHeader&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    MessageHeader(MessageHeader&& header)
+        : responseAddress{"0.0.0.0"}
+    {
+        strncpy(magicString, DEFAULT_MAGIC_STRING, sizeof(magicString));
+        magicString[MAGIC_STRING_LEN - 1] = 0;
+        *this = std::move(header);
+    }
+    MessageHeader& operator=(MessageHeader&& header)
+    {
+        if (this != &header)
+        {
+            std::swap_ranges(magicString, magicString + MAGIC_STRING_LEN, header.magicString);
+            std::swap_ranges(responseAddress, responseAddress + RESPONSE_ADDRESS_LEN, header.responseAddress);
+            std::swap(responsePort, header.responsePort);
+            std::swap(messageId, header.messageId);
+            std::swap(archiveType, header.archiveType);
+            std::swap(totalLength, header.totalLength);
+        }
+
+        return *this;
+    }
+#else
+    MessageHeader(MessageHeader&&) = default;
+    MessageHeader& operator=(MessageHeader&&) = default;
+#endif
 };
 #pragma pack(pop)
 
@@ -149,10 +177,28 @@ struct ReceivedMessage
 
 	ReceivedMessage() = default;
 	~ReceivedMessage() = default;
-	ReceivedMessage(const ReceivedMessage&) = default;
-	ReceivedMessage(ReceivedMessage&&) = default;
-	ReceivedMessage& operator=(const ReceivedMessage&) = default;
+	ReceivedMessage(const ReceivedMessage&) = default;	
+    ReceivedMessage& operator=(const ReceivedMessage&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    ReceivedMessage(ReceivedMessage&& message)
+    {
+        *this = std::move(message);
+    }
+
+    ReceivedMessage& operator=(ReceivedMessage&& message)
+    {
+        if (this != &message)
+        {
+            std::swap(header, message.header);
+            body.swap(message.body);
+        }
+
+        return *this;
+    }
+#else
+    ReceivedMessage(ReceivedMessage&&) = default;
 	ReceivedMessage& operator=(ReceivedMessage&&) = default;
+#endif
 };
 
 typedef ReceivedMessage<MessageHeader> default_received_message_t;

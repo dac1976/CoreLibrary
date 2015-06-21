@@ -32,7 +32,8 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS +=                                          \
     ../../../Include/Sorting/GenericSorting.h     \
-    ../../../Include/Exceptions/CustomException.h
+    ../../../Include/Exceptions/CustomException.h \
+    ../../../Include/Platform/PlatformDefines.h
 
 SOURCES += ../tst_GenericSortingTest.cpp           \
     ../../../Source/Exceptions/CustomException.cpp \

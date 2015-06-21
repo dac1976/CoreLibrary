@@ -72,7 +72,8 @@ HEADERS +=                                                \
 	../../Include/Asio/UdpReceiver.h                    \
 	../../Include/Asio/UdpTypedSender.h                 \
     ../../Include/Asio/SimpleUdpSender.h                \
-    ../../Include/Asio/SimpleUdpReceiver.h
+    ../../Include/Asio/SimpleUdpReceiver.h \
+    ../../Include/Platform/PlatformDefines.h
 
 SOURCES +=                                                \
 	../../Source/Asio/IoServiceThreadGroup.cpp            \

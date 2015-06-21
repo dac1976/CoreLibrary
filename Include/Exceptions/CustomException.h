@@ -27,6 +27,7 @@
 
 #include <string>
 #include "boost/exception/all.hpp"
+#include "../Platform/PlatformDefines.h"
 
 #ifndef CUSTOMEXCEPTION
 #define CUSTOMEXCEPTION
@@ -88,13 +89,13 @@ public:
 	 * \brief Function to get the exception message.
 	 * \return The exception message.
 	 */
-	virtual const char* what() const noexcept final;
+    virtual const char* what() const __NOEXCEPT__ final;
 
 	/*!
 	 * \brief Function to get the exception message.
 	 * \return The exception message.
 	 */
-	virtual const std::string& whatStr() const noexcept final;
+    virtual const std::string& whatStr() const __NOEXCEPT__ final;
 
 protected:
 	/*! \brief The exception message. */

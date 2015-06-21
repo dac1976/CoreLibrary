@@ -35,7 +35,8 @@ HEADERS +=                                             \
     ../../../Include/IniFile/IniFile.h               \
     ../../../Include/Exceptions/CustomException.h    \
     ../../../Include/IniFile/IniFileLines.h          \
-    ../../../Include/IniFile/IniFileSectionDetails.h
+    ../../../Include/IniFile/IniFileSectionDetails.h \
+    ../../../Include/Platform/PlatformDefines.h
 
 SOURCES += ../tst_IniFileTest.cpp                     \
     ../../../Source/IniFile/IniFile.cpp               \

@@ -30,6 +30,7 @@
 
 #include <thread>
 #include <mutex>
+#include "../Platform/PlatformDefines.h"
 #include "../Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
@@ -147,7 +148,7 @@ protected:
 	 *
 	 * This function is called in the loop within Run();
 	 */
-    virtual void ThreadIteration() noexcept = 0;
+    virtual void ThreadIteration() __NOEXCEPT__ = 0;
 	/*!
 	 * \brief Perform any special termination actions.
 	 *
@@ -157,7 +158,7 @@ protected:
 	 * required after the terminting flag is set but before
 	 * we call join on our underlying std::thread object.
 	 */
-    virtual void ProcessTerminationConditions() noexcept;
+    virtual void ProcessTerminationConditions() __NOEXCEPT__;
 
 private:
 	/*! \brief Access mutex to protect private data.*/

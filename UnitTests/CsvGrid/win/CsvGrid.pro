@@ -36,7 +36,8 @@ HEADERS +=                                          \
 	../../../Include/CsvGrid/CsvGridRow.h         \
 	../../../Include/CsvGrid/CsvGridMain.h        \
     ../../../Include/CsvGrid/CsvGrid.h            \
-    ../../../Include/Exceptions/CustomException.h
+    ../../../Include/Exceptions/CustomException.h \
+    ../../../Include/Platform/PlatformDefines.h
 
 SOURCES += ../tst_CsvGridTest.cpp                  \
     ../../../Source/CsvGrid/CsvGridCell.cpp        \

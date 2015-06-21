@@ -114,7 +114,7 @@ Cell::operator long double() const
 	return std::stold(m_value);
 }
 
-int32_t Cell::ToInt32Def(const int32_t defval) const noexcept
+int32_t Cell::ToInt32Def(const int32_t defval) const __NOEXCEPT__
 {
 	int32_t val;
 
@@ -130,7 +130,7 @@ int32_t Cell::ToInt32Def(const int32_t defval) const noexcept
 	return val;
 }
 
-int64_t Cell::ToInt64Def(const int64_t defval) const noexcept
+int64_t Cell::ToInt64Def(const int64_t defval) const __NOEXCEPT__
 {
 	int64_t val;
 
@@ -147,7 +147,7 @@ int64_t Cell::ToInt64Def(const int64_t defval) const noexcept
 }
 
 
-double Cell::ToDoubleDef(const double defval) const noexcept
+double Cell::ToDoubleDef(const double defval) const __NOEXCEPT__
 {
 	double val;
 
@@ -163,7 +163,7 @@ double Cell::ToDoubleDef(const double defval) const noexcept
 	return val;
 }
 
-long double Cell::ToLongDoubleDef(const long double defval) const noexcept
+long double Cell::ToLongDoubleDef(const long double defval) const __NOEXCEPT__
 {
 	long double val;
 
