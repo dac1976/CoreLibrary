@@ -58,13 +58,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xUnknownConnectionError();
 	/*! \brief Copy constructor. */
-	xUnknownConnectionError(const xUnknownConnectionError&) = default;
-	/*! \brief Move constructor. */
-	xUnknownConnectionError(xUnknownConnectionError&&) = default;
+    xUnknownConnectionError(const xUnknownConnectionError&) = default;
 	/*! \brief Copy assignment operator. */
-	xUnknownConnectionError& operator=(const xUnknownConnectionError&) = default;
-	/*! \brief Move assignment operator. */
-	xUnknownConnectionError& operator=(xUnknownConnectionError&&) = default;
+    xUnknownConnectionError& operator=(const xUnknownConnectionError&) = default;
 };
 
 class TcpConnection;

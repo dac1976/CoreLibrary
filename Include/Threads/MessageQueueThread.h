@@ -28,9 +28,10 @@
 #ifndef MESSAGEQUEUETHREAD
 #define MESSAGEQUEUETHREAD
 
+#include "../Platform/PlatformDefines.h"
+
 #include <functional>
 #include <map>
-#include "../Platform/PlatformDefines.h"
 #include "ThreadBase.h"
 #include "ConcurrentQueue.h"
 
@@ -58,13 +59,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xMsgHandlerError();
 	/*! \brief Copy constructor. */
-	xMsgHandlerError(const xMsgHandlerError&) = default;
-	/*! \brief Move constructor. */
-	xMsgHandlerError(xMsgHandlerError&&) = default;
+    xMsgHandlerError(const xMsgHandlerError&) = default;
 	/*! \brief Copy assignment operator. */
-	xMsgHandlerError& operator=(const xMsgHandlerError&) = default;
-	/*! \brief Move assignment operator. */
-	xMsgHandlerError& operator=(xMsgHandlerError&&) = default;
+    xMsgHandlerError& operator=(const xMsgHandlerError&) = default;
 };
 /*! \brief Control how messages get destroyed in destructor. */
 enum class eOnDestroyOptions

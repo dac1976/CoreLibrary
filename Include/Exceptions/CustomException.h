@@ -25,9 +25,10 @@
  * \brief File containing declarations relating to custom exception handling.
  */
 
+#include "../Platform/PlatformDefines.h"
+
 #include <string>
 #include "boost/exception/all.hpp"
-#include "../Platform/PlatformDefines.h"
 
 #ifndef CUSTOMEXCEPTION
 #define CUSTOMEXCEPTION
@@ -79,12 +80,8 @@ public:
 	virtual ~xCustomException();
 	/*! \brief Copy constructor. */
 	xCustomException(const xCustomException&) = default;
-	/*! \brief Move constructor. */
-	xCustomException(xCustomException&&) = default;
 	/*! \brief Copy assignment operator. */
 	xCustomException& operator=(const xCustomException&) = default;
-	/*! \brief Move assignment operator. */
-	xCustomException& operator=(xCustomException&&) = default;
 	/*!
 	 * \brief Function to get the exception message.
 	 * \return The exception message.

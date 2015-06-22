@@ -28,9 +28,14 @@
 #ifndef CSVGRIDMAIN
 #define CSVGRIDMAIN
 
-#include "CsvGridRow.h"
+#include "../Platform/PlatformDefines.h"
+
 #include <fstream>
 #include <limits>
+#ifdef __USE_EXPLICIT_MOVE__
+    #include <utility>
+#endif
+#include "CsvGridRow.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -56,13 +61,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xCsvGridDimensionError();
 	/*! \brief Copy constructor. */
-	xCsvGridDimensionError(const xCsvGridDimensionError&) = default;
-	/*! \brief Move constructor. */
-	xCsvGridDimensionError(xCsvGridDimensionError&&) = default;
+    xCsvGridDimensionError(const xCsvGridDimensionError&) = default;
 	/*! \brief Copy assignment operator. */
-	xCsvGridDimensionError& operator=(const xCsvGridDimensionError&) = default;
-	/*! \brief Move assignment operator. */
-	xCsvGridDimensionError& operator=(xCsvGridDimensionError&&) = default;
+    xCsvGridDimensionError& operator=(const xCsvGridDimensionError&) = default;
 };
 
 /*!
@@ -84,13 +85,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xCsvGridRowOutOfRangeError();
 	/*! \brief Copy constructor. */
-	xCsvGridRowOutOfRangeError(const xCsvGridRowOutOfRangeError&) = default;
-	/*! \brief Move constructor. */
-	xCsvGridRowOutOfRangeError(xCsvGridRowOutOfRangeError&&) = default;
+    xCsvGridRowOutOfRangeError(const xCsvGridRowOutOfRangeError&) = default;
 	/*! \brief Copy assignment operator. */
-	xCsvGridRowOutOfRangeError& operator=(const xCsvGridRowOutOfRangeError&) = default;
-	/*! \brief Move assignment operator. */
-	xCsvGridRowOutOfRangeError& operator=(xCsvGridRowOutOfRangeError&&) = default;
+    xCsvGridRowOutOfRangeError& operator=(const xCsvGridRowOutOfRangeError&) = default;
 };
 
 /*!
@@ -112,13 +109,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xCsvGridCreateFileStreamError();
 	/*! \brief Copy constructor. */
-	xCsvGridCreateFileStreamError(const xCsvGridCreateFileStreamError&) = default;
-	/*! \brief Move constructor. */
-	xCsvGridCreateFileStreamError(xCsvGridCreateFileStreamError&&) = default;
+    xCsvGridCreateFileStreamError(const xCsvGridCreateFileStreamError&) = default;
 	/*! \brief Copy assignment operator. */
-	xCsvGridCreateFileStreamError& operator=(const xCsvGridCreateFileStreamError&) = default;
-	/*! \brief Move assignment operator. */
-	xCsvGridCreateFileStreamError& operator=(xCsvGridCreateFileStreamError&&) = default;
+    xCsvGridCreateFileStreamError& operator=(const xCsvGridCreateFileStreamError&) = default;
 };
 
 /*! \brief Enumeration controlling how file is saved. */
@@ -167,8 +160,16 @@ public:
 	TCsvGrid() = default;
 	/*! \brief Copy constructor. */
 	TCsvGrid(const TCsvGrid&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
 	/*! \brief Move constructor. */
-	TCsvGrid(TCsvGrid&&) = default;
+    TCsvGrid(TCsvGrid&& csvGrid)
+    {
+        *this = std::move(csvGrid);
+    }
+#else
+    /*! \brief Move constructor. */
+    TCsvGrid(TCsvGrid&&) = default;
+#endif
 	/*!
 	 * \brief Initializing constructor
 	 * \param[in] rows - The number of rows.
@@ -216,8 +217,16 @@ public:
 	~TCsvGrid() = default;
 	/*! \brief Copy assignment operator. */
 	TCsvGrid& operator=(const TCsvGrid&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move assignment operator. */
+    TCsvGrid& operator=(TCsvGrid&& csvGrid)
+    {
+        std::swap(m_grid, csvGrid.m_grid);
+    }
+#else
 	/*! \brief Move assignment operator. */
 	TCsvGrid& operator=(TCsvGrid&&) = default;
+#endif
 	/*!
 	 * \brief Subscript operator.
 	 * \param[in] row - A 0-based row index.

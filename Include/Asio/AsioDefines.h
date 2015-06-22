@@ -27,6 +27,8 @@
 #ifndef ASIODEFINES
 #define ASIODEFINES
 
+#include "../Platform/PlatformDefines.h"
+
 #include <vector>
 #include <functional>
 #include <memory>
@@ -36,9 +38,7 @@
 #endif
 #include <string>
 #include <cstdint>
-#include <cstring>
 #include "boost/asio.hpp"
-#include "../Platform/PlatformDefines.h"
 
 namespace boost_sys = boost::system;
 namespace boost_asio = boost::asio;
@@ -99,9 +99,9 @@ static const connection_t NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
 
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
 
-static constexpr uint32_t MAGIC_STRING_LEN{16};
-
 static constexpr uint32_t RESPONSE_ADDRESS_LEN{16};
+
+static constexpr uint32_t MAGIC_STRING_LEN{16};
 
 static constexpr char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
@@ -120,7 +120,7 @@ enum class eArchiveType : uint8_t
 #pragma pack(push, 1)
 struct MessageHeader
 {
-	char magicString[MAGIC_STRING_LEN];
+    char magicString[MAGIC_STRING_LEN];
 	char responseAddress[RESPONSE_ADDRESS_LEN];
 	uint16_t responsePort{};
 	uint32_t messageId{};
@@ -128,10 +128,10 @@ struct MessageHeader
 	uint32_t totalLength{sizeof(*this)};
 
 	MessageHeader()
-		: responseAddress{"0.0.0.0"}
+        : responseAddress{"0.0.0.0"}
 	{
-		strncpy(magicString, DEFAULT_MAGIC_STRING, sizeof(magicString));
-		magicString[MAGIC_STRING_LEN - 1] = 0;
+        strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
+        magicString[MAGIC_STRING_LEN - 1] = 0;
 	}
 
 	~MessageHeader() = default;
@@ -141,22 +141,18 @@ struct MessageHeader
     MessageHeader(MessageHeader&& header)
         : responseAddress{"0.0.0.0"}
     {
-        strncpy(magicString, DEFAULT_MAGIC_STRING, sizeof(magicString));
+        strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
         magicString[MAGIC_STRING_LEN - 1] = 0;
         *this = std::move(header);
     }
     MessageHeader& operator=(MessageHeader&& header)
     {
-        if (this != &header)
-        {
-            std::swap_ranges(magicString, magicString + MAGIC_STRING_LEN, header.magicString);
-            std::swap_ranges(responseAddress, responseAddress + RESPONSE_ADDRESS_LEN, header.responseAddress);
-            std::swap(responsePort, header.responsePort);
-            std::swap(messageId, header.messageId);
-            std::swap(archiveType, header.archiveType);
-            std::swap(totalLength, header.totalLength);
-        }
-
+        std::swap_ranges(magicString, magicString + MAGIC_STRING_LEN, header.magicString);
+        std::swap_ranges(responseAddress, responseAddress + RESPONSE_ADDRESS_LEN, header.responseAddress);
+        std::swap(responsePort, header.responsePort);
+        std::swap(messageId, header.messageId);
+        std::swap(archiveType, header.archiveType);
+        std::swap(totalLength, header.totalLength);
         return *this;
     }
 #else
@@ -187,12 +183,8 @@ struct ReceivedMessage
 
     ReceivedMessage& operator=(ReceivedMessage&& message)
     {
-        if (this != &message)
-        {
-            std::swap(header, message.header);
-            body.swap(message.body);
-        }
-
+        std::swap(header, message.header);
+        body.swap(message.body);
         return *this;
     }
 #else

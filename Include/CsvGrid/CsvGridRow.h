@@ -28,15 +28,20 @@
 #ifndef CSVGRIDROW
 #define CSVGRIDROW
 
-#include "CsvGridCell.h"
-#include "../Exceptions/CustomException.h"
-#include "../StringUtils/StringUtils.h"
+#include "../Platform/PlatformDefines.h"
+
 #include <initializer_list>
 #include <ostream>
 #include <algorithm>
 #include <iterator>
+#ifdef __USE_EXPLICIT_MOVE__
+    #include <utility>
+#endif
 #include "boost/tokenizer.hpp"
 #include "boost/algorithm/string/trim.hpp"
+#include "../Exceptions/CustomException.h"
+#include "../StringUtils/StringUtils.h"
+#include "CsvGridCell.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -62,13 +67,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xCsvGridColOutOfRangeError();
 	/*! \brief Copy constructor. */
-	xCsvGridColOutOfRangeError(const xCsvGridColOutOfRangeError&) = default;
-	/*! \brief Move constructor. */
-	xCsvGridColOutOfRangeError(xCsvGridColOutOfRangeError&&) = default;
+    xCsvGridColOutOfRangeError(const xCsvGridColOutOfRangeError&) = default;
 	/*! \brief Copy assignment operator. */
-	xCsvGridColOutOfRangeError& operator=(const xCsvGridColOutOfRangeError&) = default;
-	/*! \brief Move assignment operator. */
-	xCsvGridColOutOfRangeError& operator=(xCsvGridColOutOfRangeError&&) = default;
+    xCsvGridColOutOfRangeError& operator=(const xCsvGridColOutOfRangeError&) = default;
 };
 
 /*!
@@ -161,7 +162,14 @@ public:
 	/*! \brief Copy constructor. */
 	TRow(const TRow&) = default;
 	/*! \brief Move constructor. */
+#ifdef __USE_EXPLICIT_MOVE__
+    TRow(TRow&& row)
+    {
+        *this = std::move(row);
+    }
+#else
 	TRow(TRow&&) = default;
+#endif
 	/*!
 	 * \brief Initializing constructor
 	 * \param[in] numCols - The initial number of columns.
@@ -199,8 +207,17 @@ public:
 	~TRow() = default;
 	/*! \brief Copy assignment operator. */
 	TRow& operator=(const TRow&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move assignment operator. */
+    TRow& operator=(TRow&& row)
+    {
+        std::swap(m_cells, row.m_cells);
+        return *this;
+    }
+#else
 	/*! \brief Move assignment operator. */
 	TRow& operator=(TRow&&) = default;
+#endif
 	/*!
 	 * \brief Subscript operator.
 	 * \param[in] col - A 0-based column index.

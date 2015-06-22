@@ -65,7 +65,6 @@ xInstantiationrError::~xInstantiationrError()
 {
 }
 
-
 // ****************************************************************************
 // 'struct DefaultLogFormat' definition
 // ****************************************************************************
@@ -118,6 +117,77 @@ void DefaultLogFormat::operator() (std::ostream& os
 
 	os << std::endl;
 }
+
+// ****************************************************************************
+// 'class LogQueueMessage' definition
+// ****************************************************************************
+namespace dl_private
+{
+    LogQueueMessage::LogQueueMessage(const std::string& message,
+                    const time_t timeStamp,
+                    const std::string& file,
+                    const int lineNo,
+                    const std::thread::id& threadID,
+                    const eLogMessageLevel errorLevel)
+        : m_message{message}
+        , m_timeStamp{timeStamp}
+        , m_file{file}
+        , m_lineNo{lineNo}
+        , m_threadID{threadID}
+        , m_errorLevel{errorLevel}
+    {
+    }
+
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    LogQueueMessage::LogQueueMessage(LogQueueMessage&& msg)
+    {
+        *this = std::move(msg);
+    }
+    /*! \brief Move assignment operator. */
+    LogQueueMessage& LogQueueMessage::operator=(LogQueueMessage&& msg)
+    {
+        std::swap(m_message, msg.m_message);
+        std::swap(m_timeStamp, msg.m_timeStamp);
+        std::swap(m_file, msg.m_file);
+        std::swap(m_lineNo, msg.m_lineNo);
+        std::swap(m_threadID, msg.m_threadID);
+        std::swap(m_errorLevel, msg.m_errorLevel);
+        return *this;
+    }
+#endif
+
+    const std::string& LogQueueMessage::Message() const
+    {
+        return m_message;
+    }
+
+    time_t LogQueueMessage::TimeStamp() const
+    {
+        return m_timeStamp;
+    }
+
+    const std::string& LogQueueMessage::File() const
+    {
+        return m_file;
+    }
+
+    int LogQueueMessage::LineNo() const
+    {
+        return m_lineNo;
+    }
+
+    const std::thread::id& LogQueueMessage::ThreadID() const
+    {
+        return m_threadID;
+    }
+
+    eLogMessageLevel LogQueueMessage::ErrorLevel() const
+    {
+        return m_errorLevel;
+    }
+
+} //namespace dl_private
 
 } // namespace log
 } // namespace core_lib

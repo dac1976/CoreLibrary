@@ -236,13 +236,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xBucketValueOutOfRangeError();
 	/*! \brief Copy constructor. */
-	xBucketValueOutOfRangeError(const xBucketValueOutOfRangeError&) = default;
-	/*! \brief Move constructor. */
-	xBucketValueOutOfRangeError(xBucketValueOutOfRangeError&&) = default;
+    xBucketValueOutOfRangeError(const xBucketValueOutOfRangeError&) = default;
 	/*! \brief Copy assignment operator. */
-	xBucketValueOutOfRangeError& operator=(const xBucketValueOutOfRangeError&) = default;
-	/*! \brief Move assignment operator. */
-	xBucketValueOutOfRangeError& operator=(xBucketValueOutOfRangeError&&) = default;
+    xBucketValueOutOfRangeError& operator=(const xBucketValueOutOfRangeError&) = default;
 };
 
 /*!

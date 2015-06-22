@@ -25,6 +25,9 @@
  * \brief File containing definitions relating the CSVGridCell class.
  */
 
+#ifdef __USE_EXPLICIT_MOVE__
+    #include <utility>
+#endif
 #include "../../Include/CsvGrid/CsvGridCell.h"
 #include "../../Include/StringUtils/StringUtils.h"
 
@@ -34,6 +37,20 @@ namespace csv_grid {
 // ****************************************************************************
 // 'class Cell' definition
 // ****************************************************************************
+
+#ifdef __USE_EXPLICIT_MOVE__
+    Cell::Cell(Cell&& cell)
+    {
+        *this = std::move(cell);
+    }
+
+    Cell& operator=(Cell&& cell)
+    {
+        m_value.swap(cell.m_value);
+        return *this;
+    }
+#endif
+
 Cell::Cell(const std::string& data)
 	: m_value{data}
 {

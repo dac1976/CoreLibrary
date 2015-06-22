@@ -28,6 +28,8 @@
 #ifndef INIFILE
 #define INIFILE
 
+#include "../Platform/PlatformDefines.h"
+
 #include <utility>
 #include <map>
 #include <cstdint>
@@ -58,13 +60,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileDataConvertError();
 	/*! \brief Copy constructor. */
-	xIniFileDataConvertError(const xIniFileDataConvertError&) = default;
-	/*! \brief Move constructor. */
-	xIniFileDataConvertError(xIniFileDataConvertError&&) = default;
+    xIniFileDataConvertError(const xIniFileDataConvertError&) = default;
 	/*! \brief Copy assignment operator. */
-	xIniFileDataConvertError& operator=(const xIniFileDataConvertError&) = default;
-	/*! \brief Move assignment operator. */
-	xIniFileDataConvertError& operator=(xIniFileDataConvertError&&) = default;
+    xIniFileDataConvertError& operator=(const xIniFileDataConvertError&) = default;
 };
 
 /*!
@@ -86,13 +84,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileParserError();
 	/*! \brief Copy constructor. */
-	xIniFileParserError(const xIniFileParserError&) = default;
-	/*! \brief Move constructor. */
-	xIniFileParserError(xIniFileParserError&&) = default;
+    xIniFileParserError(const xIniFileParserError&) = default;
 	/*! \brief Copy assignment operator. */
-	xIniFileParserError& operator=(const xIniFileParserError&) = default;
-	/*! \brief Move assignment operator. */
-	xIniFileParserError& operator=(xIniFileParserError&&) = default;
+    xIniFileParserError& operator=(const xIniFileParserError&) = default;
 };
 
 /*!
@@ -114,13 +108,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileSaveError();
 	/*! \brief Copy constructor. */
-	xIniFileSaveError(const xIniFileSaveError&) = default;
-	/*! \brief Move constructor. */
-	xIniFileSaveError(xIniFileSaveError&&) = default;
+    xIniFileSaveError(const xIniFileSaveError&) = default;
 	/*! \brief Copy assignment operator. */
-	xIniFileSaveError& operator=(const xIniFileSaveError&) = default;
-	/*! \brief Move assignment operator. */
-	xIniFileSaveError& operator=(xIniFileSaveError&&) = default;
+    xIniFileSaveError& operator=(const xIniFileSaveError&) = default;
 };
 
 
@@ -143,13 +133,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileInvalidKeyError();
 	/*! \brief Copy constructor. */
-	xIniFileInvalidKeyError(const xIniFileInvalidKeyError&) = default;
-	/*! \brief Move constructor. */
-	xIniFileInvalidKeyError(xIniFileInvalidKeyError&&) = default;
+    xIniFileInvalidKeyError(const xIniFileInvalidKeyError&) = default;
 	/*! \brief Copy assignment operator. */
-	xIniFileInvalidKeyError& operator=(const xIniFileInvalidKeyError&) = default;
-	/*! \brief Move assignment operator. */
-	xIniFileInvalidKeyError& operator=(xIniFileInvalidKeyError&&) = default;
+    xIniFileInvalidKeyError& operator=(const xIniFileInvalidKeyError&) = default;
 };
 
 /*!
@@ -171,13 +157,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xIniFileInvalidSectionError();
 	/*! \brief Copy constructor. */
-	xIniFileInvalidSectionError(const xIniFileInvalidSectionError&) = default;
-	/*! \brief Move constructor. */
-	xIniFileInvalidSectionError(xIniFileInvalidSectionError&&) = default;
+    xIniFileInvalidSectionError(const xIniFileInvalidSectionError&) = default;
 	/*! \brief Copy assignment operator. */
-	xIniFileInvalidSectionError& operator=(const xIniFileInvalidSectionError&) = default;
-	/*! \brief Move assignment operator. */
-	xIniFileInvalidSectionError& operator=(xIniFileInvalidSectionError&&) = default;
+    xIniFileInvalidSectionError& operator=(const xIniFileInvalidSectionError&) = default;
 };
 
 /*!
@@ -212,8 +194,6 @@ public:
 	IniFile() = default;
 	/*! \brief Copy constructor. */
 	IniFile(const IniFile&) = default;
-	/*! \brief Move constructor. */
-	IniFile(IniFile&&) = default;
 	/*!
 	 * \brief INI path based constructor.
 	 * \param[in] iniFilePath - Path to INI file.
@@ -225,8 +205,17 @@ public:
 	~IniFile() = default;
 	/*! \brief Copy assignment operator. */
 	IniFile& operator=(const IniFile&) = default;
-	/*! \brief Move assignment operator. */
-	IniFile& operator=(IniFile&&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    IniFile(IniFile&& ini);
+    /*! \brief Move assignment operator. */
+    IniFile& operator=(IniFile&& ini);
+#else
+    /*! \brief Move constructor. */
+    IniFile(IniFile&&) = default;
+    /*! \brief Move assignment operator. */
+    IniFile& operator=(IniFile&&) = default;
+#endif
 	/*!
 	 * \brief Load an INI file.
 	 * \param[in] iniFilePath - Path to an INI file.

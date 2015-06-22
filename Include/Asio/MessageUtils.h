@@ -62,13 +62,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xMessageLengthError();
 	/*! \brief Copy constructor. */
-	xMessageLengthError(const xMessageLengthError&) = default;
-	/*! \brief Move constructor. */
-	xMessageLengthError(xMessageLengthError&&) = default;
+    xMessageLengthError(const xMessageLengthError&) = default;
 	/*! \brief Copy assignment operator. */
-	xMessageLengthError& operator=(const xMessageLengthError&) = default;
-	/*! \brief Move assignment operator. */
-	xMessageLengthError& operator=(xMessageLengthError&&) = default;
+    xMessageLengthError& operator=(const xMessageLengthError&) = default;
 };
 
 /*!
@@ -90,13 +86,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xMagicStringError();
 	/*! \brief Copy constructor. */
-	xMagicStringError(const xMagicStringError&) = default;
-	/*! \brief Move constructor. */
-	xMagicStringError(xMagicStringError&&) = default;
+    xMagicStringError(const xMagicStringError&) = default;
 	/*! \brief Copy assignment operator. */
-	xMagicStringError& operator=(const xMagicStringError&) = default;
-	/*! \brief Move assignment operator. */
-	xMagicStringError& operator=(xMagicStringError&&) = default;
+    xMagicStringError& operator=(const xMagicStringError&) = default;
 };
 
 /*!
@@ -119,12 +111,8 @@ public:
     virtual ~xArchiveTypeError();
     /*! \brief Copy constructor. */
     xArchiveTypeError(const xArchiveTypeError&) = default;
-    /*! \brief Move constructor. */
-    xArchiveTypeError(xArchiveTypeError&&) = default;
     /*! \brief Copy assignment operator. */
     xArchiveTypeError& operator=(const xArchiveTypeError&) = default;
-    /*! \brief Move assignment operator. */
-    xArchiveTypeError& operator=(xArchiveTypeError&&) = default;
 };
 
 class MessageHandler final

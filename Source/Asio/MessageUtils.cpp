@@ -25,6 +25,7 @@
  * \brief File containing message utils definitions.
  */
 
+#include <cassert>
 #include "../../Include/Asio/MessageUtils.h"
 #include "boost/throw_exception.hpp"
 
@@ -148,12 +149,25 @@ void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 auto FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
                 , const uint32_t messageId, const defs::connection_t& responseAddress)
     -> defs::MessageHeader
-{
-    defs::MessageHeader header;
+{    
+    assert(magicString.size() < defs::MAGIC_STRING_LEN);
 
-    strncpy(header.magicString, magicString.c_str(), defs::MAGIC_STRING_LEN - 1);
+    if (magicString.size() >= defs::MAGIC_STRING_LEN)
+    {
+        BOOST_THROW_EXCEPTION(xMagicStringError("user magic string too long"));
+    }
+
+    assert(responseAddress.first.size() < defs::RESPONSE_ADDRESS_LEN);
+
+    if (responseAddress.first.size() >= defs::RESPONSE_ADDRESS_LEN)
+    {
+        BOOST_THROW_EXCEPTION(xMessageLengthError("response address too long"));
+    }
+
+    defs::MessageHeader header;
+    strncpy(header.magicString, magicString.c_str(), defs::MAGIC_STRING_LEN);
     header.magicString[defs::MAGIC_STRING_LEN - 1] = 0;
-    strncpy(header.responseAddress, responseAddress.first.c_str(), defs::RESPONSE_ADDRESS_LEN - 1);
+    strncpy(header.responseAddress, responseAddress.first.c_str(), defs::RESPONSE_ADDRESS_LEN);
     header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
     header.responsePort = responseAddress.second;
     header.messageId = messageId;

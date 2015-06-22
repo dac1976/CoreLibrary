@@ -28,9 +28,10 @@
 #ifndef CSVGRIDCELL
 #define CSVGRIDCELL
 
+#include "../Platform/PlatformDefines.h"
+
 #include <cstdint>
 #include <string>
-#include "../Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -51,8 +52,13 @@ public:
 	Cell() = default;
 	/*! \brief Copy constructor. */
 	Cell(const Cell&) = default;
-	/*! \brief Move constructor. */
-	Cell(Cell&&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    Cell(Cell&& cell);
+#else
+    /*! \brief Move constructor. */
+    Cell(Cell&&) = default;
+#endif
 	/*!
 	 * \brief Initializing constructor
      * \param[in] value - The initial value.
@@ -91,9 +97,14 @@ public:
 	/*! \brief Destructor. */
 	~Cell() = default;
 	/*! \brief Copy assignment operator. */
-	Cell& operator=(const Cell&) = default;
-	/*! \brief Move assignment operator. */
-	Cell& operator=(Cell&&) = default;
+    Cell& operator=(const Cell&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move assignment operator. */
+    Cell& operator=(Cell&& cell);
+#else
+    /*! \brief Move assignment operator. */
+    Cell& operator=(Cell&&) = default;
+#endif
 	/*!
 	 * \brief Value assignment operator.
      * \param[in] rhs - The value to assign.

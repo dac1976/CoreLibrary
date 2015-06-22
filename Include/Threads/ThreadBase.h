@@ -28,9 +28,10 @@
 #ifndef THREADBASE
 #define THREADBASE
 
+#include "../Platform/PlatformDefines.h"
+
 #include <thread>
 #include <mutex>
-#include "../Platform/PlatformDefines.h"
 #include "../Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
@@ -58,13 +59,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xThreadNotStartedError();
 	/*! \brief Copy constructor. */
-	xThreadNotStartedError(const xThreadNotStartedError&) = default;
-	/*! \brief Move constructor. */
-	xThreadNotStartedError(xThreadNotStartedError&&) = default;
+    xThreadNotStartedError(const xThreadNotStartedError&) = default;
 	/*! \brief Copy assignment operator. */
-	xThreadNotStartedError& operator=(const xThreadNotStartedError&) = default;
-	/*! \brief Move assignment operator. */
-	xThreadNotStartedError& operator=(xThreadNotStartedError&&) = default;
+    xThreadNotStartedError& operator=(const xThreadNotStartedError&) = default;
 };
 
 /*!

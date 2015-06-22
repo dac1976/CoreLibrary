@@ -59,12 +59,8 @@ public:
     virtual ~xQueuePopTimeoutError();
     /*! \brief Copy constructor. */
     xQueuePopTimeoutError(const xQueuePopTimeoutError&) = default;
-    /*! \brief Move constructor. */
-    xQueuePopTimeoutError(xQueuePopTimeoutError&&) = default;
     /*! \brief Copy assignment operator. */
     xQueuePopTimeoutError& operator=(const xQueuePopTimeoutError&) = default;
-    /*! \brief Move assignment operator. */
-    xQueuePopTimeoutError& operator=(xQueuePopTimeoutError&&) = default;
 };
 
 /*!
@@ -87,12 +83,8 @@ public:
     virtual ~xQueuePopQueueEmptyError();
     /*! \brief Copy constructor. */
     xQueuePopQueueEmptyError(const xQueuePopQueueEmptyError&) = default;
-    /*! \brief Move constructor. */
-    xQueuePopQueueEmptyError(xQueuePopQueueEmptyError&&) = default;
     /*! \brief Copy assignment operator. */
     xQueuePopQueueEmptyError& operator=(const xQueuePopQueueEmptyError&) = default;
-    /*! \brief Move assignment operator. */
-    xQueuePopQueueEmptyError& operator=(xQueuePopQueueEmptyError&&) = default;
 };
 
 /*!

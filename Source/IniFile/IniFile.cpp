@@ -181,6 +181,23 @@ static bool IsKeyLine(const std::string& line
 
 } // namespace
 
+#ifdef __USE_EXPLICIT_MOVE__
+    IniFile::IniFile(IniFile&& ini)
+    {
+        *this = std::move(ini);
+    }
+
+    IniFile& IniFile::operator=(IniFile&& ini)
+    {
+        m_changesMade = false;
+        std::swap(m_iniFilePath, ini.m_iniFilePath);
+        std::swap(m_sectionMap, ini.m_sectionMap);
+        std::swap(m_lines, ini.m_lines);
+        return *this;
+    }
+
+#endif
+
 IniFile::IniFile(const std::string& iniFilePath)
 {
 	LoadFile(iniFilePath);

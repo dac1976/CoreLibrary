@@ -28,6 +28,8 @@
 #ifndef DEBUGLOG
 #define DEBUGLOG
 
+#include "../Platform/PlatformDefines.h"
+
 #include <ctime>
 #include <chrono>
 #include <string>
@@ -36,6 +38,9 @@
 #include <set>
 #include <unordered_map>
 #include <algorithm>
+#ifdef __USE_EXPLICIT_MOVE__
+    #include <utility>
+#endif
 #include <memory>
 #include <functional>
 #include <type_traits>
@@ -121,13 +126,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xLogMsgHandlerError();
 	/*! \brief Copy constructor. */
-	xLogMsgHandlerError(const xLogMsgHandlerError&) = default;
-	/*! \brief Move constructor. */
-	xLogMsgHandlerError(xLogMsgHandlerError&&) = default;
+    xLogMsgHandlerError(const xLogMsgHandlerError&) = default;
 	/*! \brief Copy assignment operator. */
-	xLogMsgHandlerError& operator=(const xLogMsgHandlerError&) = default;
-	/*! \brief Move assignment operator. */
-	xLogMsgHandlerError& operator=(xLogMsgHandlerError&&) = default;
+    xLogMsgHandlerError& operator=(const xLogMsgHandlerError&) = default;
 };
 
 /*!
@@ -149,13 +150,9 @@ public:
 	/*! \brief Virtual destructor. */
 	virtual ~xInstantiationrError();
 	/*! \brief Copy constructor. */
-	xInstantiationrError(const xInstantiationrError&) = default;
-	/*! \brief Move constructor. */
-	xInstantiationrError(xInstantiationrError&&) = default;
+    xInstantiationrError(const xInstantiationrError&) = default;
 	/*! \brief Copy assignment operator. */
-	xInstantiationrError& operator=(const xInstantiationrError&) = default;
-	/*! \brief Move assignment operator. */
-	xInstantiationrError& operator=(xInstantiationrError&&) = default;
+    xInstantiationrError& operator=(const xInstantiationrError&) = default;
 };
 
 /*!
@@ -221,73 +218,54 @@ public:
 					const std::string& file,
 					const int lineNo,
 					const std::thread::id& threadID,
-					const eLogMessageLevel errorLevel)
-		: m_message{message}
-		, m_timeStamp{timeStamp}
-		, m_file{file}
-		, m_lineNo{lineNo}
-		, m_threadID{threadID}
-		, m_errorLevel{errorLevel}
-	{
-	}
+                    const eLogMessageLevel errorLevel);
 	/*! \brief Copy constructor. */
 	LogQueueMessage(const LogQueueMessage& ) = default;
-	/*! \brief Move constructor. */
-	LogQueueMessage(LogQueueMessage&& ) = default;
 	/*! \brief Destructor.*/
 	~LogQueueMessage() = default;
 	/*! \brief Copy assignment operator. */
 	LogQueueMessage& operator=(const LogQueueMessage&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    LogQueueMessage(LogQueueMessage&& msg);
+    /*! \brief Move assignment operator. */
+    LogQueueMessage& operator=(LogQueueMessage&& msg);
+#else
+    /*! \brief Move constructor. */
+    LogQueueMessage(LogQueueMessage&&) = default;
 	/*! \brief Move assignment operator. */
 	LogQueueMessage& operator=(LogQueueMessage&&) = default;
+#endif
 	/*!
 	 * \brief Get message string.
 	 * \return Message string.
 	 */
-	const std::string& Message() const
-	{
-		return m_message;
-	}
+    const std::string& Message() const;
 	/*!
 	 * \brief Get time stamp.
 	 * \return Time stamp.
 	 */
-	time_t TimeStamp() const
-	{
-		return m_timeStamp;
-	}
+    time_t TimeStamp() const;
 	/*!
 	 * \brief Get source file name string.
 	 * \return File name string.
 	 */
-	const std::string& File() const
-	{
-		return m_file;
-	}
+    const std::string& File() const;
 	/*!
 	 * \brief Get source file line number.
 	 * \return Line number.
 	 */
-	int LineNo() const
-	{
-		return m_lineNo;
-	}
+    int LineNo() const;
 	/*!
 	 * \brief Get thread ID where message originated.
 	 * \return Thread ID.
 	 */
-	const std::thread::id& ThreadID() const
-	{
-		return m_threadID;
-	}
+    const std::thread::id& ThreadID() const;
 	/*!
 	 * \brief Get message error level.
 	 * \return Error level.
 	 */
-	eLogMessageLevel ErrorLevel() const
-	{
-		return m_errorLevel;
-	}
+    eLogMessageLevel ErrorLevel() const;
 
 private:
 	/*! \brief Message string.*/
