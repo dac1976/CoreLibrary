@@ -125,8 +125,10 @@ struct MessageHeader
 	uint32_t totalLength{sizeof(*this)};
 
 	MessageHeader()
-        : responseAddress{"0.0.0.0"}
 	{
+		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
+		magicString[RESPONSE_ADDRESS_LEN - 1] = 0;
+
         strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
         magicString[MAGIC_STRING_LEN - 1] = 0;
 	}
@@ -136,10 +138,13 @@ struct MessageHeader
     MessageHeader& operator=(const MessageHeader&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
     MessageHeader(MessageHeader&& header)
-        : responseAddress{"0.0.0.0"}
     {
+		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
+		magicString[RESPONSE_ADDRESS_LEN - 1] = 0;
+
         strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
         magicString[MAGIC_STRING_LEN - 1] = 0;
+
         *this = std::move(header);
     }
     MessageHeader& operator=(MessageHeader&& header)

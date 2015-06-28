@@ -29,11 +29,13 @@
 #define PLATFORMDEFINES
 
     #undef __USE_EXPLICIT_MOVE__
+	#undef __USE_DEFAULT_CONSTRUCTOR__
 
     #ifdef _MSC_VER
 		#if _MSC_VER < 1900
             #define __NOEXCEPT__
             #define __USE_EXPLICIT_MOVE__
+			#define __USE_DEFAULT_CONSTRUCTOR__
 			#define __CONSTEXPR__ const
 		#else
             #define __NOEXCEPT__ noexcept

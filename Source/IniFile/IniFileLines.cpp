@@ -75,7 +75,7 @@ void BlankLine::Print(std::ostream &os, bool addLineFeed) const
 #endif
 
 CommentLine::CommentLine(const std::string& comment)
-	: Line(), m_comment{comment}
+	: Line(), m_comment(comment)
 {
 }
 
@@ -109,7 +109,7 @@ void CommentLine::Print(std::ostream &os, bool addLineFeed) const
 #endif
 
 SectionLine::SectionLine(const std::string& section)
-	: Line(), m_section{section}
+	: Line(), m_section(section)
 {
 }
 
@@ -145,7 +145,7 @@ void SectionLine::Print(std::ostream &os, bool addLineFeed) const
 
 KeyLine::KeyLine(const std::string& key
 						  , const std::string& value)
-	: Line(), m_key{key}, m_value{value}
+	: Line(), m_key(key), m_value(value)
 {
 }
 

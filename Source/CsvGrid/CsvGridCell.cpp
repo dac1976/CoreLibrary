@@ -52,27 +52,27 @@ namespace csv_grid {
 #endif
 
 Cell::Cell(const std::string& data)
-	: m_value{data}
+	: m_value(data)
 {
 }
 
 Cell::Cell(const int32_t value)
-	: m_value{std::to_string(value)}
+	: m_value(std::to_string(value))
 {
 }
 
 Cell::Cell(const int64_t value)
-	: m_value{std::to_string(value)}
+	: m_value(std::to_string(value))
 {
 }
 
 Cell::Cell(const double value)
-	: m_value{string_utils::FormatFloatString(value)}
+	: m_value(string_utils::FormatFloatString(value))
 {
 }
 
 Cell::Cell(const long double value)
-	: m_value{string_utils::FormatFloatString(value, 30)}
+	: m_value(string_utils::FormatFloatString(value, 30))
 {
 }
 

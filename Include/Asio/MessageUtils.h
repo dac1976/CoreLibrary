@@ -28,6 +28,8 @@
 #ifndef MESSAGEUTILS
 #define MESSAGEUTILS
 
+#include "../Platform/PlatformDefines.h"
+
 #include "AsioDefines.h"
 #include "../Exceptions/CustomException.h"
 #include "../Serialization/SerializeToVector.h"
@@ -130,7 +132,7 @@ public:
 
 private:
     defs::default_message_dispatcher_t m_messageDispatcher;
-	const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
+    const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 
     static void CheckMessage(const defs::char_buffer_t& message);
 };

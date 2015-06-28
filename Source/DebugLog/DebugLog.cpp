@@ -129,12 +129,12 @@ namespace dl_private
                     const int lineNo,
                     const std::thread::id& threadID,
                     const eLogMessageLevel errorLevel)
-        : m_message{message}
-        , m_timeStamp{timeStamp}
-        , m_file{file}
-        , m_lineNo{lineNo}
-        , m_threadID{threadID}
-        , m_errorLevel{errorLevel}
+        : m_message(message)
+        , m_timeStamp(timeStamp)
+        , m_file(file)
+        , m_lineNo(lineNo)
+        , m_threadID(threadID)
+        , m_errorLevel(errorLevel)
     {
     }
 

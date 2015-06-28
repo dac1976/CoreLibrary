@@ -35,13 +35,13 @@ namespace exceptions {
 // ****************************************************************************
 xCustomException::xCustomException()
 	: boost::exception(), std::exception(),
-	  m_message{"custom exception"}
+	  m_message("custom exception")
 {
 }
 
 xCustomException::xCustomException(const std::string& message)
 	: boost::exception(), std::exception(),
-	  m_message{message}
+	  m_message(message)
 {
 }
 
