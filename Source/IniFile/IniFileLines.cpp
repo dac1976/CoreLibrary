@@ -39,6 +39,19 @@ namespace if_private {
 // 'class IniFile' support class definitions.
 // ****************************************************************************
 
+#ifdef __USE_EXPLICIT_MOVE__
+    BlankLine::BlankLine(BlankLine&& line)
+    {
+        *this = std::move(line);
+    }
+
+    BlankLine& BlankLine::operator=(BlankLine&& line)
+    {
+        Line::operator=(std::move(line));
+        return *this;
+    }
+#endif
+
 void BlankLine::Print(std::ostream &os, bool addLineFeed) const
 {
 	if (addLineFeed)
@@ -46,6 +59,20 @@ void BlankLine::Print(std::ostream &os, bool addLineFeed) const
 		os << std::endl;
 	}
 }
+
+#ifdef __USE_EXPLICIT_MOVE__
+    CommentLine::CommentLine(CommentLine&& line)
+    {
+        *this = std::move(line);
+    }
+
+    CommentLine& CommentLine::operator=(CommentLine&& line)
+    {
+        Line::operator=(std::move(line));
+        std::swap(m_comment, line.m_comment);
+        return *this;
+    }
+#endif
 
 CommentLine::CommentLine(const std::string& comment)
 	: Line(), m_comment{comment}
@@ -67,6 +94,20 @@ void CommentLine::Print(std::ostream &os, bool addLineFeed) const
 	}
 }
 
+#ifdef __USE_EXPLICIT_MOVE__
+    SectionLine::SectionLine(SectionLine&& line)
+    {
+        *this = std::move(line);
+    }
+
+    SectionLine& SectionLine::operator=(SectionLine&& line)
+    {
+        Line::operator=(std::move(line));
+        std::swap(m_section, line.m_section);
+        return *this;
+    }
+#endif
+
 SectionLine::SectionLine(const std::string& section)
 	: Line(), m_section{section}
 {
@@ -86,6 +127,21 @@ void SectionLine::Print(std::ostream &os, bool addLineFeed) const
 		os << std::endl;
 	}
 }
+
+#ifdef __USE_EXPLICIT_MOVE__
+    KeyLine::KeyLine(KeyLine&& line)
+    {
+        *this = std::move(line);
+    }
+
+    KeyLine& KeyLine::operator=(KeyLine&& line)
+    {
+        Line::operator=(std::move(line));
+        std::swap(m_key, line.m_key);
+        std::swap(m_value, line.m_value);
+        return *this;
+    }
+#endif
 
 KeyLine::KeyLine(const std::string& key
 						  , const std::string& value)

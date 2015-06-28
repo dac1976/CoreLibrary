@@ -33,9 +33,6 @@
 #include <functional>
 #include <memory>
 #include <utility>
-#ifdef __USE_EXPLICIT_MOVE__
-    #include <algorithm>
-#endif
 #include <string>
 #include <cstdint>
 #include "boost/asio.hpp"

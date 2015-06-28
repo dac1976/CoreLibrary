@@ -91,13 +91,9 @@ public:
 	/*! \brief Virtual destructor.*/
 	virtual ~xSplitStringTooManySubstrings();
 	/*! \brief Copy constructor. */
-	xSplitStringTooManySubstrings(const xSplitStringTooManySubstrings&) = default;
-	/*! \brief Move constructor. */
-	xSplitStringTooManySubstrings(xSplitStringTooManySubstrings&&) = default;
+    xSplitStringTooManySubstrings(const xSplitStringTooManySubstrings&) = default;
 	/*! \brief Copy assignment operator. */
-	xSplitStringTooManySubstrings& operator=(const xSplitStringTooManySubstrings&) = default;
-	/*! \brief Move assignment operator. */
-	xSplitStringTooManySubstrings& operator=(xSplitStringTooManySubstrings&&) = default;
+    xSplitStringTooManySubstrings& operator=(const xSplitStringTooManySubstrings&) = default;
 };
 
 /*!

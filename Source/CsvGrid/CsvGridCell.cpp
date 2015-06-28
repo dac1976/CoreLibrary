@@ -44,7 +44,7 @@ namespace csv_grid {
         *this = std::move(cell);
     }
 
-    Cell& operator=(Cell&& cell)
+    Cell& Cell::operator=(Cell&& cell)
     {
         m_value.swap(cell.m_value);
         return *this;

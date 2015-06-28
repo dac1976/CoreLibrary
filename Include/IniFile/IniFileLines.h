@@ -28,6 +28,8 @@
 #ifndef INIFILELINES
 #define INIFILELINES
 
+#include "../Platform/PlatformDefines.h"
+
 #include <string>
 #include <list>
 #include <memory>
@@ -46,19 +48,7 @@ namespace if_private {
 /*! \brief Base class to manage a line in an INI file. */
 class Line
 {
-public:
-	/*! \brief Default constructor. */
-	Line() = default;
-	/*! \brief Copy constructor. */
-	explicit Line(const Line&) = default;
-	/*! \brief Move constructor. */
-	explicit Line(Line&&) = default;
-	/*! \brief Virtual destructor. */
-	virtual ~Line() = default;
-	/*! \brief Copy assignment operator. */
-	Line& operator=(const Line&) = default;
-	/*! \brief Move assignment operator. */
-	Line& operator=(Line&&) = default;
+public:   
 	/*!
 	 * \brief Virtual Print function
 	 * \param[in,out] os - Stream to write to.
@@ -75,14 +65,21 @@ public:
 	BlankLine() = default;
 	/*! \brief Copy constructor. */
 	BlankLine(const BlankLine&) = default;
-	/*! \brief Move constructor. */
-	BlankLine(BlankLine&&) = default;
 	/*! \brief Virtual destructor. */
 	virtual ~BlankLine() = default;
 	/*! \brief Copy assignment operator. */
 	BlankLine& operator=(const BlankLine&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    BlankLine(BlankLine&& line);
+    /*! \brief Move assignment operator. */
+    BlankLine& operator=(BlankLine&& line);
+#else
+    /*! \brief Move constructor. */
+    BlankLine(BlankLine&&) = default;
 	/*! \brief Move assignment operator. */
 	BlankLine& operator=(BlankLine&&) = default;
+#endif
 	/*!
 	 * \brief Virtual Print function
 	 * \param[in,out] os - Stream to write to.
@@ -98,17 +95,24 @@ public:
 	/*! \brief Default constructor. */
 	CommentLine() = default;
 	/*! \brief Copy constructor. */
-	CommentLine(const CommentLine&) = default;
-	/*! \brief Move constructor. */
-	CommentLine(CommentLine&&) = default;
+	CommentLine(const CommentLine&) = default;	
 	/*! \brief Initialising constructor. */
 	explicit CommentLine(const std::string& comment);
 	/*! \brief Virtual destructor. */
 	virtual ~CommentLine() = default;
 	/*! \brief Copy assignment operator. */
-	CommentLine& operator=(const CommentLine&) = default;
-	/*! \brief Move assignment operator. */
-	CommentLine& operator=(CommentLine&&) = default;
+    CommentLine& operator=(const CommentLine&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    CommentLine(CommentLine&& line);
+    /*! \brief Move assignment operator. */
+    CommentLine& operator=(CommentLine&& line);
+#else
+    /*! \brief Move constructor. */
+    CommentLine(CommentLine&&) = default;
+    /*! \brief Move assignment operator. */
+    CommentLine& operator=(CommentLine&&) = default;
+#endif
 	/*!
 	 * \brief Get the comment.
 	 * \return The comment.
@@ -133,17 +137,24 @@ public:
 	/*! \brief Default constructor. */
 	SectionLine() = default;
 	/*! \brief Copy constructor. */
-	SectionLine(const SectionLine&) = default;
-	/*! \brief Move constructor. */
-	SectionLine(SectionLine&&) = default;
+    SectionLine(const SectionLine&) = default;
 	/*! \brief Initialising constructor. */
 	explicit SectionLine(const std::string& section);
 	/*! \brief Virtual destructor. */
 	virtual ~SectionLine() = default;
 	/*! \brief Copy assignment operator. */
-	SectionLine& operator=(const SectionLine&) = default;
-	/*! \brief Move assignment operator. */
-	SectionLine& operator=(SectionLine&&) = default;
+    SectionLine& operator=(const SectionLine&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    SectionLine(SectionLine&& line);
+    /*! \brief Move assignment operator. */
+    SectionLine& operator=(SectionLine&& line);
+#else
+    /*! \brief Move constructor. */
+    SectionLine(SectionLine&&) = default;
+    /*! \brief Move assignment operator. */
+    SectionLine& operator=(SectionLine&&) = default;
+#endif
 	/*!
 	 * \brief Get the section.
 	 * \return The section.
@@ -168,17 +179,24 @@ public:
 	/*! \brief Default constructor. */
 	KeyLine() = default;
 	/*! \brief Copy constructor. */
-	KeyLine(const KeyLine&) = default;
-	/*! \brief Move constructor. */
-	KeyLine(KeyLine&&) = default;
+    KeyLine(const KeyLine&) = default;
 	/*! \brief Initialising constructor. */
 	KeyLine(const std::string& key, const std::string& value);
 	/*! \brief Virtual destructor. */
 	virtual ~KeyLine() = default;
 	/*! \brief Copy assignment operator. */
-	KeyLine& operator=(const KeyLine&) = default;
-	/*! \brief Move assignment operator. */
-	KeyLine& operator=(KeyLine&&) = default;
+    KeyLine& operator=(const KeyLine&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    KeyLine(KeyLine&& line);
+    /*! \brief Move assignment operator. */
+    KeyLine& operator=(KeyLine&& line);
+#else
+    /*! \brief Move constructor. */
+    KeyLine(KeyLine&&) = default;
+    /*! \brief Move assignment operator. */
+    KeyLine& operator=(KeyLine&&) = default;
+#endif
 	/*!
 	 * \brief Get the key.
 	 * \return The key.

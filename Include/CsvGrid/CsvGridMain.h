@@ -222,6 +222,7 @@ public:
     TCsvGrid& operator=(TCsvGrid&& csvGrid)
     {
         std::swap(m_grid, csvGrid.m_grid);
+        return *this;
     }
 #else
 	/*! \brief Move assignment operator. */

@@ -139,12 +139,11 @@ namespace dl_private
     }
 
 #ifdef __USE_EXPLICIT_MOVE__
-    /*! \brief Move constructor. */
     LogQueueMessage::LogQueueMessage(LogQueueMessage&& msg)
     {
         *this = std::move(msg);
     }
-    /*! \brief Move assignment operator. */
+
     LogQueueMessage& LogQueueMessage::operator=(LogQueueMessage&& msg)
     {
         std::swap(m_message, msg.m_message);

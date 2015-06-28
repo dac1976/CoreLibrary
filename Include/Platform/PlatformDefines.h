@@ -39,7 +39,7 @@
 		#endif
 	#else
         #define __NOEXCEPT__ noexcept
-	#endif
+    #endif
 	
 #endif // PLATFORMDEFINES
 

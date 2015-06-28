@@ -25,6 +25,8 @@
  * \brief File containing declarations relating the IniFile support classes.
  */
 
+#include "../Platform/PlatformDefines.h"
+
 #include "IniFileLines.h"
 
 #ifndef INIFILESECTIONDETAILS
@@ -45,15 +47,23 @@ public:
 	SectionDetails() = default;
 	/*! \brief Copy constructor. */
 	SectionDetails(const SectionDetails&) = default;
-	/*! \brief Move constructor. */
-	SectionDetails(SectionDetails&&) = default;
 	/*! \brief Initialising constructor. */
 	explicit SectionDetails(const line_iter& sectIter);
+    /*! \brief Destructor. */
 	~SectionDetails() = default;
 	/*! \brief Copy assignment operator. */
 	SectionDetails& operator=(const SectionDetails&) = default;
-	/*! \brief Move assignment operator. */
-	SectionDetails& operator=(SectionDetails&&) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Move constructor. */
+    SectionDetails(SectionDetails&& section);
+    /*! \brief Move assignment operator. */
+    SectionDetails& operator=(SectionDetails&& section);
+#else
+    /*! \brief Move constructor. */
+    SectionDetails(SectionDetails&&) = default;
+    /*! \brief Move assignment operator. */
+    SectionDetails& operator=(SectionDetails&&) = default;
+#endif
 	/*!
 	 * \brief Get the section.
 	 * \return The section.
