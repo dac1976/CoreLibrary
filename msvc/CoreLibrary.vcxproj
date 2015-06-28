@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A77F0C43-9A40-4B9D-8075-92DE178395EC}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>CoreLibrary</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..;..\Include;..\Source;$(BOOST_ROOT);$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\tuple_serialization;$(THIRD_PARTY_LIBS)\eos_portable_archive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(BOOST_ROOT)\..\lib\lib-msvc-32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libboost_filesystem-vc120-mt-gd-1_58.lib;libboost_system-vc120-mt-gd-1_58.lib;libboost_serialization-vc120-mt-gd-1_58.lib;libboost_program_options-vc120-mt-gd-1_58.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..;..\Include;..\Source;$(BOOST_ROOT);$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\tuple_serialization;$(THIRD_PARTY_LIBS)\eos_portable_archive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(BOOST_ROOT)\..\lib\lib-msvc-32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libboost_filesystem-vc120-mt-1_58.lib;libboost_system-vc120-mt-1_58.lib;libboost_serialization-vc120-mt-1_58.lib;libboost_program_options-vc120-mt-1_58.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\Asio\AsioDefines.h" />
+    <ClInclude Include="..\Include\Asio\IoServiceThreadGroup.h" />
+    <ClInclude Include="..\Include\Asio\MessageUtils.h" />
+    <ClInclude Include="..\Include\Asio\SimpleTcpClient.h" />
+    <ClInclude Include="..\Include\Asio\SimpleTcpServer.h" />
+    <ClInclude Include="..\Include\Asio\SimpleUdpReceiver.h" />
+    <ClInclude Include="..\Include\Asio\SimpleUdpSender.h" />
+    <ClInclude Include="..\Include\Asio\TcpClient.h" />
+    <ClInclude Include="..\Include\Asio\TcpConnection.h" />
+    <ClInclude Include="..\Include\Asio\TcpConnections.h" />
+    <ClInclude Include="..\Include\Asio\TcpServer.h" />
+    <ClInclude Include="..\Include\Asio\TcpTypedClient.h" />
+    <ClInclude Include="..\Include\Asio\TcpTypedServer.h" />
+    <ClInclude Include="..\Include\Asio\UdpReceiver.h" />
+    <ClInclude Include="..\Include\Asio\UdpSender.h" />
+    <ClInclude Include="..\Include\Asio\UdpTypedSender.h" />
+    <ClInclude Include="..\Include\CsvGrid\CsvGrid.h" />
+    <ClInclude Include="..\Include\CsvGrid\CsvGridCell.h" />
+    <ClInclude Include="..\Include\CsvGrid\CsvGridMain.h" />
+    <ClInclude Include="..\Include\CsvGrid\CsvGridRow.h" />
+    <ClInclude Include="..\Include\DebugLog\DebugLog.h" />
+    <ClInclude Include="..\Include\DebugLog\DebugLogging.h" />
+    <ClInclude Include="..\Include\DebugLog\DebugLogSingleton.h" />
+    <ClInclude Include="..\Include\Exceptions\CustomException.h" />
+    <ClInclude Include="..\Include\IniFile\IniFile.h" />
+    <ClInclude Include="..\Include\IniFile\IniFileLines.h" />
+    <ClInclude Include="..\Include\IniFile\IniFileSectionDetails.h" />
+    <ClInclude Include="..\Include\Platform\PlatformDefines.h" />
+    <ClInclude Include="..\Include\Serialization\SerializationIncludes.h" />
+    <ClInclude Include="..\Include\Serialization\SerializeToVector.h" />
+    <ClInclude Include="..\Include\Sorting\GenericSorting.h" />
+    <ClInclude Include="..\Include\StringUtils\StringUtils.h" />
+    <ClInclude Include="..\Include\Threads\BoundedBuffer.h" />
+    <ClInclude Include="..\Include\Threads\ConcurrentQueue.h" />
+    <ClInclude Include="..\Include\Threads\JoinThreads.h" />
+    <ClInclude Include="..\Include\Threads\MessageQueueThread.h" />
+    <ClInclude Include="..\Include\Threads\SyncEvent.h" />
+    <ClInclude Include="..\Include\Threads\ThreadBase.h" />
+    <ClInclude Include="..\Include\Threads\ThreadGroup.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\Asio\IoServiceThreadGroup.cpp" />
+    <ClCompile Include="..\Source\Asio\MessageUtils.cpp" />
+    <ClCompile Include="..\Source\Asio\SimpleTcpClient.cpp" />
+    <ClCompile Include="..\Source\Asio\SimpleTcpServer.cpp" />
+    <ClCompile Include="..\Source\Asio\SimpleUdpReceiver.cpp" />
+    <ClCompile Include="..\Source\Asio\SimpleUdpSender.cpp" />
+    <ClCompile Include="..\Source\Asio\TcpClient.cpp" />
+    <ClCompile Include="..\Source\Asio\TcpConnection.cpp" />
+    <ClCompile Include="..\Source\Asio\TcpConnections.cpp" />
+    <ClCompile Include="..\Source\Asio\TcpServer.cpp" />
+    <ClCompile Include="..\Source\Asio\UdpReceiver.cpp" />
+    <ClCompile Include="..\Source\Asio\UdpSender.cpp" />
+    <ClCompile Include="..\Source\CsvGrid\CsvGridCell.cpp" />
+    <ClCompile Include="..\Source\CsvGrid\CsvGridMain.cpp" />
+    <ClCompile Include="..\Source\CsvGrid\CsvGridRow.cpp" />
+    <ClCompile Include="..\Source\DebugLog\DebugLog.cpp" />
+    <ClCompile Include="..\Source\Exceptions\CustomException.cpp" />
+    <ClCompile Include="..\Source\IniFile\IniFile.cpp" />
+    <ClCompile Include="..\Source\IniFile\IniFileLines.cpp" />
+    <ClCompile Include="..\Source\IniFile\IniFileSectionDetails.cpp" />
+    <ClCompile Include="..\Source\Sorting\GenericSorting.cpp" />
+    <ClCompile Include="..\Source\StringUtils\StringUtils.cpp" />
+    <ClCompile Include="..\Source\Threads\ConcurrentQueue.cpp" />
+    <ClCompile Include="..\Source\Threads\MessageQueueThread.cpp" />
+    <ClCompile Include="..\Source\Threads\SyncEvent.cpp" />
+    <ClCompile Include="..\Source\Threads\ThreadBase.cpp" />
+    <ClCompile Include="..\Source\Threads\ThreadGroup.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

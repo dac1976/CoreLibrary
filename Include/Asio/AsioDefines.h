@@ -56,7 +56,7 @@ namespace asio {
 namespace tcp {
 
 	// Reserve 0.5 MiB for each receive buffer.
-	static constexpr size_t DEFAULT_RESERVED_SIZE{512 * 1024};
+	static __CONSTEXPR__ size_t DEFAULT_RESERVED_SIZE{ 512 * 1024 };
 
 	enum class eSendOption
 	{
@@ -80,10 +80,10 @@ namespace udp {
 	// however the size available for "user" data is a bit less
 	// as we have to allow 8 bytes for UDP header and 20 bytes
 	// for the IP header.
-	static constexpr size_t UDP_DATAGRAM_MAX_SIZE{65507};
+	static __CONSTEXPR__ size_t UDP_DATAGRAM_MAX_SIZE{65507};
 
 	//UDP send/receive buffer default size.
-	static constexpr size_t DEFAULT_UDP_BUF_SIZE{8192};
+	static __CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
 
 } // namespace udp
 
@@ -96,11 +96,11 @@ static const connection_t NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
 
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
 
-static constexpr uint32_t RESPONSE_ADDRESS_LEN{16};
+static __CONSTEXPR__ uint32_t RESPONSE_ADDRESS_LEN{16};
 
-static constexpr uint32_t MAGIC_STRING_LEN{16};
+static __CONSTEXPR__ uint32_t MAGIC_STRING_LEN{16};
 
-static constexpr char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+static __CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 enum class eArchiveType : uint8_t
 {

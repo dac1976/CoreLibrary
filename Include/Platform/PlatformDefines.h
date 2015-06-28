@@ -30,15 +30,18 @@
 
     #undef __USE_EXPLICIT_MOVE__
 
-	#ifdef _MSC_VER
+    #ifdef _MSC_VER
 		#if _MSC_VER < 1900
             #define __NOEXCEPT__
             #define __USE_EXPLICIT_MOVE__
+			#define __CONSTEXPR__ const
 		#else
             #define __NOEXCEPT__ noexcept
+			#define __CONSTEXPR__ constexpr
 		#endif
 	#else
         #define __NOEXCEPT__ noexcept
+        #define __CONSTEXPR__ constexpr
     #endif
 	
 #endif // PLATFORMDEFINES

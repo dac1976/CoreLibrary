@@ -5,11 +5,11 @@ CONFIG(debug, debug|release) {
           -lllibboost_filesystem-d \
           -llibboost_system-d \
 		  -llibboost_serialization-d \
-		  -libboost_program_options-d
+		  -llibboost_program_options-d
 } else {
   LIBS += -L/home/duncan/Projects/ThirdParty/boost/lib \
           -lllibboost_filesystem \
           -llibboost_system \
 		  -llibboost_serialization \
-		  -libboost_program_options
+		  -llibboost_program_options
 }
