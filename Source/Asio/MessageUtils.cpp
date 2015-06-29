@@ -92,10 +92,18 @@ xArchiveTypeError::~xArchiveTypeError()
 // 'class MessageHandler' definition
 // ****************************************************************************
 
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	MessageHandler::MessageHandler()
+		: m_magicString(defs::DEFAULT_MAGIC_STRING)
+	{
+
+	}
+#endif
+
 MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher
 							   , const std::string& magicString)
-	: m_messageDispatcher{messageDispatcher}
-	, m_magicString{magicString}
+	: m_messageDispatcher(messageDispatcher)
+	, m_magicString(magicString)
 {
 }
 
@@ -180,8 +188,16 @@ auto FillHeader(const std::string& magicString, const defs::eArchiveType archive
 // 'class MessageBuilder' definition
 // ****************************************************************************
 
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	MessageBuilder::MessageBuilder()
+		: m_magicString(defs::DEFAULT_MAGIC_STRING)
+	{
+
+	}
+#endif
+
 MessageBuilder::MessageBuilder(const std::string& magicString)
-    : m_magicString{magicString}
+    : m_magicString(magicString)
 {
 }
 

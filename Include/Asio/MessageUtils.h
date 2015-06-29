@@ -120,6 +120,11 @@ public:
 class MessageHandler final
 {
 public:
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	MessageHandler();
+#else
+	MessageHandler() = default;
+#endif
     MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher
 				   , const std::string& magicString);
 	~MessageHandler() = default;
@@ -132,7 +137,11 @@ public:
 
 private:
     defs::default_message_dispatcher_t m_messageDispatcher;
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	const std::string m_magicString;
+#else
     const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
+#endif
 
     static void CheckMessage(const defs::char_buffer_t& message);
 };
@@ -200,7 +209,11 @@ struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
 class MessageBuilder final
 {
 public:
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	MessageBuilder();
+#else
     MessageBuilder() = default;
+#endif
     explicit MessageBuilder(const std::string& magicString);
     ~MessageBuilder() = default;
 
@@ -243,7 +256,11 @@ public:
     }
 
 private:
-    const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	const std::string m_magicString;
+#else
+	const std::string m_magicString{ defs::DEFAULT_MAGIC_STRING };
+#endif
 };
 
 } // namespace messages

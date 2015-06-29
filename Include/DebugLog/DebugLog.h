@@ -85,7 +85,7 @@ struct hash<core_lib::log::eLogMessageLevel>
 	/*! \brief Typedef for result type. */
 	typedef std::size_t                     result_t;
 	/*! \brief Typedef for underlying type. */
-	typedef typename std::underlying_type<argument_t>::type enumType_t;
+	typedef __TYPENAME_DECL__ std::underlying_type<argument_t>::type enumType_t;
 
 	/*!
 	 * \brief Function operator to perform the hash.

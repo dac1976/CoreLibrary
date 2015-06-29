@@ -190,8 +190,13 @@ public:
 class IniFile final
 {
 public:
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	/*! \brief Default constructor. */
+	IniFile();
+#else
 	/*! \brief Default constructor. */
 	IniFile() = default;
+#endif
 	/*! \brief Copy constructor. */
 	IniFile(const IniFile&) = default;
 	/*!
@@ -393,11 +398,17 @@ public:
 	void EraseKeys(const std::string& section);
 
 private:
-
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+	/*! \brief Changes made flag. */
+	mutable bool m_changesMade;
+	/*! \brief INI file path. */
+	std::string m_iniFilePath;
+#else
 	/*! \brief Changes made flag. */
 	mutable bool m_changesMade{false};
 	/*! \brief INI file path. */
 	std::string m_iniFilePath{"config.ini"};
+#endif
 	/*! \brief Section map typedef. */
 	typedef std::map<std::string, if_private::SectionDetails> section_map;
 	/*! \brief Sectin map. */

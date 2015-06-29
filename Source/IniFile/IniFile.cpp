@@ -181,8 +181,18 @@ static bool IsKeyLine(const std::string& line
 
 } // namespace
 
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+IniFile::IniFile()
+	: m_changesMade(false)
+	, m_iniFilePath("config.ini")
+{
+}
+#endif
+
 #ifdef __USE_EXPLICIT_MOVE__
     IniFile::IniFile(IniFile&& ini)
+		: m_changesMade(false)
+		, m_iniFilePath("config.ini")
     {
         *this = std::move(ini);
     }
