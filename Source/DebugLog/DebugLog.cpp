@@ -49,19 +49,19 @@ xLogMsgHandlerError::~xLogMsgHandlerError()
 }
 
 // ****************************************************************************
-// 'class xInstantiationrError' definition
+// 'class xInstantiationError' definition
 // ******************************B*********************************************
-xInstantiationrError::xInstantiationrError()
+xInstantiationError::xInstantiationError()
 	: exceptions::xCustomException("instantiation error")
 {
 }
 
-xInstantiationrError::xInstantiationrError(const std::string& message)
+xInstantiationError::xInstantiationError(const std::string& message)
 	: exceptions::xCustomException(message)
 {
 }
 
-xInstantiationrError::~xInstantiationrError()
+xInstantiationError::~xInstantiationError()
 {
 }
 

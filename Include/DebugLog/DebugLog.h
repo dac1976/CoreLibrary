@@ -137,22 +137,22 @@ public:
  * This exception class is intended to be thrown by the
  * DebugLog class when an invalid instantiation has occurred.
  */
-class xInstantiationrError : public exceptions::xCustomException
+class xInstantiationError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
-	xInstantiationrError();
+	xInstantiationError();
 	/*!
 	 * \brief Initializing constructor.
 	 * \param[in]  message - A user specified message string.
 	 */
-	explicit xInstantiationrError(const std::string& message);
+	explicit xInstantiationError(const std::string& message);
 	/*! \brief Virtual destructor. */
-	virtual ~xInstantiationrError();
+	virtual ~xInstantiationError();
 	/*! \brief Copy constructor. */
-    xInstantiationrError(const xInstantiationrError&) = default;
+    xInstantiationError(const xInstantiationError&) = default;
 	/*! \brief Copy assignment operator. */
-    xInstantiationrError& operator=(const xInstantiationrError&) = default;
+    xInstantiationError& operator=(const xInstantiationError&) = default;
 };
 
 /*!
@@ -366,7 +366,7 @@ public:
 	 * This method should only be used when constructing a DebugLog
 	 * using the default constructor.
 	 *
-	 * This method throws xInstantiationrError exception if object
+	 * This method throws xInstantiationError exception if object
 	 * already instantiated.
 	 */
 	void Instantiate(const std::string& softwareVersion
@@ -380,7 +380,7 @@ public:
 			|| (m_logFilePath != "")
 			|| (m_oldLogFilePath != ""))
 		{
-			BOOST_THROW_EXCEPTION(xInstantiationrError("DebugLog already instantiated"));
+			BOOST_THROW_EXCEPTION(xInstantiationError("DebugLog already instantiated"));
 		}
 
 		m_softwareVersion = softwareVersion;
