@@ -1,2 +1,8 @@
 CONFIG += core_lib_settings \
           boost_libs
+
+CONFIG(debug, debug|release) {
+  LIBS += -L/home/duncan/Projects/CoreLibrary/QtProject/linux/debug/libCoreLibrary.a
+} else {
+  LIBS += -L/home/duncan/Projects/CoreLibrary/QtProject/linux/release/libCoreLibrary.a
+}

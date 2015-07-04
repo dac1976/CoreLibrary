@@ -28,11 +28,11 @@
 #ifndef THREADBASE
 #define THREADBASE
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <thread>
 #include <mutex>
-#include "../Exceptions/CustomException.h"
+#include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

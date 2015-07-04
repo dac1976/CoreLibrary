@@ -28,7 +28,7 @@
 #ifndef TCPSERVER
 #define TCPSERVER
 
-#include "../Threads/SyncEvent.h"
+#include "Threads/SyncEvent.h"
 #include "AsioDefines.h"
 #include "IoServiceThreadGroup.h"
 #include "TcpConnections.h"

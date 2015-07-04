@@ -28,11 +28,11 @@
 #ifndef MESSAGEUTILS
 #define MESSAGEUTILS
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include "AsioDefines.h"
-#include "../Exceptions/CustomException.h"
-#include "../Serialization/SerializeToVector.h"
+#include "Exceptions/CustomException.h"
+#include "Serialization/SerializeToVector.h"
 #include <iterator>
 #include <algorithm>
 #include <cstring>

@@ -25,7 +25,7 @@
  * \brief File containing definitions relating the CsvGridRow class.
  */
 
-#include "../../Include/CsvGrid/CsvGridRow.h"
+#include "CsvGrid/CsvGridRow.h"
 
 namespace core_lib {
 namespace csv_grid {

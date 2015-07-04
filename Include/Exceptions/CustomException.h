@@ -25,7 +25,7 @@
  * \brief File containing declarations relating to custom exception handling.
  */
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <string>
 #include "boost/exception/all.hpp"

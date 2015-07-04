@@ -34,7 +34,7 @@
 #include <vector>
 #include <list>
 #include <iterator>
-#include "../Exceptions/CustomException.h"
+#include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

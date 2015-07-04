@@ -25,7 +25,7 @@
  * \brief File containing declarations relating the IniFile support classes.
  */
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include "IniFileLines.h"
 

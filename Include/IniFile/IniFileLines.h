@@ -28,7 +28,7 @@
 #ifndef INIFILELINES
 #define INIFILELINES
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <string>
 #include <list>

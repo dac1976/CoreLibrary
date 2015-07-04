@@ -28,7 +28,7 @@
 #ifndef CSVGRIDMAIN
 #define CSVGRIDMAIN
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <fstream>
 #include <limits>

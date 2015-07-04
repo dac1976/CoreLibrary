@@ -25,7 +25,7 @@
  * \brief File containing definitions relating the IoServiceThreadGroup class.
  */
 
-#include "../../Include/Asio/IoServiceThreadGroup.h"
+#include "Asio/IoServiceThreadGroup.h"
 #include <algorithm>
 #include <functional>
 

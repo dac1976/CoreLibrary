@@ -27,7 +27,7 @@
 #ifndef TCPCONNECTION
 #define TCPCONNECTION
 
-#include "../Threads/SyncEvent.h"
+#include "Threads/SyncEvent.h"
 #include "AsioDefines.h"
 #include <mutex>
 

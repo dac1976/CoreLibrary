@@ -28,7 +28,7 @@
 #ifndef MESSAGEQUEUETHREAD
 #define MESSAGEQUEUETHREAD
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <functional>
 #include <map>

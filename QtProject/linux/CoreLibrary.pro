@@ -57,7 +57,7 @@ HEADERS +=                                                \
 	../../Include/IniFile/IniFileLines.h                \
 	../../Include/IniFile/IniFileSectionDetails.h       \
 	../../Include/IniFile/IniFile.h                     \
-	../../Include/Serialization/SerializationIncludes.h \
+	../../Include/Serialization/Serialization../../Includes.h \
 	../../Include/Serialization/SerializeToVector.h     \
 	../../Include/Sorting/GenericSorting.h              \
 	../../Include/StringUtils/StringUtils.h             \
@@ -71,8 +71,8 @@ HEADERS +=                                                \
 	../../Include/Asio/UdpSender.h                      \
 	../../Include/Asio/UdpReceiver.h                    \
 	../../Include/Asio/UdpTypedSender.h                 \
-    ../../Include/Asio/SimpleUdpSender.h                \
-    ../../Include/Asio/SimpleUdpReceiver.h \
+	../../Include/Asio/SimpleUdpSender.h                \
+	../../Include/Asio/SimpleUdpReceiver.h \
 	../../Include/Platform/PlatformDefines.h
 
 SOURCES +=                                                \
@@ -101,5 +101,5 @@ SOURCES +=                                                \
 	../../Source/Threads/ThreadGroup.cpp                  \
 	../../Source/Asio/UdpSender.cpp                       \
 	../../Source/Asio/UdpReceiver.cpp                     \
-    ../../Source/Asio/SimpleUdpSender.cpp                 \
-    ../../Source/Asio/SimpleUdpReceiver.cpp
+	../../Source/Asio/SimpleUdpSender.cpp                 \
+	../../Source/Asio/SimpleUdpReceiver.cpp

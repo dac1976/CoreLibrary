@@ -24,8 +24,8 @@
  * \brief File containing TCP client class definition.
  */
 
-#include "../../Include/Asio/TcpClient.h"
-#include "../../Include/Asio/TcpConnection.h"
+#include "Asio/TcpClient.h"
+#include "Asio/TcpConnection.h"
 
 namespace core_lib {
 namespace asio {

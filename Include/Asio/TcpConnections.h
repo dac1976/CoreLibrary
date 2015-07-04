@@ -28,7 +28,7 @@
 #define TCPCONNECTIONS
 
 #include "AsioDefines.h"
-#include "../Exceptions/CustomException.h"
+#include "Exceptions/CustomException.h"
 #include <map>
 #include <mutex>
 

@@ -32,7 +32,7 @@
 #include <algorithm>
 #include <utility>
 #include "SyncEvent.h"
-#include "../Exceptions/CustomException.h"
+#include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

@@ -26,7 +26,7 @@
  */
 
 #include <cassert>
-#include "../../Include/Asio/MessageUtils.h"
+#include "Asio/MessageUtils.h"
 #include "boost/throw_exception.hpp"
 
 /*! \brief The core_lib namespace. */

@@ -25,7 +25,7 @@
 * \brief File containing definition of SyncEvent class.
 */
 
-#include "../../Include/Threads/SyncEvent.h"
+#include "Threads/SyncEvent.h"
 #include <chrono>
 
 namespace core_lib {

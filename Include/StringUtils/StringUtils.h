@@ -31,7 +31,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include "../Exceptions/CustomException.h"
+#include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

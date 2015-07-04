@@ -25,7 +25,7 @@
  * \brief File containing definition of DebugLog class.
  */
 
-#include "../../Include/DebugLog/DebugLog.h"
+#include "DebugLog/DebugLog.h"
 #include <utility>
 
 namespace core_lib {

@@ -10,7 +10,8 @@ QT       -= gui
 TARGET = tst_AsioTest
 CONFIG   += console
 CONFIG   -= app_bundle
-CONFIG += core_lib
+CONFIG += core_lib_settings \
+		  boost_libs
 
 QMAKE_CXXFLAGS += -std=c++14
 
@@ -51,8 +52,8 @@ HEADERS +=                                                   \
 	../../../Include/Asio/UdpSender.h                      \
 	../../../Include/Asio/UdpReceiver.h                    \
 	../../../Include/Asio/UdpTypedSender.h                 \
-    ../../../Include/Asio/SimpleUdpSender.h                \
-    ../../../Include/Asio/SimpleUdpReceiver.h \
+	../../../Include/Asio/SimpleUdpSender.h                \
+	../../../Include/Asio/SimpleUdpReceiver.h \
 	../../../Include/Platform/PlatformDefines.h
 
 SOURCES +=                                         \
@@ -70,5 +71,5 @@ SOURCES +=                                         \
 	../../../Source/Asio/SimpleTcpClient.cpp       \
 	../../../Source/Asio/UdpSender.cpp             \
 	../../../Source/Asio/UdpReceiver.cpp           \
-    ../../../Source/Asio/SimpleUdpSender.cpp       \
-    ../../../Source/Asio/SimpleUdpReceiver.cpp
+	../../../Source/Asio/SimpleUdpSender.cpp       \
+	../../../Source/Asio/SimpleUdpReceiver.cpp

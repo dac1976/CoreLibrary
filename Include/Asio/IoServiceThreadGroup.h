@@ -27,7 +27,7 @@
 #ifndef IOSERVICETHREADGROUP
 #define IOSERVICETHREADGROUP
 
-#include "../Threads/ThreadGroup.h"
+#include "Threads/ThreadGroup.h"
 #include "AsioDefines.h"
 #include "boost/asio.hpp"
 #include <functional>

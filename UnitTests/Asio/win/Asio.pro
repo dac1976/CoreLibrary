@@ -10,7 +10,10 @@ QT       -= gui
 TARGET = tst_AsioTest
 CONFIG   += console
 CONFIG   -= app_bundle
-CONFIG += core_lib
+CONFIG += core_lib_settings \
+          boost_libs
+
+LIBS += -lws2_32
 
 QMAKE_CXXFLAGS += -std=c++14
 

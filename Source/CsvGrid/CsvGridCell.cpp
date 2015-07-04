@@ -28,8 +28,8 @@
 #ifdef __USE_EXPLICIT_MOVE__
     #include <utility>
 #endif
-#include "../../Include/CsvGrid/CsvGridCell.h"
-#include "../../Include/StringUtils/StringUtils.h"
+#include "CsvGrid/CsvGridCell.h"
+#include "StringUtils/StringUtils.h"
 
 namespace core_lib {
 namespace csv_grid {

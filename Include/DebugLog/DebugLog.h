@@ -28,7 +28,7 @@
 #ifndef DEBUGLOG
 #define DEBUGLOG
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <ctime>
 #include <chrono>
@@ -44,7 +44,7 @@
 #include <memory>
 #include <functional>
 #include <type_traits>
-#include "../Threads/MessageQueueThread.h"
+#include "Threads/MessageQueueThread.h"
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include "boost/filesystem.hpp"
 

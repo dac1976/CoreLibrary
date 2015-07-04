@@ -3,7 +3,7 @@
 #include <string>
 #include "boost/serialization/string.hpp"
 #include "boost/serialization/vector.hpp"
-#include "../../Include/Serialization/SerializeToVector.h"
+#include "Serialization/SerializeToVector.h"
 
 class MyObject
 {

@@ -27,7 +27,7 @@
 #ifndef ASIODEFINES
 #define ASIODEFINES
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <vector>
 #include <functional>

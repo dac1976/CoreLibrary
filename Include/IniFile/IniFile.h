@@ -28,12 +28,12 @@
 #ifndef INIFILE
 #define INIFILE
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <utility>
 #include <map>
 #include <cstdint>
-#include "../Exceptions/CustomException.h"
+#include "Exceptions/CustomException.h"
 #include "IniFileSectionDetails.h"
 
 /*! \brief The core_lib namespace. */

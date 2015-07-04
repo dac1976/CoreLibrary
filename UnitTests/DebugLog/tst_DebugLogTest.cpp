@@ -1,7 +1,7 @@
 #include <QString>
 #include <QtTest>
 #include <ostream>
-#include "../../Include/DebugLog/DebugLogging.h"
+#include "DebugLog/DebugLogging.h"
 
 
 // ****************************************************************************

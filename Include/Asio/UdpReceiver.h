@@ -27,7 +27,7 @@
 #ifndef UDPRECEIVER
 #define UDPRECEIVER
 
-#include "../Threads/SyncEvent.h"
+#include "Threads/SyncEvent.h"
 #include "AsioDefines.h"
 #include "IoServiceThreadGroup.h"
 

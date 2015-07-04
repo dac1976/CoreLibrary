@@ -24,7 +24,7 @@
  * \brief File containing UDP receiver class definition.
  */
 
-#include "../../Include/Asio/UdpReceiver.h"
+#include "Asio/UdpReceiver.h"
 #include "boost/bind.hpp"
 
 /*! \brief The core_lib namespace. */

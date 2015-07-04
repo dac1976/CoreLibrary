@@ -24,8 +24,8 @@
  * \brief File containing TCP connections class definition.
  */
 
-#include "../../Include/Asio/TcpConnections.h"
-#include "../../Include/Asio/TcpConnection.h"
+#include "Asio/TcpConnections.h"
+#include "Asio/TcpConnection.h"
 #include "boost/throw_exception.hpp"
 
 namespace core_lib {

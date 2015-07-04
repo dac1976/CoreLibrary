@@ -25,7 +25,7 @@
  * \brief File containing concurrent queue definition.
  */
 
-#include "../../Include/Threads/ConcurrentQueue.h"
+#include "Threads/ConcurrentQueue.h"
 
 namespace core_lib {
 namespace threads {

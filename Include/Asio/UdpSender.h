@@ -27,7 +27,7 @@
 #ifndef UDPSENDER
 #define UDPSENDER
 
-#include "../Threads/SyncEvent.h"
+#include "Threads/SyncEvent.h"
 #include "AsioDefines.h"
 #include "IoServiceThreadGroup.h"
 

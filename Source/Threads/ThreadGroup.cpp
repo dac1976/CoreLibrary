@@ -24,8 +24,8 @@
  * \brief File containing thread group definition.
  */
 
-#include "../../Include/Threads/ThreadGroup.h"
-#include "../../Include/Threads/JoinThreads.h"
+#include "Threads/ThreadGroup.h"
+#include "Threads/JoinThreads.h"
 #include <algorithm>
 
 namespace core_lib {

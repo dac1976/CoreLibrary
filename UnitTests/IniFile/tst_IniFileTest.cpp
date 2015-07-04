@@ -4,7 +4,7 @@
 #include "boost/predef.h"
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include "boost/filesystem.hpp"
-#include "../../Include/IniFile/IniFile.h"
+#include "IniFile/IniFile.h"
 
 class IniFileTest : public QObject
 {

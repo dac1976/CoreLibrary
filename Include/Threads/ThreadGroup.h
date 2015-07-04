@@ -32,7 +32,7 @@
 #include <mutex>
 #include <list>
 #include <vector>
-#include "../Exceptions/CustomException.h"
+#include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

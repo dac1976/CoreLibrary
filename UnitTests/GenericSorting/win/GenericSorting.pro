@@ -10,7 +10,8 @@ QT       -= gui
 TARGET = tst_GenericSortingTest
 CONFIG   += console
 CONFIG   -= app_bundle
-CONFIG += core_lib
+CONFIG += core_lib_settings \
+          boost_libs
 
 QMAKE_CXXFLAGS += -std=c++14
 

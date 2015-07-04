@@ -25,7 +25,7 @@
  * \brief File containing the simple TCP client class definition.
  */
 
-#include "../../Include/Asio/SimpleTcpClient.h"
+#include "Asio/SimpleTcpClient.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

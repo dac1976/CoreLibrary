@@ -28,7 +28,7 @@
 #ifndef CSVGRIDROW
 #define CSVGRIDROW
 
-#include "../Platform/PlatformDefines.h"
+#include "Platform/PlatformDefines.h"
 
 #include <initializer_list>
 #include <ostream>
@@ -39,8 +39,8 @@
 #endif
 #include "boost/tokenizer.hpp"
 #include "boost/algorithm/string/trim.hpp"
-#include "../Exceptions/CustomException.h"
-#include "../StringUtils/StringUtils.h"
+#include "Exceptions/CustomException.h"
+#include "StringUtils/StringUtils.h"
 #include "CsvGridCell.h"
 
 /*! \brief The core_lib namespace. */
