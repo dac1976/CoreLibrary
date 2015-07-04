@@ -1,5 +1,4 @@
-CONFIG += loki  \
-          boost
+CONFIG += boost \
+          loki 
 
-INCLUDEPATH += D:/Projects/CoreLibrary/Include \
-               D:/Projects/CoreLibrary/Source
+INCLUDEPATH += D:/Projects/CoreLibrary/Include

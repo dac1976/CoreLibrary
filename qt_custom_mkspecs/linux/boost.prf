@@ -1,3 +1,5 @@
-INCLUDEPATH += /home/duncan/Projects/ThirdParty/eos_portable_archive \
-               /home/duncan/Projects/ThirdParty/boost/include        \
-	       /home/duncan/Projects/ThirdParty/tuple_serialization
+INCLUDEPATH += /home/duncan/Projects/ThirdParty/boost/include        \   
+               /home/duncan/Projects/ThirdParty/eos_portable_archive \
+               /home/duncan/Projects/ThirdParty/tuple_serialization
+               
+	       

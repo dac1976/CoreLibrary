@@ -1,7 +1,7 @@
 DEFINES += BOOST_THREAD_USE_LIB
 
 LIBS += -L/home/duncan/Projects/ThirdParty/boost/lib \
-        -llibboost_filesystem
-	-llibboost_system \
-	-llibboost_serialization \
-	-llibboost_program_options
+        -lboost_filesystem                           \
+        -lboost_system                               \
+        -lboost_serialization                        \
+        -lboost_program_options

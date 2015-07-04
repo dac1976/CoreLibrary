@@ -4,7 +4,7 @@ CONFIG += core_lib_settings \
 LIBS += -lws2_32
 
 CONFIG(debug, debug|release) {
-  LIBS += -LD:/Projects/CoreLibrary/QtProject/linux/debug/libCoreLibrary.lib
+  LIBS += -LD:/Projects/CoreLibrary/QtProject/win/debug -lCoreLibrary
 } else {
-  LIBS += -LD:/Projects/CoreLibrary/QtProject/linux/release/libCoreLibrary.lib
+  LIBS += -LD:/Projects/CoreLibrary/QtProject/win/release -lCoreLibrary
 }

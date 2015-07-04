@@ -31,9 +31,9 @@ UI_DIR = $${DESTDIR}/ui
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-SOURCES += ../tst_SerializationUtilsTest.cpp 
+SOURCES += ../tst_SerializationUtilsTest.cpp
 
 HEADERS +=                                                        \
-         ../../../Include/Serialization/SerializeToVector.h     \
-         ../../../Include/Serialization/SerializationIncludes.h \
+		 ../../../Include/Serialization/SerializeToVector.h     \
+		 ../../../Include/Serialization/SerializationIncludes.h \
 		 ../../../Include/Platform/PlatformDefines.h

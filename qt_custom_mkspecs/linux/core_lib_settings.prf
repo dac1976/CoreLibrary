@@ -1,5 +1,4 @@
-CONFIG += loki  \
-          boost
+CONFIG += boost \
+          loki
 
-INCLUDEPATH += /home/duncan/Projects/CoreLibrary/Include \
-               /home/duncan/Projects/CoreLibrary/Source
+INCLUDEPATH += /home/duncan/Projects/CoreLibrary/Include           
