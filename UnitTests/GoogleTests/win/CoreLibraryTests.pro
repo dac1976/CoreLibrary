@@ -5,7 +5,6 @@ CONFIG -= qt
 CONFIG += core_lib
 CONFIG += google_test
 
-# Need to add in pthread as google test requires it.
 QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += \

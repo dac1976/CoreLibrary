@@ -11,8 +11,19 @@ namespace
 class MyObject
 {
 public:
-	MyObject() = default;
-	~MyObject() { }
+	MyObject()
+		: fred(5.0f), harry("Wibble!")
+	{
+        // Required to initialise vectors in a way that works with msvc++
+        // and gcc/clang (initializer lists in constructors or where member
+        // is declared do not work in msvc 2013 and earlier).
+        for (unsigned int n = 1U; n <= 10U; ++n)
+        {
+            george.emplace_back(n);
+        }
+	}
+
+    virtual ~MyObject() { }
 
 	float Fred() const { return fred; }
 	void Fred(float _fred) { fred = _fred; }
@@ -30,9 +41,9 @@ public:
 	}
 
 private:
-	float fred{5.0};
-	std::string harry{"Wibble!"};
-	std::vector<unsigned int> george{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	float fred;
+	std::string harry;
+	std::vector<unsigned int> george;
 
 	friend class boost::serialization::access;
 

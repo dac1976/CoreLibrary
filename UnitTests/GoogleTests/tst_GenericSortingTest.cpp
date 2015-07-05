@@ -14,11 +14,49 @@ protected:
 	std::vector<int> m_v3;
 
 protected:
-	GenericSortingTest()
-		: m_v1{9,12,5,4,19,13,17,15,6,1,3,20,14,18,16,7,8,2,11,10,30,27,21,28,26,22,23,29,24,25}
-		, m_v2{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30}
-		, m_v3(m_v2)
-	{
+    GenericSortingTest()
+    {
+        // Required to initialise vectors in a way that works with msvc++
+        // and gcc/clang (initializer lists in constructors or where member
+        // is declared do not work in msvc 2013 and earlier).
+        m_v1.emplace_back(9);
+        m_v1.emplace_back(12);
+        m_v1.emplace_back(5);
+        m_v1.emplace_back(4);
+        m_v1.emplace_back(19);
+        m_v1.emplace_back(13);
+        m_v1.emplace_back(17);
+        m_v1.emplace_back(15);
+        m_v1.emplace_back(6);
+        m_v1.emplace_back(1);
+        m_v1.emplace_back(3);
+        m_v1.emplace_back(20);
+        m_v1.emplace_back(14);
+        m_v1.emplace_back(18);
+        m_v1.emplace_back(16);
+        m_v1.emplace_back(7);
+        m_v1.emplace_back(8);
+        m_v1.emplace_back(2);
+        m_v1.emplace_back(11);
+        m_v1.emplace_back(10);
+        m_v1.emplace_back(30);
+        m_v1.emplace_back(27);
+        m_v1.emplace_back(21);
+        m_v1.emplace_back(28);
+        m_v1.emplace_back(26);
+        m_v1.emplace_back(22);
+        m_v1.emplace_back(23);
+        m_v1.emplace_back(29);
+        m_v1.emplace_back(24);
+        m_v1.emplace_back(25);
+
+        for (unsigned int n = 1U; n <= 30U; ++n)
+        {
+            m_v2.emplace_back(n);
+        }
+
+        m_v3 = m_v2;
+
 		std::reverse(m_v3.begin(), m_v3.end());
 	}
 
