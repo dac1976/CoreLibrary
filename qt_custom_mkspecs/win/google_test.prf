@@ -1,0 +1,3 @@
+INCLUDEPATH += D:/Projects/ThirdParty/google_test         \
+               D:/Projects/ThirdParty/google_test/include \
+               D:/Projects/ThirdParty/google_test/src
