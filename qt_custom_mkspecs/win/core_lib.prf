@@ -1,8 +1,6 @@
 CONFIG += core_lib_settings \
           boost_libs
 
-LIBS += -lws2_32
-
 CONFIG(debug, debug|release) {
   LIBS += -LD:/Projects/CoreLibrary/QtProject/win/debug -lCoreLibrary
 } else {
