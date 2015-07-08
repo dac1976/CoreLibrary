@@ -48,6 +48,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..;..\Include;..\Source;$(BOOST_ROOT);$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\tuple_serialization;$(THIRD_PARTY_LIBS)\eos_portable_archive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -68,6 +69,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..;..\Include;..\Source;$(BOOST_ROOT);$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\tuple_serialization;$(THIRD_PARTY_LIBS)\eos_portable_archive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

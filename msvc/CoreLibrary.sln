@@ -5,6 +5,11 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreLibrary", "CoreLibrary.vcxproj", "{A77F0C43-9A40-4B9D-8075-92DE178395EC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreLibraryTests", "..\UnitTests\GoogleTests\msvc\CoreLibraryTests\CoreLibraryTests.vcxproj", "{F1699DE9-A834-4B47-9517-A7FBC1D9F639}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A77F0C43-9A40-4B9D-8075-92DE178395EC} = {A77F0C43-9A40-4B9D-8075-92DE178395EC}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +20,10 @@ Global
 		{A77F0C43-9A40-4B9D-8075-92DE178395EC}.Debug|Win32.Build.0 = Debug|Win32
 		{A77F0C43-9A40-4B9D-8075-92DE178395EC}.Release|Win32.ActiveCfg = Release|Win32
 		{A77F0C43-9A40-4B9D-8075-92DE178395EC}.Release|Win32.Build.0 = Release|Win32
+		{F1699DE9-A834-4B47-9517-A7FBC1D9F639}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F1699DE9-A834-4B47-9517-A7FBC1D9F639}.Debug|Win32.Build.0 = Debug|Win32
+		{F1699DE9-A834-4B47-9517-A7FBC1D9F639}.Release|Win32.ActiveCfg = Release|Win32
+		{F1699DE9-A834-4B47-9517-A7FBC1D9F639}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
