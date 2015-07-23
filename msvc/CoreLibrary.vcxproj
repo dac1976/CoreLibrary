@@ -56,7 +56,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(BOOST_ROOT)\..\lib\lib-msvc-32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libboost_filesystem-vc-mt-gd-1_58.lib;libboost_system-vc-mt-gd-1_58.lib;libboost_serialization-vc-mt-gd-1_58.lib;libboost_program_options-vc-mt-gd-1_58.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_serialization-vc140-mt-gd-1_58.lib;libboost_program_options-vc140-mt-gd-1_58.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,7 +79,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(BOOST_ROOT)\..\lib\lib-msvc-32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libboost_filesystem-vc-mt-1_58.lib;libboost_system-vc-mt-1_58.lib;libboost_serialization-vc-mt-1_58.lib;libboost_program_options-vc-mt-1_58.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_filesystem-vc140-mt-1_58.lib;libboost_system-vc140-mt-1_58.lib;libboost_serialization-vc140-mt-1_58.lib;libboost_program_options-vc140-mt-1_58.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
