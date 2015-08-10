@@ -9,7 +9,8 @@ QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += \
     ../tst_SerializationUtilsTest.cpp \
-    ../tst_GenericSortingTest.cpp
+    ../tst_GenericSortingTest.cpp \
+    ../tst_StringUtilsTest.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
