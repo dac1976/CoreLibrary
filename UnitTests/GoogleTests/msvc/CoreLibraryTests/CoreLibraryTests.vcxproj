@@ -14,6 +14,7 @@
     <ProjectGuid>{F1699DE9-A834-4B47-9517-A7FBC1D9F639}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CoreLibraryTests</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,13 +53,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Projects\ThirdParty\google_test\include;D:\Projects\ThirdParty\google_test\src;D:\Projects\ThirdParty\boost\include;D:\Projects\ThirdParty\eos_portable_archive;D:\Projects\ThirdParty\tuple_serialization;D:\Projects\ThirdParty\loki\include;D:\Projects\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(THIRD_PARTY_LIBS)\google_test\include;$(THIRD_PARTY_LIBS)\google_test\src;$(BOOST_ROOT);$(THIRD_PARTY_LIBS)\eos_portable_archive;$(THIRD_PARTY_LIBS)\tuple_serialization;$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\..\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Projects\ThirdParty\google_test\msvc\gtest\Debug;D:\Projects\ThirdParty\boost\lib\lib-msvc-32;D:\Projects\CoreLibrary\msvc\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(THIRD_PARTY_LIBS)\google_test\msvc\gtest\Debug;$(BOOST_ROOT)\..\lib\lib-msvc-32;$(THIRD_PARTY_LIBS)\..\CoreLibrary\msvc\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gtestd.lib;gtest_maind.lib;libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_serialization-vc140-mt-gd-1_58.lib;libboost_program_options-vc140-mt-gd-1_58.lib;CoreLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -71,7 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Projects\ThirdParty\google_test\include;D:\Projects\ThirdParty\google_test\src;D:\Projects\ThirdParty\boost\include;D:\Projects\ThirdParty\eos_portable_archive;D:\Projects\ThirdParty\tuple_serialization;D:\Projects\ThirdParty\loki\include;D:\Projects\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(THIRD_PARTY_LIBS)\google_test\include;$(THIRD_PARTY_LIBS)\google_test\src;$(BOOST_ROOT);$(THIRD_PARTY_LIBS)\eos_portable_archive;$(THIRD_PARTY_LIBS)\tuple_serialization;$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\..\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -79,7 +80,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>D:\Projects\ThirdParty\google_test\msvc\gtest\Release;D:\Projects\ThirdParty\boost\lib\lib-msvc-32;D:\Projects\CoreLibrary\msvc\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(THIRD_PARTY_LIBS)\google_test\msvc\gtest\Release;$(BOOST_ROOT)\..\lib\lib-msvc-32;$(THIRD_PARTY_LIBS)\..\CoreLibrary\msvc\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gtest.lib;gtest_main.lib;libboost_filesystem-vc140-mt-1_58.lib;libboost_system-vc140-mt-1_58.lib;libboost_serialization-vc140-mt-1_58.lib;libboost_program_options-vc140-mt-1_58.lib;CoreLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -88,7 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\tst_GenericSortingTest.cpp" />
+    <ClCompile Include="..\..\tst_IniFileTest.cpp" />
     <ClCompile Include="..\..\tst_SerializationUtilsTest.cpp" />
+    <ClCompile Include="..\..\tst_StringUtilsTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
