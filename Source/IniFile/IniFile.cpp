@@ -381,7 +381,7 @@ bool IniFile::KeyExists(const std::string& section
 	}
 }
 
-bool IniFile::ReadValue(const std::string& section
+bool IniFile::ReadBool(const std::string& section
 					   , const std::string& key
 					   , bool defaultValue) const
 {
@@ -399,7 +399,7 @@ bool IniFile::ReadValue(const std::string& section
 	return value == 1;
 }
 
-int32_t IniFile::ReadValue(const std::string& section
+int32_t IniFile::ReadInt32(const std::string& section
 							 , const std::string& key
 							 , int32_t defaultValue) const
 {
@@ -417,7 +417,7 @@ int32_t IniFile::ReadValue(const std::string& section
 	return value;
 }
 
-int64_t IniFile::ReadValue(const std::string& section
+int64_t IniFile::ReadInt64(const std::string& section
 							   , const std::string& key
 							   , int64_t defaultValue) const
 {
@@ -435,7 +435,7 @@ int64_t IniFile::ReadValue(const std::string& section
 	return value;
 }
 
-double IniFile::ReadValue(const std::string& section
+double IniFile::ReadDouble(const std::string& section
 						   , const std::string& key
 						   , double defaultValue) const
 {
@@ -453,7 +453,7 @@ double IniFile::ReadValue(const std::string& section
 	return value;
 }
 
-long double IniFile::ReadValue(const std::string& section
+long double IniFile::ReadLongDouble(const std::string& section
 									, const std::string& key
 									, long double defaultValue) const
 {
@@ -471,7 +471,7 @@ long double IniFile::ReadValue(const std::string& section
 	return value;
 }
 
-std::string IniFile::ReadValue(const std::string& section
+std::string IniFile::ReadString(const std::string& section
 								, const std::string& key
 								, const std::string& defaultValue) const
 {
@@ -494,58 +494,42 @@ std::string IniFile::ReadValueString(const std::string& section
 	return value;
 }
 
-std::string IniFile::ReadValueString(const std::string& section
-							   , const std::string& key
-							   , std::string&& defaultValue) const
-{
-	std::string value{defaultValue};
-	section_citer sectIt{m_sectionMap.find(section)};
-
-	if (sectIt != m_sectionMap.end())
-	{
-		// cppcheck-suppress eraseDereference
-		value = sectIt->second.GetValue(key, defaultValue);
-	}
-
-	return value;
-}
-
-void IniFile::WriteValue(const std::string& section
+void IniFile::WriteBool(const std::string& section
 						, const std::string& key
 						, bool value)
 {
 	WriteValueString(section, key, std::to_string(value ? 1 : 0));
 }
 
-void IniFile::WriteValue(const std::string& section
+void IniFile::WriteInt32(const std::string& section
 						   , const std::string& key
 						   , int32_t value)
 {
 	WriteValueString(section, key, std::to_string(value));
 }
 
-void IniFile::WriteValue(const std::string& section
+void IniFile::WriteInt64(const std::string& section
 							 , const std::string& key
 							 , int64_t value)
 {
 	WriteValueString(section, key, std::to_string(value));
 }
 
-void IniFile::WriteValue(const std::string& section
+void IniFile::WriteDouble(const std::string& section
 						  , const std::string& key
 						  , double value)
 {
 	WriteValueString(section, key, string_utils::FormatFloatString(value));
 }
 
-void IniFile::WriteValue(const std::string& section
+void IniFile::WriteLongDouble(const std::string& section
 							  , const std::string& key
 							  , long double value)
 {
 	WriteValueString(section, key, string_utils::FormatFloatString(value, 30));
 }
 
-void IniFile::WriteValue(const std::string& section
+void IniFile::WriteString(const std::string& section
 						  , const std::string& key
 						  , const std::string& value)
 {
@@ -555,63 +539,6 @@ void IniFile::WriteValue(const std::string& section
 void IniFile::WriteValueString(const std::string& section
 						 , const std::string& key
 						 , const std::string& value)
-{
-	if (section == "")
-	{
-		BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
-	}
-
-	if (key == "")
-	{
-		BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
-	}
-
-	bool addNewKey = false;
-	section_iter sectIt{m_sectionMap.find(section)};
-
-	if (sectIt == m_sectionMap.end())
-	{
-		if_private::line_iter secLineIter{m_lines.insert(m_lines.end()
-											 , std::make_shared<if_private::SectionLine>(section))};
-		std::pair<section_iter, bool>
-				result{m_sectionMap.insert(std::make_pair(section
-														  , if_private::SectionDetails(secLineIter)))};
-		sectIt = result.first;
-		addNewKey = true;
-	}
-	else
-	{
-		if (sectIt->second.KeyExists(key))
-		{
-			sectIt->second.UpdateKey(key, value);
-		}
-		else
-		{
-			addNewKey = true;
-		}
-	}
-
-	if (addNewKey)
-	{
-		if_private::line_iter insertPos{sectIt->second.LineIterator()};
-
-		do
-		{
-			++insertPos;
-		}
-		while(!std::dynamic_pointer_cast<if_private::SectionLine>(*insertPos));
-
-		if_private::line_iter keyLineIter{m_lines.insert(insertPos
-											 , std::make_shared<if_private::KeyLine>(key, value))};
-		sectIt->second.AddKey(keyLineIter);
-	}
-
-	m_changesMade = true;
-}
-
-void IniFile::WriteValueString(const std::string& section
-						 , const std::string& key
-						 , std::string&& value)
 {
 	if (section == "")
 	{

@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 #include "boost/predef.h"
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include "boost/filesystem.hpp"
@@ -239,7 +240,7 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 #else
         iniFile.LoadFile("../../data/test_file_tmp.ini");
 #endif
-		iniFile.WriteValue("Section 2", "key5", static_cast<int>(1));
+        iniFile.WriteInt32("Section 2", "key5", static_cast<int>(1));
 		iniFile.UpdateFile();
 		noException = true;
 	}
@@ -381,14 +382,107 @@ TEST(IniFileTest, Case11_GetSections)
     core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 #endif
 
-	std::list<std::string> sections{iniFile.GetSections()};
+    std::list<std::string> sections(iniFile.GetSections());
 
     EXPECT_EQ(sections.size(), 2U);
 
-	//TODO
+    int secCnt = 1;
+
+    for (const auto& section : sections)
+    {
+        std::stringstream ss;
+        ss << "Section " << secCnt++;
+        EXPECT_STREQ(ss.str().c_str(), section.c_str());
+    }
 }
 
 TEST(IniFileTest, Case12_GetSection)
 {
-	//TODO
+#if BOOST_OS_WINDOWS
+    core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+#else
+    core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+
+    core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
+
+    EXPECT_EQ(keys.size(), 5U);
+}
+
+TEST(IniFileTest, Case13_SectionExists)
+{
+#if BOOST_OS_WINDOWS
+    core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+#else
+    core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+
+    EXPECT_TRUE(iniFile.SectionExists("Section 1"));
+    EXPECT_TRUE(iniFile.SectionExists("Section 2"));
+    EXPECT_FALSE(iniFile.SectionExists("I Don't Exist"));
+}
+
+TEST(IniFileTest, Case14_KeyExists)
+{
+#if BOOST_OS_WINDOWS
+    core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+#else
+    core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+
+    EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
+    EXPECT_TRUE(iniFile.KeyExists("Section 2", "key3"));
+    EXPECT_FALSE(iniFile.KeyExists("I Don't Exist", "Nor Do I"));
+}
+
+TEST(IniFileTest, Case15_ReadValues)
+{
+#if BOOST_OS_WINDOWS
+    core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+#else
+    core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+
+    core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
+
+    EXPECT_EQ(keys.size(), 5U);
+
+    int keyCnt = 1;
+
+    for (const auto& key : keys)
+    {
+        switch (keyCnt++)
+        {
+        case 1:
+            {
+                auto value =  iniFile.ReadString("Section 1", key.first);
+                EXPECT_STREQ(value.c_str(), "value as a string");
+            }
+            break;
+        case 2:
+            {
+                auto value =  iniFile.ReadInt32("Section 1", key.first);
+                EXPECT_EQ(value, 123456);
+            }
+            break;
+        case 3:
+            {
+                auto value =  iniFile.ReadDouble("Section 1", key.first);
+                EXPECT_EQ(value, 123.456789);
+            }
+            break;
+        case 4:
+            {
+                auto value =  iniFile.ReadString("Section 1", key.first);
+                EXPECT_EQ(value, "string with number 1234");
+            }
+            break;
+        case 5:
+            {
+                auto value =  iniFile.ReadInt32("Section 1", key.first);
+                EXPECT_EQ(value, 1);
+            }
+            break;
+        }
+    }
 }
