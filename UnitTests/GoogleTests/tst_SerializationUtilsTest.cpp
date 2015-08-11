@@ -5,6 +5,18 @@
 
 #include "gtest/gtest.h"
 
+#if BOOST_OS_WINDOWS
+	#ifdef _MSC_VER
+		#ifdef _DEBUG
+			#pragma message("*******************************************************************************")
+			#pragma message("*******************************************************************************")
+			#pragma message("***** SERIALIZATION UNIT TESTS WILL FAIL IF EXECUTED WITHIN A DEBUG BUILD *****")
+			#pragma message("*******************************************************************************")
+			#pragma message("*******************************************************************************")
+		#endif
+	#endif
+#endif
+
 namespace 
 {
 // Helper class to faciltate the test cases.
