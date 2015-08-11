@@ -41,10 +41,15 @@ namespace boost_sys = boost::system;
 namespace boost_asio = boost::asio;
 namespace boost_placeholders = boost::asio::placeholders;
 
+/*! \brief Boost IO service convenience typedef. */
 typedef boost_asio::io_service boost_ioservice_t;
+/*! \brief Boost tcp convenience typedef. */
 typedef boost_asio::ip::tcp boost_tcp_t;
+/*! \brief Boost tcp acceptor convenience typedef. */
 typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor_t;
+/*! \brief Boost udp convenience typedef. */
 typedef boost::asio::ip::udp boost_udp_t;
+/*! \brief Boost IP address convenience typedef. */
 typedef boost::asio::ip::address boost_address_t;
 
 /*! \brief The core_lib namespace. */
@@ -55,13 +60,14 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
-	// Reserve 0.5 MiB for each receive buffer.
+	/*! \brief Default internal receive buffer's initial reserved size in bytes. */
 	static __CONSTEXPR__ size_t DEFAULT_RESERVED_SIZE{ 512 * 1024 };
 
+	/*! \brief Enumeration to control nagle algorithm. */
 	enum class eSendOption
 	{
-		nagleOff, // Implies send immediately.
-		nagleOn
+		nagleOff, /*! \brief nagleOff - Send immediately. */
+		nagleOn /*! \brief nagleOn - Send when possible. */
 	};
 
 	class TcpConnection;
@@ -76,13 +82,20 @@ namespace udp {
 		unicast
 	};
 
-	// A UDP datagram can have a total max size of 65535 bytes,
-	// however the size available for "user" data is a bit less
-	// as we have to allow 8 bytes for UDP header and 20 bytes
-	// for the IP header.
+	/*! \brief UDP datagram maximum size for user data. 
+	 *
+	 * A UDP datagram can have a total max size of 65535 bytes,
+	 * however the size available for "user" data is a bit less
+	 * as we have to allow 8 bytes for UDP header and 20 bytes
+	 * for the IP header.
+	 */
 	static __CONSTEXPR__ size_t UDP_DATAGRAM_MAX_SIZE{65507};
 
-	//UDP send/receive buffer default size.
+	/*! \brief UDP default buffer size.
+	*
+	* By default we use a size of 8KiB  but this can be 
+	* changed by the user.
+	*/
 	static __CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
 
 } // namespace udp
