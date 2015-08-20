@@ -618,7 +618,7 @@ TEST(IniFileTest, Case17_EraseKey)
 
 	EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
 	iniFile.EraseKey("Section 1", "key1");
-	EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
+	EXPECT_FALSE(iniFile.KeyExists("Section 1", "key1"));
 }
 
 TEST(IniFileTest, Case18_EraseKeys)
