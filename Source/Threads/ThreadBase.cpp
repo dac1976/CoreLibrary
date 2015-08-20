@@ -1,5 +1,5 @@
 // CoreLibrary containing useful reusable utility classes.
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 //
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
@@ -8,7 +8,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify

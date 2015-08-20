@@ -57,7 +57,7 @@ public:
 
 	~UdpSender() = default;
 
-	auto ReceiverConnection() const -> defs::connection_t;
+	defs::connection_t ReceiverConnection() const;
 
 	bool SendMessage(const defs::char_buffer_t& message);
 

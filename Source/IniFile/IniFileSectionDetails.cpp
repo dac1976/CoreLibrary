@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -110,9 +110,9 @@ bool SectionDetails::EraseKey(const std::string& key
 	for (keys_iter keyIter = m_keyIters.begin()
 		 ; keyIter != m_keyIters.end()
 		 ; ++keyIter)
-	{
+	{		
 		std::shared_ptr<KeyLine> keyLine
-				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
+				= std::dynamic_pointer_cast<KeyLine>(**keyIter);
 
 		if (keyLine && (key == keyLine->Key()))
 		{

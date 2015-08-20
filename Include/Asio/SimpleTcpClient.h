@@ -53,9 +53,9 @@ public:
     SimpleTcpClient(const SimpleTcpClient& ) = delete;
     SimpleTcpClient& operator=(const SimpleTcpClient& ) = delete;
 
-    auto ServerConnection() const -> defs::connection_t;
+	defs::connection_t ServerConnection() const;
 
-    auto GetClientDetailsForServer() const -> defs::connection_t;
+	defs::connection_t GetClientDetailsForServer() const;
 
     void CloseConnection();
 

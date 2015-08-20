@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -239,7 +239,7 @@ public:
 	 * \brief Get sections.
 	 * \return A list of INI file section names.
 	 */
-	auto GetSections() -> std::list<std::string> const;
+	std::list<std::string> GetSections() const;
 	/*!
 	 * \brief Get section's key-value pairs.
 	 * \param[in] section - section Parameter_Description

@@ -65,7 +65,7 @@ public:
 	UdpTypedSender& operator=(const UdpTypedSender& ) = delete;
 	~UdpTypedSender() = default;
 
-	auto ReceiverConnection() const -> defs::connection_t
+	defs::connection_t ReceiverConnection() const
 	{
 		return m_udpSender.ReceiverConnection();
 	}

@@ -2,7 +2,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -73,8 +73,7 @@ public:
 	TcpTypedServer(const TcpTypedServer& ) = delete;
 	TcpTypedServer& operator=(const TcpTypedServer& ) = delete;
 
-	auto GetServerDetailsForClient(const defs::connection_t& client)
-		const -> defs::connection_t
+	defs::connection_t GetServerDetailsForClient(const defs::connection_t& client) const
 	{
 		return m_tcpServer.GetServerDetailsForClient(client);
 	}
@@ -147,8 +146,8 @@ private:
 	const MsgBldr& m_messageBuilder;
 	TcpServer m_tcpServer;
 
-	auto BuildMessage(const defs::connection_t& client, const uint32_t messageId
-					  , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+	defs::char_buffer_t BuildMessage(const defs::connection_t& client, const uint32_t messageId
+					                 , const defs::connection_t& responseAddress) const
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetServerDetailsForClient(client)
@@ -157,9 +156,9 @@ private:
 	}
 
     template<typename T, typename A>
-    auto BuildMessage(const T& message
-                      , const defs::connection_t& client, const uint32_t messageId
-					  , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+	defs::char_buffer_t BuildMessage(const T& message
+									 , const defs::connection_t& client, const uint32_t messageId
+									 , const defs::connection_t& responseAddress) const
 	{
 		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
 							? GetServerDetailsForClient(client)

@@ -586,3 +586,55 @@ TEST(IniFileTest, Case15_ReadValues)
         }
     }
 }
+
+TEST(IniFileTest, Case16_EraseSection)
+{
+#if BOOST_OS_WINDOWS    
+#ifdef _MSC_VER
+	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#else
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+#endif
+#else
+	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+
+	EXPECT_TRUE(iniFile.SectionExists("Section 1"));
+	iniFile.EraseSection("Section 1");
+	EXPECT_FALSE(iniFile.SectionExists("Section 1"));
+}
+
+TEST(IniFileTest, Case17_EraseKey)
+{
+#if BOOST_OS_WINDOWS    
+#ifdef _MSC_VER
+	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#else
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+#endif
+#else
+	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+
+	EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
+	iniFile.EraseKey("Section 1", "key1");
+	EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
+}
+
+TEST(IniFileTest, Case18_EraseKeys)
+{
+#if BOOST_OS_WINDOWS    
+#ifdef _MSC_VER
+	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#else
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+#endif
+#else
+	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+	core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
+	EXPECT_EQ(keys.size(), 5U);
+	iniFile.EraseKeys("Section 1");
+	keys = iniFile.GetSection("Section 1");
+	EXPECT_EQ(keys.size(), 0U);
+}

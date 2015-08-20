@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -66,8 +66,10 @@ namespace tcp {
 	/*! \brief Enumeration to control nagle algorithm. */
 	enum class eSendOption
 	{
-		nagleOff, /*! \brief nagleOff - Send immediately. */
-		nagleOn /*! \brief nagleOn - Send when possible. */
+		/*! \brief nagleOff - Send immediately. */
+		nagleOff,
+		/*! \brief nagleOn - Send when possible. */
+		nagleOn 
 	};
 
 	class TcpConnection;
@@ -76,9 +78,12 @@ namespace tcp {
 /*! \brief The udp namespace. */
 namespace udp {
 
+	/*! \brief The udp options enumeration. */
 	enum class eUdpOption
 	{
+		/*! \brief udp broadcasts. */
 		broadcast,
+		/*! \brief udp unicasts. */
 		unicast
 	};
 
@@ -103,40 +108,52 @@ namespace udp {
 /*! \brief The asio_defs namespace. */
 namespace defs {
 
+/*! \brief Typedef describing a network connection as (address, port). */
 typedef std::pair<std::string, uint16_t> connection_t;
-
+/*! \brief Constant defining a null network connection as ("0.0.0.0", 0). */
 static const connection_t NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
-
+/*! \brief Typedef describing shared_ptr to a TcpConnection object. */
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
-
+/*! \brief Constant defining response IP address length in bytes. */
 static __CONSTEXPR__ uint32_t RESPONSE_ADDRESS_LEN{16};
-
+/*! \brief Constant defining message header magic string length in bytes. */
 static __CONSTEXPR__ uint32_t MAGIC_STRING_LEN{16};
-
+/*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
 static __CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
+/*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t
 {
-    // The following 4 all require boost serialization
-    // and eos portable binary archive in the first case.
-    portableBinary,
+	/*! \brief Portable binary archive, requires EOS portable archive library. */
+    portableBinary, 
+	/*! \brief Binary archive, requires boost serialization. */
     binary,
-    text,
+	/*! \brief Text archive, requires boost serialization. */
+    text, 
+	/*! \brief XML archive, requires boost serialization. */
     xml,
-    // Only suitable for POD objects.
-    raw
+	/*! \brief Raw data, only for POD objects. */
+    raw 
 };
 
 #pragma pack(push, 1)
+/*! \brief Default message header structure that is POD. */
 struct MessageHeader
 {
+	/*! \brief Magic string to identify message start. */
     char magicString[MAGIC_STRING_LEN];
+	/*! \brief Response address; can be used by receiver to identify sender. */
 	char responseAddress[RESPONSE_ADDRESS_LEN];
+	/*! \brief Response port. */
 	uint16_t responsePort{};
+	/*! \brief Unique message identifier. */
 	uint32_t messageId{};
+	/*! \brief Archive type used to serialize payload following this header. */
     eArchiveType archiveType{eArchiveType::portableBinary};
+	/*! \brief Total message length including this header. */
 	uint32_t totalLength{sizeof(*this)};
 
+	/*! \brief Default constructor. */
 	MessageHeader()
 	{
 		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
@@ -146,8 +163,11 @@ struct MessageHeader
         magicString[MAGIC_STRING_LEN - 1] = 0;
 	}
 
+	/*! \brief Destructor. */
 	~MessageHeader() = default;
+	/*! \brief Default copy constructor. */
 	MessageHeader(const MessageHeader&) = default;	
+	/*! \brief Default copy assignment operator. */
     MessageHeader& operator=(const MessageHeader&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
     MessageHeader(MessageHeader&& header)
@@ -171,24 +191,34 @@ struct MessageHeader
         return *this;
     }
 #else
+	/*! \brief Default move constructor. */
     MessageHeader(MessageHeader&&) = default;
+	/*! \brief Default move assignment operator. */
     MessageHeader& operator=(MessageHeader&&) = default;
 #endif
 };
 #pragma pack(pop)
 
+/*! \brief Typedef to generic char buffer based on s std::vector<char>. */
 typedef std::vector<char> char_buffer_t;
 
+/*! \brief Template class to act as a generic wrapper around a received message for a given header type. */
 template <typename Header>
 struct ReceivedMessage
 {
+	/*! \brief Typedef for header template type. */
 	typedef Header header_t;
+	/*! \brief Message header. */
 	header_t header;
+	/*! \brief Message body as a char buffer. */
 	char_buffer_t body;
-
+	/*! \brief Default constructor. */
 	ReceivedMessage() = default;
+	/*! \brief Default destructor. */
 	~ReceivedMessage() = default;
+	/*! \brief Default copy constructor. */
 	ReceivedMessage(const ReceivedMessage&) = default;	
+	/*! \brief Default copy assignment operator. */
     ReceivedMessage& operator=(const ReceivedMessage&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
     ReceivedMessage(ReceivedMessage&& message)
@@ -203,19 +233,22 @@ struct ReceivedMessage
         return *this;
     }
 #else
+	/*! \brief Default move constructor. */
     ReceivedMessage(ReceivedMessage&&) = default;
+	/*! \brief Default move assignment operator. */
 	ReceivedMessage& operator=(ReceivedMessage&&) = default;
 #endif
 };
 
+/*! \brief Typedef to default version of received message typed to default message header struct. */
 typedef ReceivedMessage<MessageHeader> default_received_message_t;
-
+/*! \brief Typedef to default version of received message shared pointer. */
 typedef std::shared_ptr<default_received_message_t> default_received_message_ptr_t;
-
+/*! \brief Typedef to default message dispatcher function object. */
 typedef std::function< void (default_received_message_ptr_t ) > default_message_dispatcher_t;
-
+/*! \brief Typedef to bytes left to reading checking utility function object. */
 typedef std::function< size_t (const char_buffer_t& ) > check_bytes_left_to_read_t;
-
+/*! \brief Typedef to message received handler function object. */
 typedef std::function< void (const char_buffer_t& ) > message_received_handler_t;
 
 } // namespace defs

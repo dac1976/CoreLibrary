@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -53,12 +53,13 @@ struct raw_oarchive
 /*! \brief The archives namespace. */
 namespace archives {
 
+/*! \brief Typedefs to output archive types. */
 typedef eos::portable_oarchive      out_port_bin_t;
 typedef boost_arch::binary_oarchive out_bin_t;
 typedef boost_arch::xml_oarchive    out_xml_t;
 typedef boost_arch::text_oarchive   out_txt_t;
 typedef raw_oarchive                out_raw_t;
-
+/*! \brief Typedefs to input archive types. */
 typedef eos::portable_iarchive      in_port_bin_t;
 typedef boost_arch::binary_iarchive in_bin_t;
 typedef boost_arch::xml_iarchive    in_xml_t;

@@ -53,8 +53,7 @@ public:
     SimpleTcpServer(const SimpleTcpServer& ) = delete;
     SimpleTcpServer& operator=(const SimpleTcpServer& ) = delete;
 
-    auto GetServerDetailsForClient(const defs::connection_t& client)
-        const -> defs::connection_t;
+	defs::connection_t GetServerDetailsForClient(const defs::connection_t& client) const;
 
     uint16_t ListenPort() const;
 

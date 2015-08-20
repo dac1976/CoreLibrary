@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -95,8 +95,7 @@ public:
 	void SendMessageToAll(const defs::char_buffer_t& message) const;
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const
-			 -> defs::connection_t;
+	defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
 
 private:
 	mutable std::mutex m_mutex;

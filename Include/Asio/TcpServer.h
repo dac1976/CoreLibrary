@@ -2,7 +2,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -63,8 +63,7 @@ public:
 	TcpServer& operator=(const TcpServer& ) = delete;
 
 	// Throws xUnknownConnectionError is remoteEnd is not valid.
-	auto GetServerDetailsForClient(const defs::connection_t& client) const
-			 -> defs::connection_t;
+	defs::connection_t GetServerDetailsForClient(const defs::connection_t& client) const;
 
 	uint16_t ListenPort() const;
 

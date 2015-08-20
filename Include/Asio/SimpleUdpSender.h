@@ -52,7 +52,7 @@ public:
     SimpleUdpSender& operator=(const SimpleUdpSender& ) = delete;
     ~SimpleUdpSender() = default;
 
-    auto ReceiverConnection() const -> defs::connection_t;
+	defs::connection_t ReceiverConnection() const;
 
     bool SendMessage(const uint32_t messageId
                      , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);

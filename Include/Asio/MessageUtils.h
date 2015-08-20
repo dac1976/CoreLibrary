@@ -2,7 +2,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014 Duncan Crutchley
+// Copyright (C) 2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -117,43 +117,75 @@ public:
     xArchiveTypeError& operator=(const xArchiveTypeError&) = default;
 };
 
+/*! \brief Default message handler class. */
 class MessageHandler final
 {
 public:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
 	MessageHandler();
 #else
+	/*! \brief Default constructor. */
 	MessageHandler() = default;
 #endif
+	/*! 
+	 * \brief Initialisation constructor. 
+	 * \param[in] messageDispatcher - Function object defining the message dispatcher callback
+	 * \param[in] magicString - Magic string used to identify the start of valid messages.
+	 */
     MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher
 				   , const std::string& magicString);
+	/*! \brief Default destructor. */
 	~MessageHandler() = default;
+	/*! \brief Deleted copy constructor. */
 	MessageHandler(const MessageHandler& ) = delete;
+	/*! \brief Deleted copy assignment operator. */
 	MessageHandler& operator=(const MessageHandler& ) = delete;
-
+	/*! 
+	 * \brief Check bytes left to read method.
+	 * \param[in] message - A received message buffer.
+	 */
     size_t CheckBytesLeftToRead(const defs::char_buffer_t& message) const;
-
+	/*!
+	 * \brief Message received handler method.
+	 * \param[in] message - A received message buffer.
+	 */
     void MessageReceivedHandler(const defs::char_buffer_t& message) const;
 
 private:
+	/*! \brief Message dispatcher function object. */
     defs::default_message_dispatcher_t m_messageDispatcher;
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
 	const std::string m_magicString;
 #else
+	/*! \brief Magic string. */
     const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 #endif
-
+	/*! 
+	 * \brief Check message method.
+	 * \param[in] message - A received message buffer.
+	 */
     static void CheckMessage(const defs::char_buffer_t& message);
 };
 
-auto FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
-                , const uint32_t messageId, const defs::connection_t& responseAddress)
-         -> defs::MessageHeader;
+/*! 
+ * \brief Header filler method.
+ * \param[in] magicString - A received message buffer.
+ * \param[in] archiveType - The archive type used for message serialization.
+ * \param[in] messageId - The unique message ID.
+ * \param[in] responseAddress - The response connection details describing sender's address and port.
+ * \return A filled message header.
+ */
+defs::MessageHeader FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
+                               , const uint32_t messageId, const defs::connection_t& responseAddress);
 
-/*! \brief Archive type enumerators using template specialization. */
+/*! \brief Archive type enumerators as a template class. */
 template<typename A>
 struct ArchiveTypeToEnum
 {
+	/*!
+	 * \brief Enumerate method.
+	 * \return The enumerated type.
+	 */
     static defs::eArchiveType Enumerate()
     {
         BOOST_THROW_EXCEPTION(xArchiveTypeError("unknown archive type"));
@@ -161,24 +193,35 @@ struct ArchiveTypeToEnum
     }
 };
 
+/*! \brief Archive type enumerators as a specialized template class for binary archives. */
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_bin_t>
 {
+	/*!
+	 * \brief Enumerate method.
+	 * \return The enumerated type.
+	 */
     static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::binary;
     }
 };
 
+/*! \brief Archive type enumerators as a specialized template class for portable binary archives. */
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_port_bin_t>
 {
+	/*!
+	 * \brief Enumerate method.
+	 * \return The enumerated type.
+	 */
     static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::portableBinary;
     }
 };
 
+/*! \brief Archive type enumerators as a specialized template class for raw data. */
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
 {
@@ -188,6 +231,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
     }
 };
 
+/*! \brief Archive type enumerators as a specialized template class for text archives. */
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
 {
@@ -197,6 +241,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
     }
 };
 
+/*! \brief Archive type enumerators as a specialized template class for xml archives. */
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
 {
@@ -206,27 +251,49 @@ struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
     }
 };
 
+/*! \brief Default message builder class. */
 class MessageBuilder final
 {
 public:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
 	MessageBuilder();
 #else
+	/*! \brief Default constructor. */
     MessageBuilder() = default;
 #endif
+	/*!
+	 * \brief Initialisatn constructor.
+	 * \param[in] magicString - Magic stirng used to identify start of valid message.
+	 */
     explicit MessageBuilder(const std::string& magicString);
+	/*! \brief Default destructor. */
     ~MessageBuilder() = default;
-
+	/*! \brief Deleted copy constructor. */
     MessageBuilder(const MessageBuilder& ) = delete;
+	/*! \brief Deleted copy assignment operator. */
     MessageBuilder& operator=(const MessageBuilder& ) = delete;
-
-    auto Build(const uint32_t messageId
-               , const defs::connection_t& responseAddress) const -> defs::char_buffer_t;
-
+	/*!
+	 * \brief Build message method for header only messages.
+	 * \param[in] messageId - Unique ID for this message instance.
+	 * \param[in] responseAddress - Connection opject describing sender's response address and port.
+	 * \return A filled message buffer.
+	 */
+	defs::char_buffer_t Build(const uint32_t messageId
+                              , const defs::connection_t& responseAddress) const;
+	/*!
+	 * \brief Build message method for header + messaage body messages.
+	 * \param[in] message - Object to be sent as message body, to be serialized as chosen archive type 
+	 * \param[in] messageId - Unique ID for this message instance.
+	 * \param[in] responseAddress - Connection opject describing sender's response address and port.
+	 * \return A filled message buffer.
+	 *
+	 * The first template arghument T defines the message object's type. 
+	 * The second template argument A defines the archive type for serialization.
+	 */
     template<typename T, typename A>
-    auto Build(const T& message
-               , const uint32_t messageId
-               , const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+	defs::char_buffer_t Build(const T& message
+							  , const uint32_t messageId
+							  , const defs::connection_t& responseAddress) const 
     {
         const defs::eArchiveType archiveType = ArchiveTypeToEnum<A>().Enumerate();
 
@@ -259,6 +326,7 @@ private:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
 	const std::string m_magicString;
 #else
+	/*! \brief Magic string. */
 	const std::string m_magicString{ defs::DEFAULT_MAGIC_STRING };
 #endif
 };
