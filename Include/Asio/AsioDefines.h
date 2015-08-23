@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2015 Duncan Crutchley
+// Copyright (C) 2014,2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -170,6 +170,7 @@ struct MessageHeader
 	/*! \brief Default copy assignment operator. */
     MessageHeader& operator=(const MessageHeader&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Default move constructor. */
     MessageHeader(MessageHeader&& header)
     {
 		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
@@ -180,6 +181,7 @@ struct MessageHeader
 
         *this = std::move(header);
     }
+    /*! \brief Default move assignment operator. */
     MessageHeader& operator=(MessageHeader&& header)
     {
         std::swap_ranges(magicString, magicString + MAGIC_STRING_LEN, header.magicString);
@@ -221,11 +223,12 @@ struct ReceivedMessage
 	/*! \brief Default copy assignment operator. */
     ReceivedMessage& operator=(const ReceivedMessage&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
+    /*! \brief Default move constructor. */
     ReceivedMessage(ReceivedMessage&& message)
     {
         *this = std::move(message);
     }
-
+    /*! \brief Default move assignment operator. */
     ReceivedMessage& operator=(ReceivedMessage&& message)
     {
         std::swap(header, message.header);

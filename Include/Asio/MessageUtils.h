@@ -2,7 +2,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2015 Duncan Crutchley
+// Copyright (C) 2014,2015 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -122,6 +122,7 @@ class MessageHandler final
 {
 public:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
+    /*! \brief Default constructor. */
 	MessageHandler();
 #else
 	/*! \brief Default constructor. */
@@ -155,6 +156,7 @@ private:
 	/*! \brief Message dispatcher function object. */
     defs::default_message_dispatcher_t m_messageDispatcher;
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
+    /*! \brief Magic string. */
 	const std::string m_magicString;
 #else
 	/*! \brief Magic string. */
@@ -225,6 +227,10 @@ struct ArchiveTypeToEnum<serialize::archives::out_port_bin_t>
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
 {
+    /*!
+     * \brief Enumerate method.
+     * \return The enumerated type.
+     */
     static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::raw;
@@ -235,6 +241,10 @@ struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
 {
+    /*!
+     * \brief Enumerate method.
+     * \return The enumerated type.
+     */
     static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::text;
@@ -245,6 +255,10 @@ struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
 template<>
 struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
 {
+    /*!
+     * \brief Enumerate method.
+     * \return The enumerated type.
+     */
     static defs::eArchiveType Enumerate()
     {
         return defs::eArchiveType::xml;
@@ -256,6 +270,7 @@ class MessageBuilder final
 {
 public:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
+    /*! \brief Default constructor. */
 	MessageBuilder();
 #else
 	/*! \brief Default constructor. */
@@ -275,7 +290,7 @@ public:
 	/*!
 	 * \brief Build message method for header only messages.
 	 * \param[in] messageId - Unique ID for this message instance.
-	 * \param[in] responseAddress - Connection opject describing sender's response address and port.
+     * \param[in] responseAddress - Connection object describing sender's response address and port.
 	 * \return A filled message buffer.
 	 */
 	defs::char_buffer_t Build(const uint32_t messageId
@@ -324,6 +339,7 @@ public:
 
 private:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
+    /*! \brief Magic string. */
 	const std::string m_magicString;
 #else
 	/*! \brief Magic string. */
