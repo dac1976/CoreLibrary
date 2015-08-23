@@ -347,6 +347,47 @@ private:
 #endif
 };
 
+/*!
+ * \brief Message builder wrapper function for header only messages.
+ * \param[in] messageId - Unique message ID to insert into message header.
+ * \param[in] responseAddress - The address and port where the server should send the response.
+ * \param[in] fallbackResponseAddress - The address and port where the server should send the response if the main responseAddress is a NULL_CONNECTION.
+ * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface compatible with that of the class core_lib::asio::messages::MessageBuilder.
+ * \return Returns a filled message buffer as a vector of bytes.
+ */
+template<typename MsgBldr>
+defs::char_buffer_t BuildMessage(const uint32_t messageId
+                                 , const defs::connection_t& responseAddress
+                                 , const defs::connection_t& fallbackResponseAddress
+                                 , const MsgBldr& messageBuilder)
+{
+    auto responseConn = (responseAddress == defs::NULL_CONNECTION)
+                        ? fallbackResponseAddress
+                        : responseAddress;
+    return messageBuilder.Build(messageId, responseConn);
+}
+/*!
+ * \brief Message builder wrapper function for full messages.
+ * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
+ * \param[in] messageId - Unique message ID to insert into message header.
+ * \param[in] responseAddress - The address and port where the server should send the response.
+ * \param[in] fallbackResponseAddress - The address and port where the server should send the response if the main responseAddress is a NULL_CONNECTION.
+ * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface compatible with that of the class core_lib::asio::messages::MessageBuilder.
+ * \return Returns a filled message buffer as a vector of bytes.
+ */
+template<typename T, typename A, typename MsgBldr>
+defs::char_buffer_t BuildMessage(const T& message
+                                 , const uint32_t messageId
+                                 , const defs::connection_t& responseAddress
+                                 , const defs::connection_t& fallbackResponseAddress
+                                 , const MsgBldr& messageBuilder)
+{
+    auto responseConn = (responseAddress == defs::NULL_CONNECTION)
+                        ? fallbackResponseAddress
+                        : responseAddress;
+    return messageBuilder.template Build<T, A>(message, messageId, responseConn);
+}
+
 } // namespace messages
 } // namespace asio
 } // namespace core_lib

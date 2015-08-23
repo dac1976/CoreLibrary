@@ -38,10 +38,34 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
+/*!
+ * \brief A generic bi-directional TCP client.
+ *
+ * The template argument defines a message builder object that
+ * must have an interface compatible with that of the class
+ * core_lib::asio::messages::MessageBuilder.
+ */
 template<typename MsgBldr>
 class TcpTypedClient final
 {
 public:
+    /*! \brief Default constructor - deleted. */
+    TcpTypedClient() = delete;
+    /*!
+     * \brief Initialisation constructor.
+     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] server - Connection object describing target server's address and port.
+     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of header block.
+     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
+     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and disptaching it accordingly.
+     * \param[in] messageBuilder - A const reference to our persistent message builder object of type MsgBldr.
+     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+     *
+     * Typically use this constructor when managing a bool of threads using an instance of
+     * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be exectued
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     */
 	TcpTypedClient(boost_ioservice_t& ioService
 				   , const defs::connection_t& server
 				   , const size_t minAmountToRead
@@ -55,7 +79,20 @@ public:
 					  , sendOption}
 	{
 	}
-
+    /*!
+     * \brief Initialisation constructor.
+     * \param[in] server - Connection object describing target server's address and port.
+     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of header block.
+     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
+     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and disptaching it accordingly.
+     * \param[in] messageBuilder - A message builder object of type MsgBldr.
+     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+     *
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
+     * version will be fine but in more performance and resource critical situations the
+     * external IO service constructor is recommened.
+     */
 	TcpTypedClient(const defs::connection_t& server
 				   , const size_t minAmountToRead
 				   , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
@@ -68,81 +105,118 @@ public:
 					  , sendOption}
 	{
 	}
-
+    /*! \brief Default destructor. */
 	~TcpTypedClient() = default;
+    /*! \brief Copy constructor - deleted. */
 	TcpTypedClient(const TcpTypedClient& ) = delete;
+    /*! \brief Copy assignment operator - deleted. */
 	TcpTypedClient& operator=(const TcpTypedClient& ) = delete;
-
+    /*!
+     * \brief Retrieve server connection details.
+     * \return - Connection object describing target server's address and port.
+     */
 	defs::connection_t ServerConnection() const
 	{
 		return m_tcpClient.ServerConnection();
 	}
-
+    /*!
+     * \brief Retrieve this client's connection details
+     * \return Connection object describing this client's address and port.
+     */
 	defs::connection_t GetClientDetailsForServer() const
 	{
 		return m_tcpClient.GetClientDetailsForServer();
 	}
-
+    /*! \brief Manually close the connection.
+     *
+     * Note that this object uses RAII so will close the connection when destroyed.
+     */
 	void CloseConnection()
 	{
 		m_tcpClient.CloseConnection();
 	}
-
+    /*!
+     * \brief Send a header-only message to the server asynchronously.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::defs::MessageHeader object to
+     * the server.
+     */
 	void SendMessageToServerAsync(const uint32_t messageId
 								  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(messageId, responseAddress);
+        auto messageBuffer = messages::BuildMessage(messageId, responseAddress
+                                                    , GetClientDetailsForServer()
+                                                    , m_messageBuilder);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
 	}
-
+    /*!
+     * \brief Send a header-only message to the server synchronously.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     * \return Returns the success state of the send as a boolean.
+     *
+     * This method only sends a simple core_lib::asio::defs::MessageHeader
+     * object to the server.
+     */
 	bool SendMessageToServerSync(const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-		auto messageBuffer = BuildMessage(messageId, responseAddress);
+        auto messageBuffer = messages::BuildMessage(messageId, responseAddress
+                                                    , GetClientDetailsForServer()
+                                                    , m_messageBuilder);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
-
+    /*!
+     * \brief Send a full message to the server asynchronously.
+     * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending. Furthermore this method
+     * uses the a core_lib::asio::defs::MessageHeader object as the header.
+     */
     template<typename T, typename A = serialize::archives::out_port_bin_t>
     void SendMessageToServerAsync(const T& message
                                   , const uint32_t messageId
 								  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = BuildMessage<T, A>(message, messageId, responseAddress);
+        auto messageBuffer = messages::BuildMessage<T, A>(message, messageId, responseAddress
+                                                          , GetClientDetailsForServer()
+                                                          , m_messageBuilder);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
 	}
-
+    /*!
+     * \brief Send a full message to the server synchronously.
+     * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     * \return Returns the success state of the send as a boolean.
+     *
+     * This method uses the a core_lib::asio::defs::MessageHeader object as the header.
+     */
     template<typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessageToServerSync(const T& message
                                  , const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = BuildMessage<T, A>(message, messageId, responseAddress);
+        auto messageBuffer = messages::BuildMessage<T, A>(message, messageId, responseAddress
+                                                          , GetClientDetailsForServer()
+                                                          , m_messageBuilder);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
 	}
 
 private:
+    /*! \brief Referece to our message builder object. */
 	const MsgBldr& m_messageBuilder;
+    /*! \brief General purpose TCP client object. */
 	TcpClient m_tcpClient;
-
-	defs::char_buffer_t BuildMessage(const uint32_t messageId
-		                             , const defs::connection_t& responseAddress) const
-	{
-		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
-							? GetClientDetailsForServer()
-							: responseAddress;
-        return m_messageBuilder.Build(messageId, responseConn);
-	}
-
-    template<typename T, typename A>
-	defs::char_buffer_t BuildMessage(const T& message
-								     , const uint32_t messageId
-								     , const defs::connection_t& responseAddress) const
-	{
-		auto responseConn = (responseAddress == defs::NULL_CONNECTION)
-							? GetClientDetailsForServer()
-							: responseAddress;
-        return m_messageBuilder.template Build<T,A>(message, messageId, responseConn);
-	}
 };
 
 } // namespace tcp
