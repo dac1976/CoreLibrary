@@ -187,7 +187,7 @@ public:
                                   , const uint32_t messageId
 								  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = messages::BuildMessage<T, A>(message, messageId, responseAddress
+        auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(message, messageId, responseAddress
                                                           , GetClientDetailsForServer()
                                                           , m_messageBuilder);
 		m_tcpClient.SendMessageToServerAsync(messageBuffer);
@@ -206,7 +206,7 @@ public:
                                  , const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = messages::BuildMessage<T, A>(message, messageId, responseAddress
+        auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(message, messageId, responseAddress
                                                           , GetClientDetailsForServer()
                                                           , m_messageBuilder);
 		return m_tcpClient.SendMessageToServerSync(messageBuffer);
