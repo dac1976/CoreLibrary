@@ -159,10 +159,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\tst_DebugLogTest.cpp" />
     <ClCompile Include="..\..\tst_GenericSortingTest.cpp" />
     <ClCompile Include="..\..\tst_IniFileTest.cpp" />
     <ClCompile Include="..\..\tst_SerializationUtilsTest.cpp" />
     <ClCompile Include="..\..\tst_StringUtilsTest.cpp" />
+    <ClCompile Include="..\..\tst_ThreadsTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,7 +11,9 @@ SOURCES += \
     ../tst_SerializationUtilsTest.cpp \
     ../tst_GenericSortingTest.cpp \
     ../tst_StringUtilsTest.cpp \
-    ../tst_IniFileTest.cpp
+    ../tst_IniFileTest.cpp \
+    ../tst_ThreadsTest.cpp \
+    ../tst_DebugLogTest.cpp
 
 include(deployment.pri)
 qtcAddDeployment()

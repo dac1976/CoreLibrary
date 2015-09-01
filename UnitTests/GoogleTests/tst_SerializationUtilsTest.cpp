@@ -5,7 +5,7 @@
 
 #include "gtest/gtest.h"
 
-#if BOOST_OS_WINDOWS
+#ifdef BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		#ifdef _DEBUG
 			#pragma message("*******************************************************************************")
