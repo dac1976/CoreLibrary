@@ -85,7 +85,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>//DISABLE_THREADS_TESTS;//DISABLE_ASIO_TESTS;//DISABLE_INIFILE_TESTS;//DISABLE_SORTING_TESTS;//DISABLE_STRINGUTILS_TESTS;//DISABLE_SERIALIZATION_TESTS;//DISABLE_DEBUGLOG_TESTS;//DISABLE_CSVGRID_TESTS;BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(THIRD_PARTY_LIBS)\google_test\include;$(THIRD_PARTY_LIBS)\google_test\src;$(BOOST_ROOT);$(THIRD_PARTY_LIBS)\eos_portable_archive;$(THIRD_PARTY_LIBS)\tuple_serialization;$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\..\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -102,7 +102,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>//DISABLE_THREADS_TESTS;//DISABLE_ASIO_TESTS;//DISABLE_INIFILE_TESTS;//DISABLE_SORTING_TESTS;//DISABLE_STRINGUTILS_TESTS;//DISABLE_SERIALIZATION_TESTS;//DISABLE_DEBUGLOG_TESTS;//DISABLE_CSVGRID_TESTS;BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(THIRD_PARTY_LIBS)\google_test\include;$(THIRD_PARTY_LIBS)\google_test\src;$(BOOST_ROOT);$(THIRD_PARTY_LIBS)\eos_portable_archive;$(THIRD_PARTY_LIBS)\tuple_serialization;$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\..\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -121,7 +121,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>//DISABLE_THREADS_TESTS;//DISABLE_ASIO_TESTS;//DISABLE_INIFILE_TESTS;//DISABLE_SORTING_TESTS;//DISABLE_STRINGUTILS_TESTS;//DISABLE_SERIALIZATION_TESTS;//DISABLE_DEBUGLOG_TESTS;//DISABLE_CSVGRID_TESTS;BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(THIRD_PARTY_LIBS)\google_test\include;$(THIRD_PARTY_LIBS)\google_test\src;$(BOOST_ROOT);$(THIRD_PARTY_LIBS)\eos_portable_archive;$(THIRD_PARTY_LIBS)\tuple_serialization;$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\..\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -142,7 +142,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>//DISABLE_THREADS_TESTS;//DISABLE_ASIO_TESTS;//DISABLE_INIFILE_TESTS;//DISABLE_SORTING_TESTS;//DISABLE_STRINGUTILS_TESTS;//DISABLE_SERIALIZATION_TESTS;//DISABLE_DEBUGLOG_TESTS;//DISABLE_CSVGRID_TESTS;BOOST_THREAD_USE_LIB;LOKI_CLASS_LEVEL_THREADING;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(THIRD_PARTY_LIBS)\google_test\include;$(THIRD_PARTY_LIBS)\google_test\src;$(BOOST_ROOT);$(THIRD_PARTY_LIBS)\eos_portable_archive;$(THIRD_PARTY_LIBS)\tuple_serialization;$(LOKI_ROOT);$(THIRD_PARTY_LIBS)\..\CoreLibrary\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -159,6 +159,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\tst_AsioTest.cpp" />
+    <ClCompile Include="..\..\tst_CsvGridTest.cpp" />
     <ClCompile Include="..\..\tst_DebugLogTest.cpp" />
     <ClCompile Include="..\..\tst_GenericSortingTest.cpp" />
     <ClCompile Include="..\..\tst_IniFileTest.cpp" />

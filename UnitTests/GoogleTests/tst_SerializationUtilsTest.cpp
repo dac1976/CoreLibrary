@@ -1,3 +1,5 @@
+#ifndef DISABLE_SERIALIZATION_TESTS
+
 #include <string>
 #include "boost/serialization/string.hpp"
 #include "boost/serialization/vector.hpp"
@@ -133,3 +135,5 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectXmlArch)
 
 	EXPECT_EQ(objectOut, objectIn);
 }
+
+#endif // DISABLE_SERIALIZATION_TESTS

@@ -1,3 +1,5 @@
+#ifndef DISABLE_SORTING_TESTS
+
 #include <vector>
 #include "Sorting/GenericSorting.h"
 
@@ -146,3 +148,5 @@ TEST_F(GenericSortingTest, Case10_BucketSort_Decending)
 	core_lib::sorting::Bucket<int, std::greater<int>>::Sort(m_v1.begin(), m_v1.end(), bucketDefs);
 	EXPECT_TRUE(CompareVectors(m_v1, m_v3));
 }
+
+#endif // DISABLE_SORTING_TESTS

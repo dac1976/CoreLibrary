@@ -1,3 +1,5 @@
+#ifndef DISABLE_STRINGUTILS_TESTS
+
 #include "StringUtils/StringUtils.h"
 #include "boost/predef.h"
 
@@ -235,3 +237,5 @@ TEST(StringUtilsTest, Case16_FormatFloatString_rvalue)
     EXPECT_TRUE((result.size() <= 20U) && (result.size() >= 8U));
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1234.123");
 }
+
+#endif // DISABLE_STRINGUTILS_TESTS

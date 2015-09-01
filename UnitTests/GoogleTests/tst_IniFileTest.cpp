@@ -1,3 +1,5 @@
+#ifndef DISABLE_INIFILE_TESTS
+
 #include <fstream>
 #include <sstream>
 #include "boost/predef.h"
@@ -638,3 +640,5 @@ TEST(IniFileTest, Case18_EraseKeys)
 	keys = iniFile.GetSection("Section 1");
 	EXPECT_EQ(keys.size(), 0U);
 }
+
+#endif // DISABLE_INIFILE_TESTS

@@ -1,3 +1,5 @@
+#ifndef DISABLE_DEBUGLOG_TESTS
+
 #include <ostream>
 #include "DebugLog/DebugLogging.h"
 
@@ -435,3 +437,5 @@ TEST_F(DebugLogTest, testCase_DebugLog9)
 
     boost::filesystem::remove("test_log.txt");
 }
+
+#endif // DISABLE_DEBUGLOG_TESTS

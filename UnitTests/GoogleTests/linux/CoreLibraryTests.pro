@@ -13,7 +13,10 @@ SOURCES += \
     ../tst_GenericSortingTest.cpp \
     ../tst_StringUtilsTest.cpp \
     ../tst_IniFileTest.cpp \
-    ../tst_ThreadsTest.cpp
+    ../tst_ThreadsTest.cpp \
+    ../tst_DebugLogTest.cpp \
+    ../tst_AsioTest.cpp \
+    ../tst_CsvGridTest.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
