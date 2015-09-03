@@ -34,7 +34,7 @@ TEST_F(DebugLogTest, testCase_DebugLog1)
     time_t messageTime;
     time(&messageTime);
     int lineNo = __LINE__;
-    dlf(ss, messageTime, "I am a test message", "Info", __FILE__, lineNo, std::this_thread::get_id());
+    dlf(ss, messageTime, "I am a test message", "Info", __FILE__, BOOST_CURRENT_FUNCTION, lineNo, std::this_thread::get_id());
 
     std::string time = ctime(&messageTime);
     std::replace_if(time.begin(), time.end(),
@@ -42,9 +42,10 @@ TEST_F(DebugLogTest, testCase_DebugLog1)
 
     std::stringstream test;
     test << time.c_str()
-         << " | I am a test message"
          << " | Info"
-         << " | File = " << __FILE__
+         << " | I am a test message"
+         << " | " << __FILE__
+         << " | " << BOOST_CURRENT_FUNCTION
          << " | Line = " << lineNo
          << " | Thread ID = " << std::this_thread::get_id()
          << std::endl;
@@ -100,9 +101,9 @@ TEST_F(DebugLogTest, testCase_DebugLog3)
 {
     {
         core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log");
-        dl.AddLogMessage("Message 1", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
-        dl.AddLogMessage("Message 2", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
-        dl.AddLogMessage("Message 3", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 1", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 2", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 3", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
     }
 
     std::ifstream ifs("test_log.txt");
@@ -123,13 +124,13 @@ TEST_F(DebugLogTest, testCase_DebugLog3)
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
             break;
         case 3:
-			EXPECT_TRUE(line.substr(25, 13) == "| Message 1 |");
+            EXPECT_TRUE(line.substr(32, 13) == "| Message 1 |");
             break;
         case 4:
-			EXPECT_TRUE(line.substr(25, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(32, 13) == "| Message 2 |");
             break;
         case 5:
-			EXPECT_TRUE(line.substr(25, 13) == "| Message 3 |");
+            EXPECT_TRUE(line.substr(32, 13) == "| Message 3 |");
             break;
         case 6:
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
@@ -156,16 +157,16 @@ TEST_F(DebugLogTest, testCase_DebugLog4)
 {
     {
         core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log", 1024);
-        dl.AddLogMessage("Message 1", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
-        dl.AddLogMessage("Message 2", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
-        dl.AddLogMessage("Message 3", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
-        dl.AddLogMessage("Message 4", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
-        dl.AddLogMessage("Message 5", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
-        dl.AddLogMessage("Message 6", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
-        dl.AddLogMessage("Message 7", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
-        dl.AddLogMessage("Message 8", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
-        dl.AddLogMessage("Message 9", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
-        dl.AddLogMessage("Message 10", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 1", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::warning);
+        dl.AddLogMessage("Message 2", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 3", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::warning);
+        dl.AddLogMessage("Message 4", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 5", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::warning);
+        dl.AddLogMessage("Message 6", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 7", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::warning);
+        dl.AddLogMessage("Message 8", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 9", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::warning);
+        dl.AddLogMessage("Message 10", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
     }
 
     bool filesExist = boost::filesystem::exists("test_log.txt")
@@ -182,9 +183,9 @@ TEST_F(DebugLogTest, testCase_DebugLog5)
     {
         core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log");
         dl.AddLogMsgLevelFilter(core_lib::log::eLogMessageLevel::warning);
-        dl.AddLogMessage("Message 1", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
-        dl.AddLogMessage("Message 2", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::info);
-        dl.AddLogMessage("Message 3", __FILE__, __LINE__, core_lib::log::eLogMessageLevel::warning);
+        dl.AddLogMessage("Message 1", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::warning);
+        dl.AddLogMessage("Message 2", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::info);
+        dl.AddLogMessage("Message 3", __FILE__, BOOST_CURRENT_FUNCTION, __LINE__, core_lib::log::eLogMessageLevel::warning);
     }
 
     std::ifstream ifs("test_log.txt");
@@ -205,7 +206,7 @@ TEST_F(DebugLogTest, testCase_DebugLog5)
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
             break;
         case 3:
-			EXPECT_TRUE(line.substr(25, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(32, 13) == "| Message 2 |");
             break;
         case 4:
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
@@ -255,13 +256,13 @@ TEST_F(DebugLogTest, testCase_DebugLog6)
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
             break;
         case 3:
-			EXPECT_TRUE(line.substr(25, 13) == "| Message 1 |");
+            EXPECT_TRUE(line.substr(32, 13) == "| Message 1 |");
             break;
         case 4:
-			EXPECT_TRUE(line.substr(25, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(32, 13) == "| Message 2 |");
             break;
         case 5:
-			EXPECT_TRUE(line.substr(25, 13) == "| Message 3 |");
+            EXPECT_TRUE(line.substr(32, 13) == "| Message 3 |");
             break;
         case 6:
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
@@ -409,13 +410,13 @@ TEST_F(DebugLogTest, testCase_DebugLog9)
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
             break;
         case 3:
-			EXPECT_TRUE(line.substr(25, 11) == "| Message 1");
+            EXPECT_TRUE(line.substr(32, 11) == "| Message 1");
             break;
         case 4:
-			EXPECT_TRUE(line.substr(25, 11) == "| Message 2");
+            EXPECT_TRUE(line.substr(32, 11) == "| Message 2");
             break;
         case 5:
-			EXPECT_TRUE(line.substr(25, 11) == "| Message 3");
+            EXPECT_TRUE(line.substr(32, 11) == "| Message 3");
             break;
         case 6:
 			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");

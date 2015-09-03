@@ -162,7 +162,7 @@ public:
  * into a single line in the log following default
  * formatting.
  *
- * "Date/Time" | "Message" | "Level" | File = "..." | Line = "..." | Thread ID = "..."
+ * "Date/Time" | "Level" | "Message" | "File" | "Function" | Line = "..." | Thread ID = "..."
  */
 struct DefaultLogFormat
 {
@@ -173,6 +173,7 @@ struct DefaultLogFormat
 	 * \param[in] message - The actual message.
 	 * \param[in] logMsgLevel - Log message level.
 	 * \param[in] file - File where log message was generated.
+     * \param[in] function - Function where log message was generated.
 	 * \param[in] lineNo - Line number where log message was generated.
 	 * \param[in] threadID - Thread ID fo where log message was generated.
 	 */
@@ -181,6 +182,7 @@ struct DefaultLogFormat
 					 , const std::string& message
 					 , const std::string& logMsgLevel
 					 , const std::string& file
+                     , const std::string& function
 					 , const int lineNo
 					 , const std::thread::id& threadID) const;
 };
@@ -209,6 +211,7 @@ public:
 	 * \param[in] message - Message to add to log.
 	 * \param[in] timeStamp - Date/Time stamp for message.
 	 * \param[in] file - Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
+     * \param[in] function - Function insource file in which message AddLogMessage was called, e.g. BOOST_CURRENT_FUNCTION.
 	 * \param[in] lineNo - Line number in the source file where AddLogMessage was called, e.g. __LINE__.
 	 * \param[in] threadID - Thread ID where message was added from.
 	 * \param[in] errorLevel - Message level.
@@ -216,6 +219,7 @@ public:
 	LogQueueMessage(const std::string& message,
 					const time_t timeStamp,
 					const std::string& file,
+                    const std::string& function,
 					const int lineNo,
 					const std::thread::id& threadID,
                     const eLogMessageLevel errorLevel);
@@ -251,6 +255,11 @@ public:
 	 * \return File name string.
 	 */
     const std::string& File() const;
+    /*!
+     * \brief Get function name string.
+     * \return File name string.
+     */
+    const std::string& Function() const;
 	/*!
 	 * \brief Get source file line number.
 	 * \return Line number.
@@ -274,6 +283,8 @@ private:
 	time_t m_timeStamp{0};
 	/*! \brief Source file name.*/
 	std::string m_file;
+    /*! \brief Function name.*/
+    std::string m_function;
 	/*! \brief Line number in source file.*/
 	int m_lineNo{0};
 	/*! \brief Thread ID where message originated.*/
@@ -355,7 +366,7 @@ public:
 		CloseOfStream();
 	}
 	/*!
-	 * \brief Instantiate a default constructor DebugLog object.
+     * \brief Instantiate a previously default constructed DebugLog object.
 	 * \param[in] softwareVersion - Version of software that "owns" the log.
 	 * \param[in] logFolderPath - Folder path (with trailing slash) where log will be created.
 	 * \param[in] logName - File name of log file without extension.
@@ -455,6 +466,7 @@ public:
         m_logMsgQueueThread->Push(log_queue_message_t(message,
 													  messageTime,
 													  "",
+                                                      "",
 													  -1,
 													  noThread,
 													  eLogMessageLevel::not_defined));
@@ -464,6 +476,7 @@ public:
 	 * \brief Add message to the log file.
 	 * \param[in] message - Message to add to log.
 	 * \param[in] file - Source file in which message AddLogMessage was called, e.g. std::string(__FILE__).
+     * \param[in] function - Function insource file in which message AddLogMessage was called, e.g. BOOST_CURRENT_FUNCTION.
 	 * \param[in] lineNo - Line number in the source file where AddLogMessage was called, e.g. __LINE__.
 	 * \param[in] logMsgLevel - Message level.
 	 *
@@ -472,6 +485,7 @@ public:
 	 */
 	void AddLogMessage(const std::string& message
 					   , const std::string& file
+                       , const std::string& function
 					   , const int lineNo
 					   , const eLogMessageLevel logMsgLevel)
 	{
@@ -482,6 +496,7 @@ public:
             m_logMsgQueueThread->Push(log_queue_message_t(message,
 														  messageTime,
 														  file,
+                                                          function,
 														  lineNo,
 														  std::this_thread::get_id(),
 														  logMsgLevel));
@@ -625,7 +640,7 @@ private:
 		time(&messageTime);
 		std::thread::id noThread;
 		WriteMessageToLog(log_queue_message_t("DEBUG LOG STARTED"
-										  , messageTime, "", -1
+                                          , messageTime, "", "", -1
 										  , noThread
 										  , eLogMessageLevel::not_defined));
 
@@ -634,7 +649,7 @@ private:
 			std::string message("Software Version ");
 			message += m_softwareVersion;
 			WriteMessageToLog(log_queue_message_t(message, messageTime
-                                                  , "", -1
+                                                  , "", "", -1
                                                   , noThread
                                                   , eLogMessageLevel::not_defined));
 		}
@@ -651,7 +666,7 @@ private:
 		time(&messageTime);
 		std::thread::id noThread;
 		WriteMessageToLog(log_queue_message_t("DEBUG LOG STOPPED"
-										  , messageTime, "", -1
+                                          , messageTime, "", "", -1
 										  , noThread
 										  , eLogMessageLevel::not_defined));
 		m_ofStream.close();
@@ -688,6 +703,7 @@ private:
 					   , logMessage.Message()
 					   , GetLogMsgLevelAsString(logMessage.ErrorLevel())
 					   , logMessage.File()
+                       , logMessage.Function()
 					   , logMessage.LineNo()
 					   , logMessage.ThreadID());
 		m_ofStream.flush();

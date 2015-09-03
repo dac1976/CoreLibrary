@@ -29,6 +29,7 @@
 #define DEBUGLOGGING
 
 #include "DebugLogSingleton.h"
+#include <boost/current_function.hpp>
 
 /*!
  * \brief Simple macro to simplify logging.
@@ -51,10 +52,10 @@
  */
 #define DEBUG_LOG_EX(x, m, l)   \
 	do                          \
-{                           \
-	std::ostringstream os;  \
-	os << m;                \
-	x.AddLogMessage(os.str(), std::string(__FILE__), __LINE__, l); \
+    {                           \
+    std::ostringstream os;      \
+    os << m;                    \
+    x.AddLogMessage(os.str(), std::string(__FILE__), BOOST_CURRENT_FUNCTION, __LINE__, l); \
 	} while(false)
 
 /*!

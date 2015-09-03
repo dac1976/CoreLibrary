@@ -73,6 +73,7 @@ void DefaultLogFormat::operator() (std::ostream& os
 								   , const std::string& message
 								   , const std::string& logMsgLevel
 								   , const std::string& file
+                                   , const std::string& function
 								   , int lineNo
 								   , const std::thread::id& threadID) const
 {
@@ -88,20 +89,25 @@ void DefaultLogFormat::operator() (std::ostream& os
         std::string time{ctime(&timeStamp)};
         std::replace_if(time.begin(), time.end(),
                         [](char c) { return (c == '\n') || (c == '\r'); }, 0);
-        os << time.c_str() << " | ";
+        os << time.c_str() << " | " ;
+	}
+
+	if (logMsgLevel != "")
+	{
+        os << logMsgLevel << " | ";
 	}
 
     os << message;
 
-	if (logMsgLevel != "")
-	{
-        os << " | " << logMsgLevel;
-	}
-
 	if (file != "")
 	{
-        os << " | File = " << file;
+        os << " | " << file;
 	}
+
+    if (function != "")
+    {
+        os << " | " << function;
+    }
 
 	if (lineNo >= 0)
 	{
@@ -126,12 +132,14 @@ namespace dl_private
     LogQueueMessage::LogQueueMessage(const std::string& message,
                     const time_t timeStamp,
                     const std::string& file,
+                    const std::string& function,
                     const int lineNo,
                     const std::thread::id& threadID,
                     const eLogMessageLevel errorLevel)
         : m_message(message)
         , m_timeStamp(timeStamp)
         , m_file(file)
+        , m_function(function)
         , m_lineNo(lineNo)
         , m_threadID(threadID)
         , m_errorLevel(errorLevel)
@@ -149,6 +157,7 @@ namespace dl_private
         std::swap(m_message, msg.m_message);
         std::swap(m_timeStamp, msg.m_timeStamp);
         std::swap(m_file, msg.m_file);
+        std::swap(m_function, msg.m_function);
         std::swap(m_lineNo, msg.m_lineNo);
         std::swap(m_threadID, msg.m_threadID);
         std::swap(m_errorLevel, msg.m_errorLevel);
@@ -169,6 +178,12 @@ namespace dl_private
     const std::string& LogQueueMessage::File() const
     {
         return m_file;
+    }
+
+
+    const std::string& LogQueueMessage::Function() const
+    {
+        return m_function;
     }
 
     int LogQueueMessage::LineNo() const
