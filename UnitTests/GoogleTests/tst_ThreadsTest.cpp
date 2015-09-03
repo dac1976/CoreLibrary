@@ -132,24 +132,25 @@ public:
 
 private:
 	mutable std::mutex m_mutex;
+    core_lib::threads::SyncEvent m_event;
 	size_t m_counter;
 	bool& m_terminateCondition;
 
     virtual void ThreadIteration() noexcept
 	{
+        if (!m_event.WaitForTime(100))
 		{
 			std::lock_guard<std::mutex> lock(m_mutex);
 			m_counter = m_counter == std::numeric_limits<size_t>::max()
 						? 0
 						: m_counter + 1;
 		}
-
-		SleepForTime(100);
 	}
 
     virtual void ProcessTerminationConditions() noexcept
 	{
-		m_terminateCondition = true;
+        m_terminateCondition = true;
+        m_event.Signal();
 	}
 };
 
@@ -795,13 +796,6 @@ TEST_F(ThreadsTest, testCase_SyncEvent7)
 
 TEST_F(ThreadsTest, testCase_ThreadBase)
 {
-    // For now don't run this test as it causes a weird crash.
-//#pragma message("*******************************************************************************************")
-//#pragma message("********************************************************************************************")
-//#pragma message("***** testCase_ThreadBase Disabled due to unidentified incompatiblity with MSVC++ 2015 *****")
-//#pragma message("********************************************************************************************")
-//#pragma message("********************************************************************************************")
-
 	bool terminateCondition = false;
 
 	{
