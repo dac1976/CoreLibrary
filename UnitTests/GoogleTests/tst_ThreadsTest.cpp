@@ -796,13 +796,12 @@ TEST_F(ThreadsTest, testCase_SyncEvent7)
 TEST_F(ThreadsTest, testCase_ThreadBase)
 {
     // For now don't run this test as it causes a weird crash.
-#pragma message("*******************************************************************************************")
-#pragma message("********************************************************************************************")
-#pragma message("***** testCase_ThreadBase Disabled due to unidentified incompatiblity with MSVC++ 2015 *****")
-#pragma message("********************************************************************************************")
-#pragma message("********************************************************************************************")
+//#pragma message("*******************************************************************************************")
+//#pragma message("********************************************************************************************")
+//#pragma message("***** testCase_ThreadBase Disabled due to unidentified incompatiblity with MSVC++ 2015 *****")
+//#pragma message("********************************************************************************************")
+//#pragma message("********************************************************************************************")
 
-#if 0
 	bool terminateCondition = false;
 
 	{
@@ -870,9 +869,7 @@ TEST_F(ThreadsTest, testCase_ThreadBase)
         EXPECT_FALSE(bigException);
 	}
 
-	EXPECT_TRUE(terminateCondition);
-
-#endif // _MSC_VER
+    EXPECT_TRUE(terminateCondition);
 }
 
 // ****************************************************************************
