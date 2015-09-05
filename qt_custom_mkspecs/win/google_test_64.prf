@@ -1,7 +1,7 @@
 INCLUDEPATH += C:/Projects/duncan/ThirdParty/google_test/include
 			   
 CONFIG(debug, debug|release) {
-  LIBS += -LC:/Projects/duncan/ThirdParty/google_test/qt_mingw_64/debug -lgtest_main
+  LIBS += -LC:/Projects/duncan/ThirdParty/google_test/qt_mingw64/debug -lgtest_main
 } else {
-  LIBS += -LC:/Projects/duncan/ThirdParty/google_test/qt_mingw_64/release -lgtest_main
+  LIBS += -LC:/Projects/duncan/ThirdParty/google_test/qt_mingw64/release -lgtest_main
 }
