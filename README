@@ -11,40 +11,40 @@ Copyright (C) 2014-2015 Duncan Crutchley.
 
 Directory structure:
 --------------------
-> CoreLibrary
-	> docs
-		> html
-			> search					 
-	> Include
-		> Asio
-		> CsvGrid
-		> DebugLog
-		> Exceptions
-		> IniFile
-		> Platform
-		> Serialization
-		> Sorting
-		> StringUtils
-		> Threads
-	> msvc
-	> qt_custom_mkspecs
-		> linux
-		> win
-	> QtProject
-		> linux
-		> win
-	> Source
-		> Asio
-		> CsvGrid
-		> DebugLog
-		> Exceptions
-		> IniFile
-		> Sorting
-		> StringUtils
-		> Threads
-	> UnitTests
-		> data
-		> linux
-		> msvc
-		> win						  
+CoreLibrary
+	/docs
+		/html
+			/search					 
+	/Include
+		/Asio
+		/CsvGrid
+		/DebugLog
+		/Exceptions
+		/IniFile
+		/Platform
+		/Serialization
+		/Sorting
+		/StringUtils
+		/Threads
+	/msvc
+	/qt_custom_mkspecs
+		/linux
+		/win
+	/QtProject
+		/linux
+		/win
+	/Source
+		/Asio
+		/CsvGrid
+		/DebugLog
+		/Exceptions
+		/IniFile
+		/Sorting
+		/StringUtils
+		/Threads
+	/UnitTests
+		/data
+		/linux
+		/msvc
+		/win						  
   				 
