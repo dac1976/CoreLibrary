@@ -37,11 +37,11 @@
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
  */
 #define DEBUG_LOG(x, m)            \
-	do                             \
-{                              \
-	std::ostringstream os;     \
-	os << m;    		       \
-	x.AddLogMessage(os.str()); \
+    do                             \
+    {                              \
+        std::ostringstream os;     \
+        os << m;    		       \
+        x.AddLogMessage(os.str()); \
 	} while(false)
 
 /*!
@@ -50,13 +50,53 @@
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
  * \param[in] l - Log message level from enum eLogMessageLevel.
  */
-#define DEBUG_LOG_EX(x, m, l)   \
-	do                          \
-    {                           \
-    std::ostringstream os;      \
-    os << m;                    \
-    x.AddLogMessage(os.str(), std::string(__FILE__), BOOST_CURRENT_FUNCTION, __LINE__, l); \
+#define DEBUG_LOG_EX(x, m, l)       \
+    do                              \
+    {                               \
+        std::ostringstream os;      \
+        os << m;                    \
+        x.AddLogMessage(os.str(), std::string(__FILE__), BOOST_CURRENT_FUNCTION, __LINE__, l); \
 	} while(false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level debug.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ */
+#define DEBUG_LOG_EX_DEBUG(x, m)   \
+    DEBUG_LOG_EX(x, m, core_lib::log::eLogMessageLevel::debug)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level info.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ */
+#define DEBUG_LOG_EX_INFO(x, m)   \
+    DEBUG_LOG_EX(x, m, core_lib::log::eLogMessageLevel::info)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level warning.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ */
+#define DEBUG_LOG_EX_WARNING(x, m)   \
+    DEBUG_LOG_EX(x, m, core_lib::log::eLogMessageLevel::warning)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level error.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ */
+#define DEBUG_LOG_EX_ERROR(x, m)   \
+    DEBUG_LOG_EX(x, m, core_lib::log::eLogMessageLevel::error)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level fatal.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ */
+#define DEBUG_LOG_EX_FATAL(x, m)   \
+    DEBUG_LOG_EX(x, m, core_lib::log::eLogMessageLevel::fatal)
 
 /*!
  * \brief Macro to add message level to filter set.
@@ -67,12 +107,82 @@
 	x.AddLogMsgLevelFilter(l)
 
 /*!
- * \brief Macro to remove message level to filter set.
+ * \brief Macro to add message level debug to filter set.
+ * \param[in] x - DebugLog object.
+ */
+#define DEBUG_LOG_ADD_FILTER_DEBUG(x) \
+    DEBUG_LOG_ADD_FILTER(core_lib::log::eLogMessageLevel::debug)
+
+/*!
+ * \brief Macro to add message level info to filter set.
+ * \param[in] x - DebugLog object.
+ */
+#define DEBUG_LOG_ADD_FILTER_INFO(x) \
+    DEBUG_LOG_ADD_FILTER(core_lib::log::eLogMessageLevel::info)
+
+/*!
+ * \brief Macro to add message level warning to filter set.
+ * \param[in] x - DebugLog object.
+ */
+#define DEBUG_LOG_ADD_FILTER_WARNING(x) \
+    DEBUG_LOG_ADD_FILTER(core_lib::log::eLogMessageLevel::warning)
+
+/*!
+ * \brief Macro to add message level error to filter set.
+ * \param[in] x - DebugLog object.
+ */
+#define DEBUG_LOG_ADD_FILTER_ERROR(x) \
+    DEBUG_LOG_ADD_FILTER(core_lib::log::eLogMessageLevel::error)
+
+/*!
+ * \brief Macro to add message level fatal to filter set.
+ * \param[in] x - DebugLog object.
+ */
+#define DEBUG_LOG_ADD_FILTER_FATAL(x) \
+    DEBUG_LOG_ADD_FILTER(core_lib::log::eLogMessageLevel::fatal)
+
+/*!
+ * \brief Macro to remove message level from filter set.
  * \param[in] x- DebugLog object.
  * \param[in] l - Log message level from enum eLogMessageLevel.
  */
 #define DEBUG_LOG_REMOVE_FILTER(x, l) \
 	x.RemoveLogMsgLevelFilter(l)
+
+/*!
+ * \brief Macro to remove message level debug from filter set.
+ * \param[in] x- DebugLog object.
+ */
+#define DEBUG_LOG_REMOVE_FILTER_DEBUG(x) \
+    DEBUG_LOG_REMOVE_FILTER(core_lib::log::eLogMessageLevel::debug)
+
+/*!
+ * \brief Macro to remove message level info from filter set.
+ * \param[in] x- DebugLog object.
+ */
+#define DEBUG_LOG_REMOVE_FILTER_INFO(x) \
+    DEBUG_LOG_REMOVE_FILTER(core_lib::log::eLogMessageLevel::info)
+
+/*!
+ * \brief Macro to remove message level warning from filter set.
+ * \param[in] x- DebugLog object.
+ */
+#define DEBUG_LOG_REMOVE_FILTER_WARNING(x) \
+    DEBUG_LOG_REMOVE_FILTER(core_lib::log::eLogMessageLevel::warning)
+
+/*!
+ * \brief Macro to remove message level error from filter set.
+ * \param[in] x- DebugLog object.
+ */
+#define DEBUG_LOG_REMOVE_FILTER_ERROR(x) \
+    DEBUG_LOG_REMOVE_FILTER(core_lib::log::eLogMessageLevel::error)
+
+/*!
+ * \brief Macro to remove message level fatal from filter set.
+ * \param[in] x- DebugLog object.
+ */
+#define DEBUG_LOG_REMOVE_FILTER_FATAL(x) \
+    DEBUG_LOG_REMOVE_FILTER(core_lib::log::eLogMessageLevel::fatal)
 
 /*!
  * \brief Macro to clear filter set.
@@ -134,6 +244,51 @@
 	DEBUG_LOG_EX(core_lib::log::DebugLogSingleton::Instance(), m, l)
 
 /*!
+ * \brief Simple macro to simplify logging generating message with level debug.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_EX_DEBUG(m) \
+    DEBUG_LOG_EX_DEBUG(core_lib::log::DebugLogSingleton::Instance(), m)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level info.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_EX_INFO(m) \
+    DEBUG_LOG_EX_INFO(core_lib::log::DebugLogSingleton::Instance(), m)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level warning.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_EX_WARNING(m) \
+    DEBUG_LOG_EX_WARNING(core_lib::log::DebugLogSingleton::Instance(), m)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level error.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_EX_ERROR(m) \
+    DEBUG_LOG_EX_ERROR(core_lib::log::DebugLogSingleton::Instance(), m)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level fatal.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_EX_FATAL(m) \
+    DEBUG_LOG_EX_FATAL(core_lib::log::DebugLogSingleton::Instance(), m)
+
+/*!
  * \brief Macro to add message level to filter set.
  * \param[in] l - Log message level from enum eLogMessageLevel.
  *
@@ -143,6 +298,46 @@
 	DEBUG_LOG_ADD_FILTER(core_lib::log::DebugLogSingleton::Instance(), l)
 
 /*!
+ * \brief Macro to add message level debug to filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_ADD_FILTER_DEBUG() \
+    DEBUG_LOG_ADD_FILTER_DEBUG(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to add message level info to filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_ADD_FILTER_INFO() \
+    DEBUG_LOG_ADD_FILTER_INFO(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to add message level warning to filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_ADD_FILTER_WARNING() \
+    DEBUG_LOG_ADD_FILTER_WARNING(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to add message level error to filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_ADD_FILTER_ERROR() \
+    DEBUG_LOG_ADD_FILTER_ERROR(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to add message level fatal to filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_ADD_FILTER_FATAL() \
+    DEBUG_LOG_ADD_FILTER_FATAL(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
  * \brief Macro to remove message level from filter set.
  * \param[in] l - Log message level from enum eLogMessageLevel.
  *
@@ -150,6 +345,46 @@
  */
 #define DEBUG_MESSAGE_REMOVE_FILTER(l) \
 	DEBUG_LOG_ADD_FILTER(core_lib::log::DebugLogSingleton::Instance(), l)
+
+/*!
+ * \brief Macro to remove message level debug from filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_REMOVE_FILTER_DEBUG() \
+    DEBUG_LOG_ADD_FILTER_DEBUG(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to remove message level info from filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_REMOVE_FILTER_INFO() \
+    DEBUG_LOG_ADD_FILTER_INFO(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to remove message level warning from filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_REMOVE_FILTER_WARNING() \
+    DEBUG_LOG_ADD_FILTER_WARNING(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to remove message level error from filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_REMOVE_FILTER_ERROR() \
+    DEBUG_LOG_ADD_FILTER_ERROR(core_lib::log::DebugLogSingleton::Instance())
+
+/*!
+ * \brief Macro to remove message level fatal from filter set.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_REMOVE_FILTER_FATAL() \
+    DEBUG_LOG_ADD_FILTER_FATAL(core_lib::log::DebugLogSingleton::Instance())
 
 /*!
  * \brief Macro to clear filter set.
