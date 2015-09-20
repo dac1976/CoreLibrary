@@ -39,24 +39,69 @@ namespace udp {
 class SimpleUdpSender final
 {
 public:
+    /*! \brief Default constructor - deleted. */
+    SimpleUdpSender() = delete;
+    /*!
+     * \brief Initialisation constructor.
+     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] receiver - Connection object describing target receiver's address and port.
+     * \param[in] sendOption - Socket send option to control the use of broadcasts/unicast.
+     * \param[in] sendBufferSize - Socket send option to control send buffer size.
+     *
+     * Typically use this constructor when managing a bool of threads using an instance of
+     * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be exectued
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     */
     SimpleUdpSender(boost_ioservice_t& ioService
                    , const defs::connection_t& receiver
                    , const eUdpOption sendOption = eUdpOption::broadcast
                    , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
-
+    /*!
+     * \brief Initialisation constructor.
+     * \param[in] receiver - Connection object describing target receiver's address and port.
+     * \param[in] sendOption - Socket send option to control the use of broadcasts/unicast.
+     * \param[in] sendBufferSize - Socket send option to control send buffer size.
+     *
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
+     * version will be fine but in more performance and resource critical situations the
+     * external IO service constructor is recommened.
+     */
     SimpleUdpSender(const defs::connection_t& receiver
                    , const eUdpOption sendOption = eUdpOption::broadcast
                    , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
-
+    /*! \brief Copy constructor - deleted. */
     SimpleUdpSender(const SimpleUdpSender& ) = delete;
+    /*! \brief Copy assignment operator - deleted. */
     SimpleUdpSender& operator=(const SimpleUdpSender& ) = delete;
+    /*! \brief Default destructor. */
     ~SimpleUdpSender() = default;
-
+    /*!
+     * \brief Retrieve receiver connection details.
+     * \return - Connection object describing target receiver's address and port.
+     */
 	defs::connection_t ReceiverConnection() const;
-
+    /*!
+     * \brief Send a header-only message to the receiver.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket.
+     * \return Returns the success state of the send as a boolean.
+     *
+     * This method only sends a simple core_lib::asio::defs::MessageHeader
+     * object to the server.
+     */
     bool SendMessage(const uint32_t messageId
                      , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
-
+    /*!
+     * \brief Send a full message to the server.
+     * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket.
+     * \return Returns the success state of the send as a boolean.
+     *
+     * This method uses the a core_lib::asio::defs::MessageHeader object as the header.
+     */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessage(const T& message
                      , const uint32_t messageId
@@ -66,7 +111,9 @@ public:
     }
 
 private:
+    /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */
     messages::MessageBuilder m_messageBuilder;
+    /*! \brief Our actual typed UDP sender object. */
     UdpTypedSender<messages::MessageBuilder> m_udpTypedSender;
 };
 

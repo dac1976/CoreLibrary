@@ -42,6 +42,8 @@ namespace tcp {
 class TcpClient final
 {
 public:
+    TcpClient() = delete;
+
 	TcpClient(boost_ioservice_t& ioService
 			  , const defs::connection_t& server
 			  , const size_t minAmountToRead

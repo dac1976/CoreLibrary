@@ -43,6 +43,8 @@ namespace tcp {
 class TcpServer final
 {
 public:
+    TcpServer() = delete;
+
 	TcpServer(boost_ioservice_t& ioService
 			  , const uint16_t listenPort
 			  , const size_t minAmountToRead
