@@ -664,7 +664,7 @@ TEST(CsvGridTest, Case59_CsvGrid_FileConstructor_SimpleCells)
 {
     try
     {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 	#else
@@ -689,7 +689,7 @@ TEST(CsvGridTest, Case60_CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130
 {
     try
     {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 	#else
@@ -709,7 +709,7 @@ TEST(CsvGridTest, Case61_CsvGrid_FileConstructor_DoubleQuotedCells)
 {
     try
     {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 	#else
@@ -734,7 +734,7 @@ TEST(CsvGridTest, Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_100
 {
     try
     {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 	#else
@@ -989,7 +989,7 @@ TEST(CsvGridTest, Case71_CsvGrid_LoadFromCSVFile_2)
     core_lib::csv_grid::CsvGrid grid;
     try
     {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 	#else
@@ -1031,7 +1031,7 @@ TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
 
     try
     {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 	#else

@@ -1,22 +1,21 @@
 #ifndef DISABLE_SERIALIZATION_TESTS
 
 #include <string>
+#include "boost/predef.h"
 #include "boost/serialization/string.hpp"
 #include "boost/serialization/vector.hpp"
 #include "Serialization/SerializeToVector.h"
 
 #include "gtest/gtest.h"
 
-#ifdef BOOST_OS_WINDOWS
-	#ifdef _MSC_VER
-		#ifdef _DEBUG
-			#pragma message("*******************************************************************************")
-			#pragma message("*******************************************************************************")
-			#pragma message("***** SERIALIZATION UNIT TESTS WILL FAIL IF EXECUTED WITHIN A DEBUG BUILD *****")
-			#pragma message("*******************************************************************************")
-			#pragma message("*******************************************************************************")
-		#endif
-	#endif
+#ifdef _MSC_VER
+    #ifdef _DEBUG
+        #pragma message("*******************************************************************************")
+        #pragma message("*******************************************************************************")
+        #pragma message("***** SERIALIZATION UNIT TESTS WILL FAIL IF EXECUTED WITHIN A DEBUG BUILD *****")
+        #pragma message("*******************************************************************************")
+        #pragma message("*******************************************************************************")
+    #endif
 #endif
 
 namespace 

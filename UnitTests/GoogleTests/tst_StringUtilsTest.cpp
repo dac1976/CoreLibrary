@@ -187,14 +187,14 @@ TEST(StringUtilsTest, Case12_FormatFloatString_3)
 {
 	float value = 1234.123f;
 	std::string result = core_lib::string_utils::FormatFloatString(value, 15, core_lib::string_utils::eFloatStringFormat::scientific);
-#ifdef BOOST_OS_LINUX
-	EXPECT_TRUE(result.size() == 21U);
-#else
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
-		EXPECT_TRUE(result.size() == 21U);
-	#else
-		EXPECT_TRUE(result.size() == 22U);
+        EXPECT_TRUE(result.size() == 21U);
+    #else
+        EXPECT_TRUE(result.size() == 22U);
 	#endif
+#else
+    EXPECT_TRUE(result.size() == 21U);
 #endif
 	EXPECT_STREQ(result.substr(0, 8).c_str(), "1.234123");
 }
@@ -219,14 +219,14 @@ TEST(StringUtilsTest, Case15_FormatFloatString_6)
 {
 	double value = 1234.123;
 	std::string result = core_lib::string_utils::FormatFloatString(value, 15, core_lib::string_utils::eFloatStringFormat::scientific);
-#ifdef BOOST_OS_LINUX
-	EXPECT_TRUE(result.size() == 21U);
-#else
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		EXPECT_TRUE(result.size() == 21U);
 	#else
 		EXPECT_TRUE(result.size() == 22U);
 	#endif
+#else
+    EXPECT_TRUE(result.size() == 21U);
 #endif
 	EXPECT_STREQ(result.substr(0, 8).c_str(), "1.234123");
 }

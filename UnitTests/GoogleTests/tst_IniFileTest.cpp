@@ -15,7 +15,7 @@ TEST(IniFileTest, Case1_InvalidLine)
 
 	try
 	{
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
         core_lib::ini_file::IniFile iniFile("../../data/test_file_1.ini");
 	#else
@@ -51,7 +51,7 @@ TEST(IniFileTest, Case2_InvalidKey)
 
 	try
 	{
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
         core_lib::ini_file::IniFile iniFile("../../data/test_file_2.ini");
 	#else
@@ -87,7 +87,7 @@ TEST(IniFileTest, Case3_InvalidSection)
 
 	try
 	{
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_3.ini");
 	#else
@@ -123,7 +123,7 @@ TEST(IniFileTest, Case4_DuplicateKey)
 
 	try
 	{
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_4.ini");
 	#else
@@ -159,7 +159,7 @@ TEST(IniFileTest, Case5_DuplicateSection)
 
 	try
 	{
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_5.ini");
 	#else
@@ -195,7 +195,7 @@ TEST(IniFileTest, Case6_InvalidFile)
 
 	try
 	{
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file.ini");
 	#else
@@ -231,7 +231,7 @@ TEST(IniFileTest, Case7_ValidFile)
 
 	try
 	{
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_6.ini");
 	#else
@@ -252,7 +252,7 @@ TEST(IniFileTest, Case7_ValidFile)
 
 TEST(IniFileTest, Case8_ValidFileCompare)
 {
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
     #ifdef _MSC_VER
 		boost::filesystem::copy_file("../../data/test_file_6.ini", "../../data/test_file_tmp.ini"
 			, boost::filesystem::copy_option::overwrite_if_exists);
@@ -270,7 +270,7 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 	try
 	{
 		core_lib::ini_file::IniFile iniFile;
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		iniFile.LoadFile("../../data/test_file_tmp.ini");
 	#else
@@ -290,7 +290,7 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 
     EXPECT_TRUE(noException);
 
-#ifdef BOOST_OS_WINDOWS
+#if BOOST_OS_WINDOWS
 	#ifdef _MSC_VER
 		std::ifstream iniFileA("../../data/test_file_tmp.ini");
 		std::ifstream iniFileB("../../data/test_file_check.ini");
@@ -319,7 +319,7 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 	iniFileA.close();
 	iniFileB.close();
 
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		boost::filesystem::remove("../../data/test_file_tmp.ini");
 	#else
@@ -332,7 +332,7 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 
 TEST(IniFileTest, Case9_CopyConstructor)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile1("../../data/test_file_check.ini");
 	#else
@@ -344,7 +344,7 @@ TEST(IniFileTest, Case9_CopyConstructor)
 
 	core_lib::ini_file::IniFile iniFile2(iniFile1);
 
-#ifdef BOOST_OS_WINDOWS   
+#if BOOST_OS_WINDOWS   
 	#ifdef _MSC_VER
 		iniFile2.UpdateFile("../../data/test_file_tmp.ini");
 	#else
@@ -354,7 +354,7 @@ TEST(IniFileTest, Case9_CopyConstructor)
     iniFile2.UpdateFile("../../data/test_file_tmp.ini");
 #endif
 
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		std::ifstream iniFileA("../../data/test_file_tmp.ini");
 		std::ifstream iniFileB("../../data/test_file_check.ini");
@@ -383,7 +383,7 @@ TEST(IniFileTest, Case9_CopyConstructor)
 	iniFileA.close();
 	iniFileB.close();
 
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		boost::filesystem::remove("../../data/test_file_tmp.ini");
 	#else
@@ -396,7 +396,7 @@ TEST(IniFileTest, Case9_CopyConstructor)
 
 TEST(IniFileTest, Case10_MoveConstructor)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../../data/test_file_check.ini"));
 	#else
@@ -406,7 +406,7 @@ TEST(IniFileTest, Case10_MoveConstructor)
 	core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../../data/test_file_check.ini"));
 #endif
 
-#ifdef BOOST_OS_WINDOWS   
+#if BOOST_OS_WINDOWS   
 	#ifdef _MSC_VER
 		iniFile.UpdateFile("../../data/test_file_tmp.ini");
 	#else
@@ -416,7 +416,7 @@ TEST(IniFileTest, Case10_MoveConstructor)
 	iniFile.UpdateFile("../../data/test_file_tmp.ini");
 #endif
 
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		std::ifstream iniFileA("../../data/test_file_tmp.ini");
 		std::ifstream iniFileB("../../data/test_file_check.ini");
@@ -445,7 +445,7 @@ TEST(IniFileTest, Case10_MoveConstructor)
 	iniFileA.close();
 	iniFileB.close();
 
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		boost::filesystem::remove("../../data/test_file_tmp.ini");
 	#else
@@ -458,7 +458,7 @@ TEST(IniFileTest, Case10_MoveConstructor)
 
 TEST(IniFileTest, Case11_GetSections)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 	#else
@@ -484,7 +484,7 @@ TEST(IniFileTest, Case11_GetSections)
 
 TEST(IniFileTest, Case12_GetSection)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 	#else
@@ -501,7 +501,7 @@ TEST(IniFileTest, Case12_GetSection)
 
 TEST(IniFileTest, Case13_SectionExists)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 	#else
@@ -518,7 +518,7 @@ TEST(IniFileTest, Case13_SectionExists)
 
 TEST(IniFileTest, Case14_KeyExists)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 	#else
@@ -535,7 +535,7 @@ TEST(IniFileTest, Case14_KeyExists)
 
 TEST(IniFileTest, Case15_ReadValues)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 	#ifdef _MSC_VER
 		core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 	#else
@@ -591,7 +591,7 @@ TEST(IniFileTest, Case15_ReadValues)
 
 TEST(IniFileTest, Case16_EraseSection)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 #ifdef _MSC_VER
 	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 #else
@@ -608,7 +608,7 @@ TEST(IniFileTest, Case16_EraseSection)
 
 TEST(IniFileTest, Case17_EraseKey)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 #ifdef _MSC_VER
 	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 #else
@@ -625,7 +625,7 @@ TEST(IniFileTest, Case17_EraseKey)
 
 TEST(IniFileTest, Case18_EraseKeys)
 {
-#ifdef BOOST_OS_WINDOWS    
+#if BOOST_OS_WINDOWS    
 #ifdef _MSC_VER
 	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
 #else
