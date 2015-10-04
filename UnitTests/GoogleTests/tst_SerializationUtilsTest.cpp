@@ -69,6 +69,8 @@ private:
 	}
 };
 
+//BOOST_CLASS_VERSION(MyObject, 1)
+
 } // End of unnamed namespace.
 
 // Unit test cases.
