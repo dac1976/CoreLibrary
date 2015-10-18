@@ -69,9 +69,9 @@ private:
 	}
 };
 
-//BOOST_CLASS_VERSION(MyObject, 1)
-
 } // End of unnamed namespace.
+
+BOOST_CLASS_VERSION(MyObject, 1)
 
 // Unit test cases.
 TEST(SerializationUtilsTest, testCase_SerializeObjectPortBinArch)
