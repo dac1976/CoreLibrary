@@ -1,0 +1,7 @@
+INCLUDEPATH += D:/Projects/ThirdParty/google_test/include
+			   
+CONFIG(debug, debug|release) {
+  LIBS += -LD:/Projects/ThirdParty/google_test/msvc2013/x64/Debug -lgtest_maind
+} else {
+  LIBS += -LD:/Projects/ThirdParty/google_test/msvc2013/x64/Release -lgtest_main
+}
