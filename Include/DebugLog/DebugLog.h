@@ -328,9 +328,15 @@ public:
 	 * the log, otherwise no output or file will be
 	 * created.
 	 */
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
 	DebugLog()
+        : m_unknownLogMsgLevel("?")
 	{
+        void InitialiseLogMessageLevelLookupMap();
 	}
+#else
+    DebugLog() = default;
+#endif
 	/*!
 	 * \brief Initialisation constructor.
 	 * \param[in] softwareVersion - Version of software that "owns" the log.
@@ -345,11 +351,18 @@ public:
 			 , const std::string& logFolderPath
 			 , const std::string& logName
 			 , const long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
-		: m_maxLogSize{maxLogSize}
-		, m_softwareVersion{softwareVersion}
-		, m_logFilePath{logFolderPath + logName + ".txt"}
-		, m_oldLogFilePath{logFolderPath + logName + "_old.txt"}
+        :
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+          m_unknownLogMsgLevel("?"),
+#endif
+        m_maxLogSize(maxLogSize)
+        , m_softwareVersion(softwareVersion)
+        , m_logFilePath(logFolderPath + logName + ".txt")
+        , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
 	{
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+        void InitialiseLogMessageLevelLookupMap();
+#endif
 		RegisterLogQueueMessageId();
 		OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
 	}
@@ -506,7 +519,14 @@ public:
 private:
 	/*! \brief Mutex to lock access.*/
 	mutable std::mutex m_mutex;
-	/*! \brief String for unknown message level.*/
+
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+    /*! \brief String for unknown message level.*/
+    const std::string m_unknownLogMsgLevel;
+    /*! \brief Message level string lookup map.*/
+    std::unordered_map<eLogMessageLevel, std::string> m_logMsgLevelLookup;
+#else
+    /*! \brief String for unknown message level.*/
 	const std::string m_unknownLogMsgLevel{"?"};
 	/*! \brief Message level string lookup map.*/
 	const std::unordered_map<eLogMessageLevel, std::string>
@@ -516,12 +536,13 @@ private:
 						, {eLogMessageLevel::warning, "Warning"}
 						, {eLogMessageLevel::error, "Error"}
 						, {eLogMessageLevel::fatal, "Fatal"}};
+#endif
 	/*! \brief Message level filter set.*/
 	std::set<eLogMessageLevel> m_logMsgFilterSet;
 	/*! \brief Log formatter object.*/
 	Formatter m_logFormatter;
-	/*! \brief Log file max size.*/
-	long m_maxLogSize{5 * BYTES_IN_MEBIBYTE};
+    /*! \brief Log file max size.*/
+    long m_maxLogSize{5 * BYTES_IN_MEBIBYTE};
 	/*! \brief Output file stream.*/
 	std::ofstream m_ofStream;
 	/*! \brief Software version string.*/
@@ -534,10 +555,21 @@ private:
 	typedef threads::MessageQueueThread<int, log_queue_message_t> log_msg_queue;
 	/*! \brief Unique_ptr holding message queue thread.*/
 	std::unique_ptr<log_msg_queue>
-    m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog::MessageDecoder
+    m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog<Formatter>::MessageDecoder
                                                     , std::placeholders::_1)
 										  , threads::eOnDestroyOptions::processRemainingItems)};
-
+#ifdef __USE_DEFAULT_CONSTRUCTOR__
+    /*! \brief Initialise lookup map. */
+    void InitialiseLogMessageLevelLookupMap()
+    {
+        m_logMsgLevelLookup.emplace(eLogMessageLevel::not_defined, "");
+        m_logMsgLevelLookup.emplace(eLogMessageLevel::debug, "Debug");
+        m_logMsgLevelLookup.emplace(eLogMessageLevel::info, "Info");
+        m_logMsgLevelLookup.emplace(eLogMessageLevel::warning, "Warning");
+        m_logMsgLevelLookup.emplace(eLogMessageLevel::error, "Error");
+        m_logMsgLevelLookup.emplace(eLogMessageLevel::fatal, "Fatal");
+    }
+#endif
 	/*! \brief Get the max log size. */
 	long MaxLogSize() const
 	{
@@ -547,7 +579,7 @@ private:
 	void RegisterLogQueueMessageId()
 	{
 		m_logMsgQueueThread->RegisterMessageHandler(log_queue_message_t::MESSAGE_ID
-													, std::bind(&DebugLog::MessageHandler
+                                                    , std::bind(&DebugLog<Formatter>::MessageHandler
 																, this
                                                                 , std::placeholders::_1));
 	}
@@ -569,7 +601,7 @@ private:
 	 */
     bool MessageHandler(log_queue_message_t& message)
 	{
-        CheckLogFileSize(message.Message().size());
+        CheckLogFileSize(static_cast<long>(message.Message().size()));
         WriteMessageToLog(std::forward<log_queue_message_t>(message));
 		return true;
 	}
@@ -682,7 +714,7 @@ private:
 			return;
 		}
 
-		long pos = m_ofStream.tellp();
+        long pos = static_cast<long>(m_ofStream.tellp());
 
 		if ((MaxLogSize() - pos) < requiredSpace)
 		{

@@ -13,5 +13,5 @@ CONFIG(debug, debug|release) {
           -lboost_filesystem-vc120-mt-1_59                 \
           -lboost_system-vc120-mt-1_59                     \
 	      -lboost_serialization-vc120-mt-1_59              \
-	      -lboost_program_options-vc140-mt-1_59
+	      -lboost_program_options-vc120-mt-1_59
 }

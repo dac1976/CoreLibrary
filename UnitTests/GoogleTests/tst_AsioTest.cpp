@@ -74,10 +74,9 @@ struct MyHeader
 	int          command{1};
 	unsigned int totalLength{sizeof(*this)};
 
-	MyHeader()
-		: magicString{"MyHeader"}
+    MyHeader()
 	{
-
+        strncpy_s(magicString, sizeof(magicString), "MyHeader", 8);
 	}
 };
 #pragma pack(pop)
@@ -112,7 +111,7 @@ char_buffer_t BuildMessage()
 	MyMessage myMessage;
 	myMessage.FillMessage();
 	char_buffer_t body = ToCharVector(myMessage);
-	header.totalLength += body.size();
+    header.totalLength += static_cast<unsigned int>(body.size());
 	const char* headCharBuf = reinterpret_cast<const char*>(&header);
 	char_buffer_t message;
 	std::copy(headCharBuf, headCharBuf + sizeof(header)

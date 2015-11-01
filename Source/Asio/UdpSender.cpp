@@ -84,7 +84,7 @@ void UdpSender::CreateUdpSocket(const eUdpOption sendOption
 														== eUdpOption::broadcast);
 	m_socket.set_option(broadcastOption);
 
-	boost_asio::socket_base::send_buffer_size sendBufOption(sendBufferSize);
+    boost_asio::socket_base::send_buffer_size sendBufOption(static_cast<int>(sendBufferSize));
 	m_socket.set_option(sendBufOption);
 }
 

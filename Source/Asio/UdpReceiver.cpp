@@ -87,7 +87,7 @@ void UdpReceiver::CreateUdpSocket(const eUdpOption receiveOptions
 											  == eUdpOption::broadcast);
 	m_socket.set_option(reuseAddrOption);
 
-	boost_asio::socket_base::receive_buffer_size receiveBufOption(receiveBufferSize);
+    boost_asio::socket_base::receive_buffer_size receiveBufOption(static_cast<int>(receiveBufferSize));
 	m_socket.set_option(receiveBufOption);
 
 	m_socket.bind(receiveEndpoint);

@@ -136,7 +136,7 @@ private:
 	size_t m_counter;
 	bool& m_terminateCondition;
 
-    virtual void ThreadIteration() noexcept
+    virtual void ThreadIteration() __NOEXCEPT__
 	{
         if (!m_event.WaitForTime(100))
 		{
@@ -147,7 +147,7 @@ private:
 		}
 	}
 
-    virtual void ProcessTerminationConditions() noexcept
+    virtual void ProcessTerminationConditions() __NOEXCEPT__
 	{
         m_terminateCondition = true;
         m_event.Signal();
@@ -160,10 +160,22 @@ struct QueueMsg
 
     QueueMsg() = default;
     ~QueueMsg() = default;
-    QueueMsg(const QueueMsg& ) = default;
-    QueueMsg(QueueMsg&&) = default;
+    QueueMsg(const QueueMsg& ) = default;    
     QueueMsg& operator=(const QueueMsg& ) = default;
+#ifdef __USE_EXPLICIT_MOVE__
+    QueueMsg(QueueMsg&& qm)
+    {
+        *this = std::move(qm);
+    }
+    QueueMsg& operator=(QueueMsg&& qm)
+    {
+        data.swap(qm.data);
+        return *this;
+    }
+#else
+    QueueMsg(QueueMsg&&) = default;
     QueueMsg& operator=(QueueMsg&&) = default;
+#endif
 
     QueueMsg(size_t size, int value)
         : data(size, value)
@@ -226,7 +238,7 @@ private:
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
-    virtual void ThreadIteration() noexcept
+    virtual void ThreadIteration() __NOEXCEPT__
     {
         T message{};
 
@@ -243,7 +255,7 @@ private:
         }
     }
 
-    virtual void ProcessTerminationConditions() noexcept
+    virtual void ProcessTerminationConditions() __NOEXCEPT__
     {
         m_queue.BreakPopWait();
     }
@@ -282,7 +294,7 @@ private:
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
-    virtual void ThreadIteration() noexcept
+    virtual void ThreadIteration() __NOEXCEPT__
     {
         QueueMsg* message{};
 
@@ -301,7 +313,7 @@ private:
         }
     }
 
-    virtual void ProcessTerminationConditions() noexcept
+    virtual void ProcessTerminationConditions() __NOEXCEPT__
     {
         m_queue.BreakPopWait();
     }
@@ -336,7 +348,7 @@ private:
 	mutable std::mutex m_mutex;
 	bool m_blocked;
 
-    virtual void ThreadIteration() noexcept
+    virtual void ThreadIteration() __NOEXCEPT__
 	{
 		SetBlocked(true);
 		int temp;
@@ -344,7 +356,7 @@ private:
 		SetBlocked(false);
 	}
 
-    virtual void ProcessTerminationConditions() noexcept
+    virtual void ProcessTerminationConditions() __NOEXCEPT__
 	{
 		if (GetBlocked())
 		{
@@ -388,14 +400,14 @@ private:
 	mutable std::mutex m_mutex;
 	bool m_blocked;
 
-    virtual void ThreadIteration() noexcept
+    virtual void ThreadIteration() __NOEXCEPT__
 	{
 		SetBlocked(true);
 		m_buf.PushFront(6);
 		SetBlocked(false);
 	}
 
-    virtual void ProcessTerminationConditions() noexcept
+    virtual void ProcessTerminationConditions() __NOEXCEPT__
 	{
 		if (GetBlocked())
 		{
@@ -415,27 +427,42 @@ private:
 class MessageQueueThreadTest final
 {
 public:
+    enum MessageIds
+    {
+        UNKNOWN = -1,
+        M1 = 0,
+        M2,
+        M3
+    };
+
 	struct Message
 	{
 		int id;
 
 		Message() = default;
-		Message(const Message& ) = default;
-		Message(Message&& ) = default;
-		Message& operator=(const Message& ) = default;
-		Message& operator=(Message&&) = default;
+		Message(const Message& ) = default;		
+        Message& operator=(const Message& ) = default;
+
+#ifdef __USE_EXPLICIT_MOVE__
+        Message(Message&& m)
+            : id(UNKNOWN)
+        {
+            *this = std::move(m);
+        }
+        Message& operator=(Message&& m)
+        {
+            std::swap(id, m.id);
+            return *this;
+        }
+#else
+        Message(Message&& ) = default;
+        Message& operator=(Message&&) = default;
+#endif
 
 		explicit Message(int id_)
 			: id(id_)
 		{
 		}
-	};
-
-	enum MessageIds
-	{
-		M1,
-		M2,
-		M3
 	};
 
 	MessageQueueThreadTest()

@@ -322,7 +322,7 @@ public:
             BOOST_THROW_EXCEPTION(xArchiveTypeError());
         }
 
-        header.totalLength += body.size();
+        header.totalLength += static_cast<uint32_t>(body.size());
 
         defs::char_buffer_t messageBuffer;
         messageBuffer.reserve(header.totalLength);

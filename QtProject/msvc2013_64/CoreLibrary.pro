@@ -11,8 +11,6 @@ TEMPLATE = lib
 CONFIG += staticlib debug_and_release build_all
 CONFIG += core_lib_settings
 
-QMAKE_CXXFLAGS += -std=c++14
-
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib

@@ -177,7 +177,7 @@ public:
 	 * Create the row with an initial number of columns.
 	 */
 	explicit TRow(const size_t numCols)
-		: m_cells{numCols}
+        : m_cells(numCols)
 	{
 	}
 	/*!
@@ -200,7 +200,7 @@ public:
 	 */
 	// cppcheck-suppress noExplicitConstructor
 	TRow(std::initializer_list<T> cells)
-		: m_cells{cells}
+        : m_cells(cells)
 	{
 	}
 	/*! \brief Destructor. */

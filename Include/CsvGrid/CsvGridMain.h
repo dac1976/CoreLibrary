@@ -210,7 +210,7 @@ public:
 	 */
 	// cppcheck-suppress noExplicitConstructor
 	TCsvGrid(std::initializer_list<row_type> rows)
-		: m_grid{rows}
+        : m_grid(rows)
 	{
 	}
 	/*! \brief Ddestructor. */
