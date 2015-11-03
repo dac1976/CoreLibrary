@@ -313,10 +313,6 @@ private:
 template<class Formatter>
 class DebugLog final
 {
-private:
-	/*! \brief Typedef defining log queue message type. */
-	typedef dl_private::LogQueueMessage log_queue_message_t;
-
 public:
 	/*!
 	 * \brief Default constructor.
@@ -332,7 +328,7 @@ public:
 	DebugLog()
         : m_unknownLogMsgLevel("?")
 	{
-        void InitialiseLogMessageLevelLookupMap();
+        InitialiseLogMessageLevelLookupMap();
 	}
 #else
     DebugLog() = default;
@@ -361,7 +357,7 @@ public:
         , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
 	{
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
-        void InitialiseLogMessageLevelLookupMap();
+        InitialiseLogMessageLevelLookupMap();
 #endif
 		RegisterLogQueueMessageId();
 		OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
@@ -476,7 +472,7 @@ public:
 		time_t messageTime;
 		time(&messageTime);
 		std::thread::id noThread;
-        m_logMsgQueueThread->Push(log_queue_message_t(message,
+        m_logMsgQueueThread->Push(dl_private::LogQueueMessage(message,
 													  messageTime,
 													  "",
                                                       "",
@@ -506,7 +502,7 @@ public:
 		{
 			time_t messageTime;
 			time(&messageTime);
-            m_logMsgQueueThread->Push(log_queue_message_t(message,
+            m_logMsgQueueThread->Push(dl_private::LogQueueMessage(message,
 														  messageTime,
 														  file,
                                                           function,
@@ -552,7 +548,7 @@ private:
 	/*! \brief Path to old log file.*/
 	std::string m_oldLogFilePath;
 	/*! \brief Typedef for message queue thread.*/
-	typedef threads::MessageQueueThread<int, log_queue_message_t> log_msg_queue;
+    typedef threads::MessageQueueThread<int, dl_private::LogQueueMessage> log_msg_queue;
 	/*! \brief Unique_ptr holding message queue thread.*/
 	std::unique_ptr<log_msg_queue>
     m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog<Formatter>::MessageDecoder
@@ -578,7 +574,7 @@ private:
 	/*! \brief Register the log queue message ID. */
 	void RegisterLogQueueMessageId()
 	{
-		m_logMsgQueueThread->RegisterMessageHandler(log_queue_message_t::MESSAGE_ID
+        m_logMsgQueueThread->RegisterMessageHandler(dl_private::LogQueueMessage::MESSAGE_ID
                                                     , std::bind(&DebugLog<Formatter>::MessageHandler
 																, this
                                                                 , std::placeholders::_1));
@@ -589,8 +585,12 @@ private:
 	 * \param[in] length - Message length.
 	 * \return Message ID.
 	 */
-    static int MessageDecoder(const log_queue_message_t& message)
+    static int MessageDecoder(const dl_private::LogQueueMessage& message)
 	{
+    #if BOOST_COMP_MSVC
+        // The line below is to stop erroneous C4100 compiler warning in MSVC2013.
+        message;
+    #endif
         return message.MESSAGE_ID;
 	}
 	/*!
@@ -599,10 +599,10 @@ private:
 	 * \param[in] length - Message length.
 	 * \return LogQueueMessage reference.
 	 */
-    bool MessageHandler(log_queue_message_t& message)
+    bool MessageHandler(dl_private::LogQueueMessage& message)
 	{
         CheckLogFileSize(static_cast<long>(message.Message().size()));
-        WriteMessageToLog(std::forward<log_queue_message_t>(message));
+        WriteMessageToLog(std::forward<dl_private::LogQueueMessage>(message));
 		return true;
 	}
 	/*!
@@ -671,7 +671,7 @@ private:
 		time_t messageTime;
 		time(&messageTime);
 		std::thread::id noThread;
-		WriteMessageToLog(log_queue_message_t("DEBUG LOG STARTED"
+        WriteMessageToLog(dl_private::LogQueueMessage("DEBUG LOG STARTED"
                                           , messageTime, "", "", -1
 										  , noThread
 										  , eLogMessageLevel::not_defined));
@@ -680,7 +680,7 @@ private:
 		{
 			std::string message("Software Version ");
 			message += m_softwareVersion;
-			WriteMessageToLog(log_queue_message_t(message, messageTime
+            WriteMessageToLog(dl_private::LogQueueMessage(message, messageTime
                                                   , "", "", -1
                                                   , noThread
                                                   , eLogMessageLevel::not_defined));
@@ -697,7 +697,7 @@ private:
 		time_t messageTime;
 		time(&messageTime);
 		std::thread::id noThread;
-		WriteMessageToLog(log_queue_message_t("DEBUG LOG STOPPED"
+        WriteMessageToLog(dl_private::LogQueueMessage("DEBUG LOG STOPPED"
                                           , messageTime, "", "", -1
 										  , noThread
 										  , eLogMessageLevel::not_defined));
@@ -728,7 +728,7 @@ private:
 	 * \brief Write log message to file stream.
      * \param[in] logMessage - Log message, pefectly forwarded.
 	 */
-	void WriteMessageToLog(log_queue_message_t&& logMessage)
+    void WriteMessageToLog(dl_private::LogQueueMessage&& logMessage)
 	{
 		m_logFormatter(m_ofStream
 					   , logMessage.TimeStamp()

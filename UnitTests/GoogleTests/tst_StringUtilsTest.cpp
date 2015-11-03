@@ -188,7 +188,7 @@ TEST(StringUtilsTest, Case12_FormatFloatString_3)
 	float value = 1234.123f;
 	std::string result = core_lib::string_utils::FormatFloatString(value, 15, core_lib::string_utils::eFloatStringFormat::scientific);
 #if BOOST_OS_WINDOWS
-    #if BOOST_COMP_MSVC
+    #if BOOST_COMP_MSVC & (_MSC_VER >= 1900)
         EXPECT_TRUE(result.size() == 21U);
     #else
         EXPECT_TRUE(result.size() == 22U);
@@ -220,7 +220,7 @@ TEST(StringUtilsTest, Case15_FormatFloatString_6)
 	double value = 1234.123;
 	std::string result = core_lib::string_utils::FormatFloatString(value, 15, core_lib::string_utils::eFloatStringFormat::scientific);
 #if BOOST_OS_WINDOWS
-    #if BOOST_COMP_MSVC
+    #if BOOST_COMP_MSVC & (_MSC_VER >= 1900)
 		EXPECT_TRUE(result.size() == 21U);
 	#else
 		EXPECT_TRUE(result.size() == 22U);
