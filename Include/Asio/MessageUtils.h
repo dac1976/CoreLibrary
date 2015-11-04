@@ -388,6 +388,59 @@ defs::char_buffer_t BuildMessage(const T& message
     return messageBuilder.template Build<T, A>(message, messageId, responseConn);
 }
 
+/*!
+ * \brief Message deserialization error exception.
+ *
+ * This exception class is intended to be thrown when a message
+ * cannot be deserialized correctly.
+ */
+class xMessageDeserializationError : public exceptions::xCustomException
+{
+public:
+    /*! \brief Default constructor. */
+    xMessageDeserializationError();
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xMessageDeserializationError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xMessageDeserializationError();
+    /*! \brief Copy constructor. */
+    xMessageDeserializationError(const xMessageDeserializationError&) = default;
+    /*! \brief Copy assignment operator. */
+    xMessageDeserializationError& operator=(const xMessageDeserializationError&) = default;
+};
+
+/*!
+ * \brief Templated message deserializer function.
+ * \param[in] message - Message buffer to be deserialized.
+ * \param[in] archiveType - Serialization archive type.
+ * \return The deserialization object T.
+ */
+template <typename T>
+T DeserializeMessage(const defs::char_buffer_t& messageBuffer
+                     , const defs::eArchiveType archiveType)
+{
+    switch(archiveType)
+    {
+    case defs::eArchiveType::binary:
+        return serialize::ToObject<T, serialize::archives::in_bin_t>(messageBuffer);
+    case defs::eArchiveType::portableBinary:
+        return serialize::ToObject<T, serialize::archives::in_port_bin_t>(messageBuffer);
+    case defs::eArchiveType::raw:
+        return serialize::ToObject<T, serialize::archives::in_raw_t>(messageBuffer);
+    case defs::eArchiveType::text:
+        return serialize::ToObject<T, serialize::archives::in_txt_t>(messageBuffer);
+    case defs::eArchiveType::xml:
+        return serialize::ToObject<T, serialize::archives::in_xml_t>(messageBuffer);
+    default:
+        BOOST_THROW_EXCEPTION(xMessageDeserializationError("unsupported archive type"));
+    }
+
+    return T();
+}
+
 } // namespace messages
 } // namespace asio
 } // namespace core_lib

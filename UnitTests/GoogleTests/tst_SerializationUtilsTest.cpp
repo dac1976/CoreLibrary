@@ -2,8 +2,6 @@
 
 #include <string>
 #include "boost/predef.h"
-#include "boost/serialization/string.hpp"
-#include "boost/serialization/vector.hpp"
 #include "Serialization/SerializeToVector.h"
 
 #include "gtest/gtest.h"

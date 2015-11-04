@@ -4,9 +4,6 @@
 #include <algorithm>
 #include <iterator>
 
-#include "boost/serialization/vector.hpp"
-#include "boost/serialization/string.hpp"
-
 #include "Serialization/SerializeToVector.h"
 #include "Asio/IoServiceThreadGroup.h"
 #include "Asio/TcpServer.h"
@@ -150,7 +147,7 @@ public:
 
 		{
 			char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
-			m_myMessage = ToObject<MyMessage>(body);
+            m_myMessage = DeserializeMessage<MyMessage>(body, eArchiveType::portableBinary);
 		}
 
 		m_messageEvent.Signal();
@@ -193,7 +190,7 @@ public:
 
 			if (!message->body.empty())
 			{
-                m_myMessage = core_lib::serialize::ToObject<T, A>(message->body);
+                m_myMessage = ToObject<T, A>(message->body);
 			}
 		}
 

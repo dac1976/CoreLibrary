@@ -39,6 +39,7 @@
 #include "boost/iostreams/device/back_inserter.hpp"
 #include "boost/range/iterator_range.hpp"
 #include "boost/serialization/version.hpp"
+#include "boost/serialization/string.hpp"
 
 namespace boost_arch = boost::archive;
 

@@ -31,6 +31,7 @@
 #include <vector>
 #include <type_traits>
 #include <algorithm>
+#include "boost/serialization/vector.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {

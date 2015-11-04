@@ -217,6 +217,23 @@ auto MessageBuilder::Build(const uint32_t messageId
     return messageBuffer;
 }
 
+// ****************************************************************************
+// 'class xMessageDeserializationError' definition
+// ****************************************************************************
+xMessageDeserializationError::xMessageDeserializationError()
+    : exceptions::xCustomException("message deserialization error")
+{
+}
+
+xMessageDeserializationError::xMessageDeserializationError(const std::string& message)
+    : exceptions::xCustomException(message)
+{
+}
+
+xMessageDeserializationError::~xMessageDeserializationError()
+{
+}
+
 } // namespace messages
 } // namespace asio
 } // namespace core_lib
