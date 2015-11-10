@@ -222,7 +222,7 @@
  * of the debug log object.
  */
 #define DEBUG_MESSAGE_DELETE_SINGLETON() \
-    Loki::DeletableSingleton<core_lib::log::default_log_t>::GracefulDelete()
+    core_lib::log::DebugLogSingletonDeleter::GracefulDelete()
 
 /*!
  * \brief Simple macro to simplify logging.

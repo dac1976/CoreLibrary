@@ -41,10 +41,13 @@ typedef DebugLog<DefaultLogFormat> default_log_t;
 
 /*! \brief Typedef defining our actual log's singelton. */
 typedef Loki::SingletonHolder<default_log_t
-, Loki::CreateUsingNew
-, Loki::DeletableSingleton>
-DebugLogSingleton;
+                              , Loki::CreateUsingNew
+                              , Loki::DeletableSingleton>
+    DebugLogSingleton;
 
+/*! \brief Typedef defining a singleton deleter. */
+typedef Loki::DeletableSingleton<default_log_t>
+    DebugLogSingletonDeleter;
 
 } // namespace log
 } // namespace core_lib
