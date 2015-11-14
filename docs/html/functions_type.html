@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -92,12 +92,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_b"><span>b</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_h"><span>h</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_k"><span>k</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
-      <li><a href="#index_q"><span>q</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
@@ -160,6 +160,7 @@ $(document).ready(function(){initNavTree('functions_type.html','');});
 , <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#ae288eb85d706dd73fca398f9c024c6d5">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
 , <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a4406a3a1bdc3ff80f9456ff302a4bb06">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a5675e5a61375cc8f73c921530397b40c">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_join_threads.html#a3f8fbbd9f072f29d41db04e64217ff70">core_lib::threads::JoinThreads&lt; C &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9">core_lib::threads::JoinThreadsP&lt; C &gt;</a>
 </li>
@@ -168,7 +169,14 @@ $(document).ready(function(){initNavTree('functions_type.html','');});
 
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
 <li>enumType_t
-: <a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abd70d35c6584b2bee458d3807a276bb2">std::hash&lt; core_lib::log::eLogMessageLevel &gt;</a>
+: <a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a338a0f79a172687ecf1dd805621a2a1b">std::hash&lt; core_lib::log::eLogMessageLevel &gt;</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
+<li>header_t
+: <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_received_message.html#a70b564f1928b84fd56648a7b956db325">core_lib::asio::defs::ReceivedMessage&lt; Header &gt;</a>
 </li>
 </ul>
 
@@ -196,23 +204,23 @@ $(document).ready(function(){initNavTree('functions_type.html','');});
 : <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#abd7ac11e9655d6d714018341a3243938">core_lib::ini_file::if_private::SectionDetails</a>
 </li>
 <li>log_msg_queue
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#afddec9a93cfed87c98c1a17f7faad3c1">core_lib::log::DebugLog&lt; Formatter &gt;</a>
-</li>
-<li>log_queue_message_t
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a2ff97cf500bef2a357a211278ef03f8d">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a8bf6842a9c8f91f7068a7e2c2bdb0c71">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>msg_handler
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac013c36ebfedc9113fcdbbf89fd39741">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+<li>msg_deleter_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa5b4bf77c86dddc2d9ea6dfc44f49e67">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
-<li>msg_id_decoder
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1f47b8e743ab6f1088a5618d5e9d9849">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+<li>msg_handler_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a4380584f11cda8c4273847a3e2ee83e0">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
-<li>msg_map
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a2976f3476379cb1e044325d2393b74a2">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+<li>msg_id_decoder_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ab37d09264ff8592741ada65f6d3e2233">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+</li>
+<li>msg_map_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7baeaa4b7b962691a59a244775c62320">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 </ul>
 
@@ -220,13 +228,6 @@ $(document).ready(function(){initNavTree('functions_type.html','');});
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
 <li>param_type
 : <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a38287d68bdd68f9f1f620b3d4cafd4cb">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_q"></a>- q -</h3><ul>
-<li>queue_item_t
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a08f76ca0ae86aa2bafd2ef6ed8ac626a">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 </ul>
 
@@ -277,7 +278,7 @@ $(document).ready(function(){initNavTree('functions_type.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:12 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

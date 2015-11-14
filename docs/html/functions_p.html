@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -95,6 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_e.html#index_e"><span>e</span></a></li>
       <li><a href="functions_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_g.html#index_g"><span>g</span></a></li>
+      <li><a href="functions_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_j.html#index_j"><span>j</span></a></li>
       <li><a href="functions_k.html#index_k"><span>k</span></a></li>
@@ -103,7 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_n.html#index_n"><span>n</span></a></li>
       <li><a href="functions_o.html#index_o"><span>o</span></a></li>
       <li class="current"><a href="functions_p.html#index_p"><span>p</span></a></li>
-      <li><a href="functions_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_r.html#index_r"><span>r</span></a></li>
       <li><a href="functions_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_t.html#index_t"><span>t</span></a></li>
@@ -150,27 +150,24 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 <li>param_type
 : <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a38287d68bdd68f9f1f620b3d4cafd4cb">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
 </li>
-<li>Partition()
-: <a class="el" href="classcore__lib_1_1sorting_1_1_quick.html#aaedad17ddc115ebe239f7d0d5e8ed42f">core_lib::sorting::Quick&lt; T, Pred &gt;</a>
-</li>
 <li>Peek()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a88661e3b1d725d747572502d9671f472">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
-</li>
-<li>pItem()
-: <a class="el" href="classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#aa925f14484cde9892e79254158e4c06e">core_lib::threads::cq_private::QueueItem&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#acbb776622229df866f0fb096f1f90b81">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>Pop()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ae69478ab5fdbabdd35043ff6266cdd35">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ab0739eb098119d7db6a3e78eb35c2cf2">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>PopBack()
 : <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#ad0a19eb3bb5e2bc06188d2198a147da3">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aeba570000eaacadd65c2f5dd325f7954">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a69a808f24042f3f48be0fd94b67ca5e4">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>PopFront()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a7b08b45f6e22976ecab99c6bd78aa06a">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ac30195c516adef0e3d84759b051bf5bd">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>PopNow()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a31bce3fc96737c06dea92d8444c81193">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aa9506ef787e44f5c9e1aec0c7a0a305b">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+</li>
+<li>PopThrow()
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aa005fa06cdf70eca7c2f2187811b2a84">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>Post()
 : <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a23651d0ab14a4a166f296f7c796458aa">core_lib::asio::IoServiceThreadGroup</a>
@@ -186,12 +183,12 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 : <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a5813e454c254c7ab69f34dfd215741f9">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>ProcessTerminationConditions()
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aad74a568f42c91d3503d91dae5e49129">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a6d8e14280f9ff1b55994c29cce77b67f">core_lib::threads::ThreadBase</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa6a72e8afd3967f980106239a632f763">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ad181dfad49b75d227fca778d4ca3ab6f">core_lib::threads::ThreadBase</a>
 </li>
 <li>Push()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#accdaed959367c88502d7374ff56a4dc9">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a6317679aeae81e03002760942d884cc9">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#afc992f1ab10e46088b4190437a5e36b6">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a127349ac28cd122549bda01bd726ae73">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>PushFront()
 : <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#af9b7a714631bbcec97bc4adf6521605b">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
@@ -205,7 +202,7 @@ $(document).ready(function(){initNavTree('functions_p.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:12 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

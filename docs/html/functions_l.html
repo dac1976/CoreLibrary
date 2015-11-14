@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -95,6 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_e.html#index_e"><span>e</span></a></li>
       <li><a href="functions_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_g.html#index_g"><span>g</span></a></li>
+      <li><a href="functions_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_j.html#index_j"><span>j</span></a></li>
       <li><a href="functions_k.html#index_k"><span>k</span></a></li>
@@ -103,7 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_n.html#index_n"><span>n</span></a></li>
       <li><a href="functions_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_p.html#index_p"><span>p</span></a></li>
-      <li><a href="functions_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_r.html#index_r"><span>r</span></a></li>
       <li><a href="functions_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_t.html#index_t"><span>t</span></a></li>
@@ -147,9 +147,6 @@ $(document).ready(function(){initNavTree('functions_l.html','');});
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
-<li>Line()
-: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a51d6c8885296c2521bdd1299e18de1da">core_lib::ini_file::if_private::Line</a>
-</li>
 <li>line_iter_list
 : <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#abd7ac11e9655d6d714018341a3243938">core_lib::ini_file::if_private::SectionDetails</a>
 </li>
@@ -158,6 +155,11 @@ $(document).ready(function(){initNavTree('functions_l.html','');});
 </li>
 <li>LineNo()
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a2559b7424343f51a7c35c2e7e3c5ac1b">core_lib::log::dl_private::LogQueueMessage</a>
+</li>
+<li>ListenPort()
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a01b0b0236256267534ec0cf54a0b8dfb">core_lib::asio::tcp::SimpleTcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ab3b74c59966184da3532c780cba95946">core_lib::asio::tcp::TcpTypedServer&lt; MsgBldr &gt;</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a0bd752e26a5f8d8c35aa5eec475b1838">core_lib::asio::udp::SimpleUdpReceiver</a>
 </li>
 <li>LoadFile()
 : <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a9e57474a11a28d89d9bffc3a557dd1f0">core_lib::ini_file::IniFile</a>
@@ -169,13 +171,10 @@ $(document).ready(function(){initNavTree('functions_l.html','');});
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a5d283ddb5f54eb42e0e5a1b932841509">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
 <li>log_msg_queue
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#afddec9a93cfed87c98c1a17f7faad3c1">core_lib::log::DebugLog&lt; Formatter &gt;</a>
-</li>
-<li>log_queue_message_t
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a2ff97cf500bef2a357a211278ef03f8d">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a8bf6842a9c8f91f7068a7e2c2bdb0c71">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>LogQueueMessage()
-: <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a13113345e936295c4bef2ff5f8bb6e2c">core_lib::log::dl_private::LogQueueMessage</a>
+: <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#aca472924e3eec88f30afeca733c33d12">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -183,7 +182,7 @@ $(document).ready(function(){initNavTree('functions_l.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:12 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

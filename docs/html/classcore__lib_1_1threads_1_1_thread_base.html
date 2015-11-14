@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1threads_1_1_thread_b
 <p>Thread base class.  
  <a href="classcore__lib_1_1threads_1_1_thread_base.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_thread_base_8hpp_source.html">ThreadBase.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_thread_base_8h_source.html">ThreadBase.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for core_lib::threads::ThreadBase:</div>
 <div class="dyncontent">
@@ -147,12 +147,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:ac04e9df7ac8351e185aabe8337b536e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ac04e9df7ac8351e185aabe8337b536e4">IsStarted</a> () const </td></tr>
 <tr class="memdesc:ac04e9df7ac8351e185aabe8337b536e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is thread started.  <a href="#ac04e9df7ac8351e185aabe8337b536e4">More...</a><br /></td></tr>
 <tr class="separator:ac04e9df7ac8351e185aabe8337b536e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2db263f1e0fc8a28aaafd3905565488"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#af2db263f1e0fc8a28aaafd3905565488">Start</a> ()</td></tr>
-<tr class="memdesc:af2db263f1e0fc8a28aaafd3905565488"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the thread.  <a href="#af2db263f1e0fc8a28aaafd3905565488">More...</a><br /></td></tr>
-<tr class="separator:af2db263f1e0fc8a28aaafd3905565488"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae02768d77e55ad3d5f72863b73a84007"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ae02768d77e55ad3d5f72863b73a84007">Stop</a> ()</td></tr>
-<tr class="memdesc:ae02768d77e55ad3d5f72863b73a84007"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely stop the thread.  <a href="#ae02768d77e55ad3d5f72863b73a84007">More...</a><br /></td></tr>
-<tr class="separator:ae02768d77e55ad3d5f72863b73a84007"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac566251b68cf2dab8b6b26fe6a8d4c19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ac566251b68cf2dab8b6b26fe6a8d4c19">Start</a> ()</td></tr>
+<tr class="memdesc:ac566251b68cf2dab8b6b26fe6a8d4c19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the thread.  <a href="#ac566251b68cf2dab8b6b26fe6a8d4c19">More...</a><br /></td></tr>
+<tr class="separator:ac566251b68cf2dab8b6b26fe6a8d4c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7585d2a162edd6a23e820a3d879c68f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a7585d2a162edd6a23e820a3d879c68f2">Stop</a> ()</td></tr>
+<tr class="memdesc:a7585d2a162edd6a23e820a3d879c68f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safely stop the thread.  <a href="#a7585d2a162edd6a23e820a3d879c68f2">More...</a><br /></td></tr>
+<tr class="separator:a7585d2a162edd6a23e820a3d879c68f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada02f7cfe2ccc719fac438579129c726"><td class="memItemLeft" align="right" valign="top">std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ada02f7cfe2ccc719fac438579129c726">ThreadID</a> () const </td></tr>
 <tr class="memdesc:ada02f7cfe2ccc719fac438579129c726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get this thread's thread ID.  <a href="#ada02f7cfe2ccc719fac438579129c726">More...</a><br /></td></tr>
 <tr class="separator:ada02f7cfe2ccc719fac438579129c726"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,12 +172,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:aa8946ab6050cac4a0623781785f4877a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#aa8946ab6050cac4a0623781785f4877a">SleepForTime</a> (const unsigned int milliSecs) const </td></tr>
 <tr class="memdesc:aa8946ab6050cac4a0623781785f4877a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make this thread sleep for a period of time.  <a href="#aa8946ab6050cac4a0623781785f4877a">More...</a><br /></td></tr>
 <tr class="separator:aa8946ab6050cac4a0623781785f4877a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8070396567ddebcf469331a5f8c5ee4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#af8070396567ddebcf469331a5f8c5ee4">ThreadIteration</a> ()=0</td></tr>
-<tr class="memdesc:af8070396567ddebcf469331a5f8c5ee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single iteration of the thread.  <a href="#af8070396567ddebcf469331a5f8c5ee4">More...</a><br /></td></tr>
-<tr class="separator:af8070396567ddebcf469331a5f8c5ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d8e14280f9ff1b55994c29cce77b67f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a6d8e14280f9ff1b55994c29cce77b67f">ProcessTerminationConditions</a> ()</td></tr>
-<tr class="memdesc:a6d8e14280f9ff1b55994c29cce77b67f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any special termination actions.  <a href="#a6d8e14280f9ff1b55994c29cce77b67f">More...</a><br /></td></tr>
-<tr class="separator:a6d8e14280f9ff1b55994c29cce77b67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d7daa3d099c98f71e22838f14b7d633"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a3d7daa3d099c98f71e22838f14b7d633">ThreadIteration</a> () __NOEXCEPT__=0</td></tr>
+<tr class="memdesc:a3d7daa3d099c98f71e22838f14b7d633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single iteration of the thread.  <a href="#a3d7daa3d099c98f71e22838f14b7d633">More...</a><br /></td></tr>
+<tr class="separator:a3d7daa3d099c98f71e22838f14b7d633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad181dfad49b75d227fca778d4ca3ab6f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ad181dfad49b75d227fca778d4ca3ab6f">ProcessTerminationConditions</a> () __NOEXCEPT__</td></tr>
+<tr class="memdesc:ad181dfad49b75d227fca778d4ca3ab6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any special termination actions.  <a href="#ad181dfad49b75d227fca778d4ca3ab6f">More...</a><br /></td></tr>
+<tr class="separator:ad181dfad49b75d227fca778d4ca3ab6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -288,7 +288,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a class="anchor" id="a6d8e14280f9ff1b55994c29cce77b67f"></a>
+<a class="anchor" id="ad181dfad49b75d227fca778d4ca3ab6f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -312,7 +312,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <p>Perform any special termination actions. </p>
 <p>This function performs no actions in the base class definition but can be overriden in the dervied class to perform any special termination actions that are required after the terminting flag is set but before we call join on our underlying std::thread object. </p>
 
-<p>Reimplemented in <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aad74a568f42c91d3503d91dae5e49129">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>.</p>
+<p>Reimplemented in <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa6a72e8afd3967f980106239a632f763">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>.</p>
 
 </div>
 </div>
@@ -338,7 +338,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div><div class="memdoc">
 
 <p>Run the thread's iterations in a loop. </p>
-<p>This function loops calling <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#af8070396567ddebcf469331a5f8c5ee4" title="Execute a single iteration of the thread. ">ThreadIteration()</a> to perform a single iterations actions. It stops looping when the thread is termainted. </p>
+<p>This function loops calling <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a3d7daa3d099c98f71e22838f14b7d633" title="Execute a single iteration of the thread. ">ThreadIteration()</a> to perform a single iterations actions. It stops looping when the thread is termainted. </p>
 
 </div>
 </div>
@@ -482,12 +482,12 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a class="anchor" id="af2db263f1e0fc8a28aaafd3905565488"></a>
+<a class="anchor" id="ac566251b68cf2dab8b6b26fe6a8d4c19"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void core_lib::threads::ThreadBase::Start </td>
+          <td class="memname">bool core_lib::threads::ThreadBase::Start </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -496,16 +496,17 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div><div class="memdoc">
 
 <p>Start the thread. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if started, false otherwise.</dd></dl>
 <p>Typically called at the end of the derived classes constructor. </p>
 
 </div>
 </div>
-<a class="anchor" id="ae02768d77e55ad3d5f72863b73a84007"></a>
+<a class="anchor" id="a7585d2a162edd6a23e820a3d879c68f2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void core_lib::threads::ThreadBase::Stop </td>
+          <td class="memname">bool core_lib::threads::ThreadBase::Stop </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -514,6 +515,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div><div class="memdoc">
 
 <p>Safely stop the thread. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if started, false otherwise.</dd></dl>
 <p>Typically called at the start of the derived classes destructor. </p>
 
 </div>
@@ -537,7 +539,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a class="anchor" id="af8070396567ddebcf469331a5f8c5ee4"></a>
+<a class="anchor" id="a3d7daa3d099c98f71e22838f14b7d633"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -562,13 +564,13 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <p>This function is purely virtual and must be defined in the derived class and should perform only a single iteration's worth of actions.</p>
 <p>This function is called in the loop within <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a74290048a110b0ca44d14c422742f493" title="Run the thread&#39;s iterations in a loop. ">Run()</a>; </p>
 
-<p>Implemented in <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a3969dd2a19b620217befef365435200d">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aaebb6ea78e853076559a43e75d471014">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>D:/Projects/CoreLibrary/<a class="el" href="_thread_base_8hpp_source.html">ThreadBase.hpp</a></li>
-<li>D:/Projects/CoreLibrary/Threads/<a class="el" href="_thread_base_8cpp.html">ThreadBase.cpp</a></li>
+<li>D:/Projects/CoreLibrary/Include/Threads/<a class="el" href="_thread_base_8h_source.html">ThreadBase.h</a></li>
+<li>D:/Projects/CoreLibrary/Source/Threads/<a class="el" href="_thread_base_8cpp.html">ThreadBase.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -576,7 +578,7 @@ std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a></li>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:11 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

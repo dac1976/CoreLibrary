@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -95,6 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_e.html#index_e"><span>e</span></a></li>
       <li><a href="functions_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_g.html#index_g"><span>g</span></a></li>
+      <li><a href="functions_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_j.html#index_j"><span>j</span></a></li>
       <li><a href="functions_k.html#index_k"><span>k</span></a></li>
@@ -103,7 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_n.html#index_n"><span>n</span></a></li>
       <li><a href="functions_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_p.html#index_p"><span>p</span></a></li>
-      <li><a href="functions_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_r.html#index_r"><span>r</span></a></li>
       <li><a href="functions_s.html#index_s"><span>s</span></a></li>
       <li><a href="functions_t.html#index_t"><span>t</span></a></li>
@@ -147,9 +147,6 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>m_autoDelete
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ab527cb82173da0f99440f16d33de4d7f">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
-</li>
 <li>m_autoReset
 : <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#ab14e26bba7752e3c6a950d15d37ebff3">core_lib::threads::SyncEvent</a>
 </li>
@@ -174,6 +171,9 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <li>m_file
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#af377753762ac4999d196b89a8507112e">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
+<li>m_function
+: <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a7d34c5c6f31200549d9c88ea7ddb43f4">core_lib::log::dl_private::LogQueueMessage</a>
+</li>
 <li>m_grid
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#af0868d5d5560ea52aa65568b6b330eae">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
 </li>
@@ -181,10 +181,10 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a21d873a4bbac05e843be4104d9ac295f">core_lib::ini_file::IniFile</a>
 </li>
 <li>m_ioService
-: <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a4a89380b72fca6b9d2be3e21c42d9759">core_lib::asio::IoServiceThreadGroup</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a211105f5da49f6fc0e00140058658c19">core_lib::asio::IoServiceThreadGroup</a>
 </li>
 <li>m_ioWork
-: <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a4fd70b8e5356a3395b0b74cd9f91987f">core_lib::asio::IoServiceThreadGroup</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a6d2b37422009e26faa8c81901f3e0576">core_lib::asio::IoServiceThreadGroup</a>
 </li>
 <li>m_itemEvent
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a3f4eb3c57b9cf483da061255555ae0b0">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
@@ -216,6 +216,10 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <li>m_logMsgQueueThread
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#ad68dd7e1ec5468a01fd54e996b363f95">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
+<li>m_magicString
+: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a281a7033789e4f9b1ea7144898362728">core_lib::asio::messages::MessageBuilder</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#ad62bd85de1f0e0672743f8e4819b0ed2">core_lib::asio::messages::MessageHandler</a>
+</li>
 <li>m_maxLogSize
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a707bf9cf2e4d5ebc80fde9dec6c2dade">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
@@ -223,14 +227,32 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a21b6cdf8656822d46f74a725b31025d2">core_lib::exceptions::xCustomException</a>
 , <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ad7e6b9d0e9402973e21894b99509376d">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
+<li>m_messageBuilder
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#ab8936d8a38949ab80b69502b5ac790d4">core_lib::asio::tcp::SimpleTcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#acb2a6c448f8eb38f48c6e69346b2f09b">core_lib::asio::tcp::SimpleTcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a377088490878eb502cf68f39dc9a8812">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a27a1dd3e883c734b3903ca9a739357f0">core_lib::asio::tcp::TcpTypedServer&lt; MsgBldr &gt;</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#a07e6f478259332a7a067af666a3ab1ab">core_lib::asio::udp::SimpleUdpSender</a>
+</li>
+<li>m_messageDeleter
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a22fd96be1b69e890a8e3defe514419f2">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+</li>
+<li>m_messageDispatcher
+: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#a917e04480b318fabf1a36584725942ae">core_lib::asio::messages::MessageHandler</a>
+</li>
+<li>m_messageHandler
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#aefc15d58869320c0aba1cadd4dee3629">core_lib::asio::tcp::SimpleTcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#ae8f2cbc5ba674b0d87af6360dcc63ffe">core_lib::asio::tcp::SimpleTcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a745602438dce30beb0d5b8a77600b29e">core_lib::asio::udp::SimpleUdpReceiver</a>
+</li>
 <li>m_messageQueue
 : <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abcfd2eb7b7deae0ca54846e37796dbbf">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>m_msgHandlerMap
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a473b7bd1eb704f791488bf5e715c86d2">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abe688a3c75cd16e2fab7b2ed743d189f">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>m_msgIdDecoder
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a692ac880365bba693eef1b9f977f56c9">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1115d78e116bf3c0adb8cad2a7d14238">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>m_mutex
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#ae48dd13b6d9568eeb8fdd236f9aad717">core_lib::log::DebugLog&lt; Formatter &gt;</a>
@@ -255,14 +277,8 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <li>m_oldLogFilePath
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a416f93aa6bed7ff09d616615a338f8fe">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
-<li>m_pItem
-: <a class="el" href="classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#a68e99dbe93d1f184ada48d510e9b8fc4">core_lib::threads::cq_private::QueueItem&lt; T &gt;</a>
-</li>
 <li>m_queue
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9f40988c7b5508a28f39bc4371ab8005">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
-</li>
-<li>m_queueOptions
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a568a2d2056ce6b49b054f3d71123c366">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9d4be4f826b0a554e2d36bdf3d7a2029">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>m_reserve
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a08ba848ed78a7ff2111f3045e4e5d49e">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
@@ -288,14 +304,23 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <li>m_signalMutex
 : <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#a15f4afcd0305a5adabb02166367442f7">core_lib::threads::SyncEvent</a>
 </li>
-<li>m_size
-: <a class="el" href="classcore__lib_1_1threads_1_1cq__private_1_1_queue_item.html#ad4b25f783507e66528e3f0e828d1a3c2">core_lib::threads::cq_private::QueueItem&lt; T &gt;</a>
-</li>
 <li>m_softwareVersion
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aabe9157e2c591f6b224589f1da4da737">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>m_started
 : <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a850e8d45e3f215a46be934e7dac50ad6">core_lib::threads::ThreadBase</a>
+</li>
+<li>m_tcpClient
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#acc12cb78734acf43c495fa637ec857b8">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
+</li>
+<li>m_tcpServer
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a5ec297a10abe0ce345cb91165cfffb05">core_lib::asio::tcp::TcpTypedServer&lt; MsgBldr &gt;</a>
+</li>
+<li>m_tcpTypedClient
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a7a00810011ea532fe403ac0290143645">core_lib::asio::tcp::SimpleTcpClient</a>
+</li>
+<li>m_tcpTypedServer
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#aef575e52f9bf309689a39a7aadbfe436">core_lib::asio::tcp::SimpleTcpServer</a>
 </li>
 <li>m_terminating
 : <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#acdd7973258bd7270840750ad52ad038e">core_lib::threads::ThreadBase</a>
@@ -320,6 +345,12 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <li>m_timeStamp
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#adb5b983f5b0a8eb6e4e6dde1dab6ddbf">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
+<li>m_udpReceiver
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a257c6bf0b54362c707412135c856af66">core_lib::asio::udp::SimpleUdpReceiver</a>
+</li>
+<li>m_udpTypedSender
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#a402a9c742e7bcf0d2f2dca4a12269ed9">core_lib::asio::udp::SimpleUdpSender</a>
+</li>
 <li>m_unknownLogMsgLevel
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a800ec19c330a839d4944cac04f43c6ae">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
@@ -330,32 +361,51 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#ab329bc0ea13f4c63726aee9f42fe680e">core_lib::csv_grid::Cell</a>
 , <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#ad89c4bbe6abb811235a4ba8cd1a22149">core_lib::ini_file::if_private::KeyLine</a>
 </li>
+<li>magicString
+: <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html#a0e65aa8c5c0300c8ef377a882ae9acaa">core_lib::asio::defs::MessageHeader</a>
+</li>
 <li>MaxLogSize()
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aba7244841745d168ae0edd49cc5432f0">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>Message()
-: <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ae47b7dd97277539067497c1c3cb3b1db">core_lib::log::dl_private::LogQueueMessage</a>
+: <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#af09cc4f3dd0219d4a4fe13669081e89c">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
 <li>MESSAGE_ID
-: <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a882ca8babff300ef40788ae5d3c3b02c">core_lib::log::dl_private::LogQueueMessage</a>
+: <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a98aabee5730c21566a59facd2bd3e81d">core_lib::log::dl_private::LogQueueMessage</a>
+</li>
+<li>MessageBuilder()
+: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a5416ae25747b9eda684827e9db9d3e1f">core_lib::asio::messages::MessageBuilder</a>
 </li>
 <li>MessageDecoder()
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#afb72f418e39bdac052126196bf3476dd">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a0f457d6bb8e4f0936678da9218338530">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>MessageHandler()
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a6a295ecf380f83e48ea19a9c90505f5c">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#acd3747a3f2f0d122c0631984d623a21d">core_lib::asio::messages::MessageHandler</a>
+, <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aee61f19d079e310385c1ce3cc86c48f4">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+</li>
+<li>MessageHeader()
+: <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html#a5cd0bd6f6366d4da4707c6d0ff1a8271">core_lib::asio::defs::MessageHeader</a>
+</li>
+<li>messageId
+: <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html#abf5089e5b962065624c1c216c5dc340e">core_lib::asio::defs::MessageHeader</a>
 </li>
 <li>MessageQueueThread()
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#af9b67cecf7585d1a0b6a531ead4c54e8">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa726d218b9bb6fcbcb0b103280dc553a">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
-<li>msg_handler
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac013c36ebfedc9113fcdbbf89fd39741">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+<li>MessageReceivedHandler()
+: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#ad81994bf38e753a91e48cef1896da62d">core_lib::asio::messages::MessageHandler</a>
 </li>
-<li>msg_id_decoder
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1f47b8e743ab6f1088a5618d5e9d9849">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+<li>msg_deleter_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa5b4bf77c86dddc2d9ea6dfc44f49e67">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
-<li>msg_map
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a2976f3476379cb1e044325d2393b74a2">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+<li>msg_handler_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a4380584f11cda8c4273847a3e2ee83e0">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+</li>
+<li>msg_id_decoder_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ab37d09264ff8592741ada65f6d3e2233">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+</li>
+<li>msg_map_t
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7baeaa4b7b962691a59a244775c62320">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -363,7 +413,7 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:12 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

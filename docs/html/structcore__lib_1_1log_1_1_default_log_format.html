@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -116,20 +116,20 @@ $(document).ready(function(){initNavTree('structcore__lib_1_1log_1_1_default_log
 <p>Default log line formater.  
  <a href="structcore__lib_1_1log_1_1_default_log_format.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_debug_log_8hpp_source.html">DebugLog.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_debug_log_8h_source.html">DebugLog.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abcef21c3089d3ad2357a3f769e9baeec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html#abcef21c3089d3ad2357a3f769e9baeec">operator()</a> (std::ostream &amp;os, const std::time_t timeStamp, const std::string &amp;message, const std::string &amp;logMsgLevel, const std::string &amp;file, const int lineNo, const std::thread::id &amp;threadID) const </td></tr>
-<tr class="memdesc:abcef21c3089d3ad2357a3f769e9baeec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator to perform the line formatting.  <a href="#abcef21c3089d3ad2357a3f769e9baeec">More...</a><br /></td></tr>
-<tr class="separator:abcef21c3089d3ad2357a3f769e9baeec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae92de94938f9c431cd28ffed151c0e5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html#ae92de94938f9c431cd28ffed151c0e5e">operator()</a> (std::ostream &amp;os, const std::time_t timeStamp, const std::string &amp;message, const std::string &amp;logMsgLevel, const std::string &amp;file, const std::string &amp;function, const int lineNo, const std::thread::id &amp;threadID) const </td></tr>
+<tr class="memdesc:ae92de94938f9c431cd28ffed151c0e5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator to perform the line formatting.  <a href="#ae92de94938f9c431cd28ffed151c0e5e">More...</a><br /></td></tr>
+<tr class="separator:ae92de94938f9c431cd28ffed151c0e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Default log line formater. </p>
 <p>This functor formats the log message elements into a single line in the log following default formatting.</p>
-<p>&lt; "Date/Time" &gt;&lt; "Message" &gt;&lt; "Level" &gt;&lt; File = "..." &gt;&lt; Line = "..." &gt;&lt; Thread ID = "..." &gt; </p>
+<p>"Date/Time" | "Level" | "Message" | "File" | "Function" | Line = "..." | Thread ID = "..." </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="abcef21c3089d3ad2357a3f769e9baeec"></a>
+<a class="anchor" id="ae92de94938f9c431cd28ffed151c0e5e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -166,6 +166,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>lineNo</em>, </td>
         </tr>
@@ -191,6 +197,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The actual message. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">logMsgLevel</td><td>- Log message level. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>- File where log message was generated. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">function</td><td>- Function where log message was generated. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">lineNo</td><td>- Line number where log message was generated. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threadID</td><td>- Thread ID fo where log message was generated. </td></tr>
   </table>
@@ -200,8 +207,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li>D:/Projects/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8hpp_source.html">DebugLog.hpp</a></li>
-<li>D:/Projects/CoreLibrary/DebugLog/<a class="el" href="_debug_log_8cpp.html">DebugLog.cpp</a></li>
+<li>D:/Projects/CoreLibrary/Include/DebugLog/<a class="el" href="_debug_log_8h_source.html">DebugLog.h</a></li>
+<li>D:/Projects/CoreLibrary/Source/DebugLog/<a class="el" href="_debug_log_8cpp.html">DebugLog.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -209,7 +216,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1log.html">log</a></li><li class="navelem"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html">DefaultLogFormat</a></li>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:11 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

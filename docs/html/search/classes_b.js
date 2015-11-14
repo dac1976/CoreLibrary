@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['tcsvgrid',['TCsvGrid',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html',1,'core_lib::csv_grid']]],
-  ['threadbase',['ThreadBase',['../classcore__lib_1_1threads_1_1_thread_base.html',1,'core_lib::threads']]],
-  ['threadgroup',['ThreadGroup',['../classcore__lib_1_1threads_1_1_thread_group.html',1,'core_lib::threads']]],
-  ['trow',['TRow',['../classcore__lib_1_1csv__grid_1_1_t_row.html',1,'core_lib::csv_grid']]]
+  ['raw_5fiarchive',['raw_iarchive',['../structcore__lib_1_1serialize_1_1raw__iarchive.html',1,'core_lib::serialize']]],
+  ['raw_5foarchive',['raw_oarchive',['../structcore__lib_1_1serialize_1_1raw__oarchive.html',1,'core_lib::serialize']]],
+  ['receivedmessage',['ReceivedMessage',['../structcore__lib_1_1asio_1_1defs_1_1_received_message.html',1,'core_lib::asio::defs']]]
 ];

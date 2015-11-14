@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['xarchivetypeerror',['xArchiveTypeError',['../classcore__lib_1_1asio_1_1messages_1_1x_archive_type_error.html',1,'core_lib::asio::messages']]],
+  ['xbucketvalueoutofrangeerror',['xBucketValueOutOfRangeError',['../classcore__lib_1_1sorting_1_1x_bucket_value_out_of_range_error.html',1,'core_lib::sorting']]],
+  ['xcsvgridcoloutofrangeerror',['xCsvGridColOutOfRangeError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html',1,'core_lib::csv_grid']]],
+  ['xcsvgridcreatefilestreamerror',['xCsvGridCreateFileStreamError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html',1,'core_lib::csv_grid']]],
+  ['xcsvgriddimensionerror',['xCsvGridDimensionError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html',1,'core_lib::csv_grid']]],
+  ['xcsvgridrowoutofrangeerror',['xCsvGridRowOutOfRangeError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html',1,'core_lib::csv_grid']]],
+  ['xcustomexception',['xCustomException',['../classcore__lib_1_1exceptions_1_1x_custom_exception.html',1,'core_lib::exceptions']]],
+  ['xinifiledataconverterror',['xIniFileDataConvertError',['../classcore__lib_1_1ini__file_1_1x_ini_file_data_convert_error.html',1,'core_lib::ini_file']]],
+  ['xinifileinvalidkeyerror',['xIniFileInvalidKeyError',['../classcore__lib_1_1ini__file_1_1x_ini_file_invalid_key_error.html',1,'core_lib::ini_file']]],
+  ['xinifileinvalidsectionerror',['xIniFileInvalidSectionError',['../classcore__lib_1_1ini__file_1_1x_ini_file_invalid_section_error.html',1,'core_lib::ini_file']]],
+  ['xinifileparsererror',['xIniFileParserError',['../classcore__lib_1_1ini__file_1_1x_ini_file_parser_error.html',1,'core_lib::ini_file']]],
+  ['xinifilesaveerror',['xIniFileSaveError',['../classcore__lib_1_1ini__file_1_1x_ini_file_save_error.html',1,'core_lib::ini_file']]],
+  ['xinstantiationerror',['xInstantiationError',['../classcore__lib_1_1log_1_1x_instantiation_error.html',1,'core_lib::log']]],
+  ['xlogmsghandlererror',['xLogMsgHandlerError',['../classcore__lib_1_1log_1_1x_log_msg_handler_error.html',1,'core_lib::log']]],
+  ['xmagicstringerror',['xMagicStringError',['../classcore__lib_1_1asio_1_1messages_1_1x_magic_string_error.html',1,'core_lib::asio::messages']]],
+  ['xmessagedeserializationerror',['xMessageDeserializationError',['../classcore__lib_1_1asio_1_1messages_1_1x_message_deserialization_error.html',1,'core_lib::asio::messages']]],
+  ['xmessagelengtherror',['xMessageLengthError',['../classcore__lib_1_1asio_1_1messages_1_1x_message_length_error.html',1,'core_lib::asio::messages']]],
+  ['xmsghandlererror',['xMsgHandlerError',['../classcore__lib_1_1threads_1_1x_msg_handler_error.html',1,'core_lib::threads']]],
+  ['xqueuepopqueueemptyerror',['xQueuePopQueueEmptyError',['../classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html',1,'core_lib::threads']]],
+  ['xqueuepoptimeouterror',['xQueuePopTimeoutError',['../classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html',1,'core_lib::threads']]],
+  ['xsplitstringbaddelim',['xSplitStringBadDelim',['../classcore__lib_1_1string__utils_1_1x_split_string_bad_delim.html',1,'core_lib::string_utils']]],
+  ['xsplitstringtoomanysubstrings',['xSplitStringTooManySubstrings',['../classcore__lib_1_1string__utils_1_1x_split_string_too_many_substrings.html',1,'core_lib::string_utils']]],
+  ['xthreadgrouperror',['xThreadGroupError',['../classcore__lib_1_1threads_1_1x_thread_group_error.html',1,'core_lib::threads']]],
+  ['xthreadnotstartederror',['xThreadNotStartedError',['../classcore__lib_1_1threads_1_1x_thread_not_started_error.html',1,'core_lib::threads']]],
+  ['xunknownconnectionerror',['xUnknownConnectionError',['../classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html',1,'core_lib::asio::tcp']]]
+];

@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['debuglog',['DebugLog',['../classcore__lib_1_1log_1_1_debug_log.html',1,'core_lib::log']]],
-  ['defaultlogformat',['DefaultLogFormat',['../structcore__lib_1_1log_1_1_default_log_format.html',1,'core_lib::log']]]
+  ['cell',['Cell',['../classcore__lib_1_1csv__grid_1_1_cell.html',1,'core_lib::csv_grid']]],
+  ['commentline',['CommentLine',['../classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html',1,'core_lib::ini_file::if_private']]],
+  ['concurrentqueue',['ConcurrentQueue',['../classcore__lib_1_1threads_1_1_concurrent_queue.html',1,'core_lib::threads']]],
+  ['concurrentqueue_3c_20messagetype_20_3e',['ConcurrentQueue&lt; MessageType &gt;',['../classcore__lib_1_1threads_1_1_concurrent_queue.html',1,'core_lib::threads']]],
+  ['containerreserver',['ContainerReserver',['../classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html',1,'core_lib::csv_grid::reserver']]],
+  ['containerreserver_3c_20std_3a_3avector_2c_20t_20_3e',['ContainerReserver&lt; std::vector, T &gt;',['../classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html',1,'core_lib::csv_grid::reserver']]]
 ];

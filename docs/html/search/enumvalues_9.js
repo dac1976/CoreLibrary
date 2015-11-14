@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['trimmed',['trimmed',['../namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833ba853600aa75baac4ae4d3b794b574ecec',1,'core_lib::string_utils']]],
-  ['truncate',['truncate',['../namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143edaa244f58cf07c35fd48d7524b289551e5c',1,'core_lib::csv_grid']]],
-  ['truncate_5ffile',['truncate_file',['../classcore__lib_1_1log_1_1_debug_log.html#a51affdd46da3c324ae68a39aeb6bd8b3a62c0624c153cd096a8ed03b95ff1c01c',1,'core_lib::log::DebugLog']]]
+  ['scientific',['scientific',['../namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5a55a95650a66b53ecbb960b53d985b964',1,'core_lib::string_utils']]],
+  ['simplecells',['simpleCells',['../namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720ea09ff6861a227c1d20c44a38a8be994b3',1,'core_lib::csv_grid']]]
 ];

@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -146,10 +146,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a163942ad82b7685b7adb7ba07c80d8bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#a163942ad82b7685b7adb7ba07c80d8bf">SplitString</a> (std::string &amp;subStr1, std::string &amp;subStr2, const std::string &amp;toSplit, const std::string &amp;delim, const <a class="el" href="namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833b">eSplitStringResult</a> option)</td></tr>
 <tr class="memdesc:a163942ad82b7685b7adb7ba07c80d8bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Split a string into two parts given delimiters.  <a href="#a163942ad82b7685b7adb7ba07c80d8bf">More...</a><br /></td></tr>
 <tr class="separator:a163942ad82b7685b7adb7ba07c80d8bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fde459e48d893feb1d4035de3e4b574"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a8fde459e48d893feb1d4035de3e4b574"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#a8fde459e48d893feb1d4035de3e4b574">FormatFloatString</a> (const T value, const int precision=15, const <a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5">eFloatStringFormat</a> fsf=<a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5afea087517c26fadd409bd4b9dc642555">eFloatStringFormat::normal</a>)</td></tr>
-<tr class="memdesc:a8fde459e48d893feb1d4035de3e4b574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a floating point value to a string representation.  <a href="#a8fde459e48d893feb1d4035de3e4b574">More...</a><br /></td></tr>
-<tr class="separator:a8fde459e48d893feb1d4035de3e4b574"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbf313f08e425374f225d4f7972878d2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:acbf313f08e425374f225d4f7972878d2"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#acbf313f08e425374f225d4f7972878d2">FormatFloatString</a> (const T value, const int precision=15, const <a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5">eFloatStringFormat</a> formatting=<a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5afea087517c26fadd409bd4b9dc642555">eFloatStringFormat::normal</a>)</td></tr>
+<tr class="memdesc:acbf313f08e425374f225d4f7972878d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a floating point value to a string representation.  <a href="#acbf313f08e425374f225d4f7972878d2">More...</a><br /></td></tr>
+<tr class="separator:acbf313f08e425374f225d4f7972878d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="namespacecore__lib_1_1string__utils.html" title="The string_utils namespace. ">string_utils</a> namespace. </p>
@@ -220,7 +220,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a8fde459e48d893feb1d4035de3e4b574"></a>
+<a class="anchor" id="acbf313f08e425374f225d4f7972878d2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -242,7 +242,7 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const eFloatStringFormat&#160;</td>
-          <td class="paramname"><em>fsf</em> = <code>eFloatStringFormat::normal</code>&#160;</td>
+          <td class="paramname"><em>formatting</em> = <code>eFloatStringFormat::normal</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -257,7 +257,7 @@ template&lt;typename T &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- Floating point value to convert to a string. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">precision</td><td>- Precision to display the number to as a string. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">fsf</td><td>- Formatting options. return Resultant string.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">formatting</td><td>- Formatting options. return Resultant string.</td></tr>
   </table>
   </dd>
 </dl>
@@ -353,7 +353,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1string__utils.html">string_utils</a></li>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:11 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

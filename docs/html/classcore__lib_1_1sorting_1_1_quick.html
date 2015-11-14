@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -108,7 +108,6 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1sorting_1_1_quick.ht
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="classcore__lib_1_1sorting_1_1_quick-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">core_lib::sorting::Quick&lt; T, Pred &gt; Class Template Reference</div>  </div>
@@ -118,7 +117,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1sorting_1_1_quick.ht
 <p>Templated static class to perform a quick sort.  
  <a href="classcore__lib_1_1sorting_1_1_quick.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_generic_sorting_8hpp_source.html">GenericSorting.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_generic_sorting_8h_source.html">GenericSorting.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -133,13 +132,6 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aabb9518925bea0c5e628e6d98d73fb5a"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_quick.html#aabb9518925bea0c5e628e6d98d73fb5a">Sort</a> (TIterator begin, TIterator end)</td></tr>
 <tr class="memdesc:aabb9518925bea0c5e628e6d98d73fb5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place static sort function.  <a href="#aabb9518925bea0c5e628e6d98d73fb5a">More...</a><br /></td></tr>
 <tr class="separator:aabb9518925bea0c5e628e6d98d73fb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:aaedad17ddc115ebe239f7d0d5e8ed42f"><td class="memTemplParams" colspan="2">template&lt;typename TIterator &gt; </td></tr>
-<tr class="memitem:aaedad17ddc115ebe239f7d0d5e8ed42f"><td class="memTemplItemLeft" align="right" valign="top">static TIterator&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_quick.html#aaedad17ddc115ebe239f7d0d5e8ed42f">Partition</a> (TIterator begin, TIterator end, TIterator pivot)</td></tr>
-<tr class="memdesc:aaedad17ddc115ebe239f7d0d5e8ed42f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static partitioning function.  <a href="#aaedad17ddc115ebe239f7d0d5e8ed42f">More...</a><br /></td></tr>
-<tr class="separator:aaedad17ddc115ebe239f7d0d5e8ed42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T, typename Pred = std::less&lt;T&gt;&gt;<br />
@@ -148,62 +140,6 @@ class core_lib::sorting::Quick&lt; T, Pred &gt;</h3>
 <p>Templated static class to perform a quick sort. </p>
 <p>Template args are T, the type of value to be sorted, and Pred, the comparison functor to compare items of type T. The default comparison predicate is std::less&lt;T&gt;. This is a recursive implementation of quick sort. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aaedad17ddc115ebe239f7d0d5e8ed42f"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , typename Pred  = std::less&lt;T&gt;&gt; </div>
-<div class="memtemplate">
-template&lt;typename TIterator &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static TIterator <a class="el" href="classcore__lib_1_1sorting_1_1_quick.html">core_lib::sorting::Quick</a>&lt; T, Pred &gt;::Partition </td>
-          <td>(</td>
-          <td class="paramtype">TIterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TIterator&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TIterator&#160;</td>
-          <td class="paramname"><em>pivot</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Static partitioning function. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>- The begining of the sub-collection to sort. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>- The end of the sub-collection to sort (in STL fashion this is the item just after the last otem to be sorted). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pivot</td><td>- Pivot point within the collection about which to partition. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The new pivot iterator.</dd></dl>
-<p>This function partitions the sub-collection as part of the quick sort algorithm. </p>
-
-</div>
-</div>
 <a class="anchor" id="aabb9518925bea0c5e628e6d98d73fb5a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -244,16 +180,16 @@ template&lt;typename TIterator &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>- The begining of the collection to sort. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>- The end of the collection to sort (in STL fashion this is the item just after the last otem to be sorted).</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>- The end of the collection to sort (in STL fashion this is the item just after the last item to be sorted).</td></tr>
   </table>
   </dd>
 </dl>
-<p>This function sorts a collections (vector, list etc) of items of type T between a begin and end iterator. </p>
+<p>This function sorts a collection (vector, list etc) of items of type T between a begin and end iterator. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Projects/CoreLibrary/<a class="el" href="_generic_sorting_8hpp_source.html">GenericSorting.hpp</a></li>
+<li>D:/Projects/CoreLibrary/Include/Sorting/<a class="el" href="_generic_sorting_8h_source.html">GenericSorting.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -261,7 +197,7 @@ template&lt;typename TIterator &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1sorting.html">sorting</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1sorting_1_1_quick.html">Quick</a></li>
-    <li class="footer">Generated on Thu Nov 20 2014 22:11:16 for Core Library by
+    <li class="footer">Generated on Sat Nov 14 2015 17:40:11 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

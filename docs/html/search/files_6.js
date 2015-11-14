@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['messagequeuethread_2ecpp',['MessageQueueThread.cpp',['../_message_queue_thread_8cpp.html',1,'']]],
-  ['messagequeuethread_2ehpp',['MessageQueueThread.hpp',['../_message_queue_thread_8hpp.html',1,'']]]
+  ['jointhreads_2eh',['JoinThreads.h',['../_join_threads_8h.html',1,'']]]
 ];
