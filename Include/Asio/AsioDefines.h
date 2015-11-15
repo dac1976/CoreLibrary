@@ -28,6 +28,7 @@
 #define ASIODEFINES
 
 #include "Platform/PlatformDefines.h"
+#include "CoreLibraryDllGlobal.h"
 
 #include <vector>
 #include <functional>
@@ -138,7 +139,7 @@ enum class eArchiveType : uint8_t
 
 #pragma pack(push, 1)
 /*! \brief Default message header structure that is POD. */
-struct MessageHeader
+struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 {
 	/*! \brief Magic string to identify message start. */
     char magicString[MAGIC_STRING_LEN];
@@ -154,15 +155,7 @@ struct MessageHeader
 	uint32_t totalLength{sizeof(*this)};
 
 	/*! \brief Default constructor. */
-	MessageHeader()
-	{
-		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
-		magicString[RESPONSE_ADDRESS_LEN - 1] = 0;
-
-        strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
-        magicString[MAGIC_STRING_LEN - 1] = 0;
-	}
-
+	MessageHeader();
 	/*! \brief Destructor. */
 	~MessageHeader() = default;
 	/*! \brief Default copy constructor. */
@@ -171,27 +164,9 @@ struct MessageHeader
     MessageHeader& operator=(const MessageHeader&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
     /*! \brief Default move constructor. */
-    MessageHeader(MessageHeader&& header)
-    {
-		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
-		magicString[RESPONSE_ADDRESS_LEN - 1] = 0;
-
-        strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
-        magicString[MAGIC_STRING_LEN - 1] = 0;
-
-        *this = std::move(header);
-    }
+    MessageHeader(MessageHeader&& header);
     /*! \brief Default move assignment operator. */
-    MessageHeader& operator=(MessageHeader&& header)
-    {
-        std::swap_ranges(magicString, magicString + MAGIC_STRING_LEN, header.magicString);
-        std::swap_ranges(responseAddress, responseAddress + RESPONSE_ADDRESS_LEN, header.responseAddress);
-        std::swap(responsePort, header.responsePort);
-        std::swap(messageId, header.messageId);
-        std::swap(archiveType, header.archiveType);
-        std::swap(totalLength, header.totalLength);
-        return *this;
-    }
+    MessageHeader& operator=(MessageHeader&& header);
 #else
 	/*! \brief Default move constructor. */
     MessageHeader(MessageHeader&&) = default;

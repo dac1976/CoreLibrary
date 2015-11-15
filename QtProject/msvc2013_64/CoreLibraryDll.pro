@@ -6,19 +6,19 @@
 
 QT       -= gui
 
-TARGET = CoreLibrary
+TARGET = CoreLibraryDll
 TEMPLATE = lib
-CONFIG += staticlib debug_and_release build_all
+CONFIG += dll debug_and_release build_all
 CONFIG += core_lib_settings
+CONFIG += boost_libs_64
 
-DEFINES += CORE_LIBRARY_LIB
+# Set version info of our dll.
+RC_FILE=CoreLibraryDll_resource.rc
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
+DEFINES += CORE_LIBRARY_DLL
+
+unix {
+    target.path = /usr/lib
     INSTALLS += target
 }
 
