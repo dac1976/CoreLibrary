@@ -45,7 +45,7 @@ namespace tcp {
  * This exception class is intended to be thrown when an unknown
  * connection is specified as an argument.
  */
-class xUnknownConnectionError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xUnknownConnectionError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -65,7 +65,7 @@ public:
 
 class TcpConnection;
 
-class TcpConnections final
+class CORE_LIBRARY_DLL_SHARED_API TcpConnections final
 {
 public:
 	TcpConnections() = default;

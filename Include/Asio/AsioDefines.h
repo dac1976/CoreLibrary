@@ -27,9 +27,8 @@
 #ifndef ASIODEFINES
 #define ASIODEFINES
 
-#include "Platform/PlatformDefines.h"
 #include "CoreLibraryDllGlobal.h"
-
+#include "Platform/PlatformDefines.h"
 #include <vector>
 #include <functional>
 #include <memory>

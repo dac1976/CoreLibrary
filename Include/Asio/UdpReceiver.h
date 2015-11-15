@@ -27,9 +27,8 @@
 #ifndef UDPRECEIVER
 #define UDPRECEIVER
 
-#include "Threads/SyncEvent.h"
-#include "AsioDefines.h"
 #include "IoServiceThreadGroup.h"
+#include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -38,7 +37,7 @@ namespace asio {
 /*! \brief The udp namespace. */
 namespace udp {
 
-class UdpReceiver final
+class CORE_LIBRARY_DLL_SHARED_API UdpReceiver final
 {
 public:
 	UdpReceiver(boost_ioservice_t& ioService

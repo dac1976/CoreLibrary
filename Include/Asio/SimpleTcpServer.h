@@ -37,7 +37,7 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 /*! \brief A simple bi-directional multi-client TCP server. */
-class SimpleTcpServer final
+class CORE_LIBRARY_DLL_SHARED_API SimpleTcpServer final
 {
 public:
     /*! \brief Default constructor - deleted. */

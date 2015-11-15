@@ -27,8 +27,8 @@
 #ifndef TCPCONNECTION
 #define TCPCONNECTION
 
-#include "Threads/SyncEvent.h"
 #include "AsioDefines.h"
+#include "Threads/SyncEvent.h"
 #include <mutex>
 
 /*! \brief The core_lib namespace. */
@@ -40,7 +40,7 @@ namespace tcp {
 
 class TcpConnections;
 
-class TcpConnection final
+class CORE_LIBRARY_DLL_SHARED_API TcpConnection final
 	: public std::enable_shared_from_this<TcpConnection>
 {
 public:

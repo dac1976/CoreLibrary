@@ -28,10 +28,9 @@
 #ifndef TCPSERVER
 #define TCPSERVER
 
-#include "Threads/SyncEvent.h"
-#include "AsioDefines.h"
 #include "IoServiceThreadGroup.h"
 #include "TcpConnections.h"
+#include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -40,7 +39,7 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
-class TcpServer final
+class CORE_LIBRARY_DLL_SHARED_API TcpServer final
 {
 public:
     TcpServer() = delete;

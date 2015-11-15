@@ -27,9 +27,8 @@
 #ifndef UDPSENDER
 #define UDPSENDER
 
-#include "Threads/SyncEvent.h"
-#include "AsioDefines.h"
 #include "IoServiceThreadGroup.h"
+#include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -38,7 +37,7 @@ namespace asio {
 /*! \brief The udp namespace. */
 namespace udp {
 
-class UdpSender final
+class CORE_LIBRARY_DLL_SHARED_API UdpSender final
 {
 public:
 	UdpSender(boost_ioservice_t& ioService

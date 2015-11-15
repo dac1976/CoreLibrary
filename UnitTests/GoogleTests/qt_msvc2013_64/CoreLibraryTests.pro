@@ -1,9 +1,11 @@
 TEMPLATE = app
 CONFIG += console debug_and_release build_all
 CONFIG -= app_bundle
-CONFIG -= qt
+CONFIG += qt
 CONFIG += core_lib_64
 CONFIG += google_test_64
+
+DEFINES += CORE_LIBRARY_LIB
 
 # Use these to selectively disable certain unit tests.
 # DEFINES += DISABLE_ASIO_TESTS

@@ -37,7 +37,7 @@ namespace asio {
 /*! \brief The udp namespace. */
 namespace udp {
 
-class SimpleUdpReceiver final
+class CORE_LIBRARY_DLL_SHARED_API SimpleUdpReceiver final
 {
 public:
     /*! \brief Default constructor - deleted. */

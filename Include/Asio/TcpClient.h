@@ -28,7 +28,6 @@
 #ifndef TCPCLIENT
 #define TCPCLIENT
 
-#include "AsioDefines.h"
 #include "IoServiceThreadGroup.h"
 #include "TcpConnections.h"
 
@@ -39,7 +38,7 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
-class TcpClient final
+class CORE_LIBRARY_DLL_SHARED_API TcpClient final
 {
 public:
     TcpClient() = delete;

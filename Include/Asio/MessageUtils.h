@@ -28,8 +28,6 @@
 #ifndef MESSAGEUTILS
 #define MESSAGEUTILS
 
-#include "Platform/PlatformDefines.h"
-
 #include "AsioDefines.h"
 #include "Exceptions/CustomException.h"
 #include "Serialization/SerializeToVector.h"
@@ -51,7 +49,7 @@ namespace messages {
  * is received whose length doesn't match what is in the message
  * header.
  */
-class xMessageLengthError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xMessageLengthError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -75,7 +73,7 @@ public:
  * This exception class is intended to be thrown when a message
  * is received whose magic string does not match what is expected.
  */
-class xMagicStringError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xMagicStringError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -99,7 +97,7 @@ public:
  * This exception class is intended to be thrown when a message
  * is being constructed using an incorrect archive type.
  */
-class xArchiveTypeError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xArchiveTypeError : public exceptions::xCustomException
 {
 public:
     /*! \brief Default constructor. */
@@ -118,7 +116,7 @@ public:
 };
 
 /*! \brief Default message handler class. */
-class MessageHandler final
+class CORE_LIBRARY_DLL_SHARED_API MessageHandler final
 {
 public:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
@@ -177,8 +175,9 @@ private:
  * \param[in] responseAddress - The response connection details describing sender's address and port.
  * \return A filled message header.
  */
-defs::MessageHeader FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
-                               , const uint32_t messageId, const defs::connection_t& responseAddress);
+defs::MessageHeader CORE_LIBRARY_DLL_SHARED_API
+    FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
+               , const uint32_t messageId, const defs::connection_t& responseAddress);
 
 /*! \brief Archive type enumerators as a template class. */
 template<typename A>
@@ -266,7 +265,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
 };
 
 /*! \brief Default message builder class. */
-class MessageBuilder final
+class CORE_LIBRARY_DLL_SHARED_API MessageBuilder final
 {
 public:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__
@@ -394,7 +393,7 @@ defs::char_buffer_t BuildMessage(const T& message
  * This exception class is intended to be thrown when a message
  * cannot be deserialized correctly.
  */
-class xMessageDeserializationError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xMessageDeserializationError : public exceptions::xCustomException
 {
 public:
     /*! \brief Default constructor. */

@@ -32,6 +32,7 @@
 #include "boost/asio.hpp"
 #include <functional>
 
+
 /*! \brief The core_lib namespace. */
 namespace core_lib {
 /*! \brief The asio namespace. */
@@ -47,7 +48,7 @@ namespace asio {
  * from each registered thread and also calls stop and joins
  * all threads in its destructor.
  */
-class IoServiceThreadGroup final
+class CORE_LIBRARY_DLL_SHARED_API IoServiceThreadGroup final
 {
 public:
 	/*!
