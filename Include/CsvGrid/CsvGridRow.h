@@ -28,6 +28,7 @@
 #ifndef CSVGRIDROW
 #define CSVGRIDROW
 
+#include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 
 #include <initializer_list>
@@ -54,7 +55,7 @@ namespace csv_grid {
  * This exception class is intended to be thrown by functions in the CsvGrid
  * class and its child classes when an invalid column index is used.
  */
-class xCsvGridColOutOfRangeError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xCsvGridColOutOfRangeError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */

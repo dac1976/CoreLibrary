@@ -28,6 +28,7 @@
 #ifndef CSVGRIDCELL
 #define CSVGRIDCELL
 
+#include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 
 #include <cstdint>
@@ -45,7 +46,7 @@ namespace csv_grid {
  * a row in the grid. A cell can be thought of as the value in a given
  * column index within the grid.
  */
-class Cell final
+class CORE_LIBRARY_DLL_SHARED_API Cell final
 {
 public:
 	/*! \brief Default constructor. */

@@ -28,6 +28,7 @@
 #ifndef CSVGRIDMAIN
 #define CSVGRIDMAIN
 
+#include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 
 #include <fstream>
@@ -48,7 +49,7 @@ namespace csv_grid {
  * This exception class is intended to be thrown by functions in the CsvGrid
  * class when invalid grid dimensions are specified.
  */
-class xCsvGridDimensionError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xCsvGridDimensionError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -72,7 +73,7 @@ public:
  * This exception class is intended to be thrown by functions in the CsvGrid
  * class when an invalid row idex is used.
  */
-class xCsvGridRowOutOfRangeError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xCsvGridRowOutOfRangeError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -96,7 +97,7 @@ public:
  *  This exception class is intended to be thrown by functions in the CsvGrid
  *  class when an invalid row idex is used.
  */
-class xCsvGridCreateFileStreamError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xCsvGridCreateFileStreamError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
