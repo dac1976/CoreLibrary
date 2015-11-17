@@ -45,7 +45,7 @@ namespace threads {
  * This exception class is intended to be thrown by functions in ThreadGroup
  * class.
  */
-class xThreadGroupError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xThreadGroupError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -73,7 +73,7 @@ public:
  * sure that all threads held in the thread group have been joined.
  * This can be done by calling ThreadGroup::JoinAll().
  */
-class ThreadGroup final
+class CORE_LIBRARY_DLL_SHARED_API ThreadGroup final
 {
 public:
 	/*! \brief Default constructor. */

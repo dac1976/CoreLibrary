@@ -26,16 +26,14 @@
 #ifndef CORELIBRARYDLLGLOBALH
 #define CORELIBRARYDLLGLOBALH
 
-#include <QtCore/qglobal.h>
-
 #if defined(CORE_LIBRARY_DLL)
-    #define CORE_LIBRARY_DLL_SHARED_API Q_DECL_EXPORT
+    #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
 #else
     #if defined(CORE_LIBRARY_LIB)
         #define CORE_LIBRARY_DLL_SHARED_API
     #else        
-        #define CORE_LIBRARY_DLL_SHARED_API Q_DECL_IMPORT
-    #endif
+        #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
+    #endif    
 #endif
 
 #endif // CORELIBRARYDLLGLOBALH

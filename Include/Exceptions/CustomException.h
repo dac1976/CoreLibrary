@@ -24,8 +24,8 @@
  * \brief File containing declarations relating to custom exception handling.
  */
 
+#include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
-
 #include <string>
 #include "boost/exception/all.hpp"
 
@@ -64,7 +64,7 @@ namespace exceptions {
  *               << boost::current_exception_diagnostic_information();
  * }
  */
-class xCustomException : public virtual boost::exception
+class CORE_LIBRARY_DLL_SHARED_API xCustomException : public virtual boost::exception
 		, public virtual std::exception
 {
 public:

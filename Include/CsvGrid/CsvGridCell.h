@@ -30,7 +30,6 @@
 
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
-
 #include <cstdint>
 #include <string>
 

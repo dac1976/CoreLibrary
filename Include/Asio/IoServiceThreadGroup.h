@@ -32,7 +32,6 @@
 #include "boost/asio.hpp"
 #include <functional>
 
-
 /*! \brief The core_lib namespace. */
 namespace core_lib {
 /*! \brief The asio namespace. */

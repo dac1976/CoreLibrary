@@ -28,6 +28,7 @@
 #ifndef DEBUGLOG
 #define DEBUGLOG
 
+#include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 
 #include <ctime>
@@ -113,7 +114,7 @@ namespace log {
  * This exception class is intended to be thrown by functions in
  * DebugLog class when a message handler error occurs.
  */
-class xLogMsgHandlerError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xLogMsgHandlerError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -137,7 +138,7 @@ public:
  * This exception class is intended to be thrown by the
  * DebugLog class when an invalid instantiation has occurred.
  */
-class xInstantiationError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xInstantiationError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -164,7 +165,7 @@ public:
  *
  * "Date/Time" | "Level" | "Message" | "File" | "Function" | Line = "..." | Thread ID = "..."
  */
-struct DefaultLogFormat
+struct CORE_LIBRARY_DLL_SHARED_API DefaultLogFormat
 {
 	/*!
 	 * \brief Function operator to perform the line formatting.
@@ -199,7 +200,7 @@ namespace dl_private
  * Message to be placed on message queue to process
  * debug log entry to add to file.
  */
-class LogQueueMessage
+class CORE_LIBRARY_DLL_SHARED_API LogQueueMessage
 {
 public:
 	/*! \brief Static message ID to register on message queue.*/
