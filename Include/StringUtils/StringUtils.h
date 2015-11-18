@@ -46,7 +46,7 @@ namespace string_utils {
  * of std::getline() (looking at you Emarcadero C++ Builder) where size is
  * greater than pos of null char.
  */
-void PackStdString(std::string& line);
+void CORE_LIBRARY_DLL_SHARED_API PackStdString(std::string& line);
 
 /*!
  * \brief Split string bad delimiter exception.
@@ -54,7 +54,7 @@ void PackStdString(std::string& line);
  * This exception class is intended to be thrown by the SplitString function
  * to signify that an error has occured.
  */
-class xSplitStringBadDelim: public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xSplitStringBadDelim: public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -78,7 +78,7 @@ public:
  * This exception class is intended to be thrown by the SplitString function
  * to signify that an error has occured.
  */
-class xSplitStringTooManySubstrings : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xSplitStringTooManySubstrings : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -124,7 +124,7 @@ enum class eSplitStringResult
  * exception is thrown. If the string will be split into more than two
  * substrings then a xSplitStringTooManySubStrings exception is thrown.
  */
-void SplitString(std::string& subStr1, std::string& subStr2,
+void CORE_LIBRARY_DLL_SHARED_API SplitString(std::string& subStr1, std::string& subStr2,
 				 const std::string& toSplit, const std::string& delim,
 				 const eSplitStringResult option);
 

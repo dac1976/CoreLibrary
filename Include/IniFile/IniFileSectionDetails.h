@@ -26,7 +26,6 @@
  */
 
 #include "Platform/PlatformDefines.h"
-
 #include "IniFileLines.h"
 
 #ifndef INIFILESECTIONDETAILS
@@ -40,7 +39,7 @@ namespace ini_file {
 namespace if_private {
 
 /*! \brief Class to section details. */
-class SectionDetails
+class CORE_LIBRARY_DLL_SHARED_API SectionDetails
 {
 public:
 	/*! \brief Default constructor. */

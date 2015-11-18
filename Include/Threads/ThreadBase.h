@@ -46,7 +46,7 @@ namespace threads {
  * class and its child classes when a function is called that is dependent on
  * the thread being started.
  */
-class xThreadNotStartedError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xThreadNotStartedError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -71,7 +71,7 @@ public:
  * objects that need to be threaded. It neatly wraps all
  * the useful functionality of std::thread in a usable way.
  */
-class ThreadBase
+class CORE_LIBRARY_DLL_SHARED_API ThreadBase
 {
 public:
 	/*! \brief Copy constructor deleted.*/

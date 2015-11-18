@@ -45,7 +45,7 @@ namespace threads {
  * This exception class is intended to be thrown by pop methods in
  * the ConcurrentQueue class.
  */
-class xQueuePopTimeoutError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xQueuePopTimeoutError : public exceptions::xCustomException
 {
 public:
     /*! \brief Default constructor. */
@@ -69,7 +69,7 @@ public:
  * This exception class is intended to be thrown by pop methods in
  * the ConcurrentQueue class.
  */
-class xQueuePopQueueEmptyError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xQueuePopQueueEmptyError : public exceptions::xCustomException
 {
 public:
     /*! \brief Default constructor. */

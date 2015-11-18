@@ -29,7 +29,6 @@
 #define MESSAGEQUEUETHREAD
 
 #include "Platform/PlatformDefines.h"
-
 #include <functional>
 #include <map>
 #include "ThreadBase.h"
@@ -46,7 +45,7 @@ namespace threads {
  * This exception class is intended to be thrown by functions in
  * MessageQueueThread class when a message handler error occurs.
  */
-class xMsgHandlerError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xMsgHandlerError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */

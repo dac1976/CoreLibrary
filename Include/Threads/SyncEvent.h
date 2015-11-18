@@ -28,6 +28,7 @@
 #ifndef SYNCEVENT
 #define SYNCEVENT
 
+#include "CoreLibraryDllGlobal.h"
 #include <mutex>
 #include <condition_variable>
 
@@ -65,7 +66,7 @@ enum class eIntialCondition
  * it makes for a neater package than using these constructs
  * bare.
  */
-class SyncEvent final
+class CORE_LIBRARY_DLL_SHARED_API SyncEvent final
 {
 public:
 	/*!

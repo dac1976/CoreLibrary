@@ -29,7 +29,6 @@
 #define INIFILE
 
 #include "Platform/PlatformDefines.h"
-
 #include <utility>
 #include <map>
 #include <cstdint>
@@ -47,7 +46,7 @@ namespace ini_file {
  * This exception class is intended to be thrown by functions in the IniFIie
  * class when a data conversion error eoccurs.
  */
-class xIniFileDataConvertError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xIniFileDataConvertError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -71,7 +70,7 @@ public:
  * This exception class is intended to be thrown by functions in the IniFIie
  * class when a parser error eoccurs.
  */
-class xIniFileParserError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xIniFileParserError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -95,7 +94,7 @@ public:
  * This exception class is intended to be thrown by functions in the IniFIie
  * class when a save error eoccurs.
  */
-class xIniFileSaveError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xIniFileSaveError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -120,7 +119,7 @@ public:
  * This exception class is intended to be thrown by functions in the IniFIie
  * class when an invalid key is used occurs.
  */
-class xIniFileInvalidKeyError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xIniFileInvalidKeyError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -144,7 +143,7 @@ public:
  * This exception class is intended to be thrown by functions in the IniFIie
  * class when an invalid section is used occurs.
  */
-class xIniFileInvalidSectionError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xIniFileInvalidSectionError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */
@@ -187,7 +186,7 @@ public:
  * when loading an ini file. However, leading and trailing
  * whitespace in section, key or value items are removed.
  */
-class IniFile final
+class CORE_LIBRARY_DLL_SHARED_API IniFile final
 {
 public:
 #ifdef __USE_DEFAULT_CONSTRUCTOR__

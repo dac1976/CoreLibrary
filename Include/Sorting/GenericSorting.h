@@ -223,7 +223,7 @@ public:
  * class if a value is found in the collection to be sorted that does
  * not belong to any defined bucket.
  */
-class xBucketValueOutOfRangeError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xBucketValueOutOfRangeError : public exceptions::xCustomException
 {
 public:
 	/*! \brief Default constructor. */

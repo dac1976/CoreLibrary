@@ -28,11 +28,14 @@
 
 #if defined(CORE_LIBRARY_DLL)
     #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
+    #define CORE_LIBRARY_DLL_EXTERN
 #else
     #if defined(CORE_LIBRARY_LIB)
         #define CORE_LIBRARY_DLL_SHARED_API
+        #define CORE_LIBRARY_DLL_EXTERN
     #else        
         #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
+        #define CORE_LIBRARY_DLL_EXTERN extern
     #endif    
 #endif
 

@@ -27,6 +27,7 @@
 #ifndef SERIALIZETOVECTOR
 #define SERIALIZETOVECTOR
 
+#include "CoreLibraryDllGlobal.h"
 #include "SerializationIncludes.h"
 #include <vector>
 #include <type_traits>
@@ -42,12 +43,12 @@ namespace serialize {
 typedef std::vector<char> char_vector_t;
 
 /*! \brief In archive placeholder struct for non-boost serialized POD objects. */
-struct raw_iarchive
+struct CORE_LIBRARY_DLL_SHARED_API raw_iarchive
 {
 };
 
 /*! \brief Out archive placeholder struct for non-boost serialized POD objects. */
-struct raw_oarchive
+struct CORE_LIBRARY_DLL_SHARED_API raw_oarchive
 {
 };
 
@@ -131,7 +132,7 @@ struct ToObjectImpl<T, archives::in_raw_t>
 {
     T operator()(const char_vector_t& charVector) const
     {
-        T object;
+        T object{};
 
         if (!std::is_pod<T>::value
             || (charVector.size() != sizeof(T)))

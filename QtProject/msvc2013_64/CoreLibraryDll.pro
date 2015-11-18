@@ -5,8 +5,8 @@
 #-------------------------------------------------
 
 # Due to exporting from DLL we might get suprious warnings of
-# type 4251 so disable them.
-QMAKE_CXXFLAGS += /wd4251
+# type 4251 and 4275 so disable them.
+QMAKE_CXXFLAGS += /wd4251 /wd4275
 
 QT       -= gui
 

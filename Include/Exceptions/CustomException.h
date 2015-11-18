@@ -32,6 +32,9 @@
 #ifndef CUSTOMEXCEPTION
 #define CUSTOMEXCEPTION
 
+class CORE_LIBRARY_DLL_SHARED_API boost::exception;
+class CORE_LIBRARY_DLL_SHARED_API std::exception;
+
 /*! \brief The core_lib namespace. */
 namespace core_lib {
 /*! \brief The exceptions namespace. */

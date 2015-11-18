@@ -28,8 +28,8 @@
 #ifndef INIFILELINES
 #define INIFILELINES
 
+#include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
-
 #include <string>
 #include <list>
 #include <memory>
@@ -46,7 +46,7 @@ typedef std::list<std::pair<std::string, std::string>> keys_list;
 namespace if_private {
 
 /*! \brief Base class to manage a line in an INI file. */
-class Line
+class CORE_LIBRARY_DLL_SHARED_API Line
 {
 public:   
 	/*!
@@ -58,7 +58,7 @@ public:
 };
 
 /*! \brief Class to manage a blank line in an INI file. */
-class BlankLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API BlankLine : public Line
 {
 public:
 	/*! \brief Default constructor. */
@@ -89,7 +89,7 @@ public:
 };
 
 /*! \brief Class to manage a commented line in an INI file. */
-class CommentLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API CommentLine : public Line
 {
 public:
 	/*! \brief Default constructor. */
@@ -131,7 +131,7 @@ private:
 };
 
 /*! \brief Class to manage a section line in an INI file. */
-class SectionLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API SectionLine : public Line
 {
 public:
 	/*! \brief Default constructor. */
@@ -173,7 +173,7 @@ private:
 };
 
 /*! \brief Class to manage a key line in an INI file. */
-class KeyLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API KeyLine : public Line
 {
 public:
 	/*! \brief Default constructor. */
