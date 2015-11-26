@@ -232,4 +232,13 @@ typedef std::function< void (const char_buffer_t& ) > message_received_handler_t
 } // namespace asio
 } // namespace core_lib
 
+#ifdef SET_QT_META_TYPE
+    #include <QMetaType>
+
+    // Make sure we register our message object type so we
+    // can use it with signals and slots with queued connections.
+    Q_DECLARE_SMART_POINTER_METATYPE(std::shared_ptr)
+    Q_DECLARE_METATYPE(core_lib::asio::defs::default_received_message_ptr_t)
+#endif
+
 #endif // ASIODEFINES
