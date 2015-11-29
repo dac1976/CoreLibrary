@@ -1,3 +1,7 @@
+# Due to exporting from DLL we might get suprious warnings of
+# type 4100
+QMAKE_CXXFLAGS += /wd4100
+
 TEMPLATE = app
 CONFIG += console debug_and_release build_all
 CONFIG -= app_bundle
