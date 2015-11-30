@@ -109,6 +109,8 @@ SOURCES +=                                                \
 	../../Source/Asio/UdpReceiver.cpp                     \
     ../../Source/Asio/SimpleUdpSender.cpp                 \
     ../../Source/Asio/SimpleUdpReceiver.cpp
+
+DISTFILES += CoreLibraryDll_resource.rc
 	
 	
 	

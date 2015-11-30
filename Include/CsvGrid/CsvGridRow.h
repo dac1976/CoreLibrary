@@ -239,6 +239,14 @@ public:
 
 		return *std::next(m_cells.begin(), col);
 	}
+    /*!
+     * \brief Get empty state of row.
+     * \return True if row is empty.
+     */
+    bool Empty() const
+    {
+        return m_cells.empty();
+    }
 	/*!
 	 * \brief Get the number of columns.
 	 * \return The number of columns for this row.

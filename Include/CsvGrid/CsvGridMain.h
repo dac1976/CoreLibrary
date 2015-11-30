@@ -247,6 +247,14 @@ public:
 
 		return *std::next(m_grid.begin(), row);
 	}
+    /*!
+     * \brief Get empty state of grid.
+     * \return True if grid is empty.
+     */
+    bool Empty() const
+    {
+        return m_grid.empty();
+    }
 	/*!
 	 * \brief Get the number of rows.
 	 * \return The number of rows for this grid.
