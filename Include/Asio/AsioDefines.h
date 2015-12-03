@@ -61,7 +61,7 @@ namespace asio {
 namespace tcp {
 
 	/*! \brief Default internal receive buffer's initial reserved size in bytes. */
-	static __CONSTEXPR__ size_t DEFAULT_RESERVED_SIZE{ 512 * 1024 };
+    __CONSTEXPR__ size_t DEFAULT_RESERVED_SIZE{ 512 * 1024 };
 
 	/*! \brief Enumeration to control nagle algorithm. */
 	enum class eSendOption
@@ -94,14 +94,14 @@ namespace udp {
 	 * as we have to allow 8 bytes for UDP header and 20 bytes
 	 * for the IP header.
 	 */
-	static __CONSTEXPR__ size_t UDP_DATAGRAM_MAX_SIZE{65507};
+    __CONSTEXPR__ size_t UDP_DATAGRAM_MAX_SIZE{65507};
 
 	/*! \brief UDP default buffer size.
 	*
 	* By default we use a size of 8KiB  but this can be 
 	* changed by the user.
 	*/
-	static __CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
+    __CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
 
 } // namespace udp
 
@@ -115,11 +115,11 @@ static const connection_t NULL_CONNECTION = std::make_pair("0.0.0.0", 0);
 /*! \brief Typedef describing shared_ptr to a TcpConnection object. */
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
 /*! \brief Constant defining response IP address length in bytes. */
-static __CONSTEXPR__ uint32_t RESPONSE_ADDRESS_LEN{16};
+__CONSTEXPR__ uint32_t RESPONSE_ADDRESS_LEN{16};
 /*! \brief Constant defining message header magic string length in bytes. */
-static __CONSTEXPR__ uint32_t MAGIC_STRING_LEN{16};
+__CONSTEXPR__ uint32_t MAGIC_STRING_LEN{16};
 /*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
-static __CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+__CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 /*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t

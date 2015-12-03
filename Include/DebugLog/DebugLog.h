@@ -189,7 +189,7 @@ struct CORE_LIBRARY_DLL_SHARED_API DefaultLogFormat
 };
 
 /*! \brief Static constant defining number of bytes in a mebibyte. */
-static __CONSTEXPR__ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
+__CONSTEXPR__ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
 
 namespace dl_private
 {
@@ -204,7 +204,7 @@ class CORE_LIBRARY_DLL_SHARED_API LogQueueMessage
 {
 public:
 	/*! \brief Static message ID to register on message queue.*/
-	static __CONSTEXPR__ int MESSAGE_ID{1};
+    __CONSTEXPR__ int MESSAGE_ID{1};
 	/*! \brief Default constructor.*/
 	LogQueueMessage() = default;
 	/*!
