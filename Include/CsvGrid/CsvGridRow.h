@@ -240,6 +240,26 @@ public:
 		return *std::next(m_cells.begin(), col);
 	}
     /*!
+     * \brief Const subscript operator.
+     * \param[in] col - A 0-based column index.
+     * \return The cell at the given column index.
+     *
+     * Retrieve the cell at a given column index within a row.
+     *
+     * \note
+     * If the index is out of bounds a xCsvGridColOutOfRangeError
+     * exception is thrown.
+     */
+    const Cell& operator[](const size_t col) const
+    {
+        if (col >= GetSize())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+        }
+
+        return *std::next(m_cells.begin(), col);
+    }
+    /*!
      * \brief Get empty state of row.
      * \return True if row is empty.
      */

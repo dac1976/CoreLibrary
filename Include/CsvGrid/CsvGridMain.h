@@ -248,6 +248,24 @@ public:
 		return *std::next(m_grid.begin(), row);
 	}
     /*!
+     * \brief Const subscript operator.
+     * \param[in] row - A 0-based row index.
+     * \return The row at the given row index.
+     *
+     * Retrieve the row at a given row index within a grid.
+     *
+     * \note If the index is out of bounds a xCsvGridRowOutOfRangeError exception is thrown.
+     */
+    const row_type& operator[](const size_t row) const
+    {
+        if (row >= GetRowCount())
+        {
+            BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+        }
+
+        return *std::next(m_grid.begin(), row);
+    }
+    /*!
      * \brief Get empty state of grid.
      * \return True if grid is empty.
      */
