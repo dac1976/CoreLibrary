@@ -145,6 +145,11 @@ public:
 	 * Assign to a long double precision floating point value.
 	 */
 	Cell& operator=(const long double rhs);
+    /*!
+     * \brief Value method.
+     * \return Get the underlying std::string value of the Cell.
+     */
+    std::string Value() const;
 	/*!
 	 * \brief Cast operator.
 	 * \return Modified Cell object.

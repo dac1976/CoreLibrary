@@ -21,7 +21,7 @@
 
 
 /*!
- * \file ThreadBase.cpp
+ * \file ThreadBase.h
  * \brief File containing declaration of ThreadBase class.
  */
 

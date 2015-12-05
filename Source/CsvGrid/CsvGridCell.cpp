@@ -106,6 +106,11 @@ Cell& Cell::operator=(const long double rhs)
 	return *this;
 }
 
+std::string Cell::Value() const
+{
+    return m_value;
+}
+
 Cell::operator std::string() const
 {
 	return m_value;

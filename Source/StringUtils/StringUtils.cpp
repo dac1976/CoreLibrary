@@ -98,8 +98,8 @@ void SplitString(std::string& subStr1, std::string& subStr2,
 	if (splitVec.size() <= 1U)
 	{
 		BOOST_THROW_EXCEPTION(
-					xSplitStringBadDelim(std::string("cannot find delimter in string: ") +
-										 toSplit));
+                    xSplitStringBadDelim(std::string("cannot find delimiter in string: ")
+                                         + toSplit));
 	}
 	else if (splitVec.size() > 2U)
 	{
