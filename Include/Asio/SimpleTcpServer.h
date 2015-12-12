@@ -91,6 +91,11 @@ public:
      * \return The listen port.
      */
     uint16_t ListenPort() const;
+    /*!
+     * \brief Retrieve this server's number of clients.
+     * \return The number of clients.
+     */
+    size_t NumberOfClients() const;
     /*! \brief Manually close the acceptor.
      *
      * Note that this object is RAII so will automatically close the acceptor in its destructor.

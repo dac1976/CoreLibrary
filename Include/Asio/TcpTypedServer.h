@@ -129,6 +129,14 @@ public:
 	{
 		return m_tcpServer.ListenPort();
 	}
+    /*!
+     * \brief Retrieve this server's number of clients.
+     * \return The number of clients.
+     */
+    size_t NumberOfClients() const
+    {
+        return m_tcpServer.NumberOfClients();
+    }
     /*! \brief Manually close the acceptor.
      *
      * Note that this object is RAII so will automatically close the acceptor in its destructor.

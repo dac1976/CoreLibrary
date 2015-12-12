@@ -68,6 +68,8 @@ public:
 
 	uint16_t ListenPort() const;
 
+    size_t NumberOfClients() const;
+
 	void CloseAcceptor();
 
 	void OpenAcceptor();

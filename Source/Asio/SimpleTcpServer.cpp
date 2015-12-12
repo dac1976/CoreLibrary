@@ -72,6 +72,11 @@ uint16_t SimpleTcpServer::ListenPort() const
     return m_tcpTypedServer.ListenPort();
 }
 
+size_t SimpleTcpServer::NumberOfClients() const
+{
+    return m_tcpTypedServer.NumberOfClients();
+}
+
 void SimpleTcpServer::CloseAcceptor()
 {
     m_tcpTypedServer.CloseAcceptor();

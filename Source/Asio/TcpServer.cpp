@@ -85,6 +85,11 @@ uint16_t TcpServer::ListenPort() const
 	return m_listenPort;
 }
 
+size_t TcpServer::NumberOfClients() const
+{
+    return m_clientConnections.Size();
+}
+
 void TcpServer::CloseAcceptor()
 {
 	if (m_acceptor && m_acceptor->is_open())
