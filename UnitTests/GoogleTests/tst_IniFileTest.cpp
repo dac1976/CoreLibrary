@@ -641,4 +641,21 @@ TEST(IniFileTest, Case18_EraseKeys)
 	EXPECT_EQ(keys.size(), 0U);
 }
 
+TEST(IniFileTest, Case19_AddKeyAtEndOfLastSection)
+{
+#if BOOST_OS_WINDOWS
+    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
+        core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+    #else
+        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+    #endif
+#else
+    core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+#endif
+
+    iniFile.WriteString("Section 2", "Test Key", "Test Value");
+    std::string value = iniFile.ReadString("Section 2", "Test Key", "");
+    EXPECT_STREQ(value.c_str(), "Test Value");
+}
+
 #endif // DISABLE_INIFILE_TESTS

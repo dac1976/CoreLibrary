@@ -583,7 +583,8 @@ void IniFile::WriteValueString(const std::string& section
 		{
 			++insertPos;
 		}
-		while(!std::dynamic_pointer_cast<if_private::SectionLine>(*insertPos));
+        while((insertPos != m_lines.end())
+              && (!std::dynamic_pointer_cast<if_private::SectionLine>(*insertPos)));
 
 		if_private::line_iter keyLineIter{m_lines.insert(insertPos
 											 , std::make_shared<if_private::KeyLine>(key, value))};
