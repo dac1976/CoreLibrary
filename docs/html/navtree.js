@@ -6,6 +6,7 @@ var NAVTREE =
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
         [ "Functions", "namespacemembers_func.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ]
       ] ]
@@ -38,10 +39,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classcore__lib_1_1asio_1_1_io_service_thread_group.html#a211105f5da49f6fc0e00140058658c19",
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#ab14572723bf3f9419da7478f2c041681",
-"classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a79b73e0df4a9b358d0f7d54b6de7d08c",
-"classcore__lib_1_1threads_1_1_thread_base.html"
+"_udp_receiver_8cpp.html",
+"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a3e72dda30cdf850f2b7eaf2208370a57",
+"classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#a0cbf299055058bc4be3c2c31febccc10",
+"classcore__lib_1_1threads_1_1_message_queue_thread.html#aa6a72e8afd3967f980106239a632f763",
+"structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

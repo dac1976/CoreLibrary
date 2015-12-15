@@ -160,9 +160,7 @@ public:
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending. Furthermore this method
-     * only sends a simple core_lib::asio::defs::MessageHeader object to
-     * the client.
+     * method gives best performance when sending.
      */
 	void SendMessageToClientAsync(const defs::connection_t& client, const uint32_t messageId
                                   , const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
@@ -178,9 +176,6 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a response, the default value will mean the response address will point to this server socket.
      * \return Returns the success state of the send as a boolean.
-     *
-     * This method only sends a simple core_lib::asio::defs::MessageHeader
-     * object to the client.
      */
 	bool SendMessageToClientSync(const defs::connection_t& client, const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
@@ -197,9 +192,7 @@ public:
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending. Furthermore this method
-     * only sends a simple core_lib::asio::defs::MessageHeader object to
-     * the clients.
+     * method gives best performance when sending.
      */
 	void SendMessageToAllClients(const uint32_t messageId
                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
@@ -217,9 +210,7 @@ public:
      * \param[in] responseAddress - (Optional) The address and port where the client should send a response, the default value will mean the response address will point to this server socket.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending. Furthermore this method
-     * uses the a core_lib::asio::defs::MessageHeader object as the header.
+     * success or failure reported, unlessa an exception is thrown.
      */
     template<typename T, typename A = serialize::archives::out_port_bin_t>
     void SendMessageToClientAsync(const T& message
@@ -238,8 +229,6 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a response, the default value will mean the response address will point to this server socket.
      * \return Returns the success state of the send as a boolean.
-     *
-     * This method uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
     template<typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessageToClientSync(const T& message
@@ -258,9 +247,7 @@ public:
      * \param[in] responseAddress - (Optional) The address and port where the clients should send a response, the default value will mean the response address will point to this server socket.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending. Furthermore this method
-     * uses the a core_lib::asio::defs::MessageHeader object as the header.
+     * success or failure reported, unlessa an exception is thrown.
      */
     template<typename T, typename A = serialize::archives::out_port_bin_t>
     void SendMessageToAllClients(const T& message

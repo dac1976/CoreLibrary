@@ -9,5 +9,6 @@ var dir_856524284ebe840938865dc061f982fb =
     [ "Serialization", "dir_175fde1093034a3276b493a112c34406.html", "dir_175fde1093034a3276b493a112c34406" ],
     [ "Sorting", "dir_3ec16627243fa1ff372be279a1017f0d.html", "dir_3ec16627243fa1ff372be279a1017f0d" ],
     [ "StringUtils", "dir_7198da9437b6881c7be7f0b1db0fab6f.html", "dir_7198da9437b6881c7be7f0b1db0fab6f" ],
-    [ "Threads", "dir_66fb55a5566bd2c243f99b6fb708ad7b.html", "dir_66fb55a5566bd2c243f99b6fb708ad7b" ]
+    [ "Threads", "dir_66fb55a5566bd2c243f99b6fb708ad7b.html", "dir_66fb55a5566bd2c243f99b6fb708ad7b" ],
+    [ "CoreLibraryDllGlobal.h", "_core_library_dll_global_8h.html", "_core_library_dll_global_8h" ]
 ];

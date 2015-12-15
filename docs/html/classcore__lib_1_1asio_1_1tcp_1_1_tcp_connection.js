@@ -1,5 +1,6 @@
 var classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection =
 [
+    [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a2d8fdff0ea2b61f7171a701d05a9ba71", null ],
     [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#acdd81d5d405c57c248f447394bbc3d76", null ],
     [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a779a49ffd4f797ca0ccb605bce13a8ad", null ],
     [ "~TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a8964df856f9cf7a74bcfc392c1bd52b0", null ],

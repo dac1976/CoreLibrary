@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -113,41 +113,322 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1asio_1_1udp_1_1_udp_
 <div class="title">core_lib::asio::udp::UdpTypedSender&lt; MsgBldr &gt; Class Template Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A generic UDP sender.  
+ <a href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_udp_typed_sender_8h_source.html">UdpTypedSender.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a98fcd4dcf3c84b70360c6b566ab49ac2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a98fcd4dcf3c84b70360c6b566ab49ac2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>UdpTypedSender</b> (<a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;ioService, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;receiver, const MsgBldr &amp;messageBuilder, const <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7">eUdpOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37">eUdpOption::broadcast</a>, const size_t sendBufferSize=DEFAULT_UDP_BUF_SIZE)</td></tr>
+<tr class="memitem:af99b3832353e6871fb86da018d35e59b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af99b3832353e6871fb86da018d35e59b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#af99b3832353e6871fb86da018d35e59b">UdpTypedSender</a> ()=delete</td></tr>
+<tr class="memdesc:af99b3832353e6871fb86da018d35e59b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor - deleted. <br /></td></tr>
+<tr class="separator:af99b3832353e6871fb86da018d35e59b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98fcd4dcf3c84b70360c6b566ab49ac2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a98fcd4dcf3c84b70360c6b566ab49ac2">UdpTypedSender</a> (<a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;ioService, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;receiver, const MsgBldr &amp;messageBuilder, const <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7">eUdpOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37">eUdpOption::broadcast</a>, const size_t sendBufferSize=<a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a4e767d2b926c7cc823f1368ab5394a4e">DEFAULT_UDP_BUF_SIZE</a>)</td></tr>
+<tr class="memdesc:a98fcd4dcf3c84b70360c6b566ab49ac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialisation constructor.  <a href="#a98fcd4dcf3c84b70360c6b566ab49ac2">More...</a><br /></td></tr>
 <tr class="separator:a98fcd4dcf3c84b70360c6b566ab49ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2d35ffb3d293563ec02142ec60aaea2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad2d35ffb3d293563ec02142ec60aaea2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>UdpTypedSender</b> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;receiver, const MsgBldr &amp;messageBuilder, const <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7">eUdpOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37">eUdpOption::broadcast</a>, const size_t sendBufferSize=DEFAULT_UDP_BUF_SIZE)</td></tr>
+<tr class="memitem:ad2d35ffb3d293563ec02142ec60aaea2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad2d35ffb3d293563ec02142ec60aaea2">UdpTypedSender</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;receiver, const MsgBldr &amp;messageBuilder, const <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7">eUdpOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37">eUdpOption::broadcast</a>, const size_t sendBufferSize=<a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a4e767d2b926c7cc823f1368ab5394a4e">DEFAULT_UDP_BUF_SIZE</a>)</td></tr>
+<tr class="memdesc:ad2d35ffb3d293563ec02142ec60aaea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialisation constructor.  <a href="#ad2d35ffb3d293563ec02142ec60aaea2">More...</a><br /></td></tr>
 <tr class="separator:ad2d35ffb3d293563ec02142ec60aaea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad82c88fa087aae289ac99b47313c3c0b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad82c88fa087aae289ac99b47313c3c0b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>UdpTypedSender</b> (const <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> &amp;)=delete</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad82c88fa087aae289ac99b47313c3c0b">UdpTypedSender</a> (const <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> &amp;)=delete</td></tr>
+<tr class="memdesc:ad82c88fa087aae289ac99b47313c3c0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor - deleted. <br /></td></tr>
 <tr class="separator:ad82c88fa087aae289ac99b47313c3c0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9a4bae50d88cecebb3f08a9b83756fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad9a4bae50d88cecebb3f08a9b83756fd"></a>
-<a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> &amp;)=delete</td></tr>
+<a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad9a4bae50d88cecebb3f08a9b83756fd">operator=</a> (const <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> &amp;)=delete</td></tr>
+<tr class="memdesc:ad9a4bae50d88cecebb3f08a9b83756fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator - deleted. <br /></td></tr>
 <tr class="separator:ad9a4bae50d88cecebb3f08a9b83756fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2528af44f9d581b8ea858b9206ef8e0d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2528af44f9d581b8ea858b9206ef8e0d"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ReceiverConnection</b> () const </td></tr>
+<tr class="memitem:a0f70e83b1f76bcca209835844c16fbf3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f70e83b1f76bcca209835844c16fbf3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a0f70e83b1f76bcca209835844c16fbf3">~UdpTypedSender</a> ()=default</td></tr>
+<tr class="memdesc:a0f70e83b1f76bcca209835844c16fbf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
+<tr class="separator:a0f70e83b1f76bcca209835844c16fbf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2528af44f9d581b8ea858b9206ef8e0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a2528af44f9d581b8ea858b9206ef8e0d">ReceiverConnection</a> () const </td></tr>
+<tr class="memdesc:a2528af44f9d581b8ea858b9206ef8e0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve receiver connection details.  <a href="#a2528af44f9d581b8ea858b9206ef8e0d">More...</a><br /></td></tr>
 <tr class="separator:a2528af44f9d581b8ea858b9206ef8e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a984bc36c1d591de0d2a6459c0d95aa91"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a984bc36c1d591de0d2a6459c0d95aa91"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessage</b> (const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION)</td></tr>
+<tr class="memitem:a984bc36c1d591de0d2a6459c0d95aa91"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a984bc36c1d591de0d2a6459c0d95aa91">SendMessage</a> (const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION)</td></tr>
+<tr class="memdesc:a984bc36c1d591de0d2a6459c0d95aa91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to the receiver.  <a href="#a984bc36c1d591de0d2a6459c0d95aa91">More...</a><br /></td></tr>
 <tr class="separator:a984bc36c1d591de0d2a6459c0d95aa91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7afaf1de6dc1fcd076fca08eb2e007c6"><td class="memTemplParams" colspan="2"><a class="anchor" id="a7afaf1de6dc1fcd076fca08eb2e007c6"></a>
-template&lt;typename T , class A  = serialize::archives::out_port_bin_t&gt; </td></tr>
-<tr class="memitem:a7afaf1de6dc1fcd076fca08eb2e007c6"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>SendMessage</b> (const T &amp;message, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION)</td></tr>
+<tr class="memitem:a7afaf1de6dc1fcd076fca08eb2e007c6"><td class="memTemplParams" colspan="2">template&lt;typename T , class A  = serialize::archives::out_port_bin_t&gt; </td></tr>
+<tr class="memitem:a7afaf1de6dc1fcd076fca08eb2e007c6"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a7afaf1de6dc1fcd076fca08eb2e007c6">SendMessage</a> (const T &amp;message, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION)</td></tr>
+<tr class="memdesc:a7afaf1de6dc1fcd076fca08eb2e007c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a full message to the server.  <a href="#a7afaf1de6dc1fcd076fca08eb2e007c6">More...</a><br /></td></tr>
 <tr class="separator:a7afaf1de6dc1fcd076fca08eb2e007c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:aed86a1d455d175ee7a23c1632c691547"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed86a1d455d175ee7a23c1632c691547"></a>
-const MsgBldr &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>m_messageBuilder</b></td></tr>
+const MsgBldr &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#aed86a1d455d175ee7a23c1632c691547">m_messageBuilder</a></td></tr>
+<tr class="memdesc:aed86a1d455d175ee7a23c1632c691547"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const reference to message builder object. <br /></td></tr>
 <tr class="separator:aed86a1d455d175ee7a23c1632c691547"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abba9e92cd6253ff51feed2ab238399b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abba9e92cd6253ff51feed2ab238399b1"></a>
-<a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html">UdpSender</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_udpSender</b></td></tr>
+<a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html">UdpSender</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#abba9e92cd6253ff51feed2ab238399b1">m_udpSender</a></td></tr>
+<tr class="memdesc:abba9e92cd6253ff51feed2ab238399b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Underlying UDP sender object. <br /></td></tr>
 <tr class="separator:abba9e92cd6253ff51feed2ab238399b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename MsgBldr&gt;<br />
+class core_lib::asio::udp::UdpTypedSender&lt; MsgBldr &gt;</h3>
+
+<p>A generic UDP sender. </p>
+<p>The template argument defines a message builder object that must have an interface compatible with that of the class <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html" title="Default message builder class. ">core_lib::asio::messages::MessageBuilder</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a98fcd4dcf3c84b70360c6b566ab49ac2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::<a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>ioService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>receiver</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const MsgBldr &amp;&#160;</td>
+          <td class="paramname"><em>messageBuilder</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7">eUdpOption</a>&#160;</td>
+          <td class="paramname"><em>sendOption</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37">eUdpOption::broadcast</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>sendBufferSize</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a4e767d2b926c7cc823f1368ab5394a4e">DEFAULT_UDP_BUF_SIZE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialisation constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ioService</td><td>- External boost IO service to manage ASIO. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">receiver</td><td>- Connection object describing target receiver's address and port. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageBuilder</td><td>- Message builder object reference. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sendOption</td><td>- Socket send option to control the use of broadcasts/unicast. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sendBufferSize</td><td>- Socket send option to control send buffer size.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Typically use this constructor when managing a bool of threads using an instance of core_lib::asioIoServiceThreadGroup in your application to manage a pool of std::threads. This means you can use a single thread pool and all ASIO operations will be exectued using this thread pool managed by a single IO service. This is the recommended constructor. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad2d35ffb3d293563ec02142ec60aaea2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::<a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>receiver</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const MsgBldr &amp;&#160;</td>
+          <td class="paramname"><em>messageBuilder</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7">eUdpOption</a>&#160;</td>
+          <td class="paramname"><em>sendOption</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37">eUdpOption::broadcast</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>sendBufferSize</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a4e767d2b926c7cc823f1368ab5394a4e">DEFAULT_UDP_BUF_SIZE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialisation constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">receiver</td><td>- Connection object describing target receiver's address and port. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageBuilder</td><td>- Message builder object reference. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sendOption</td><td>- Socket send option to control the use of broadcasts/unicast. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sendBufferSize</td><td>- Socket send option to control send buffer size.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This constructor does not require an external IO service to run instead it creates its own IO service object along with its own thread. For very simple cases this version will be fine but in more performance and resource critical situations the external IO service constructor is recommened. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2528af44f9d581b8ea858b9206ef8e0d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::ReceiverConnection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve receiver connection details. </p>
+<dl class="section return"><dt>Returns</dt><dd>- Connection object describing target receiver's address and port. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a984bc36c1d591de0d2a6459c0d95aa91"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::SendMessage </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>messageId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send a header-only message to the receiver. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageId</td><td>- Unique message ID to insert into message header. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7afaf1de6dc1fcd076fca08eb2e007c6"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<div class="memtemplate">
+template&lt;typename T , class A  = serialize::archives::out_port_bin_t&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::SendMessage </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>messageId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send a full message to the server. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageId</td><td>- Unique message ID to insert into message header. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Projects/CoreLibrary/Include/Asio/<a class="el" href="_udp_typed_sender_8h_source.html">UdpTypedSender.h</a></li>
 </ul>
@@ -157,7 +438,7 @@ const MsgBldr &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>m_mess
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html">udp</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a></li>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:10 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

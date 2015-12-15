@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -114,90 +114,466 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1asio_1_1tcp_1_1_tcp_
 <div class="title">core_lib::asio::tcp::TcpServer Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A bi-directional TCP server.  
+ <a href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_tcp_server_8h_source.html">TcpServer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a15ed4475029b5d8065096e2abb2b3150"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15ed4475029b5d8065096e2abb2b3150"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TcpServer</b> (<a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;ioService, const uint16_t listenPort, const size_t minAmountToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a> &amp;checkBytesLeftToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a> &amp;messageReceivedHandler, const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a>)</td></tr>
+<tr class="memitem:a3da0ce10c85bb9deddb7476f8471124e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3da0ce10c85bb9deddb7476f8471124e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a3da0ce10c85bb9deddb7476f8471124e">TcpServer</a> ()=delete</td></tr>
+<tr class="memdesc:a3da0ce10c85bb9deddb7476f8471124e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor - deleted. <br /></td></tr>
+<tr class="separator:a3da0ce10c85bb9deddb7476f8471124e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15ed4475029b5d8065096e2abb2b3150"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a15ed4475029b5d8065096e2abb2b3150">TcpServer</a> (<a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;ioService, const uint16_t listenPort, const size_t minAmountToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a> &amp;checkBytesLeftToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a> &amp;messageReceivedHandler, const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a>)</td></tr>
+<tr class="memdesc:a15ed4475029b5d8065096e2abb2b3150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialisation constructor.  <a href="#a15ed4475029b5d8065096e2abb2b3150">More...</a><br /></td></tr>
 <tr class="separator:a15ed4475029b5d8065096e2abb2b3150"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a168d313223abf2bd9f1c649c5df46129"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a168d313223abf2bd9f1c649c5df46129"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TcpServer</b> (const uint16_t listenPort, const size_t minAmountToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a> &amp;checkBytesLeftToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a> &amp;messageReceivedHandler, const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a>)</td></tr>
+<tr class="memitem:a168d313223abf2bd9f1c649c5df46129"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a168d313223abf2bd9f1c649c5df46129">TcpServer</a> (const uint16_t listenPort, const size_t minAmountToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a> &amp;checkBytesLeftToRead, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a> &amp;messageReceivedHandler, const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a> sendOption=<a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a>)</td></tr>
+<tr class="memdesc:a168d313223abf2bd9f1c649c5df46129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialisation constructor.  <a href="#a168d313223abf2bd9f1c649c5df46129">More...</a><br /></td></tr>
 <tr class="separator:a168d313223abf2bd9f1c649c5df46129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa277c19cabc614787e8ac936e8dae74"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa277c19cabc614787e8ac936e8dae74"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#aaa277c19cabc614787e8ac936e8dae74">~TcpServer</a> ()</td></tr>
+<tr class="memdesc:aaa277c19cabc614787e8ac936e8dae74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
+<tr class="separator:aaa277c19cabc614787e8ac936e8dae74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fd5727d0731aa88c9744bec15149a2c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7fd5727d0731aa88c9744bec15149a2c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TcpServer</b> (const <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html">TcpServer</a> &amp;)=delete</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a7fd5727d0731aa88c9744bec15149a2c">TcpServer</a> (const <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html">TcpServer</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a7fd5727d0731aa88c9744bec15149a2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor - deleted. <br /></td></tr>
 <tr class="separator:a7fd5727d0731aa88c9744bec15149a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e184a8358c3abcdb696f190110c6fcd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e184a8358c3abcdb696f190110c6fcd"></a>
-<a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html">TcpServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html">TcpServer</a> &amp;)=delete</td></tr>
+<a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html">TcpServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8e184a8358c3abcdb696f190110c6fcd">operator=</a> (const <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html">TcpServer</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a8e184a8358c3abcdb696f190110c6fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator - deleted. <br /></td></tr>
 <tr class="separator:a8e184a8358c3abcdb696f190110c6fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af91e7bb8c851df714a6c97e2429fa885"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af91e7bb8c851df714a6c97e2429fa885"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetServerDetailsForClient</b> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client) const </td></tr>
+<tr class="memitem:af91e7bb8c851df714a6c97e2429fa885"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#af91e7bb8c851df714a6c97e2429fa885">GetServerDetailsForClient</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client) const </td></tr>
+<tr class="memdesc:af91e7bb8c851df714a6c97e2429fa885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve this server's connection details for a given client.  <a href="#af91e7bb8c851df714a6c97e2429fa885">More...</a><br /></td></tr>
 <tr class="separator:af91e7bb8c851df714a6c97e2429fa885"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9770c7cb7f4aef799e66d82a4c06957"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9770c7cb7f4aef799e66d82a4c06957"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>ListenPort</b> () const </td></tr>
+<tr class="memitem:ae9770c7cb7f4aef799e66d82a4c06957"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ae9770c7cb7f4aef799e66d82a4c06957">ListenPort</a> () const </td></tr>
+<tr class="memdesc:ae9770c7cb7f4aef799e66d82a4c06957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve this server's listen port.  <a href="#ae9770c7cb7f4aef799e66d82a4c06957">More...</a><br /></td></tr>
 <tr class="separator:ae9770c7cb7f4aef799e66d82a4c06957"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a434955e3d8228a3c4f25dd1cad2e0c2b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a434955e3d8228a3c4f25dd1cad2e0c2b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>CloseAcceptor</b> ()</td></tr>
+<tr class="memitem:ac4e35b084c0fd0db48f05e0c30731622"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ac4e35b084c0fd0db48f05e0c30731622">NumberOfClients</a> () const </td></tr>
+<tr class="memdesc:ac4e35b084c0fd0db48f05e0c30731622"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve this server's number of clients.  <a href="#ac4e35b084c0fd0db48f05e0c30731622">More...</a><br /></td></tr>
+<tr class="separator:ac4e35b084c0fd0db48f05e0c30731622"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a434955e3d8228a3c4f25dd1cad2e0c2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a434955e3d8228a3c4f25dd1cad2e0c2b">CloseAcceptor</a> ()</td></tr>
+<tr class="memdesc:a434955e3d8228a3c4f25dd1cad2e0c2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually close the acceptor.  <a href="#a434955e3d8228a3c4f25dd1cad2e0c2b">More...</a><br /></td></tr>
 <tr class="separator:a434955e3d8228a3c4f25dd1cad2e0c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8012215912356217507255be43824158"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8012215912356217507255be43824158"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OpenAcceptor</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8012215912356217507255be43824158">OpenAcceptor</a> ()</td></tr>
+<tr class="memdesc:a8012215912356217507255be43824158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually open the acceptor. <br /></td></tr>
 <tr class="separator:a8012215912356217507255be43824158"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a257a68cc920bab797b83d84a8cc25336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a257a68cc920bab797b83d84a8cc25336"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessageToClientAsync</b> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;message) const </td></tr>
+<tr class="memitem:a257a68cc920bab797b83d84a8cc25336"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a257a68cc920bab797b83d84a8cc25336">SendMessageToClientAsync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;message) const </td></tr>
+<tr class="memdesc:a257a68cc920bab797b83d84a8cc25336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message buffer to a client asynchronously.  <a href="#a257a68cc920bab797b83d84a8cc25336">More...</a><br /></td></tr>
 <tr class="separator:a257a68cc920bab797b83d84a8cc25336"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1635f44cf5e0dbc21e6db8f537c2792e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1635f44cf5e0dbc21e6db8f537c2792e"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessageToClientSync</b> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;message) const </td></tr>
+<tr class="memitem:a1635f44cf5e0dbc21e6db8f537c2792e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a1635f44cf5e0dbc21e6db8f537c2792e">SendMessageToClientSync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;message) const </td></tr>
+<tr class="memdesc:a1635f44cf5e0dbc21e6db8f537c2792e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message buffer to a client synchronously.  <a href="#a1635f44cf5e0dbc21e6db8f537c2792e">More...</a><br /></td></tr>
 <tr class="separator:a1635f44cf5e0dbc21e6db8f537c2792e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80b2734a599511d9fc7a82855aa2f9f9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a80b2734a599511d9fc7a82855aa2f9f9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SendMessageToAllClients</b> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;message) const </td></tr>
+<tr class="memitem:a80b2734a599511d9fc7a82855aa2f9f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a80b2734a599511d9fc7a82855aa2f9f9">SendMessageToAllClients</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;message) const </td></tr>
+<tr class="memdesc:a80b2734a599511d9fc7a82855aa2f9f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message buffer to all clients asynchronously.  <a href="#a80b2734a599511d9fc7a82855aa2f9f9">More...</a><br /></td></tr>
 <tr class="separator:a80b2734a599511d9fc7a82855aa2f9f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ad1a3cf817a9088f12b50fd193b5e8f5b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad1a3cf817a9088f12b50fd193b5e8f5b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptConnection</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ad1a3cf817a9088f12b50fd193b5e8f5b">AcceptConnection</a> ()</td></tr>
+<tr class="memdesc:ad1a3cf817a9088f12b50fd193b5e8f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept a connection. <br /></td></tr>
 <tr class="separator:ad1a3cf817a9088f12b50fd193b5e8f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c9afec65ddb79c1b2e99a6e280cbe36"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c9afec65ddb79c1b2e99a6e280cbe36"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>AcceptHandler</b> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0a3d56a72896ded323a5045b42ee83b7">defs::tcp_conn_ptr_t</a> connection, const boost_sys::error_code &amp;error)</td></tr>
+<tr class="memitem:a4c9afec65ddb79c1b2e99a6e280cbe36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a4c9afec65ddb79c1b2e99a6e280cbe36">AcceptHandler</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0a3d56a72896ded323a5045b42ee83b7">defs::tcp_conn_ptr_t</a> connection, const boost_sys::error_code &amp;error)</td></tr>
+<tr class="memdesc:a4c9afec65ddb79c1b2e99a6e280cbe36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept handler for new connections.  <a href="#a4c9afec65ddb79c1b2e99a6e280cbe36">More...</a><br /></td></tr>
 <tr class="separator:a4c9afec65ddb79c1b2e99a6e280cbe36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8adfa37940a9066ae94912adc901939e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8adfa37940a9066ae94912adc901939e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessCloseAcceptor</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8adfa37940a9066ae94912adc901939e">ProcessCloseAcceptor</a> ()</td></tr>
+<tr class="memdesc:a8adfa37940a9066ae94912adc901939e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process closing the acceptor. <br /></td></tr>
 <tr class="separator:a8adfa37940a9066ae94912adc901939e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a37b5ce747656e866a51abc738be665ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a37b5ce747656e866a51abc738be665ee"></a>
 std::unique_ptr<br class="typebreak" />
-&lt; <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html">IoServiceThreadGroup</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_ioThreadGroup</b> {}</td></tr>
+&lt; <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html">IoServiceThreadGroup</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a37b5ce747656e866a51abc738be665ee">m_ioThreadGroup</a> {}</td></tr>
+<tr class="memdesc:a37b5ce747656e866a51abc738be665ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">I/O service thread group. <br /></td></tr>
 <tr class="separator:a37b5ce747656e866a51abc738be665ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4db9e34116a64b9e4bfd6775ab7d5645"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4db9e34116a64b9e4bfd6775ab7d5645"></a>
-<a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>m_ioService</b></td></tr>
+<a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a4db9e34116a64b9e4bfd6775ab7d5645">m_ioService</a></td></tr>
+<tr class="memdesc:a4db9e34116a64b9e4bfd6775ab7d5645"><td class="mdescLeft">&#160;</td><td class="mdescRight">I/O service reference. <br /></td></tr>
 <tr class="separator:a4db9e34116a64b9e4bfd6775ab7d5645"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d08d3433030422bc4ad8efef1a9df4e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d08d3433030422bc4ad8efef1a9df4e"></a>
 std::unique_ptr<br class="typebreak" />
-&lt; <a class="el" href="_asio_defines_8h.html#a13f5e65f807558c0129859d7c0fcc45e">boost_tcp_acceptor_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_acceptor</b></td></tr>
+&lt; <a class="el" href="_asio_defines_8h.html#a13f5e65f807558c0129859d7c0fcc45e">boost_tcp_acceptor_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a4d08d3433030422bc4ad8efef1a9df4e">m_acceptor</a></td></tr>
+<tr class="memdesc:a4d08d3433030422bc4ad8efef1a9df4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The connection acceptor. <br /></td></tr>
 <tr class="separator:a4d08d3433030422bc4ad8efef1a9df4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21b34fd230b8db6f835abc23be7f7539"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21b34fd230b8db6f835abc23be7f7539"></a>
-const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>m_listenPort</b> {0}</td></tr>
+const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a21b34fd230b8db6f835abc23be7f7539">m_listenPort</a> {0}</td></tr>
+<tr class="memdesc:a21b34fd230b8db6f835abc23be7f7539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Server listen port. <br /></td></tr>
 <tr class="separator:a21b34fd230b8db6f835abc23be7f7539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc64e4f19dab573e9eebde85d5c806f0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc64e4f19dab573e9eebde85d5c806f0"></a>
-const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>m_minAmountToRead</b> {0}</td></tr>
+const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#abc64e4f19dab573e9eebde85d5c806f0">m_minAmountToRead</a> {0}</td></tr>
+<tr class="memdesc:abc64e4f19dab573e9eebde85d5c806f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum amount to read from socket. <br /></td></tr>
 <tr class="separator:abc64e4f19dab573e9eebde85d5c806f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dc3060ab7bce30abd0ed64192e2ce00"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1dc3060ab7bce30abd0ed64192e2ce00"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_checkBytesLeftToRead</b></td></tr>
+<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a1dc3060ab7bce30abd0ed64192e2ce00">m_checkBytesLeftToRead</a></td></tr>
+<tr class="memdesc:a1dc3060ab7bce30abd0ed64192e2ce00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback to check number of bytes left to read. <br /></td></tr>
 <tr class="separator:a1dc3060ab7bce30abd0ed64192e2ce00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbf60d13f95ed4eafc64ebef9a9d61fc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbf60d13f95ed4eafc64ebef9a9d61fc"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_messageReceivedHandler</b></td></tr>
+<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#abbf60d13f95ed4eafc64ebef9a9d61fc">m_messageReceivedHandler</a></td></tr>
+<tr class="memdesc:abbf60d13f95ed4eafc64ebef9a9d61fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback to handle received message. <br /></td></tr>
 <tr class="separator:abbf60d13f95ed4eafc64ebef9a9d61fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a670cf868ece898777484ad15deda7370"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a670cf868ece898777484ad15deda7370"></a>
-const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_sendOption</b> {<a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a>}</td></tr>
+const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a670cf868ece898777484ad15deda7370">m_sendOption</a> {<a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a>}</td></tr>
+<tr class="memdesc:a670cf868ece898777484ad15deda7370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Socket receive option. <br /></td></tr>
 <tr class="separator:a670cf868ece898777484ad15deda7370"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac411f0d35399e7dc3c32eb8ae9e283d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac411f0d35399e7dc3c32eb8ae9e283d2"></a>
-<a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html">TcpConnections</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_clientConnections</b></td></tr>
+<a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html">TcpConnections</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ac411f0d35399e7dc3c32eb8ae9e283d2">m_clientConnections</a></td></tr>
+<tr class="memdesc:ac411f0d35399e7dc3c32eb8ae9e283d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">TCP connections object. <br /></td></tr>
 <tr class="separator:ac411f0d35399e7dc3c32eb8ae9e283d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff732000b05e029688910a002d867bca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff732000b05e029688910a002d867bca"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html">threads::SyncEvent</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_closedEvent</b></td></tr>
+<a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html">threads::SyncEvent</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#aff732000b05e029688910a002d867bca">m_closedEvent</a></td></tr>
+<tr class="memdesc:aff732000b05e029688910a002d867bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close event. <br /></td></tr>
 <tr class="separator:aff732000b05e029688910a002d867bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A bi-directional TCP server. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a15ed4475029b5d8065096e2abb2b3150"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">core_lib::asio::tcp::TcpServer::TcpServer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>ioService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>listenPort</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>minAmountToRead</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>checkBytesLeftToRead</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>messageReceivedHandler</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a>&#160;</td>
+          <td class="paramname"><em>sendOption</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialisation constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ioService</td><td>- External boost IO service to manage ASIO. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">listenPort</td><td>- Our listen port for all detected networks. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">minAmountToRead</td><td>- Minimum amount of data to read on each receive, typical size of header block. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">checkBytesLeftToRead</td><td>- Function object capable of decoding the message and computing how many bytes are left until a complete message. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageReceivedHandler</td><td>- Function object cpable of handling a received message and disptaching it accordingly. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sendOption</td><td>- Socket send option to control the use of the Nagle algorithm.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Typically use this constructor when managing a bool of threads using an instance of core_lib::asioIoServiceThreadGroup in your application to manage a pool of std::threads. This means you can use a single thread pool and all ASIO operations will be exectued using this thread pool managed by a single IO service. This is the recommended constructor. </p>
+
+</div>
+</div>
+<a class="anchor" id="a168d313223abf2bd9f1c649c5df46129"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">core_lib::asio::tcp::TcpServer::TcpServer </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>listenPort</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>minAmountToRead</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">defs::check_bytes_left_to_read_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>checkBytesLeftToRead</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">defs::message_received_handler_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>messageReceivedHandler</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49">eSendOption</a>&#160;</td>
+          <td class="paramname"><em>sendOption</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b">eSendOption::nagleOn</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialisation constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">listenPort</td><td>- Our listen port for all detected networks. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">minAmountToRead</td><td>- Minimum amount of data to read on each receive, typical size of header block. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">checkBytesLeftToRead</td><td>- Function object capable of decoding the message and computing how many bytes are left until a complete message. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageReceivedHandler</td><td>- Function object cpable of handling a received message and disptaching it accordingly. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sendOption</td><td>- Socket send option to control the use of the Nagle algorithm.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This constructor does not require an external IO service to run instead it creates its own IO service object along with its own thread. For very simple cases this version will be fine but in more performance and resource critical situations the external IO service constructor is recommened. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4c9afec65ddb79c1b2e99a6e280cbe36"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::asio::tcp::TcpServer::AcceptHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0a3d56a72896ded323a5045b42ee83b7">defs::tcp_conn_ptr_t</a>&#160;</td>
+          <td class="paramname"><em>connection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const boost_sys::error_code &amp;&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Accept handler for new connections. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">connection</td><td>- Client connection. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">error</td><td>- An error code if fault occurred. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a434955e3d8228a3c4f25dd1cad2e0c2b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::asio::tcp::TcpServer::CloseAcceptor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Manually close the acceptor. </p>
+<p>Note that this object is RAII so will automatically close the acceptor in its destructor. </p>
+
+</div>
+</div>
+<a class="anchor" id="af91e7bb8c851df714a6c97e2429fa885"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto core_lib::asio::tcp::TcpServer::GetServerDetailsForClient </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>client</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve this server's connection details for a given client. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">client</td><td>- A client's connection details. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>- Connection object describing target server's address and port.</dd></dl>
+<p>If no such client is known to the server then it returns { "0.0.0.0", listenPort}.</p>
+<p>Throws <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html" title="Unknown connection exception. ">xUnknownConnectionError</a> is remoteEnd is not valid. </p>
+
+</div>
+</div>
+<a class="anchor" id="ae9770c7cb7f4aef799e66d82a4c06957"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t core_lib::asio::tcp::TcpServer::ListenPort </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve this server's listen port. </p>
+<dl class="section return"><dt>Returns</dt><dd>The listen port. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac4e35b084c0fd0db48f05e0c30731622"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t core_lib::asio::tcp::TcpServer::NumberOfClients </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve this server's number of clients. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of clients. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a80b2734a599511d9fc7a82855aa2f9f9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::asio::tcp::TcpServer::SendMessageToAllClients </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send a message buffer to all clients asynchronously. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. </p>
+
+</div>
+</div>
+<a class="anchor" id="a257a68cc920bab797b83d84a8cc25336"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::asio::tcp::TcpServer::SendMessageToClientAsync </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>client</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send a message buffer to a client asynchronously. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">client</td><td>- Client connection details. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1635f44cf5e0dbc21e6db8f537c2792e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core_lib::asio::tcp::TcpServer::SendMessageToClientSync </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>client</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a4b3a0185ff26cb531c213b96b8e3ccc9">defs::char_buffer_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send a message buffer to a client synchronously. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">client</td><td>- Client connection details. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>D:/Projects/CoreLibrary/Include/Asio/<a class="el" href="_tcp_server_8h_source.html">TcpServer.h</a></li>
 <li>D:/Projects/CoreLibrary/Source/Asio/<a class="el" href="_tcp_server_8cpp.html">TcpServer.cpp</a></li>
@@ -208,7 +584,7 @@ const <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html">tcp</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html">TcpServer</a></li>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:10 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

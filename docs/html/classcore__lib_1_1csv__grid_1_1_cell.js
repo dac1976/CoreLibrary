@@ -25,5 +25,6 @@ var classcore__lib_1_1csv__grid_1_1_cell =
     [ "ToInt32Def", "classcore__lib_1_1csv__grid_1_1_cell.html#a501da1668a6d73532ef6b07492346f0a", null ],
     [ "ToInt64Def", "classcore__lib_1_1csv__grid_1_1_cell.html#acc60ce92f0529eb80628948b32da92f5", null ],
     [ "ToLongDoubleDef", "classcore__lib_1_1csv__grid_1_1_cell.html#a71c712d16c6ed41931fb430fedd85668", null ],
+    [ "Value", "classcore__lib_1_1csv__grid_1_1_cell.html#ad67f83e3972c60db57198daadc7b8107", null ],
     [ "m_value", "classcore__lib_1_1csv__grid_1_1_cell.html#ab329bc0ea13f4c63726aee9f42fe680e", null ]
 ];

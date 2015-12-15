@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -167,6 +167,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8914ea8784365ed7a2915f9b71bac252"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html">Cell</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a8914ea8784365ed7a2915f9b71bac252">operator[]</a> (const size_t col)</td></tr>
 <tr class="memdesc:a8914ea8784365ed7a2915f9b71bac252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscript operator.  <a href="#a8914ea8784365ed7a2915f9b71bac252">More...</a><br /></td></tr>
 <tr class="separator:a8914ea8784365ed7a2915f9b71bac252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5506d5b7e368c63b00f76509271a0c1e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html">Cell</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a5506d5b7e368c63b00f76509271a0c1e">operator[]</a> (const size_t col) const </td></tr>
+<tr class="memdesc:a5506d5b7e368c63b00f76509271a0c1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const subscript operator.  <a href="#a5506d5b7e368c63b00f76509271a0c1e">More...</a><br /></td></tr>
+<tr class="separator:a5506d5b7e368c63b00f76509271a0c1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a1f7c9515cc913f1dbf70f37324883a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a6a1f7c9515cc913f1dbf70f37324883a">Empty</a> () const </td></tr>
+<tr class="memdesc:a6a1f7c9515cc913f1dbf70f37324883a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get empty state of row.  <a href="#a6a1f7c9515cc913f1dbf70f37324883a">More...</a><br /></td></tr>
+<tr class="separator:a6a1f7c9515cc913f1dbf70f37324883a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7818b12f3ba1b7f1766bd7e5d98158b7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a7818b12f3ba1b7f1766bd7e5d98158b7">GetSize</a> () const </td></tr>
 <tr class="memdesc:a7818b12f3ba1b7f1766bd7e5d98158b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of columns.  <a href="#a7818b12f3ba1b7f1766bd7e5d98158b7">More...</a><br /></td></tr>
 <tr class="separator:a7818b12f3ba1b7f1766bd7e5d98158b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -444,6 +450,34 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a6a1f7c9515cc913f1dbf70f37324883a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">core_lib::csv_grid::TRow</a>&lt; C, T &gt;::Empty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get empty state of row. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if row is empty. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a7818b12f3ba1b7f1766bd7e5d98158b7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -638,6 +672,43 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a5506d5b7e368c63b00f76509271a0c1e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html">Cell</a>&amp; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">core_lib::csv_grid::TRow</a>&lt; C, T &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Const subscript operator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- A 0-based column index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The cell at the given column index.</dd></dl>
+<p>Retrieve the cell at a given column index within a row.</p>
+<dl class="section note"><dt>Note</dt><dd>If the index is out of bounds a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html" title="Column index out of range exception. ">xCsvGridColOutOfRangeError</a> exception is thrown. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6807b4dec037a264e17d82b775c1234a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -815,7 +886,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">TRow</a></li>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:10 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

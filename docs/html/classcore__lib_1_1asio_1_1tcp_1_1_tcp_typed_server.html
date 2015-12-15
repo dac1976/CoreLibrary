@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -149,6 +149,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3b74c59966184da3532c780cba95946"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ab3b74c59966184da3532c780cba95946">ListenPort</a> () const </td></tr>
 <tr class="memdesc:ab3b74c59966184da3532c780cba95946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve this server's listen port.  <a href="#ab3b74c59966184da3532c780cba95946">More...</a><br /></td></tr>
 <tr class="separator:ab3b74c59966184da3532c780cba95946"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a635f74354209024aeaa59815178fde0c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a635f74354209024aeaa59815178fde0c">NumberOfClients</a> () const </td></tr>
+<tr class="memdesc:a635f74354209024aeaa59815178fde0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve this server's number of clients.  <a href="#a635f74354209024aeaa59815178fde0c">More...</a><br /></td></tr>
+<tr class="separator:a635f74354209024aeaa59815178fde0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5ff890a31eed3f9eddc5c5863a611c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ad5ff890a31eed3f9eddc5c5863a611c2">CloseAcceptor</a> ()</td></tr>
 <tr class="memdesc:ad5ff890a31eed3f9eddc5c5863a611c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually close the acceptor.  <a href="#ad5ff890a31eed3f9eddc5c5863a611c2">More...</a><br /></td></tr>
 <tr class="separator:ad5ff890a31eed3f9eddc5c5863a611c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -273,7 +276,7 @@ template&lt;typename MsgBldr&gt; </div>
   </table>
   </dd>
 </dl>
-<p>Typically use this constructor when managing a bool of threads using an instance of core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads. This means you can use a single thread pool and all ASIO operations will be exectued using this thread pool managed by a single IO service. This is the recommended constructor. </p>
+<p>Typically use this constructor when managing a bool of threads using an instance of core_lib::asioIoServiceThreadGroup in your application to manage a pool of std::threads. This means you can use a single thread pool and all ASIO operations will be exectued using this thread pool managed by a single IO service. This is the recommended constructor. </p>
 
 </div>
 </div>
@@ -412,7 +415,8 @@ template&lt;typename MsgBldr&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>- Connection object describing target server's address and port.</dd></dl>
-<p>If no such client is known to the server then it returns { "0.0.0.0", listenPort}. </p>
+<p>If no such client is known to the server then it returns { "0.0.0.0", listenPort}.</p>
+<p>Throws <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html" title="Unknown connection exception. ">xUnknownConnectionError</a> is remoteEnd is not valid. </p>
 
 </div>
 </div>
@@ -441,6 +445,34 @@ template&lt;typename MsgBldr&gt; </div>
 
 <p>Retrieve this server's listen port. </p>
 <dl class="section return"><dt>Returns</dt><dd>The listen port. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a635f74354209024aeaa59815178fde0c"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html">core_lib::asio::tcp::TcpTypedServer</a>&lt; MsgBldr &gt;::NumberOfClients </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve this server's number of clients. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of clients. </dd></dl>
 
 </div>
 </div>
@@ -486,7 +518,7 @@ template&lt;typename MsgBldr&gt; </div>
   </table>
   </dd>
 </dl>
-<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. Furthermore this method only sends a simple <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object to the clients. </p>
+<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. </p>
 
 </div>
 </div>
@@ -541,7 +573,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
   </table>
   </dd>
 </dl>
-<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. Furthermore this method uses the a <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object as the header. </p>
+<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. </p>
 
 </div>
 </div>
@@ -594,7 +626,7 @@ template&lt;typename MsgBldr&gt; </div>
   </table>
   </dd>
 </dl>
-<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. Furthermore this method only sends a simple <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object to the client. </p>
+<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. </p>
 
 </div>
 </div>
@@ -656,7 +688,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
   </table>
   </dd>
 </dl>
-<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. Furthermore this method uses the a <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object as the header. </p>
+<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. </p>
 
 </div>
 </div>
@@ -709,8 +741,7 @@ template&lt;typename MsgBldr&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean.</dd></dl>
-<p>This method only sends a simple <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object to the client. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
 
 </div>
 </div>
@@ -772,8 +803,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean.</dd></dl>
-<p>This method uses the a <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object as the header. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
 
 </div>
 </div>
@@ -786,7 +816,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html">tcp</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html">TcpTypedServer</a></li>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:10 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

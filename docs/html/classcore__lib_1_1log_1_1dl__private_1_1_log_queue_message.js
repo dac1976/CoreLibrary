@@ -20,5 +20,6 @@ var classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message =
     [ "m_lineNo", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a27376b0646c0d5b03dd13bb8802e6d9d", null ],
     [ "m_message", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ad7e6b9d0e9402973e21894b99509376d", null ],
     [ "m_threadID", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a3431d60c8a8e90615799684c47225745", null ],
-    [ "m_timeStamp", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#adb5b983f5b0a8eb6e4e6dde1dab6ddbf", null ]
+    [ "m_timeStamp", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#adb5b983f5b0a8eb6e4e6dde1dab6ddbf", null ],
+    [ "MESSAGE_ID", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a98aabee5730c21566a59facd2bd3e81d", null ]
 ];

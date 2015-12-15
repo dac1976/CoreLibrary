@@ -7,6 +7,7 @@ var searchData=
   ['instantiate',['Instantiate',['../classcore__lib_1_1log_1_1_debug_log.html#a0a084ee72f50521896c470b0fc9b23a4',1,'core_lib::log::DebugLog']]],
   ['ioservice',['IoService',['../classcore__lib_1_1asio_1_1_io_service_thread_group.html#a2bf0ab20690a79e46aac5af65fbe2bd3',1,'core_lib::asio::IoServiceThreadGroup']]],
   ['ioservicethreadgroup',['IoServiceThreadGroup',['../classcore__lib_1_1asio_1_1_io_service_thread_group.html#a13c4403105d534dda9a114c80d38472f',1,'core_lib::asio::IoServiceThreadGroup::IoServiceThreadGroup(const unsigned int numThreads=std::thread::hardware_concurrency())'],['../classcore__lib_1_1asio_1_1_io_service_thread_group.html#a0fe7f1dee2d8eb1ad047dad3ba4a333b',1,'core_lib::asio::IoServiceThreadGroup::IoServiceThreadGroup(const IoServiceThreadGroup &amp;)=delete']]],
+  ['isclosing',['IsClosing',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aef05ebf5bcd6d5817139a032dac26230',1,'core_lib::asio::tcp::TcpConnection']]],
   ['islogmsglevelfilterset',['IsLogMsgLevelFilterSet',['../classcore__lib_1_1log_1_1_debug_log.html#ab992ff4d03d41b8a10555ecb6ec8b195',1,'core_lib::log::DebugLog']]],
   ['islogmsglevelfiltersetnomutex',['IsLogMsgLevelFilterSetNoMutex',['../classcore__lib_1_1log_1_1_debug_log.html#a05d8cf39038e5baa17da4496c72480f2',1,'core_lib::log::DebugLog']]],
   ['islogmsglevelinlookup',['IsLogMsgLevelInLookup',['../classcore__lib_1_1log_1_1_debug_log.html#aea8a44b430d0065abe39c9999b1c7e34',1,'core_lib::log::DebugLog']]],

@@ -35,18 +35,27 @@
 
 #if BOOST_COMP_MSVC
     #if _MSC_VER < 1900
+        /*! \brief __NOEXCEPT__ definition mapping to nothing*/
         #define __NOEXCEPT__
+        /*! \brief __USE_EXPLICIT_MOVE__ definition */
         #define __USE_EXPLICIT_MOVE__
+        /*! \brief __USE_EXPLICIT_MOVE__ definition */
         #define __USE_DEFAULT_CONSTRUCTOR__
+        /*! \brief __USE_EXPLICIT_MOVE__ definition mapping to static const*/
         #define __CONSTEXPR__ static const
     #else
         #define __NOEXCEPT__ noexcept
+        /*! \brief __USE_EXPLICIT_MOVE__ definition mapping to constexpr*/
         #define __CONSTEXPR__ constexpr
     #endif
+    /*! \brief __TYPENAME_DECL__ definition mapping to nothing*/
     #define __TYPENAME_DECL__
 #else
+    /*! \brief __NOEXCEPT__ definition mapping to noexcept*/
     #define __NOEXCEPT__ noexcept
+    /*! \brief __USE_EXPLICIT_MOVE__ definition mapping to constexpr*/
     #define __CONSTEXPR__ constexpr
+    /*! \brief __TYPENAME_DECL__ definition mapping to typename*/
     #define __TYPENAME_DECL__ typename
 #endif
 	

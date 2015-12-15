@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -150,6 +150,9 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
+<li>m_acceptor
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a4d08d3433030422bc4ad8efef1a9df4e">core_lib::asio::tcp::TcpServer</a>
+</li>
 <li>m_autoReset
 : <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#ab14e26bba7752e3c6a950d15d37ebff3">core_lib::threads::SyncEvent</a>
 </li>
@@ -159,8 +162,28 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>m_changesMade
 : <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a36ec77e5b9a1cc249f78969ca276a4e9">core_lib::ini_file::IniFile</a>
 </li>
+<li>m_checkBytesLeftToRead
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#abad3fc554eb0515801a63d3cc5da1ecc">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a7e36ce46a7e62cffeb3cbb8339cd1866">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a1dc3060ab7bce30abd0ed64192e2ce00">core_lib::asio::tcp::TcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#af0c2451f0a4a3a9787949401dc308fb2">core_lib::asio::udp::UdpReceiver</a>
+</li>
+<li>m_clientConnections
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ac411f0d35399e7dc3c32eb8ae9e283d2">core_lib::asio::tcp::TcpServer</a>
+</li>
+<li>m_closedEvent
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#abaef4b89a3abd8b1416df06a193a1b91">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#aff732000b05e029688910a002d867bca">core_lib::asio::tcp::TcpServer</a>
+</li>
+<li>m_closing
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a436da822a09a65138f6beefe6e903725">core_lib::asio::tcp::TcpConnection</a>
+</li>
 <li>m_comment
 : <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#ac65b5ccf8adbbd09251997d260fcbd35">core_lib::ini_file::if_private::CommentLine</a>
+</li>
+<li>m_connections
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a9e395deaeded2d44cf512ac858e17379">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#a09a5cc2ad1a28de4f6c10114c723dcf8">core_lib::asio::tcp::TcpConnections</a>
 </li>
 <li>m_container
 : <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a927469a979c8ed0c034ed067d8c039e8">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
@@ -185,6 +208,17 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </li>
 <li>m_ioService
 : <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a211105f5da49f6fc0e00140058658c19">core_lib::asio::IoServiceThreadGroup</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a5c4333bf480be260dae2fff27fef0e79">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a08d030a05ee7f3156d6e7fc6838f716e">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a4db9e34116a64b9e4bfd6775ab7d5645">core_lib::asio::tcp::TcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#ae341d2cf1b4bf254ec3767df413bcef3">core_lib::asio::udp::UdpReceiver</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a20798304f5fd2b1d543a66d1447ede09">core_lib::asio::udp::UdpSender</a>
+</li>
+<li>m_ioThreadGroup
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a84a11ab61cf4828729dbb38a75afbf07">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a37b5ce747656e866a51abc738be665ee">core_lib::asio::tcp::TcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4e76545e106fa8bf953c2cf2ab1186c9">core_lib::asio::udp::UdpReceiver</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a9f7097e4cb5a499b9e7f0567e6362a66">core_lib::asio::udp::UdpSender</a>
 </li>
 <li>m_ioWork
 : <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a6d2b37422009e26faa8c81901f3e0576">core_lib::asio::IoServiceThreadGroup</a>
@@ -203,6 +237,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </li>
 <li>m_lines
 : <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0d5f4ce788ee215617abf217a940f2c6">core_lib::ini_file::IniFile</a>
+</li>
+<li>m_listenPort
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a21b34fd230b8db6f835abc23be7f7539">core_lib::asio::tcp::TcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a7b01852d8e46db8682ec747150107056">core_lib::asio::udp::UdpReceiver</a>
 </li>
 <li>m_logFilePath
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#af2da10d4e2ca9cea6d5dbfed34790247">core_lib::log::DebugLog&lt; Formatter &gt;</a>
@@ -230,12 +268,17 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a21b6cdf8656822d46f74a725b31025d2">core_lib::exceptions::xCustomException</a>
 , <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ad7e6b9d0e9402973e21894b99509376d">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
+<li>m_messageBuffer
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a934220c821f55d41403d39812a485b0f">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a53f016a757a61461e174935edaa82e89">core_lib::asio::udp::UdpReceiver</a>
+</li>
 <li>m_messageBuilder
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#ab8936d8a38949ab80b69502b5ac790d4">core_lib::asio::tcp::SimpleTcpClient</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#acb2a6c448f8eb38f48c6e69346b2f09b">core_lib::asio::tcp::SimpleTcpServer</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a377088490878eb502cf68f39dc9a8812">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a27a1dd3e883c734b3903ca9a739357f0">core_lib::asio::tcp::TcpTypedServer&lt; MsgBldr &gt;</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#a07e6f478259332a7a067af666a3ab1ab">core_lib::asio::udp::SimpleUdpSender</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#aed86a1d455d175ee7a23c1632c691547">core_lib::asio::udp::UdpTypedSender&lt; MsgBldr &gt;</a>
 </li>
 <li>m_messageDeleter
 : <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a22fd96be1b69e890a8e3defe514419f2">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
@@ -251,6 +294,17 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>m_messageQueue
 : <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abcfd2eb7b7deae0ca54846e37796dbbf">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
+<li>m_messageReceivedHandler
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#adf4616863f5c0d9767a9b8f54d030ae0">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a755108788b03fd85e9254aa93fa9a4e6">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#abbf60d13f95ed4eafc64ebef9a9d61fc">core_lib::asio::tcp::TcpServer</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a5c79df786e71ab80d468c9b33db5dd65">core_lib::asio::udp::UdpReceiver</a>
+</li>
+<li>m_minAmountToRead
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#ada6d1772d645f7bf3ce1c0601a09edb6">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a5c7e6936c18fcacb44fdfa8fc3168bf6">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#abc64e4f19dab573e9eebde85d5c806f0">core_lib::asio::tcp::TcpServer</a>
+</li>
 <li>m_msgHandlerMap
 : <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abe688a3c75cd16e2fab7b2ed743d189f">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
@@ -258,7 +312,9 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1115d78e116bf3c0adb8cad2a7d14238">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>m_mutex
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#ae48dd13b6d9568eeb8fdd236f9aad717">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a9afbc1bf1f30e8612ec001f6c1b87bb1">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#ab7cea5a5ba70f15bf99b44a72f5722b1">core_lib::asio::tcp::TcpConnections</a>
+, <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#ae48dd13b6d9568eeb8fdd236f9aad717">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#abc9aa66ed294f38f31c312aeb89a6128">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a295b3ba933953eddcc810a4fdbd83583">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1236d62aabb0d62c18a582036da52525">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
@@ -283,6 +339,16 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>m_queue
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9d4be4f826b0a554e2d36bdf3d7a2029">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
+<li>m_receiveBuffer
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aebdaa91a449a104d6fa2b7d203a2ba5c">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4860f22385709d8691933de9a1fe8f77">core_lib::asio::udp::UdpReceiver</a>
+</li>
+<li>m_receiver
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a4882e503d8a8295d7f12e2d6bb0c8be5">core_lib::asio::udp::UdpSender</a>
+</li>
+<li>m_receiverEndpoint
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a873fcc0e525acf4febd040f2edc3a678">core_lib::asio::udp::UdpSender</a>
+</li>
 <li>m_reserve
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a08ba848ed78a7ff2111f3045e4e5d49e">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
@@ -294,6 +360,27 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </li>
 <li>m_sectIter
 : <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a5dccd60d7bdc0166370b7e3b9630446c">core_lib::ini_file::if_private::SectionDetails</a>
+</li>
+<li>m_senderEndpoint
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a33777fe5de91683f2c6b3347db6dfcdc">core_lib::asio::udp::UdpReceiver</a>
+</li>
+<li>m_sendEvent
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a464ee0ea7da8a1f5bf8b933faa4eb9a3">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a053ff0dab7880bcf5eecadda7c9b48d2">core_lib::asio::udp::UdpSender</a>
+</li>
+<li>m_sendOption
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a7e91b67d6ab0bd28a10f682b016e25b9">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a183c688e35325cbac8246e4922b3a608">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a670cf868ece898777484ad15deda7370">core_lib::asio::tcp::TcpServer</a>
+</li>
+<li>m_sendSuccess
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a49de236c8b83dbc86f4ddbba3f6b01be">core_lib::asio::tcp::TcpConnection</a>
+</li>
+<li>m_server
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#ab8bfa6b712cf7ae39a0f62d47ad0c473">core_lib::asio::tcp::TcpClient</a>
+</li>
+<li>m_serverConnection
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#ad0c200bd64decac53ec5089996e7330a">core_lib::asio::tcp::TcpClient</a>
 </li>
 <li>m_signalAllThreads
 : <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#ac18a113f8da3c90b74da5dc83b4bda29">core_lib::threads::SyncEvent</a>
@@ -307,11 +394,19 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>m_signalMutex
 : <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#a15f4afcd0305a5adabb02166367442f7">core_lib::threads::SyncEvent</a>
 </li>
+<li>m_socket
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a47e24bf1f2f18b287d6c4ed7e1df0937">core_lib::asio::tcp::TcpConnection</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a3b211b6a1a197bb6d7e75119e5a50f0f">core_lib::asio::udp::UdpReceiver</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a9bd46b8a6e49f8f5882f574e3dc7e672">core_lib::asio::udp::UdpSender</a>
+</li>
 <li>m_softwareVersion
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aabe9157e2c591f6b224589f1da4da737">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>m_started
 : <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a850e8d45e3f215a46be934e7dac50ad6">core_lib::threads::ThreadBase</a>
+</li>
+<li>m_strand
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a093131f41b5b34a53c5fb5e8d4056661">core_lib::asio::tcp::TcpConnection</a>
 </li>
 <li>m_tcpClient
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#acc12cb78734acf43c495fa637ec857b8">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
@@ -350,6 +445,9 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </li>
 <li>m_udpReceiver
 : <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a257c6bf0b54362c707412135c856af66">core_lib::asio::udp::SimpleUdpReceiver</a>
+</li>
+<li>m_udpSender
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#abba9e92cd6253ff51feed2ab238399b1">core_lib::asio::udp::UdpTypedSender&lt; MsgBldr &gt;</a>
 </li>
 <li>m_udpTypedSender
 : <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#a402a9c742e7bcf0d2f2dca4a12269ed9">core_lib::asio::udp::SimpleUdpSender</a>
@@ -396,7 +494,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:12 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

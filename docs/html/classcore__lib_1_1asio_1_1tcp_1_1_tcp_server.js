@@ -10,6 +10,7 @@ var classcore__lib_1_1asio_1_1tcp_1_1_tcp_server =
     [ "CloseAcceptor", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a434955e3d8228a3c4f25dd1cad2e0c2b", null ],
     [ "GetServerDetailsForClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#af91e7bb8c851df714a6c97e2429fa885", null ],
     [ "ListenPort", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ae9770c7cb7f4aef799e66d82a4c06957", null ],
+    [ "NumberOfClients", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ac4e35b084c0fd0db48f05e0c30731622", null ],
     [ "OpenAcceptor", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8012215912356217507255be43824158", null ],
     [ "operator=", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8e184a8358c3abcdb696f190110c6fcd", null ],
     [ "ProcessCloseAcceptor", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8adfa37940a9066ae94912adc901939e", null ],

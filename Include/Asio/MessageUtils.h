@@ -413,7 +413,7 @@ public:
 
 /*!
  * \brief Templated message deserializer function.
- * \param[in] message - Message buffer to be deserialized.
+ * \param[in] messageBuffer - Message buffer to be deserialized.
  * \param[in] archiveType - Serialization archive type.
  * \return The deserialization object T.
  */

@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -115,7 +115,8 @@ $(document).ready(function(){initNavTree('_serialize_to_vector_8h.html','');});
 
 <p>File containing utilities to serialize objects to byte vectors.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="_serialization_includes_8h_source.html">SerializationIncludes.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="_core_library_dll_global_8h_source.html">CoreLibraryDllGlobal.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_serialization_includes_8h_source.html">SerializationIncludes.h</a>&quot;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
@@ -167,35 +168,43 @@ typedef std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bot
 <tr class="separator:a44a4538f3603583992dec4d1a9a61bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32152d5e1ac3f397b01e8a02f43e627a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32152d5e1ac3f397b01e8a02f43e627a"></a>
 typedef eos::portable_oarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a32152d5e1ac3f397b01e8a02f43e627a">core_lib::serialize::archives::out_port_bin_t</a></td></tr>
-<tr class="memdesc:a32152d5e1ac3f397b01e8a02f43e627a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedefs to output archive types. <br /></td></tr>
+<tr class="memdesc:a32152d5e1ac3f397b01e8a02f43e627a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output portable binary archive. <br /></td></tr>
 <tr class="separator:a32152d5e1ac3f397b01e8a02f43e627a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d39edae1b381727bb6013b804fc79f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d39edae1b381727bb6013b804fc79f8"></a>
-typedef boost_arch::binary_oarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::out_bin_t</b></td></tr>
+typedef boost_arch::binary_oarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a8d39edae1b381727bb6013b804fc79f8">core_lib::serialize::archives::out_bin_t</a></td></tr>
+<tr class="memdesc:a8d39edae1b381727bb6013b804fc79f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output binary archive. <br /></td></tr>
 <tr class="separator:a8d39edae1b381727bb6013b804fc79f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c7afdb8fbae2b936b007013c5d397e0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3c7afdb8fbae2b936b007013c5d397e0"></a>
-typedef boost_arch::xml_oarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::out_xml_t</b></td></tr>
+typedef boost_arch::xml_oarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a3c7afdb8fbae2b936b007013c5d397e0">core_lib::serialize::archives::out_xml_t</a></td></tr>
+<tr class="memdesc:a3c7afdb8fbae2b936b007013c5d397e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output xml archive. <br /></td></tr>
 <tr class="separator:a3c7afdb8fbae2b936b007013c5d397e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5dd0faac8e13cecff2aec3b9cc64578f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5dd0faac8e13cecff2aec3b9cc64578f"></a>
-typedef boost_arch::text_oarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::out_txt_t</b></td></tr>
+typedef boost_arch::text_oarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a5dd0faac8e13cecff2aec3b9cc64578f">core_lib::serialize::archives::out_txt_t</a></td></tr>
+<tr class="memdesc:a5dd0faac8e13cecff2aec3b9cc64578f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output textarchive. <br /></td></tr>
 <tr class="separator:a5dd0faac8e13cecff2aec3b9cc64578f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd11f324fcc97f179979fd3a8ea80f9c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd11f324fcc97f179979fd3a8ea80f9c"></a>
-typedef raw_oarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::out_raw_t</b></td></tr>
+typedef raw_oarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#acd11f324fcc97f179979fd3a8ea80f9c">core_lib::serialize::archives::out_raw_t</a></td></tr>
+<tr class="memdesc:acd11f324fcc97f179979fd3a8ea80f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output raw archive. <br /></td></tr>
 <tr class="separator:acd11f324fcc97f179979fd3a8ea80f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a7379061785a7d4ae0aacc8bde94263"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a7379061785a7d4ae0aacc8bde94263"></a>
 typedef eos::portable_iarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a0a7379061785a7d4ae0aacc8bde94263">core_lib::serialize::archives::in_port_bin_t</a></td></tr>
-<tr class="memdesc:a0a7379061785a7d4ae0aacc8bde94263"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedefs to input archive types. <br /></td></tr>
+<tr class="memdesc:a0a7379061785a7d4ae0aacc8bde94263"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input portable binary archive. <br /></td></tr>
 <tr class="separator:a0a7379061785a7d4ae0aacc8bde94263"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d7923db5bcff657f5549114f96fe183"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d7923db5bcff657f5549114f96fe183"></a>
-typedef boost_arch::binary_iarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::in_bin_t</b></td></tr>
+typedef boost_arch::binary_iarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a2d7923db5bcff657f5549114f96fe183">core_lib::serialize::archives::in_bin_t</a></td></tr>
+<tr class="memdesc:a2d7923db5bcff657f5549114f96fe183"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input binary archive. <br /></td></tr>
 <tr class="separator:a2d7923db5bcff657f5549114f96fe183"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff5f5a58136adf2f2cb5e67b4e8f6bc7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff5f5a58136adf2f2cb5e67b4e8f6bc7"></a>
-typedef boost_arch::xml_iarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::in_xml_t</b></td></tr>
+typedef boost_arch::xml_iarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#aff5f5a58136adf2f2cb5e67b4e8f6bc7">core_lib::serialize::archives::in_xml_t</a></td></tr>
+<tr class="memdesc:aff5f5a58136adf2f2cb5e67b4e8f6bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input xml archive. <br /></td></tr>
 <tr class="separator:aff5f5a58136adf2f2cb5e67b4e8f6bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a431253a44ba9629ed27bf3722450ca5d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a431253a44ba9629ed27bf3722450ca5d"></a>
-typedef boost_arch::text_iarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::in_txt_t</b></td></tr>
+typedef boost_arch::text_iarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a431253a44ba9629ed27bf3722450ca5d">core_lib::serialize::archives::in_txt_t</a></td></tr>
+<tr class="memdesc:a431253a44ba9629ed27bf3722450ca5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input text archive. <br /></td></tr>
 <tr class="separator:a431253a44ba9629ed27bf3722450ca5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f38b90722c01a9023897ba5586a5d02"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f38b90722c01a9023897ba5586a5d02"></a>
-typedef raw_iarchive&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::serialize::archives::in_raw_t</b></td></tr>
+typedef raw_iarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a8f38b90722c01a9023897ba5586a5d02">core_lib::serialize::archives::in_raw_t</a></td></tr>
+<tr class="memdesc:a8f38b90722c01a9023897ba5586a5d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input raw archive. <br /></td></tr>
 <tr class="separator:a8f38b90722c01a9023897ba5586a5d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -217,7 +226,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_175fde1093034a3276b493a112c34406.html">Serialization</a></li><li class="navelem"><a class="el" href="_serialize_to_vector_8h.html">SerializeToVector.h</a></li>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:09 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:30 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

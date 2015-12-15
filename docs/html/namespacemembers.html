@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -77,6 +77,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="namespacemembers.html"><span>All</span></a></li>
       <li><a href="namespacemembers_func.html"><span>Functions</span></a></li>
+      <li><a href="namespacemembers_vars.html"><span>Variables</span></a></li>
       <li><a href="namespacemembers_type.html"><span>Typedefs</span></a></li>
       <li><a href="namespacemembers_enum.html"><span>Enumerations</span></a></li>
     </ul>
@@ -96,7 +97,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
-      <li class="current"><a href="#index_t"><span>t</span></a></li>
+      <li><a href="#index_t"><span>t</span></a></li>
+      <li class="current"><a href="#index_u"><span>u</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -134,6 +136,9 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
 <li>BuildMessage()
 : <a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a75f9d7b204afda3e0063ee81fc2ad792">core_lib::asio::messages</a>
+</li>
+<li>BYTES_IN_MEBIBYTE
+: <a class="el" href="namespacecore__lib_1_1log.html#a48c701c8af55857cb960d89e295cbdc2">core_lib::log</a>
 </li>
 </ul>
 
@@ -173,6 +178,9 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 <li>default_log_t
 : <a class="el" href="namespacecore__lib_1_1log.html#ac8170d34fa79016d45d9b4d4af2998d1">core_lib::log</a>
 </li>
+<li>DEFAULT_MAGIC_STRING
+: <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#afd8a295a299c1344bdac9b3e720799f2">core_lib::asio::defs</a>
+</li>
 <li>default_message_dispatcher_t
 : <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a08131e6176f268ef5aa2060243f352a3">core_lib::asio::defs</a>
 </li>
@@ -181,6 +189,12 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 </li>
 <li>default_received_message_t
 : <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a27d046d194cb428191bdef6cc96d7f7c">core_lib::asio::defs</a>
+</li>
+<li>DEFAULT_RESERVED_SIZE
+: <a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#ab80afa61bfb5743d8f7c64988d617f2e">core_lib::asio::tcp</a>
+</li>
+<li>DEFAULT_UDP_BUF_SIZE
+: <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a4e767d2b926c7cc823f1368ab5394a4e">core_lib::asio::udp</a>
 </li>
 <li>DeserializeMessage()
 : <a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a8f76c46492c70797c356420b69295387">core_lib::asio::messages</a>
@@ -239,8 +253,20 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
+<li>in_bin_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a2d7923db5bcff657f5549114f96fe183">core_lib::serialize::archives</a>
+</li>
 <li>in_port_bin_t
 : <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a0a7379061785a7d4ae0aacc8bde94263">core_lib::serialize::archives</a>
+</li>
+<li>in_raw_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a8f38b90722c01a9023897ba5586a5d02">core_lib::serialize::archives</a>
+</li>
+<li>in_txt_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a431253a44ba9629ed27bf3722450ca5d">core_lib::serialize::archives</a>
+</li>
+<li>in_xml_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#aff5f5a58136adf2f2cb5e67b4e8f6bc7">core_lib::serialize::archives</a>
 </li>
 </ul>
 
@@ -266,6 +292,9 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
+<li>MAGIC_STRING_LEN
+: <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ab595fd4750505bb0ba594430f4a07b1d">core_lib::asio::defs</a>
+</li>
 <li>message_received_handler_t
 : <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">core_lib::asio::defs</a>
 </li>
@@ -273,8 +302,20 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>out_bin_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a8d39edae1b381727bb6013b804fc79f8">core_lib::serialize::archives</a>
+</li>
 <li>out_port_bin_t
 : <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a32152d5e1ac3f397b01e8a02f43e627a">core_lib::serialize::archives</a>
+</li>
+<li>out_raw_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#acd11f324fcc97f179979fd3a8ea80f9c">core_lib::serialize::archives</a>
+</li>
+<li>out_txt_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a5dd0faac8e13cecff2aec3b9cc64578f">core_lib::serialize::archives</a>
+</li>
+<li>out_xml_t
+: <a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a3c7afdb8fbae2b936b007013c5d397e0">core_lib::serialize::archives</a>
 </li>
 </ul>
 
@@ -287,6 +328,9 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>RESPONSE_ADDRESS_LEN
+: <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a3bd23225d36c2aa8e9965a6ad80bf2b8">core_lib::asio::defs</a>
+</li>
 <li>Row
 : <a class="el" href="namespacecore__lib_1_1csv__grid.html#a6556a2a443f194cbb76d03a34bac8cf8">core_lib::csv_grid</a>
 </li>
@@ -317,12 +361,19 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 : <a class="el" href="namespacecore__lib_1_1serialize.html#a8316a47202c696fefd9e21c18b31e594">core_lib::serialize</a>
 </li>
 </ul>
+
+
+<h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
+<li>UDP_DATAGRAM_MAX_SIZE
+: <a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a520975c3985d41506c5332ba957c5ade">core_lib::asio::udp</a>
+</li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:11 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

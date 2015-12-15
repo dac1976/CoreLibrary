@@ -27,14 +27,20 @@
 #define CORELIBRARYDLLGLOBALH
 
 #if defined(CORE_LIBRARY_DLL)
+    /*! \brief CORE_LIBRARY_DLL_SHARED_API definition mapping to __declspec(dllexport) */
     #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
+    /*! \brief CORE_LIBRARY_DLL_EXTERN definition mapping to nothing */
     #define CORE_LIBRARY_DLL_EXTERN
 #else
     #if defined(CORE_LIBRARY_LIB)
+        /*! \brief CORE_LIBRARY_DLL_SHARED_API definition mapping to nothing */
         #define CORE_LIBRARY_DLL_SHARED_API
+        /*! \brief CORE_LIBRARY_DLL_EXTERN definition mapping to nothing */
         #define CORE_LIBRARY_DLL_EXTERN
-    #else        
+    #else
+        /*! \brief CORE_LIBRARY_DLL_SHARED_API definition mapping to __declspec(dllimport) */
         #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
+        /*! \brief CORE_LIBRARY_DLL_EXTERN definition mapping to extern */
         #define CORE_LIBRARY_DLL_EXTERN extern
     #endif    
 #endif

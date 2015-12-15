@@ -95,7 +95,7 @@ public:
 
 private:
     /*!
-     * \brief Create UDP connection.
+     * \brief Create UDP socket.
      * \param[in] receiveOptions - UDP receive options.
      * \param[in] receiveBufferSize - Receive buffer size.
      */

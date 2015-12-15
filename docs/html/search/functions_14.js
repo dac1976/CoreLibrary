@@ -6,6 +6,7 @@ var searchData=
   ['whatstr',['whatStr',['../classcore__lib_1_1exceptions_1_1x_custom_exception.html#a83600fc110f75e16e687ee7196a5b001',1,'core_lib::exceptions::xCustomException']]],
   ['writebackbuckets',['WriteBackBuckets',['../classcore__lib_1_1sorting_1_1_bucket.html#aaf34dd8b8997956f27920abae1da0eb4',1,'core_lib::sorting::Bucket']]],
   ['writebool',['WriteBool',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a000c75a943391507ba1ac0bc0f6c987b',1,'core_lib::ini_file::IniFile']]],
+  ['writecomplete',['WriteComplete',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aac425ac9870690f81bc51790e7d77fa8',1,'core_lib::asio::tcp::TcpConnection']]],
   ['writedouble',['WriteDouble',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a7276c5f81a5ab455d3c589630b27ae8b',1,'core_lib::ini_file::IniFile']]],
   ['writeint32',['WriteInt32',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a84be532d4eacf52d50b5173c85e77dab',1,'core_lib::ini_file::IniFile']]],
   ['writeint64',['WriteInt64',['../classcore__lib_1_1ini__file_1_1_ini_file.html#aced73ed8b3616928339a91c0cbfb61ad',1,'core_lib::ini_file::IniFile']]],

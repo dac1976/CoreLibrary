@@ -107,6 +107,7 @@ public:
 	 * \brief Default constructor.
 	 * \param[in] messageIdDecoder - Function object that returns the message ID for a message.
      * \param[in] destroyOptions - (Optional) Set the Message threads destroy option.
+     * \param[in] messageDeleter - (Optional) Message deletion helper.
 	 */
     explicit MessageQueueThread(const msg_id_decoder_t& messageIdDecoder
 								, eOnDestroyOptions destroyOptions

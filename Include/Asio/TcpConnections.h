@@ -63,43 +63,78 @@ public:
     xUnknownConnectionError& operator=(const xUnknownConnectionError&) = default;
 };
 
+/*! \brief Forward declaration of TCP connection class. */
 class TcpConnection;
 
+/*! \brief TCP connections class. */
 class CORE_LIBRARY_DLL_SHARED_API TcpConnections final
 {
 public:
+    /*! \brief Default constructor. */
 	TcpConnections() = default;
-
+    /*! \brief Default desctructor. */
 	~TcpConnections() = default;
-
+    /*! \brief Copy constructor - deleted. */
 	TcpConnections(const TcpConnections& ) = delete;
-
+    /*! \brief Copy assignment operator - deleted. */
 	TcpConnections& operator=(const TcpConnections& ) = delete;
-
-	void Add(defs::tcp_conn_ptr_t Connection);
-
-	void Remove(defs::tcp_conn_ptr_t Connection);
-
+    /*!
+     * \brief Add a connection.
+     * \param[in] connection - Shared pointer to connection object.
+     */
+    void Add(defs::tcp_conn_ptr_t connection);
+    /*!
+     * \brief Remove a connection.
+     * \param[in] connection - Shared pointer to connection object.
+     */
+    void Remove(defs::tcp_conn_ptr_t connection);
+    /*!
+     * \brief Get the number of connections.
+     * \return Number of connections.
+     */
 	size_t Size() const;
-
+    /*!
+     * \brief Is the connection map empty?
+     * \return True if empty, false otherwise.
+     */
 	bool Empty() const;
-
+    /*! \brief Close all connections. */
 	void CloseConnections();
-
+    /*!
+     * \brief Send an asynchronous message.
+     * \param[in] target - Target connection details.
+     * \param[in] message - Message buffer to send.
+     */
 	void SendMessageAsync(const defs::connection_t& target
                           , const defs::char_buffer_t& message) const;
-
+    /*!
+     * \brief Send a synchronous message.
+     * \param[in] target - Target connection details.
+     * \param[in] message - Message buffer to send.
+     * \return True if sent successfully, false otherwise.
+     */
 	bool SendMessageSync(const defs::connection_t& target
                          , const defs::char_buffer_t& message) const;
-
+    /*!
+     * \brief Send an asynchronous message to all connections.
+     * \param[in] message - Message buffer to send.
+     */
 	void SendMessageToAll(const defs::char_buffer_t& message) const;
-
-	// Throws xUnknownConnectionError is remoteEnd is not valid.
+    /*!
+     * \brief Get the connection details for one of the remote connections.
+     * \param[in] remoteEnd - Remote end's connection details.
+     * \return Connection details for remote end.
+     *
+     * Throws xUnknownConnectionError is remoteEnd is not valid.
+     */
 	defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
 
 private:
+    /*! \brief Access mutex for thread safety. */
 	mutable std::mutex m_mutex;
+    /*! \brief Typedef to our connection map type. */
 	typedef std::map<defs::connection_t, defs::tcp_conn_ptr_t> tcp_conn_map;
+    /*! \brief The connections map. */
 	tcp_conn_map m_connections;
 };
 

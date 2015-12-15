@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -207,11 +207,11 @@ typedef std::map&lt; MessageId, <br class="typebreak" />
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:aaebb6ea78e853076559a43e75d471014"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaebb6ea78e853076559a43e75d471014"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aaebb6ea78e853076559a43e75d471014">ThreadIteration</a> () __NOEXCEPT__</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aaebb6ea78e853076559a43e75d471014">ThreadIteration</a> () <a class="el" href="_platform_defines_8h.html#ac357af947bf0fb6c15fe2ac07aea5382">__NOEXCEPT__</a></td></tr>
 <tr class="memdesc:aaebb6ea78e853076559a43e75d471014"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single iteration of the thread. <br /></td></tr>
 <tr class="separator:aaebb6ea78e853076559a43e75d471014"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6a72e8afd3967f980106239a632f763"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6a72e8afd3967f980106239a632f763"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa6a72e8afd3967f980106239a632f763">ProcessTerminationConditions</a> () __NOEXCEPT__</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa6a72e8afd3967f980106239a632f763">ProcessTerminationConditions</a> () <a class="el" href="_platform_defines_8h.html#ac357af947bf0fb6c15fe2ac07aea5382">__NOEXCEPT__</a></td></tr>
 <tr class="memdesc:aa6a72e8afd3967f980106239a632f763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any special termination actions. <br /></td></tr>
 <tr class="separator:aa6a72e8afd3967f980106239a632f763"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5813e454c254c7ab69f34dfd215741f9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5813e454c254c7ab69f34dfd215741f9"></a>
@@ -387,6 +387,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">messageIdDecoder</td><td>- Function object that returns the message ID for a message. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">destroyOptions</td><td>- (Optional) Set the Message threads destroy option. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageDeleter</td><td>- (Optional) Message deletion helper. </td></tr>
   </table>
   </dd>
 </dl>
@@ -507,7 +508,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a></li>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:11 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

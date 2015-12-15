@@ -1,5 +1,6 @@
 var classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender =
 [
+    [ "UdpTypedSender", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#af99b3832353e6871fb86da018d35e59b", null ],
     [ "UdpTypedSender", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a98fcd4dcf3c84b70360c6b566ab49ac2", null ],
     [ "UdpTypedSender", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad2d35ffb3d293563ec02142ec60aaea2", null ],
     [ "UdpTypedSender", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad82c88fa087aae289ac99b47313c3c0b", null ],

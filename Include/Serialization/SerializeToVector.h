@@ -55,17 +55,25 @@ struct CORE_LIBRARY_DLL_SHARED_API raw_oarchive
 /*! \brief The archives namespace. */
 namespace archives {
 
-/*! \brief Typedefs to output archive types. */
+/*! \brief Typedef to output portable binary archive. */
 typedef eos::portable_oarchive      out_port_bin_t;
+/*! \brief Typedef to output binary archive. */
 typedef boost_arch::binary_oarchive out_bin_t;
+/*! \brief Typedef to output xml archive. */
 typedef boost_arch::xml_oarchive    out_xml_t;
+/*! \brief Typedef to output textarchive. */
 typedef boost_arch::text_oarchive   out_txt_t;
+/*! \brief Typedef to output raw archive. */
 typedef raw_oarchive                out_raw_t;
-/*! \brief Typedefs to input archive types. */
+/*! \brief Typedef to input portable binary archive. */
 typedef eos::portable_iarchive      in_port_bin_t;
+/*! \brief Typedef to input binary archive. */
 typedef boost_arch::binary_iarchive in_bin_t;
+/*! \brief Typedef to input xml archive. */
 typedef boost_arch::xml_iarchive    in_xml_t;
+/*! \brief Typedef to input text archive. */
 typedef boost_arch::text_iarchive   in_txt_t;
+/*! \brief Typedef to input raw archive. */
 typedef raw_iarchive                in_raw_t;
 
 } // namespace archives
@@ -78,6 +86,11 @@ namespace impl
 template <typename T, typename A>
 struct ToCharVectorImpl
 {
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialise
+     * \return Byte vector containing serialised object
+     */
     char_vector_t operator()(const T& object) const
     {
         char_vector_t charVector;
@@ -93,6 +106,11 @@ struct ToCharVectorImpl
 template <typename T>
 struct ToCharVectorImpl<T, archives::out_raw_t>
 {
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialise
+     * \return Byte vector containing serialised object
+     */
     char_vector_t operator()(const T& object) const
     {
         char_vector_t charVector;
@@ -115,6 +133,11 @@ struct ToCharVectorImpl<T, archives::out_raw_t>
 template <typename T, typename A>
 struct ToObjectImpl
 {
+    /*!
+     * \brief Function operator
+     * \param[in] charVector - Byte vector containing serialised object
+     * \return Derserialised object
+     */
     T operator()(const char_vector_t& charVector) const
     {
         boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
@@ -130,6 +153,11 @@ struct ToObjectImpl
 template <typename T>
 struct ToObjectImpl<T, archives::in_raw_t>
 {
+    /*!
+     * \brief Function operator
+     * \param[in] charVector - Byte vector containing serialised object
+     * \return Derserialised object
+     */
     T operator()(const char_vector_t& charVector) const
     {
         T object{};

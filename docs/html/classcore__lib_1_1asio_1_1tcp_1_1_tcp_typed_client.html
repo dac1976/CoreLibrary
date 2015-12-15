@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2</span>
+   &#160;<span id="projectnumber">1.2.1.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -262,7 +262,7 @@ template&lt;typename MsgBldr&gt; </div>
   </table>
   </dd>
 </dl>
-<p>Typically use this constructor when managing a bool of threads using an instance of core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads. This means you can use a single thread pool and all ASIO operations will be exectued using this thread pool managed by a single IO service. This is the recommended constructor. </p>
+<p>Typically use this constructor when managing a bool of threads using an instance of core_lib::asioIoServiceThreadGroup in your application to manage a pool of std::threads. This means you can use a single thread pool and all ASIO operations will be exectued using this thread pool managed by a single IO service. This is the recommended constructor. </p>
 
 </div>
 </div>
@@ -393,7 +393,8 @@ template&lt;typename MsgBldr&gt; </div>
 </div><div class="memdoc">
 
 <p>Retrieve this client's connection details. </p>
-<dl class="section return"><dt>Returns</dt><dd>Connection object describing this client's address and port. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Connection object describing this client's address and port.</dd></dl>
+<p>Throws <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html" title="Unknown connection exception. ">xUnknownConnectionError</a> is remoteEnd is not valid. </p>
 
 </div>
 </div>
@@ -494,7 +495,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
   </table>
   </dd>
 </dl>
-<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. Furthermore this method uses the a <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object as the header. </p>
+<p>This function is asynchronous so will return immediately, with no success or failure reported, unlessa an exception is thrown. This method gives best performance when sending. </p>
 
 </div>
 </div>
@@ -540,8 +541,7 @@ template&lt;typename MsgBldr&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean.</dd></dl>
-<p>This method only sends a simple <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object to the server. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
 
 </div>
 </div>
@@ -596,8 +596,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean.</dd></dl>
-<p>This method uses the a <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html" title="Default message header structure that is POD. ">core_lib::asio::defs::MessageHeader</a> object as the header. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
 
 </div>
 </div>
@@ -638,7 +637,7 @@ template&lt;typename MsgBldr&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html">tcp</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html">TcpTypedClient</a></li>
-    <li class="footer">Generated on Sat Nov 14 2015 17:40:10 for Core Library by
+    <li class="footer">Generated on Tue Dec 15 2015 21:26:31 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.8 </li>
   </ul>

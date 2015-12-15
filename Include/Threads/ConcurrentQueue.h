@@ -372,7 +372,8 @@ private:
 
 	/*!
 	 * \brief Pop an item off the queue.
-	 * \param[out] item - Item popped off queue
+     * \param[out] item - Item popped off queue.
+     * \param[out] whichEnd - WHich end of queue tp pop from.
      * \return True if not empty, false if queue empty.
 	 */
     bool PopNow(T& item, const eQueueEnd whichEnd = eQueueEnd::front)

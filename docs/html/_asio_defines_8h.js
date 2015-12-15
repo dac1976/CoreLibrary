@@ -29,5 +29,11 @@ var _asio_defines_8h =
     [ "eUdpOption", "_asio_defines_8h.html#a9a7c6b341a0c58d700d5dff54c9a5af7", [
       [ "broadcast", "_asio_defines_8h.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37", null ],
       [ "unicast", "_asio_defines_8h.html#a9a7c6b341a0c58d700d5dff54c9a5af7aeebe0851cda7f85aeef4229567441a2d", null ]
-    ] ]
+    ] ],
+    [ "DEFAULT_MAGIC_STRING", "_asio_defines_8h.html#afd8a295a299c1344bdac9b3e720799f2", null ],
+    [ "DEFAULT_RESERVED_SIZE", "_asio_defines_8h.html#ab80afa61bfb5743d8f7c64988d617f2e", null ],
+    [ "DEFAULT_UDP_BUF_SIZE", "_asio_defines_8h.html#a4e767d2b926c7cc823f1368ab5394a4e", null ],
+    [ "MAGIC_STRING_LEN", "_asio_defines_8h.html#ab595fd4750505bb0ba594430f4a07b1d", null ],
+    [ "RESPONSE_ADDRESS_LEN", "_asio_defines_8h.html#a3bd23225d36c2aa8e9965a6ad80bf2b8", null ],
+    [ "UDP_DATAGRAM_MAX_SIZE", "_asio_defines_8h.html#a520975c3985d41506c5332ba957c5ade", null ]
 ];

@@ -1,5 +1,6 @@
 var classcore__lib_1_1asio_1_1udp_1_1_udp_receiver =
 [
+    [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a1d854b08e6468f98503e530b47deb590", null ],
     [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a6dd4ab1190fb1314dd661978141318e8", null ],
     [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a634c7b60156f03196f5e32b8d022f6cb", null ],
     [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#aedce0b0723bdc65bd371a1e44af0b7ac", null ],

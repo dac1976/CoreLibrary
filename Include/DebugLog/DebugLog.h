@@ -583,7 +583,6 @@ private:
 	/*!
 	 * \brief Method to decode message ID.
 	 * \param[in] message - Message to decode.
-	 * \param[in] length - Message length.
 	 * \return Message ID.
 	 */
     static int MessageDecoder(const dl_private::LogQueueMessage& message)
@@ -597,7 +596,6 @@ private:
 	/*!
 	 * \brief Method to process message.
 	 * \param[in] message - Message to process.
-	 * \param[in] length - Message length.
 	 * \return LogQueueMessage reference.
 	 */
     bool MessageHandler(dl_private::LogQueueMessage& message)
