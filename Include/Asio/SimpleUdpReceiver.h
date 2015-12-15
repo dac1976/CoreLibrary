@@ -37,6 +37,7 @@ namespace asio {
 /*! \brief The udp namespace. */
 namespace udp {
 
+/*! \brief A simplified UDP receiver. */
 class CORE_LIBRARY_DLL_SHARED_API SimpleUdpReceiver final
 {
 public:
@@ -51,7 +52,7 @@ public:
      * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
+     * core_lib::asioIoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */

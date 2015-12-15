@@ -35,7 +35,7 @@ namespace core_lib {
 namespace asio {
 /*! \brief The udp namespace. */
 namespace udp {
-
+/*! \brief A simplified UDP sender. */
 class CORE_LIBRARY_DLL_SHARED_API SimpleUdpSender final
 {
 public:

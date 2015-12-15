@@ -122,6 +122,12 @@ public:
 	bool SendMessageToServerSync(const defs::char_buffer_t& message);
 
 private:
+    /*! \brief Create conenction to server. */
+    void CreateConnection();
+    /*! \brief Check connection and create if required. */
+    void CheckAndCreateConnection();
+
+private:
     /*! \brief I/O service thread group. */
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
@@ -138,10 +144,6 @@ private:
 	const eSendOption m_sendOption{eSendOption::nagleOn};
     /*! \brief TCP connections object. */
 	TcpConnections m_serverConnection;
-    /*! \brief Create conenction to server. */
-	void CreateConnection();
-    /*! \brief Check connection and create if required. */
-	void CheckAndCreateConnection();
 };
 
 } // namespace tcp
