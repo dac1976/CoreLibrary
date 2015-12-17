@@ -2,7 +2,7 @@ CONFIG += core_lib_settings \
           boost_libs_64
 
 CONFIG(debug, debug|release) {
-  LIBS += -LD:/Projects/CoreLibrary/QtProject/msvc2013_64/debug -lCoreLibrary
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/msvc2013_64/debug -lCoreLibrary
 } else {
-  LIBS += -LD:/Projects/CoreLibrary/QtProject/msvc2013_64/release -lCoreLibrary
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/msvc2013_64/release -lCoreLibrary
 }

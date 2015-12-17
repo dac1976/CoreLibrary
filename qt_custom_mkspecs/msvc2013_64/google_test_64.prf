@@ -1,7 +1,7 @@
-INCLUDEPATH += D:/Projects/ThirdParty/google_test/include
+INCLUDEPATH += $$(THIRD_PARTY_LIBS)/google_test/include
 			   
 CONFIG(debug, debug|release) {
-  LIBS += -LD:/Projects/ThirdParty/google_test/qt_msvc2013_64/debug -lgtest_main
+  LIBS += -L$$(THIRD_PARTY_LIBS)/google_test/qt_msvc2013_64/debug -lgtest_main
 } else {
-  LIBS += -LD:/Projects/ThirdParty/google_test/qt_msvc2013_64/release -lgtest_main
+  LIBS += -L$$(THIRD_PARTY_LIBS)/google_test/qt_msvc2013_64/release -lgtest_main
 }
