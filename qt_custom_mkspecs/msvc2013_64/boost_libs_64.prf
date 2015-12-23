@@ -4,14 +4,14 @@ DEFINES += BOOST_THREAD_USE_LIB
 
 CONFIG(debug, debug|release) {
   LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2013-64 \
-          -lboost_filesystem-vc120-mt-gd-1_59                 \
-          -lboost_system-vc120-mt-gd-1_59                  \
-	      -lboost_serialization-vc120-mt-gd-1_59           \
+          -lboost_filesystem-vc120-mt-gd-1_59               \
+          -lboost_system-vc120-mt-gd-1_59                   \
+	      -lboost_serialization-vc120-mt-gd-1_59            \
 	      -lboost_program_options-vc120-mt-gd-1_59
 } else {
   LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2013-64 \
-          -lboost_filesystem-vc120-mt-1_59                 \
-          -lboost_system-vc120-mt-1_59                     \
-	      -lboost_serialization-vc120-mt-1_59              \
+          -lboost_filesystem-vc120-mt-1_59                  \
+          -lboost_system-vc120-mt-1_59                      \
+	      -lboost_serialization-vc120-mt-1_59               \
 	      -lboost_program_options-vc120-mt-1_59
 }

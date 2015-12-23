@@ -95,9 +95,14 @@ struct ToCharVectorImpl
     {
         char_vector_t charVector;
         boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));
-        A oa(os);
-        // BOOST_SERIALIZATION_NVP is required to fully support xml_oarchive
-        oa << BOOST_SERIALIZATION_NVP(object);
+        // Reduce scope of archive to make sure it has
+        // flushed its contents to the stream before
+        // we try and do anything with it.
+        {
+            A oa(os);
+            // BOOST_SERIALIZATION_NVP is required to fully support xml_oarchive
+            oa << BOOST_SERIALIZATION_NVP(object);
+        }
         return charVector;
     }
 };
@@ -141,10 +146,15 @@ struct ToObjectImpl
     T operator()(const char_vector_t& charVector) const
     {
         boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
-        A ia(is);
         T object;
-        // BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
-        ia >> BOOST_SERIALIZATION_NVP(object);
+        // Reduce scope of archive to make sure it has
+        // flushed its contents to the stream before
+        // we try and do anything with it.
+        {
+            A ia(is);
+            // BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
+            ia >> BOOST_SERIALIZATION_NVP(object);
+        }
         return object;
     }
 };
