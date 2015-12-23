@@ -40,6 +40,7 @@
 #include "boost/range/iterator_range.hpp"
 #include "boost/serialization/version.hpp"
 #include "boost/serialization/string.hpp"
+#include "boost/serialization/base_object.hpp"
 
 namespace boost_arch = boost::archive;
 
