@@ -6,16 +6,6 @@
 
 #include "gtest/gtest.h"
 
-#if BOOST_COMP_MSVC
-    #ifdef _DEBUG
-        #pragma message("*******************************************************************************")
-        #pragma message("*******************************************************************************")
-        #pragma message("***** SERIALIZATION UNIT TESTS WILL FAIL IF EXECUTED WITHIN A DEBUG BUILD *****")
-        #pragma message("*******************************************************************************")
-        #pragma message("*******************************************************************************")
-    #endif
-#endif
-
 namespace 
 {
 // Helper class to faciltate the test cases.
