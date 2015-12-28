@@ -30,6 +30,7 @@
 #endif
 #include "CsvGrid/CsvGridCell.h"
 #include "StringUtils/StringUtils.h"
+#include "boost/algorithm/string/trim.hpp"
 
 namespace core_lib {
 namespace csv_grid {
@@ -66,6 +67,11 @@ Cell::Cell(const int64_t value)
 {
 }
 
+Cell::Cell(const float value)
+    : m_value(string_utils::FormatFloatString(value))
+{
+}
+
 Cell::Cell(const double value)
 	: m_value(string_utils::FormatFloatString(value))
 {
@@ -94,6 +100,13 @@ Cell& Cell::operator=(const int64_t rhs)
 	return *this;
 }
 
+Cell& Cell::operator=(const float rhs)
+{
+    m_value = string_utils::FormatFloatString(rhs);
+    return *this;
+}
+
+
 Cell& Cell::operator=(const double rhs)
 {
 	m_value = string_utils::FormatFloatString(rhs);
@@ -118,22 +131,27 @@ Cell::operator std::string() const
 
 Cell::operator int32_t() const
 {
-	return std::stoi(m_value);
+    return std::stoi(boost::trim_copy(m_value));
 }
 
 Cell::operator int64_t() const
 {
-	return std::stoll(m_value);
+    return std::stoll(boost::trim_copy(m_value));
+}
+
+Cell::operator float() const
+{
+    return std::stof(boost::trim_copy(m_value));
 }
 
 Cell::operator double() const
 {
-	return std::stod(m_value);
+    return std::stod(boost::trim_copy(m_value));
 }
 
 Cell::operator long double() const
 {
-	return std::stold(m_value);
+    return std::stold(boost::trim_copy(m_value));
 }
 
 int32_t Cell::ToInt32Def(const int32_t defval) const __NOEXCEPT__
@@ -142,7 +160,7 @@ int32_t Cell::ToInt32Def(const int32_t defval) const __NOEXCEPT__
 
 	try
 	{
-		val = std::stoi(m_value);
+        val = std::stoi(boost::trim_copy(m_value));
 	}
 	catch(...)
 	{
@@ -158,7 +176,7 @@ int64_t Cell::ToInt64Def(const int64_t defval) const __NOEXCEPT__
 
 	try
 	{
-		val = std::stoll(m_value);
+        val = std::stoll(boost::trim_copy(m_value));
 	}
 	catch(...)
 	{
@@ -168,6 +186,21 @@ int64_t Cell::ToInt64Def(const int64_t defval) const __NOEXCEPT__
 	return val;
 }
 
+float Cell::ToFloatDef(const float defval) const __NOEXCEPT__
+{
+    float val;
+
+    try
+    {
+        val = std::stof(boost::trim_copy(m_value));
+    }
+    catch(...)
+    {
+        val = defval;
+    }
+
+    return val;
+}
 
 double Cell::ToDoubleDef(const double defval) const __NOEXCEPT__
 {
@@ -175,7 +208,7 @@ double Cell::ToDoubleDef(const double defval) const __NOEXCEPT__
 
 	try
 	{
-		val = std::stod(m_value);
+        val = std::stod(boost::trim_copy(m_value));
 	}
 	catch(...)
 	{
@@ -191,7 +224,7 @@ long double Cell::ToLongDoubleDef(const long double defval) const __NOEXCEPT__
 
 	try
 	{
-		val = std::stold(m_value);
+        val = std::stold(boost::trim_copy(m_value));
 	}
 	catch(...)
 	{

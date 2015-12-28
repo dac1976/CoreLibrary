@@ -80,6 +80,13 @@ public:
 	 * Initialise the cell with a 64bit integer value.
 	 */
 	explicit Cell(const int64_t value);
+    /*!
+     * \brief Initializing constructor
+     * \param[in] value - The initial value.
+     *
+     * Initialise the cell with a single precision floating point value.
+     */
+    explicit Cell(const float value);
 	/*!
 	 * \brief Initializing constructor
      * \param[in] value - The initial value.
@@ -129,6 +136,14 @@ public:
 	 * Assign to a 64bit integer value.
 	 */
 	Cell& operator=(const int64_t rhs);
+    /*!
+     * \brief Value assignment operator.
+     * \param[in] rhs - The value to assign.
+     * \return Modified Cell object.
+     *
+     * Assign to a single precision floating point value.
+     */
+    Cell& operator=(const float rhs);
 	/*!
 	 * \brief Value assignment operator.
      * \param[in] rhs - The value to assign.
@@ -177,6 +192,16 @@ public:
 	 * boost::bad_lexical_cast exception is thrown.
 	 */
 	operator int64_t() const;
+    /*!
+     * \brief Cast operator.
+     *
+     * Cast the cell to a float.
+     *
+     * \note
+     * If the cell's value cannot be cast to a float then a
+     * boost::bad_lexical_cast exception is thrown.
+     */
+    operator float() const;
 	/*!
 	 * \brief Cast operator.
 	 *
@@ -215,6 +240,15 @@ public:
 	 * performed safely return the default value instead.
 	 */
 	int64_t ToInt64Def(const int64_t defval) const __NOEXCEPT__;
+    /*!
+     * \brief Conversion function
+     * \param[in] defval - The default value to return in case of a failure.
+     * \return Cell value as a float.
+     *
+     * Convert the cell to a float and if this cannot be performed
+     * safely return the default value instead.
+     */
+    float ToFloatDef(const float defval) const __NOEXCEPT__;
 	/*!
 	 * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
