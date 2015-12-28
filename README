@@ -30,9 +30,11 @@ CoreLibrary
 	/qt_custom_mkspecs
 		/linux
 		/win
+		/msvc2013_64
 	/QtProject
 		/linux
 		/win
+		/msvc2013_64
 	/Source
 		/Asio
 		/CsvGrid
@@ -46,5 +48,6 @@ CoreLibrary
 		/data
 		/linux
 		/msvc
-		/win						  
+		/qt_msvc2013_64
+		/win	  		
   				 
