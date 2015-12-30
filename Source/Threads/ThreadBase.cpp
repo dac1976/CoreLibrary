@@ -83,16 +83,16 @@ bool ThreadBase::Stop()
 	{
 		SetTerminating(true);        
         ProcessTerminationConditions();
-
-		if (m_thread.joinable())
-		{
-			m_thread.join();
-		}
-        else
-        {
-            SetTerminating(false);
-        }
 	}
+
+    if (m_thread.joinable())
+    {
+        m_thread.join();
+    }
+    else
+    {
+        SetTerminating(false);
+    }
 
     return !IsStarted();
 }
