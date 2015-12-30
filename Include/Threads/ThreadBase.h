@@ -122,6 +122,11 @@ public:
 protected:
 	/*! \brief Default constructor.*/
 	ThreadBase() = default;
+    /*!
+     * \brief Set terminating flag.
+     * \param[in] terminating - True if terminating, false otherwise.
+     */
+    void SetTerminating(const bool terminating = true);
 	/*!
 	 * \brief Is thread terminating.
 	 * \return Returns true if terminating, false otherwise.
@@ -178,11 +183,6 @@ private:
 	 */
 	void SetThreadIdAndNativeHandle(const std::thread::id& threadId
 									, const std::thread::native_handle_type& nativeHandle);
-	/*!
-	 * \brief Set terminating flag.
-	 * \param[in] terminating - True if terminating, false otherwise.
-	 */
-	void SetTerminating(const bool terminating = true);
 	/*!
 	 * \brief Set started flag.
 	 * \param[in] started - True if started, false otherwise.

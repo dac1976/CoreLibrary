@@ -73,7 +73,7 @@ public:
 	 * \brief Default constructor.
 	 *
 	 * Create the SyncEvent in auto-reset mode, signal
-	 * one thread end initially not signalled.
+     * one thread and initially not signalled.
 	 */
 	SyncEvent() = default;
 	/*!
