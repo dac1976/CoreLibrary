@@ -8,7 +8,8 @@ var NAVTREE =
         [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
-        [ "Enumerations", "namespacemembers_enum.html", null ]
+        [ "Enumerations", "namespacemembers_enum.html", null ],
+        [ "Enumerator", "namespacemembers_eval.html", null ]
       ] ]
     ] ],
     [ "Classes", null, [
@@ -41,9 +42,9 @@ var NAVTREEINDEX =
 ".html",
 "_udp_receiver_8cpp.html",
 "classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a3e72dda30cdf850f2b7eaf2208370a57",
-"classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#a0cbf299055058bc4be3c2c31febccc10",
-"classcore__lib_1_1threads_1_1_message_queue_thread.html#aa6a72e8afd3967f980106239a632f763",
-"structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4.html"
+"classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a45853212009fb5fee0133b564626e882",
+"classcore__lib_1_1threads_1_1_message_queue_thread.html#a22fd96be1b69e890a8e3defe514419f2",
+"structcore__lib_1_1asio_1_1defs_1_1_received_message.html#a70b564f1928b84fd56648a7b956db325"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -16,6 +16,7 @@ var searchData=
   ['timestamp',['TimeStamp',['../classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ac445e036fed888e5c5cf0db31d58a29e',1,'core_lib::log::dl_private::LogQueueMessage']]],
   ['tocharvector',['ToCharVector',['../namespacecore__lib_1_1serialize.html#ad4aa01ddc0b4571e7442b150cdd10ec8',1,'core_lib::serialize']]],
   ['todoubledef',['ToDoubleDef',['../classcore__lib_1_1csv__grid_1_1_cell.html#a885019fb49051e21f7062e61899095e8',1,'core_lib::csv_grid::Cell']]],
+  ['tofloatdef',['ToFloatDef',['../classcore__lib_1_1csv__grid_1_1_cell.html#acfcd40d4aba39849198db482cb397168',1,'core_lib::csv_grid::Cell']]],
   ['toint32def',['ToInt32Def',['../classcore__lib_1_1csv__grid_1_1_cell.html#a501da1668a6d73532ef6b07492346f0a',1,'core_lib::csv_grid::Cell']]],
   ['toint64def',['ToInt64Def',['../classcore__lib_1_1csv__grid_1_1_cell.html#acc60ce92f0529eb80628948b32da92f5',1,'core_lib::csv_grid::Cell']]],
   ['tokenizeline',['TokenizeLine',['../classcore__lib_1_1csv__grid_1_1_t_row.html#ae8831cb13a32d887207143c11068c49e',1,'core_lib::csv_grid::TRow']]],
