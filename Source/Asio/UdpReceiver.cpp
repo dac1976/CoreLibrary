@@ -43,7 +43,8 @@ UdpReceiver::UdpReceiver(boost_ioservice_t& ioService
 						 , const defs::message_received_handler_t& messageReceivedHandler
 						 , const eUdpOption receiveOptions
 						 , const size_t receiveBufferSize)
-	: m_ioService(ioService)
+    : m_destructing(false)
+    , m_ioService(ioService)
 	, m_listenPort{listenPort}
 	, m_socket{m_ioService}
 	, m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -58,7 +59,8 @@ UdpReceiver::UdpReceiver(const uint16_t listenPort
 						 , const defs::message_received_handler_t& messageReceivedHandler
 						 , const eUdpOption receiveOptions
 						 , const size_t receiveBufferSize)
-	: m_ioThreadGroup{new IoServiceThreadGroup(1)}// 1 thread is sufficient only receive one message at a time
+    : m_destructing(false)
+    , m_ioThreadGroup{new IoServiceThreadGroup(1)}// 1 thread is sufficient only receive one message at a time
 	, m_ioService(m_ioThreadGroup->IoService())
 	, m_listenPort{listenPort}
 	, m_socket{m_ioService}
@@ -67,6 +69,15 @@ UdpReceiver::UdpReceiver(const uint16_t listenPort
 	, m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
 {
 	CreateUdpSocket(receiveOptions, receiveBufferSize);
+}
+
+UdpReceiver::~UdpReceiver()
+{
+    // We need to falg destruction so we can
+    // stop handling received messages in a
+    // thread-safe way.
+    std::lock_guard<std::mutex> lock(m_destructionMutex);
+    m_destructing = true;
 }
 
 uint16_t UdpReceiver::ListenPort() const
@@ -115,6 +126,16 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error
 		// This will be because we are closing our socket.
 		return;
 	}
+
+    // Lock in this scope to make it safe if the destructor is called.
+    // We'll short-circuit if we're destructing so we don't reference
+    // objects going out of scope as the UDPReceiver is destructed.
+    std::lock_guard<std::mutex> lock(m_destructionMutex);
+
+    if (m_destructing)
+    {
+        return;
+    }
 
 	try
 	{

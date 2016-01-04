@@ -27,6 +27,7 @@
 #ifndef UDPRECEIVER
 #define UDPRECEIVER
 
+#include <mutex>
 #include "IoServiceThreadGroup.h"
 #include "Threads/SyncEvent.h"
 
@@ -85,8 +86,8 @@ public:
 	UdpReceiver(const UdpReceiver& ) = delete;
     /*! \brief Copy assignment operator - deleted. */
 	UdpReceiver& operator=(const UdpReceiver& ) = delete;
-    /*! \brief Default destructor. */
-	~UdpReceiver() = default;
+    /*! \brief Destructor. */
+    ~UdpReceiver();
     /*!
      * \brief Retrieve this receiver's listen port.
      * \return The listen port.
@@ -112,6 +113,10 @@ private:
                       , const size_t bytesReceived);
 
 private:
+    /*! \brief Mutex to protect shutdown of receiver. */
+    mutable std::mutex m_destructionMutex;
+    /*! \brief Flag to show were are destructing. */
+    bool m_destructing;
     /*! \brief I/O service thread group. */
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
