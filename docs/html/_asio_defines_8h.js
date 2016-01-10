@@ -34,6 +34,7 @@ var _asio_defines_8h =
     [ "DEFAULT_RESERVED_SIZE", "_asio_defines_8h.html#ab80afa61bfb5743d8f7c64988d617f2e", null ],
     [ "DEFAULT_UDP_BUF_SIZE", "_asio_defines_8h.html#a4e767d2b926c7cc823f1368ab5394a4e", null ],
     [ "MAGIC_STRING_LEN", "_asio_defines_8h.html#ab595fd4750505bb0ba594430f4a07b1d", null ],
+    [ "NULL_CONNECTION", "_asio_defines_8h.html#a35c12c860392f62ec0f25144664b2c1b", null ],
     [ "RESPONSE_ADDRESS_LEN", "_asio_defines_8h.html#a3bd23225d36c2aa8e9965a6ad80bf2b8", null ],
     [ "UDP_DATAGRAM_MAX_SIZE", "_asio_defines_8h.html#a520975c3985d41506c5332ba957c5ade", null ]
 ];

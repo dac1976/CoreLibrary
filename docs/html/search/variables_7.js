@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['udp_5fdatagram_5fmax_5fsize',['UDP_DATAGRAM_MAX_SIZE',['../namespacecore__lib_1_1asio_1_1udp.html#a520975c3985d41506c5332ba957c5ade',1,'core_lib::asio::udp']]]
+  ['totallength',['totalLength',['../structcore__lib_1_1asio_1_1defs_1_1_message_header.html#abdac0b8b4fad6ced051b5e13e088e8b6',1,'core_lib::asio::defs::MessageHeader']]]
 ];

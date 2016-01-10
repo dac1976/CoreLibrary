@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a44fd5605538fe22a1ec14e131251b35c":[1,0,0,3,0,1,1],
 "classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a45853212009fb5fee0133b564626e882":[1,0,0,3,0,1,8],
 "classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a5ba14fe33fa398703bb58a0ddf92a56d":[1,0,0,3,0,1,2],
 "classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#abd4882def3a224ec52b6ac0a9ad1717d":[1,0,0,3,0,1,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "classcore__lib_1_1threads_1_1_join_threads_p.html#add9d7a1c30b5ea883e298b674d6b4e4e":[1,0,0,8,4,2],
 "classcore__lib_1_1threads_1_1_message_queue_thread.html":[1,0,0,8,5],
 "classcore__lib_1_1threads_1_1_message_queue_thread.html#a1115d78e116bf3c0adb8cad2a7d14238":[1,0,0,8,5,18],
-"classcore__lib_1_1threads_1_1_message_queue_thread.html#a1236d62aabb0d62c18a582036da52525":[1,0,0,8,5,19],
-"classcore__lib_1_1threads_1_1_message_queue_thread.html#a127349ac28cd122549bda01bd726ae73":[1,0,0,8,5,11]
+"classcore__lib_1_1threads_1_1_message_queue_thread.html#a1236d62aabb0d62c18a582036da52525":[1,0,0,8,5,19]
 };
