@@ -4,24 +4,23 @@
 #
 #-------------------------------------------------
 
+#set version info
+VERSION = 1.2.3.1
+
 QT       -= gui
 
 QMAKE_CXXFLAGS += -std=c++14
 
-TARGET = CoreLibrary
+TARGET = CoreLibraryDll
 TEMPLATE = lib
-CONFIG += staticlib debug_and_release build_all
+CONFIG += dll debug_and_release build_all
 CONFIG += core_lib_settings
+CONFIG += boost_libs
 
-DEFINES += CORE_LIBRARY_LIB
+DEFINES += CORE_LIBRARY_DLL
 
-
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
+unix {
+    target.path = /usr/lib
     INSTALLS += target
 }
 

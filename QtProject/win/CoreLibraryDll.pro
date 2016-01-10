@@ -4,21 +4,23 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+#set version info
+VERSION = 1.2.3.1
 
-TARGET = CoreLibrary
-TEMPLATE = lib
-CONFIG += staticlib debug_and_release build_all
-CONFIG += core_lib_settings
+QT       -= gui
 
 QMAKE_CXXFLAGS += -std=c++14
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
+TARGET = CoreLibraryDll
+TEMPLATE = lib
+CONFIG += dll debug_and_release build_all
+CONFIG += core_lib_settings
+CONFIG += boost_libs_64
+
+DEFINES += CORE_LIBRARY_DLL
+
+unix {
+    target.path = /usr/lib
     INSTALLS += target
 }
 
@@ -34,9 +36,9 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-HEADERS +=                                                \
-	../../Include/Asio/IoServiceThreadGroup.h           \
+HEADERS +=                                              \
 	../../Include/Asio/AsioDefines.h                    \
+    ../../Include/Asio/IoServiceThreadGroup.h           \
 	../../Include/Asio/MessageUtils.h                   \
 	../../Include/Asio/SimpleTcpClient.h                \
 	../../Include/Asio/SimpleTcpServer.h                \
@@ -72,10 +74,12 @@ HEADERS +=                                                \
 	../../Include/Asio/UdpReceiver.h                    \
 	../../Include/Asio/UdpTypedSender.h                 \
     ../../Include/Asio/SimpleUdpSender.h                \
-    ../../Include/Asio/SimpleUdpReceiver.h \
-    ../../Include/Platform/PlatformDefines.h
+    ../../Include/Asio/SimpleUdpReceiver.h              \
+    ../../Include/Platform/PlatformDefines.h            \
+	../../Include/CoreLibraryDllGlobal.h
 
 SOURCES +=                                                \
+    ../../Source/Asio/AsioDefines.cpp                     \
 	../../Source/Asio/IoServiceThreadGroup.cpp            \
 	../../Source/Asio/MessageUtils.cpp                    \
 	../../Source/Asio/SimpleTcpClient.cpp                 \
