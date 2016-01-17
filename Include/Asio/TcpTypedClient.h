@@ -173,10 +173,17 @@ public:
 	bool SendMessageToServerSync(const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = messages::BuildMessage(messageId, responseAddress
-                                                    , GetClientDetailsForServer()
-                                                    , m_messageBuilder);
-		return m_tcpClient.SendMessageToServerSync(messageBuffer);
+        try
+        {
+            auto messageBuffer = messages::BuildMessage(messageId, responseAddress
+                                                        , GetClientDetailsForServer()
+                                                        , m_messageBuilder);
+            return m_tcpClient.SendMessageToServerSync(messageBuffer);
+        }
+        catch(...)
+        {
+            return false;
+        }
 	}
     /*!
      * \brief Send a full message to the server asynchronously.
@@ -210,10 +217,17 @@ public:
                                  , const uint32_t messageId
 								 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
 	{
-        auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(message, messageId, responseAddress
-                                                          , GetClientDetailsForServer()
-                                                          , m_messageBuilder);
-		return m_tcpClient.SendMessageToServerSync(messageBuffer);
+        try
+        {
+            auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(message, messageId, responseAddress
+                                                              , GetClientDetailsForServer()
+                                                              , m_messageBuilder);
+            return m_tcpClient.SendMessageToServerSync(messageBuffer);
+        }
+        catch(...)
+        {
+            return false;
+        }
 	}
 
 private:
