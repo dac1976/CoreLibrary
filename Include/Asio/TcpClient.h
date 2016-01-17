@@ -94,6 +94,11 @@ public:
      */
 	defs::connection_t ServerConnection() const;
     /*!
+     * \brief Check if the client is connected to the server.
+     * \return True if conneced, false otherwise.
+     */
+    bool Connected() const;
+    /*!
      * \brief Retrieve this client's connection details
      * \return Connection object describing this client's address and port.
      *
@@ -124,8 +129,11 @@ public:
 private:
     /*! \brief Create conenction to server. */
     void CreateConnection();
-    /*! \brief Check connection and create if required. */
-    void CheckAndCreateConnection();
+    /*!
+     * \brief Check connection and create if required.
+     * \return True if connection exists, false otherwise.
+     */
+    bool CheckAndCreateConnection();
 
 private:
     /*! \brief I/O service thread group. */

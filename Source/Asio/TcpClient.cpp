@@ -74,6 +74,11 @@ auto TcpClient::ServerConnection() const -> defs::connection_t
 	return m_server;
 }
 
+bool TcpClient::Connected() const
+{
+    return !m_serverConnection.Empty();
+}
+
 auto TcpClient::GetClientDetailsForServer() const -> defs::connection_t
 {
 	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
@@ -86,14 +91,20 @@ void TcpClient::CloseConnection()
 
 void TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
 {
-	CheckAndCreateConnection();
-	m_serverConnection.SendMessageAsync(m_server, message);
+    if (CheckAndCreateConnection())
+    {
+        m_serverConnection.SendMessageAsync(m_server, message);
+    }
 }
 
 bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
 {
-	CheckAndCreateConnection();
-	return m_serverConnection.SendMessageSync(m_server, message);
+    if (CheckAndCreateConnection())
+    {
+        return m_serverConnection.SendMessageSync(m_server, message);
+    }
+
+    return false;
 }
 
 void TcpClient::CreateConnection()
@@ -119,12 +130,14 @@ void TcpClient::CreateConnection()
 	}
 }
 
-void TcpClient::CheckAndCreateConnection()
+bool TcpClient::CheckAndCreateConnection()
 {
 	if (m_serverConnection.Empty())
 	{
 		CreateConnection();
 	}
+
+    return !m_serverConnection.Empty();
 }
 
 } // namespace tcp

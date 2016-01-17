@@ -120,6 +120,14 @@ public:
 		return m_tcpClient.ServerConnection();
 	}
     /*!
+     * \brief Check if the client is connected to the server.
+     * \return True if conneced, false otherwise.
+     */
+    bool Connected() const
+    {
+        return m_tcpClient.Connected();
+    }
+    /*!
      * \brief Retrieve this client's connection details
      * \return Connection object describing this client's address and port.
      *

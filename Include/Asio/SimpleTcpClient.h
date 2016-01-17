@@ -85,6 +85,11 @@ public:
      */
 	defs::connection_t ServerConnection() const;
     /*!
+     * \brief Check if the client is connected to the server.
+     * \return True if conneced, false otherwise.
+     */
+    bool Connected() const;
+    /*!
      * \brief Retrieve this client's connection details
      * \return Connection object describing this client's address and port.
      */

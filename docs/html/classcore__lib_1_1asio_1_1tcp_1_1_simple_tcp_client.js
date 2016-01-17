@@ -6,6 +6,7 @@ var classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client =
     [ "~SimpleTcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#aa982362cb81422d7b89d41e7d95c5328", null ],
     [ "SimpleTcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a1110890328045045e1c82e4a1047488d", null ],
     [ "CloseConnection", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a7cfbe38d025bd708c29c83a985fb64e9", null ],
+    [ "Connected", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a5f63806088f71f93908f348ccd75808c", null ],
     [ "GetClientDetailsForServer", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a8e8bfae29e27e2879c0d904ef9b2e2df", null ],
     [ "operator=", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a159cc8268ff1c906b8649c645b3206ec", null ],
     [ "SendMessageToServerAsync", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a0217c3f347a5b3853b84e63925246bd9", null ],
