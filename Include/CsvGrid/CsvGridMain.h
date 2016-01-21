@@ -33,6 +33,7 @@
 
 #include <fstream>
 #include <limits>
+#include <cmath>
 #ifdef __USE_EXPLICIT_MOVE__
     #include <utility>
 #endif
@@ -420,10 +421,12 @@ public:
 
 		m_grid.clear();
 		size_t rowCount = 0;
+        std::string row;
+        bool rowComplete = false;
 
 		while(csvfile.good() && (m_grid.size() < maxNumRowsToLoad))
-		{
-			std::string line;
+        {
+            std::string line;
 			std::getline(csvfile, line);
 			string_utils::PackStdString(line);
 
@@ -436,12 +439,38 @@ public:
 				}
 			}
 
-			if (rowCount >= firstRowToLoad)
+            if (!row.empty())
+            {
+#if BOOST_OS_WINDOWS
+                row.append("\r\n");
+#elif BOOST_OS_LINUX
+                row.append("\n");
+#elif BOOST_OS_MACOS
+                row.append("\r");
+#endif
+            }
+
+            row.append(line);
+
+            // Need to handle the case where there are multiple new
+            // lines within a cell within a row and we must detect
+            // real end of line for row
+            if (ContainsEndOfRow(row))
+            {
+                rowComplete = true;
+            }
+
+            if ((rowCount >= firstRowToLoad) && rowComplete)
 			{
-				m_grid.emplace_back(line, options);
+                m_grid.emplace_back(row, options);
 			}
 
-			++rowCount;
+            if (rowComplete)
+            {
+                ++rowCount;
+                rowComplete = false;
+                row.clear();
+            }
 		}
 
 		csvfile.close();
@@ -504,6 +533,21 @@ private:
 		}
 
 	}
+    /*!
+     * \brief Check if row string contains the actual end of the CSV row.
+     * \param[in] row - The row string object.
+     * \return True if contains valid row end, false otherwise.
+     *
+     * If a row contains an odd number of " chars then there must be a new line
+     * within a cell on that row. If there are 0 or an even number of " chars
+     * in a row then the new line must be the real row end.
+     */
+    static bool ContainsEndOfRow(const std::string& row)
+    {
+        std::string::difference_type numQuotes
+            = std::count(row.begin(), row.end(), '"');
+        return (numQuotes % 2) == 0;
+    }
 };
 
 }// namespace csv_grid

@@ -407,17 +407,17 @@ private:
 			std::string cell{static_cast<std::string>(cellItem)};
 
 			// if string contains quotes, insert an
-			// extra quote...
-			size_t pos{cell.find('"')};
+            // extra quote...
+            size_t pos{cell.find('"')};
 
-			while (pos < cell.length())
+            while (pos < cell.length())
 			{
 				cell.insert(pos, "\"");
 				pos = cell.find('"', pos + 2);
-			}
+            }
 
 			// if cell contains ',', '\n' or '\r' wrap it in quotes...
-			if (cell.find_first_of(",\r\n") != std::string::npos)
+            if (cell.find_first_of(",\r\n") != std::string::npos)
 			{
 				cell = "\"" + cell + "\"";
 			}
