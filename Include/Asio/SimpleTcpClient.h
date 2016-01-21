@@ -93,7 +93,7 @@ public:
      * \brief Retrieve this client's connection details
      * \return Connection object describing this client's address and port.
      */
-	defs::connection_t GetClientDetailsForServer() const;
+    defs::connection_t GetClientDetailsForServer();
     /*! \brief Manually close the connection.
      *
      * Note that this object uses RAII so will close the connection when destroyed.

@@ -133,8 +133,9 @@ public:
      *
      * Throws xUnknownConnectionError is remoteEnd is not valid.
      */
-	defs::connection_t GetClientDetailsForServer() const
+    defs::connection_t GetClientDetailsForServer()
 	{
+        m_tcpClient.CheckAndCreateConnection();
 		return m_tcpClient.GetClientDetailsForServer();
 	}
     /*! \brief Manually close the connection.

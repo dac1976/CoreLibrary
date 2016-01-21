@@ -105,6 +105,11 @@ public:
      * Throws xUnknownConnectionError is remoteEnd is not valid.
      */
 	defs::connection_t GetClientDetailsForServer() const;
+    /*!
+     * \brief Check connection and create if required.
+     * \return True if connection exists, false otherwise.
+     */
+    bool CheckAndCreateConnection();
     /*! \brief Manually close the connection.
      *
      * Note that this object uses RAII so will close the connection when destroyed.
@@ -129,11 +134,6 @@ public:
 private:
     /*! \brief Create conenction to server. */
     void CreateConnection();
-    /*!
-     * \brief Check connection and create if required.
-     * \return True if connection exists, false otherwise.
-     */
-    bool CheckAndCreateConnection();
 
 private:
     /*! \brief I/O service thread group. */

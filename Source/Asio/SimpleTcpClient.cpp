@@ -70,7 +70,7 @@ bool SimpleTcpClient::Connected() const
     return m_tcpTypedClient.Connected();
 }
 
-auto SimpleTcpClient::GetClientDetailsForServer() const -> defs::connection_t
+auto SimpleTcpClient::GetClientDetailsForServer() -> defs::connection_t
 {
     return m_tcpTypedClient.GetClientDetailsForServer();
 }
