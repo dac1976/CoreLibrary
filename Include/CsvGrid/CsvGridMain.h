@@ -439,22 +439,17 @@ public:
 				}
 			}
 
+            // Because a cell may have line breaks within it we have to
+            // accumulate lines from the file until we have a complete row.
+            // But as we join the lines back to gether to form a complete
+            // row we must add back in the new-line char for each line end.
             if (!row.empty())
             {
-#if BOOST_OS_WINDOWS
-                row.append("\r\n");
-#elif BOOST_OS_LINUX
                 row.append("\n");
-#elif BOOST_OS_MACOS
-                row.append("\r");
-#endif
             }
 
             row.append(line);
 
-            // Need to handle the case where there are multiple new
-            // lines within a cell within a row and we must detect
-            // real end of line for row
             if (ContainsEndOfRow(row))
             {
                 rowComplete = true;
@@ -538,9 +533,10 @@ private:
      * \param[in] row - The row string object.
      * \return True if contains valid row end, false otherwise.
      *
-     * If a row contains an odd number of " chars then there must be a new line
-     * within a cell on that row. If there are 0 or an even number of " chars
-     * in a row then the new line must be the real row end.
+     * If row contains an odd number of " chars then there must be a new line
+     * within a cell on the real row i nthe CSV file. If there are 0 or an
+     * even number of " chars in row then it must represent a complete row from
+     * the CSV file.
      */
     static bool ContainsEndOfRow(const std::string& row)
     {
