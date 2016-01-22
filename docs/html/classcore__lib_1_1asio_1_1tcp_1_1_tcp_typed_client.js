@@ -7,7 +7,7 @@ var classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client =
     [ "TcpTypedClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a503323787dd0561832a4fb40186fa479", null ],
     [ "CloseConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#aba790f8d5c68d541b01df61155206c5a", null ],
     [ "Connected", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#af814b9fe739a27465b2cfa92a8e2abd3", null ],
-    [ "GetClientDetailsForServer", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a83f077a77488c38c78448936598f58f6", null ],
+    [ "GetClientDetailsForServer", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#af984f529d48716a73b0fe81ff381c78e", null ],
     [ "operator=", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a3f40b993feea68d5f814204fb1b2d422", null ],
     [ "SendMessageToServerAsync", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#af7133bee93a35c3ded7714b7ed31e236", null ],
     [ "SendMessageToServerAsync", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a7a68d974d7dc84283c44a0116d4ef62b", null ],

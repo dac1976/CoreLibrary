@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"structcore__lib_1_1asio_1_1defs_1_1_received_message.html":[1,0,0,0,0,1],
 "structcore__lib_1_1asio_1_1defs_1_1_received_message.html#a2305bc4a02edfd5c28c7784b6da829f7":[1,0,0,0,0,1,7],
 "structcore__lib_1_1asio_1_1defs_1_1_received_message.html#a414706025d7d687b0cf4c6e63b369f78":[1,0,0,0,0,1,8],
 "structcore__lib_1_1asio_1_1defs_1_1_received_message.html#a645c8a7b6b15009d39bf86415e4ec06e":[1,0,0,0,0,1,5],
