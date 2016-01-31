@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 #set version info
-VERSION = 1.2.3.1
+VERSION = 1.2.4.0
 
 QT       -= gui
 
@@ -56,6 +56,7 @@ HEADERS +=                                              \
 	../../Include/DebugLog/DebugLogSingleton.h          \
 	../../Include/DebugLog/DebugLogging.h               \
 	../../Include/Exceptions/CustomException.h          \
+	../../Include/FileUtils/FileUtils.h                 \
 	../../Include/IniFile/IniFileLines.h                \
 	../../Include/IniFile/IniFileSectionDetails.h       \
 	../../Include/IniFile/IniFile.h                     \
@@ -93,6 +94,7 @@ SOURCES +=                                                \
 	../../Source/CsvGrid/CsvGridMain.cpp                  \
 	../../Source/DebugLog/DebugLog.cpp                    \
 	../../Source/Exceptions/CustomException.cpp           \
+	../../Source/FileUtils/FileUtils.cpp                  \
 	../../Source/IniFile/IniFileLines.cpp                 \
 	../../Source/IniFile/IniFileSectionDetails.cpp        \
 	../../Source/IniFile/IniFile.cpp                      \
