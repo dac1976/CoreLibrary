@@ -117,7 +117,7 @@ void CopyDirectoryRecursively(const std::string& source
     {
         if (options == eCopyDirectoryOptions::failIfTargetExists)
         {
-            BOOST_THROW_EXCEPTION(xCopyDirectoryError("target folder exists"));
+            BOOST_THROW_EXCEPTION(xCopyDirectoryError("target folder already exists"));
         }
 
         effectiveTarget /= bfsSource.filename();
