@@ -2,6 +2,7 @@ var searchData=
 [
   ['earchivetype',['eArchiveType',['../namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313',1,'core_lib::asio::defs']]],
   ['ecellformatoptions',['eCellFormatOptions',['../namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e',1,'core_lib::csv_grid']]],
+  ['ecopydirectoryoptions',['eCopyDirectoryOptions',['../namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cba',1,'core_lib::file_utils']]],
   ['efileopenoptions',['eFileOpenOptions',['../classcore__lib_1_1log_1_1_debug_log.html#a51affdd46da3c324ae68a39aeb6bd8b3',1,'core_lib::log::DebugLog']]],
   ['efloatstringformat',['eFloatStringFormat',['../namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5',1,'core_lib::string_utils']]],
   ['eintialcondition',['eIntialCondition',['../namespacecore__lib_1_1threads.html#a164aacfa37b4690eccd1b6dae4ebd9dc',1,'core_lib::threads']]],

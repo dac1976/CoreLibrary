@@ -2,6 +2,7 @@ var searchData=
 [
   ['xarchivetypeerror',['xArchiveTypeError',['../classcore__lib_1_1asio_1_1messages_1_1x_archive_type_error.html',1,'core_lib::asio::messages']]],
   ['xbucketvalueoutofrangeerror',['xBucketValueOutOfRangeError',['../classcore__lib_1_1sorting_1_1x_bucket_value_out_of_range_error.html',1,'core_lib::sorting']]],
+  ['xcopydirectoryerror',['xCopyDirectoryError',['../classcore__lib_1_1file__utils_1_1x_copy_directory_error.html',1,'core_lib::file_utils']]],
   ['xcsvgridcoloutofrangeerror',['xCsvGridColOutOfRangeError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html',1,'core_lib::csv_grid']]],
   ['xcsvgridcreatefilestreamerror',['xCsvGridCreateFileStreamError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html',1,'core_lib::csv_grid']]],
   ['xcsvgriddimensionerror',['xCsvGridDimensionError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html',1,'core_lib::csv_grid']]],

@@ -5,8 +5,8 @@
 # endif
 
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION 1,2,3,4
-    PRODUCTVERSION 1,2,3,4
+    FILEVERSION 1,2,4,0
+    PRODUCTVERSION 1,2,4,0
 	FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
 	FILEFLAGS VS_FF_DEBUG
@@ -23,11 +23,11 @@ VS_VERSION_INFO VERSIONINFO
 			BEGIN
 				VALUE "CompanyName", "Duncan Crutchley\0"
 				VALUE "FileDescription", "Core Utilities Library\0"
-                VALUE "FileVersion", "1.2.3.4\0"
+                VALUE "FileVersion", "1.2.4.0\0"
                 VALUE "LegalCopyright", "Copyright 2014 Duncan Crutchley\0"
 				VALUE "OriginalFilename", "CoreLibraryDll.dll\0"
 				VALUE "ProductName", "Core Library Dll\0"
-                VALUE "ProductVersion", "1.0\0"
+                VALUE "ProductVersion", "1.2\0"
 			END
 		END
 		BLOCK "VarFileInfo"

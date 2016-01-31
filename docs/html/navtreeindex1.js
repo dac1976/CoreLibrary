@@ -1,6 +1,16 @@
 var NAVTREEINDEX1 =
 {
-"_thread_group_8h_source.html":[2,0,0,9,6],
+"_tcp_server_8h_source.html":[2,0,0,0,10],
+"_tcp_typed_client_8h.html":[2,0,0,0,11],
+"_tcp_typed_client_8h_source.html":[2,0,0,0,11],
+"_tcp_typed_server_8h.html":[2,0,0,0,12],
+"_tcp_typed_server_8h_source.html":[2,0,0,0,12],
+"_thread_base_8cpp.html":[2,0,1,8,3],
+"_thread_base_8h.html":[2,0,0,10,5],
+"_thread_base_8h_source.html":[2,0,0,10,5],
+"_thread_group_8cpp.html":[2,0,1,8,4],
+"_thread_group_8h.html":[2,0,0,10,6],
+"_thread_group_8h_source.html":[2,0,0,10,6],
 "_udp_receiver_8cpp.html":[2,0,1,0,11],
 "_udp_receiver_8h.html":[2,0,0,0,13],
 "_udp_receiver_8h_source.html":[2,0,0,0,13],
@@ -239,15 +249,5 @@ var NAVTREEINDEX1 =
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a92f952138dca3583650a908008decd22":[1,0,0,0,2,7,9],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#aa0f4105bf7e14d4a5389900b5d52a40f":[1,0,0,0,2,7,13],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ab2792174fcb0b9c155ce8d592cf081f6":[1,0,0,0,2,7,12],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ab3b74c59966184da3532c780cba95946":[1,0,0,0,2,7,7],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#abd894f41baf8ba31224353904650e765":[1,0,0,0,2,7,15],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#abe31d3fdbe15b3abcd16a867a3cb06e3":[1,0,0,0,2,7,0],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ad5ff890a31eed3f9eddc5c5863a611c2":[1,0,0,0,2,7,5],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#af9e678072dfc77efd1105622f00c0988":[1,0,0,0,2,7,1],
-"classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html":[1,0,0,0,2,8],
-"classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html#a1244ce6ba6a8878fc4251c21c7555ad1":[1,0,0,0,2,8,1],
-"classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html#a33b0fb616fe6b11822c2973f7b77400e":[1,0,0,0,2,8,4],
-"classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html#a33b9490d5650b2830e6906e3a78186ca":[1,0,0,0,2,8,3],
-"classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html#a7b95b0e7701b7249a1246d9c0df455d6":[1,0,0,0,2,8,2],
-"classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html#a9ce38260d296f1d0aaf56e833a00cafc":[1,0,0,0,2,8,0]
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ab3b74c59966184da3532c780cba95946":[1,0,0,0,2,7,7]
 };

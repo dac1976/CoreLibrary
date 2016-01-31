@@ -31,6 +31,7 @@ var hierarchy =
         [ "core_lib::csv_grid::xCsvGridCreateFileStreamError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html", null ],
         [ "core_lib::csv_grid::xCsvGridDimensionError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html", null ],
         [ "core_lib::csv_grid::xCsvGridRowOutOfRangeError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html", null ],
+        [ "core_lib::file_utils::xCopyDirectoryError", "classcore__lib_1_1file__utils_1_1x_copy_directory_error.html", null ],
         [ "core_lib::ini_file::xIniFileDataConvertError", "classcore__lib_1_1ini__file_1_1x_ini_file_data_convert_error.html", null ],
         [ "core_lib::ini_file::xIniFileInvalidKeyError", "classcore__lib_1_1ini__file_1_1x_ini_file_invalid_key_error.html", null ],
         [ "core_lib::ini_file::xIniFileInvalidSectionError", "classcore__lib_1_1ini__file_1_1x_ini_file_invalid_section_error.html", null ],

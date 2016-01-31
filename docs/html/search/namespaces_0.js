@@ -6,6 +6,7 @@ var searchData=
   ['csv_5fgrid',['csv_grid',['../namespacecore__lib_1_1csv__grid.html',1,'core_lib']]],
   ['defs',['defs',['../namespacecore__lib_1_1asio_1_1defs.html',1,'core_lib::asio']]],
   ['exceptions',['exceptions',['../namespacecore__lib_1_1exceptions.html',1,'core_lib']]],
+  ['file_5futils',['file_utils',['../namespacecore__lib_1_1file__utils.html',1,'core_lib']]],
   ['if_5fprivate',['if_private',['../namespacecore__lib_1_1ini__file_1_1if__private.html',1,'core_lib::ini_file']]],
   ['impl',['impl',['../namespacecore__lib_1_1serialize_1_1impl.html',1,'core_lib::serialize']]],
   ['ini_5ffile',['ini_file',['../namespacecore__lib_1_1ini__file.html',1,'core_lib']]],

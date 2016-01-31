@@ -38,6 +38,7 @@ var searchData=
   ['_7eudptypedsender',['~UdpTypedSender',['../classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a0f70e83b1f76bcca209835844c16fbf3',1,'core_lib::asio::udp::UdpTypedSender']]],
   ['_7exarchivetypeerror',['~xArchiveTypeError',['../classcore__lib_1_1asio_1_1messages_1_1x_archive_type_error.html#a24c5c7072ed7c474ddea1208a2fa4d00',1,'core_lib::asio::messages::xArchiveTypeError']]],
   ['_7exbucketvalueoutofrangeerror',['~xBucketValueOutOfRangeError',['../classcore__lib_1_1sorting_1_1x_bucket_value_out_of_range_error.html#ab7b2492c1e0a0cb6575b69b0f1902699',1,'core_lib::sorting::xBucketValueOutOfRangeError']]],
+  ['_7excopydirectoryerror',['~xCopyDirectoryError',['../classcore__lib_1_1file__utils_1_1x_copy_directory_error.html#a237549fd71fac9582072950c8de861a6',1,'core_lib::file_utils::xCopyDirectoryError']]],
   ['_7excsvgridcoloutofrangeerror',['~xCsvGridColOutOfRangeError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html#a318196877cd13258bee18b141528c578',1,'core_lib::csv_grid::xCsvGridColOutOfRangeError']]],
   ['_7excsvgridcreatefilestreamerror',['~xCsvGridCreateFileStreamError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html#a449fddc7512c0986c3ab888449cbe1a6',1,'core_lib::csv_grid::xCsvGridCreateFileStreamError']]],
   ['_7excsvgriddimensionerror',['~xCsvGridDimensionError',['../classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html#a3f7f09fe7cc0f9b1a0c00c515f600fdf',1,'core_lib::csv_grid::xCsvGridDimensionError']]],

@@ -99,7 +99,7 @@ public:
 /*!
  * \brief Split string options enumeration.
  *
- * This enum controls how the results are formated ater splitting the input
+ * This enum controls how the results are formatted ater splitting the input
  * string.
  */
 enum class eSplitStringResult
