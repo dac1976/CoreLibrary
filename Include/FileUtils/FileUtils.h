@@ -90,12 +90,12 @@ enum class eCopyDirectoryOptions
  * by Arindam Mukherjee.
  *
  * Preconditions that are enforced by this function are:
- * 1. The source path is a directory.
- * 2. The target path is a directory and may or may not exist.
- * 3. The parent of the target path is a directory.
- * 4. The target path is not a subdirectory of the source path.
+ * 1. The source path must be a directory.
+ * 2. The target path must be a directory and may or may not exist.
+ * 3. The parent of the target path must be a directory.
+ * 4. The target path must not be a subdirectory of the source path.
  *
- * Throws xCopyDirectoryError is an error occurs. If target folder
+ * Throws xCopyDirectoryError if an error occurs. If target folder
  * already exists then the source is copying into a folder within
  * the target folder with the same name as the srouce folder.
  */

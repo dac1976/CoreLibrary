@@ -40,16 +40,22 @@ namespace file_utils {
 std::string FindCommonRootPath(const std::string& path1
                                , const std::string& path2)
 {
-    // Convert our patsh strings to boost::filesystem::path objects.
+    // Convert our path strings to boost::filesystem::path objects.
     bfs::path bfsPath1(path1);
     bfs::path bfsPath2(path2);
+
+    // If they are on different drives then return empty string.
+    if (bfsPath1.root_directory() != bfsPath2.root_directory())
+    {
+        return "";
+    }
 
     // Define a lambda function to help us out.
     auto FindRoot =
         [](const bfs::path& p1, const bfs::path& p2)
         {
             auto result =
-                std::mismatch(p1.begin(), p2.end(), p2.begin());
+                std::mismatch(p1.begin(), p1.end(), p2.begin());
 
             bfs::path root;
 
@@ -59,11 +65,11 @@ std::string FindCommonRootPath(const std::string& path1
                     root /= p;
                 });
 
-            return root;
+            return bfs::system_complete(root);
         };
 
     // Now compute the common root path .
-    const size_t n1 = std::distance(bfsPath1.begin(), bfsPath2.end());
+    const size_t n1 = std::distance(bfsPath1.begin(), bfsPath1.end());
     const size_t n2 = std::distance(bfsPath2.begin(), bfsPath2.end());
 
     return (n1 < n2)
