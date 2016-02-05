@@ -143,4 +143,77 @@ TEST(FileUtilsTest, Case6_CopyDirectory_DiffLevels)
     EXPECT_FALSE(bfs::exists(target));
 }
 
+TEST(FileUtilsTest, Case7_ListDirectoryEntries_1)
+{
+#if BOOST_OS_WINDOWS
+    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
+        const bfs::path dir = bfs::system_complete("../../data");
+    #else
+    const bfs::path dir = bfs::system_complete("../data");
+    #endif
+#else
+    const bfs::path dir = bfs::system_complete("../../data");
+#endif
+
+    std::list<std::string> files;
+    EXPECT_NO_THROW(files = ListDirectoryContents(dir.string()));
+
+    EXPECT_EQ(files.size(), 9U);
+}
+
+TEST(FileUtilsTest, Case8_ListDirectoryEntries_2)
+{
+#if BOOST_OS_WINDOWS
+    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
+        const bfs::path dir = bfs::system_complete("../../data");
+    #else
+    const bfs::path dir = bfs::system_complete("../data");
+    #endif
+#else
+    const bfs::path dir = bfs::system_complete("../../data");
+#endif
+
+    std::list<std::string> files;
+    EXPECT_NO_THROW(files = ListDirectoryContents(dir.string(), ".csv"));
+
+    EXPECT_EQ(files.size(), 2U);
+}
+
+TEST(FileUtilsTest, Case9_ListDirectoryEntries_3)
+{
+#if BOOST_OS_WINDOWS
+    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
+        const bfs::path dir = bfs::system_complete("../../data");
+    #else
+    const bfs::path dir = bfs::system_complete("../data");
+    #endif
+#else
+    const bfs::path dir = bfs::system_complete("../../data");
+#endif
+
+    std::list<std::string> files;
+    EXPECT_NO_THROW(files = ListDirectoryContents(dir.string(), ".ini"));
+
+    EXPECT_EQ(files.size(), 7U);
+}
+
+TEST(FileUtilsTest, Case10_ListDirectoryEntries_4)
+{
+#if BOOST_OS_WINDOWS
+    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
+        const bfs::path dir = bfs::system_complete("../../data/test_file_1.ini");
+    #else
+    const bfs::path dir = bfs::system_complete("../data/test_file_1.ini");
+    #endif
+#else
+    const bfs::path dir = bfs::system_complete("../../data/test_file_1.ini");
+#endif
+
+    std::list<std::string> files;
+    EXPECT_NO_THROW(files = ListDirectoryContents(dir.string(), ".ini"));
+
+    EXPECT_EQ(files.size(), 0U);
+}
+
+
 #endif // DISABLE_FILEUTILS_TESTS

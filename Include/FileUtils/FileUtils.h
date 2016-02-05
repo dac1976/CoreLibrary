@@ -29,6 +29,7 @@
 #define FILEUTILS
 
 #include <string>
+#include <list>
 #include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
@@ -103,6 +104,17 @@ void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(const std::string& sou
                                                           , const std::string& target
                                                           , const eCopyDirectoryOptions options
                                                                 = eCopyDirectoryOptions::continueIfTargetExists);
+
+/*!
+ * \brief List of regular files in the specified directory.
+ * \param[in] path - Directory path.
+ * \param[in] extMatch - (Optional) If specified then should be the file extension to filter by.
+ * \return List of files in the directory.
+ *
+ * Throws boost::filesystem_error if a problem occurs.
+ */
+std::list<std::string> CORE_LIBRARY_DLL_SHARED_API ListDirectoryContents(const std::string& path
+                                                                         , const std::string& extMatch = "");
 
 } // namespace file_utils
 } // namespace core_lib

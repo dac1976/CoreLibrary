@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <iterator>
 #include "boost/filesystem.hpp"
+#include "boost/algorithm/string/case_conv.hpp"
 
 namespace bfs = boost::filesystem;
 
@@ -156,6 +157,37 @@ void CopyDirectoryRecursively(const std::string& source
 
         ++dirItr;
     }
+}
+
+// ****************************************************************************
+// ListDirectoryContents definition
+// ****************************************************************************
+std::list<std::string> ListDirectoryContents(const std::string& path
+                                             , const std::string& extMatch)
+{
+    std::list<std::string> files;
+
+    if (!bfs::exists(path) || !bfs::is_directory(path))
+    {
+        return files;
+    }
+
+    for (auto entry : bfs::directory_iterator(path))
+    {
+        if (bfs::regular_file != entry.status().type())
+        {
+            continue;
+        }
+
+        if (extMatch.empty()
+            || (boost::to_upper_copy(extMatch)
+                == boost::to_upper_copy(entry.path().extension().string())))
+        {
+            files.push_back(entry.path().filename().string());
+        }
+    }
+
+    return files;
 }
 
 } // namespace file_utils

@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"_tcp_server_8cpp.html":[2,0,1,0,10],
+"_tcp_server_8h.html":[2,0,0,0,10],
 "_tcp_server_8h_source.html":[2,0,0,0,10],
 "_tcp_typed_client_8h.html":[2,0,0,0,11],
 "_tcp_typed_client_8h_source.html":[2,0,0,0,11],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a7dc962b35880ec661936e47279beb7fe":[1,0,0,0,2,7,11],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a8856468bf81a1e93c359a3aea5c8015c":[1,0,0,0,2,7,4],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a92f952138dca3583650a908008decd22":[1,0,0,0,2,7,9],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#aa0f4105bf7e14d4a5389900b5d52a40f":[1,0,0,0,2,7,13],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ab2792174fcb0b9c155ce8d592cf081f6":[1,0,0,0,2,7,12],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#ab3b74c59966184da3532c780cba95946":[1,0,0,0,2,7,7]
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#aa0f4105bf7e14d4a5389900b5d52a40f":[1,0,0,0,2,7,13]
 };

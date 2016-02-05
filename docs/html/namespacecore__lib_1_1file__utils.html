@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2.4.0</span>
+   &#160;<span id="projectnumber">1.2.4.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -139,6 +139,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a985806bc48beedb3c0032b9c3b2d2a74"><td class="memItemLeft" align="right" valign="top">void <a class="el" href="_core_library_dll_global_8h.html#acb3609c9895fe123460ae31e636d0dd1">CORE_LIBRARY_DLL_SHARED_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a985806bc48beedb3c0032b9c3b2d2a74">CopyDirectoryRecursively</a> (const std::string &amp;source, const std::string &amp;target, const <a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cba">eCopyDirectoryOptions</a> options=<a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cbaad7e3a78cc481a58b0e0cb3d83503823f">eCopyDirectoryOptions::continueIfTargetExists</a>)</td></tr>
 <tr class="memdesc:a985806bc48beedb3c0032b9c3b2d2a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively copy one directory and its contents to another location.  <a href="#a985806bc48beedb3c0032b9c3b2d2a74">More...</a><br /></td></tr>
 <tr class="separator:a985806bc48beedb3c0032b9c3b2d2a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ba5eacfb2614e86b0c45fb956f9185b"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt; <a class="el" href="_core_library_dll_global_8h.html#acb3609c9895fe123460ae31e636d0dd1">CORE_LIBRARY_DLL_SHARED_API</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a3ba5eacfb2614e86b0c45fb956f9185b">ListDirectoryContents</a> (const std::string &amp;path, const std::string &amp;extMatch=&quot;&quot;)</td></tr>
+<tr class="memdesc:a3ba5eacfb2614e86b0c45fb956f9185b"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of regular files in the specified directory.  <a href="#a3ba5eacfb2614e86b0c45fb956f9185b">More...</a><br /></td></tr>
+<tr class="separator:a3ba5eacfb2614e86b0c45fb956f9185b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="namespacecore__lib_1_1file__utils.html" title="The file_utils namespace. ">file_utils</a> namespace. </p>
@@ -260,13 +263,50 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a3ba5eacfb2614e86b0c45fb956f9185b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt; std::string &gt; core_lib::file_utils::ListDirectoryContents </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>extMatch</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of regular files in the specified directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>- Directory path. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">extMatch</td><td>- (Optional) If specified then should be the file extension to filter by. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>List of files in the directory.</dd></dl>
+<p>Throws boost::filesystem_error if a problem occurs. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1file__utils.html">file_utils</a></li>
-    <li class="footer">Generated on Sun Jan 31 2016 16:10:04 for Core Library by
+    <li class="footer">Generated on Fri Feb 5 2016 22:10:43 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
