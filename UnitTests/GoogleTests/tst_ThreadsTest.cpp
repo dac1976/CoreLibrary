@@ -881,7 +881,6 @@ TEST_F(ThreadsTest, testCase_ThreadBase)
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			size_t c2 = td.GetCounter();
 			EXPECT_TRUE(c1 != c2);
-			exception = false;
 		}
 		catch (...)
 		{
