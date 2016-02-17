@@ -85,7 +85,6 @@ void DefaultLogFormat::operator() (std::ostream& os
         //     os << "\t" << std::put_time(ptm,"%F %T");
 		// so instead we use...
 		
-		// cppcheck-suppress ignoredReturnValue
         std::string time = ctime(&timeStamp);
         std::replace_if(time.begin(), time.end(),
                         [](char c) { return (c == '\n') || (c == '\r'); }, 0);

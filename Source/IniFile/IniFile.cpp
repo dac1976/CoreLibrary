@@ -354,7 +354,6 @@ keys_list IniFile::GetSection(const std::string& section) const
 
 	if (sectIt != m_sectionMap.end())
 	{
-		// cppcheck-suppress eraseDereference
 		sectIt->second.GetKeys(keys);
 	}
 
@@ -487,7 +486,6 @@ std::string IniFile::ReadValueString(const std::string& section
 
 	if (sectIt != m_sectionMap.end())
 	{
-		// cppcheck-suppress eraseDereference
 		value = sectIt->second.GetValue(key, defaultValue);
 	}
 
@@ -600,9 +598,7 @@ void IniFile::EraseSection(const std::string& section)
 
 	if (sectIt != m_sectionMap.end())
 	{
-		// cppcheck-suppress eraseDereference
 		if_private::line_iter lineIter{sectIt->second.LineIterator()};
-		// cppcheck-suppress invalidIterator1
 		m_sectionMap.erase(sectIt);
 
 		do
@@ -642,7 +638,6 @@ void IniFile::EraseKey(const std::string& section
 	{
 		if_private::line_iter keyLineIter{m_lines.end()};
 
-		// cppcheck-suppress eraseDereference
 		if (sectIt->second.EraseKey(key, keyLineIter))
 		{
 			m_lines.erase(keyLineIter);

@@ -118,7 +118,6 @@ void ThreadGroup::RemoveThread(std::thread* threadPtr)
 										, threadPtr)};
 	if (threadIt != m_threadGroup.end())
 	{
-		// cppcheck-suppress invalidIterator1
 		m_threadGroup.erase(threadIt);
 	}
 }
