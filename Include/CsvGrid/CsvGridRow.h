@@ -401,7 +401,7 @@ private:
 		// for each row loop over its columns...
 		size_t col{};
 
-		for (auto cellItem : m_cells)
+        for (const auto& cellItem : m_cells)
 		{
 			// let's get our cell value...
 			std::string cell{static_cast<std::string>(cellItem)};

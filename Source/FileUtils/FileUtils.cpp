@@ -172,7 +172,7 @@ std::list<std::string> ListDirectoryContents(const std::string& path
         return files;
     }
 
-    for (auto entry : bfs::directory_iterator(path))
+    for (const auto& entry : bfs::directory_iterator(path))
     {
         if (bfs::regular_file != entry.status().type())
         {

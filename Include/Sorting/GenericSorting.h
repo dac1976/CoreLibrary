@@ -75,7 +75,7 @@ public:
 		{
 			changesMade = false;
 
-			for (auto item = begin; item != end - 1; ++item)
+            for (auto item = begin; item != end - 1; ++item)
 			{
 				if (compare(*(item + 1), *item))
 				{
@@ -164,7 +164,7 @@ public:
 		// we'll iterate over our items and for each item we'll move it to
 		// the correct position in the collection inserting it and shuffling
 		// the other items in the correct direction.
-		for (auto item = begin; item != end; ++item)
+        for (auto item = begin; item != end; ++item)
 		{
 			std::rotate(std::upper_bound(begin, item, *item, compare)
 						, item, std::next(item));
@@ -374,7 +374,7 @@ private:
 	{
 		CheckBucketsSize(bucketDefinitions, bucketValues);
 
-		for (auto item = begin; item != end; ++item)
+        for (auto item = begin; item != end; ++item)
 		{
 			size_t bucketIndex{GetBucketIndex(*item, bucketDefinitions)};
 			bucketValues[bucketIndex].push_back(*item);

@@ -65,7 +65,7 @@ bool SectionDetails::KeyExists(const std::string& key) const
 {
 	bool found = false;
 
-	for (auto lineIter : m_keyIters)
+    for (const auto& lineIter : m_keyIters)
 	{
 		std::shared_ptr<KeyLine> keyLine
 				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
@@ -89,7 +89,7 @@ void SectionDetails::UpdateKey(const std::string& key
 										, const std::string& value)
 {
 
-	for (auto lineIter : m_keyIters)
+    for (const auto& lineIter : m_keyIters)
 	{
 		std::shared_ptr<KeyLine> keyLine
 				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
@@ -131,7 +131,7 @@ std::string SectionDetails::GetValue(const std::string& key
 {
 	std::string value{defaultValue};
 
-	for (auto lineIter : m_keyIters)
+    for (const auto& lineIter : m_keyIters)
 	{
 		std::shared_ptr<KeyLine> keyLine
 				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
@@ -150,7 +150,7 @@ void SectionDetails::GetKeys(keys_list& keys) const
 {
 	keys.clear();
 
-	for (auto lineIter : m_keyIters)
+    for (const auto& lineIter : m_keyIters)
 	{
 		std::shared_ptr<KeyLine> keyLine
 				= std::dynamic_pointer_cast<KeyLine>(*lineIter);

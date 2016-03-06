@@ -319,7 +319,7 @@ void IniFile::UpdateFile(const std::string& overridePath) const
 	std::stringstream iniStream;
 	size_t count = m_lines.size();
 
-	for (auto line : m_lines)
+    for (const auto& line : m_lines)
 	{
 		line->Print(iniStream, (--count) > 0);
 	}
@@ -339,7 +339,7 @@ auto IniFile::GetSections() const -> std::list<std::string>
 {
 	std::list<std::string> sections;
 
-	for (auto section : m_sectionMap)
+    for (const auto& section : m_sectionMap)
 	{
 		sections.push_back(section.first);
 	}
@@ -623,7 +623,7 @@ void IniFile::EraseSections()
 {
 	std::list<std::string> sections{GetSections()};
 
-	for (auto section : sections)
+    for (const auto& section : sections)
 	{
 		EraseSection(section);
 	}
@@ -650,7 +650,7 @@ void IniFile::EraseKeys(const std::string& section)
 {
 	keys_list keys{GetSection(section)};
 
-	for (auto key : keys)
+    for (const auto& key : keys)
 	{
 		EraseKey(section, key.first);
 	}
