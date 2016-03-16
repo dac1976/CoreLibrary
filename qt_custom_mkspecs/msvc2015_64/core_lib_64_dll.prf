@@ -1,0 +1,12 @@
+CONFIG += core_lib_settings \
+          boost_libs_64
+
+CONFIG(debug, debug|release) {
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/msvc2015_64/debug -lCoreLibraryDll
+} else {
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/msvc2015_64/release -lCoreLibraryDll
+}
+
+# Due to exporting from DLL we might get suprious warnings of
+# type 4251, 4275 and 4100 so disable them.
+QMAKE_CXXFLAGS += /wd4251 /wd4275 /wd4100

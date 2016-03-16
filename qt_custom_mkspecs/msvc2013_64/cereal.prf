@@ -1,2 +1,0 @@
-INCLUDEPATH += $$(THIRD_PARTY_LIBS)/cereal/include
-}

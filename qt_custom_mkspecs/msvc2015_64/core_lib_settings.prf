@@ -1,0 +1,4 @@
+CONFIG += boost \
+          loki 
+
+INCLUDEPATH += $$(CORE_LIBRARY)/Include
