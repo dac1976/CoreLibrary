@@ -204,7 +204,7 @@ class CORE_LIBRARY_DLL_SHARED_API LogQueueMessage
 {
 public:
 	/*! \brief Static message ID to register on message queue.*/
-    __CONSTEXPR__ int MESSAGE_ID{1};
+    static const int MESSAGE_ID{1};
 	/*! \brief Default constructor.*/
 	LogQueueMessage() = default;
 	/*!
