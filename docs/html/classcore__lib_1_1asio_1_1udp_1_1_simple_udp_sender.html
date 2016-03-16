@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2.4.2</span>
+   &#160;<span id="projectnumber">1.2.5.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -148,11 +148,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0fe304d9b0823bb89486ac8f80b366b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#ab0fe304d9b0823bb89486ac8f80b366b">ReceiverConnection</a> () const </td></tr>
 <tr class="memdesc:ab0fe304d9b0823bb89486ac8f80b366b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve receiver connection details.  <a href="#ab0fe304d9b0823bb89486ac8f80b366b">More...</a><br /></td></tr>
 <tr class="separator:ab0fe304d9b0823bb89486ac8f80b366b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cc033e78930f7d0daf75f5fd5d7d7ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#a3cc033e78930f7d0daf75f5fd5d7d7ab">SendMessage</a> (const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>)</td></tr>
+<tr class="memitem:a3cc033e78930f7d0daf75f5fd5d7d7ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#a3cc033e78930f7d0daf75f5fd5d7d7ab">SendMessage</a> (const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION)</td></tr>
 <tr class="memdesc:a3cc033e78930f7d0daf75f5fd5d7d7ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to the receiver.  <a href="#a3cc033e78930f7d0daf75f5fd5d7d7ab">More...</a><br /></td></tr>
 <tr class="separator:a3cc033e78930f7d0daf75f5fd5d7d7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab14572723bf3f9419da7478f2c041681"><td class="memTemplParams" colspan="2">template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; </td></tr>
-<tr class="memitem:ab14572723bf3f9419da7478f2c041681"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#ab14572723bf3f9419da7478f2c041681">SendMessage</a> (const T &amp;message, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>)</td></tr>
+<tr class="memitem:ab14572723bf3f9419da7478f2c041681"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#ab14572723bf3f9419da7478f2c041681">SendMessage</a> (const T &amp;message, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION)</td></tr>
 <tr class="memdesc:ab14572723bf3f9419da7478f2c041681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a full message to the server.  <a href="#ab14572723bf3f9419da7478f2c041681">More...</a><br /></td></tr>
 <tr class="separator:ab14572723bf3f9419da7478f2c041681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -296,7 +296,7 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -344,7 +344,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -383,7 +383,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html">udp</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html">SimpleUdpSender</a></li>
-    <li class="footer">Generated on Sun Mar 6 2016 18:34:39 for Core Library by
+    <li class="footer">Generated on Wed Mar 16 2016 21:21:03 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

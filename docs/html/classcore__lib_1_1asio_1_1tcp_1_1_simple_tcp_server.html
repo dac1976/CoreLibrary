@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.2.4.2</span>
+   &#160;<span id="projectnumber">1.2.5.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities.</div>
   </td>
@@ -161,25 +161,25 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a953176208e77794de626a520ab411214">OpenAcceptor</a> ()</td></tr>
 <tr class="memdesc:a953176208e77794de626a520ab411214"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually open the acceptor. <br /></td></tr>
 <tr class="separator:a953176208e77794de626a520ab411214"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dfa7a72322c3e60732bf88b5b5a78e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a0dfa7a72322c3e60732bf88b5b5a78e7">SendMessageToClientAsync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>) const </td></tr>
+<tr class="memitem:a0dfa7a72322c3e60732bf88b5b5a78e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a0dfa7a72322c3e60732bf88b5b5a78e7">SendMessageToClientAsync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION) const </td></tr>
 <tr class="memdesc:a0dfa7a72322c3e60732bf88b5b5a78e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to a client asynchronously.  <a href="#a0dfa7a72322c3e60732bf88b5b5a78e7">More...</a><br /></td></tr>
 <tr class="separator:a0dfa7a72322c3e60732bf88b5b5a78e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ed6b2c57f71c7a4daa50975c7be82b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a4ed6b2c57f71c7a4daa50975c7be82b3">SendMessageToClientSync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>) const </td></tr>
+<tr class="memitem:a4ed6b2c57f71c7a4daa50975c7be82b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a4ed6b2c57f71c7a4daa50975c7be82b3">SendMessageToClientSync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION) const </td></tr>
 <tr class="memdesc:a4ed6b2c57f71c7a4daa50975c7be82b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to a client synchronously.  <a href="#a4ed6b2c57f71c7a4daa50975c7be82b3">More...</a><br /></td></tr>
 <tr class="separator:a4ed6b2c57f71c7a4daa50975c7be82b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9502e24e9e866e87d8512a1035c9fffc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a9502e24e9e866e87d8512a1035c9fffc">SendMessageToAllClients</a> (const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>) const </td></tr>
+<tr class="memitem:a9502e24e9e866e87d8512a1035c9fffc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a9502e24e9e866e87d8512a1035c9fffc">SendMessageToAllClients</a> (const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION) const </td></tr>
 <tr class="memdesc:a9502e24e9e866e87d8512a1035c9fffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to all clients asynchronously.  <a href="#a9502e24e9e866e87d8512a1035c9fffc">More...</a><br /></td></tr>
 <tr class="separator:a9502e24e9e866e87d8512a1035c9fffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9aa6be9d57c9327a2771f440470bf119"><td class="memTemplParams" colspan="2">template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; </td></tr>
-<tr class="memitem:a9aa6be9d57c9327a2771f440470bf119"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a9aa6be9d57c9327a2771f440470bf119">SendMessageToClientAsync</a> (const T &amp;message, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>) const </td></tr>
+<tr class="memitem:a9aa6be9d57c9327a2771f440470bf119"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a9aa6be9d57c9327a2771f440470bf119">SendMessageToClientAsync</a> (const T &amp;message, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION) const </td></tr>
 <tr class="memdesc:a9aa6be9d57c9327a2771f440470bf119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a full message to a client asynchronously.  <a href="#a9aa6be9d57c9327a2771f440470bf119">More...</a><br /></td></tr>
 <tr class="separator:a9aa6be9d57c9327a2771f440470bf119"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac57b61471e2e29f7018f8f658edd6dcf"><td class="memTemplParams" colspan="2">template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; </td></tr>
-<tr class="memitem:ac57b61471e2e29f7018f8f658edd6dcf"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#ac57b61471e2e29f7018f8f658edd6dcf">SendMessageToClientSync</a> (const T &amp;message, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>) const </td></tr>
+<tr class="memitem:ac57b61471e2e29f7018f8f658edd6dcf"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#ac57b61471e2e29f7018f8f658edd6dcf">SendMessageToClientSync</a> (const T &amp;message, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;client, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION) const </td></tr>
 <tr class="memdesc:ac57b61471e2e29f7018f8f658edd6dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a full message to a client synchronously.  <a href="#ac57b61471e2e29f7018f8f658edd6dcf">More...</a><br /></td></tr>
 <tr class="separator:ac57b61471e2e29f7018f8f658edd6dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a036b6572c83235e9fb628bef6ffb72e7"><td class="memTemplParams" colspan="2">template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; </td></tr>
-<tr class="memitem:a036b6572c83235e9fb628bef6ffb72e7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a036b6572c83235e9fb628bef6ffb72e7">SendMessageToAllClients</a> (const T &amp;message, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a>) const </td></tr>
+<tr class="memitem:a036b6572c83235e9fb628bef6ffb72e7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a036b6572c83235e9fb628bef6ffb72e7">SendMessageToAllClients</a> (const T &amp;message, const uint32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;responseAddress=defs::NULL_CONNECTION) const </td></tr>
 <tr class="memdesc:a036b6572c83235e9fb628bef6ffb72e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a full message to all clients asynchronously.  <a href="#a036b6572c83235e9fb628bef6ffb72e7">More...</a><br /></td></tr>
 <tr class="separator:a036b6572c83235e9fb628bef6ffb72e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -389,7 +389,7 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -436,7 +436,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -484,7 +484,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -538,7 +538,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -587,7 +587,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -642,7 +642,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a0679414b8db62043244d830e8a35b0da">defs::connection_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>responseAddress</em> = <code><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a35c12c860392f62ec0f25144664b2c1b">defs::NULL_CONNECTION</a></code>&#160;</td>
+          <td class="paramname"><em>responseAddress</em> = <code>defs::NULL_CONNECTION</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -682,7 +682,7 @@ template&lt;typename T , typename A  = serialize::archives::out_port_bin_t&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html">tcp</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html">SimpleTcpServer</a></li>
-    <li class="footer">Generated on Sun Mar 6 2016 18:34:38 for Core Library by
+    <li class="footer">Generated on Wed Mar 16 2016 21:21:03 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

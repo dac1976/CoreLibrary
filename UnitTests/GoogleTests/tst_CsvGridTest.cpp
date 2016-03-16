@@ -665,11 +665,7 @@ TEST(CsvGridTest, Case59_CsvGrid_FileConstructor_SimpleCells)
     try
     {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#endif
+        core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #else
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #endif
@@ -690,11 +686,7 @@ TEST(CsvGridTest, Case60_CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130
     try
     {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#endif
+        core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #else
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #endif
@@ -710,11 +702,7 @@ TEST(CsvGridTest, Case61_CsvGrid_FileConstructor_DoubleQuotedCells)
     try
     {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-		core_lib::csv_grid::CsvGrid grid("../../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-	#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-	#endif
+        core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 #else
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 #endif
@@ -735,11 +723,7 @@ TEST(CsvGridTest, Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_100
     try
     {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-		core_lib::csv_grid::CsvGrid grid("../../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-	#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-	#endif
+        core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 #else
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 #endif
@@ -990,11 +974,7 @@ TEST(CsvGridTest, Case71_CsvGrid_LoadFromCSVFile_2)
     try
     {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#endif
+        core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #else
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #endif
@@ -1032,11 +1012,7 @@ TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
     try
     {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-	#endif
+        core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #else
 		core_lib::csv_grid::CsvGrid grid("../../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
 #endif

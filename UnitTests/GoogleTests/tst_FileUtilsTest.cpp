@@ -12,13 +12,8 @@ namespace bfs = boost::filesystem;
 TEST(FileUtilsTest, Case1_CommonRoot_SameLevel)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path path1 = bfs::system_complete("../../data/testfile1.csv");
-        const bfs::path path2 = bfs::system_complete("../../data/testfile2.csv");
-    #else
         const bfs::path path1 = bfs::system_complete("../data/testfile1.csv");
         const bfs::path path2 = bfs::system_complete("../data/testfile2.csv");
-    #endif
 #else
     const bfs::path path1 = bfs::system_complete("../../data/testfile1.csv");
     const bfs::path path2 = bfs::system_complete("../../data/testfile2.csv");
@@ -33,13 +28,8 @@ TEST(FileUtilsTest, Case1_CommonRoot_SameLevel)
 TEST(FileUtilsTest, Case2_CommonRoot_DiffLevels)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path path1 = bfs::system_complete("../../data/testfile1.csv");
-        const bfs::path path2 = bfs::system_complete("../../tst_FileUtilsTest.cpp");
-    #else
         const bfs::path path1 = bfs::system_complete("../data/testfile1.csv");
         const bfs::path path2 = bfs::system_complete("../tst_FileUtilsTest.cpp");
-    #endif
 #else
     const bfs::path path1 = bfs::system_complete("../../data/testfile1.csv");
     const bfs::path path2 = bfs::system_complete("../../tst_FileUtilsTest.cpp");
@@ -54,13 +44,8 @@ TEST(FileUtilsTest, Case2_CommonRoot_DiffLevels)
 TEST(FileUtilsTest, Case3_CopyDirectory_SameLevel)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path source = bfs::system_complete("../../data");
-        const bfs::path target = bfs::system_complete("../../data_copy");
-    #else
     const bfs::path source = bfs::system_complete("../data");
     const bfs::path target = bfs::system_complete("../data_copy");
-    #endif
 #else
     const bfs::path source = bfs::system_complete("../../data");
     const bfs::path target = bfs::system_complete("../../data_copy");
@@ -76,13 +61,8 @@ TEST(FileUtilsTest, Case3_CopyDirectory_SameLevel)
 TEST(FileUtilsTest, Case4_CopyDirectory_TargetExists_Allowed)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path source = bfs::system_complete("../../data");
-        const bfs::path target = bfs::system_complete("../../data_copy");
-    #else
     const bfs::path source = bfs::system_complete("../data");
     const bfs::path target = bfs::system_complete("../data_copy");
-    #endif
 #else
     const bfs::path source = bfs::system_complete("../../data");
     const bfs::path target = bfs::system_complete("../../data_copy");
@@ -100,13 +80,8 @@ TEST(FileUtilsTest, Case4_CopyDirectory_TargetExists_Allowed)
 TEST(FileUtilsTest, Case5_CopyDirectory_TargetExists_Disallowed)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path source = bfs::system_complete("../../data");
-        const bfs::path target = bfs::system_complete("../../data_copy");
-    #else
     const bfs::path source = bfs::system_complete("../data");
     const bfs::path target = bfs::system_complete("../data_copy");
-    #endif
 #else
     const bfs::path source = bfs::system_complete("../../data");
     const bfs::path target = bfs::system_complete("../../data_copy");
@@ -124,13 +99,8 @@ TEST(FileUtilsTest, Case5_CopyDirectory_TargetExists_Disallowed)
 TEST(FileUtilsTest, Case6_CopyDirectory_DiffLevels)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path source = bfs::system_complete("../../data");
-        const bfs::path target = bfs::system_complete("../../../data_copy");
-    #else
     const bfs::path source = bfs::system_complete("../data");
     const bfs::path target = bfs::system_complete("../../data_copy");
-    #endif
 #else
     const bfs::path source = bfs::system_complete("../../data");
     const bfs::path target = bfs::system_complete("../../../data_copy");
@@ -146,11 +116,7 @@ TEST(FileUtilsTest, Case6_CopyDirectory_DiffLevels)
 TEST(FileUtilsTest, Case7_ListDirectoryEntries_1)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path dir = bfs::system_complete("../../data");
-    #else
     const bfs::path dir = bfs::system_complete("../data");
-    #endif
 #else
     const bfs::path dir = bfs::system_complete("../../data");
 #endif
@@ -164,11 +130,7 @@ TEST(FileUtilsTest, Case7_ListDirectoryEntries_1)
 TEST(FileUtilsTest, Case8_ListDirectoryEntries_2)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path dir = bfs::system_complete("../../data");
-    #else
     const bfs::path dir = bfs::system_complete("../data");
-    #endif
 #else
     const bfs::path dir = bfs::system_complete("../../data");
 #endif
@@ -182,11 +144,7 @@ TEST(FileUtilsTest, Case8_ListDirectoryEntries_2)
 TEST(FileUtilsTest, Case9_ListDirectoryEntries_3)
 {
 #if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path dir = bfs::system_complete("../../data");
-    #else
     const bfs::path dir = bfs::system_complete("../data");
-    #endif
 #else
     const bfs::path dir = bfs::system_complete("../../data");
 #endif
@@ -199,12 +157,8 @@ TEST(FileUtilsTest, Case9_ListDirectoryEntries_3)
 
 TEST(FileUtilsTest, Case10_ListDirectoryEntries_4)
 {
-#if BOOST_OS_WINDOWS
-    #if defined(BOOST_COMP_MSVC) & (_MSC_VER >= 1900)
-        const bfs::path dir = bfs::system_complete("../../data/test_file_1.ini");
-    #else
+#if BOOST_OS_WINDOWSh dir = bfs::system_complete("../../data/test_file_1.ini");
     const bfs::path dir = bfs::system_complete("../data/test_file_1.ini");
-    #endif
 #else
     const bfs::path dir = bfs::system_complete("../../data/test_file_1.ini");
 #endif
