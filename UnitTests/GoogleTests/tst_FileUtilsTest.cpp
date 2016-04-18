@@ -157,7 +157,7 @@ TEST(FileUtilsTest, Case9_ListDirectoryEntries_3)
 
 TEST(FileUtilsTest, Case10_ListDirectoryEntries_4)
 {
-#if BOOST_OS_WINDOWSh dir = bfs::system_complete("../../data/test_file_1.ini");
+#if BOOST_OS_WINDOWS
     const bfs::path dir = bfs::system_complete("../data/test_file_1.ini");
 #else
     const bfs::path dir = bfs::system_complete("../../data/test_file_1.ini");

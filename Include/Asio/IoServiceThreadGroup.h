@@ -30,7 +30,6 @@
 #include "Threads/ThreadGroup.h"
 #include "AsioDefines.h"
 #include "boost/asio.hpp"
-#include <functional>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
