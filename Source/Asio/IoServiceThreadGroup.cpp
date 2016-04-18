@@ -27,7 +27,6 @@
 
 #include "Asio/IoServiceThreadGroup.h"
 #include <algorithm>
-#include <functional>
 
 namespace core_lib {
 namespace asio {

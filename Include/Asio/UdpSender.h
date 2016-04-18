@@ -28,7 +28,6 @@
 #define UDPSENDER
 
 #include "IoServiceThreadGroup.h"
-#include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -108,8 +107,6 @@ private:
     bool SyncSendTo(const defs::char_buffer_t& message);
 
 private:
-    /*! \brief Send synchronisation event. */
-	threads::SyncEvent m_sendEvent;
     /*! \brief I/O service thread group. */
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
