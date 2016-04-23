@@ -5,5 +5,10 @@ INCLUDEPATH += /home/duncan/Projects/ThirdParty/google_test/include
 
 # The order of these libs is important and libpthread.so must go
 # after the libgtest_main.a's linkage.
-LIBS += -L/home/duncan/Projects/ThirdParty/google_test/make -lgtest_main \
-	-L/lib64 -lpthread
+CONFIG(debug, debug|release) {
+  LIBS += -L/home/duncan/Projects/ThirdParty/google_test/make -lgtest_main \
+	  -L/lib64 -lpthread
+} else {
+  LIBS += -L/home/duncan/Projects/ThirdParty/google_test/make -lgtest_maind \
+	  -L/lib64 -lpthread
+}
