@@ -71,9 +71,15 @@ struct MyHeader
 	int          command{1};
 	unsigned int totalLength{sizeof(*this)};
 
-    MyHeader()
+	MyHeader()
 	{
-        strncpy_s(magicString, sizeof(magicString), "MyHeader", 8);
+		#if BOOST_COMP_MSVC
+			strncpy_s(magicString, sizeof(magicString), "MyHeader", 8);
+			magicString[8] = 0;
+		#else
+			strncpy(magicString, "MyHeader", sizeof(magicString));
+			magicString[strlen("MyHeader")] = 0;
+		#endif
 	}
 };
 #pragma pack(pop)
@@ -108,7 +114,7 @@ char_buffer_t BuildMessage()
 	MyMessage myMessage;
 	myMessage.FillMessage();
 	char_buffer_t body = ToCharVector(myMessage);
-    header.totalLength += static_cast<unsigned int>(body.size());
+	header.totalLength += static_cast<unsigned int>(body.size());
 	const char* headCharBuf = reinterpret_cast<const char*>(&header);
 	char_buffer_t message;
 	std::copy(headCharBuf, headCharBuf + sizeof(header)
@@ -147,7 +153,7 @@ public:
 
 		{
 			char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
-            m_myMessage = DeserializeMessage<MyMessage>(body, eArchiveType::portableBinary);
+			m_myMessage = DeserializeMessage<MyMessage>(body, eArchiveType::portableBinary);
 		}
 
 		m_messageEvent.Signal();
@@ -180,7 +186,7 @@ template <typename T, typename A>
 class TMessageDispatcher
 {
 public:
-    TMessageDispatcher() = default;
+	TMessageDispatcher() = default;
 
 	void DispatchMessage(default_received_message_ptr_t message)
 	{
@@ -190,7 +196,7 @@ public:
 
 			if (!message->body.empty())
 			{
-                m_myMessage = ToObject<T, A>(message->body);
+				m_myMessage = ToObject<T, A>(message->body);
 			}
 		}
 
@@ -202,20 +208,20 @@ public:
 		return m_messageEvent.WaitForTime(milliseconds);
 	}
 
-    const MessageHeader& Header() const
+	const MessageHeader& Header() const
 	{
 		return m_header;
 	}
 
-    const T& Message() const
+	const T& Message() const
 	{
 		return m_myMessage;
 	}
 
 private:
-    SyncEvent m_messageEvent;
-    MessageHeader m_header;
-    T m_myMessage;
+	SyncEvent m_messageEvent;
+	MessageHeader m_header;
+	T m_myMessage;
 };
 
 typedef TMessageDispatcher<MyMessage, core_lib::serialize::archives::in_port_bin_t> MessageDispatcher;
@@ -223,21 +229,21 @@ typedef TMessageDispatcher<MyMessage, core_lib::serialize::archives::in_port_bin
 #pragma pack(push, 1)
 struct MyPodMessage
 {
-    int value;
-    char szString[8];
-    double dValues[100];
+	int value;
+	char szString[8];
+	double dValues[100];
 };
 #pragma pack(pop)
 
 MyPodMessage PodMessageFactory()
 {
-    MyPodMessage message;
+	MyPodMessage message;
 
-    message.value = 666;
-    strcpy(message.szString, "666");
-    std::fill(message.dValues, message.dValues + 100, 666.0);
+	message.value = 666;
+	strcpy(message.szString, "666");
+	std::fill(message.dValues, message.dValues + 100, 666.0);
 
-    return message;
+	return message;
 }
 
 typedef TMessageDispatcher<MyPodMessage, core_lib::serialize::archives::in_raw_t> PodMessageDispatcher;
@@ -432,7 +438,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    client.SendMessageToServerAsync(messageToSend, 666);
+	client.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -440,7 +446,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    server.SendMessageToClientAsync(messageToSend, respAddress, 666);
+	server.SendMessageToClientAsync(messageToSend, respAddress, 666);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -473,7 +479,7 @@ TEST(AsioTest, testCase_TestTypedSync)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    EXPECT_TRUE(client.SendMessageToServerSync(messageToSend, 666) == true);
+	EXPECT_TRUE(client.SendMessageToServerSync(messageToSend, 666) == true);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -481,7 +487,7 @@ TEST(AsioTest, testCase_TestTypedSync)
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
+	EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -522,19 +528,19 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
+	client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
+	client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666);
+	server.SendMessageToAllClients(messageToSend, 666);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -582,19 +588,19 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
+	client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
+	client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666, serverConn);
+	server.SendMessageToAllClients(messageToSend, 666, serverConn);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -781,7 +787,7 @@ TEST(AsioTest, testCase_TestSimpleAsync)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    client.SendMessageToServerAsync(messageToSend, 666);
+	client.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -789,7 +795,7 @@ TEST(AsioTest, testCase_TestSimpleAsync)
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    server.SendMessageToClientAsync(messageToSend, respAddress, 666);
+	server.SendMessageToClientAsync(messageToSend, respAddress, 666);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -813,7 +819,7 @@ TEST(AsioTest, testCase_TestSimpleSync)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    EXPECT_TRUE(client.SendMessageToServerSync(messageToSend, 666) == true);
+	EXPECT_TRUE(client.SendMessageToServerSync(messageToSend, 666) == true);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
@@ -821,7 +827,7 @@ TEST(AsioTest, testCase_TestSimpleSync)
 
 	MessageHeader header = serverDispatcher.Header();
 	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
+	EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
 	clientDispatcher.WaitForMessage(3000);
 
 	receivedMessage = clientDispatcher.Message();
@@ -849,19 +855,19 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_1)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
+	client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
+	client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666);
+	server.SendMessageToAllClients(messageToSend, 666);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -896,19 +902,19 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_2)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    client1.SendMessageToServerAsync(messageToSend, 666);
+	client1.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	MyMessage receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    client2.SendMessageToServerAsync(messageToSend, 666);
+	client2.SendMessageToServerAsync(messageToSend, 666);
 	serverDispatcher.WaitForMessage(3000);
 
 	receivedMessage = serverDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 
-    server.SendMessageToAllClients(messageToSend, 666, serverConn);
+	server.SendMessageToAllClients(messageToSend, 666, serverConn);
 	clientDispatcher1.WaitForMessage(3000);
 	clientDispatcher2.WaitForMessage(3000);
 
@@ -1087,11 +1093,11 @@ TEST(AsioTest, testCase_TestTypedUdpBroadcast)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+	EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
 
 	rcvrDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = rcvrDispatcher.Message();
+	MyMessage receivedMessage = rcvrDispatcher.Message();
 	EXPECT_TRUE(receivedMessage == messageToSend);
 }
 
@@ -1109,7 +1115,7 @@ TEST(AsioTest, testCase_TestTypedUdpUnicast)
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+	EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
 
 	rcvrDispatcher.WaitForMessage(3000);
 
@@ -1119,71 +1125,71 @@ TEST(AsioTest, testCase_TestTypedUdpUnicast)
 
 TEST(AsioTest, testCase_TestSimpleUdpBroadcast)
 {
-    MessageDispatcher rcvrDispatcher;
-    SimpleUdpReceiver udpReceiver(22222 , std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1));
+	MessageDispatcher rcvrDispatcher;
+	SimpleUdpReceiver udpReceiver(22222 , std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1));
 
-    SimpleUdpSender udpSender(std::make_pair("255.255.255.255", 22222));
+	SimpleUdpSender udpSender(std::make_pair("255.255.255.255", 22222));
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+	EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
 
-    rcvrDispatcher.WaitForMessage(3000);
+	rcvrDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = rcvrDispatcher.Message();
-    EXPECT_TRUE(receivedMessage == messageToSend);
+	MyMessage receivedMessage = rcvrDispatcher.Message();
+	EXPECT_TRUE(receivedMessage == messageToSend);
 }
 
 TEST(AsioTest, testCase_TestSimpleUdpUnicast)
 {
-    MessageDispatcher rcvrDispatcher;
-    SimpleUdpReceiver udpReceiver(22223 , std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1)
-                                  , eUdpOption::unicast);
+	MessageDispatcher rcvrDispatcher;
+	SimpleUdpReceiver udpReceiver(22223 , std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1)
+								  , eUdpOption::unicast);
 
-    SimpleUdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
+	SimpleUdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
 
-    MyMessage messageToSend;
-    messageToSend.FillMessage();
+	MyMessage messageToSend;
+	messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+	EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
 
-    rcvrDispatcher.WaitForMessage(3000);
+	rcvrDispatcher.WaitForMessage(3000);
 
-    MyMessage receivedMessage = rcvrDispatcher.Message();
-    EXPECT_TRUE(receivedMessage == messageToSend);
+	MyMessage receivedMessage = rcvrDispatcher.Message();
+	EXPECT_TRUE(receivedMessage == messageToSend);
 }
 
 TEST(AsioTest, testCase_TestSerializePOD)
 {
-    PodMessageDispatcher serverDispatcher;
-    SimpleTcpServer server(22222, std::bind(&PodMessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+	PodMessageDispatcher serverDispatcher;
+	SimpleTcpServer server(22222, std::bind(&PodMessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
 
-    connection_t serverConn = std::make_pair("127.0.0.1", 22222);
-    PodMessageDispatcher clientDispatcher;
-    SimpleTcpClient client(serverConn, std::bind(&PodMessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+	connection_t serverConn = std::make_pair("127.0.0.1", 22222);
+	PodMessageDispatcher clientDispatcher;
+	SimpleTcpClient client(serverConn, std::bind(&PodMessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
 
-    MyPodMessage messageToSend = PodMessageFactory();
-    client.SendMessageToServerAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+	MyPodMessage messageToSend = PodMessageFactory();
+	client.SendMessageToServerAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(messageToSend, 666);
+	serverDispatcher.WaitForMessage(3000);
 
-    MyPodMessage receivedMessage = serverDispatcher.Message();
-    EXPECT_TRUE(receivedMessage.value == messageToSend.value);
-    EXPECT_TRUE(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
+	MyPodMessage receivedMessage = serverDispatcher.Message();
+	EXPECT_TRUE(receivedMessage.value == messageToSend.value);
+	EXPECT_TRUE(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
 
-    MessageHeader header = serverDispatcher.Header();
-    connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
-    server.SendMessageToClientAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(messageToSend, respAddress, 666);
-    clientDispatcher.WaitForMessage(3000);
+	MessageHeader header = serverDispatcher.Header();
+	connection_t respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	server.SendMessageToClientAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(messageToSend, respAddress, 666);
+	clientDispatcher.WaitForMessage(3000);
 
-    receivedMessage = clientDispatcher.Message();
-    EXPECT_TRUE(receivedMessage.value == messageToSend.value);
-    EXPECT_TRUE(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
+	receivedMessage = clientDispatcher.Message();
+	EXPECT_TRUE(receivedMessage.value == messageToSend.value);
+	EXPECT_TRUE(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
 
-    header = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+	header = clientDispatcher.Header();
+	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
-    EXPECT_TRUE(respAddress == serverConn);
+	EXPECT_TRUE(respAddress == serverConn);
 }
 
 #endif // DISABLE_ASIO_TESTS
