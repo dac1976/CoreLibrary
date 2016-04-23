@@ -4,6 +4,10 @@
 #
 #-------------------------------------------------
 
+# Due to exporting from DLL we might get suprious warnings of
+# type 4251 and 4275 so disable them.
+QMAKE_CXXFLAGS += /wd4251 /wd4275 /wd4100
+
 QT       -= gui
 
 QMAKE_CXXFLAGS += -std=c++14
@@ -57,7 +61,7 @@ HEADERS +=                                              \
 	../../Include/DebugLog/DebugLogSingleton.h          \
 	../../Include/DebugLog/DebugLogging.h               \
 	../../Include/Exceptions/CustomException.h          \
-	../../Include/FileUtils/FileUtils.h                 \
+    ../../Include/FileUtils/FileUtils.h                 \
 	../../Include/IniFile/IniFileLines.h                \
 	../../Include/IniFile/IniFileSectionDetails.h       \
 	../../Include/IniFile/IniFile.h                     \
@@ -95,7 +99,7 @@ SOURCES +=                                                \
 	../../Source/CsvGrid/CsvGridMain.cpp                  \
 	../../Source/DebugLog/DebugLog.cpp                    \
 	../../Source/Exceptions/CustomException.cpp           \
-	../../Source/FileUtils/FileUtils.cpp                  \
+    ../../Source/FileUtils/FileUtils.cpp                  \
 	../../Source/IniFile/IniFileLines.cpp                 \
 	../../Source/IniFile/IniFileSectionDetails.cpp        \
 	../../Source/IniFile/IniFile.cpp                      \
