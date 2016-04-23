@@ -1106,11 +1106,11 @@ TEST(AsioTest, testCase_TestTypedUdpUnicast)
 	MessageBuilder messageBuilder;
 	MessageDispatcher rcvrDispatcher;
 	MessageHandler rcvrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
-	UdpReceiver udpReceiver(22223, std::bind(&MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1)
+    UdpReceiver udpReceiver(22227, std::bind(&MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1)
 					 , std::bind(&MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1)
 					 , eUdpOption::unicast);
 
-	UdpTypedSender<MessageBuilder> udpSender(std::make_pair("127.0.0.1", 22223), messageBuilder, eUdpOption::unicast);
+    UdpTypedSender<MessageBuilder> udpSender(std::make_pair("127.0.0.1", 22227), messageBuilder, eUdpOption::unicast);
 
 	MyMessage messageToSend;
 	messageToSend.FillMessage();
