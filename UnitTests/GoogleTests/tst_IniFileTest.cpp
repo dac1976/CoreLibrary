@@ -16,9 +16,9 @@ TEST(IniFileTest, Case1_InvalidLine)
 	try
 	{
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_1.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_1.ini");
 #else
-        core_lib::ini_file::IniFile iniFile("../../data/test_file_1.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_1.ini");
 #endif
 		correctException = false;
 	}
@@ -38,7 +38,7 @@ TEST(IniFileTest, Case1_InvalidLine)
 		correctException = false;
 	}
 
-    EXPECT_TRUE(correctException);
+	EXPECT_TRUE(correctException);
 }
 
 TEST(IniFileTest, Case2_InvalidKey)
@@ -48,9 +48,9 @@ TEST(IniFileTest, Case2_InvalidKey)
 	try
 	{
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_2.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_2.ini");
 #else
-        core_lib::ini_file::IniFile iniFile("../../data/test_file_2.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_2.ini");
 #endif
 		correctException = false;
 	}
@@ -70,7 +70,7 @@ TEST(IniFileTest, Case2_InvalidKey)
 		correctException = false;
 	}
 
-    EXPECT_TRUE(correctException);
+	EXPECT_TRUE(correctException);
 }
 
 TEST(IniFileTest, Case3_InvalidSection)
@@ -80,9 +80,9 @@ TEST(IniFileTest, Case3_InvalidSection)
 	try
 	{
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_3.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_3.ini");
 #else
-        core_lib::ini_file::IniFile iniFile("../../data/test_file_3.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_3.ini");
 #endif
 		correctException = false;
 	}
@@ -102,7 +102,7 @@ TEST(IniFileTest, Case3_InvalidSection)
 		correctException = false;
 	}
 
-    EXPECT_TRUE(correctException);
+	EXPECT_TRUE(correctException);
 }
 
 TEST(IniFileTest, Case4_DuplicateKey)
@@ -112,9 +112,9 @@ TEST(IniFileTest, Case4_DuplicateKey)
 	try
 	{
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_4.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_4.ini");
 #else
-        core_lib::ini_file::IniFile iniFile("../../data/test_file_4.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_4.ini");
 #endif
 		correctException = false;
 	}
@@ -134,7 +134,7 @@ TEST(IniFileTest, Case4_DuplicateKey)
 		correctException = false;
 	}
 
-    EXPECT_TRUE(correctException);
+	EXPECT_TRUE(correctException);
 }
 
 TEST(IniFileTest, Case5_DuplicateSection)
@@ -144,9 +144,9 @@ TEST(IniFileTest, Case5_DuplicateSection)
 	try
 	{
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_5.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_5.ini");
 #else
-        core_lib::ini_file::IniFile iniFile("../../data/test_file_5.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_5.ini");
 #endif
 		correctException = false;
 	}
@@ -166,7 +166,7 @@ TEST(IniFileTest, Case5_DuplicateSection)
 		correctException = false;
 	}
 
-    EXPECT_TRUE(correctException);
+	EXPECT_TRUE(correctException);
 }
 
 TEST(IniFileTest, Case6_InvalidFile)
@@ -176,9 +176,9 @@ TEST(IniFileTest, Case6_InvalidFile)
 	try
 	{
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file.ini");
 #else
-        core_lib::ini_file::IniFile iniFile("../../data/test_file.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file.ini");
 #endif
 		correctException = false;
 	}
@@ -198,7 +198,7 @@ TEST(IniFileTest, Case6_InvalidFile)
 		correctException = false;
 	}
 
-    EXPECT_TRUE(correctException);
+	EXPECT_TRUE(correctException);
 }
 
 TEST(IniFileTest, Case7_ValidFile)
@@ -208,9 +208,9 @@ TEST(IniFileTest, Case7_ValidFile)
 	try
 	{
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_6.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_6.ini");
 #else
-        core_lib::ini_file::IniFile iniFile("../../data/test_file_6.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_6.ini");
 #endif
 		noException = true;
 	}
@@ -219,16 +219,16 @@ TEST(IniFileTest, Case7_ValidFile)
 		noException = false;
 	}
 
-    EXPECT_TRUE(noException);
+	EXPECT_TRUE(noException);
 }
 
 TEST(IniFileTest, Case8_ValidFileCompare)
 {
 #if BOOST_OS_WINDOWS
-        boost::filesystem::copy_file("../data/test_file_6.ini", "../data/test_file_tmp.ini"
+		boost::filesystem::copy_file("../data/test_file_6.ini", "../data/test_file_tmp.ini"
 			, boost::filesystem::copy_option::overwrite_if_exists);
 #else
-    boost::filesystem::copy_file("../../data/test_file_6.ini", "../../data/test_file_tmp.ini"
+	boost::filesystem::copy_file("../data/test_file_6.ini", "../data/test_file_tmp.ini"
 								 , boost::filesystem::copy_option::overwrite_if_exists);
 #endif
 
@@ -238,11 +238,11 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 	{
 		core_lib::ini_file::IniFile iniFile;
 #if BOOST_OS_WINDOWS
-        iniFile.LoadFile("../data/test_file_tmp.ini");
+		iniFile.LoadFile("../data/test_file_tmp.ini");
 #else
-        iniFile.LoadFile("../../data/test_file_tmp.ini");
+		iniFile.LoadFile("../data/test_file_tmp.ini");
 #endif
-        iniFile.WriteInt32("Section 2", "key5", static_cast<int>(1));
+		iniFile.WriteInt32("Section 2", "key5", static_cast<int>(1));
 		iniFile.UpdateFile();
 		noException = true;
 	}
@@ -251,18 +251,18 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 		noException = false;
 	}
 
-    EXPECT_TRUE(noException);
+	EXPECT_TRUE(noException);
 
 #if BOOST_OS_WINDOWS
 		std::ifstream iniFileA("../data/test_file_tmp.ini");
-        std::ifstream iniFileB("../data/test_file_check.ini");
+		std::ifstream iniFileB("../data/test_file_check.ini");
 #else
-    std::ifstream iniFileA("../../data/test_file_tmp.ini");
-    std::ifstream iniFileB("../../data/test_file_check.ini");
+	std::ifstream iniFileA("../data/test_file_tmp.ini");
+	std::ifstream iniFileB("../data/test_file_check.ini");
 #endif
 
-    EXPECT_TRUE(iniFileA.is_open() && iniFileA.good());
-    EXPECT_TRUE(iniFileB.is_open() && iniFileB.good());
+	EXPECT_TRUE(iniFileA.is_open() && iniFileA.good());
+	EXPECT_TRUE(iniFileB.is_open() && iniFileB.good());
 
 	while(iniFileA.good() && iniFileB.good())
 	{
@@ -270,46 +270,46 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 		std::getline(iniFileA, lineA);
 		std::getline(iniFileB, lineB);
 
-        EXPECT_STREQ(lineA.c_str(), lineB.c_str());
+		EXPECT_STREQ(lineA.c_str(), lineB.c_str());
 	}
 
-    EXPECT_TRUE(iniFileA.eof() && iniFileB.eof());
+	EXPECT_TRUE(iniFileA.eof() && iniFileB.eof());
 	iniFileA.close();
 	iniFileB.close();
 
 #if BOOST_OS_WINDOWS
-    boost::filesystem::remove("../data/test_file_tmp.ini");
+	boost::filesystem::remove("../data/test_file_tmp.ini");
 #else
-    boost::filesystem::remove("../../data/test_file_tmp.ini");
+	boost::filesystem::remove("../data/test_file_tmp.ini");
 #endif
 }
 
 TEST(IniFileTest, Case9_CopyConstructor)
 {
 #if BOOST_OS_WINDOWS
-    core_lib::ini_file::IniFile iniFile1("../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile1("../data/test_file_check.ini");
 #else
-    core_lib::ini_file::IniFile iniFile1("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile1("../data/test_file_check.ini");
 #endif
 
 	core_lib::ini_file::IniFile iniFile2(iniFile1);
 
 #if BOOST_OS_WINDOWS
-    iniFile2.UpdateFile("../data/test_file_tmp.ini");
+	iniFile2.UpdateFile("../data/test_file_tmp.ini");
 #else
-    iniFile2.UpdateFile("../../data/test_file_tmp.ini");
+	iniFile2.UpdateFile("../data/test_file_tmp.ini");
 #endif
 
 #if BOOST_OS_WINDOWS
-    std::ifstream iniFileA("../data/test_file_tmp.ini");
-    std::ifstream iniFileB("../data/test_file_check.ini");
+	std::ifstream iniFileA("../data/test_file_tmp.ini");
+	std::ifstream iniFileB("../data/test_file_check.ini");
 #else
-    std::ifstream iniFileA("../../data/test_file_tmp.ini");
-    std::ifstream iniFileB("../../data/test_file_check.ini");
+	std::ifstream iniFileA("../data/test_file_tmp.ini");
+	std::ifstream iniFileB("../data/test_file_check.ini");
 #endif
 
-    EXPECT_TRUE(iniFileA.is_open() && iniFileA.good());
-    EXPECT_TRUE(iniFileB.is_open() && iniFileB.good());
+	EXPECT_TRUE(iniFileA.is_open() && iniFileA.good());
+	EXPECT_TRUE(iniFileB.is_open() && iniFileB.good());
 
 	while(iniFileA.good() && iniFileB.good())
 	{
@@ -317,44 +317,44 @@ TEST(IniFileTest, Case9_CopyConstructor)
 		std::getline(iniFileA, lineA);
 		std::getline(iniFileB, lineB);
 
-        EXPECT_STREQ(lineA.c_str(), lineB.c_str());
+		EXPECT_STREQ(lineA.c_str(), lineB.c_str());
 	}
 
-    EXPECT_TRUE(iniFileA.eof() && iniFileB.eof());
+	EXPECT_TRUE(iniFileA.eof() && iniFileB.eof());
 	iniFileA.close();
 	iniFileB.close();
 
 #if BOOST_OS_WINDOWS
-        boost::filesystem::remove("../data/test_file_tmp.ini");
+		boost::filesystem::remove("../data/test_file_tmp.ini");
 #else
-    boost::filesystem::remove("../../data/test_file_tmp.ini");
+	boost::filesystem::remove("../data/test_file_tmp.ini");
 #endif
 }
 
 TEST(IniFileTest, Case10_MoveConstructor)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../data/test_file_check.ini"));
+		core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../data/test_file_check.ini"));
 #else
-	core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../../data/test_file_check.ini"));
+	core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile("../data/test_file_check.ini"));
 #endif
 
 #if BOOST_OS_WINDOWS
-        iniFile.UpdateFile("../data/test_file_tmp.ini");
+		iniFile.UpdateFile("../data/test_file_tmp.ini");
 #else
-	iniFile.UpdateFile("../../data/test_file_tmp.ini");
+	iniFile.UpdateFile("../data/test_file_tmp.ini");
 #endif
 
 #if BOOST_OS_WINDOWS
 		std::ifstream iniFileA("../data/test_file_tmp.ini");
-        std::ifstream iniFileB("../data/test_file_check.ini");
+		std::ifstream iniFileB("../data/test_file_check.ini");
 #else
-	std::ifstream iniFileA("../../data/test_file_tmp.ini");
-	std::ifstream iniFileB("../../data/test_file_check.ini");
+	std::ifstream iniFileA("../data/test_file_tmp.ini");
+	std::ifstream iniFileB("../data/test_file_check.ini");
 #endif
 
-    EXPECT_TRUE(iniFileA.is_open() && iniFileA.good());
-    EXPECT_TRUE(iniFileB.is_open() && iniFileB.good());
+	EXPECT_TRUE(iniFileA.is_open() && iniFileA.good());
+	EXPECT_TRUE(iniFileB.is_open() && iniFileB.good());
 
 	while(iniFileA.good() && iniFileB.good())
 	{
@@ -362,139 +362,139 @@ TEST(IniFileTest, Case10_MoveConstructor)
 		std::getline(iniFileA, lineA);
 		std::getline(iniFileB, lineB);
 
-        EXPECT_STREQ(lineA.c_str(), lineB.c_str());
+		EXPECT_STREQ(lineA.c_str(), lineB.c_str());
 	}
 
-    EXPECT_TRUE(iniFileA.eof() && iniFileB.eof());
+	EXPECT_TRUE(iniFileA.eof() && iniFileB.eof());
 	iniFileA.close();
 	iniFileB.close();
 
 #if BOOST_OS_WINDOWS
-        boost::filesystem::remove("../data/test_file_tmp.ini");
+		boost::filesystem::remove("../data/test_file_tmp.ini");
 #else
-	boost::filesystem::remove("../../data/test_file_tmp.ini");
+	boost::filesystem::remove("../data/test_file_tmp.ini");
 #endif
 }
 
 TEST(IniFileTest, Case11_GetSections)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
-    std::list<std::string> sections(iniFile.GetSections());
+	std::list<std::string> sections(iniFile.GetSections());
 
-    EXPECT_EQ(sections.size(), 2U);
+	EXPECT_EQ(sections.size(), 2U);
 
-    int secCnt = 1;
+	int secCnt = 1;
 
-    for (const auto& section : sections)
-    {
-        std::stringstream ss;
-        ss << "Section " << secCnt++;
-        EXPECT_STREQ(ss.str().c_str(), section.c_str());
-    }
+	for (const auto& section : sections)
+	{
+		std::stringstream ss;
+		ss << "Section " << secCnt++;
+		EXPECT_STREQ(ss.str().c_str(), section.c_str());
+	}
 }
 
 TEST(IniFileTest, Case12_GetSection)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
-    core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
+	core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
 
-    EXPECT_EQ(keys.size(), 5U);
+	EXPECT_EQ(keys.size(), 5U);
 }
 
 TEST(IniFileTest, Case13_SectionExists)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
-    EXPECT_TRUE(iniFile.SectionExists("Section 1"));
-    EXPECT_TRUE(iniFile.SectionExists("Section 2"));
-    EXPECT_FALSE(iniFile.SectionExists("I Don't Exist"));
+	EXPECT_TRUE(iniFile.SectionExists("Section 1"));
+	EXPECT_TRUE(iniFile.SectionExists("Section 2"));
+	EXPECT_FALSE(iniFile.SectionExists("I Don't Exist"));
 }
 
 TEST(IniFileTest, Case14_KeyExists)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
-    EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
-    EXPECT_TRUE(iniFile.KeyExists("Section 2", "key3"));
-    EXPECT_FALSE(iniFile.KeyExists("I Don't Exist", "Nor Do I"));
+	EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
+	EXPECT_TRUE(iniFile.KeyExists("Section 2", "key3"));
+	EXPECT_FALSE(iniFile.KeyExists("I Don't Exist", "Nor Do I"));
 }
 
 TEST(IniFileTest, Case15_ReadValues)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
-    core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
+	core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
 
-    EXPECT_EQ(keys.size(), 5U);
+	EXPECT_EQ(keys.size(), 5U);
 
-    int keyCnt = 1;
+	int keyCnt = 1;
 
-    for (const auto& key : keys)
-    {
-        switch (keyCnt++)
-        {
-        case 1:
-            {
-                auto value =  iniFile.ReadString("Section 1", key.first);
-                EXPECT_STREQ(value.c_str(), "value as a string");
-            }
-            break;
-        case 2:
-            {
-                auto value =  iniFile.ReadInt32("Section 1", key.first);
-                EXPECT_EQ(value, 123456);
-            }
-            break;
-        case 3:
-            {
-                auto value =  iniFile.ReadDouble("Section 1", key.first);
-                EXPECT_EQ(value, 123.456789);
-            }
-            break;
-        case 4:
-            {
-                auto value =  iniFile.ReadString("Section 1", key.first);
-                EXPECT_EQ(value, "string with number 1234");
-            }
-            break;
-        case 5:
-            {
-                auto value =  iniFile.ReadInt32("Section 1", key.first);
-                EXPECT_EQ(value, 1);
-            }
-            break;
-        }
-    }
+	for (const auto& key : keys)
+	{
+		switch (keyCnt++)
+		{
+		case 1:
+			{
+				auto value =  iniFile.ReadString("Section 1", key.first);
+				EXPECT_STREQ(value.c_str(), "value as a string");
+			}
+			break;
+		case 2:
+			{
+				auto value =  iniFile.ReadInt32("Section 1", key.first);
+				EXPECT_EQ(value, 123456);
+			}
+			break;
+		case 3:
+			{
+				auto value =  iniFile.ReadDouble("Section 1", key.first);
+				EXPECT_EQ(value, 123.456789);
+			}
+			break;
+		case 4:
+			{
+				auto value =  iniFile.ReadString("Section 1", key.first);
+				EXPECT_EQ(value, "string with number 1234");
+			}
+			break;
+		case 5:
+			{
+				auto value =  iniFile.ReadInt32("Section 1", key.first);
+				EXPECT_EQ(value, 1);
+			}
+			break;
+		}
+	}
 }
 
 TEST(IniFileTest, Case16_EraseSection)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
 	EXPECT_TRUE(iniFile.SectionExists("Section 1"));
@@ -505,9 +505,9 @@ TEST(IniFileTest, Case16_EraseSection)
 TEST(IniFileTest, Case17_EraseKey)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
 	EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
@@ -518,9 +518,9 @@ TEST(IniFileTest, Case17_EraseKey)
 TEST(IniFileTest, Case18_EraseKeys)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-	core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 	core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
 	EXPECT_EQ(keys.size(), 5U);
@@ -532,14 +532,14 @@ TEST(IniFileTest, Case18_EraseKeys)
 TEST(IniFileTest, Case19_AddKeyAtEndOfLastSection)
 {
 #if BOOST_OS_WINDOWS
-        core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
+		core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #else
-    core_lib::ini_file::IniFile iniFile("../../data/test_file_check.ini");
+	core_lib::ini_file::IniFile iniFile("../data/test_file_check.ini");
 #endif
 
-    iniFile.WriteString("Section 2", "Test Key", "Test Value");
-    std::string value = iniFile.ReadString("Section 2", "Test Key", "");
-    EXPECT_STREQ(value.c_str(), "Test Value");
+	iniFile.WriteString("Section 2", "Test Key", "Test Value");
+	std::string value = iniFile.ReadString("Section 2", "Test Key", "");
+	EXPECT_STREQ(value.c_str(), "Test Value");
 }
 
 #endif // DISABLE_INIFILE_TESTS
