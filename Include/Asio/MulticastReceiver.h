@@ -47,9 +47,8 @@ public:
     /*!
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
-     * \param[in] listenPort - Our listen port for all networks.
-     * \param[in] listenAddress - Our listen address, e.g. IP address of network adapter or "0.0.0.0" if using preconfigured multicast routing.
-     * \param[in] multicastAddress - Our multicast group address.
+     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
+     * \param[in] interfaceAddress - Interface IP address for incoming network messages.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message and dispatching it accordingly.
      * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
@@ -60,17 +59,15 @@ public:
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
 	MulticastReceiver(boost_ioservice_t& ioService
-				      , const uint16_t listenPort
-                      , const std::string& listenAddress
-				      , const std::string& multicastAddress
+                      , const defs::connection_t& multicastConnection
+                      , const std::string& interfaceAddress
 				      , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                       , const defs::message_received_handler_t& messageReceivedHandler
 				      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
-     * \param[in] listenPort - Our listen port for all detected networks.
-     * \param[in] listenAddress - Our listen address, e.g. IP address of network adapter or "0.0.0.0" if using preconfigured multicast routing.
-     * \param[in] multicastAddress - Our multicast group address.
+     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
+     * \param[in] interfaceAddress - Interface IP address for incoming network messages.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message and dispatching it accordingly.
      * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
@@ -80,9 +77,8 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommended.
      */
-	MulticastReceiver(const uint16_t listenPort
-                      , const std::string& listenAddress
-			      	  , const std::string& multicastAddress
+    MulticastReceiver(const defs::connection_t& multicastConnection
+                      , const std::string& interfaceAddress
 			      	  , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
 				      , const defs::message_received_handler_t& messageReceivedHandler
 				      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
@@ -93,20 +89,15 @@ public:
     /*! \brief Destructor. */
     ~MulticastReceiver();
     /*!
-     * \brief Retrieve this receiver's listen port.
-     * \return The listen port.
+     * \brief Retrieve multicast connection details.
+     * \return - Connection object describing target multicast group address and port.
      */
-	uint16_t ListenPort() const;
+    defs::connection_t MulticastConnection() const;
     /*!
-     * \brief Retrieve this receiver's listen address.
-     * \return The listen address.
+     * \brief Retrieve interface IP address.
+     * \return - Interface IP address.
      */
-    std::string ListenAddress() const;
-    /*!
-     * \brief Retrieve this receiver's multicast group address.
-     * \return The multicast address.
-     */
-    std::string MulticastAddress() const;
+    std::string InterfaceAddress() const;
 
 private:
     /*!
@@ -133,13 +124,11 @@ private:
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
 	boost_ioservice_t& m_ioService;
-    /*! \brief Receiver listen port. */
-	const uint16_t m_listenPort{0};
-    /*! \brief Receiver listen address. */
-    const std::string m_listenAddress;
-    /*! \brief Receiver multicast group address. */
-    const std::string m_multicastAddress;
-    /*! \brief UDP socket. */
+    /*! \brief Multicast connection details. */
+    const defs::connection_t m_multicastConnection;
+    /*! \brief Interface IP address of outgoing network adaptor. */
+    const std::string m_interfaceAddress;
+    /*! \brief The multicast socket. */
 	boost_udp_t::socket m_socket;
     /*! \brief Callback to check number of bytes left to read. */
 	defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;

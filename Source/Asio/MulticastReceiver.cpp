@@ -38,17 +38,15 @@ namespace udp {
 // 'class MulticastReceiver' definition
 // ****************************************************************************
 MulticastReceiver::MulticastReceiver(boost_ioservice_t& ioService
-						 , const uint16_t listenPort
-                         , const std::string& listenAddress
-				         , const std::string& multicastAddress
+                         , const defs::connection_t& multicastConnection
+                         , const std::string& interfaceAddress
 						 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
 						 , const defs::message_received_handler_t& messageReceivedHandler
 						 , const size_t receiveBufferSize)
     : m_destructing(false)
     , m_ioService(ioService)
-	, m_listenPort{listenPort}
-    , m_listenAddress(listenAddress)
-    , m_multicastAddress(multicastAddress)
+    , m_multicastConnection(multicastConnection)
+    , m_interfaceAddress(interfaceAddress)
 	, m_socket{m_ioService}
 	, m_checkBytesLeftToRead{checkBytesLeftToRead}
 	, m_messageReceivedHandler{messageReceivedHandler}
@@ -57,18 +55,16 @@ MulticastReceiver::MulticastReceiver(boost_ioservice_t& ioService
 	CreateMulticastSocket(receiveBufferSize);
 }
 
-MulticastReceiver::MulticastReceiver(const uint16_t listenPort
-                         , const std::string& listenAddress
-				         , const std::string& multicastAddress
+MulticastReceiver::MulticastReceiver(const defs::connection_t& multicastConnection
+                         , const std::string& interfaceAddress
 						 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
 						 , const defs::message_received_handler_t& messageReceivedHandler
 						 , const size_t receiveBufferSize)
     : m_destructing(false)
     , m_ioThreadGroup{new IoServiceThreadGroup(1)}// 1 thread is sufficient only receive one message at a time
 	, m_ioService(m_ioThreadGroup->IoService())
-	, m_listenPort{listenPort}
-    , m_listenAddress(listenAddress)
-    , m_multicastAddress(multicastAddress)
+    , m_multicastConnection(multicastConnection)
+    , m_interfaceAddress(interfaceAddress)
 	, m_socket{m_ioService}
 	, m_checkBytesLeftToRead{checkBytesLeftToRead}
 	, m_messageReceivedHandler{messageReceivedHandler}
@@ -86,29 +82,24 @@ MulticastReceiver::~MulticastReceiver()
     m_destructing = true;
 }
 
-uint16_t MulticastReceiver::ListenPort() const
+defs::connection_t MulticastReceiver::MulticastConnection() const
 {
-	return m_listenPort;
+    return m_multicastConnection;
 }
 
-std::string MulticastReceiver::ListenAddress() const
+std::string MulticastReceiver::InterfaceAddress() const
 {
-	return m_listenAddress;
-}
-
-std::string MulticastReceiver::MulticastAddress() const
-{
-	return m_multicastAddress;
+    return m_interfaceAddress;
 }
 
 void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
 {
 	m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
     
-    boost_address_t listenAddr = boost_address_t::from_string(m_listenAddress);
-    boost_address_t mcastAddr = boost_address_t::from_string(m_multicastAddress);
+    boost_address_t listenAddr = boost_address_t::from_string(m_interfaceAddress);
+    boost_address_t mcastAddr = boost_address_t::from_string(m_multicastConnection.first);
 
-    boost_udp_t::endpoint receiveEndpoint(listenAddr, m_listenPort);
+    boost_udp_t::endpoint receiveEndpoint(listenAddr, m_multicastConnection.second);
     
     m_socket.open(receiveEndpoint.protocol());    
     m_socket.set_option(boost_udp_t::socket::reuse_address(true));
