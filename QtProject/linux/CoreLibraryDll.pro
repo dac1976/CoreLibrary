@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 -#set version info
- VERSION = 1.2.5
+ VERSION = 1.2.6
 
 QT       -= gui
 
@@ -73,6 +73,7 @@ HEADERS +=                                              \
 	../../Include/Threads/ThreadGroup.h                 \
 	../../Include/Asio/UdpSender.h                      \
 	../../Include/Asio/UdpReceiver.h                    \
+    ../../Include/Asio/MulticastReceiver.h              \
 	../../Include/Asio/UdpTypedSender.h                 \
 	../../Include/Asio/SimpleUdpSender.h                \
 	../../Include/Asio/SimpleUdpReceiver.h              \
@@ -107,6 +108,7 @@ SOURCES +=                                                \
 	../../Source/Threads/ThreadGroup.cpp                  \
 	../../Source/Asio/UdpSender.cpp                       \
 	../../Source/Asio/UdpReceiver.cpp                     \
+    ../../Source/Asio/MulticastReceiver.cpp               \
 	../../Source/Asio/SimpleUdpSender.cpp                 \
 	../../Source/Asio/SimpleUdpReceiver.cpp
 
