@@ -17,6 +17,8 @@
 #include "Asio/UdpTypedSender.h"
 #include "Asio/SimpleUdpSender.h"
 #include "Asio/SimpleUdpReceiver.h"
+#include "Asio/MulticastReceiver.h"
+#include "Asio/MulticastSender.h"
 
 #include "gtest/gtest.h"
 
@@ -1190,6 +1192,27 @@ TEST(AsioTest, testCase_TestSerializePOD)
 	respAddress = std::make_pair(header.responseAddress, header.responsePort);
 
 	EXPECT_TRUE(respAddress == serverConn);
+}
+
+TEST(AsioTest, testCase_TestUdpMulticast)
+{
+    char_buffer_t message = BuildMessage();
+    MessageReceiver receiver;
+
+    MulticastReceiver(std::make_pair("226.0.0.1", 9099)
+                      , "192.168.1.59"
+                      , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+                      , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
+
+    MulticastSender mcSender(std::make_pair("226.0.0.1", 9099), "192.168.1.59");
+
+    EXPECT_TRUE(mcSender.SendMessage(message) == true);
+
+    receiver.WaitForMessage(3000);
+    MyMessage expectedMessage;
+    expectedMessage.FillMessage();
+    MyMessage receivedMessage = receiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
 #endif // DISABLE_ASIO_TESTS
