@@ -47,6 +47,8 @@ public:
      * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] multicastConnection - Connection object describing target multicast group address and port.
      * \param[in] interfaceAddress - Optional interface IP address for outgoing network messages.
+	 * \param[in] enableLoopback - Optional allow multicasts to loopback on same adapter.
+	 * \param[in] ttl - Optional time-to-live for multicast messages.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
@@ -57,11 +59,15 @@ public:
 	MulticastSender(boost_ioservice_t& ioService
 			  , const defs::connection_t& multicastConnection
               , const std::string& interfaceAddress = ""
+			  , const bool enableLoopback = true
+			  , const eMulticastTTL ttl = eMulticastTTL::sameSubnet
 			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address and port.
-     * \param[in] interfaceAddress - Optional interface IP address of outgoing network adaptor.
+     * \param[in] interfaceAddress - Optional interface IP address for outgoing network messages.
+	 * \param[in] enableLoopback - Optional allow multicasts to loopback on same adapter.
+	 * \param[in] ttl - Optional time-to-live for multicast messages.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * This constructor does not require an external IO service to run instead it creates
@@ -71,6 +77,8 @@ public:
      */
 	MulticastSender(const defs::connection_t& multicastConnection
               , const std::string& interfaceAddress = ""
+			  , const bool enableLoopback = true
+			  , const eMulticastTTL ttl = eMulticastTTL::sameSubnet
 			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
     /*! \brief Copy constructor - deleted. */
@@ -99,9 +107,13 @@ public:
 private:
     /*!
      * \brief Create multicast socket.
+	 * \param[in] enableLoopback - Allow multicasts to loopback on same adapter.
+	 * \param[in] ttl - Time-to-live for multicast messages.
      * \param[in] sendBufferSize - Send buffer size.
      */
-    void CreateMulticastSocket(const size_t sendBufferSize);
+    void CreateMulticastSocket(const bool enableLoopback
+	                           , const eMulticastTTL ttl
+	                           , const size_t sendBufferSize);
     /*!
      * \brief Synchronised send to method.
      * \param[in] message - Message buffer to send.
@@ -120,8 +132,8 @@ private:
 	const std::string m_interfaceAddress;
     /*! \brief Multicast socket. */
 	boost_udp_t::socket m_socket;
-    /*! \brief Receiver end-point. */
-	boost_udp_t::endpoint m_receiverEndpoint;
+    /*! \brief Multicast receiver end-point. */
+	boost_udp_t::endpoint m_multicastEndpoint;
 };
 
 } // namespace udp

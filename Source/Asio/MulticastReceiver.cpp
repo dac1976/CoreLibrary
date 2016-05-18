@@ -109,8 +109,8 @@ void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
     
     m_socket.bind(receiveEndpoint);
 	
-    m_socket.set_option(boost::asio::ip::multicast::join_group(mcastAddr.to_v4()
-                                                               , listenAddr.to_v4()));
+    m_socket.set_option(boost_mcast::join_group(mcastAddr.to_v4()
+                                                , listenAddr.to_v4()));
 
 	StartAsyncRead();
 }

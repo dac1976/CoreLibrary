@@ -40,6 +40,7 @@
 namespace boost_sys = boost::system;
 namespace boost_asio = boost::asio;
 namespace boost_placeholders = boost::asio::placeholders;
+namespace boost_mcast = boost::asio::ip::multicast;
 
 /*! \brief Boost IO service convenience typedef. */
 typedef boost_asio::io_service boost_ioservice_t;
@@ -49,8 +50,10 @@ typedef boost_asio::ip::tcp boost_tcp_t;
 typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor_t;
 /*! \brief Boost udp convenience typedef. */
 typedef boost::asio::ip::udp boost_udp_t;
-/*! \brief Boost IP address convenience typedef. */
+/*! \brief Boost general IP address convenience typedef. */
 typedef boost::asio::ip::address boost_address_t;
+/*! \brief Boost IPV4 address convenience typedef. */
+typedef boost::asio::ip::address_v4 boost_address_v4_t;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -102,6 +105,23 @@ namespace udp {
 	* changed by the user.
 	*/
     __CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
+
+    /*! \brief The multicast TTL enumeration. */
+    enum class eMulticastTTL
+    {
+        /*! \brief Multicast only to same host. */
+        sameHost 		= 0,
+        /*! \brief Multicast only to same subnet. */
+        sameSubnet      = 1,
+        /*! \brief Multicast only to same site. */
+        sameSite        = 32,
+        /*! \brief Multicast only to same region. */
+        sameRegion      = 64,
+        /*! \brief Multicast only to same continent. */
+        sameContinent   = 128,
+        /*! \brief Multicasts are unrestricted. */
+        unrestricted     = 255
+    };
 
 } // namespace udp
 
