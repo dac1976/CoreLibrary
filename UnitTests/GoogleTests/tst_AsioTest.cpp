@@ -1196,6 +1196,7 @@ TEST(AsioTest, testCase_TestSerializePOD)
 	EXPECT_TRUE(respAddress == serverConn);
 }
 /*
+// Currently this fails but need to investigate why in debug.
 TEST(AsioTest, testCase_TestUdpMulticast)
 {
     char_buffer_t message = BuildMessage();
