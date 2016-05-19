@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014,2015 Duncan Crutchley
+// Copyright (C) 2016 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,24 +21,16 @@
 
 /*!
  * \file SerializationIncludes.h
- * \brief File containing includes for boost serialization.
+ * \brief File containing includes for Cereal serialization.
  */
 
 #ifndef SERIALIZATIONINCLUDES
 #define SERIALIZATIONINCLUDES
 
-#include "boost/archive/portable_oarchive.hpp"
-#include "boost/archive/portable_iarchive.hpp"
-#include "boost/archive/binary_oarchive.hpp"
-#include "boost/archive/binary_iarchive.hpp"
-#include "boost/archive/text_oarchive.hpp"
-#include "boost/archive/text_iarchive.hpp"
-#include "boost/archive/xml_oarchive.hpp"
-#include "boost/archive/xml_iarchive.hpp"
-#include "boost/serialization/version.hpp"
-#include "boost/serialization/string.hpp"
-#include "boost/serialization/base_object.hpp"
-
-namespace boost_arch = boost::archive;
+#include "cereal/archives/binary.hpp"
+#include "cereal/archives/json.hpp"
+#include "cereal/archives/portable_binary.hpp"
+#include "cereal/archives/xml.hpp"
+#include "cereal/cereal.hpp"
 
 #endif // #define SERIALIZATIONINCLUDES

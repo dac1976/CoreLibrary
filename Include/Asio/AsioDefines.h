@@ -144,13 +144,13 @@ __CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 /*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t
 {
-	/*! \brief Portable binary archive, requires EOS portable archive library. */
+    /*! \brief Portable binary archive, requires Cereal serialization. */
     portableBinary, 
-	/*! \brief Binary archive, requires boost serialization. */
+    /*! \brief Binary archive, requires Cereal serialization. */
     binary,
-	/*! \brief Text archive, requires boost serialization. */
-    text, 
-	/*! \brief XML archive, requires boost serialization. */
+    /*! \brief JSON archive, requires Cereal serialization. */
+    json,
+    /*! \brief XML archive, requires Cereal serialization. */
     xml,
 	/*! \brief Raw data, only for POD objects. */
     raw 

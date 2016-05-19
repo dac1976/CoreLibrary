@@ -236,9 +236,9 @@ struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
     }
 };
 
-/*! \brief Archive type enumerators as a specialized template class for text archives. */
+/*! \brief Archive type enumerators as a specialized template class for text archives (alias for JSON archive also). */
 template<>
-struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
+struct ArchiveTypeToEnum<serialize::archives::out_json_t>
 {
     /*!
      * \brief Enumerate method.
@@ -246,7 +246,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_txt_t>
      */
     static defs::eArchiveType Enumerate()
     {
-        return defs::eArchiveType::text;
+        return defs::eArchiveType::json;
     }
 };
 
@@ -429,8 +429,8 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer
         return serialize::ToObject<T, serialize::archives::in_port_bin_t>(messageBuffer);
     case defs::eArchiveType::raw:
         return serialize::ToObject<T, serialize::archives::in_raw_t>(messageBuffer);
-    case defs::eArchiveType::text:
-        return serialize::ToObject<T, serialize::archives::in_txt_t>(messageBuffer);
+    case defs::eArchiveType::json:
+        return serialize::ToObject<T, serialize::archives::in_json_t>(messageBuffer);
     case defs::eArchiveType::xml:
         return serialize::ToObject<T, serialize::archives::in_xml_t>(messageBuffer);
     default:

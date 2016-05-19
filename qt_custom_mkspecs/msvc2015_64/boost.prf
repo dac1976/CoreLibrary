@@ -1,3 +1,2 @@
-INCLUDEPATH += $$(THIRD_PARTY_LIBS)/boost/include        \   
-               $$(THIRD_PARTY_LIBS)/eos_portable_archive \
-               $$(THIRD_PARTY_LIBS)/tuple_serialization
+INCLUDEPATH += $$(THIRD_PARTY_LIBS)/boost/include  \   
+               $$(THIRD_PARTY_LIBS)/cereal/include

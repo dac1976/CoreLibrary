@@ -6,12 +6,8 @@ CONFIG(debug, debug|release) {
   LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-64 \
           -lboost_filesystem-vc140-mt-gd-1_60               \
           -lboost_system-vc140-mt-gd-1_60                   \
-	      -lboost_serialization-vc140-mt-gd-1_60            \
-	      -lboost_program_options-vc140-mt-gd-1_60
 } else {
   LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-64 \
           -lboost_filesystem-vc140-mt-1_60                  \
           -lboost_system-vc140-mt-1_60                      \
-	      -lboost_serialization-vc140-mt-1_60               \
-	      -lboost_program_options-vc140-mt-1_60
 }

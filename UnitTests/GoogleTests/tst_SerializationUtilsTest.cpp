@@ -3,7 +3,8 @@
 #include <string>
 #include "boost/predef.h"
 #include "Serialization/SerializeToVector.h"
-
+#include "cereal/types/string.hpp"
+#include "cereal/types/vector.hpp"
 #include "gtest/gtest.h"
 
 namespace 
@@ -44,22 +45,22 @@ public:
 private:
 	float fred;
 	std::string harry;
-	std::vector<unsigned int> george;
+    std::vector<unsigned int> george;
 
-	friend class boost::serialization::access;
+    friend class cereal::access;
 
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int /*version*/)
 	{
-		ar & BOOST_SERIALIZATION_NVP(fred);
-		ar & BOOST_SERIALIZATION_NVP(harry);
-		ar & BOOST_SERIALIZATION_NVP(george);
+        ar( CEREAL_NVP(fred) );
+        ar( CEREAL_NVP(harry) );
+        ar( CEREAL_NVP(george) );
 	}
 };
 
 } // End of unnamed namespace.
 
-BOOST_CLASS_VERSION(MyObject, 1)
+CEREAL_CLASS_VERSION(MyObject, 1)
 
 // Unit test cases.
 TEST(SerializationUtilsTest, testCase_SerializeObjectPortBinArch)
@@ -93,7 +94,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectBinArch)
 	EXPECT_EQ(objectOut, objectIn);
 }
 
-TEST(SerializationUtilsTest, testCase_SerializeObjectTextArch)
+TEST(SerializationUtilsTest, testCase_SerializeObjectJSONArch)
 {
 	using namespace core_lib::serialize;
 	MyObject objectIn{};
@@ -103,8 +104,8 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectTextArch)
 	std::vector<unsigned int> vec{1, 2, 3, 4, 5};
 	objectIn.George(vec);
 	char_vector_t charVector;
-	charVector = ToCharVector<MyObject, archives::out_txt_t>(objectIn);
-	objectOut = ToObject<MyObject, archives::in_txt_t>(charVector);
+    charVector = ToCharVector<MyObject, archives::out_json_t>(objectIn);
+    objectOut = ToObject<MyObject, archives::in_json_t>(charVector);
 
 	EXPECT_EQ(objectOut, objectIn);
 }

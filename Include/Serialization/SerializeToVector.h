@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014,2015 Duncan Crutchley
+// Copyright (C) 2016 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,12 +30,11 @@
 #include "CoreLibraryDllGlobal.h"
 #include "SerializationIncludes.h"
 #include <vector>
+#include <sstream>
+#include <iterator>
 #include <type_traits>
 #include <algorithm>
-#include "boost/iostreams/filtering_stream.hpp"
-#include "boost/iostreams/device/back_inserter.hpp"
-#include "boost/range/iterator_range.hpp"
-#include "boost/serialization/vector.hpp"
+#include "cereal/types/vector.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -45,12 +44,12 @@ namespace serialize {
 /*! \brief Typedef for char vector. */
 typedef std::vector<char> char_vector_t;
 
-/*! \brief In archive placeholder struct for non-boost serialized POD objects. */
+/*! \brief In archive placeholder struct for serializing POD objects. */
 struct CORE_LIBRARY_DLL_SHARED_API raw_iarchive
 {
 };
 
-/*! \brief Out archive placeholder struct for non-boost serialized POD objects. */
+/*! \brief Out archive placeholder struct for serializing POD objects. */
 struct CORE_LIBRARY_DLL_SHARED_API raw_oarchive
 {
 };
@@ -59,33 +58,39 @@ struct CORE_LIBRARY_DLL_SHARED_API raw_oarchive
 namespace archives {
 
 /*! \brief Typedef to output portable binary archive. */
-typedef eos::portable_oarchive      out_port_bin_t;
+typedef cereal::PortableBinaryOutputArchive  out_port_bin_t;
 /*! \brief Typedef to output binary archive. */
-typedef boost_arch::binary_oarchive out_bin_t;
+typedef cereal::BinaryOutputArchive          out_bin_t;
 /*! \brief Typedef to output xml archive. */
-typedef boost_arch::xml_oarchive    out_xml_t;
-/*! \brief Typedef to output textarchive. */
-typedef boost_arch::text_oarchive   out_txt_t;
+typedef cereal::XMLOutputArchive             out_xml_t;
+/*! \brief Typedef to output json archive. */
+typedef cereal::JSONOutputArchive            out_json_t;
 /*! \brief Typedef to output raw archive. */
-typedef raw_oarchive                out_raw_t;
+typedef raw_oarchive                         out_raw_t;
 /*! \brief Typedef to input portable binary archive. */
-typedef eos::portable_iarchive      in_port_bin_t;
+typedef cereal::PortableBinaryInputArchive   in_port_bin_t;
 /*! \brief Typedef to input binary archive. */
-typedef boost_arch::binary_iarchive in_bin_t;
+typedef cereal::BinaryInputArchive           in_bin_t;
 /*! \brief Typedef to input xml archive. */
-typedef boost_arch::xml_iarchive    in_xml_t;
-/*! \brief Typedef to input text archive. */
-typedef boost_arch::text_iarchive   in_txt_t;
+typedef cereal::XMLInputArchive              in_xml_t;
+/*! \brief Typedef to input json archive. */
+typedef cereal::JSONInputArchive             in_json_t;
 /*! \brief Typedef to input raw archive. */
-typedef raw_iarchive                in_raw_t;
+typedef raw_iarchive                         in_raw_t;
 
 } // namespace archives
 
-/*! \brief The impl namespace. */
+/*! \brief The implementation namespace. */
 namespace impl
 {
 
-/*! \brief Serialization to char vector impl. */
+/*!
+ * \brief Serialization to char vector implementation.
+ *
+ * Typically the template argument A is one of the
+ * output archive typedefs listed above or a custom
+ * output archive that is compatible.
+ */
 template <typename T, typename A>
 struct ToCharVectorImpl
 {
@@ -96,21 +101,24 @@ struct ToCharVectorImpl
      */
     char_vector_t operator()(const T& object) const
     {
-        char_vector_t charVector;
-        boost::iostreams::filtering_ostream os(boost::iostreams::back_inserter(charVector));
+        std::stringstream os;
         // Reduce scope of archive to make sure it has
         // flushed its contents to the stream before
         // we try and do anything with it.
         {
             A oa(os);
-            // BOOST_SERIALIZATION_NVP is required to fully support xml_oarchive
-            oa << BOOST_SERIALIZATION_NVP(object);
+            // CEREAL_NVP is required to fully support xml archives.
+            oa( CEREAL_NVP(object) );
         }
+        char_vector_t charVector;
+        charVector.reserve(os.str().size());
+        charVector.assign(std::istreambuf_iterator<char>(os)
+                          , std::istreambuf_iterator<char>());
         return charVector;
     }
 };
 
-/*! \brief Serialization to char vector impl, specialization for POD. */
+/*! \brief Serialization to char vector implementation, specialization for POD. */
 template <typename T>
 struct ToCharVectorImpl<T, archives::out_raw_t>
 {
@@ -137,7 +145,13 @@ struct ToCharVectorImpl<T, archives::out_raw_t>
     }
 };
 
-/*! \brief Deserialization to object impl. */
+/*!
+ * \brief Deserialization to object implementation.
+ *
+ * Typically the template argument A is one of the
+ * intput archive typedefs listed above or a custom
+ * intput archive that is compatible.
+ */
 template <typename T, typename A>
 struct ToObjectImpl
 {
@@ -148,21 +162,23 @@ struct ToObjectImpl
      */
     T operator()(const char_vector_t& charVector) const
     {
-        boost::iostreams::filtering_istream is(boost::make_iterator_range(charVector));
+        std::stringstream is;
+        std::copy(charVector.begin(), charVector.end()
+                  , std::ostream_iterator<char>(is));
         T object;
         // Reduce scope of archive to make sure it has
         // flushed its contents to the stream before
         // we try and do anything with it.
         {
             A ia(is);
-            // BOOST_SERIALIZATION_NVP is required to fully support xml_iarchive
-            ia >> BOOST_SERIALIZATION_NVP(object);
+            // CEREAL_NVP is required to fully support xml archives.
+            ia( CEREAL_NVP(object) );
         }
         return object;
     }
 };
 
-/*! \brief Deserialization to object impl, specialization for POD. */
+/*! \brief Deserialization to object implementation, specialization for POD. */
 template <typename T>
 struct ToObjectImpl<T, archives::in_raw_t>
 {
@@ -203,7 +219,7 @@ char_vector_t ToCharVector(const T& object)
 /*!
  * \brief Deserialize a char vector into a corresponding object.
  * \param[in] charVector - A char vector containing a boost serialized object of type T.
- * \return A boost serializable object of type T to receive deserialized vector.
+ * \return A serializable object of type T to receive deserialized vector.
  */
 template <typename T, typename IA = archives::in_port_bin_t>
 T ToObject(const char_vector_t& charVector)
