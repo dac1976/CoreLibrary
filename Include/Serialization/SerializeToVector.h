@@ -32,6 +32,9 @@
 #include <vector>
 #include <type_traits>
 #include <algorithm>
+#include "boost/iostreams/filtering_stream.hpp"
+#include "boost/iostreams/device/back_inserter.hpp"
+#include "boost/range/iterator_range.hpp"
 #include "boost/serialization/vector.hpp"
 
 /*! \brief The core_lib namespace. */
