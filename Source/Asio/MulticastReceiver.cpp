@@ -119,7 +119,8 @@ void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
     boost_address_t listenAddr = boost_address_t::from_string(m_interfaceAddress);
     boost_address_t mcastAddr = boost_address_t::from_string(m_multicastConnection.first);
 
-    boost_udp_t::endpoint receiveEndpoint(listenAddr, m_multicastConnection.second);
+    boost_udp_t::endpoint receiveEndpoint(boost_udp_t::v4()
+                                          , m_multicastConnection.second);
     
     m_socket.open(receiveEndpoint.protocol());    
     m_socket.set_option(boost_udp_t::socket::reuse_address(true));

@@ -98,7 +98,10 @@ void MulticastSender::CreateMulticastSocket(const bool enableLoopback
 
 	boost::asio::socket_base::send_buffer_size sizeOption(static_cast<int>(sendBufferSize));
 	m_socket.set_option(sizeOption);
-	
+
+    // If interface is empty then the OS will pick the default multicast
+    // enabled NIC to send the multicast through, which may not always
+    // be the one that was intended.
 	if (!m_interfaceAddress.empty())
 	{
         m_socket.set_option(boost_mcast::outbound_interface(boost_address_v4_t::from_string(m_interfaceAddress)));

@@ -1201,12 +1201,12 @@ TEST(AsioTest, testCase_TestUdpMulticast)
     char_buffer_t message = BuildMessage();
     MessageReceiver receiver;
 
-    MulticastReceiver(std::make_pair("226.0.0.1", 19191)
-                      , "192.169.0.200"
+    MulticastReceiver(std::make_pair("224.0.0.0", 19191)
+                      , "192.168.1.59"
                       , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
                       , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
 
-    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "192.169.0.200");
+    MulticastSender mcSender(std::make_pair("224.0.0.0", 19191), "192.168.1.59");
 
     EXPECT_TRUE(mcSender.SendMessage(message) == true);
 
