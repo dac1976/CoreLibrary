@@ -1202,7 +1202,7 @@ TEST(AsioTest, testCase_TestUdpMulticast)
     MessageReceiver receiver;
 
     MulticastReceiver(std::make_pair("224.0.0.0", 19191)
-                      , "192.168.1.59"
+                      , ""
                       , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
                       , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
 

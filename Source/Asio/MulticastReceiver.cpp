@@ -115,13 +115,14 @@ socket.set_option(boost::asio::ip::multicast::join_group(mcast_addr.to_v4(), lis
 void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
 {
 	m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
-    
-    boost_address_t listenAddr = boost_address_t::from_string(m_interfaceAddress);
-    boost_address_t mcastAddr = boost_address_t::from_string(m_multicastConnection.first);
+    const bool interfaceValid = !m_interfaceAddress.empty() && ("0.0.0.0" != m_interfaceAddress);
 
-    boost_udp_t::endpoint receiveEndpoint(boost_udp_t::v4()
-                                          , m_multicastConnection.second);
+    const boost_address_t listenAddr
+        = interfaceValid ? boost_address_t::from_string(m_interfaceAddress)
+                         : boost_address_t::from_string("0.0.0.0");
     
+    boost_udp_t::endpoint receiveEndpoint(listenAddr
+                                          , m_multicastConnection.second);
     m_socket.open(receiveEndpoint.protocol());    
     m_socket.set_option(boost_udp_t::socket::reuse_address(true));
     
@@ -129,9 +130,19 @@ void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
     m_socket.set_option(sizeOption);
     
     m_socket.bind(receiveEndpoint);
-	
-    m_socket.set_option(boost_mcast::join_group(mcastAddr.to_v4()
-                                                , listenAddr.to_v4()));
+
+    const boost_address_t mcastAddr
+        = boost_address_t::from_string(m_multicastConnection.first);
+
+    if (interfaceValid)
+    {
+        m_socket.set_option(boost_mcast::join_group(mcastAddr.to_v4()
+                                                    , listenAddr.to_v4()));
+    }
+    else
+    {
+        m_socket.set_option(boost_mcast::join_group(mcastAddr));
+    }
 
 	StartAsyncRead();
 }
