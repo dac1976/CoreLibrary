@@ -114,12 +114,26 @@ private:
      */
     void ReadComplete(const boost_sys::error_code& error
                       , const size_t bytesReceived);
+    /*!
+     * \brief Set closing state.
+     * \param[in] closing - Closing socket flag.
+     */
+    void SetClosing(const bool closing);
+    /*!
+     * \brief Get closing state.
+     * \return True if closing socket, false otherwise.
+     */
+    bool IsClosing() const;
+    /*! \brief Process asynchronous close socket. */
+    void ProcessCloseSocket();
 
 private:
     /*! \brief Mutex to protect shutdown of receiver. */
-    mutable std::mutex m_destructionMutex;
-    /*! \brief Flag to show were are destructing. */
-    bool m_destructing;
+    mutable std::mutex m_closingMutex;
+    /*! \brief Event to synchronise shutdown of receiver. */
+    threads::SyncEvent m_closedEvent;
+    /*! \brief Flag to show were are closing socket. */
+    bool m_closing;
     /*! \brief I/O service thread group. */
 	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */

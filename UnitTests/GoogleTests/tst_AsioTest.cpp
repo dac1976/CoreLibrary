@@ -1051,14 +1051,13 @@ TEST(AsioTest, testCase_TestUdpBroadcast)
 {
 	char_buffer_t message = BuildMessage();
 	MessageReceiver receiver;
-	UdpReceiver udpReceiver(22222, std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
-					 , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
+    UdpReceiver udpReceiver(22222, std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
+                     , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
+    UdpSender udpSender(std::make_pair("255.255.255.255", 22222));
 
-	UdpSender udpSender(std::make_pair("255.255.255.255", 22222));
+    EXPECT_TRUE(udpSender.SendMessage(message) == true);
 
-	EXPECT_TRUE(udpSender.SendMessage(message) == true);
-
-	receiver.WaitForMessage(3000);
+    receiver.WaitForMessage(3000);
 	MyMessage expectedMessage;
 	expectedMessage.FillMessage();
 	MyMessage receivedMessage = receiver.Message();
@@ -1195,19 +1194,19 @@ TEST(AsioTest, testCase_TestSerializePOD)
 
 	EXPECT_TRUE(respAddress == serverConn);
 }
-/*
+
 // Currently this fails but need to investigate why in debug.
 TEST(AsioTest, testCase_TestUdpMulticast)
 {
     char_buffer_t message = BuildMessage();
     MessageReceiver receiver;
 
-    MulticastReceiver(std::make_pair("226.0.0.1", 9099)
-                      , "192.168.1.59"
+    MulticastReceiver(std::make_pair("226.0.0.1", 19191)
+                      , "192.169.0.200"
                       , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
                       , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
 
-    MulticastSender mcSender(std::make_pair("226.0.0.1", 9099), "192.168.1.59");
+    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "192.169.0.200");
 
     EXPECT_TRUE(mcSender.SendMessage(message) == true);
 
@@ -1216,6 +1215,6 @@ TEST(AsioTest, testCase_TestUdpMulticast)
     expectedMessage.FillMessage();
     MyMessage receivedMessage = receiver.Message();
     EXPECT_TRUE(receivedMessage == expectedMessage);
-}*/
+}
 
 #endif // DISABLE_ASIO_TESTS

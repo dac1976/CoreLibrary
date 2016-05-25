@@ -43,7 +43,7 @@ UdpReceiver::UdpReceiver(boost_ioservice_t& ioService
 						 , const defs::message_received_handler_t& messageReceivedHandler
 						 , const eUdpOption receiveOptions
 						 , const size_t receiveBufferSize)
-    : m_destructing(false)
+    : m_closing(false)
     , m_ioService(ioService)
 	, m_listenPort{listenPort}
 	, m_socket{m_ioService}
@@ -59,7 +59,7 @@ UdpReceiver::UdpReceiver(const uint16_t listenPort
 						 , const defs::message_received_handler_t& messageReceivedHandler
 						 , const eUdpOption receiveOptions
 						 , const size_t receiveBufferSize)
-    : m_destructing(false)
+    : m_closing(false)
     , m_ioThreadGroup{new IoServiceThreadGroup(1)}// 1 thread is sufficient only receive one message at a time
 	, m_ioService(m_ioThreadGroup->IoService())
 	, m_listenPort{listenPort}
@@ -73,11 +73,15 @@ UdpReceiver::UdpReceiver(const uint16_t listenPort
 
 UdpReceiver::~UdpReceiver()
 {
-    // We need to falg destruction so we can
-    // stop handling received messages in a
-    // thread-safe way.
-    std::lock_guard<std::mutex> lock(m_destructionMutex);
-    m_destructing = true;
+    if (!m_socket.is_open())
+    {
+        return;
+    }
+
+    SetClosing(true);
+    m_ioService.post(boost::bind(&UdpReceiver::ProcessCloseSocket
+                                 , this));
+    m_closedEvent.Wait();
 }
 
 uint16_t UdpReceiver::ListenPort() const
@@ -109,9 +113,8 @@ void UdpReceiver::CreateUdpSocket(const eUdpOption receiveOptions
 void UdpReceiver::StartAsyncRead()
 {
 	m_messageBuffer.clear();
-
 	m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer)
-								, m_senderEndpoint
+                                , m_senderEndpoint
 								, boost::bind(&UdpReceiver::ReadComplete
 											  , this
 											  , boost_placeholders::error
@@ -121,21 +124,11 @@ void UdpReceiver::StartAsyncRead()
 void UdpReceiver::ReadComplete(const boost_sys::error_code& error
 							   , const size_t bytesReceived)
 {
-	if (error)
+    if (IsClosing() || error)
 	{
 		// This will be because we are closing our socket.
 		return;
 	}
-
-    // Lock in this scope to make it safe if the destructor is called.
-    // We'll short-circuit if we're destructing so we don't reference
-    // objects going out of scope as the UDPReceiver is destructed.
-    std::lock_guard<std::mutex> lock(m_destructionMutex);
-
-    if (m_destructing)
-    {
-        return;
-    }
 
 	try
 	{
@@ -156,6 +149,24 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error
 	}
 
 	StartAsyncRead();
+}
+
+void UdpReceiver::SetClosing(const bool closing)
+{
+    std::lock_guard<std::mutex> lock(m_closingMutex);
+    m_closing = closing;
+}
+
+bool UdpReceiver::IsClosing() const
+{
+    std::lock_guard<std::mutex> lock(m_closingMutex);
+    return m_closing;
+}
+
+void UdpReceiver::ProcessCloseSocket()
+{
+    m_socket.close();
+    m_closedEvent.Signal();
 }
 
 } // namespace udp

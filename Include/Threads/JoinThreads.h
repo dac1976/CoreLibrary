@@ -107,7 +107,7 @@ public:
 	{
 		for (auto& t : m_threads)
 		{
-			if (t->joinable())
+            if (t && t->joinable())
 			{
 				t->join();
 			}
