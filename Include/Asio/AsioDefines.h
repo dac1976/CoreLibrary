@@ -131,15 +131,15 @@ namespace defs {
 /*! \brief Typedef describing a network connection as (address, port). */
 typedef std::pair<std::string, uint16_t> connection_t;
 /*! \brief Constant defining a null network connection as ("0.0.0.0", 0). */
-static const connection_t CORE_LIBRARY_DLL_SHARED_API NULL_CONNECTION("0.0.0.0", 0);
+static const connection_t NULL_CONNECTION("0.0.0.0", 0);
 /*! \brief Typedef describing shared_ptr to a TcpConnection object. */
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
 /*! \brief Constant defining response IP address length in bytes. */
-__CONSTEXPR__ uint32_t CORE_LIBRARY_DLL_SHARED_API RESPONSE_ADDRESS_LEN{16};
+__CONSTEXPR__ uint32_t RESPONSE_ADDRESS_LEN{16};
 /*! \brief Constant defining message header magic string length in bytes. */
-__CONSTEXPR__ uint32_t CORE_LIBRARY_DLL_SHARED_API MAGIC_STRING_LEN{16};
+__CONSTEXPR__ uint32_t MAGIC_STRING_LEN{16};
 /*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
-__CONSTEXPR__ char CORE_LIBRARY_DLL_SHARED_API DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+__CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 /*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t
