@@ -32,8 +32,15 @@
 #ifndef CUSTOMEXCEPTION
 #define CUSTOMEXCEPTION
 
-class CORE_LIBRARY_DLL_SHARED_API boost::exception;
-class CORE_LIBRARY_DLL_SHARED_API std::exception;
+namespace boost
+{
+    class CORE_LIBRARY_DLL_SHARED_API exception;
+}
+
+namespace std
+{
+    class CORE_LIBRARY_DLL_SHARED_API exception;
+}
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
@@ -68,7 +75,7 @@ namespace exceptions {
  * }
  */
 class CORE_LIBRARY_DLL_SHARED_API xCustomException : public virtual boost::exception
-		, public virtual std::exception
+        , public virtual std::exception
 {
 public:
 	/*! \brief Default constructor. */
@@ -88,13 +95,13 @@ public:
 	 * \brief Function to get the exception message.
 	 * \return The exception message.
 	 */
-    virtual const char* what() const __NOEXCEPT__ final;
+	virtual const char* what() const __NOEXCEPT__ final;
 
 	/*!
 	 * \brief Function to get the exception message.
 	 * \return The exception message.
 	 */
-    virtual const std::string& whatStr() const __NOEXCEPT__ final;
+	virtual const std::string& whatStr() const __NOEXCEPT__ final;
 
 protected:
 	/*! \brief The exception message. */

@@ -63,7 +63,7 @@ namespace asio {
 /*! \brief The tcp namespace. */
 namespace tcp {
 
-	/*! \brief Default internal receive buffer's initial reserved size in bytes. */
+    /*! \brief Default internal receive buffer's initial reserved size in bytes. */
     __CONSTEXPR__ size_t DEFAULT_RESERVED_SIZE{ 512 * 1024 };
 
 	/*! \brief Enumeration to control nagle algorithm. */
@@ -72,7 +72,7 @@ namespace tcp {
 		/*! \brief nagleOff - Send immediately. */
 		nagleOff,
 		/*! \brief nagleOn - Send when possible. */
-		nagleOn 
+		nagleOn
 	};
 
 	class TcpConnection;
@@ -81,8 +81,8 @@ namespace tcp {
 /*! \brief The udp namespace. */
 namespace udp {
 
-	/*! \brief The udp options enumeration. */
-	enum class eUdpOption
+    /*! \brief The udp options enumeration. */
+    enum class eUdpOption
 	{
 		/*! \brief udp broadcasts. */
 		broadcast,
@@ -90,38 +90,38 @@ namespace udp {
 		unicast
 	};
 
-	/*! \brief UDP datagram maximum size for user data. 
+	/*! \brief UDP datagram maximum size for user data.
 	 *
 	 * A UDP datagram can have a total max size of 65535 bytes,
 	 * however the size available for "user" data is a bit less
 	 * as we have to allow 8 bytes for UDP header and 20 bytes
 	 * for the IP header.
 	 */
-    __CONSTEXPR__ size_t UDP_DATAGRAM_MAX_SIZE{65507};
+	__CONSTEXPR__ size_t UDP_DATAGRAM_MAX_SIZE{65507};
 
 	/*! \brief UDP default buffer size.
 	*
-	* By default we use a size of 8KiB  but this can be 
+	* By default we use a size of 8KiB  but this can be
 	* changed by the user.
 	*/
-    __CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
+	__CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
 
-    /*! \brief The multicast TTL enumeration. */
-    enum class eMulticastTTL
-    {
-        /*! \brief Multicast only to same host. */
-        sameHost 		= 0,
-        /*! \brief Multicast only to same subnet. */
-        sameSubnet      = 1,
-        /*! \brief Multicast only to same site. */
-        sameSite        = 32,
-        /*! \brief Multicast only to same region. */
-        sameRegion      = 64,
-        /*! \brief Multicast only to same continent. */
-        sameContinent   = 128,
-        /*! \brief Multicasts are unrestricted. */
-        unrestricted     = 255
-    };
+	/*! \brief The multicast TTL enumeration. */
+	enum class eMulticastTTL
+	{
+		/*! \brief Multicast only to same host. */
+		sameHost 		= 0,
+		/*! \brief Multicast only to same subnet. */
+		sameSubnet      = 1,
+		/*! \brief Multicast only to same site. */
+		sameSite        = 32,
+		/*! \brief Multicast only to same region. */
+		sameRegion      = 64,
+		/*! \brief Multicast only to same continent. */
+		sameContinent   = 128,
+		/*! \brief Multicasts are unrestricted. */
+		unrestricted     = 255
+	};
 
 } // namespace udp
 
@@ -131,29 +131,29 @@ namespace defs {
 /*! \brief Typedef describing a network connection as (address, port). */
 typedef std::pair<std::string, uint16_t> connection_t;
 /*! \brief Constant defining a null network connection as ("0.0.0.0", 0). */
-static const connection_t NULL_CONNECTION("0.0.0.0", 0);
+static const connection_t CORE_LIBRARY_DLL_SHARED_API NULL_CONNECTION("0.0.0.0", 0);
 /*! \brief Typedef describing shared_ptr to a TcpConnection object. */
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
 /*! \brief Constant defining response IP address length in bytes. */
-__CONSTEXPR__ uint32_t RESPONSE_ADDRESS_LEN{16};
+__CONSTEXPR__ uint32_t CORE_LIBRARY_DLL_SHARED_API RESPONSE_ADDRESS_LEN{16};
 /*! \brief Constant defining message header magic string length in bytes. */
-__CONSTEXPR__ uint32_t MAGIC_STRING_LEN{16};
+__CONSTEXPR__ uint32_t CORE_LIBRARY_DLL_SHARED_API MAGIC_STRING_LEN{16};
 /*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
-__CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+__CONSTEXPR__ char CORE_LIBRARY_DLL_SHARED_API DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 /*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t
 {
-    /*! \brief Portable binary archive, requires Cereal serialization. */
-    portableBinary, 
-    /*! \brief Binary archive, requires Cereal serialization. */
-    binary,
-    /*! \brief JSON archive, requires Cereal serialization. */
-    json,
-    /*! \brief XML archive, requires Cereal serialization. */
-    xml,
+	/*! \brief Portable binary archive, requires Cereal serialization. */
+	portableBinary,
+	/*! \brief Binary archive, requires Cereal serialization. */
+	binary,
+	/*! \brief JSON archive, requires Cereal serialization. */
+	json,
+	/*! \brief XML archive, requires Cereal serialization. */
+	xml,
 	/*! \brief Raw data, only for POD objects. */
-    raw 
+	raw
 };
 
 #pragma pack(push, 1)
@@ -161,7 +161,7 @@ enum class eArchiveType : uint8_t
 struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 {
 	/*! \brief Magic string to identify message start. */
-    char magicString[MAGIC_STRING_LEN];
+	char magicString[MAGIC_STRING_LEN];
 	/*! \brief Response address; can be used by receiver to identify sender. */
 	char responseAddress[RESPONSE_ADDRESS_LEN];
 	/*! \brief Response port. */
@@ -169,7 +169,7 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 	/*! \brief Unique message identifier. */
 	uint32_t messageId{};
 	/*! \brief Archive type used to serialize payload following this header. */
-    eArchiveType archiveType{eArchiveType::portableBinary};
+	eArchiveType archiveType{eArchiveType::portableBinary};
 	/*! \brief Total message length including this header. */
 	uint32_t totalLength{sizeof(*this)};
 
@@ -178,19 +178,19 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 	/*! \brief Destructor. */
 	~MessageHeader() = default;
 	/*! \brief Default copy constructor. */
-	MessageHeader(const MessageHeader&) = default;	
+	MessageHeader(const MessageHeader&) = default;
 	/*! \brief Default copy assignment operator. */
-    MessageHeader& operator=(const MessageHeader&) = default;
+	MessageHeader& operator=(const MessageHeader&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
-    /*! \brief Default move constructor. */
-    MessageHeader(MessageHeader&& header);
-    /*! \brief Default move assignment operator. */
-    MessageHeader& operator=(MessageHeader&& header);
+	/*! \brief Default move constructor. */
+	MessageHeader(MessageHeader&& header);
+	/*! \brief Default move assignment operator. */
+	MessageHeader& operator=(MessageHeader&& header);
 #else
 	/*! \brief Default move constructor. */
-    MessageHeader(MessageHeader&&) = default;
+	MessageHeader(MessageHeader&&) = default;
 	/*! \brief Default move assignment operator. */
-    MessageHeader& operator=(MessageHeader&&) = default;
+	MessageHeader& operator=(MessageHeader&&) = default;
 #endif
 };
 #pragma pack(pop)
@@ -213,25 +213,25 @@ struct ReceivedMessage
 	/*! \brief Default destructor. */
 	~ReceivedMessage() = default;
 	/*! \brief Default copy constructor. */
-	ReceivedMessage(const ReceivedMessage&) = default;	
+	ReceivedMessage(const ReceivedMessage&) = default;
 	/*! \brief Default copy assignment operator. */
-    ReceivedMessage& operator=(const ReceivedMessage&) = default;
+	ReceivedMessage& operator=(const ReceivedMessage&) = default;
 #ifdef __USE_EXPLICIT_MOVE__
-    /*! \brief Default move constructor. */
-    ReceivedMessage(ReceivedMessage&& message)
-    {
-        *this = std::move(message);
-    }
-    /*! \brief Default move assignment operator. */
-    ReceivedMessage& operator=(ReceivedMessage&& message)
-    {
-        std::swap(header, message.header);
-        body.swap(message.body);
-        return *this;
-    }
+	/*! \brief Default move constructor. */
+	ReceivedMessage(ReceivedMessage&& message)
+	{
+		*this = std::move(message);
+	}
+	/*! \brief Default move assignment operator. */
+	ReceivedMessage& operator=(ReceivedMessage&& message)
+	{
+		std::swap(header, message.header);
+		body.swap(message.body);
+		return *this;
+	}
 #else
 	/*! \brief Default move constructor. */
-    ReceivedMessage(ReceivedMessage&&) = default;
+	ReceivedMessage(ReceivedMessage&&) = default;
 	/*! \brief Default move assignment operator. */
 	ReceivedMessage& operator=(ReceivedMessage&&) = default;
 #endif
