@@ -113,9 +113,10 @@ void ThreadGroup::RemoveThread(std::thread* threadPtr)
 		return;
 	}
 
-	thread_list_iter threadIt{std::find(m_threadGroup.begin()
+	thread_list_iter threadIt = std::find(m_threadGroup.begin()
 										, m_threadGroup.end()
-										, threadPtr)};
+										, threadPtr);
+										
 	if (threadIt != m_threadGroup.end())
 	{
 		m_threadGroup.erase(threadIt);
