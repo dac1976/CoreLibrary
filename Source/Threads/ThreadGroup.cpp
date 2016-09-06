@@ -143,16 +143,18 @@ std::thread* ThreadGroup::RemoveThread(const std::thread::id& id)
 	return t;
 }
 
-void ThreadGroup::JoinAll()
+bool ThreadGroup::JoinAll()
 {
 	std::lock_guard<std::mutex> lock{m_mutex};
 
 	if (IsThisThreadInNoMutex())
 	{
-		BOOST_THROW_EXCEPTION(xThreadGroupError("thread cannot join itself"));
+        // Thread cannot join itself.
+        return false;
 	}
 
 	JoinThreadsP<std::list> joiner(m_threadGroup);
+    return true;
 }
 
 size_t ThreadGroup::Size() const

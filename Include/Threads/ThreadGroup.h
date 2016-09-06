@@ -138,12 +138,9 @@ public:
 	 */
 	std::thread* RemoveThread(const std::thread::id& id);
 	/*! \brief Call join on all registered threads.
-	 *
-	 * Throws xThreadGroupError if called from one of the
-	 * threads that are in the thread group becuase a thread
-	 * cannot join itself.
+     * \return True if join successful, false otherwise.
 	 */
-	void JoinAll();
+    bool JoinAll();
 	/*! \brief Get the number of threads registered.
 	 *  \return Number of threads.
 	 */
