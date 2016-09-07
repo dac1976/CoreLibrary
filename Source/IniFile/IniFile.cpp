@@ -232,7 +232,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 			  std::ostreambuf_iterator<char>(iniStream));
 	iniFile.close();
 
-	section_iter sectIt{m_sectionMap.end()};
+    section_iter sectIt = m_sectionMap.end();
 
 	while(iniStream.good())
 	{
@@ -264,8 +264,8 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 				BOOST_THROW_EXCEPTION(xIniFileParserError("file contains duplicate section"));
 			}
 
-			if_private::line_iter sectLineIter{m_lines.insert(m_lines.end()
-												  , std::make_shared<if_private::SectionLine>(str1))};
+            if_private::line_iter sectLineIter = m_lines.insert(m_lines.end()
+                                                  , std::make_shared<if_private::SectionLine>(str1));
 			std::pair<section_iter, bool>
 					result{m_sectionMap.insert(std::make_pair(str1, if_private::SectionDetails(sectLineIter)))};
 			sectIt = result.first;
@@ -282,8 +282,8 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 				BOOST_THROW_EXCEPTION(xIniFileParserError("file contains duplicate key"));
 			}
 
-			if_private::line_iter keyLineIter{m_lines.insert(m_lines.end()
-												 , std::make_shared<if_private::KeyLine>(str1, str2))};
+            if_private::line_iter keyLineIter = m_lines.insert(m_lines.end()
+                                                 , std::make_shared<if_private::KeyLine>(str1, str2));
 			sectIt->second.AddKey(keyLineIter);
 		}
 		else
@@ -549,12 +549,12 @@ void IniFile::WriteValueString(const std::string& section
 	}
 
 	bool addNewKey = false;
-	section_iter sectIt{m_sectionMap.find(section)};
+    section_iter sectIt = m_sectionMap.find(section);
 
 	if (sectIt == m_sectionMap.end())
 	{
-		if_private::line_iter secLineIter{m_lines.insert(m_lines.end()
-											 , std::make_shared<if_private::SectionLine>(section))};
+        if_private::line_iter secLineIter = m_lines.insert(m_lines.end()
+                                             , std::make_shared<if_private::SectionLine>(section));
 		std::pair<section_iter, bool>
 				result{m_sectionMap.insert(std::make_pair(section
 														  , if_private::SectionDetails(secLineIter)))};
@@ -575,7 +575,7 @@ void IniFile::WriteValueString(const std::string& section
 
 	if (addNewKey)
 	{
-		if_private::line_iter insertPos{sectIt->second.LineIterator()};
+        if_private::line_iter insertPos = sectIt->second.LineIterator();
 
 		do
 		{
@@ -584,8 +584,8 @@ void IniFile::WriteValueString(const std::string& section
         while((insertPos != m_lines.end())
               && (!std::dynamic_pointer_cast<if_private::SectionLine>(*insertPos)));
 
-		if_private::line_iter keyLineIter{m_lines.insert(insertPos
-											 , std::make_shared<if_private::KeyLine>(key, value))};
+        if_private::line_iter keyLineIter = m_lines.insert(insertPos
+                                             , std::make_shared<if_private::KeyLine>(key, value));
 		sectIt->second.AddKey(keyLineIter);
 	}
 
@@ -594,11 +594,11 @@ void IniFile::WriteValueString(const std::string& section
 
 void IniFile::EraseSection(const std::string& section)
 {
-	section_iter sectIt{m_sectionMap.find(section)};
+    section_iter sectIt = m_sectionMap.find(section);
 
 	if (sectIt != m_sectionMap.end())
 	{
-		if_private::line_iter lineIter{sectIt->second.LineIterator()};
+        if_private::line_iter lineIter = sectIt->second.LineIterator();
 		m_sectionMap.erase(sectIt);
 
 		do
@@ -632,11 +632,11 @@ void IniFile::EraseSections()
 void IniFile::EraseKey(const std::string& section
 					   , const std::string& key)
 {
-	section_iter sectIt{m_sectionMap.find(section)};
+    section_iter sectIt = m_sectionMap.find(section);
 
 	if (sectIt != m_sectionMap.end())
 	{
-		if_private::line_iter keyLineIter{m_lines.end()};
+        if_private::line_iter keyLineIter = m_lines.end();
 
 		if (sectIt->second.EraseKey(key, keyLineIter))
 		{
