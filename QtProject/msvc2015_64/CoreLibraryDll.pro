@@ -17,7 +17,7 @@ CONFIG += core_lib_settings
 CONFIG += boost_libs_64
 
 # Set version info of our dll.
-RC_FILE=CoreLibraryDll_resource.rc
+RC_FILE=../CoreLibraryDll_resource.rc
 
 DEFINES += CORE_LIBRARY_DLL
 
