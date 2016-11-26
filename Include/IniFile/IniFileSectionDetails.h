@@ -52,7 +52,7 @@ public:
 	~SectionDetails() = default;
 	/*! \brief Copy assignment operator. */
 	SectionDetails& operator=(const SectionDetails&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     SectionDetails(SectionDetails&& section);
     /*! \brief Move assignment operator. */

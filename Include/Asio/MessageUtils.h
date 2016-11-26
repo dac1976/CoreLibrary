@@ -119,7 +119,7 @@ public:
 class CORE_LIBRARY_DLL_SHARED_API MessageHandler final
 {
 public:
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Default constructor. */
 	MessageHandler();
 #else
@@ -153,7 +153,7 @@ public:
 private:
 	/*! \brief Message dispatcher function object. */
     defs::default_message_dispatcher_t m_messageDispatcher;
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Magic string. */
 	const std::string m_magicString;
 #else
@@ -268,7 +268,7 @@ struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
 class CORE_LIBRARY_DLL_SHARED_API MessageBuilder final
 {
 public:
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Default constructor. */
 	MessageBuilder();
 #else
@@ -337,7 +337,7 @@ public:
     }
 
 private:
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Magic string. */
 	const std::string m_magicString;
 #else

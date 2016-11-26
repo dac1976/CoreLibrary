@@ -37,7 +37,7 @@ namespace if_private {
 // ****************************************************************************
 // 'class IniFile' support class definitions.
 // ****************************************************************************
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     SectionDetails::SectionDetails(SectionDetails&& section)
     {
         *this = std::move(section);

@@ -30,33 +30,33 @@
 
 #include "boost/predef.h"
 
-#undef __USE_EXPLICIT_MOVE__
-#undef __USE_DEFAULT_CONSTRUCTOR__
+#undef USE_EXPLICIT_MOVE_
+#undef USE_DEFAULT_CONSTRUCTOR_
 
 #if BOOST_COMP_MSVC
     #if _MSC_VER < 1900
-        /*! \brief __NOEXCEPT__ definition mapping to nothing*/
-        #define __NOEXCEPT__
-        /*! \brief __USE_EXPLICIT_MOVE__ definition */
-        #define __USE_EXPLICIT_MOVE__
-        /*! \brief __USE_EXPLICIT_MOVE__ definition */
-        #define __USE_DEFAULT_CONSTRUCTOR__
-        /*! \brief __USE_EXPLICIT_MOVE__ definition mapping to static const*/
-        #define __CONSTEXPR__ static const
+        /*! \brief NO_EXCEPT_ definition mapping to nothing*/
+        #define NO_EXCEPT_
+        /*! \brief USE_EXPLICIT_MOVE_ definition */
+        #define USE_EXPLICIT_MOVE_
+        /*! \brief USE_EXPLICIT_MOVE_ definition */
+        #define USE_DEFAULT_CONSTRUCTOR_
+        /*! \brief USE_EXPLICIT_MOVE_ definition mapping to static const*/
+        #define CONSTEXPR_ static const
     #else
-        #define __NOEXCEPT__ noexcept
-        /*! \brief __USE_EXPLICIT_MOVE__ definition mapping to constexpr*/
-        #define __CONSTEXPR__ constexpr
+        #define NO_EXCEPT_ noexcept
+        /*! \brief USE_EXPLICIT_MOVE_ definition mapping to constexpr*/
+        #define CONSTEXPR_ constexpr
     #endif
-    /*! \brief __TYPENAME_DECL__ definition mapping to nothing*/
-    #define __TYPENAME_DECL__
+    /*! \brief TYPENAME_DECL_ definition mapping to nothing*/
+    #define TYPENAME_DECL_
 #else
-    /*! \brief __NOEXCEPT__ definition mapping to noexcept*/
-    #define __NOEXCEPT__ noexcept
-    /*! \brief __USE_EXPLICIT_MOVE__ definition mapping to constexpr*/
-    #define __CONSTEXPR__ constexpr
-    /*! \brief __TYPENAME_DECL__ definition mapping to typename*/
-    #define __TYPENAME_DECL__ typename
+    /*! \brief NO_EXCEPT_ definition mapping to noexcept*/
+    #define NO_EXCEPT_ noexcept
+    /*! \brief USE_EXPLICIT_MOVE_ definition mapping to constexpr*/
+    #define CONSTEXPR_ constexpr
+    /*! \brief TYPENAME_DECL_ definition mapping to typename*/
+    #define TYPENAME_DECL_ typename
 #endif
 	
 #endif // PLATFORMDEFINES

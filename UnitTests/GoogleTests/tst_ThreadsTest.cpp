@@ -136,7 +136,7 @@ private:
 	size_t m_counter;
 	bool& m_terminateCondition;
 
-    virtual void ThreadIteration() __NOEXCEPT__
+    virtual void ThreadIteration() NO_EXCEPT_
 	{
         if (!m_event.WaitForTime(100))
 		{
@@ -147,7 +147,7 @@ private:
 		}
 	}
 
-    virtual void ProcessTerminationConditions() __NOEXCEPT__
+    virtual void ProcessTerminationConditions() NO_EXCEPT_
 	{
         m_terminateCondition = true;
         m_event.Signal();
@@ -162,7 +162,7 @@ struct QueueMsg
     ~QueueMsg() = default;
     QueueMsg(const QueueMsg& ) = default;    
     QueueMsg& operator=(const QueueMsg& ) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     QueueMsg(QueueMsg&& qm)
     {
         *this = std::move(qm);
@@ -238,7 +238,7 @@ private:
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
-    virtual void ThreadIteration() __NOEXCEPT__
+    virtual void ThreadIteration() NO_EXCEPT_
     {
         T message{};
 
@@ -255,7 +255,7 @@ private:
         }
     }
 
-    virtual void ProcessTerminationConditions() __NOEXCEPT__
+    virtual void ProcessTerminationConditions() NO_EXCEPT_
     {
         m_queue.BreakPopWait();
     }
@@ -294,7 +294,7 @@ private:
     mutable std::mutex m_mutex;
     size_t m_counter{};
 
-    virtual void ThreadIteration() __NOEXCEPT__
+    virtual void ThreadIteration() NO_EXCEPT_
     {
         QueueMsg* message{};
 
@@ -313,7 +313,7 @@ private:
         }
     }
 
-    virtual void ProcessTerminationConditions() __NOEXCEPT__
+    virtual void ProcessTerminationConditions() NO_EXCEPT_
     {
         m_queue.BreakPopWait();
     }
@@ -348,7 +348,7 @@ private:
 	mutable std::mutex m_mutex;
 	bool m_blocked;
 
-    virtual void ThreadIteration() __NOEXCEPT__
+    virtual void ThreadIteration() NO_EXCEPT_
 	{
 		SetBlocked(true);
 		int temp;
@@ -356,7 +356,7 @@ private:
 		SetBlocked(false);
 	}
 
-    virtual void ProcessTerminationConditions() __NOEXCEPT__
+    virtual void ProcessTerminationConditions() NO_EXCEPT_
 	{
 		if (GetBlocked())
 		{
@@ -400,14 +400,14 @@ private:
 	mutable std::mutex m_mutex;
 	bool m_blocked;
 
-    virtual void ThreadIteration() __NOEXCEPT__
+    virtual void ThreadIteration() NO_EXCEPT_
 	{
 		SetBlocked(true);
 		m_buf.PushFront(6);
 		SetBlocked(false);
 	}
 
-    virtual void ProcessTerminationConditions() __NOEXCEPT__
+    virtual void ProcessTerminationConditions() NO_EXCEPT_
 	{
 		if (GetBlocked())
 		{
@@ -443,7 +443,7 @@ public:
 		Message(const Message& ) = default;		
         Message& operator=(const Message& ) = default;
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
         Message(Message&& m)
             : id(UNKNOWN)
         {

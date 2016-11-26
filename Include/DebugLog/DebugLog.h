@@ -39,7 +39,7 @@
 #include <set>
 #include <unordered_map>
 #include <algorithm>
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     #include <utility>
 #endif
 #include <memory>
@@ -86,7 +86,7 @@ struct hash<core_lib::log::eLogMessageLevel>
 	/*! \brief Typedef for result type. */
 	typedef std::size_t                     result_t;
 	/*! \brief Typedef for underlying type. */
-	typedef __TYPENAME_DECL__ std::underlying_type<argument_t>::type enumType_t;
+	typedef TYPENAME_DECL_ std::underlying_type<argument_t>::type enumType_t;
 
 	/*!
 	 * \brief Function operator to perform the hash.
@@ -189,7 +189,7 @@ struct CORE_LIBRARY_DLL_SHARED_API DefaultLogFormat
 };
 
 /*! \brief Static constant defining number of bytes in a mebibyte. */
-__CONSTEXPR__ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
+CONSTEXPR_ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
 
 namespace dl_private
 {
@@ -230,7 +230,7 @@ public:
 	~LogQueueMessage() = default;
 	/*! \brief Copy assignment operator. */
 	LogQueueMessage& operator=(const LogQueueMessage&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     LogQueueMessage(LogQueueMessage&& msg);
     /*! \brief Move assignment operator. */
@@ -325,7 +325,7 @@ public:
 	 * the log, otherwise no output or file will be
 	 * created.
 	 */
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
 	DebugLog()
         : m_unknownLogMsgLevel("?")
 	{
@@ -349,7 +349,7 @@ public:
 			 , const std::string& logName
 			 , const long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
         :
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
           m_unknownLogMsgLevel("?"),
 #endif
         m_maxLogSize(maxLogSize)
@@ -357,7 +357,7 @@ public:
         , m_logFilePath(logFolderPath + logName + ".txt")
         , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
 	{
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
         InitialiseLogMessageLevelLookupMap();
 #endif
 		RegisterLogQueueMessageId();
@@ -517,7 +517,7 @@ private:
 	/*! \brief Mutex to lock access.*/
 	mutable std::mutex m_mutex;
 
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief String for unknown message level.*/
     const std::string m_unknownLogMsgLevel;
     /*! \brief Message level string lookup map.*/
@@ -555,7 +555,7 @@ private:
     m_logMsgQueueThread{new log_msg_queue(std::bind(&DebugLog<Formatter>::MessageDecoder
                                                     , std::placeholders::_1)
 										  , threads::eOnDestroyOptions::processRemainingItems)};
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Initialise lookup map. */
     void InitialiseLogMessageLevelLookupMap()
     {

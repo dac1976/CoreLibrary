@@ -145,7 +145,7 @@ namespace dl_private
     {
     }
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     LogQueueMessage::LogQueueMessage(LogQueueMessage&& msg)
     {
         *this = std::move(msg);

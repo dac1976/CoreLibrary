@@ -34,7 +34,7 @@
 #include <fstream>
 #include <limits>
 #include <cmath>
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     #include <utility>
 #endif
 #include "CsvGridRow.h"
@@ -162,7 +162,7 @@ public:
 	TCsvGrid() = default;
 	/*! \brief Copy constructor. */
 	TCsvGrid(const TCsvGrid&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
 	/*! \brief Move constructor. */
     TCsvGrid(TCsvGrid&& csvGrid)
     {
@@ -219,7 +219,7 @@ public:
 	~TCsvGrid() = default;
 	/*! \brief Copy assignment operator. */
 	TCsvGrid& operator=(const TCsvGrid&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move assignment operator. */
     TCsvGrid& operator=(TCsvGrid&& csvGrid)
     {

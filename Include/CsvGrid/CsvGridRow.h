@@ -35,7 +35,7 @@
 #include <ostream>
 #include <algorithm>
 #include <iterator>
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     #include <utility>
 #endif
 #include "boost/tokenizer.hpp"
@@ -163,7 +163,7 @@ public:
 	/*! \brief Copy constructor. */
 	TRow(const TRow&) = default;
 	/*! \brief Move constructor. */
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     TRow(TRow&& row)
     {
         *this = std::move(row);
@@ -208,7 +208,7 @@ public:
 	~TRow() = default;
 	/*! \brief Copy assignment operator. */
 	TRow& operator=(const TRow&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move assignment operator. */
     TRow& operator=(TRow&& row)
     {

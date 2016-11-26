@@ -25,7 +25,7 @@
  * \brief File containing definitions relating the CSVGridCell class.
  */
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     #include <utility>
 #endif
 #include "CsvGrid/CsvGridCell.h"
@@ -39,7 +39,7 @@ namespace csv_grid {
 // 'class Cell' definition
 // ****************************************************************************
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     Cell::Cell(Cell&& cell)
     {
         *this = std::move(cell);
@@ -154,7 +154,7 @@ Cell::operator long double() const
     return std::stold(boost::trim_copy(m_value));
 }
 
-int32_t Cell::ToInt32Def(const int32_t defval) const __NOEXCEPT__
+int32_t Cell::ToInt32Def(const int32_t defval) const NO_EXCEPT_
 {
 	int32_t val;
 
@@ -170,7 +170,7 @@ int32_t Cell::ToInt32Def(const int32_t defval) const __NOEXCEPT__
 	return val;
 }
 
-int64_t Cell::ToInt64Def(const int64_t defval) const __NOEXCEPT__
+int64_t Cell::ToInt64Def(const int64_t defval) const NO_EXCEPT_
 {
 	int64_t val;
 
@@ -186,7 +186,7 @@ int64_t Cell::ToInt64Def(const int64_t defval) const __NOEXCEPT__
 	return val;
 }
 
-float Cell::ToFloatDef(const float defval) const __NOEXCEPT__
+float Cell::ToFloatDef(const float defval) const NO_EXCEPT_
 {
     float val;
 
@@ -202,7 +202,7 @@ float Cell::ToFloatDef(const float defval) const __NOEXCEPT__
     return val;
 }
 
-double Cell::ToDoubleDef(const double defval) const __NOEXCEPT__
+double Cell::ToDoubleDef(const double defval) const NO_EXCEPT_
 {
 	double val;
 
@@ -218,7 +218,7 @@ double Cell::ToDoubleDef(const double defval) const __NOEXCEPT__
 	return val;
 }
 
-long double Cell::ToLongDoubleDef(const long double defval) const __NOEXCEPT__
+long double Cell::ToLongDoubleDef(const long double defval) const NO_EXCEPT_
 {
 	long double val;
 

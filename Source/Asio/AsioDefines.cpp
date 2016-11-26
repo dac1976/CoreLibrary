@@ -39,7 +39,7 @@ MessageHeader::MessageHeader()
 	magicString[MAGIC_STRING_LEN - 1] = 0;
 }
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     MessageHeader::MessageHeader(MessageHeader&& header)
     {
 		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);

@@ -95,7 +95,7 @@ public:
 	 * \brief Function to get the exception message.
 	 * \return The exception message.
 	 */
-	virtual const char* what() const __NOEXCEPT__ final;
+	virtual const char* what() const NO_EXCEPT_ final;
 
 protected:
 	/*! \brief The exception message. */

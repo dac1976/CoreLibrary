@@ -201,12 +201,12 @@ private:
 	ConcurrentQueue<MessageType> m_messageQueue;
 
 	/*! \brief Execute a single iteration of the thread. */
-    virtual void ThreadIteration() __NOEXCEPT__
+    virtual void ThreadIteration() NO_EXCEPT_
 	{
 		ProcessNextMessage();
 	}
 	/*! \brief Perform any special termination actions.*/
-    virtual void ProcessTerminationConditions() __NOEXCEPT__
+    virtual void ProcessTerminationConditions() NO_EXCEPT_
 	{
 		// Make sure we break out of m_messageQueue.Pop();
         m_messageQueue.BreakPopWait();

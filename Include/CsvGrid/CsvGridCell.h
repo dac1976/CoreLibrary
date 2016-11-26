@@ -52,7 +52,7 @@ public:
 	Cell() = default;
 	/*! \brief Copy constructor. */
 	Cell(const Cell&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     Cell(Cell&& cell);
 #else
@@ -105,7 +105,7 @@ public:
 	~Cell() = default;
 	/*! \brief Copy assignment operator. */
     Cell& operator=(const Cell&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move assignment operator. */
     Cell& operator=(Cell&& cell);
 #else
@@ -230,7 +230,7 @@ public:
 	 * Convert the cell to a 32bit integer and if this cannot be
 	 * performed safely return the default value instead.
 	 */
-	int32_t ToInt32Def(const int32_t defval) const __NOEXCEPT__;
+	int32_t ToInt32Def(const int32_t defval) const NO_EXCEPT_;
 	/*!
 	 * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -239,7 +239,7 @@ public:
 	 * Convert the cell to a 64bit integer and if this cannot be
 	 * performed safely return the default value instead.
 	 */
-	int64_t ToInt64Def(const int64_t defval) const __NOEXCEPT__;
+	int64_t ToInt64Def(const int64_t defval) const NO_EXCEPT_;
     /*!
      * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -248,7 +248,7 @@ public:
      * Convert the cell to a float and if this cannot be performed
      * safely return the default value instead.
      */
-    float ToFloatDef(const float defval) const __NOEXCEPT__;
+    float ToFloatDef(const float defval) const NO_EXCEPT_;
 	/*!
 	 * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -257,7 +257,7 @@ public:
 	 * Convert the cell to a double and if this cannot be performed
 	 * safely return the default value instead.
 	 */
-	double ToDoubleDef(const double defval) const __NOEXCEPT__;
+	double ToDoubleDef(const double defval) const NO_EXCEPT_;
 	/*!
 	 * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -266,7 +266,7 @@ public:
 	 * Convert the cell to a long double and if this cannot be performed
 	 * safely return the default value instead.
 	 */
-	long double ToLongDoubleDef(const long double defval) const __NOEXCEPT__;
+	long double ToLongDoubleDef(const long double defval) const NO_EXCEPT_;
 
 private:
 	/*! \brief The cell's value data memeber. */

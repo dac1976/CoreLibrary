@@ -150,7 +150,7 @@ protected:
 	 *
 	 * This function is called in the loop within Run();
 	 */
-    virtual void ThreadIteration() __NOEXCEPT__ = 0;
+    virtual void ThreadIteration() NO_EXCEPT_ = 0;
 	/*!
 	 * \brief Perform any special termination actions.
 	 *
@@ -160,7 +160,7 @@ protected:
 	 * required after the terminting flag is set but before
 	 * we call join on our underlying std::thread object.
 	 */
-    virtual void ProcessTerminationConditions() __NOEXCEPT__;
+    virtual void ProcessTerminationConditions() NO_EXCEPT_;
 
 private:
 	/*! \brief Access mutex to protect private data.*/

@@ -39,7 +39,7 @@ namespace if_private {
 // 'class IniFile' support class definitions.
 // ****************************************************************************
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     BlankLine::BlankLine(BlankLine&& line)
     {
         *this = std::move(line);
@@ -60,7 +60,7 @@ void BlankLine::Print(std::ostream &os, bool addLineFeed) const
 	}
 }
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     CommentLine::CommentLine(CommentLine&& line)
     {
         *this = std::move(line);
@@ -94,7 +94,7 @@ void CommentLine::Print(std::ostream &os, bool addLineFeed) const
 	}
 }
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     SectionLine::SectionLine(SectionLine&& line)
     {
         *this = std::move(line);
@@ -128,7 +128,7 @@ void SectionLine::Print(std::ostream &os, bool addLineFeed) const
 	}
 }
 
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     KeyLine::KeyLine(KeyLine&& line)
     {
         *this = std::move(line);

@@ -92,7 +92,7 @@ xArchiveTypeError::~xArchiveTypeError()
 // 'class MessageHandler' definition
 // ****************************************************************************
 
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
 	MessageHandler::MessageHandler()
 		: m_magicString(defs::DEFAULT_MAGIC_STRING)
 	{
@@ -188,7 +188,7 @@ auto FillHeader(const std::string& magicString, const defs::eArchiveType archive
 // 'class MessageBuilder' definition
 // ****************************************************************************
 
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
 	MessageBuilder::MessageBuilder()
 		: m_magicString(defs::DEFAULT_MAGIC_STRING)
 	{

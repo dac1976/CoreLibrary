@@ -49,7 +49,7 @@ xCustomException::~xCustomException()
 {
 }
 
-const char* xCustomException::what() const __NOEXCEPT__
+const char* xCustomException::what() const NO_EXCEPT_
 {
 	return m_message.c_str();
 }

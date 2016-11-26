@@ -189,7 +189,7 @@ public:
 class CORE_LIBRARY_DLL_SHARED_API IniFile final
 {
 public:
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
 	/*! \brief Default constructor. */
 	IniFile();
 #else
@@ -209,7 +209,7 @@ public:
 	~IniFile() = default;
 	/*! \brief Copy assignment operator. */
 	IniFile& operator=(const IniFile&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     IniFile(IniFile&& ini);
     /*! \brief Move assignment operator. */
@@ -397,7 +397,7 @@ public:
 	void EraseKeys(const std::string& section);
 
 private:
-#ifdef __USE_DEFAULT_CONSTRUCTOR__
+#ifdef USE_DEFAULT_CONSTRUCTOR_
 	/*! \brief Changes made flag. */
 	mutable bool m_changesMade;
 	/*! \brief INI file path. */

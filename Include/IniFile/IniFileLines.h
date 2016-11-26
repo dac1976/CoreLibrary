@@ -69,7 +69,7 @@ public:
 	virtual ~BlankLine() = default;
 	/*! \brief Copy assignment operator. */
 	BlankLine& operator=(const BlankLine&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     BlankLine(BlankLine&& line);
     /*! \brief Move assignment operator. */
@@ -102,7 +102,7 @@ public:
 	virtual ~CommentLine() = default;
 	/*! \brief Copy assignment operator. */
     CommentLine& operator=(const CommentLine&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     CommentLine(CommentLine&& line);
     /*! \brief Move assignment operator. */
@@ -144,7 +144,7 @@ public:
 	virtual ~SectionLine() = default;
 	/*! \brief Copy assignment operator. */
     SectionLine& operator=(const SectionLine&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     SectionLine(SectionLine&& line);
     /*! \brief Move assignment operator. */
@@ -186,7 +186,7 @@ public:
 	virtual ~KeyLine() = default;
 	/*! \brief Copy assignment operator. */
     KeyLine& operator=(const KeyLine&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     KeyLine(KeyLine&& line);
     /*! \brief Move assignment operator. */

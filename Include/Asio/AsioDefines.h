@@ -64,7 +64,7 @@ namespace asio {
 namespace tcp {
 
     /*! \brief Default internal receive buffer's initial reserved size in bytes. */
-    __CONSTEXPR__ size_t DEFAULT_RESERVED_SIZE{ 512 * 1024 };
+    CONSTEXPR_ size_t DEFAULT_RESERVED_SIZE{ 512 * 1024 };
 
 	/*! \brief Enumeration to control nagle algorithm. */
 	enum class eSendOption
@@ -97,14 +97,14 @@ namespace udp {
 	 * as we have to allow 8 bytes for UDP header and 20 bytes
 	 * for the IP header.
 	 */
-	__CONSTEXPR__ size_t UDP_DATAGRAM_MAX_SIZE{65507};
+	CONSTEXPR_ size_t UDP_DATAGRAM_MAX_SIZE{65507};
 
 	/*! \brief UDP default buffer size.
 	*
 	* By default we use a size of 8KiB  but this can be
 	* changed by the user.
 	*/
-	__CONSTEXPR__ size_t DEFAULT_UDP_BUF_SIZE{8192};
+	CONSTEXPR_ size_t DEFAULT_UDP_BUF_SIZE{8192};
 
 	/*! \brief The multicast TTL enumeration. */
 	enum class eMulticastTTL
@@ -135,11 +135,11 @@ static const connection_t NULL_CONNECTION("0.0.0.0", 0);
 /*! \brief Typedef describing shared_ptr to a TcpConnection object. */
 typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
 /*! \brief Constant defining response IP address length in bytes. */
-__CONSTEXPR__ uint32_t RESPONSE_ADDRESS_LEN{16};
+CONSTEXPR_ uint32_t RESPONSE_ADDRESS_LEN{16};
 /*! \brief Constant defining message header magic string length in bytes. */
-__CONSTEXPR__ uint32_t MAGIC_STRING_LEN{16};
+CONSTEXPR_ uint32_t MAGIC_STRING_LEN{16};
 /*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
-__CONSTEXPR__ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+CONSTEXPR_ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 /*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t
@@ -181,7 +181,7 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 	MessageHeader(const MessageHeader&) = default;
 	/*! \brief Default copy assignment operator. */
 	MessageHeader& operator=(const MessageHeader&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
 	/*! \brief Default move constructor. */
 	MessageHeader(MessageHeader&& header);
 	/*! \brief Default move assignment operator. */
@@ -216,7 +216,7 @@ struct ReceivedMessage
 	ReceivedMessage(const ReceivedMessage&) = default;
 	/*! \brief Default copy assignment operator. */
 	ReceivedMessage& operator=(const ReceivedMessage&) = default;
-#ifdef __USE_EXPLICIT_MOVE__
+#ifdef USE_EXPLICIT_MOVE_
 	/*! \brief Default move constructor. */
 	ReceivedMessage(ReceivedMessage&& message)
 	{
