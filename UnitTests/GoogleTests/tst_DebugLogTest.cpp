@@ -31,17 +31,16 @@ TEST_F(DebugLogTest, testCase_DebugLog1)
 {
     core_lib::log::DefaultLogFormat dlf;
     std::stringstream ss;
-    time_t messageTime;
-    time(&messageTime);
+    using std::chrono::system_clock;
+    time_t messageTime = system_clock::to_time_t(system_clock::now());
     int lineNo = __LINE__;
     dlf(ss, messageTime, "I am a test message", "Info", __FILE__, BOOST_CURRENT_FUNCTION, lineNo, std::this_thread::get_id());
 
-    std::string time = ctime(&messageTime);
-    std::replace_if(time.begin(), time.end(),
-                    [](char c) { return (c == '\n') || (c == '\r'); }, 0);
+    std::stringstream time;
+    time << std::put_time(std::localtime(&messageTime),"%F %T");
 
     std::stringstream test;
-    test << time.c_str()
+    test << time.str()
          << " | Info"
          << " | I am a test message"
          << " | " << __FILE__
@@ -71,13 +70,13 @@ TEST_F(DebugLogTest, testCase_DebugLog2)
         switch(++lineCount)
         {
         case 1:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
             break;
         case 2:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
             break;
         case 3:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
             break;
         case 4:
 			EXPECT_TRUE(line == "");
@@ -118,22 +117,22 @@ TEST_F(DebugLogTest, testCase_DebugLog3)
         switch(++lineCount)
         {
         case 1:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
             break;
         case 2:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(32, 13) == "| Message 1 |");
+            EXPECT_TRUE(line.substr(27, 13) == "| Message 1 |");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(32, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(27, 13) == "| Message 2 |");
             break;
         case 5:
-            EXPECT_TRUE(line.substr(32, 13) == "| Message 3 |");
+            EXPECT_TRUE(line.substr(27, 13) == "| Message 3 |");
             break;
         case 6:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
             break;
         case 7:
 			EXPECT_TRUE(line == "");
@@ -200,16 +199,16 @@ TEST_F(DebugLogTest, testCase_DebugLog5)
         switch(++lineCount)
         {
         case 1:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
             break;
         case 2:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(32, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(27, 13) == "| Message 2 |");
             break;
         case 4:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
             break;
         case 5:
 			EXPECT_TRUE(line == "");
@@ -250,22 +249,22 @@ TEST_F(DebugLogTest, testCase_DebugLog6)
         switch(++lineCount)
         {
         case 1:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
             break;
         case 2:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(32, 13) == "| Message 1 |");
+            EXPECT_TRUE(line.substr(27, 13) == "| Message 1 |");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(32, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(27, 13) == "| Message 2 |");
             break;
         case 5:
-            EXPECT_TRUE(line.substr(32, 13) == "| Message 3 |");
+            EXPECT_TRUE(line.substr(27, 13) == "| Message 3 |");
             break;
         case 6:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
             break;
         case 7:
 			EXPECT_TRUE(line == "");
@@ -306,22 +305,22 @@ TEST_F(DebugLogTest, testCase_DebugLog7)
         switch(++lineCount)
         {
         case 1:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
             break;
         case 2:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
             break;
         case 3:
-			EXPECT_TRUE(line.substr(25, 11) == "| Message 1");
+            EXPECT_TRUE(line.substr(20, 11) == "| Message 1");
             break;
         case 4:
-			EXPECT_TRUE(line.substr(25, 11) == "| Message 2");
+            EXPECT_TRUE(line.substr(20, 11) == "| Message 2");
             break;
         case 5:
-			EXPECT_TRUE(line.substr(25, 11) == "| Message 3");
+            EXPECT_TRUE(line.substr(20, 11) == "| Message 3");
             break;
         case 6:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
             break;
         case 7:
 			EXPECT_TRUE(line == "");
@@ -358,13 +357,13 @@ TEST_F(DebugLogTest, testCase_DebugLog8)
         switch(++lineCount)
         {
         case 1:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
             break;
         case 2:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
             break;
         case 3:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
             break;
         case 4:
 			EXPECT_TRUE(line == "");
@@ -404,22 +403,22 @@ TEST_F(DebugLogTest, testCase_DebugLog9)
         switch(++lineCount)
         {
         case 1:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
             break;
         case 2:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(32, 11) == "| Message 1");
+            EXPECT_TRUE(line.substr(27, 11) == "| Message 1");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(32, 11) == "| Message 2");
+            EXPECT_TRUE(line.substr(27, 11) == "| Message 2");
             break;
         case 5:
-            EXPECT_TRUE(line.substr(32, 11) == "| Message 3");
+            EXPECT_TRUE(line.substr(27, 11) == "| Message 3");
             break;
         case 6:
-			EXPECT_TRUE(line.substr(25, line.size() - 25) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
             break;
         case 7:
 			EXPECT_TRUE(line == "");

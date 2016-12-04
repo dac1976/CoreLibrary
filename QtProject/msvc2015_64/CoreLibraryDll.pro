@@ -20,6 +20,7 @@ CONFIG += boost_libs_64
 RC_FILE=../CoreLibraryDll_resource.rc
 
 DEFINES += CORE_LIBRARY_DLL
+DEFINES += _CRT_SECURE_NO_WARNINGS=1
 
 unix {
     target.path = /usr/lib

@@ -25,8 +25,9 @@
  * \brief File containing message utils definitions.
  */
 
-#include <cassert>
 #include "Asio/MessageUtils.h"
+#include <cassert>
+#include <cstdio>
 #include "boost/throw_exception.hpp"
 
 /*! \brief The core_lib namespace. */
@@ -173,10 +174,8 @@ auto FillHeader(const std::string& magicString, const defs::eArchiveType archive
     }
 
     defs::MessageHeader header;
-    strncpy(header.magicString, magicString.c_str(), defs::MAGIC_STRING_LEN);
-    header.magicString[defs::MAGIC_STRING_LEN - 1] = 0;
-    strncpy(header.responseAddress, responseAddress.first.c_str(), defs::RESPONSE_ADDRESS_LEN);
-    header.responseAddress[defs::RESPONSE_ADDRESS_LEN - 1] = 0;
+    std::snprintf(header.magicString, sizeof(header.magicString), "%s", magicString.c_str());
+    std::snprintf(header.responseAddress, sizeof(header.responseAddress), "%s", responseAddress.first.c_str());
     header.responsePort = responseAddress.second;
     header.messageId = messageId;
     header.archiveType = archiveType;

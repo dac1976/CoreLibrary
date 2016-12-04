@@ -25,6 +25,7 @@
  */
 
 #include "Asio/AsioDefines.h"
+#include <cstdio>
 
 namespace core_lib {
 namespace asio {
@@ -32,22 +33,15 @@ namespace defs {
 
 MessageHeader::MessageHeader()
 {
-	strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
-	magicString[RESPONSE_ADDRESS_LEN - 1] = 0;
-
-	strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
-	magicString[MAGIC_STRING_LEN - 1] = 0;
+    std::snprintf(responseAddress, sizeof(responseAddress), "%s", "0.0.0.0");
+    std::snprintf(magicString, sizeof(magicString), "%s", DEFAULT_MAGIC_STRING);
 }
 
 #ifdef USE_EXPLICIT_MOVE_
     MessageHeader::MessageHeader(MessageHeader&& header)
     {
-		strncpy(responseAddress, "0.0.0.0", RESPONSE_ADDRESS_LEN);
-		magicString[RESPONSE_ADDRESS_LEN - 1] = 0;
-
-        strncpy(magicString, DEFAULT_MAGIC_STRING, MAGIC_STRING_LEN);
-        magicString[MAGIC_STRING_LEN - 1] = 0;
-
+        std::snprintf(responseAddress, sizeof(responseAddress), "%s", "0.0.0.0");
+        std::snprintf(magicString, sizeof(magicString), "%s", DEFAULT_MAGIC_STRING);
         *this = std::move(header);
     }
     

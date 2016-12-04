@@ -16,6 +16,7 @@ CONFIG += staticlib debug_and_release build_all
 CONFIG += core_lib_settings
 
 DEFINES += CORE_LIBRARY_LIB
+DEFINES += _CRT_SECURE_NO_WARNINGS=1
 
 unix:!symbian {
     maemo5 {

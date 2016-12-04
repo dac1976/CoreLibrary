@@ -39,22 +39,28 @@
         #define NO_EXCEPT_
         /*! \brief USE_EXPLICIT_MOVE_ definition */
         #define USE_EXPLICIT_MOVE_
-        /*! \brief USE_EXPLICIT_MOVE_ definition */
+        /*! \brief USE_DEFAULT_CONSTRUCTOR_ definition */
         #define USE_DEFAULT_CONSTRUCTOR_
-        /*! \brief USE_EXPLICIT_MOVE_ definition mapping to static const*/
-        #define CONSTEXPR_ static const
+        /*! \brief CONSTEXPR_ definition mapping to const*/
+        #define CONSTEXPR_ const
+        /*! \brief STATIC_CONSTEXPR_ definition mapping to static const*/
+        #define STATIC_CONSTEXPR_ static const
     #else
         #define NO_EXCEPT_ noexcept
-        /*! \brief USE_EXPLICIT_MOVE_ definition mapping to constexpr*/
+        /*! \brief CONSTEXPR_ definition mapping to constexpr*/
         #define CONSTEXPR_ constexpr
+        /*! \brief STATIC_CONSTEXPR_ definition mapping to static constexpr*/
+        #define STATIC_CONSTEXPR_ static constexpr
     #endif
     /*! \brief TYPENAME_DECL_ definition mapping to nothing*/
     #define TYPENAME_DECL_
 #else
     /*! \brief NO_EXCEPT_ definition mapping to noexcept*/
     #define NO_EXCEPT_ noexcept
-    /*! \brief USE_EXPLICIT_MOVE_ definition mapping to constexpr*/
+    /*! \brief CONSTEXPR_ definition mapping to constexpr*/
     #define CONSTEXPR_ constexpr
+    /*! \brief STATIC_CONSTEXPR_ definition mapping to static constexpr*/
+    #define STATIC_CONSTEXPR_ static constexpr
     /*! \brief TYPENAME_DECL_ definition mapping to typename*/
     #define TYPENAME_DECL_ typename
 #endif

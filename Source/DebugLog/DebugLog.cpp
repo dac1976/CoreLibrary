@@ -26,7 +26,10 @@
  */
 
 #include "DebugLog/DebugLog.h"
-#include <utility>
+#ifndef USE_EXPLICIT_MOVE_
+    #include <utility>
+#endif
+#include <iomanip>
 
 namespace core_lib {
 namespace log {
@@ -78,17 +81,15 @@ void DefaultLogFormat::operator() (std::ostream& os
 								   , const std::thread::id& threadID) const
 {
 	if (timeStamp != 0)
-	{
-		// Should use lines below but not necessarily implemented
-		// yet in some compilers:
-        //     struct std::tm * ptm = std::localtime(&timeStamp);
-        //     os << "\t" << std::put_time(ptm,"%F %T");
-		// so instead we use...
+    {
+        os << std::put_time(std::localtime(&timeStamp),"%F %T") << " | " ;
 		
-        std::string time = ctime(&timeStamp);
-        std::replace_if(time.begin(), time.end(),
-                        [](char c) { return (c == '\n') || (c == '\r'); }, 0);
-        os << time.c_str() << " | " ;
+        // Legacy alternative...
+        //
+        // std::string time = ctime(&timeStamp);
+        // std::replace_if(time.begin(), time.end(),
+        //                 [](char c) { return (c == '\n') || (c == '\r'); }, 0);
+        // os << time.c_str() << " | " ;
 	}
 
 	if (logMsgLevel != "")

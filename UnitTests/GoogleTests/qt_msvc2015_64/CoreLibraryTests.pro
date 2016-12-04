@@ -1,12 +1,14 @@
 # Due to exporting from DLL we might get suprious warnings of
 # type 4100
-QMAKE_CXXFLAGS += /wd4100
+QMAKE_CXXFLAGS += /wd4251 /wd4275 /wd4100
 
 TEMPLATE = app
 CONFIG += console debug_and_release build_all
 CONFIG -= app_bundle
 CONFIG += qt
 CONFIG += google_test_64
+
+DEFINES += _CRT_SECURE_NO_WARNINGS=1
 
 
 # Use these 2 when building against static lib.

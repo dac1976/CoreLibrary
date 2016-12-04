@@ -189,7 +189,7 @@ struct CORE_LIBRARY_DLL_SHARED_API DefaultLogFormat
 };
 
 /*! \brief Static constant defining number of bytes in a mebibyte. */
-CONSTEXPR_ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
+STATIC_CONSTEXPR_ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
 
 namespace dl_private
 {
@@ -470,8 +470,8 @@ public:
 	 */
 	void AddLogMessage(const std::string& message)
 	{
-		time_t messageTime;
-		time(&messageTime);
+        using std::chrono::system_clock;
+        time_t messageTime = system_clock::to_time_t(system_clock::now());
 		std::thread::id noThread;
         m_logMsgQueueThread->Push(dl_private::LogQueueMessage(message,
 													  messageTime,
@@ -501,8 +501,8 @@ public:
 	{
 		if (!IsLogMsgLevelFilterSet(logMsgLevel))
 		{
-			time_t messageTime;
-			time(&messageTime);
+            using std::chrono::system_clock;
+            time_t messageTime = system_clock::to_time_t(system_clock::now());
             m_logMsgQueueThread->Push(dl_private::LogQueueMessage(message,
 														  messageTime,
 														  file,
@@ -667,8 +667,8 @@ private:
 						? std::ofstream::trunc
 						: std::ofstream::app);
 
-		time_t messageTime;
-		time(&messageTime);
+        using std::chrono::system_clock;
+        time_t messageTime = system_clock::to_time_t(system_clock::now());
 		std::thread::id noThread;
         WriteMessageToLog(dl_private::LogQueueMessage("DEBUG LOG STARTED"
                                           , messageTime, "", "", -1
@@ -693,8 +693,8 @@ private:
 			return;
 		}
 
-		time_t messageTime;
-		time(&messageTime);
+        using std::chrono::system_clock;
+        time_t messageTime = system_clock::to_time_t(system_clock::now());
 		std::thread::id noThread;
         WriteMessageToLog(dl_private::LogQueueMessage("DEBUG LOG STOPPED"
                                           , messageTime, "", "", -1
