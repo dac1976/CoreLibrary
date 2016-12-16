@@ -31,7 +31,7 @@ namespace core_lib {
 namespace exceptions {
 
 // ****************************************************************************
-// 'class xSplitStringBadDelimError' definition
+// 'class xCustomException' definition
 // ****************************************************************************
 xCustomException::xCustomException()
     : boost::exception(), std::exception(),

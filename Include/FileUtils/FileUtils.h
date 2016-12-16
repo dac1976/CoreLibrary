@@ -83,7 +83,7 @@ enum class eCopyDirectoryOptions
 
 /*!
  * \brief Recursively copy one directory and its contents to another location.
- * \param[in] source - Source path fro mwhere we will copy data.
+ * \param[in] source - Source path from where we will copy data.
  * \param[in] target - Target path to where we will place the copied data.
  * \param[in] options - Control how to handle exsiting target locations.
  *
@@ -97,7 +97,7 @@ enum class eCopyDirectoryOptions
  * 4. The target path must not be a subdirectory of the source path.
  *
  * Throws xCopyDirectoryError if an error occurs. If target folder
- * already exists then the source is copying into a folder within
+ * already exists then the source is copied into a folder within
  * the target folder with the same name as the srouce folder.
  */
 void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(const std::string& source
