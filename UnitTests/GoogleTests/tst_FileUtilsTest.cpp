@@ -9,47 +9,54 @@
 using namespace core_lib::file_utils;
 namespace bfs = boost::filesystem;
 
-TEST(FileUtilsTest, Case1_CommonRoot_SameLevel)
-{
-#if BOOST_OS_WINDOWS
-        const bfs::path path1 = bfs::system_complete("../data/testfile1.csv");
-        const bfs::path path2 = bfs::system_complete("../data/testfile2.csv");
+#if BOOST_OS_LINUX
+    static const bfs::path data_base_path     = "/home/duncan/Projects/CoreLibrary/UnitTests/GoogleTests/data";
+    static const bfs::path alt_base_path      = "/home/duncan/Projects/CoreLibrary/UnitTests/GoogleTests";
+    static const bfs::path copy_base_path     = "/home/duncan/Projects/CoreLibrary/UnitTests/GoogleTests/data_copy";
+    static const bfs::path alt_copy_base_path = "/home/duncan/Projects/CoreLibrary/UnitTests/data_copy";
 #else
-    const bfs::path path1 = bfs::system_complete("../../data/testfile1.csv");
-    const bfs::path path2 = bfs::system_complete("../../data/testfile2.csv");
+    static const bfs::path data_base_path     = "../data";
+    static const bfs::path alt_base_path      = "../";
+    static const bfs::path copy_base_path     = "../data_copy";
+    static const bfs::path alt_copy_base_path = "../../data_copy";
 #endif
 
-    const bfs::path rootComp = path2.parent_path();
-    const bfs::path rootPath = FindCommonRootPath(path1.string(), path2.string());
+TEST(FileUtilsTest, Case1_CommonRoot_SameLevel)
+{
+    bfs::path path1 = data_base_path;
+    path1 /= "testfile1.csv";
+    path1 =bfs::system_complete(path1);
+
+    bfs::path path2 = data_base_path;
+    path2 /= "testfile2.csv";
+    path2 =bfs::system_complete(path2);
+
+    bfs::path rootComp = path2.parent_path();
+    bfs::path rootPath = FindCommonRootPath(path1.string(), path2.string());
 
     EXPECT_EQ(rootPath, rootComp);
 }
 
 TEST(FileUtilsTest, Case2_CommonRoot_DiffLevels)
 {
-#if BOOST_OS_WINDOWS
-        const bfs::path path1 = bfs::system_complete("../data/testfile1.csv");
-        const bfs::path path2 = bfs::system_complete("../tst_FileUtilsTest.cpp");
-#else
-    const bfs::path path1 = bfs::system_complete("../../data/testfile1.csv");
-    const bfs::path path2 = bfs::system_complete("../../tst_FileUtilsTest.cpp");
-#endif
+    bfs::path path1 = data_base_path;
+    path1 /= "testfile1.csv";
+    path1 =bfs::system_complete(path1);
 
-    const bfs::path rootComp = path2.parent_path();
-    const bfs::path rootPath = FindCommonRootPath(path1.string(), path2.string());
+    bfs::path path2 = alt_base_path;
+    path2 /= "tst_FileUtilsTest.cpp";
+    path2 =bfs::system_complete(path2);
+
+    bfs::path rootComp = path2.parent_path();
+    bfs::path rootPath = FindCommonRootPath(path1.string(), path2.string());
 
     EXPECT_EQ(rootPath, rootComp);
 }
 
 TEST(FileUtilsTest, Case3_CopyDirectory_SameLevel)
 {
-#if BOOST_OS_WINDOWS
-    const bfs::path source = bfs::system_complete("../data");
-    const bfs::path target = bfs::system_complete("../data_copy");
-#else
-    const bfs::path source = bfs::system_complete("../../data");
-    const bfs::path target = bfs::system_complete("../../data_copy");
-#endif
+    bfs::path source = bfs::system_complete(data_base_path);
+    bfs::path target = bfs::system_complete(copy_base_path);
 
     EXPECT_FALSE(bfs::exists(target));
     EXPECT_NO_THROW(CopyDirectoryRecursively(source.string(), target.string()));
@@ -60,13 +67,8 @@ TEST(FileUtilsTest, Case3_CopyDirectory_SameLevel)
 
 TEST(FileUtilsTest, Case4_CopyDirectory_TargetExists_Allowed)
 {
-#if BOOST_OS_WINDOWS
-    const bfs::path source = bfs::system_complete("../data");
-    const bfs::path target = bfs::system_complete("../data_copy");
-#else
-    const bfs::path source = bfs::system_complete("../../data");
-    const bfs::path target = bfs::system_complete("../../data_copy");
-#endif
+    bfs::path source = bfs::system_complete(data_base_path);
+    bfs::path target = bfs::system_complete(copy_base_path);
 
     EXPECT_FALSE(bfs::exists(target));
     EXPECT_NO_THROW(CopyDirectoryRecursively(source.string(), target.string()));
@@ -79,13 +81,8 @@ TEST(FileUtilsTest, Case4_CopyDirectory_TargetExists_Allowed)
 
 TEST(FileUtilsTest, Case5_CopyDirectory_TargetExists_Disallowed)
 {
-#if BOOST_OS_WINDOWS
-    const bfs::path source = bfs::system_complete("../data");
-    const bfs::path target = bfs::system_complete("../data_copy");
-#else
-    const bfs::path source = bfs::system_complete("../../data");
-    const bfs::path target = bfs::system_complete("../../data_copy");
-#endif
+    bfs::path source = bfs::system_complete(data_base_path);
+    bfs::path target = bfs::system_complete(copy_base_path);
 
     EXPECT_FALSE(bfs::exists(target));
     EXPECT_NO_THROW(CopyDirectoryRecursively(source.string(), target.string()));
@@ -97,14 +94,9 @@ TEST(FileUtilsTest, Case5_CopyDirectory_TargetExists_Disallowed)
 }
 
 TEST(FileUtilsTest, Case6_CopyDirectory_DiffLevels)
-{
-#if BOOST_OS_WINDOWS
-    const bfs::path source = bfs::system_complete("../data");
-    const bfs::path target = bfs::system_complete("../../data_copy");
-#else
-    const bfs::path source = bfs::system_complete("../../data");
-    const bfs::path target = bfs::system_complete("../../../data_copy");
-#endif
+{    
+    bfs::path source = bfs::system_complete(data_base_path);
+    bfs::path target = bfs::system_complete(alt_copy_base_path);
 
     EXPECT_FALSE(bfs::exists(target));
     EXPECT_NO_THROW(CopyDirectoryRecursively(source.string(), target.string()));
@@ -114,12 +106,8 @@ TEST(FileUtilsTest, Case6_CopyDirectory_DiffLevels)
 }
 
 TEST(FileUtilsTest, Case7_ListDirectoryEntries_1)
-{
-#if BOOST_OS_WINDOWS
-    const bfs::path dir = bfs::system_complete("../data");
-#else
-    const bfs::path dir = bfs::system_complete("../../data");
-#endif
+{    
+    bfs::path dir = bfs::system_complete(data_base_path);
 
     std::list<std::string> files;
     EXPECT_NO_THROW(files = ListDirectoryContents(dir.string()));
@@ -129,11 +117,7 @@ TEST(FileUtilsTest, Case7_ListDirectoryEntries_1)
 
 TEST(FileUtilsTest, Case8_ListDirectoryEntries_2)
 {
-#if BOOST_OS_WINDOWS
-    const bfs::path dir = bfs::system_complete("../data");
-#else
-    const bfs::path dir = bfs::system_complete("../../data");
-#endif
+    bfs::path dir = bfs::system_complete(data_base_path);
 
     std::list<std::string> files;
     EXPECT_NO_THROW(files = ListDirectoryContents(dir.string(), ".csv"));
@@ -143,11 +127,7 @@ TEST(FileUtilsTest, Case8_ListDirectoryEntries_2)
 
 TEST(FileUtilsTest, Case9_ListDirectoryEntries_3)
 {
-#if BOOST_OS_WINDOWS
-    const bfs::path dir = bfs::system_complete("../data");
-#else
-    const bfs::path dir = bfs::system_complete("../../data");
-#endif
+    bfs::path dir = bfs::system_complete(data_base_path);
 
     std::list<std::string> files;
     EXPECT_NO_THROW(files = ListDirectoryContents(dir.string(), ".ini"));
@@ -157,11 +137,9 @@ TEST(FileUtilsTest, Case9_ListDirectoryEntries_3)
 
 TEST(FileUtilsTest, Case10_ListDirectoryEntries_4)
 {
-#if BOOST_OS_WINDOWS
-    const bfs::path dir = bfs::system_complete("../data/test_file_1.ini");
-#else
-    const bfs::path dir = bfs::system_complete("../../data/test_file_1.ini");
-#endif
+    bfs::path dir = data_base_path;
+    dir /= "test_file_1.ini";
+    dir =bfs::system_complete(dir);
 
     std::list<std::string> files;
     EXPECT_NO_THROW(files = ListDirectoryContents(dir.string(), ".ini"));

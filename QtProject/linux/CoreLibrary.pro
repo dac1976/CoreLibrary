@@ -39,7 +39,7 @@ UI_DIR = $${DESTDIR}/ui
 
 HEADERS +=                                              \
 	../../Include/Asio/AsioDefines.h                    \
-	../../Include/Asio/IoServiceThreadGroup.h           \
+    ../../Include/Asio/IoServiceThreadGroup.h           \
 	../../Include/Asio/MessageUtils.h                   \
 	../../Include/Asio/SimpleTcpClient.h                \
 	../../Include/Asio/SimpleTcpServer.h                \
@@ -57,7 +57,7 @@ HEADERS +=                                              \
 	../../Include/DebugLog/DebugLogSingleton.h          \
 	../../Include/DebugLog/DebugLogging.h               \
 	../../Include/Exceptions/CustomException.h          \
-	../../Include/FileUtils/FileUtils.h                 \
+    ../../Include/FileUtils/FileUtils.h                 \
 	../../Include/IniFile/IniFileLines.h                \
 	../../Include/IniFile/IniFileSectionDetails.h       \
 	../../Include/IniFile/IniFile.h                     \
@@ -75,15 +75,15 @@ HEADERS +=                                              \
 	../../Include/Asio/UdpSender.h                      \
 	../../Include/Asio/UdpReceiver.h                    \
     ../../Include/Asio/MulticastReceiver.h              \
-	../../Include/Asio/MulticastSender.h                \
+    ../../Include/Asio/MulticastSender.h                \
 	../../Include/Asio/UdpTypedSender.h                 \
-	../../Include/Asio/SimpleUdpSender.h                \
-	../../Include/Asio/SimpleUdpReceiver.h              \
-	../../Include/Platform/PlatformDefines.h            \
+    ../../Include/Asio/SimpleUdpSender.h                \
+    ../../Include/Asio/SimpleUdpReceiver.h              \
+    ../../Include/Platform/PlatformDefines.h            \
 	../../Include/CoreLibraryDllGlobal.h
 
 SOURCES +=                                                \
-	../../Source/Asio/AsioDefines.cpp                     \
+    ../../Source/Asio/AsioDefines.cpp                     \
 	../../Source/Asio/IoServiceThreadGroup.cpp            \
 	../../Source/Asio/MessageUtils.cpp                    \
 	../../Source/Asio/SimpleTcpClient.cpp                 \
@@ -97,7 +97,7 @@ SOURCES +=                                                \
 	../../Source/CsvGrid/CsvGridMain.cpp                  \
 	../../Source/DebugLog/DebugLog.cpp                    \
 	../../Source/Exceptions/CustomException.cpp           \
-	../../Source/FileUtils/FileUtils.cpp                  \
+    ../../Source/FileUtils/FileUtils.cpp                  \
 	../../Source/IniFile/IniFileLines.cpp                 \
 	../../Source/IniFile/IniFileSectionDetails.cpp        \
 	../../Source/IniFile/IniFile.cpp                      \
@@ -110,11 +110,10 @@ SOURCES +=                                                \
 	../../Source/Threads/ThreadGroup.cpp                  \
 	../../Source/Asio/UdpSender.cpp                       \
 	../../Source/Asio/UdpReceiver.cpp                     \
-    ../../Source/Asio/UdpReceiver.cpp                     \
-	../../Source/Asio/SimpleUdpSender.cpp                 \
-	../../Source/Asio/SimpleUdpReceiver.cpp               \
-	../../Source/Asio/MulticastReceiver.cpp               \
-	../../Source/Asio/MulticastSender.cpp                
+    ../../Source/Asio/MulticastReceiver.cpp               \
+    ../../Source/Asio/MulticastSender.cpp                 \
+    ../../Source/Asio/SimpleUdpSender.cpp                 \
+    ../../Source/Asio/SimpleUdpReceiver.cpp         
 
 
 

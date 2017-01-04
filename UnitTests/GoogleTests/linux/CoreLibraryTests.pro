@@ -21,17 +21,19 @@ CONFIG += core_lib_dll
 # DEFINES += DISABLE_SERIALIZATION_TESTS
 # DEFINES += DISABLE_STRINGUTILS_TESTS
 # DEFINES += DISABLE_THREADS_TESTS
+# DEFINES += DISABLE_FILEUTILS_TESTS
 
 SOURCES += \
     ../tst_SerializationUtilsTest.cpp \
     ../tst_GenericSortingTest.cpp \
     ../tst_StringUtilsTest.cpp \
+    ../tst_FileUtilsTest.cpp \
     ../tst_IniFileTest.cpp \
     ../tst_ThreadsTest.cpp \
     ../tst_DebugLogTest.cpp \
     ../tst_AsioTest.cpp \
     ../tst_CsvGridTest.cpp
-
+    
 include(deployment.pri)
 qtcAddDeployment()
 

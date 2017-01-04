@@ -32,6 +32,7 @@
 #ifndef CUSTOMEXCEPTION
 #define CUSTOMEXCEPTION
 
+#if BOOST_OS_WINDOWS
 namespace boost
 {
     class CORE_LIBRARY_DLL_SHARED_API exception;
@@ -41,6 +42,7 @@ namespace std
 {
     class CORE_LIBRARY_DLL_SHARED_API exception;
 }
+#endif
 
 /*! \brief The core_lib namespace. */
 namespace core_lib {
