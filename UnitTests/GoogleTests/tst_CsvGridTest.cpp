@@ -3,11 +3,20 @@
 #include "CsvGrid/CsvGrid.h"
 #include <limits>
 #include <fstream>
+#include <string>
 #include "boost/predef.h"
 
 #include "gtest/gtest.h"
 
 using namespace core_lib::csv_grid;
+
+#if BOOST_OS_LINUX
+    static const std::string path1     = "/home/duncan/Projects/CoreLibrary/UnitTests/GoogleTests/data/testfile1.csv";
+    static const std::string path2     = "/home/duncan/Projects/CoreLibrary/UnitTests/GoogleTests/data/testfile2.csv";
+#else
+    static const std::string path1     = "../data/testfile1.csv";
+    static const std::string path2     = "../data/testfile2.csv";
+#endif
 
 TEST(CsvGridTest, Case1_xCsvGridColOutOfRangeError_1)
 {
@@ -664,11 +673,7 @@ TEST(CsvGridTest, Case59_CsvGrid_FileConstructor_SimpleCells)
 {
 	try
 	{
-#if BOOST_OS_WINDOWS
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#endif
+        core_lib::csv_grid::CsvGrid grid(path1, core_lib::csv_grid::eCellFormatOptions::simpleCells);
 		EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
 		EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
 		EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
@@ -685,11 +690,7 @@ TEST(CsvGridTest, Case60_CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130
 {
 	try
 	{
-#if BOOST_OS_WINDOWS
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#endif
+        core_lib::csv_grid::CsvGrid grid(path1, core_lib::csv_grid::eCellFormatOptions::simpleCells);
 	}
 	catch(...)
 	{
@@ -701,11 +702,7 @@ TEST(CsvGridTest, Case61_CsvGrid_FileConstructor_DoubleQuotedCells)
 {
 	try
 	{
-#if BOOST_OS_WINDOWS
-		core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-#endif
+        core_lib::csv_grid::CsvGrid grid(path2, core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 		EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
 		EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
 		EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
@@ -722,11 +719,7 @@ TEST(CsvGridTest, Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_100
 {
 	try
 	{
-#if BOOST_OS_WINDOWS
-		core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile2.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
-#endif
+        core_lib::csv_grid::CsvGrid grid(path2, core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
 	}
 	catch(...)
 	{
@@ -973,12 +966,7 @@ TEST(CsvGridTest, Case71_CsvGrid_LoadFromCSVFile_2)
 	core_lib::csv_grid::CsvGrid grid;
 	try
 	{
-#if BOOST_OS_WINDOWS
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#endif
-
+        core_lib::csv_grid::CsvGrid grid(path1, core_lib::csv_grid::eCellFormatOptions::simpleCells);
 		EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
 		EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
 		EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
@@ -1011,12 +999,7 @@ TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
 
 	try
 	{
-#if BOOST_OS_WINDOWS
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#else
-		core_lib::csv_grid::CsvGrid grid("../data/testfile1.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
-#endif
-
+        core_lib::csv_grid::CsvGrid grid(path1, core_lib::csv_grid::eCellFormatOptions::simpleCells);
 		EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
 		EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
 		EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
