@@ -82,7 +82,8 @@ HEADERS +=                                              \
     ../../Include/Asio/SimpleUdpSender.h                \
     ../../Include/Asio/SimpleUdpReceiver.h              \
     ../../Include/Platform/PlatformDefines.h            \
-	../../Include/CoreLibraryDllGlobal.h
+	../../Include/CoreLibraryDllGlobal.h \
+    ../../Include/Asio/MulticastTypedSender.h
 
 SOURCES +=                                                \
     ../../Source/Asio/AsioDefines.cpp                     \
