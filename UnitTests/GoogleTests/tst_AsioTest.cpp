@@ -263,7 +263,7 @@ TEST(AsioTest, testCase_IoThreadGroup1)
 	{
 		core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
 
-		for (uint64_t i = 1; i <= 1000000; ++i)
+        for (uint64_t i = 1; i <= 10000; ++i)
 		{
 			ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum1, i));
 			ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum2, i));
@@ -272,8 +272,8 @@ TEST(AsioTest, testCase_IoThreadGroup1)
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(500000500000));
-	EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(500000500000));
+    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
+    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
 	EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
 	EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
 }
@@ -286,7 +286,7 @@ TEST(AsioTest, testCase_IoThreadGroup2)
 	{
 		core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
 
-		for (uint64_t i = 1; i <= 1000000; ++i)
+        for (uint64_t i = 1; i <= 10000; ++i)
 		{
 			ioThreadGroup.Post(std::bind(&Sum::Add, &sum1, i));
 			ioThreadGroup.Post(std::bind(&Sum::Add, &sum2, i));
@@ -295,8 +295,8 @@ TEST(AsioTest, testCase_IoThreadGroup2)
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(500000500000));
-	EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(500000500000));
+    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
+    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
 	EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
 	EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
 }
@@ -1195,18 +1195,17 @@ TEST(AsioTest, testCase_TestSerializePOD)
 	EXPECT_TRUE(respAddress == serverConn);
 }
 
-// Currently this fails but need to investigate why in debug.
 TEST(AsioTest, testCase_TestUdpMulticast)
 {
-	/*char_buffer_t message = BuildMessage();
+    char_buffer_t message = BuildMessage();
 	MessageReceiver receiver;
 
-	MulticastReceiver(std::make_pair("224.0.0.0", 19191)
-					  , "192.168.1.59"
+    MulticastReceiver mcReceiver(std::make_pair("239.255.0.1", 19191)
+                      , ""
 					  , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
 					  , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
 
-	MulticastSender mcSender(std::make_pair("224.0.0.0", 19191), "192.168.1.59");
+    MulticastSender mcSender(std::make_pair("239.255.0.1", 19191), "");
 
 	EXPECT_TRUE(mcSender.SendMessage(message) == true);
 
@@ -1214,7 +1213,7 @@ TEST(AsioTest, testCase_TestUdpMulticast)
 	MyMessage expectedMessage;
 	expectedMessage.FillMessage();
 	MyMessage receivedMessage = receiver.Message();
-	EXPECT_TRUE(receivedMessage == expectedMessage);*/
+    EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
 #endif // DISABLE_ASIO_TESTS
