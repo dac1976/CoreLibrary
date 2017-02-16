@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2016 Duncan Crutchley
+// Copyright (C) 2014-2016 Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,7 @@ public:
      * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * core_lib::asioIoServiceThreadGroup in your application to manage a pool of std::threads.
+     * core_lib::asio::IoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */

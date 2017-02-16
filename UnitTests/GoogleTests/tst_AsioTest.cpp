@@ -19,6 +19,7 @@
 #include "Asio/SimpleUdpReceiver.h"
 #include "Asio/MulticastReceiver.h"
 #include "Asio/MulticastSender.h"
+#include "Asio/MulticastTypedSender.h"
 #include "cereal/types/string.hpp"
 #include "cereal/types/vector.hpp"
 
@@ -1195,7 +1196,7 @@ TEST(AsioTest, testCase_TestSerializePOD)
 	EXPECT_TRUE(respAddress == serverConn);
 }
 
-TEST(AsioTest, testCase_TestUdpMulticast)
+TEST(AsioTest, testCase_TestMulticast)
 {
     char_buffer_t message = BuildMessage();
 	MessageReceiver receiver;
@@ -1205,7 +1206,7 @@ TEST(AsioTest, testCase_TestUdpMulticast)
 					  , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
 					  , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
 
-    MulticastSender mcSender(std::make_pair("239.255.0.1", 19191), "");
+    MulticastSender mcSender(std::make_pair("239.255.0.1", 19191));
 
 	EXPECT_TRUE(mcSender.SendMessage(message) == true);
 
@@ -1214,6 +1215,29 @@ TEST(AsioTest, testCase_TestUdpMulticast)
 	expectedMessage.FillMessage();
 	MyMessage receivedMessage = receiver.Message();
     EXPECT_TRUE(receivedMessage == expectedMessage);
+}
+
+TEST(AsioTest, testCase_TestTypedMulticast)
+{
+    MessageBuilder messageBuilder;
+    MessageDispatcher rcvrDispatcher;
+    MessageHandler rcvrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
+    MulticastReceiver mcReceiver(std::make_pair("239.255.0.1", 19191)
+                      , ""
+                      , std::bind(&MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1)
+                      , std::bind(&MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1));
+
+    MulticastTypedSender<MessageBuilder> mcSender(std::make_pair("239.255.0.1", 19191), messageBuilder);
+
+    MyMessage messageToSend;
+    messageToSend.FillMessage();
+
+    EXPECT_TRUE(mcSender.SendMessage(messageToSend, 666) == true);
+
+    rcvrDispatcher.WaitForMessage(3000);
+
+    MyMessage receivedMessage = rcvrDispatcher.Message();
+    EXPECT_TRUE(receivedMessage == messageToSend);
 }
 
 #endif // DISABLE_ASIO_TESTS

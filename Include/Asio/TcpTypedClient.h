@@ -62,7 +62,7 @@ public:
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asioIoServiceThreadGroup in your application to manage a pool of std::threads.
+     * core_lib::asio::IoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
