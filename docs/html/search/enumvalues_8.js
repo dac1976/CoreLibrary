@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['portablebinary',['portableBinary',['../namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313ae6372e7369f0a79dff977a56d7b2ce2f',1,'core_lib::asio::defs']]],
-  ['processremainingitems',['processRemainingItems',['../namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706a6384751382f97eb4a6fc8ee8bd31fc83',1,'core_lib::threads']]]
+  ['nagleoff',['nagleOff',['../namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49aefa03b8faae7086af167105af50c3b67',1,'core_lib::asio::tcp']]],
+  ['nagleon',['nagleOn',['../namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b',1,'core_lib::asio::tcp']]],
+  ['normal',['normal',['../namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5afea087517c26fadd409bd4b9dc642555',1,'core_lib::string_utils']]],
+  ['not_5fdefined',['not_defined',['../namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca308178bc9cbd979f6e2e056175b76aba',1,'core_lib::log']]],
+  ['nottrimmed',['notTrimmed',['../namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833ba8285cc9358c22676b2dcb2f56b69cd28',1,'core_lib::string_utils']]]
 ];

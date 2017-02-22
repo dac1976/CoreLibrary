@@ -2,8 +2,7 @@ var searchData=
 [
   ['wait',['Wait',['../classcore__lib_1_1threads_1_1_sync_event.html#a39659aa94a26245a59e5a7cbd202c54d',1,'core_lib::threads::SyncEvent']]],
   ['waitfortime',['WaitForTime',['../classcore__lib_1_1threads_1_1_sync_event.html#a27c3bc9ab7b6f3392389d1ce30905e86',1,'core_lib::threads::SyncEvent']]],
-  ['what',['what',['../classcore__lib_1_1exceptions_1_1x_custom_exception.html#a68357d5a1294f5ad0539d83994615c21',1,'core_lib::exceptions::xCustomException']]],
-  ['whatstr',['whatStr',['../classcore__lib_1_1exceptions_1_1x_custom_exception.html#a83600fc110f75e16e687ee7196a5b001',1,'core_lib::exceptions::xCustomException']]],
+  ['what',['what',['../classcore__lib_1_1exceptions_1_1x_custom_exception.html#a770e19f00da127e7e7004dd00823ebef',1,'core_lib::exceptions::xCustomException']]],
   ['writebackbuckets',['WriteBackBuckets',['../classcore__lib_1_1sorting_1_1_bucket.html#aaf34dd8b8997956f27920abae1da0eb4',1,'core_lib::sorting::Bucket']]],
   ['writebool',['WriteBool',['../classcore__lib_1_1ini__file_1_1_ini_file.html#a000c75a943391507ba1ac0bc0f6c987b',1,'core_lib::ini_file::IniFile']]],
   ['writecomplete',['WriteComplete',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aac425ac9870690f81bc51790e7d77fa8',1,'core_lib::asio::tcp::TcpConnection']]],

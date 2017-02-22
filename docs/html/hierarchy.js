@@ -2,9 +2,9 @@ var hierarchy =
 [
     [ "core_lib::asio::messages::ArchiveTypeToEnum< A >", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum< serialize::archives::out_bin_t >", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4.html", null ],
+    [ "core_lib::asio::messages::ArchiveTypeToEnum< serialize::archives::out_json_t >", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum< serialize::archives::out_port_bin_t >", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__port__bin__t_01_4.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum< serialize::archives::out_raw_t >", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__raw__t_01_4.html", null ],
-    [ "core_lib::asio::messages::ArchiveTypeToEnum< serialize::archives::out_txt_t >", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__txt__t_01_4.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum< serialize::archives::out_xml_t >", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__xml__t_01_4.html", null ],
     [ "core_lib::threads::ArrayDeleter< P >", "structcore__lib_1_1threads_1_1_array_deleter.html", null ],
     [ "core_lib::threads::BoundedBuffer< T >", "classcore__lib_1_1threads_1_1_bounded_buffer.html", null ],
@@ -68,12 +68,18 @@ var hierarchy =
     [ "core_lib::asio::messages::MessageBuilder", "classcore__lib_1_1asio_1_1messages_1_1_message_builder.html", null ],
     [ "core_lib::asio::messages::MessageHandler", "classcore__lib_1_1asio_1_1messages_1_1_message_handler.html", null ],
     [ "core_lib::asio::defs::MessageHeader", "structcore__lib_1_1asio_1_1defs_1_1_message_header.html", null ],
+    [ "core_lib::asio::udp::MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html", null ],
+    [ "core_lib::asio::udp::MulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html", null ],
+    [ "core_lib::asio::udp::MulticastTypedSender< MsgBldr >", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html", null ],
+    [ "core_lib::asio::udp::MulticastTypedSender< core_lib::asio::messages::MessageBuilder >", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html", null ],
     [ "core_lib::sorting::Quick< T, Pred >", "classcore__lib_1_1sorting_1_1_quick.html", null ],
     [ "core_lib::serialize::raw_iarchive", "structcore__lib_1_1serialize_1_1raw__iarchive.html", null ],
     [ "core_lib::serialize::raw_oarchive", "structcore__lib_1_1serialize_1_1raw__oarchive.html", null ],
     [ "core_lib::asio::defs::ReceivedMessage< Header >", "structcore__lib_1_1asio_1_1defs_1_1_received_message.html", null ],
     [ "core_lib::ini_file::if_private::SectionDetails", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html", null ],
     [ "core_lib::sorting::Selection< T, Pred >", "classcore__lib_1_1sorting_1_1_selection.html", null ],
+    [ "core_lib::asio::udp::SimpleMulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_receiver.html", null ],
+    [ "core_lib::asio::udp::SimpleMulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html", null ],
     [ "core_lib::asio::tcp::SimpleTcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html", null ],
     [ "core_lib::asio::tcp::SimpleTcpServer", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html", null ],
     [ "core_lib::asio::udp::SimpleUdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html", null ],
@@ -84,9 +90,9 @@ var hierarchy =
     [ "core_lib::asio::tcp::TcpConnections", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html", null ],
     [ "core_lib::asio::tcp::TcpServer", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html", null ],
     [ "core_lib::asio::tcp::TcpTypedClient< MsgBldr >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html", null ],
-    [ "core_lib::asio::tcp::TcpTypedClient< messages::MessageBuilder >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html", null ],
+    [ "core_lib::asio::tcp::TcpTypedClient< core_lib::asio::messages::MessageBuilder >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html", null ],
     [ "core_lib::asio::tcp::TcpTypedServer< MsgBldr >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html", null ],
-    [ "core_lib::asio::tcp::TcpTypedServer< messages::MessageBuilder >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html", null ],
+    [ "core_lib::asio::tcp::TcpTypedServer< core_lib::asio::messages::MessageBuilder >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html", null ],
     [ "core_lib::csv_grid::TCsvGrid< C, T >", "classcore__lib_1_1csv__grid_1_1_t_csv_grid.html", null ],
     [ "core_lib::threads::ThreadBase", "classcore__lib_1_1threads_1_1_thread_base.html", [
       [ "core_lib::threads::MessageQueueThread< MessageId, MessageType >", "classcore__lib_1_1threads_1_1_message_queue_thread.html", null ]
@@ -100,5 +106,5 @@ var hierarchy =
     [ "core_lib::asio::udp::UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html", null ],
     [ "core_lib::asio::udp::UdpSender", "classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html", null ],
     [ "core_lib::asio::udp::UdpTypedSender< MsgBldr >", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html", null ],
-    [ "core_lib::asio::udp::UdpTypedSender< messages::MessageBuilder >", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html", null ]
+    [ "core_lib::asio::udp::UdpTypedSender< core_lib::asio::messages::MessageBuilder >", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html", null ]
 ];

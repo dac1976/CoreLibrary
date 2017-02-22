@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['text',['text',['../namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a1cb251ec0d568de6a929b520c4aed8d1',1,'core_lib::asio::defs']]],
-  ['trimmed',['trimmed',['../namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833ba853600aa75baac4ae4d3b794b574ecec',1,'core_lib::string_utils']]],
-  ['truncate',['truncate',['../namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143edaa244f58cf07c35fd48d7524b289551e5c',1,'core_lib::csv_grid']]],
-  ['truncate_5ffile',['truncate_file',['../classcore__lib_1_1log_1_1_debug_log.html#a51affdd46da3c324ae68a39aeb6bd8b3a62c0624c153cd096a8ed03b95ff1c01c',1,'core_lib::log::DebugLog']]]
+  ['samecontinent',['sameContinent',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aaf912756ce627b4ed5ae8a47a30fa965',1,'core_lib::asio::udp']]],
+  ['samehost',['sameHost',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aa1119b276d7e6d35b2e6b01590d5224d',1,'core_lib::asio::udp']]],
+  ['sameregion',['sameRegion',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afcbe0e1669da06dbae91a8521ac7f580',1,'core_lib::asio::udp']]],
+  ['samesite',['sameSite',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afb73801180f7ddc76f4bed0c7cfd8ded',1,'core_lib::asio::udp']]],
+  ['samesubnet',['sameSubnet',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694a2377b5114c5f04e534f74eaaece0bac8',1,'core_lib::asio::udp']]],
+  ['scientific',['scientific',['../namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5a55a95650a66b53ecbb960b53d985b964',1,'core_lib::string_utils']]],
+  ['simplecells',['simpleCells',['../namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720ea09ff6861a227c1d20c44a38a8be994b3',1,'core_lib::csv_grid']]]
 ];
