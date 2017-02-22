@@ -115,7 +115,7 @@ public:
                      , const uint32_t messageId
                      , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
-        return MulticastTypedSender.SendMessage<T, A>(message, messageId, responseAddress);
+        return m_multicastTypedSender.SendMessage<T, A>(message, messageId, responseAddress);
     }
 
 private:

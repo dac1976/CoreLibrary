@@ -38,11 +38,11 @@ namespace udp {
 // 'class MulticastReceiver' definition
 // ****************************************************************************
 MulticastReceiver::MulticastReceiver(boost_ioservice_t& ioService
-                         , const defs::connection_t& multicastConnection
-                         , const std::string& interfaceAddress
-						 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-						 , const defs::message_received_handler_t& messageReceivedHandler
-						 , const size_t receiveBufferSize)
+                                     , const defs::connection_t& multicastConnection
+                                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                                     , const defs::message_received_handler_t& messageReceivedHandler
+                                     , const std::string& interfaceAddress
+                                     , const size_t receiveBufferSize)
     : m_closing(false)
     , m_ioService(ioService)
     , m_multicastConnection(multicastConnection)
@@ -56,10 +56,10 @@ MulticastReceiver::MulticastReceiver(boost_ioservice_t& ioService
 }
 
 MulticastReceiver::MulticastReceiver(const defs::connection_t& multicastConnection
-                         , const std::string& interfaceAddress
-						 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-						 , const defs::message_received_handler_t& messageReceivedHandler
-						 , const size_t receiveBufferSize)
+                                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
+                                     , const defs::message_received_handler_t& messageReceivedHandler
+                                     , const std::string& interfaceAddress
+                                     , const size_t receiveBufferSize)
     : m_closing(false)
     , m_ioThreadGroup{new IoServiceThreadGroup(1)}// 1 thread is sufficient only receive one message at a time
 	, m_ioService(m_ioThreadGroup->IoService())

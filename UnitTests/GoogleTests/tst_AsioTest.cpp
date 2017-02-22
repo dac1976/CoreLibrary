@@ -20,6 +20,8 @@
 #include "Asio/MulticastReceiver.h"
 #include "Asio/MulticastSender.h"
 #include "Asio/MulticastTypedSender.h"
+#include "Asio/SimpleMulticastReceiver.h"
+#include "Asio/SimpleMulticastSender.h"
 #include "cereal/types/string.hpp"
 #include "cereal/types/vector.hpp"
 
@@ -1202,7 +1204,6 @@ TEST(AsioTest, testCase_TestMulticast)
 	MessageReceiver receiver;
 
     MulticastReceiver mcReceiver(std::make_pair("239.255.0.1", 19191)
-                      , ""
 					  , std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1)
 					  , std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
 
@@ -1223,11 +1224,29 @@ TEST(AsioTest, testCase_TestTypedMulticast)
     MessageDispatcher rcvrDispatcher;
     MessageHandler rcvrMessageHandler(std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1), DEFAULT_MAGIC_STRING);
     MulticastReceiver mcReceiver(std::make_pair("239.255.0.1", 19191)
-                      , ""
                       , std::bind(&MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1)
                       , std::bind(&MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1));
 
     MulticastTypedSender<MessageBuilder> mcSender(std::make_pair("239.255.0.1", 19191), messageBuilder);
+
+    MyMessage messageToSend;
+    messageToSend.FillMessage();
+
+    EXPECT_TRUE(mcSender.SendMessage(messageToSend, 666) == true);
+
+    rcvrDispatcher.WaitForMessage(3000);
+
+    MyMessage receivedMessage = rcvrDispatcher.Message();
+    EXPECT_TRUE(receivedMessage == messageToSend);
+}
+
+TEST(AsioTest, testCase_TestSimpleMulticast)
+{
+    MessageDispatcher rcvrDispatcher;
+    SimpleMulticastReceiver mcReceiver(std::make_pair("239.255.0.1", 19191)
+                                       , std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1));
+
+    SimpleMulticastSender mcSender(std::make_pair("239.255.0.1", 19191));
 
     MyMessage messageToSend;
     messageToSend.FillMessage();

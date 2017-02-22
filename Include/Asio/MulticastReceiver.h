@@ -48,10 +48,10 @@ public:
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] multicastConnection - Connection object describing target multicast group address and port.
-     * \param[in] interfaceAddress - Interface IP address for incoming network messages.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message and dispatching it accordingly.
-     * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
+     * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
+     * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
      * core_lib::asio::IoServiceThreadGroup in your application to manage a pool of std::threads.
@@ -60,17 +60,17 @@ public:
      */
 	MulticastReceiver(boost_ioservice_t& ioService
                       , const defs::connection_t& multicastConnection
-                      , const std::string& interfaceAddress
 				      , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
                       , const defs::message_received_handler_t& messageReceivedHandler
+                      , const std::string& interfaceAddress = ""
 				      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address and port.
-     * \param[in] interfaceAddress - Interface IP address for incoming network messages.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message and dispatching it accordingly.
-     * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
+     * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
+     * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
      *
      * This constructor does not require an external IO service to run instead it creates
      * its own IO service object along with its own thread. For very simple cases this
@@ -78,9 +78,9 @@ public:
      * external IO service constructor is recommended.
      */
     MulticastReceiver(const defs::connection_t& multicastConnection
-                      , const std::string& interfaceAddress
 			      	  , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
 				      , const defs::message_received_handler_t& messageReceivedHandler
+                      , const std::string& interfaceAddress = ""
 				      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     MulticastReceiver(const MulticastReceiver& ) = delete;
