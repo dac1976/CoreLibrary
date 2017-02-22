@@ -96,22 +96,6 @@ std::string MulticastReceiver::InterfaceAddress() const
     return m_interfaceAddress;
 }
 
-/*
-From stack overflow:
-
-std::string address_listen = "1.2.3.4";
-std::string address_mcast = "224.0.0.0";
-unsigned short address_port = 50000;
-boost::system::error_code ec;
-boost::asio::ip::address listen_addr = boost::asio::ip::address::from_string(address_listen, ec);
-boost::asio::ip::address mcast_addr = boost::asio::ip::address::from_string(address_mcast, ec);
-boost::asio::ip::udp::endpoint listen_endpoint(mcast_addr, address_port);
-socket.open(listen_endpoint.protocol(), ec); // boost::asio::ip::udp::socket
-socket.set_option(boost::asio::ip::udp::socket::reuse_address(true), ec);
-socket.bind(listen_endpoint, ec);
-socket.set_option(boost::asio::ip::multicast::join_group(mcast_addr.to_v4(), listen_addr.to_v4()), ec);
-*/
-
 void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
 {
     m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
