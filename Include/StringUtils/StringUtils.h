@@ -43,7 +43,7 @@ namespace string_utils {
  * \param[in,out] line - A string obtained using getline.
  *
  * Safely convert string into sensible form due to bug in some implementations
- * of std::getline() (looking at you Emarcadero C++ Builder) where size is
+ * of std::getline() (looking at you Embarcadero C++ Builder) where size is
  * greater than pos of null char.
  */
 void CORE_LIBRARY_DLL_SHARED_API PackStdString(std::string& line);

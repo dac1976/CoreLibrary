@@ -6,6 +6,7 @@
 
 QT       -= gui
 
+#set version to C++14
 QMAKE_CXXFLAGS += -std=c++14
 
 TARGET = CoreLibrary

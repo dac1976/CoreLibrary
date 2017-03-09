@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-#set version info
+#set version info for library
 VERSION = 1.3.0
 
 QT       -= gui
