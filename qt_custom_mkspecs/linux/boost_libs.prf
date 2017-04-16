@@ -1,5 +1,5 @@
 DEFINES += BOOST_THREAD_USE_LIB
 
-LIBS += -L/home/duncan/Projects/ThirdParty/boost/lib \
+LIBS += -L/home/duncan/projects/ThirdParty/boost/lib \
         -lboost_filesystem                           \
         -lboost_system                               
