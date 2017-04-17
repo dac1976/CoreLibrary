@@ -1,3 +1,3 @@
 Copy the prf files into your Qt mkspecs folder, e.g.
 
-C:\Applications\Qt\X.X\mingwXXX_32\mkspecs\features
+.../Qt/5.8/msvc2015_64/mkspecs/features
