@@ -1,4 +1,0 @@
-CONFIG += boost \
-          loki 
-
-INCLUDEPATH += D:/Projects/CoreLibrary/Include

@@ -14,7 +14,7 @@ TARGET = CoreLibraryDll
 TEMPLATE = lib
 CONFIG += dll debug_and_release build_all
 CONFIG += core_lib_settings
-CONFIG += boost_libs_64
+CONFIG += boost_libs
 
 # Set version info of our dll.
 RC_FILE=../CoreLibraryDll_resource.rc

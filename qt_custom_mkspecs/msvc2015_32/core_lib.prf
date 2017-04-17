@@ -1,0 +1,8 @@
+CONFIG += core_lib_settings \
+          boost_libs
+
+CONFIG(debug, debug|release) {
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/x86/debug -lCoreLibrary
+} else {
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/x86/release -lCoreLibrary
+}

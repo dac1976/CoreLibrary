@@ -2,9 +2,9 @@ CONFIG += core_lib_settings \
           boost_libs_64
 
 CONFIG(debug, debug|release) {
-  LIBS += -L$$(CORE_LIBRARY)/QtProject/msvc2015_64/debug -lCoreLibraryDll
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/x64/debug -lCoreLibraryDll
 } else {
-  LIBS += -L$$(CORE_LIBRARY)/QtProject/msvc2015_64/release -lCoreLibraryDll
+  LIBS += -L$$(CORE_LIBRARY)/QtProject/x64/release -lCoreLibraryDll
 }
 
 # Due to exporting from DLL we might get suprious warnings of

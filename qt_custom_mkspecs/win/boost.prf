@@ -1,3 +1,0 @@
-INCLUDEPATH += D:/Projects/ThirdParty/boost_1_58_0/include        \   
-               D:/Projects/ThirdParty/eos_portable_archive \
-               D:/Projects/ThirdParty/tuple_serialization
