@@ -22,7 +22,7 @@
 
 /*!
  * \file BoundedBuffer.h
- * \brief File containing bounded buffer declaration.
+ * \brief File containing bounded buffer declaration. This code is based on the example given in the boost circular buffer documentation.
  */
 
 #ifndef BOUNDEDBUFFER
