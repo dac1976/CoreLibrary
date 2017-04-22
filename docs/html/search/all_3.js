@@ -53,7 +53,7 @@ var searchData=
   ['debuglogsingletondeleter',['DebugLogSingletonDeleter',['../namespacecore__lib_1_1log.html#a5b403a213fcbbebb188d32afc0ace581',1,'core_lib::log']]],
   ['default_5flog_5ft',['default_log_t',['../namespacecore__lib_1_1log.html#ac8170d34fa79016d45d9b4d4af2998d1',1,'core_lib::log']]],
   ['default_5fmagic_5fstring',['DEFAULT_MAGIC_STRING',['../namespacecore__lib_1_1asio_1_1defs.html#ab1602710d76493491bb13850cfb3325a',1,'core_lib::asio::defs']]],
-  ['default_5fmessage_5fdispatcher_5ft',['default_message_dispatcher_t',['../namespacecore__lib_1_1asio_1_1defs.html#a08131e6176f268ef5aa2060243f352a3',1,'core_lib::asio::defs']]],
+  ['default_5fmessage_5fdispatcher_5ft',['default_message_dispatcher_t',['../namespacecore__lib_1_1asio_1_1defs.html#ab6b76191e93da7e7fef9ff0fa4f6eb94',1,'core_lib::asio::defs']]],
   ['default_5freceived_5fmessage_5fptr_5ft',['default_received_message_ptr_t',['../namespacecore__lib_1_1asio_1_1defs.html#ac0269220bc3b6dd975cda737629c0b4e',1,'core_lib::asio::defs']]],
   ['default_5freceived_5fmessage_5ft',['default_received_message_t',['../namespacecore__lib_1_1asio_1_1defs.html#a27d046d194cb428191bdef6cc96d7f7c',1,'core_lib::asio::defs']]],
   ['default_5freserved_5fsize',['DEFAULT_RESERVED_SIZE',['../namespacecore__lib_1_1asio_1_1tcp.html#a08a52703acbef2092d403b70bab1ec1d',1,'core_lib::asio::tcp']]],

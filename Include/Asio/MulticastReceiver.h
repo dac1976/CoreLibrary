@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2014-2016 Duncan Crutchley
+// Copyright (C) 2014 to present, Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,11 +32,14 @@
 #include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
 /*! \brief A general purpose multicast receiver. */
 class CORE_LIBRARY_DLL_SHARED_API MulticastReceiver final
@@ -47,9 +50,12 @@ public:
     /*!
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
-     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
-     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object capable of handling a received message and dispatching it accordingly.
+     * \param[in] multicastConnection - Connection object describing target multicast group address
+     * and port.
+     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly.
      * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
      *
@@ -58,17 +64,19 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-	MulticastReceiver(boost_ioservice_t& ioService
-                      , const defs::connection_t& multicastConnection
-				      , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                      , const defs::message_received_handler_t& messageReceivedHandler
-                      , const std::string& interfaceAddress = ""
-				      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+    MulticastReceiver(boost_ioservice_t& ioService, const defs::connection_t& multicastConnection,
+                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                      const defs::message_received_handler_t& messageReceivedHandler,
+                      const std::string&                      interfaceAddress = "",
+                      const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
-     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
-     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object capable of handling a received message and dispatching it accordingly.
+     * \param[in] multicastConnection - Connection object describing target multicast group address
+     * and port.
+     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly.
      * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
      *
@@ -77,15 +85,15 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommended.
      */
-    MulticastReceiver(const defs::connection_t& multicastConnection
-			      	  , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-				      , const defs::message_received_handler_t& messageReceivedHandler
-                      , const std::string& interfaceAddress = ""
-				      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+    MulticastReceiver(const defs::connection_t&               multicastConnection,
+                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                      const defs::message_received_handler_t& messageReceivedHandler,
+                      const std::string&                      interfaceAddress = "",
+                      const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
-    MulticastReceiver(const MulticastReceiver& ) = delete;
+    MulticastReceiver(const MulticastReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-    MulticastReceiver& operator=(const MulticastReceiver& ) = delete;
+    MulticastReceiver& operator=(const MulticastReceiver&) = delete;
     /*! \brief Destructor. */
     ~MulticastReceiver();
     /*!
@@ -112,8 +120,7 @@ private:
      * \param[in] error - Error code if one has happened.
      * \param[in] bytesReceived - Number of bytes received.
      */
-    void ReadComplete(const boost_sys::error_code& error
-                      , const size_t bytesReceived);
+    void ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived);
     /*!
      * \brief Set closing state.
      * \param[in] closing - Closing socket flag.
@@ -135,25 +142,25 @@ private:
     /*! \brief Flag to show were are closing socket. */
     bool m_closing;
     /*! \brief I/O service thread group. */
-	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
-	boost_ioservice_t& m_ioService;
+    boost_ioservice_t& m_ioService;
     /*! \brief Multicast connection details. */
     const defs::connection_t m_multicastConnection;
     /*! \brief Interface IP address of outgoing network adaptor. */
     const std::string m_interfaceAddress;
     /*! \brief The multicast socket. */
-	boost_udp_t::socket m_socket;
+    boost_udp_t::socket m_socket;
     /*! \brief Callback to check number of bytes left to read. */
-	defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
     /*! \brief Callback to handle received message. */
-	defs::message_received_handler_t m_messageReceivedHandler;
+    defs::message_received_handler_t m_messageReceivedHandler;
     /*! \brief Socket receive buffer. */
-	defs::char_buffer_t m_receiveBuffer;
+    defs::char_buffer_t m_receiveBuffer;
     /*! \brief Message buffer. */
-	defs::char_buffer_t m_messageBuffer;
+    defs::char_buffer_t m_messageBuffer;
     /*! \brief Sender end-point. */
-	boost_udp_t::endpoint m_senderEndpoint;
+    boost_udp_t::endpoint m_senderEndpoint;
 };
 
 } // namespace udp
@@ -161,4 +168,3 @@ private:
 } // namespace core_lib
 
 #endif // MULTICASTRECEIVER
-

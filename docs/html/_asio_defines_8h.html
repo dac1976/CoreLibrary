@@ -180,18 +180,18 @@ typedef ReceivedMessage&lt; MessageHeader &gt;&#160;</td><td class="memItemRight
 typedef std::shared_ptr&lt; default_received_message_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ac0269220bc3b6dd975cda737629c0b4e">core_lib::asio::defs::default_received_message_ptr_t</a></td></tr>
 <tr class="memdesc:ac0269220bc3b6dd975cda737629c0b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to default version of received message shared pointer. <br /></td></tr>
 <tr class="separator:ac0269220bc3b6dd975cda737629c0b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08131e6176f268ef5aa2060243f352a3"><td class="memItemLeft" align="right" valign="top"><a id="a08131e6176f268ef5aa2060243f352a3"></a>
-typedef std::function&lt; void(default_received_message_ptr_t) &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a08131e6176f268ef5aa2060243f352a3">core_lib::asio::defs::default_message_dispatcher_t</a></td></tr>
-<tr class="memdesc:a08131e6176f268ef5aa2060243f352a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to default message dispatcher function object. <br /></td></tr>
-<tr class="separator:a08131e6176f268ef5aa2060243f352a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b538eb01c27f8c551f9968f64be2fbd"><td class="memItemLeft" align="right" valign="top"><a id="a9b538eb01c27f8c551f9968f64be2fbd"></a>
-typedef std::function&lt; size_t(const char_buffer_t &amp;) &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9b538eb01c27f8c551f9968f64be2fbd">core_lib::asio::defs::check_bytes_left_to_read_t</a></td></tr>
-<tr class="memdesc:a9b538eb01c27f8c551f9968f64be2fbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to bytes left to reading checking utility function object. <br /></td></tr>
-<tr class="separator:a9b538eb01c27f8c551f9968f64be2fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a0d1f9715b8bbca99cb5893e154795d"><td class="memItemLeft" align="right" valign="top"><a id="a9a0d1f9715b8bbca99cb5893e154795d"></a>
-typedef std::function&lt; void(const char_buffer_t &amp;) &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9a0d1f9715b8bbca99cb5893e154795d">core_lib::asio::defs::message_received_handler_t</a></td></tr>
-<tr class="memdesc:a9a0d1f9715b8bbca99cb5893e154795d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to message received handler function object. <br /></td></tr>
-<tr class="separator:a9a0d1f9715b8bbca99cb5893e154795d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6b76191e93da7e7fef9ff0fa4f6eb94"><td class="memItemLeft" align="right" valign="top"><a id="ab6b76191e93da7e7fef9ff0fa4f6eb94"></a>
+typedef std::function&lt; void(default_received_message_ptr_t)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ab6b76191e93da7e7fef9ff0fa4f6eb94">core_lib::asio::defs::default_message_dispatcher_t</a></td></tr>
+<tr class="memdesc:ab6b76191e93da7e7fef9ff0fa4f6eb94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to default message dispatcher function object. <br /></td></tr>
+<tr class="separator:ab6b76191e93da7e7fef9ff0fa4f6eb94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52ff0c5c56fba7abbd34f32b049d29a9"><td class="memItemLeft" align="right" valign="top"><a id="a52ff0c5c56fba7abbd34f32b049d29a9"></a>
+typedef std::function&lt; size_t(const char_buffer_t &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a52ff0c5c56fba7abbd34f32b049d29a9">core_lib::asio::defs::check_bytes_left_to_read_t</a></td></tr>
+<tr class="memdesc:a52ff0c5c56fba7abbd34f32b049d29a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to bytes left to reading checking utility function object. <br /></td></tr>
+<tr class="separator:a52ff0c5c56fba7abbd34f32b049d29a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adced71cfe948cb4fdf94f28ff99dcc37"><td class="memItemLeft" align="right" valign="top"><a id="adced71cfe948cb4fdf94f28ff99dcc37"></a>
+typedef std::function&lt; void(const char_buffer_t &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#adced71cfe948cb4fdf94f28ff99dcc37">core_lib::asio::defs::message_received_handler_t</a></td></tr>
+<tr class="memdesc:adced71cfe948cb4fdf94f28ff99dcc37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to message received handler function object. <br /></td></tr>
+<tr class="separator:adced71cfe948cb4fdf94f28ff99dcc37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -239,7 +239,7 @@ static const connection_t&#160;</td><td class="memItemRight" valign="bottom"><a 
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a08a52703acbef2092d403b70bab1ec1d"><td class="memItemLeft" align="right" valign="top"><a id="a08a52703acbef2092d403b70bab1ec1d"></a>
-<a class="el" href="_platform_defines_8h.html#a05d8f96bb92db37f4f27ee4c15c48c24">STATIC_CONSTEXPR_</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#a08a52703acbef2092d403b70bab1ec1d">core_lib::asio::tcp::DEFAULT_RESERVED_SIZE</a> { 512 * 1024 }</td></tr>
+<a class="el" href="_platform_defines_8h.html#a05d8f96bb92db37f4f27ee4c15c48c24">STATIC_CONSTEXPR_</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1tcp.html#a08a52703acbef2092d403b70bab1ec1d">core_lib::asio::tcp::DEFAULT_RESERVED_SIZE</a> {512 * 1024}</td></tr>
 <tr class="memdesc:a08a52703acbef2092d403b70bab1ec1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default internal receive buffer's initial reserved size in bytes. <br /></td></tr>
 <tr class="separator:a08a52703acbef2092d403b70bab1ec1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0aeb809f0edc168642171e692a48be29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_platform_defines_8h.html#a05d8f96bb92db37f4f27ee4c15c48c24">STATIC_CONSTEXPR_</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a0aeb809f0edc168642171e692a48be29">core_lib::asio::udp::UDP_DATAGRAM_MAX_SIZE</a> {65507}</td></tr>
@@ -269,7 +269,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_cd8f788b2c3d76b815cf5350446e93a9.html">Asio</a></li><li class="navelem"><a class="el" href="_asio_defines_8h.html">AsioDefines.h</a></li>
-    <li class="footer">Generated on Wed Feb 22 2017 11:12:16 for Core Library by
+    <li class="footer">Generated on Sat Apr 22 2017 22:02:44 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

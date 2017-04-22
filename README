@@ -1,5 +1,5 @@
 This library (CoreLibrary) is a collection of useful utility classes to assist
-with multi-threading, logging, networking and so on.
+with multi-threading, logging, ASIO/networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on.
 
 It is licensed under the GNU Lesser General Public License and the relevant
 documentation for this can be found at the top of each source file and in the 
@@ -7,11 +7,31 @@ files COPYING and COPYING.LESSER.
 
 The code is the work of Duncan Crutchley (duncan.crutchely+corelibrary@gmail.com).
 
-Copyright (C) 2014-2015 Duncan Crutchley.
+Copyright (C) 2014 to present, Duncan Crutchley.
 
-Directory structure:
---------------------
-CoreLibrary
+This library has been developed in Qt Creator for Windows and Linux. In Windows it is recommended to use the MSVC2015 32bit and 64bit tool chain from within Qt Creator to build and test the code. However, other compilers have been tested in Windows such as Clang 3.8+ and GCC (MinGW) 4.8.X+. In Linux the code has been tested with GCC 4.8.X+ and Clang 3.8+. 
+
+The projects supplied for the library and unit tests are for Qt Creator and will work in Linux and Windows. To achieve this the projects rely on the custom mkspecs to be copied from the qt_custom_mkspecs folder into Qt's appropriate mkspec feature folder, e.g. <...>\Qt\5.8\msvc2015_64\mkspecs\features. Example mkspecs are provided for compatibility with MSVC2015 32 bit and 64bit and Linux. These should be customised for the user's own system.
+
+You may use this code within other development environments but it is up to the user to create the required projects for those environments.
+
+This library requires a few other third-party open source libraries for it to compile and function. These are:
+- Boost (tested with 1.57+ but newest version recommended)
+  http://www.boost.org/
+- Cereal (tested with 1.2.1+ but newest version recommended)
+  http://uscilab.github.io/cereal/
+- Loki 
+  http://loki-lib.sourceforge.net/
+- Google Test (tested with 1.7.0+, but newest recommended)
+  https://github.com/google/googletest/graphs/contributors
+
+This is a hobby project based on the knowledge I've gained in my many years of experience in software development. I started development on this code in early 2014. This represents a collection of hopefully straightforward to use and useful classes to use for commonly occurring software development requirements. All the code has been unit tested and I've used this code in my own projects so it should be good to use, even in commercial situations. I fix bugs and improve the code as and when necessary but make no guarantees on how often this happens. I provide no warranty or support for any issues that are encountered while using it. Although if you are really stuck email me at the provided address and if I have the time I will try to help.
+
+The code is commented with Doxygen comments so check the documentation in the /docs/html/ folder. For usage examples I recommend looking at the unit test code.
+
+The project consists of the following folders:
+
+/CoreLibrary
 	/docs
 		/html
 			/search					 
@@ -20,34 +40,29 @@ CoreLibrary
 		/CsvGrid
 		/DebugLog
 		/Exceptions
+		/FileUtils
 		/IniFile
 		/Platform
 		/Serialization
 		/Sorting
 		/StringUtils
 		/Threads
-	/msvc
 	/qt_custom_mkspecs
 		/linux
-		/win
-		/msvc2013_64
+		/msvc2015_32
+		/msvc2015_64
 	/QtProject
-		/linux
-		/win
-		/msvc2013_64
 	/Source
 		/Asio
 		/CsvGrid
 		/DebugLog
 		/Exceptions
+		/FileUtils
 		/IniFile
 		/Sorting
 		/StringUtils
 		/Threads
 	/UnitTests
-		/data
-		/linux
-		/msvc
-		/qt_msvc2013_64
-		/win	  		
-  				 
+		/GoogleTests
+			/data
+			/QtProject 
