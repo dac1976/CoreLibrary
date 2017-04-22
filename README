@@ -51,8 +51,8 @@ The code is commented with Doxygen comments so check the documentation in the /d
 folder. For usage examples I recommend looking at the unit test code.
 
 The ASIO networking unit tests require network connectivity and the unit tests expect 2
-adapters setup one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0.
-These can be "virtual" loopback test adapters or physical network adapters.
+adaptors setup one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0.
+These can be "virtual" loop-back test adaptors or physical network adapters.
 
 The project consists of the following folders:
 
