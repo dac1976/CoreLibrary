@@ -8,8 +8,6 @@ CONFIG += google_test
 #DEFINES += CORE_LIBRARY_LIB
 # Use this when building against DLL.
 CONFIG += core_lib_dll
-# This mkspec should be last.
-CONFIG += core_lib_unit_tests
 
 # Use these to selectively disable certain unit tests.
 # DEFINES += DISABLE_ASIO_TESTS
