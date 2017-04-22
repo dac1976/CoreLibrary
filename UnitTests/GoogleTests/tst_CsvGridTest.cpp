@@ -11,10 +11,8 @@
 using namespace core_lib::csv_grid;
 
 #if BOOST_OS_LINUX
-static const std::string path1 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/testfile1.csv";
-static const std::string path2 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/testfile2.csv";
+static const std::string path1 = "../data/testfile1.csv";
+static const std::string path2 = "../data/testfile2.csv";
 #else
 static const std::string path1 = "../../../data/testfile1.csv";
 static const std::string path2 = "../../../data/testfile2.csv";

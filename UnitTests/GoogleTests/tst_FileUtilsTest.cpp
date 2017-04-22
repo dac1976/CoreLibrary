@@ -10,12 +10,10 @@ using namespace core_lib::file_utils;
 namespace bfs = boost::filesystem;
 
 #if BOOST_OS_LINUX
-static const bfs::path data_base_path =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data";
-static const bfs::path alt_base_path = "/home/duncan/projects/corelibrary/UnitTests/GoogleTests";
-static const bfs::path copy_base_path =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data_copy";
-static const bfs::path alt_copy_base_path = "/home/duncan/projects/corelibrary/UnitTests/data_copy";
+static const bfs::path data_base_path     = "../data";
+static const bfs::path alt_base_path      = "../";
+static const bfs::path copy_base_path     = "../data_copy";
+static const bfs::path alt_copy_base_path = "../data_copy";
 #else
 static const bfs::path data_base_path     = "../../../data";
 static const bfs::path alt_base_path      = "../../../";

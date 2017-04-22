@@ -10,24 +10,15 @@
 #include "gtest/gtest.h"
 
 #if BOOST_OS_LINUX
-static const std::string path1 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_1.ini";
-static const std::string path2 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_2.ini";
-static const std::string path3 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_3.ini";
-static const std::string path4 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_4.ini";
-static const std::string path5 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_5.ini";
-static const std::string path6 =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_6.ini";
-static const std::string path_check =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_check.ini";
-static const std::string path_invalid =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file.ini";
-static const std::string path_temp =
-    "/home/duncan/projects/corelibrary/UnitTests/GoogleTests/data/test_file_tmp.ini";
+static const std::string path1        = "../data/test_file_1.ini";
+static const std::string path2        = "../data/test_file_2.ini";
+static const std::string path3        = "../data/test_file_3.ini";
+static const std::string path4        = "../data/test_file_4.ini";
+static const std::string path5        = "../data/test_file_5.ini";
+static const std::string path6        = "../data/test_file_6.ini";
+static const std::string path_check   = "../data/test_file_check.ini";
+static const std::string path_invalid = "../data/test_file.ini";
+static const std::string path_temp    = "../data/test_file_tmp.ini";
 #else
 static const std::string path1        = "../../../data/test_file_1.ini";
 static const std::string path2        = "../../../data/test_file_2.ini";
