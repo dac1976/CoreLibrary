@@ -4,10 +4,10 @@ DEFINES += BOOST_THREAD_USE_LIB
 
 CONFIG(debug, debug|release) {
   LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-64 \
-          -lboost_filesystem-vc140-mt-gd-1_63          \
-          -lboost_system-vc140-mt-gd-1_63              
+          -lboost_filesystem-vc140-mt-gd-1_64          \
+          -lboost_system-vc140-mt-gd-1_64              
 } else {
   LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-64 \
-          -lboost_filesystem-vc140-mt-1_63             \
-          -lboost_system-vc140-mt-1_63                 
+          -lboost_filesystem-vc140-mt-1_64             \
+          -lboost_system-vc140-mt-1_64                 
 }
