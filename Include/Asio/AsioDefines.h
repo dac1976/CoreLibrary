@@ -105,7 +105,7 @@ STATIC_CONSTEXPR_ size_t UDP_DATAGRAM_MAX_SIZE{65507};
 
 /*! \brief UDP default buffer size.
 *
-* By default we use a size of 8KiB  but this can be
+* By default we use a size of 8KiB but this can be
 * changed by the user.
 */
 STATIC_CONSTEXPR_ size_t DEFAULT_UDP_BUF_SIZE{8192};
@@ -162,7 +162,12 @@ enum class eArchiveType : uint8_t
 };
 
 #pragma pack(push, 1)
-/*! \brief Default message header structure that is POD. */
+/*!
+ * \brief Default message header structure that is also POD.
+ *
+ * This structure is used for all the network classes prepended with Simple, e.g. SimpleTcpClient,
+ * SimpleTcpServer etc.
+ */
 struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 {
     /*! \brief Magic string to identify message start. */

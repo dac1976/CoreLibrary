@@ -32,63 +32,62 @@
 #include "boost/asio.hpp"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 
 /*!
  * \brief I/O Service Thread group class.
  *
- * This class implements a thread group mechanism for
- * use by Boost's ASIO I/O service. This allows the
- * I/O Service to spread its work load across multiple
- * threads. This class also calls run on the I/O service
- * from each registered thread and also calls stop and joins
- * all threads in its destructor.
+ * This class implements a thread group mechanism for use by Boost's ASIO I/O service. This allows
+ * the I/O Service to spread its work load across multiple threads. This class also calls run on the
+ * I/O service from each registered thread and also calls stop and joins all threads in its
+ * destructor.
  */
 class CORE_LIBRARY_DLL_SHARED_API IoServiceThreadGroup final
 {
 public:
-	/*!
-	 * \brief Initialising constuctor.
+    /*!
+     * \brief Initialising constuctor.
      * \param[in] numThreads - (Optional) Number of threads to create.
-	 *
-	 * If the number of threads is not specified then the value
-	 * will be assigned using std::thread::hardware_concurrency().
-	 */
-	explicit IoServiceThreadGroup(const unsigned int numThreads
-								  = std::thread::hardware_concurrency());
-	/*! \brief Copy constructor deleted.*/
-	IoServiceThreadGroup(const IoServiceThreadGroup& ) = delete;
-	/*! \brief Copy assignment operator deleted.*/
-	IoServiceThreadGroup& operator=(const IoServiceThreadGroup& ) = delete;
-	/*! \brief Destructor.*/
-	~IoServiceThreadGroup();
-	/*!
-	 * \brief Get the I/O service.
-	 * \return A reference to the I/O service.
-	 */
+     *
+     * If the number of threads is not specified then the value
+     * will be assigned using std::thread::hardware_concurrency().
+     */
+    explicit IoServiceThreadGroup(
+        const unsigned int numThreads = std::thread::hardware_concurrency());
+    /*! \brief Copy constructor deleted.*/
+    IoServiceThreadGroup(const IoServiceThreadGroup&) = delete;
+    /*! \brief Copy assignment operator deleted.*/
+    IoServiceThreadGroup& operator=(const IoServiceThreadGroup&) = delete;
+    /*! \brief Destructor.*/
+    ~IoServiceThreadGroup();
+    /*!
+     * \brief Get the I/O service.
+     * \return A reference to the I/O service.
+     */
     boost_ioservice_t& IoService();
     /*!
      * \brief Post a function object to be run by one of our threads.
      * \param[in] function - Function to be run by one of our threads.
      */
-    template <typename F>
-    void Post(F function)
+    template <typename F> void Post(F function)
     {
         m_ioService.post(function);
     }
 
 private:
-	/*! \brief Boost ASIO I/O service.*/
+    /*! \brief Boost ASIO I/O service.*/
     boost_ioservice_t m_ioService;
-	/*! \brief Boost ASIO I/O service work object.*/
+    /*! \brief Boost ASIO I/O service work object.*/
     boost_ioservice_t::work m_ioWork;
-	/*! \brief Our thread group.*/
-	threads::ThreadGroup m_threadGroup;
+    /*! \brief Our thread group.*/
+    threads::ThreadGroup m_threadGroup;
 };
 
-} //namespace asio
-} //namespace core_lib
+} // namespace asio
+} // namespace core_lib
 
 #endif // #define IOSERVICETHREADGROUP

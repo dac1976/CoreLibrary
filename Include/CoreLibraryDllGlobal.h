@@ -1,7 +1,7 @@
 // This file is part of CoreLibrary containing useful reusable utility
 // classes.
 //
-// Copyright (C) 2015 Duncan Crutchley
+// Copyright (C) 2014 to present, Duncan Crutchley
 // Contact <duncan.crutchley+corelibrary@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,39 +30,39 @@
 #define CORELIBRARYDLLGLOBALH
 
 #if BOOST_OS_WINDOWS
-    #if defined(CORE_LIBRARY_DLL)
-        #if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
-            #define CORE_LIBRARY_DLL_SHARED_API __attribute__ ((dllexport))
-        #elif BOOST_COMP_MSVC
-            #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
-        #else
-            #error Unsupported compiler! Please modify this header to add support.
-        #endif
-        #define CORE_LIBRARY_DLL_EXTERN
-    #else
-        #if defined(CORE_LIBRARY_LIB)
-            #define CORE_LIBRARY_DLL_SHARED_API
-            #define CORE_LIBRARY_DLL_EXTERN
-        #else
-            #if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
-                #define CORE_LIBRARY_DLL_SHARED_API __attribute__ ((dllimport))
-            #else
-                #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
-            #endif
-            #define CORE_LIBRARY_DLL_EXTERN extern
-        #endif
-    #endif
-    #define CORE_LIBRARY_DLL_PRIVATE_API
-#elif BOOST_OS_LINUX
-    #if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
-        #define CORE_LIBRARY_DLL_SHARED_API __attribute__ ((visibility ("default")))
-        #define CORE_LIBRARY_DLL_PRIVATE_API __attribute__ ((visibility ("hidden")))
-    #else
-        #error Unsupported compiler! Please modify this header to add support.
-    #endif
-    #define CORE_LIBRARY_DLL_EXTERN
+#if defined(CORE_LIBRARY_DLL)
+#if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
+#define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllexport))
+#elif BOOST_COMP_MSVC
+#define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
 #else
-    #error Unsupported OS!
+#error Unsupported compiler! Please modify this header to add support.
+#endif
+#define CORE_LIBRARY_DLL_EXTERN
+#else
+#if defined(CORE_LIBRARY_LIB)
+#define CORE_LIBRARY_DLL_SHARED_API
+#define CORE_LIBRARY_DLL_EXTERN
+#else
+#if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
+#define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllimport))
+#else
+#define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
+#endif
+#define CORE_LIBRARY_DLL_EXTERN extern
+#endif
+#endif
+#define CORE_LIBRARY_DLL_PRIVATE_API
+#elif BOOST_OS_LINUX
+#if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
+#define CORE_LIBRARY_DLL_SHARED_API __attribute__((visibility("default")))
+#define CORE_LIBRARY_DLL_PRIVATE_API __attribute__((visibility("hidden")))
+#else
+#error Unsupported compiler! Please modify this header to add support.
+#endif
+#define CORE_LIBRARY_DLL_EXTERN
+#else
+#error Unsupported OS!
 #endif
 
 #endif // CORELIBRARYDLLGLOBALH
