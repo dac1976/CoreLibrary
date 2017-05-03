@@ -30,13 +30,20 @@
 #include "IoServiceThreadGroup.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
-/*! \brief A general purpose UDP sender. */
+/*!
+ * \brief A general purpose UDP sender.
+ *
+ * This class forms the underpinnings of the UdpTypedSender class.
+ */
 class CORE_LIBRARY_DLL_SHARED_API UdpSender final
 {
 public:
@@ -54,10 +61,9 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-	UdpSender(boost_ioservice_t& ioService
-			  , const defs::connection_t& receiver
-			  , const eUdpOption sendOption = eUdpOption::broadcast
-			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    UdpSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
+              const eUdpOption sendOption     = eUdpOption::broadcast,
+              const size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] receiver - Connection object describing target receiver's address and port.
@@ -69,27 +75,27 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-	UdpSender(const defs::connection_t& receiver
-			  , const eUdpOption sendOption = eUdpOption::broadcast
-			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    UdpSender(const defs::connection_t& receiver,
+              const eUdpOption          sendOption     = eUdpOption::broadcast,
+              const size_t              sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
     /*! \brief Copy constructor - deleted. */
-	UdpSender(const UdpSender& ) = delete;
+    UdpSender(const UdpSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-	UdpSender& operator=(const UdpSender& ) = delete;
+    UdpSender& operator=(const UdpSender&) = delete;
     /*! \brief Default destructor. */
-	~UdpSender() = default;
+    ~UdpSender() = default;
     /*!
      * \brief Retrieve receiver connection details.
      * \return - Connection object describing target receiver's address and port.
      */
-	defs::connection_t ReceiverConnection() const;
+    defs::connection_t ReceiverConnection() const;
     /*!
      * \brief Send a message buffer to the receiver.
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-	bool SendMessage(const defs::char_buffer_t& message);
+    bool SendMessage(const defs::char_buffer_t& message);
 
 private:
     /*!
@@ -97,8 +103,7 @@ private:
      * \param[in] sendOption - UDP send option.
      * \param[in] sendBufferSize - Send buffer size.
      */
-    void CreateUdpSocket(const eUdpOption sendOption
-                         , const size_t sendBufferSize);
+    void CreateUdpSocket(const eUdpOption sendOption, const size_t sendBufferSize);
     /*!
      * \brief Synchronised send to method.
      * \param[in] message - Message buffer to send.
@@ -108,15 +113,15 @@ private:
 
 private:
     /*! \brief I/O service thread group. */
-	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
-	boost_ioservice_t& m_ioService;
+    boost_ioservice_t& m_ioService;
     /*! \brief Receiver connection details. */
-	const defs::connection_t m_receiver;
+    const defs::connection_t m_receiver;
     /*! \brief UDP socket. */
-	boost_udp_t::socket m_socket;
+    boost_udp_t::socket m_socket;
     /*! \brief Recevier end-point. */
-	boost_udp_t::endpoint m_receiverEndpoint;
+    boost_udp_t::endpoint m_receiverEndpoint;
 };
 
 } // namespace udp

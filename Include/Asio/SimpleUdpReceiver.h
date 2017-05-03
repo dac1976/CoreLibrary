@@ -31,13 +31,17 @@
 #include "MessageUtils.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
-/*! \brief A simplified UDP receiver. */
+/*! \brief A simplified UDP receiver, which uses the class MessageHeader as the message header type.
+ */
 class CORE_LIBRARY_DLL_SHARED_API SimpleUdpReceiver final
 {
 public:
@@ -56,11 +60,10 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleUdpReceiver(boost_ioservice_t& ioService
-                      , const uint16_t listenPort
-                      , const defs::default_message_dispatcher_t& messageDispatcher
-                      , const eUdpOption receiveOptions = eUdpOption::broadcast
-                      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+    SimpleUdpReceiver(boost_ioservice_t& ioService, const uint16_t listenPort,
+                      const defs::default_message_dispatcher_t& messageDispatcher,
+                      const eUdpOption receiveOptions    = eUdpOption::broadcast,
+                      const size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
@@ -73,14 +76,14 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    SimpleUdpReceiver(const uint16_t listenPort
-                      , const defs::default_message_dispatcher_t& messageDispatcher
-                      , const eUdpOption receiveOptions = eUdpOption::broadcast
-                      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+    SimpleUdpReceiver(const uint16_t                            listenPort,
+                      const defs::default_message_dispatcher_t& messageDispatcher,
+                      const eUdpOption receiveOptions    = eUdpOption::broadcast,
+                      const size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
-    SimpleUdpReceiver(const SimpleUdpReceiver& ) = delete;
+    SimpleUdpReceiver(const SimpleUdpReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-    SimpleUdpReceiver& operator=(const SimpleUdpReceiver& ) = delete;
+    SimpleUdpReceiver& operator=(const SimpleUdpReceiver&) = delete;
     /*! \brief Default destructor. */
     ~SimpleUdpReceiver() = default;
     /*!
@@ -101,4 +104,3 @@ private:
 } // namespace core_lib
 
 #endif // SIMPLEUDPRECEIVER
-

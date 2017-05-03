@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.3.0.0</span>
+   &#160;<span id="projectnumber">1.4.0.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
   </td>
@@ -211,11 +211,11 @@ Private Attributes</h2></td></tr>
 class core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</h3>
 
 <p>Grid class with CSV file capabilities. </p>
-<p>This class provides an implemtnation of an easy-to-use managed grid that can contain strings, integers or floating point data in any combination.</p>
+<p>This class provides an implemtnation of an easy-to-use managed grid that can contain strings, integers or floating point data in any combination. Although in its standard setup data is internally stored as a std::string due to the implict text-based nature of a CSV file.</p>
 <p>The grid can optionally be initialised by loading data from a CSV file. The grid is able to save its contents to CSV file. It can also be streamed to any compatible stream object using the &lt;&lt; operator.</p>
-<p>The grid class handles both rectangular and jagged data and CSV fles. Jagged data contains different number of cells for different rows.</p>
-<p>The default behaviour is to be able to handle CSV files that may have their cells contained in double quotes. There is a slight performance overhead associated with this because extra parsing is required to tokenise each line. If it is known that the CSV file contains simple data, e.g. no cells in the CSV file are in double quotes, then the user can disable double quote handling, which gives a slight performance increase. With large data sets the performance increase can be significant.</p>
-<dl class="section note"><dt>Note</dt><dd>This class loads the entire CSV file into memory so if the file is particulary large you will crash your program if you do not have enough free memory. </dd></dl>
+<p>The grid class handles both rectangular and jagged data and CSV fles. Jagged data contains different number of columns for different rows.</p>
+<p>The default behaviour is to be able to handle CSV files that may have their cells contained in double quotes. There is a slight performance overhead associated with this because extra parsing is required to tokenize each line. If it is known that the CSV file contains simple data, e.g. no cells in the CSV file are in double quotes, then the user can disable double quote handling, which gives a slight performance increase. With large data sets the performance increase can be significant.</p>
+<dl class="section note"><dt>Note</dt><dd>This class loads the entire CSV file into memory so if the file is particulary large you will crash your program if you do not have enough free memory. However, if you know in advance from what row number you want to start readingdata from a CSV file and how many rows you want to read then you can sepcify these in the LoadFromCSVFile method. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a64ea29cf4f7fe131a7aa8b68e617a46e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a64ea29cf4f7fe131a7aa8b68e617a46e">&#9670;&nbsp;</a></span>TCsvGrid() <span class="overload">[1/3]</span></h2>
@@ -981,7 +981,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a></li>
-    <li class="footer">Generated on Sat Apr 22 2017 22:55:05 for Core Library by
+    <li class="footer">Generated on Wed May 3 2017 22:33:07 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

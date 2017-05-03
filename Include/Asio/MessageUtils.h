@@ -121,8 +121,9 @@ public:
 /*!
  * \brief Default message handler class.
  *
- * This is anexample of a message handler functor that can be used by the network classes to handle
- * a received network message.
+ * This is an example of a message handler functor that can be used by the network classes to handle
+ * a received network message with header type MessageHeader and is used in the simple network
+ * classes: SimpleTcpClient, SimpleTcpServer etc.
  */
 class CORE_LIBRARY_DLL_SHARED_API MessageHandler final
 {
@@ -176,19 +177,30 @@ private:
 };
 
 /*!
- * \brief Header filler method.
+ * \brief Header filler function.
  * \param[in] magicString - A received message buffer.
  * \param[in] archiveType - The archive type used for message serialization.
  * \param[in] messageId - The unique message ID.
  * \param[in] responseAddress - The response connection details describing sender's address and
  * port.
  * \return A filled message header.
+ *
+ * This is an example of a function used within the network clases to build the message header that
+ * is always prepended to the message to be sent over a socket. It is used in the simple network
+ * classes, e.g. SimpleTcpClient, SimpleTcpServer etc., via the MessageBuilder functor.
+ *
+ * This function only works with headers of the type MessageHeader.
  */
 defs::MessageHeader CORE_LIBRARY_DLL_SHARED_API
 FillHeader(const std::string& magicString, const defs::eArchiveType archiveType,
            const uint32_t messageId, const defs::connection_t& responseAddress);
 
-/*! \brief Archive type enumerators as a template class. */
+/*!
+ * \brief Archive type enumerator as a template class.
+ *
+ * This is the general case and always throws an xArchiveTypeError exception as a specialised
+ * template version should always be created for each archive type.
+ */
 template <typename A> struct ArchiveTypeToEnum
 {
     /*!
@@ -202,7 +214,7 @@ template <typename A> struct ArchiveTypeToEnum
     }
 };
 
-/*! \brief Archive type enumerators as a specialized template class for binary archives. */
+/*! \brief Archive type enumerator as a specialized template class for binary archives. */
 template <> struct ArchiveTypeToEnum<serialize::archives::out_bin_t>
 {
     /*!
@@ -215,7 +227,7 @@ template <> struct ArchiveTypeToEnum<serialize::archives::out_bin_t>
     }
 };
 
-/*! \brief Archive type enumerators as a specialized template class for portable binary archives. */
+/*! \brief Archive type enumerator as a specialized template class for portable binary archives. */
 template <> struct ArchiveTypeToEnum<serialize::archives::out_port_bin_t>
 {
     /*!
@@ -228,7 +240,7 @@ template <> struct ArchiveTypeToEnum<serialize::archives::out_port_bin_t>
     }
 };
 
-/*! \brief Archive type enumerators as a specialized template class for raw data. */
+/*! \brief Archive type enumerator as a specialized template class for raw data. */
 template <> struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
 {
     /*!
@@ -241,8 +253,7 @@ template <> struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
     }
 };
 
-/*! \brief Archive type enumerators as a specialized template class for text archives (alias for
- * JSON archive also). */
+/*! \brief Archive type enumerator as a specialized template class for json archives. */
 template <> struct ArchiveTypeToEnum<serialize::archives::out_json_t>
 {
     /*!
@@ -268,7 +279,12 @@ template <> struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
     }
 };
 
-/*! \brief Default message builder class. */
+/*!
+ * \brief Default message builder class.
+ *
+ * This is used in the case of the simple network classes: SimpleTcpClient, SimpleTcpServer etc. It
+ * is used to build messages to be sent that require a MessageHeader followed by a message body.
+ */
 class CORE_LIBRARY_DLL_SHARED_API MessageBuilder final
 {
 public:
@@ -293,8 +309,12 @@ public:
     /*!
      * \brief Build message method for header only messages.
      * \param[in] messageId - Unique ID for this message instance.
- * \param[in] responseAddress - Connection object describing sender's response address and port.
+     * \param[in] responseAddress - Connection object describing sender's response address and port.
      * \return A filled message buffer.
+     *
+     * Sometimes network messages don't require a message body to be sent just some header
+     * information such as a command to possibly request some data in response. In this case
+     * we invoke this Build method.
      */
     defs::char_buffer_t Build(const uint32_t            messageId,
                               const defs::connection_t& responseAddress) const;
@@ -306,8 +326,11 @@ public:
      * \param[in] responseAddress - Connection opject describing sender's response address and port.
      * \return A filled message buffer.
      *
-     * The first template arghument T defines the message object's type.
+     * The first template argument T defines the message object's type.
      * The second template argument A defines the archive type for serialization.
+     *
+     * Invoke thid overload of the Build function when a message comprising a header and body is to
+     * be sent.
      */
     template <typename T, typename A>
     defs::char_buffer_t Build(const T& message, const uint32_t messageId,
@@ -357,6 +380,10 @@ private:
  * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface
  * compatible with that of the class core_lib::asio::messages::MessageBuilder.
  * \return Returns a filled message buffer as a vector of bytes.
+ *
+ * This is the "header only" convenience function to build an outgoing network message in all the
+ * network classes. It takes a templated arg to provide an actual message builder functor, such as
+ * the MessageBuilder functor.
  */
 template <typename MsgBldr>
 defs::char_buffer_t
@@ -368,7 +395,7 @@ BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress
     return messageBuilder.Build(messageId, responseConn);
 }
 /*!
- * \brief Message builder wrapper function for full messages.
+ * \brief Message builder wrapper function for full messages with a header and a body.
  * \param[in] message - The message of type T to send behind the header serialized to an
  * boost::serialization-compatible archive of type A.
  * \param[in] messageId - Unique message ID to insert into message header.
@@ -378,6 +405,10 @@ BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress
  * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface
  * compatible with that of the class core_lib::asio::messages::MessageBuilder.
  * \return Returns a filled message buffer as a vector of bytes.
+ *
+ * This is the "header plus body" convenience function to build an outgoing network message in all
+ * the network classes. It takes a templated arg to provide an actual message builder functor, such
+ * as the MessageBuilder functor. This variant as stated is for header only messages.
  */
 template <typename T, typename A, typename MsgBldr>
 defs::char_buffer_t

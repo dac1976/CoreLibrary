@@ -161,6 +161,7 @@ enum class eArchiveType : uint8_t
     raw
 };
 
+// Push single byte alignment for the MessageHeader strcuture for maximum portability.
 #pragma pack(push, 1)
 /*!
  * \brief Default message header structure that is also POD.
@@ -175,9 +176,9 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
     /*! \brief Response address; can be used by receiver to identify sender. */
     char responseAddress[RESPONSE_ADDRESS_LEN];
     /*! \brief Response port. */
-    uint16_t responsePort{};
+    uint16_t responsePort{0};
     /*! \brief Unique message identifier. */
-    uint32_t messageId{};
+    uint32_t messageId{0};
     /*! \brief Archive type used to serialize payload following this header. */
     eArchiveType archiveType{eArchiveType::portableBinary};
     /*! \brief Total message length including this header. */
@@ -203,6 +204,7 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
     MessageHeader& operator=(MessageHeader&&) = default;
 #endif
 };
+// Pop single byte alignment.
 #pragma pack(pop)
 
 /*! \brief Typedef to generic char buffer based on s std::vector<char>. */
@@ -216,7 +218,8 @@ template <typename Header> struct ReceivedMessage
     typedef Header header_t;
     /*! \brief Message header. */
     header_t header;
-    /*! \brief Message body as a char buffer. */
+    /*! \brief Message body as a char buffer as all data received form socket is fundamentally an
+     * array pf chars. */
     char_buffer_t body;
     /*! \brief Default constructor. */
     ReceivedMessage() = default;

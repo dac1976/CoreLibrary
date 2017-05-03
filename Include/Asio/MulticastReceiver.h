@@ -41,7 +41,11 @@ namespace asio
 namespace udp
 {
 
-/*! \brief A general purpose multicast receiver. */
+/*!
+ * \brief A general purpose multicast receiver.
+ *
+ * This class is used as the underpinnings of the SimpleMulticastReceiver class.
+ */
 class CORE_LIBRARY_DLL_SHARED_API MulticastReceiver final
 {
 public:

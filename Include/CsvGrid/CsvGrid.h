@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file CsvGrid.h
  * \brief File containing declarations relating the CsvGrid objects.
@@ -33,24 +32,43 @@
 #include <list>
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The csv_grid namespace. */
-namespace csv_grid {
+namespace csv_grid
+{
 
-/*! \brief Typedef to CsvGrid object using std::vector as underlying container type. */
+/*! \brief Typedef to CsvGrid object using std::vector as underlying container type. More efficient
+ * when grid has a fixed size.*/
 typedef TCsvGrid<std::vector> CsvGridV;
 /*! \brief Typedef to RowV object using CSVGridV::row_type. */
 typedef CsvGridV::row_type RowV;
-/*! \brief Typedef to CsvGrid object using std::list as underlying container type. */
+/*! \brief Typedef to CsvGrid object using std::list as underlying container type. More efficient
+ * when grid will be dynamically resized.*/
 typedef TCsvGrid<std::list> CsvGridL;
 /*! \brief Typedef to RowL object using CSVGridL::row_type. */
 typedef CsvGridL::row_type RowL;
-/*! \brief Typedef our default CsvGrid object to CSVGridL. */
+/*! \brief Typedef our default general use grid object to CSVGridL. */
 typedef CsvGridL CsvGrid;
 /*! \brief Typedef to Row object using CSVGrid::row_type. */
 typedef CsvGrid::row_type Row;
 
-}// namespace csv_grid
-}// namespace core_lib
+/*! \brief Typedef to CsvGrid object using std::vector as underlying container type. More efficient
+ * when grid has a fixed size and only contains numerical data (stored as double type).*/
+typedef TCsvGrid<std::vector, CellDouble> CsvGridVD;
+/*! \brief Typedef to RowV object using CSVGridV::row_type. */
+typedef CsvGridV::row_type RowV;
+/*! \brief Typedef to CsvGrid object using std::list as underlying container type. More efficient
+ * when grid will be dynamically resized and only contains numerical data (stored as double type).*/
+typedef TCsvGrid<std::list, CellDouble> CsvGridLD;
+/*! \brief Typedef to RowL object using CSVGridL::row_type. */
+typedef CsvGridL::row_type RowL;
+/*! \brief Typedef for grid when cells only contain double precision data. */
+typedef CsvGridLD CsvGridD;
+/*! \brief Typedef to Row object using CSVGrid::row_type. */
+typedef CsvGridD::row_type RowD;
+
+} // namespace csv_grid
+} // namespace core_lib
 
 #endif // CSVGRID

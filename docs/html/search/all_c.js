@@ -94,7 +94,7 @@ var searchData=
   ['m_5fudptypedsender',['m_udpTypedSender',['../classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html#a402a9c742e7bcf0d2f2dca4a12269ed9',1,'core_lib::asio::udp::SimpleUdpSender']]],
   ['m_5funknownlogmsglevel',['m_unknownLogMsgLevel',['../classcore__lib_1_1log_1_1_debug_log.html#a800ec19c330a839d4944cac04f43c6ae',1,'core_lib::log::DebugLog']]],
   ['m_5funreadcount',['m_unreadCount',['../classcore__lib_1_1threads_1_1_bounded_buffer.html#ac7b6310663f07719a222a72cc2de744a',1,'core_lib::threads::BoundedBuffer']]],
-  ['m_5fvalue',['m_value',['../classcore__lib_1_1csv__grid_1_1_cell.html#ab329bc0ea13f4c63726aee9f42fe680e',1,'core_lib::csv_grid::Cell::m_value()'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#ad89c4bbe6abb811235a4ba8cd1a22149',1,'core_lib::ini_file::if_private::KeyLine::m_value()']]],
+  ['m_5fvalue',['m_value',['../classcore__lib_1_1csv__grid_1_1_cell.html#ab329bc0ea13f4c63726aee9f42fe680e',1,'core_lib::csv_grid::Cell::m_value()'],['../classcore__lib_1_1csv__grid_1_1_cell_double.html#ab7a2e2166b466dcca058567f38cdcee0',1,'core_lib::csv_grid::CellDouble::m_value()'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#ad89c4bbe6abb811235a4ba8cd1a22149',1,'core_lib::ini_file::if_private::KeyLine::m_value()']]],
   ['magic_5fstring_5flen',['MAGIC_STRING_LEN',['../namespacecore__lib_1_1asio_1_1defs.html#aaa7d4254deea55dd105ce247a6794ab9',1,'core_lib::asio::defs']]],
   ['magicstring',['magicString',['../structcore__lib_1_1asio_1_1defs_1_1_message_header.html#a0e65aa8c5c0300c8ef377a882ae9acaa',1,'core_lib::asio::defs::MessageHeader']]],
   ['maxlogsize',['MaxLogSize',['../classcore__lib_1_1log_1_1_debug_log.html#aee7bbe5af3ef8e642a1c795d056f5cbf',1,'core_lib::log::DebugLog']]],

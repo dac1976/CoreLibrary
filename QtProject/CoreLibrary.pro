@@ -74,6 +74,7 @@ HEADERS +=                                           \
 	../Include/Asio/TcpTypedClient.h                 \
 	../Include/Asio/TcpTypedServer.h                 \
 	../Include/CsvGrid/CsvGridCell.h                 \
+    ../Include/CsvGrid/CsvGridCellDouble.h           \
 	../Include/CsvGrid/CsvGridRow.h                  \
 	../Include/CsvGrid/CsvGridMain.h                 \
 	../Include/CsvGrid/CsvGrid.h                     \
@@ -109,7 +110,7 @@ HEADERS +=                                           \
     ../Include/Asio/SimpleMulticastSender.h \
     ../Include/Asio/SimpleMulticastReceiver.h
 
-SOURCES +=                                                \
+SOURCES +=                                             \
     ../Source/Asio/AsioDefines.cpp                     \
 	../Source/Asio/IoServiceThreadGroup.cpp            \
 	../Source/Asio/MessageUtils.cpp                    \
@@ -120,6 +121,7 @@ SOURCES +=                                                \
 	../Source/Asio/TcpConnections.cpp                  \
 	../Source/Asio/TcpServer.cpp                       \
 	../Source/CsvGrid/CsvGridCell.cpp                  \
+    ../Source/CsvGrid/CsvGridCellDouble.cpp            \
 	../Source/CsvGrid/CsvGridRow.cpp                   \
 	../Source/CsvGrid/CsvGridMain.cpp                  \
 	../Source/DebugLog/DebugLog.cpp                    \

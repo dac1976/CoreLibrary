@@ -1193,4 +1193,86 @@ TEST(CsvGridTest, Case83_Row_InsertColumnAsLongDouble)
     EXPECT_EQ(static_cast<long double>(row[5]), 5.5L);
 }
 
+TEST(CsvGridTest, Case84_CellDouble_DefaultConstructor)
+{
+    core_lib::csv_grid::CellDouble cell;
+    double                         value = cell;
+    EXPECT_DOUBLE_EQ(value, 0.0);
+}
+
+TEST(CsvGridTest, Case85_CellDouble_DoubleConstructor)
+{
+    double                         value1 = std::numeric_limits<double>::max() / 2;
+    core_lib::csv_grid::CellDouble cell(value1);
+    double                         value2 = cell;
+    EXPECT_DOUBLE_EQ(value1, value2);
+}
+
+TEST(CsvGridTest, Case86_CellDouble_CopyConstructor)
+{
+    core_lib::csv_grid::CellDouble cell(666.6);
+    core_lib::csv_grid::CellDouble cellCopy(cell);
+    double                         value     = cell;
+    double                         valueCopy = cellCopy;
+    EXPECT_DOUBLE_EQ(value, valueCopy);
+}
+
+TEST(CsvGridTest, Case87_CellDouble_MoveConstructor)
+{
+    core_lib::csv_grid::CellDouble cell(core_lib::csv_grid::CellDouble(666.6));
+    double                         value = cell;
+    EXPECT_DOUBLE_EQ(value, 666.6);
+}
+
+TEST(CsvGridTest, Case88_CellDouble_CopyAssignment)
+{
+    core_lib::csv_grid::CellDouble cell(666.6);
+    core_lib::csv_grid::CellDouble cellCopy;
+    cellCopy         = cell;
+    double value     = cell;
+    double valueCopy = cellCopy;
+    EXPECT_DOUBLE_EQ(value, valueCopy);
+}
+
+TEST(CsvGridTest, Case89_CellDouble_MoveAssignment)
+{
+    core_lib::csv_grid::CellDouble cell;
+    cell         = core_lib::csv_grid::CellDouble(666.6);
+    double value = cell;
+    EXPECT_DOUBLE_EQ(value, 666.6);
+}
+
+TEST(CsvGridTest, Case90_CellDouble_DoubleAssignment_DoubleConversion)
+{
+    core_lib::csv_grid::Cell cell;
+    cell         = 666.6;
+    double value = cell;
+    EXPECT_DOUBLE_EQ(value, 666.6);
+}
+
+TEST(CsvGridTest, Case91_CellDouble_StringConversion)
+{
+    core_lib::csv_grid::Cell cell(666.6);
+    std::string              value = cell;
+    EXPECT_STREQ(value.c_str(), "666.6");
+}
+
+TEST(CsvGridTest, Case92_CsvGridD_Specialization)
+{
+    using namespace core_lib::csv_grid;
+    CsvGridD grid{{CellDouble(1.1), CellDouble(2.2), CellDouble(3.3)},
+                  {CellDouble(4.4), CellDouble(5.5), CellDouble(6.6)},
+                  {CellDouble(7.7), CellDouble(8.8), CellDouble(9.9)}};
+
+    EXPECT_DOUBLE_EQ(grid[0][0], 1.1);
+    EXPECT_DOUBLE_EQ(grid[0][1], 2.2);
+    EXPECT_DOUBLE_EQ(grid[0][2], 3.3);
+    EXPECT_DOUBLE_EQ(grid[1][0], 4.4);
+    EXPECT_DOUBLE_EQ(grid[1][1], 5.5);
+    EXPECT_DOUBLE_EQ(grid[1][2], 6.6);
+    EXPECT_DOUBLE_EQ(grid[2][0], 7.7);
+    EXPECT_DOUBLE_EQ(grid[2][1], 8.8);
+    EXPECT_DOUBLE_EQ(grid[2][2], 9.9);
+}
+
 #endif // DISABLE_CSVGRID_TESTS

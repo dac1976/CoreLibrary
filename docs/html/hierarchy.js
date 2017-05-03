@@ -11,6 +11,7 @@ var hierarchy =
     [ "core_lib::sorting::Bubble< T, Pred >", "classcore__lib_1_1sorting_1_1_bubble.html", null ],
     [ "core_lib::sorting::Bucket< T, Pred >", "classcore__lib_1_1sorting_1_1_bucket.html", null ],
     [ "core_lib::csv_grid::Cell", "classcore__lib_1_1csv__grid_1_1_cell.html", null ],
+    [ "core_lib::csv_grid::CellDouble", "classcore__lib_1_1csv__grid_1_1_cell_double.html", null ],
     [ "core_lib::threads::ConcurrentQueue< T >", "classcore__lib_1_1threads_1_1_concurrent_queue.html", null ],
     [ "core_lib::threads::ConcurrentQueue< MessageType >", "classcore__lib_1_1threads_1_1_concurrent_queue.html", null ],
     [ "core_lib::csv_grid::reserver::ContainerReserver< C, T >", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html", null ],

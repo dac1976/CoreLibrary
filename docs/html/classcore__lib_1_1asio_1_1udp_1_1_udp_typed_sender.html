@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.3.0.0</span>
+   &#160;<span id="projectnumber">1.4.0.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
   </td>
@@ -146,7 +146,9 @@ const MsgBldr &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class=
 class core_lib::asio::udp::UdpTypedSender&lt; MsgBldr &gt;</h3>
 
 <p>A generic UDP sender. </p>
-<p>The template argument defines a message builder object that must have an interface compatible with that of the class <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html" title="Default message builder class. ">core_lib::asio::messages::MessageBuilder</a>. </p>
+<p>The template argument defines a message builder object that must have an interface compatible with that of the class <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html" title="Default message builder class. ">core_lib::asio::messages::MessageBuilder</a>.</p>
+<p>This class forms the underpinnings of the <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html" title="A simplified UDP sender. ">SimpleUdpSender</a> class.</p>
+<p>This is also the class to be used when the user wants to specify their own message builder type and message header type. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a98fcd4dcf3c84b70360c6b566ab49ac2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98fcd4dcf3c84b70360c6b566ab49ac2">&#9670;&nbsp;</a></span>UdpTypedSender() <span class="overload">[1/2]</span></h2>
@@ -424,7 +426,7 @@ template&lt;typename T , class A  = serialize::archives::out_port_bin_t&gt; </di
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1udp.html">udp</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">UdpTypedSender</a></li>
-    <li class="footer">Generated on Sat Apr 22 2017 22:55:05 for Core Library by
+    <li class="footer">Generated on Wed May 3 2017 22:33:07 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

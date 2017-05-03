@@ -30,13 +30,20 @@
 #include "IoServiceThreadGroup.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
-/*! \brief A general purpose multicast sender. */
+/*!
+ * \brief A general purpose multicast sender.
+ *
+ * This class forms the underpinnings of the MulticastTypedSender class.
+ */
 class CORE_LIBRARY_DLL_SHARED_API MulticastSender final
 {
 public:
@@ -45,10 +52,11 @@ public:
     /*!
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
-     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
+     * \param[in] multicastConnection - Connection object describing target multicast group address
+     * and port.
      * \param[in] interfaceAddress - Optional interface IP address for outgoing network messages.
-	 * \param[in] enableLoopback - Optional allow multicasts to loopback on same adapter.
-	 * \param[in] ttl - Optional time-to-live for multicast messages.
+     * \param[in] enableLoopback - Optional allow multicasts to loopback on same adapter.
+     * \param[in] ttl - Optional time-to-live for multicast messages.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
@@ -56,18 +64,17 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-	MulticastSender(boost_ioservice_t& ioService
-			  , const defs::connection_t& multicastConnection
-              , const std::string& interfaceAddress = ""
-			  , const bool enableLoopback = true
-			  , const eMulticastTTL ttl = eMulticastTTL::sameSubnet
-			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    MulticastSender(boost_ioservice_t& ioService, const defs::connection_t& multicastConnection,
+                    const std::string& interfaceAddress = "", const bool enableLoopback = true,
+                    const eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
+                    const size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
-     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
+     * \param[in] multicastConnection - Connection object describing target multicast group address
+     * and port.
      * \param[in] interfaceAddress - Optional interface IP address for outgoing network messages.
-	 * \param[in] enableLoopback - Optional allow multicasts to loopback on same adapter.
-	 * \param[in] ttl - Optional time-to-live for multicast messages.
+     * \param[in] enableLoopback - Optional allow multicasts to loopback on same adapter.
+     * \param[in] ttl - Optional time-to-live for multicast messages.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * This constructor does not require an external IO service to run instead it creates
@@ -75,23 +82,22 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommended.
      */
-	MulticastSender(const defs::connection_t& multicastConnection
-              , const std::string& interfaceAddress = ""
-			  , const bool enableLoopback = true
-			  , const eMulticastTTL ttl = eMulticastTTL::sameSubnet
-			  , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    MulticastSender(const defs::connection_t& multicastConnection,
+                    const std::string& interfaceAddress = "", const bool enableLoopback = true,
+                    const eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
+                    const size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
     /*! \brief Copy constructor - deleted. */
-	MulticastSender(const MulticastSender& ) = delete;
+    MulticastSender(const MulticastSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-	MulticastSender& operator=(const MulticastSender& ) = delete;
+    MulticastSender& operator=(const MulticastSender&) = delete;
     /*! \brief Default destructor. */
-	~MulticastSender() = default;
+    ~MulticastSender() = default;
     /*!
      * \brief Retrieve multicast connection details.
      * \return - Connection object describing target multicast group address and port.
      */
-	defs::connection_t MulticastConnection() const;
+    defs::connection_t MulticastConnection() const;
     /*!
      * \brief Retrieve interface IP address.
      * \return - Interface IP address.
@@ -102,18 +108,17 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-	bool SendMessage(const defs::char_buffer_t& message);
+    bool SendMessage(const defs::char_buffer_t& message);
 
 private:
     /*!
      * \brief Create multicast socket.
-	 * \param[in] enableLoopback - Allow multicasts to loopback on same adapter.
-	 * \param[in] ttl - Time-to-live for multicast messages.
+     * \param[in] enableLoopback - Allow multicasts to loopback on same adapter.
+     * \param[in] ttl - Time-to-live for multicast messages.
      * \param[in] sendBufferSize - Send buffer size.
      */
-    void CreateMulticastSocket(const bool enableLoopback
-	                           , const eMulticastTTL ttl
-	                           , const size_t sendBufferSize);
+    void CreateMulticastSocket(const bool enableLoopback, const eMulticastTTL ttl,
+                               const size_t sendBufferSize);
     /*!
      * \brief Synchronised send to method.
      * \param[in] message - Message buffer to send.
@@ -123,17 +128,17 @@ private:
 
 private:
     /*! \brief I/O service thread group. */
-	std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
-	boost_ioservice_t& m_ioService;
+    boost_ioservice_t& m_ioService;
     /*! \brief Multicast connection details. */
-	const defs::connection_t m_multicastConnection;
+    const defs::connection_t m_multicastConnection;
     /*! \brief Interface IP address of outgoing network adaptor. */
-	const std::string m_interfaceAddress;
+    const std::string m_interfaceAddress;
     /*! \brief Multicast socket. */
-	boost_udp_t::socket m_socket;
+    boost_udp_t::socket m_socket;
     /*! \brief Multicast receiver end-point. */
-	boost_udp_t::endpoint m_multicastEndpoint;
+    boost_udp_t::endpoint m_multicastEndpoint;
 };
 
 } // namespace udp

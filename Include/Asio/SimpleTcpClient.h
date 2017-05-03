@@ -31,13 +31,17 @@
 #include "TcpTypedClient.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The tcp namespace. */
-namespace tcp {
+namespace tcp
+{
 
-/*! \brief A simple bi-directional TCP client. */
+/*! \brief A simple bi-directional TCP client, which uses the class MessageHeader as the message
+ * header type. */
 class CORE_LIBRARY_DLL_SHARED_API SimpleTcpClient final
 {
 public:
@@ -55,10 +59,9 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleTcpClient(boost_ioservice_t& ioService
-                   , const defs::connection_t& server
-                   , const defs::default_message_dispatcher_t& messageDispatcher
-                   , const eSendOption sendOption = eSendOption::nagleOn);
+    SimpleTcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
+                    const defs::default_message_dispatcher_t& messageDispatcher,
+                    const eSendOption                         sendOption = eSendOption::nagleOn);
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
@@ -70,20 +73,20 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    SimpleTcpClient(const defs::connection_t& server
-                   , const defs::default_message_dispatcher_t& messageDispatcher
-                   , const eSendOption sendOption = eSendOption::nagleOn);
+    SimpleTcpClient(const defs::connection_t&                 server,
+                    const defs::default_message_dispatcher_t& messageDispatcher,
+                    const eSendOption                         sendOption = eSendOption::nagleOn);
     /*! \brief Default destructor. */
     ~SimpleTcpClient() = default;
     /*! \brief Copy constructor - deleted. */
-    SimpleTcpClient(const SimpleTcpClient& ) = delete;
+    SimpleTcpClient(const SimpleTcpClient&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-    SimpleTcpClient& operator=(const SimpleTcpClient& ) = delete;
+    SimpleTcpClient& operator=(const SimpleTcpClient&) = delete;
     /*!
      * \brief Retrieve server connection details.
      * \return - Connection object describing target server's address and port.
      */
-	defs::connection_t ServerConnection() const;
+    defs::connection_t ServerConnection() const;
     /*!
      * \brief Check if the client is connected to the server.
      * \return True if conneced, false otherwise.
@@ -102,61 +105,66 @@ public:
     /*!
      * \brief Send a header-only message to the server asynchronously.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the
+     * response, the default value will mean the response address will point to this client socket.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
+     * success or failure reported, unless an exception is thrown. This
      * method gives best performance when sending. Furthermore this method
      * only sends a simple core_lib::asio::defs::MessageHeader object to
      * the server.
      */
-    void SendMessageToServerAsync(const uint32_t messageId
-                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    void
+    SendMessageToServerAsync(const uint32_t            messageId,
+                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a header-only message to the server synchronously.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the
+     * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      *
      * This method only sends a simple core_lib::asio::defs::MessageHeader
      * object to the server.
      */
-    bool SendMessageToServerSync(const uint32_t messageId
-                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    bool SendMessageToServerSync(const uint32_t            messageId,
+                                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a full message to the server asynchronously.
-     * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
+     * \param[in] message - The message of type T to send behind the header serialized to an
+     * boost::serialization-compatible archive of type A.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the
+     * response, the default value will mean the response address will point to this client socket.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
+     * success or failure reported, unless an exception is thrown. This
      * method gives best performance when sending. Furthermore this method
      * uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
-    template<typename T, typename A = serialize::archives::out_port_bin_t>
-    void SendMessageToServerAsync(const T& message
-                                  , const uint32_t messageId
-                                  , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-	{
+    template <typename T, typename A = serialize::archives::out_port_bin_t>
+    void SendMessageToServerAsync(const T& message, const uint32_t messageId,
+                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
         m_tcpTypedClient.SendMessageToServerAsync<T, A>(message, messageId, responseAddress);
-	}
+    }
     /*!
      * \brief Send a full message to the server synchronously.
-     * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
+     * \param[in] message - The message of type T to send behind the header serialized to an
+     * boost::serialization-compatible archive of type A.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the
+     * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      *
      * This method uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
-    template<typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerSync(const T& message
-                                 , const uint32_t messageId
-                                 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-	{
+    template <typename T, typename A = serialize::archives::out_port_bin_t>
+    bool SendMessageToServerSync(const T& message, const uint32_t messageId,
+                                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
         return m_tcpTypedClient.SendMessageToServerSync<T, A>(message, messageId, responseAddress);
-	}
+    }
 
 private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */

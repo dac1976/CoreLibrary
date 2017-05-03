@@ -31,20 +31,27 @@
 #include "MessageUtils.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 /*!
  * \brief A generic UDP sender.
  *
  * The template argument defines a message builder object that
  * must have an interface compatible with that of the class
  * core_lib::asio::messages::MessageBuilder.
+ *
+ * This class forms the underpinnings of the SimpleUdpSender class.
+ *
+ * This is also the class to be used when the user wants to specify their own message builder type
+ * and message header type.
  */
-template<typename MsgBldr>
-class UdpTypedSender final
+template <typename MsgBldr> class UdpTypedSender final
 {
 public:
     /*! \brief Default constructor - deleted. */
@@ -62,15 +69,14 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-	UdpTypedSender(boost_ioservice_t& ioService
-				   , const defs::connection_t& receiver
-				   , const MsgBldr& messageBuilder
-				   , const eUdpOption sendOption = eUdpOption::broadcast
-				   , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
-		: m_messageBuilder{messageBuilder}
-		, m_udpSender{ioService, receiver, sendOption, sendBufferSize}
-	{
-	}
+    UdpTypedSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
+                   const MsgBldr&   messageBuilder,
+                   const eUdpOption sendOption     = eUdpOption::broadcast,
+                   const size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+        : m_messageBuilder{messageBuilder}
+        , m_udpSender{ioService, receiver, sendOption, sendBufferSize}
+    {
+    }
     /*!
      * \brief Initialisation constructor.
      * \param[in] receiver - Connection object describing target receiver's address and port.
@@ -83,60 +89,64 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-	UdpTypedSender(const defs::connection_t& receiver
-				   , const MsgBldr& messageBuilder
-				   , const eUdpOption sendOption = eUdpOption::broadcast
-				   , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+    UdpTypedSender(const defs::connection_t& receiver, const MsgBldr& messageBuilder,
+                   const eUdpOption sendOption     = eUdpOption::broadcast,
+                   const size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE)
 
-		: m_messageBuilder{messageBuilder}
-		, m_udpSender{receiver, sendOption, sendBufferSize}
-	{
-	}
+        : m_messageBuilder{messageBuilder}
+        , m_udpSender{receiver, sendOption, sendBufferSize}
+    {
+    }
     /*! \brief Copy constructor - deleted. */
-	UdpTypedSender(const UdpTypedSender& ) = delete;
+    UdpTypedSender(const UdpTypedSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-	UdpTypedSender& operator=(const UdpTypedSender& ) = delete;
+    UdpTypedSender& operator=(const UdpTypedSender&) = delete;
     /*! \brief Default destructor. */
-	~UdpTypedSender() = default;
+    ~UdpTypedSender() = default;
     /*!
      * \brief Retrieve receiver connection details.
      * \return - Connection object describing target receiver's address and port.
      */
-	defs::connection_t ReceiverConnection() const
-	{
-		return m_udpSender.ReceiverConnection();
-	}
+    defs::connection_t ReceiverConnection() const
+    {
+        return m_udpSender.ReceiverConnection();
+    }
     /*!
      * \brief Send a header-only message to the receiver.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
+     * the response, the default value will mean the response address will point to this client
+     * socket.
      * \return Returns the success state of the send as a boolean.
      */
-	bool SendMessage(const uint32_t messageId
-					 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-	{
+    bool SendMessage(const uint32_t            messageId,
+                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
         return m_udpSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
-	}
+    }
     /*!
      * \brief Send a full message to the server.
-     * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
+     * \param[in] message - The message of type T to send behind the header serialized to an
+     * boost::serialization-compatible archive of type A.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
+     * the response, the default value will mean the response address will point to this client
+     * socket.
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message
-                     , const uint32_t messageId
-					 , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-	{
-        return m_udpSender.SendMessage(m_messageBuilder.template Build<T, A>(message, messageId, responseAddress));
-	}
+    bool SendMessage(const T& message, const uint32_t messageId,
+                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        return m_udpSender.SendMessage(
+            m_messageBuilder.template Build<T, A>(message, messageId, responseAddress));
+    }
 
 private:
     /*! \brief Const reference to message builder object. */
-	const MsgBldr& m_messageBuilder;
+    const MsgBldr& m_messageBuilder;
     /*! \brief Underlying UDP sender object. */
-	UdpSender m_udpSender;
+    UdpSender m_udpSender;
 };
 
 } // namespace udp

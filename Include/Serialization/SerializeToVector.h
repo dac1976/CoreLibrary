@@ -37,9 +37,11 @@
 #include "cereal/types/vector.hpp"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The serialize namespace. */
-namespace serialize {
+namespace serialize
+{
 
 /*! \brief Typedef for char vector. */
 typedef std::vector<char> char_vector_t;
@@ -55,28 +57,29 @@ struct CORE_LIBRARY_DLL_SHARED_API raw_oarchive
 };
 
 /*! \brief The archives namespace. */
-namespace archives {
+namespace archives
+{
 
 /*! \brief Typedef to output portable binary archive. */
-typedef cereal::PortableBinaryOutputArchive  out_port_bin_t;
+typedef cereal::PortableBinaryOutputArchive out_port_bin_t;
 /*! \brief Typedef to output binary archive. */
-typedef cereal::BinaryOutputArchive          out_bin_t;
+typedef cereal::BinaryOutputArchive out_bin_t;
 /*! \brief Typedef to output xml archive. */
-typedef cereal::XMLOutputArchive             out_xml_t;
+typedef cereal::XMLOutputArchive out_xml_t;
 /*! \brief Typedef to output json archive. */
-typedef cereal::JSONOutputArchive            out_json_t;
+typedef cereal::JSONOutputArchive out_json_t;
 /*! \brief Typedef to output raw archive. */
-typedef raw_oarchive                         out_raw_t;
+typedef raw_oarchive out_raw_t;
 /*! \brief Typedef to input portable binary archive. */
-typedef cereal::PortableBinaryInputArchive   in_port_bin_t;
+typedef cereal::PortableBinaryInputArchive in_port_bin_t;
 /*! \brief Typedef to input binary archive. */
-typedef cereal::BinaryInputArchive           in_bin_t;
+typedef cereal::BinaryInputArchive in_bin_t;
 /*! \brief Typedef to input xml archive. */
-typedef cereal::XMLInputArchive              in_xml_t;
+typedef cereal::XMLInputArchive in_xml_t;
 /*! \brief Typedef to input json archive. */
-typedef cereal::JSONInputArchive             in_json_t;
+typedef cereal::JSONInputArchive in_json_t;
 /*! \brief Typedef to input raw archive. */
-typedef raw_iarchive                         in_raw_t;
+typedef raw_iarchive in_raw_t;
 
 } // namespace archives
 
@@ -91,13 +94,12 @@ namespace impl
  * output archive typedefs listed above or a custom
  * output archive that is compatible.
  */
-template <typename T, typename A>
-struct ToCharVectorImpl
+template <typename T, typename A> struct ToCharVectorImpl
 {
     /*!
      * \brief Function operator
-     * \param[in] object - Object to serialise
-     * \return Byte vector containing serialised object
+     * \param[in] object - Object to serialize
+     * \return Char vector containing serialized object
      */
     char_vector_t operator()(const T& object) const
     {
@@ -108,24 +110,22 @@ struct ToCharVectorImpl
         {
             A oa(os);
             // CEREAL_NVP is required to fully support xml archives.
-            oa( CEREAL_NVP(object) );
+            oa(CEREAL_NVP(object));
         }
         char_vector_t charVector;
         charVector.reserve(os.str().size());
-        charVector.assign(std::istreambuf_iterator<char>(os)
-                          , std::istreambuf_iterator<char>());
+        charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
         return charVector;
     }
 };
 
 /*! \brief Serialization to char vector implementation, specialization for POD. */
-template <typename T>
-struct ToCharVectorImpl<T, archives::out_raw_t>
+template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
 {
     /*!
      * \brief Function operator
-     * \param[in] object - Object to serialise
-     * \return Byte vector containing serialised object
+     * \param[in] object - Object to serialize
+     * \return Char vector containing serialized object
      */
     char_vector_t operator()(const T& object) const
     {
@@ -137,7 +137,7 @@ struct ToCharVectorImpl<T, archives::out_raw_t>
         }
 
         const char* begin = reinterpret_cast<const char*>(&object);
-        const char* end = begin + sizeof(T);
+        const char* end   = begin + sizeof(T);
 
         std::copy(begin, end, std::back_inserter(charVector));
 
@@ -149,22 +149,20 @@ struct ToCharVectorImpl<T, archives::out_raw_t>
  * \brief Deserialization to object implementation.
  *
  * Typically the template argument A is one of the
- * intput archive typedefs listed above or a custom
- * intput archive that is compatible.
+ * input archive typedefs listed above or a custom
+ * input archive that is compatible.
  */
-template <typename T, typename A>
-struct ToObjectImpl
+template <typename T, typename A> struct ToObjectImpl
 {
     /*!
      * \brief Function operator
-     * \param[in] charVector - Byte vector containing serialised object
-     * \return Derserialised object
+     * \param[in] charVector - Char vector containing serialized object
+     * \return Deserialized object
      */
     T operator()(const char_vector_t& charVector) const
     {
         std::stringstream is;
-        std::copy(charVector.begin(), charVector.end()
-                  , std::ostream_iterator<char>(is));
+        std::copy(charVector.begin(), charVector.end(), std::ostream_iterator<char>(is));
         T object;
         // Reduce scope of archive to make sure it has
         // flushed its contents to the stream before
@@ -172,27 +170,25 @@ struct ToObjectImpl
         {
             A ia(is);
             // CEREAL_NVP is required to fully support xml archives.
-            ia( CEREAL_NVP(object) );
+            ia(CEREAL_NVP(object));
         }
         return object;
     }
 };
 
 /*! \brief Deserialization to object implementation, specialization for POD. */
-template <typename T>
-struct ToObjectImpl<T, archives::in_raw_t>
+template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
 {
     /*!
      * \brief Function operator
-     * \param[in] charVector - Byte vector containing serialised object
-     * \return Derserialised object
+     * \param[in] charVector - Byte vector containing serialized object
+     * \return Deserialized object
      */
     T operator()(const char_vector_t& charVector) const
     {
         T object{};
 
-        if (!std::is_pod<T>::value
-            || (charVector.size() != sizeof(T)))
+        if (!std::is_pod<T>::value || (charVector.size() != sizeof(T)))
         {
             return object;
         }
@@ -202,13 +198,15 @@ struct ToObjectImpl<T, archives::in_raw_t>
         return object;
     }
 };
-
 }
 
 /*!
  * \brief Serialize an object into a char vector.
  * \param[in] object - A boost serializable object of type T.
  * \return A char vector to receive serialized object.
+ *
+ * Convenience function to use for serializing objects to a char vector. Using this function is
+ * preferred to directly using ToCharVectorImpl functors.
  */
 template <typename T, typename OA = archives::out_port_bin_t>
 char_vector_t ToCharVector(const T& object)
@@ -220,6 +218,9 @@ char_vector_t ToCharVector(const T& object)
  * \brief Deserialize a char vector into a corresponding object.
  * \param[in] charVector - A char vector containing a boost serialized object of type T.
  * \return A serializable object of type T to receive deserialized vector.
+ *
+ * Convenience function to use for deserializing a char vector (containing serialized data created
+ * using ToCharVector). Using this function is preferred to directly using ToObjectImpl functors.
  */
 template <typename T, typename IA = archives::in_port_bin_t>
 T ToObject(const char_vector_t& charVector)
@@ -227,7 +228,7 @@ T ToObject(const char_vector_t& charVector)
     return impl::ToObjectImpl<T, IA>()(charVector);
 }
 
-} //namespace serialize
-} //namespace core_lib
+} // namespace serialize
+} // namespace core_lib
 
 #endif // #define SERIALIZETOVECTOR

@@ -45,6 +45,11 @@ namespace udp
  * The template argument defines a message builder object that
  * must have an interface compatible with that of the class
  * core_lib::asio::messages::MessageBuilder.
+ *
+ * This class forms the underpinnings of the SimpleMulticastSender class.
+ *
+ * This is also the class to be used when the user wants to specify their own message builder type
+ * and message header type.
  */
 template <typename MsgBldr> class MulticastTypedSender final
 {

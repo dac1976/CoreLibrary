@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.3.0.0</span>
+   &#160;<span id="projectnumber">1.4.0.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
   </td>
@@ -127,12 +127,13 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a281a7033789e4f9b1ea7144898362728"><td class="memItemLeft" align="right" valign="top"><a id="a281a7033789e4f9b1ea7144898362728"></a>
-const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a281a7033789e4f9b1ea7144898362728">m_magicString</a> { <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ab1602710d76493491bb13850cfb3325a">defs::DEFAULT_MAGIC_STRING</a> }</td></tr>
+const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a281a7033789e4f9b1ea7144898362728">m_magicString</a> {<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ab1602710d76493491bb13850cfb3325a">defs::DEFAULT_MAGIC_STRING</a>}</td></tr>
 <tr class="memdesc:a281a7033789e4f9b1ea7144898362728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic string. <br /></td></tr>
 <tr class="separator:a281a7033789e4f9b1ea7144898362728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Default message builder class. </p>
+<p>This is used in the case of the simple network classes: SimpleTcpClient, SimpleTcpServer etc. It is used to build messages to be sent that require a MessageHeader followed by a message body. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5416ae25747b9eda684827e9db9d3e1f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5416ae25747b9eda684827e9db9d3e1f">&#9670;&nbsp;</a></span>MessageBuilder()</h2>
@@ -203,7 +204,8 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="e
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A filled message buffer. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A filled message buffer.</dd></dl>
+<p>Sometimes network messages don't require a message body to be sent just some header information such as a command to possibly request some data in response. In this case we invoke this Build method. </p>
 
 </div>
 </div>
@@ -259,7 +261,8 @@ template&lt;typename T , typename A &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A filled message buffer.</dd></dl>
-<p>The first template arghument T defines the message object's type. The second template argument A defines the archive type for serialization. </p>
+<p>The first template argument T defines the message object's type. The second template argument A defines the archive type for serialization.</p>
+<p>Invoke thid overload of the Build function when a message comprising a header and body is to be sent. </p>
 
 </div>
 </div>
@@ -273,7 +276,7 @@ template&lt;typename T , typename A &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html">messages</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html">MessageBuilder</a></li>
-    <li class="footer">Generated on Sat Apr 22 2017 22:55:05 for Core Library by
+    <li class="footer">Generated on Wed May 3 2017 22:33:07 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

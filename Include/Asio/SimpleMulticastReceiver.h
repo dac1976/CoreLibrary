@@ -31,13 +31,19 @@
 #include "MessageUtils.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
-/*! \brief A simplified multicast receiver. */
+/*!
+ * \brief A simplified multicast receiver, which uses the class MessageHeader as the message header
+ * type.
+ */
 class CORE_LIBRARY_DLL_SHARED_API SimpleMulticastReceiver final
 {
 public:
@@ -46,7 +52,8 @@ public:
     /*!
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
-     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
+     * \param[in] multicastConnection - Connection object describing target multicast group address
+     * and port.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
@@ -56,14 +63,15 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleMulticastReceiver(boost_ioservice_t& ioService
-                      , const defs::connection_t& multicastConnection                      
-                      , const defs::default_message_dispatcher_t& messageDispatcher
-                      , const std::string& interfaceAddress = ""
-                      , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+    SimpleMulticastReceiver(boost_ioservice_t&                        ioService,
+                            const defs::connection_t&                 multicastConnection,
+                            const defs::default_message_dispatcher_t& messageDispatcher,
+                            const std::string&                        interfaceAddress = "",
+                            const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
-     * \param[in] multicastConnection - Connection object describing target multicast group address and port.
+     * \param[in] multicastConnection - Connection object describing target multicast group address
+     * and port.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
@@ -73,14 +81,14 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommended.
      */
-    SimpleMulticastReceiver(const defs::connection_t& multicastConnection
-                            , const defs::default_message_dispatcher_t& messageDispatcher
-                            , const std::string& interfaceAddress = ""
-                            , const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+    SimpleMulticastReceiver(const defs::connection_t&                 multicastConnection,
+                            const defs::default_message_dispatcher_t& messageDispatcher,
+                            const std::string&                        interfaceAddress = "",
+                            const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
-    SimpleMulticastReceiver(const SimpleMulticastReceiver& ) = delete;
+    SimpleMulticastReceiver(const SimpleMulticastReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-    SimpleMulticastReceiver& operator=(const SimpleMulticastReceiver& ) = delete;
+    SimpleMulticastReceiver& operator=(const SimpleMulticastReceiver&) = delete;
     /*! \brief Default destructor. */
     ~SimpleMulticastReceiver() = default;
     /*!
@@ -106,4 +114,3 @@ private:
 } // namespace core_lib
 
 #endif // SIMPLEMULTICASTRECEIVER
-

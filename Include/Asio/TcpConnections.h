@@ -33,11 +33,14 @@
 #include <mutex>
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The tcp namespace. */
-namespace tcp {
+namespace tcp
+{
 
 /*!
  * \brief Unknown connection exception.
@@ -48,36 +51,40 @@ namespace tcp {
 class CORE_LIBRARY_DLL_SHARED_API xUnknownConnectionError : public exceptions::xCustomException
 {
 public:
-	/*! \brief Default constructor. */
-	xUnknownConnectionError();
-	/*!
-	 * \brief Initializing constructor.
-	 * \param[in] message - A user specified message string.
-	 */
-	explicit xUnknownConnectionError(const std::string& message);
-	/*! \brief Virtual destructor. */
-	virtual ~xUnknownConnectionError();
-	/*! \brief Copy constructor. */
+    /*! \brief Default constructor. */
+    xUnknownConnectionError();
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xUnknownConnectionError(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xUnknownConnectionError();
+    /*! \brief Copy constructor. */
     xUnknownConnectionError(const xUnknownConnectionError&) = default;
-	/*! \brief Copy assignment operator. */
+    /*! \brief Copy assignment operator. */
     xUnknownConnectionError& operator=(const xUnknownConnectionError&) = default;
 };
 
 /*! \brief Forward declaration of TCP connection class. */
 class TcpConnection;
 
-/*! \brief TCP connections class. */
+/*!
+ * \brief TCP connections class to manage the TcpConnection objects.
+ *
+ * This class is the one of the fundamental building blocks for the other TCP networking classes.
+ */
 class CORE_LIBRARY_DLL_SHARED_API TcpConnections final
 {
 public:
     /*! \brief Default constructor. */
-	TcpConnections() = default;
+    TcpConnections() = default;
     /*! \brief Default desctructor. */
-	~TcpConnections() = default;
+    ~TcpConnections() = default;
     /*! \brief Copy constructor - deleted. */
-	TcpConnections(const TcpConnections& ) = delete;
+    TcpConnections(const TcpConnections&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-	TcpConnections& operator=(const TcpConnections& ) = delete;
+    TcpConnections& operator=(const TcpConnections&) = delete;
     /*!
      * \brief Add a connection.
      * \param[in] connection - Shared pointer to connection object.
@@ -92,34 +99,34 @@ public:
      * \brief Get the number of connections.
      * \return Number of connections.
      */
-	size_t Size() const;
+    size_t Size() const;
     /*!
      * \brief Is the connection map empty?
      * \return True if empty, false otherwise.
      */
-	bool Empty() const;
+    bool Empty() const;
     /*! \brief Close all connections. */
-	void CloseConnections();
+    void CloseConnections();
     /*!
      * \brief Send an asynchronous message.
      * \param[in] target - Target connection details.
      * \param[in] message - Message buffer to send.
      */
-	void SendMessageAsync(const defs::connection_t& target
-                          , const defs::char_buffer_t& message) const;
+    void SendMessageAsync(const defs::connection_t&  target,
+                          const defs::char_buffer_t& message) const;
     /*!
      * \brief Send a synchronous message.
      * \param[in] target - Target connection details.
      * \param[in] message - Message buffer to send.
      * \return True if sent successfully, false otherwise.
      */
-	bool SendMessageSync(const defs::connection_t& target
-                         , const defs::char_buffer_t& message) const;
+    bool SendMessageSync(const defs::connection_t&  target,
+                         const defs::char_buffer_t& message) const;
     /*!
      * \brief Send an asynchronous message to all connections.
      * \param[in] message - Message buffer to send.
      */
-	void SendMessageToAll(const defs::char_buffer_t& message) const;
+    void SendMessageToAll(const defs::char_buffer_t& message) const;
     /*!
      * \brief Get the connection details for one of the remote connections.
      * \param[in] remoteEnd - Remote end's connection details.
@@ -127,17 +134,16 @@ public:
      *
      * Throws xUnknownConnectionError is remoteEnd is not valid.
      */
-	defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
+    defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
 
 private:
     /*! \brief Access mutex for thread safety. */
-	mutable std::mutex m_mutex;
+    mutable std::mutex m_mutex;
     /*! \brief Typedef to our connection map type. */
-	typedef std::map<defs::connection_t, defs::tcp_conn_ptr_t> tcp_conn_map;
+    typedef std::map<defs::connection_t, defs::tcp_conn_ptr_t> tcp_conn_map;
     /*! \brief The connections map. */
-	tcp_conn_map m_connections;
+    tcp_conn_map m_connections;
 };
-
 
 } // namespace tcp
 } // namespace asio

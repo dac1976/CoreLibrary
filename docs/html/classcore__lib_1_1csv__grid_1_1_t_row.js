@@ -1,5 +1,6 @@
 var classcore__lib_1_1csv__grid_1_1_t_row =
 [
+    [ "cell_type", "classcore__lib_1_1csv__grid_1_1_t_row.html#a1bc8278bd88bc14c574e16bbddaef751", null ],
     [ "container_type", "classcore__lib_1_1csv__grid_1_1_t_row.html#a4406a3a1bdc3ff80f9456ff302a4bb06", null ],
     [ "TRow", "classcore__lib_1_1csv__grid_1_1_t_row.html#a97824da98975eadb68e2bda7958c860b", null ],
     [ "TRow", "classcore__lib_1_1csv__grid_1_1_t_row.html#a962cae0d9f88d5ae4b1bacc175dcdbdf", null ],
@@ -18,8 +19,8 @@ var classcore__lib_1_1csv__grid_1_1_t_row =
     [ "LoadRowFromCsvFileLine", "classcore__lib_1_1csv__grid_1_1_t_row.html#a5d283ddb5f54eb42e0e5a1b932841509", null ],
     [ "operator=", "classcore__lib_1_1csv__grid_1_1_t_row.html#a42753b9b6e9d93877df97b7f0b3c9cfe", null ],
     [ "operator=", "classcore__lib_1_1csv__grid_1_1_t_row.html#a9ae887086e1e94b54f912c11a318993c", null ],
-    [ "operator[]", "classcore__lib_1_1csv__grid_1_1_t_row.html#a8914ea8784365ed7a2915f9b71bac252", null ],
-    [ "operator[]", "classcore__lib_1_1csv__grid_1_1_t_row.html#a19a8392fa45cc93f28f6cc8652bbf8f9", null ],
+    [ "operator[]", "classcore__lib_1_1csv__grid_1_1_t_row.html#a01f4365f8638e18bba611b95438f00d5", null ],
+    [ "operator[]", "classcore__lib_1_1csv__grid_1_1_t_row.html#ab5a82a5495181bcec3f3ab44241a140e", null ],
     [ "OutputRowToStream", "classcore__lib_1_1csv__grid_1_1_t_row.html#a08abedfef89cfe3e9568316f0cad3818", null ],
     [ "ResetRow", "classcore__lib_1_1csv__grid_1_1_t_row.html#a77be46c304dea72fc217732d686cec99", null ],
     [ "SetSize", "classcore__lib_1_1csv__grid_1_1_t_row.html#a6cda0cee76daa8393dfb48794ce40d07", null ],

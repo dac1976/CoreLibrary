@@ -57,7 +57,7 @@ else {
     QMAKE_CXXFLAGS += -std=c++14
 
     # Set version info for library.
-    VERSION = 1.3.0
+    VERSION = 1.4.0
 
     # Set binary's output folder.
     CONFIG(debug, debug|release) {
@@ -85,6 +85,7 @@ HEADERS +=                                              \
 	../Include/Asio/TcpTypedClient.h                 \
 	../Include/Asio/TcpTypedServer.h                 \
 	../Include/CsvGrid/CsvGridCell.h                 \
+    ../Include/CsvGrid/CsvGridCellDouble.h           \
 	../Include/CsvGrid/CsvGridRow.h                  \
 	../Include/CsvGrid/CsvGridMain.h                 \
 	../Include/CsvGrid/CsvGrid.h                     \
@@ -131,6 +132,7 @@ SOURCES +=                                                \
 	../Source/Asio/TcpConnections.cpp                  \
 	../Source/Asio/TcpServer.cpp                       \
 	../Source/CsvGrid/CsvGridCell.cpp                  \
+    ../Source/CsvGrid/CsvGridCellDouble.cpp           \
 	../Source/CsvGrid/CsvGridRow.cpp                   \
 	../Source/CsvGrid/CsvGridMain.cpp                  \
 	../Source/DebugLog/DebugLog.cpp                    \

@@ -2,6 +2,7 @@ var searchData=
 [
   ['_7eblankline',['~BlankLine',['../classcore__lib_1_1ini__file_1_1if__private_1_1_blank_line.html#a0dcf2fe98312f26e2f8a93b0a8c3baf0',1,'core_lib::ini_file::if_private::BlankLine']]],
   ['_7ecell',['~Cell',['../classcore__lib_1_1csv__grid_1_1_cell.html#a3a3ab0e700fe0d5dfaf0ddd51cd73837',1,'core_lib::csv_grid::Cell']]],
+  ['_7ecelldouble',['~CellDouble',['../classcore__lib_1_1csv__grid_1_1_cell_double.html#a0bfc22a11e0a955448bb268685a15513',1,'core_lib::csv_grid::CellDouble']]],
   ['_7ecommentline',['~CommentLine',['../classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a42a48999334919bd6b33ae31ba064c33',1,'core_lib::ini_file::if_private::CommentLine']]],
   ['_7econcurrentqueue',['~ConcurrentQueue',['../classcore__lib_1_1threads_1_1_concurrent_queue.html#a26f3df82263ff6c7e1fbb1b4053569a2',1,'core_lib::threads::ConcurrentQueue']]],
   ['_7edebuglog',['~DebugLog',['../classcore__lib_1_1log_1_1_debug_log.html#a125c818b971a5367c0177405bdae40b1',1,'core_lib::log::DebugLog']]],
