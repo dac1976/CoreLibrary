@@ -153,7 +153,7 @@ typedef <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.h
 Private Member Functions</h2></td></tr>
 <tr class="memitem:aee7bbe5af3ef8e642a1c795d056f5cbf"><td class="memItemLeft" align="right" valign="top"><a id="aee7bbe5af3ef8e642a1c795d056f5cbf"></a>
 long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aee7bbe5af3ef8e642a1c795d056f5cbf">MaxLogSize</a> () const</td></tr>
-<tr class="memdesc:aee7bbe5af3ef8e642a1c795d056f5cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the max log size. <br /></td></tr>
+<tr class="memdesc:aee7bbe5af3ef8e642a1c795d056f5cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the max log size in bytes. <br /></td></tr>
 <tr class="separator:aee7bbe5af3ef8e642a1c795d056f5cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac65fc28bb54534f8e95dff7499fedd7a"><td class="memItemLeft" align="right" valign="top"><a id="ac65fc28bb54534f8e95dff7499fedd7a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#ac65fc28bb54534f8e95dff7499fedd7a">RegisterLogQueueMessageId</a> ()</td></tr>
@@ -245,8 +245,8 @@ class core_lib::log::DebugLog&lt; Formatter &gt;</h3>
 
 <p><a class="el" href="classcore__lib_1_1log_1_1_debug_log.html" title="DebugLog class. ">DebugLog</a> class. </p>
 <p>Templated class to perform logging. The class is threaded and thread safe.</p>
-<p>The template args comprise the a formatter type and which should be a function object with same prototype as <a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html#a1feab3c0f21ae6853d2df8353b4614cb" title="Function operator to perform the line formatting. ">DefaultLogFormat::operator ()()</a>.</p>
-<p>The second arg is optional and controls the size at which the log will close and switch to a new file. Only 2 files ever exist the 'log'.txt and 'log'_old.txt. The default log size if 5MiB. </p>
+<p>The template args comprise a formatter type and which should be a function object with same prototype as <a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html#a1feab3c0f21ae6853d2df8353b4614cb" title="Function operator to perform the line formatting. ">DefaultLogFormat::operator()()</a>.</p>
+<p>The second arg is optional and controls the size at which the log will close and switch to a new file. Only 2 files ever exist the "log".txt and "log"_old.txt. The default log size is 5MiB. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a51affdd46da3c324ae68a39aeb6bd8b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a51affdd46da3c324ae68a39aeb6bd8b3">&#9670;&nbsp;</a></span>eFileOpenOptions</h2>
@@ -470,7 +470,7 @@ template&lt;class Formatter &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message to add to log. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>- Source file in which message AddLogMessage was called, e.g. std::string(<b>FILE</b>). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">function</td><td>- Function insource file in which message AddLogMessage was called, e.g. BOOST_CURRENT_FUNCTION. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">function</td><td>- Function in source file in which message AddLogMessage was called, e.g. BOOST_CURRENT_FUNCTION. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">lineNo</td><td>- Line number in the source file where AddLogMessage was called, e.g. <b>LINE</b>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">logMsgLevel</td><td>- Message level.</td></tr>
   </table>
@@ -513,7 +513,7 @@ template&lt;class Formatter &gt; </div>
   </table>
   </dd>
 </dl>
-<p>You can dynamically filter out log message from appearing in the log file based on adding message levels to the filter set. For example you may want to filter out messages of type <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca7b83d3f08fa392b79e3f553b585971cd" title="Warning level defined for message. ">eLogMessageLevel::warning</a>. In this case after calling this function with <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca7b83d3f08fa392b79e3f553b585971cd" title="Warning level defined for message. ">eLogMessageLevel::warning</a> messages of this type will not appear in the log from this point. </p>
+<p>You can dynamically filter out log message from appearing in the log file based on adding message levels to the filter set. For example, you may want to filter out messages of type <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca7b83d3f08fa392b79e3f553b585971cd" title="Warning level defined for message. ">eLogMessageLevel::warning</a>. In this case after calling this function with <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca7b83d3f08fa392b79e3f553b585971cd" title="Warning level defined for message. ">eLogMessageLevel::warning</a> messages of this type will not appear in the log from this point until you later remove the filter. </p>
 
 </div>
 </div>
@@ -1010,7 +1010,7 @@ template&lt;class Formatter &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{{<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca308178bc9cbd979f6e2e056175b76aba">eLogMessageLevel::not_defined</a>, <span class="stringliteral">&quot;&quot;</span>}</div><div class="line">                        , {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcaad42f6697b035b7580e4fef93be20b4d">eLogMessageLevel::debug</a>, <span class="stringliteral">&quot;Debug&quot;</span>}</div><div class="line">                        , {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcacaf9b6b99962bf5c2264824231d7a40c">eLogMessageLevel::info</a>, <span class="stringliteral">&quot;Info&quot;</span>}</div><div class="line">                        , {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca7b83d3f08fa392b79e3f553b585971cd">eLogMessageLevel::warning</a>, <span class="stringliteral">&quot;Warning&quot;</span>}</div><div class="line">                        , {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcacb5e100e5a9a3e7f6d1fd97512215282">eLogMessageLevel::error</a>, <span class="stringliteral">&quot;Error&quot;</span>}</div><div class="line">                        , {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcadf6402fd9ecc60f5a2159fdf45711cd4">eLogMessageLevel::fatal</a>, <span class="stringliteral">&quot;Fatal&quot;</span>}}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">        {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca308178bc9cbd979f6e2e056175b76aba">eLogMessageLevel::not_defined</a>, <span class="stringliteral">&quot;&quot;</span>},</div><div class="line">        {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcaad42f6697b035b7580e4fef93be20b4d">eLogMessageLevel::debug</a>, <span class="stringliteral">&quot;Debug&quot;</span>},</div><div class="line">        {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcacaf9b6b99962bf5c2264824231d7a40c">eLogMessageLevel::info</a>, <span class="stringliteral">&quot;Info&quot;</span>},</div><div class="line">        {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca7b83d3f08fa392b79e3f553b585971cd">eLogMessageLevel::warning</a>, <span class="stringliteral">&quot;Warning&quot;</span>},</div><div class="line">        {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcacb5e100e5a9a3e7f6d1fd97512215282">eLogMessageLevel::error</a>, <span class="stringliteral">&quot;Error&quot;</span>},</div><div class="line">        {<a class="code" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcadf6402fd9ecc60f5a2159fdf45711cd4">eLogMessageLevel::fatal</a>, <span class="stringliteral">&quot;Fatal&quot;</span>}}</div></div><!-- fragment -->
 <p>Message level string lookup map. </p>
 
 </div>
@@ -1036,7 +1036,7 @@ template&lt;class Formatter &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{<span class="keyword">new</span> <a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#a8bf6842a9c8f91f7068a7e2c2bdb0c71">log_msg_queue</a>(std::bind(&amp;<a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#a0f457d6bb8e4f0936678da9218338530">DebugLog&lt;Formatter&gt;::MessageDecoder</a></div><div class="line">                                                    , std::placeholders::_1)</div><div class="line">                                          , <a class="code" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706a6384751382f97eb4a6fc8ee8bd31fc83">threads::eOnDestroyOptions::processRemainingItems</a>)}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">        <span class="keyword">new</span> <a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#a8bf6842a9c8f91f7068a7e2c2bdb0c71">log_msg_queue</a>(std::bind(&amp;<a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#a0f457d6bb8e4f0936678da9218338530">DebugLog&lt;Formatter&gt;::MessageDecoder</a>, std::placeholders::_1),</div><div class="line">                          <a class="code" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706a6384751382f97eb4a6fc8ee8bd31fc83">threads::eOnDestroyOptions::processRemainingItems</a>)}</div></div><!-- fragment -->
 <p>Unique_ptr holding message queue thread. </p>
 
 </div>
@@ -1050,7 +1050,7 @@ template&lt;class Formatter &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1log.html">log</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1log_1_1_debug_log.html">DebugLog</a></li>
-    <li class="footer">Generated on Wed May 3 2017 22:33:07 for Core Library by
+    <li class="footer">Generated on Thu May 4 2017 23:00:24 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -164,8 +164,8 @@ public:
 /*!
  * \brief Ini file class
  *
- * Here is an example of what an ini file could look like:
- * \verbatim
+ * Here is an example of what an INI file could look like:
+\verbatim
 ; I am an opening comment.
 
 [Section1]
@@ -180,7 +180,7 @@ Section2_Key2 = Section2_Value2
 ; I am also a comment in a section.
 Section2_Key3=Section2_Value3
 ; I am yet another comment in a section.
- * \endverbatim
+\endverbatim
  *
  * Please note that the supported comment delimiter is ';'.
  * Also note that blank lines and comments are preserved

@@ -201,9 +201,9 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 class core_lib::threads::ConcurrentQueue&lt; T &gt;</h3>
 
 <p>Class defining a concurrent queue. </p>
-<p>This class implements a fully thread-safe queue, that can be used as single/multiple producer and single/multiple consumer, in any combination.</p>
-<p>It is up to the caller to make sure individual queue items get deallocated correctly. Preferable by using RAII objects or wrapping in std::shared_ptr (using a custom deallocator if necessary).</p>
-<p>The template T must be to a copyable and movable type. </p>
+<p>This class implements a fully thread-safe queue that can be used with single/multiple producer thread(s) and single/multiple consumer thread(s).</p>
+<p>It is up to the caller to make sure individual queue items get deallocated correctly. Preferably by using RAII objects as queue items or wrapping underlying data in std::shared_ptr (using a custom deallocator if necessary - see example custom deleters: <a class="el" href="structcore__lib_1_1threads_1_1_single_item_deleter.html" title="Single item deleter for queue item. ">SingleItemDeleter</a> and <a class="el" href="structcore__lib_1_1threads_1_1_array_deleter.html" title="Array deleter for queue item. ">ArrayDeleter</a>).</p>
+<p>The template T must be a copyable and movable type. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a2cdf8c31f8359021a9fdbf3a10d46c66"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2cdf8c31f8359021a9fdbf3a10d46c66">&#9670;&nbsp;</a></span>eQueueEnd</h2>
@@ -894,7 +894,7 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{eNotifyType::signalOneThread</div><div class="line">                          , eResetCondition::manualReset</div><div class="line">                          , eIntialCondition::notSignalled}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">        eNotifyType::signalOneThread, eResetCondition::manualReset, eIntialCondition::notSignalled}</div></div><!-- fragment -->
 <p>Synchronization event. </p>
 
 </div>
@@ -908,7 +908,7 @@ template&lt;typename T&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a></li>
-    <li class="footer">Generated on Wed May 3 2017 22:33:07 for Core Library by
+    <li class="footer">Generated on Thu May 4 2017 23:00:24 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

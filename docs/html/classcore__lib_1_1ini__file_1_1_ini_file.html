@@ -233,17 +233,28 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memdesc:a5942db8c4fcd69463591f1755418722a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sectin map. <br /></td></tr>
 <tr class="separator:a5942db8c4fcd69463591f1755418722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d5f4ce788ee215617abf217a940f2c6"><td class="memItemLeft" align="right" valign="top"><a id="a0d5f4ce788ee215617abf217a940f2c6"></a>
-<a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a9cffe96815a2aae645017f3a2c365cb9">if_private::line_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0d5f4ce788ee215617abf217a940f2c6">m_lines</a></td></tr>
+<a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#ae32615def0341ed7c6e3ea6ad5a4c83f">if_private::line_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0d5f4ce788ee215617abf217a940f2c6">m_lines</a></td></tr>
 <tr class="memdesc:a0d5f4ce788ee215617abf217a940f2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line list. <br /></td></tr>
 <tr class="separator:a0d5f4ce788ee215617abf217a940f2c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Ini file class. </p>
-<p>Here is an example of what an ini file could look like:</p>
-<p>; I am an opening comment.</p>
-<p>[Section1] ; I am a comment in a section. Section1_Key1=Section1_Value1 Section1_Key2=Section1_Value2 Section1_Key3 = Section1_Value3</p>
-<p>[Section2] Section2_Key1=Section2_Value1 Section2_Key2 = Section2_Value2 ; I am also a comment in a section. Section2_Key3=Section2_Value3 ; I am yet another comment in a section.</p>
-<p>Please note that the supported comment delimiter is ';'. Also note that blank lines and comments are preserved when loading an ini file. However, leading and trailing whitespace in section, key or value items are removed. </p>
+<p>Here is an example of what an INI file could look like: </p><pre class="fragment">; I am an opening comment.
+
+[Section1]
+; I am a comment in a section.
+Section1_Key1=Section1_Value1
+Section1_Key2=Section1_Value2
+Section1_Key3 = Section1_Value3
+
+[Section2]
+Section2_Key1=Section2_Value1
+Section2_Key2 = Section2_Value2
+; I am also a comment in a section.
+Section2_Key3=Section2_Value3
+; I am yet another comment in a section.
+</pre><p>Please note that the supported comment delimiter is ';'. Also note that blank lines and comments are preserved when loading an ini file. However, leading and trailing whitespace in sections, key or value items are removed.</p>
+<p>Only flat heirarchy INI files are supported; nested sections are not supported. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a17c896cc5e7a1aa2c2ad90fec4a23589"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a17c896cc5e7a1aa2c2ad90fec4a23589">&#9670;&nbsp;</a></span>IniFile()</h2>
@@ -1185,7 +1196,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html">IniFile</a></li>
-    <li class="footer">Generated on Wed May 3 2017 22:33:07 for Core Library by
+    <li class="footer">Generated on Thu May 4 2017 23:00:24 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

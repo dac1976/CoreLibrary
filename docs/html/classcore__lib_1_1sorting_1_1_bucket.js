@@ -1,7 +1,7 @@
 var classcore__lib_1_1sorting_1_1_bucket =
 [
-    [ "bucket_definitions", "classcore__lib_1_1sorting_1_1_bucket.html#accd9f4d83dbbbbe1cfe613898f771747", null ],
-    [ "bucket_values", "classcore__lib_1_1sorting_1_1_bucket.html#a11472a1dfa4fdbdff2e79a07b7853477", null ],
+    [ "bucket_definitions", "classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3", null ],
+    [ "bucket_values", "classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b", null ],
     [ "item_compare", "classcore__lib_1_1sorting_1_1_bucket.html#ad9bd892b42526d6ade0d3c2daa5ce7ad", null ],
     [ "CheckBucketsSize", "classcore__lib_1_1sorting_1_1_bucket.html#a7bec6a87797ff6191fa6b6c510711901", null ],
     [ "GetBucketIndex", "classcore__lib_1_1sorting_1_1_bucket.html#a40d4937967c7bb9e45712f884cd47fad", null ],
