@@ -5,10 +5,12 @@
 #include <fstream>
 #include <string>
 #include "boost/predef.h"
+#include "boost/filesystem.hpp"
 
 #include "gtest/gtest.h"
 
 using namespace core_lib::csv_grid;
+namespace bfs = boost::filesystem;
 
 #if BOOST_OS_LINUX
 static const std::string path1 = "../data/testfile1.csv";
@@ -22,9 +24,9 @@ TEST(CsvGridTest, Case1_xCsvGridColOutOfRangeError_1)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::csv_grid::xCsvGridColOutOfRangeError());
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
     }
-    catch (core_lib::csv_grid::xCsvGridColOutOfRangeError& e)
+    catch (xCsvGridColOutOfRangeError& e)
     {
         EXPECT_STREQ(e.what(), "invalid column index");
         std::string info = boost::diagnostic_information(e);
@@ -36,10 +38,9 @@ TEST(CsvGridTest, Case1_xCsvGridColOutOfRangeError_2)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(
-            core_lib::csv_grid::xCsvGridColOutOfRangeError("user defined message"));
+        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError("user defined message"));
     }
-    catch (core_lib::csv_grid::xCsvGridColOutOfRangeError& e)
+    catch (xCsvGridColOutOfRangeError& e)
     {
         EXPECT_STREQ(e.what(), "user defined message");
         std::string info = boost::diagnostic_information(e);
@@ -51,9 +52,9 @@ TEST(CsvGridTest, Case1_xCsvGridDimensionError_1)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::csv_grid::xCsvGridDimensionError());
+        BOOST_THROW_EXCEPTION(xCsvGridDimensionError());
     }
-    catch (core_lib::csv_grid::xCsvGridDimensionError& e)
+    catch (xCsvGridDimensionError& e)
     {
         EXPECT_STREQ(e.what(), "rows and cols must be > 0");
         std::string info = boost::diagnostic_information(e);
@@ -65,9 +66,9 @@ TEST(CsvGridTest, Case4_xCsvGridDimensionError_2)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::csv_grid::xCsvGridDimensionError("user defined message"));
+        BOOST_THROW_EXCEPTION(xCsvGridDimensionError("user defined message"));
     }
-    catch (core_lib::csv_grid::xCsvGridDimensionError& e)
+    catch (xCsvGridDimensionError& e)
     {
         EXPECT_STREQ(e.what(), "user defined message");
         std::string info = boost::diagnostic_information(e);
@@ -79,9 +80,9 @@ TEST(CsvGridTest, Case5_xCsvGridRowOutOfRangeError_1)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::csv_grid::xCsvGridRowOutOfRangeError());
+        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
     }
-    catch (core_lib::csv_grid::xCsvGridRowOutOfRangeError& e)
+    catch (xCsvGridRowOutOfRangeError& e)
     {
         EXPECT_STREQ(e.what(), "invalid row index");
         std::string info = boost::diagnostic_information(e);
@@ -93,10 +94,9 @@ TEST(CsvGridTest, Case6_xCsvGridRowOutOfRangeError_2)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(
-            core_lib::csv_grid::xCsvGridRowOutOfRangeError("user defined message"));
+        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError("user defined message"));
     }
-    catch (core_lib::csv_grid::xCsvGridRowOutOfRangeError& e)
+    catch (xCsvGridRowOutOfRangeError& e)
     {
         EXPECT_STREQ(e.what(), "user defined message");
         std::string info = boost::diagnostic_information(e);
@@ -108,9 +108,9 @@ TEST(CsvGridTest, Case7_xCsvGridCreateFileStreamError_1)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::csv_grid::xCsvGridCreateFileStreamError());
+        BOOST_THROW_EXCEPTION(xCsvGridCreateFileStreamError());
     }
-    catch (core_lib::csv_grid::xCsvGridCreateFileStreamError& e)
+    catch (xCsvGridCreateFileStreamError& e)
     {
         EXPECT_STREQ(e.what(), "failed to create file stream");
         std::string info = boost::diagnostic_information(e);
@@ -122,10 +122,9 @@ TEST(CsvGridTest, Case8_xCsvGridCreateFileStreamError_2)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(
-            core_lib::csv_grid::xCsvGridCreateFileStreamError("user defined message"));
+        BOOST_THROW_EXCEPTION(xCsvGridCreateFileStreamError("user defined message"));
     }
-    catch (core_lib::csv_grid::xCsvGridCreateFileStreamError& e)
+    catch (xCsvGridCreateFileStreamError& e)
     {
         EXPECT_STREQ(e.what(), "user defined message");
         std::string info = boost::diagnostic_information(e);
@@ -135,62 +134,62 @@ TEST(CsvGridTest, Case8_xCsvGridCreateFileStreamError_2)
 
 TEST(CsvGridTest, Case9_Cell_DefaultConstructor)
 {
-    core_lib::csv_grid::Cell cell;
-    std::string              value = cell;
+    Cell        cell;
+    std::string value = cell;
     EXPECT_STREQ(value.c_str(), "");
 }
 
 TEST(CsvGridTest, Case10_Cell_StringConstructor)
 {
-    core_lib::csv_grid::Cell cell("test string");
-    std::string              value = cell;
+    Cell        cell("test string");
+    std::string value = cell;
     EXPECT_STREQ(value.c_str(), "test string");
 }
 
 TEST(CsvGridTest, Case11_Cell_CopyConstructor)
 {
-    core_lib::csv_grid::Cell cell("test string");
-    core_lib::csv_grid::Cell cellCopy(cell);
-    std::string              value     = cell;
-    std::string              valueCopy = cellCopy;
+    Cell        cell("test string");
+    Cell        cellCopy(cell);
+    std::string value     = cell;
+    std::string valueCopy = cellCopy;
     EXPECT_STREQ(value.c_str(), valueCopy.c_str());
 }
 
 TEST(CsvGridTest, Case12_Cell_MoveConstructor)
 {
-    core_lib::csv_grid::Cell cell(core_lib::csv_grid::Cell("test string"));
-    std::string              value = cell;
+    Cell        cell(Cell("test string"));
+    std::string value = cell;
     EXPECT_STREQ(value.c_str(), "test string");
 }
 
 TEST(CsvGridTest, Case13_Cell_Int32Constructor)
 {
-    int32_t                  value1 = std::numeric_limits<int32_t>::max() / 2;
-    core_lib::csv_grid::Cell cell(value1);
-    int32_t                  value2 = cell;
+    int32_t value1 = std::numeric_limits<int32_t>::max() / 2;
+    Cell    cell(value1);
+    int32_t value2 = cell;
     EXPECT_EQ(value1, value2);
 }
 
 TEST(CsvGridTest, Case14_Cell_Int64Constructor)
 {
-    int64_t                  value1 = std::numeric_limits<int64_t>::max() / 2;
-    core_lib::csv_grid::Cell cell(value1);
-    int64_t                  value2 = cell;
+    int64_t value1 = std::numeric_limits<int64_t>::max() / 2;
+    Cell    cell(value1);
+    int64_t value2 = cell;
     EXPECT_EQ(value1, value2);
 }
 
 TEST(CsvGridTest, Case15_Cell_DoubleConstructor)
 {
-    double                   value1 = std::numeric_limits<double>::max() / 2;
-    core_lib::csv_grid::Cell cell(value1);
-    double                   value2 = cell;
+    double value1 = std::numeric_limits<double>::max() / 2;
+    Cell   cell(value1);
+    double value2 = cell;
     EXPECT_DOUBLE_EQ(value1, value2);
 }
 
 TEST(CsvGridTest, Case16_Cell_CopyAssignment)
 {
-    core_lib::csv_grid::Cell cell("test string");
-    core_lib::csv_grid::Cell cellCopy;
+    Cell cell("test string");
+    Cell cellCopy;
     cellCopy              = cell;
     std::string value     = cell;
     std::string valueCopy = cellCopy;
@@ -199,45 +198,45 @@ TEST(CsvGridTest, Case16_Cell_CopyAssignment)
 
 TEST(CsvGridTest, Case17_Cell_MoveAssignment)
 {
-    core_lib::csv_grid::Cell cell;
-    cell              = core_lib::csv_grid::Cell("test string");
+    Cell cell;
+    cell              = Cell("test string");
     std::string value = cell;
     EXPECT_STREQ(value.c_str(), "test string");
 }
 
 TEST(CsvGridTest, Case18_Cell_StringAssignment)
 {
-    core_lib::csv_grid::Cell cell;
-    std::string              value = "test string";
-    cell                           = value;
-    std::string cellValue          = cell;
+    Cell        cell;
+    std::string value     = "test string";
+    cell                  = value;
+    std::string cellValue = cell;
     EXPECT_STREQ(cellValue.c_str(), value.c_str());
 }
 
 TEST(CsvGridTest, Case19_Cell_Int32Assignment)
 {
-    core_lib::csv_grid::Cell cell;
-    int32_t                  value1 = std::numeric_limits<int32_t>::max() / 2;
-    cell                            = value1;
-    int32_t value2                  = cell;
+    Cell    cell;
+    int32_t value1 = std::numeric_limits<int32_t>::max() / 2;
+    cell           = value1;
+    int32_t value2 = cell;
     EXPECT_EQ(value1, value2);
 }
 
 TEST(CsvGridTest, Case20_Cell_Int64Assignment)
 {
-    core_lib::csv_grid::Cell cell;
-    int64_t                  value1 = std::numeric_limits<int64_t>::max() / 2;
-    cell                            = value1;
-    int64_t value2                  = cell;
+    Cell    cell;
+    int64_t value1 = std::numeric_limits<int64_t>::max() / 2;
+    cell           = value1;
+    int64_t value2 = cell;
     EXPECT_EQ(value1, value2);
 }
 
 TEST(CsvGridTest, Case21_Cell_DoubleAssignment)
 {
-    core_lib::csv_grid::Cell cell;
-    double                   value1 = std::numeric_limits<double>::max() / 2;
-    cell                            = value1;
-    double value2                   = cell;
+    Cell   cell;
+    double value1 = std::numeric_limits<double>::max() / 2;
+    cell          = value1;
+    double value2 = cell;
     EXPECT_DOUBLE_EQ(value1, value2);
 }
 
@@ -247,8 +246,8 @@ TEST(CsvGridTest, Case22_Cell_Int32ConvertException)
 
     try
     {
-        core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-        int32_t                  temp = static_cast<int32_t>(cell);
+        Cell    cell("I'm not a number I'm a free man!");
+        int32_t temp = static_cast<int32_t>(cell);
         (void)temp;
         correctException = false;
     }
@@ -271,8 +270,8 @@ TEST(CsvGridTest, Case23_Cell_Int64ConvertException)
 
     try
     {
-        core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-        int64_t                  temp = static_cast<int64_t>(cell);
+        Cell    cell("I'm not a number I'm a free man!");
+        int64_t temp = static_cast<int64_t>(cell);
         (void)temp;
         correctException = false;
     }
@@ -295,8 +294,8 @@ TEST(CsvGridTest, Case24_Cell_DoubleConvertException)
 
     try
     {
-        core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-        double                   temp = static_cast<double>(cell);
+        Cell   cell("I'm not a number I'm a free man!");
+        double temp = static_cast<double>(cell);
         (void)temp;
         correctException = false;
     }
@@ -315,130 +314,130 @@ TEST(CsvGridTest, Case24_Cell_DoubleConvertException)
 
 TEST(CsvGridTest, Case25_Cell_ToInt32Def_1)
 {
-    core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-    const int32_t            testValue = std::numeric_limits<int32_t>::max() / 2;
-    int32_t                  value     = cell.ToInt32Def(testValue);
+    Cell          cell("I'm not a number I'm a free man!");
+    const int32_t testValue = std::numeric_limits<int32_t>::max() / 2;
+    int32_t       value     = cell.ToInt32Def(testValue);
     EXPECT_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case26_Cell_ToInt32Def_2)
 {
-    const int32_t            testValue = std::numeric_limits<int32_t>::max() / 2;
-    core_lib::csv_grid::Cell cell(testValue);
-    int32_t                  value = cell.ToInt32Def(0);
+    const int32_t testValue = std::numeric_limits<int32_t>::max() / 2;
+    Cell          cell(testValue);
+    int32_t       value = cell.ToInt32Def(0);
     EXPECT_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case27_Cell_ToInt64Def_1)
 {
-    core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-    const int64_t            testValue = std::numeric_limits<int64_t>::max() / 2;
-    int64_t                  value     = cell.ToInt64Def(testValue);
+    Cell          cell("I'm not a number I'm a free man!");
+    const int64_t testValue = std::numeric_limits<int64_t>::max() / 2;
+    int64_t       value     = cell.ToInt64Def(testValue);
     EXPECT_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case28_Cell_ToInt64Def_2)
 {
-    const int64_t            testValue = std::numeric_limits<int64_t>::max() / 2;
-    core_lib::csv_grid::Cell cell(testValue);
-    int64_t                  value = cell.ToInt64Def(0);
+    const int64_t testValue = std::numeric_limits<int64_t>::max() / 2;
+    Cell          cell(testValue);
+    int64_t       value = cell.ToInt64Def(0);
     EXPECT_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case29_Cell_ToDoubleDef_1)
 {
-    core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-    const double             testValue = std::numeric_limits<double>::max() / 2;
-    double                   value     = cell.ToDoubleDef(testValue);
+    Cell         cell("I'm not a number I'm a free man!");
+    const double testValue = std::numeric_limits<double>::max() / 2;
+    double       value     = cell.ToDoubleDef(testValue);
     EXPECT_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case30_Cell_ToDoubleDef_2)
 {
-    const double             testValue = std::numeric_limits<double>::max() / 2;
-    core_lib::csv_grid::Cell cell(testValue);
-    double                   value = cell.ToDoubleDef(0);
+    const double testValue = std::numeric_limits<double>::max() / 2;
+    Cell         cell(testValue);
+    double       value = cell.ToDoubleDef(0);
     EXPECT_DOUBLE_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case31_Row_DefaultConstructor)
 {
-    core_lib::csv_grid::Row row;
+    Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
 }
 
 TEST(CsvGridTest, Case32_Row_CopyConstructor)
 {
-    core_lib::csv_grid::Row row;
+    Row row;
     row.SetSize(100);
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(100));
-    core_lib::csv_grid::Row rowCopy(row);
+    Row rowCopy(row);
     EXPECT_EQ(row.GetSize(), rowCopy.GetSize());
 }
 
 TEST(CsvGridTest, Case33_Row_MoveConstructor)
 {
-    core_lib::csv_grid::Row row(core_lib::csv_grid::Row(100));
+    Row row(Row(100));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(100));
 }
 
 TEST(CsvGridTest, Case34_Row_InitializingConstructor)
 {
-    core_lib::csv_grid::Row row(666);
+    Row row(666);
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(666));
 }
 
 TEST(CsvGridTest, Case35_Row_InitializerListCellConstructor)
 {
-    core_lib::csv_grid::Row row = {Cell(), Cell(), Cell(), Cell(), Cell()};
+    Row row = {Cell(), Cell(), Cell(), Cell(), Cell()};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
 TEST(CsvGridTest, Case36_Row_InitializerListStringConstructor)
 {
-    core_lib::csv_grid::Row row = {Cell(""), Cell(""), Cell(""), Cell(""), Cell("")};
+    Row row = {Cell(""), Cell(""), Cell(""), Cell(""), Cell("")};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
 TEST(CsvGridTest, Case37_Row_InitializerListInt32Constructor)
 {
-    int32_t                 i   = 0;
-    core_lib::csv_grid::Row row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
+    int32_t i   = 0;
+    Row     row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
 TEST(CsvGridTest, Case38_Row_InitializerListInt64Constructor)
 {
-    int64_t                 i   = 0;
-    core_lib::csv_grid::Row row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
+    int64_t i   = 0;
+    Row     row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
 TEST(CsvGridTest, Case39_Row_InitializerListDoubleConstructor)
 {
-    double                  i   = 0;
-    core_lib::csv_grid::Row row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
+    double i   = 0;
+    Row    row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
 TEST(CsvGridTest, Case40_Row_CopyAssignment)
 {
-    core_lib::csv_grid::Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
-    core_lib::csv_grid::Row rowCopy;
+    Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    Row rowCopy;
     rowCopy = row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
 TEST(CsvGridTest, Case41_Row_MoveAssignment)
 {
-    core_lib::csv_grid::Row row;
-    row = core_lib::csv_grid::Row(100);
+    Row row;
+    row = Row(100);
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(100));
 }
 
 TEST(CsvGridTest, Case42_Row_SubscriptOperator)
 {
-    core_lib::csv_grid::Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     EXPECT_EQ(static_cast<int32_t>(row[0]), 1);
     EXPECT_EQ(static_cast<int32_t>(row[1]), 2);
     EXPECT_EQ(static_cast<int32_t>(row[2]), 3);
@@ -463,7 +462,7 @@ TEST(CsvGridTest, Case42_Row_SubscriptOperator)
 
 TEST(CsvGridTest, Case43_Row_AddColumnAsString)
 {
-    core_lib::csv_grid::Row row;
+    Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
     row.AddColumn("new entry");
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(1));
@@ -472,7 +471,7 @@ TEST(CsvGridTest, Case43_Row_AddColumnAsString)
 
 TEST(CsvGridTest, Case44_Row_AddColumnAsInt32)
 {
-    core_lib::csv_grid::Row row;
+    Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
     row.AddColumn(int32_t(100));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(1));
@@ -481,7 +480,7 @@ TEST(CsvGridTest, Case44_Row_AddColumnAsInt32)
 
 TEST(CsvGridTest, Case45_Row_AddColumnAsInt64)
 {
-    core_lib::csv_grid::Row row;
+    Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
     row.AddColumn(int64_t(100));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(1));
@@ -490,7 +489,7 @@ TEST(CsvGridTest, Case45_Row_AddColumnAsInt64)
 
 TEST(CsvGridTest, Case46_Row_AddColumnAsDouble)
 {
-    core_lib::csv_grid::Row row;
+    Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
     row.AddColumn(double(100.1));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(1));
@@ -499,7 +498,7 @@ TEST(CsvGridTest, Case46_Row_AddColumnAsDouble)
 
 TEST(CsvGridTest, Case47_Row_InsertColumnAsString)
 {
-    core_lib::csv_grid::Row row = {Cell("1"), Cell("2"), Cell("3"), Cell("4"), Cell("5")};
+    Row row = {Cell("1"), Cell("2"), Cell("3"), Cell("4"), Cell("5")};
     row.InsertColumn(3, "666");
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(6));
     EXPECT_EQ(static_cast<std::string>(row[0]), std::string("1"));
@@ -516,7 +515,7 @@ TEST(CsvGridTest, Case47_Row_InsertColumnAsString)
         row.InsertColumn(100, "667");
         exceptionThrown = false;
     }
-    catch (core_lib::csv_grid::xCsvGridColOutOfRangeError& e)
+    catch (xCsvGridColOutOfRangeError& e)
     {
         (void)e;
         exceptionThrown = true;
@@ -531,7 +530,7 @@ TEST(CsvGridTest, Case47_Row_InsertColumnAsString)
 
 TEST(CsvGridTest, Case48_Row_InsertColumnAsInt32)
 {
-    core_lib::csv_grid::Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     row.InsertColumn(3, static_cast<int32_t>(666));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(6));
     EXPECT_EQ(static_cast<int32_t>(row[0]), int32_t(1));
@@ -544,7 +543,7 @@ TEST(CsvGridTest, Case48_Row_InsertColumnAsInt32)
 
 TEST(CsvGridTest, Case49_Row_InsertColumnAsInt64)
 {
-    core_lib::csv_grid::Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     row.InsertColumn(3, static_cast<int64_t>(666));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(6));
     EXPECT_EQ(static_cast<int64_t>(row[0]), int64_t(1));
@@ -557,7 +556,7 @@ TEST(CsvGridTest, Case49_Row_InsertColumnAsInt64)
 
 TEST(CsvGridTest, Case50_Row_InsertColumnAsDouble)
 {
-    core_lib::csv_grid::Row row = {Cell(1.1), Cell(2.2), Cell(3.3), Cell(4.4), Cell(5.5)};
+    Row row = {Cell(1.1), Cell(2.2), Cell(3.3), Cell(4.4), Cell(5.5)};
     row.InsertColumn(3, static_cast<double>(666.6));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(6));
     EXPECT_EQ(static_cast<double>(row[0]), double(1.1));
@@ -570,7 +569,7 @@ TEST(CsvGridTest, Case50_Row_InsertColumnAsDouble)
 
 TEST(CsvGridTest, Case51_Row_ClearCells)
 {
-    core_lib::csv_grid::Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
     row.ClearCells();
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
@@ -583,7 +582,7 @@ TEST(CsvGridTest, Case51_Row_ClearCells)
 
 TEST(CsvGridTest, Case52_Row_ResetRow)
 {
-    core_lib::csv_grid::Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
     row.ResetRow();
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
@@ -591,13 +590,13 @@ TEST(CsvGridTest, Case52_Row_ResetRow)
 
 TEST(CsvGridTest, Case53_CsvGrid_DefaultConstructor)
 {
-    core_lib::csv_grid::CsvGrid grid;
+    CsvGrid grid;
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(0));
 }
 
 TEST(CsvGridTest, Case54_CsvGrid_InitializingConstructor_1)
 {
-    core_lib::csv_grid::CsvGrid grid(10, 10);
+    CsvGrid grid(10, 10);
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(10));
 
     for (size_t row = 0; row < grid.GetRowCount(); ++row)
@@ -613,10 +612,10 @@ TEST(CsvGridTest, Case55_CsvGrid_InitializingConstructor_2)
 
     try
     {
-        core_lib::csv_grid::CsvGrid grid(0, 0);
+        CsvGrid grid(0, 0);
         exceptionThrown = false;
     }
-    catch (core_lib::csv_grid::xCsvGridDimensionError& e)
+    catch (xCsvGridDimensionError& e)
     {
         (void)e;
         exceptionThrown = true;
@@ -631,8 +630,8 @@ TEST(CsvGridTest, Case55_CsvGrid_InitializingConstructor_2)
 
 TEST(CsvGridTest, Case56_CsvGrid_InitializerListConstructor)
 {
-    core_lib::csv_grid::Row     row  = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
-    core_lib::csv_grid::CsvGrid grid = {row, row, row, row, row};
+    Row     row  = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    CsvGrid grid = {row, row, row, row, row};
 
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(5));
 
@@ -645,9 +644,9 @@ TEST(CsvGridTest, Case56_CsvGrid_InitializerListConstructor)
 
 TEST(CsvGridTest, Case57_CsvGrid_CopyConstructor)
 {
-    core_lib::csv_grid::Row     row  = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
-    core_lib::csv_grid::CsvGrid grid = {row, row, row, row, row};
-    core_lib::csv_grid::CsvGrid gridCopy(grid);
+    Row     row  = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    CsvGrid grid = {row, row, row, row, row};
+    CsvGrid gridCopy(grid);
 
     EXPECT_EQ(gridCopy.GetRowCount(), static_cast<size_t>(5));
 
@@ -660,8 +659,8 @@ TEST(CsvGridTest, Case57_CsvGrid_CopyConstructor)
 
 TEST(CsvGridTest, Case58_CsvGrid_MoveConstructor)
 {
-    core_lib::csv_grid::Row     row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
-    core_lib::csv_grid::CsvGrid gridCopy(core_lib::csv_grid::CsvGrid{row, row, row, row, row});
+    Row     row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
+    CsvGrid gridCopy(CsvGrid{row, row, row, row, row});
 
     EXPECT_EQ(gridCopy.GetRowCount(), static_cast<size_t>(5));
 
@@ -676,8 +675,7 @@ TEST(CsvGridTest, Case59_CsvGrid_FileConstructor_SimpleCells)
 {
     try
     {
-        core_lib::csv_grid::CsvGrid grid(path1,
-                                         core_lib::csv_grid::eCellFormatOptions::simpleCells);
+        CsvGrid grid(path1, eCellFormatOptions::simpleCells);
         EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
         EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
         EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
@@ -694,8 +692,7 @@ TEST(CsvGridTest, Case60_CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130
 {
     try
     {
-        core_lib::csv_grid::CsvGrid grid(path1,
-                                         core_lib::csv_grid::eCellFormatOptions::simpleCells);
+        CsvGrid grid(path1, eCellFormatOptions::simpleCells);
     }
     catch (...)
     {
@@ -707,8 +704,7 @@ TEST(CsvGridTest, Case61_CsvGrid_FileConstructor_DoubleQuotedCells)
 {
     try
     {
-        core_lib::csv_grid::CsvGrid grid(path2,
-                                         core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
+        CsvGrid grid(path2, eCellFormatOptions::doubleQuotedCells);
         EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
         EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
         EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
@@ -725,8 +721,7 @@ TEST(CsvGridTest, Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_100
 {
     try
     {
-        core_lib::csv_grid::CsvGrid grid(path2,
-                                         core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
+        CsvGrid grid(path2, eCellFormatOptions::doubleQuotedCells);
     }
     catch (...)
     {
@@ -736,7 +731,7 @@ TEST(CsvGridTest, Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_100
 
 TEST(CsvGridTest, Case63_CsvGrid_SetColCount)
 {
-    core_lib::csv_grid::CsvGrid grid(10, 10);
+    CsvGrid grid(10, 10);
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(10));
 
     for (size_t row = 0; row < grid.GetRowCount(); ++row)
@@ -776,7 +771,7 @@ TEST(CsvGridTest, Case63_CsvGrid_SetColCount)
 
 TEST(CsvGridTest, Case64_CsvGrid_AddRow)
 {
-    core_lib::csv_grid::CsvGrid grid(10, 10);
+    CsvGrid grid(10, 10);
     grid.AddRow(5);
 
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(11));
@@ -798,10 +793,10 @@ TEST(CsvGridTest, Case64_CsvGrid_AddRow)
 
 TEST(CsvGridTest, Case65_CsvGrid_AddColumnToAllRows)
 {
-    core_lib::csv_grid::Row     row1 = {Cell(1)};
-    core_lib::csv_grid::Row     row2 = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row3 = {Cell(1), Cell(2), Cell(3)};
-    core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
+    Row     row1 = {Cell(1)};
+    Row     row2 = {Cell(1), Cell(2)};
+    Row     row3 = {Cell(1), Cell(2), Cell(3)};
+    CsvGrid grid = {row1, row2, row3};
 
     grid.AddColumnToAllRows();
 
@@ -812,10 +807,10 @@ TEST(CsvGridTest, Case65_CsvGrid_AddColumnToAllRows)
 
 TEST(CsvGridTest, Case66_CsvGrid_InsertRow)
 {
-    core_lib::csv_grid::Row     row1 = {Cell(1)};
-    core_lib::csv_grid::Row     row2 = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row3 = {Cell(1), Cell(2), Cell(3)};
-    core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
+    Row     row1 = {Cell(1)};
+    Row     row2 = {Cell(1), Cell(2)};
+    Row     row3 = {Cell(1), Cell(2), Cell(3)};
+    CsvGrid grid = {row1, row2, row3};
 
     grid.InsertRow(1, 5);
     grid.InsertRow(2);
@@ -844,7 +839,7 @@ TEST(CsvGridTest, Case66_CsvGrid_InsertRow)
         grid.InsertRow(100);
         correctException = false;
     }
-    catch (core_lib::csv_grid::xCsvGridRowOutOfRangeError& e)
+    catch (xCsvGridRowOutOfRangeError& e)
     {
         (void)e;
         correctException = true;
@@ -859,10 +854,10 @@ TEST(CsvGridTest, Case66_CsvGrid_InsertRow)
 
 TEST(CsvGridTest, Case67_CsvGrid_InsertColumnInAllRows)
 {
-    core_lib::csv_grid::Row     row1 = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row2 = {Cell(1), Cell(2), Cell(3)};
-    core_lib::csv_grid::Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
-    core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
+    Row     row1 = {Cell(1), Cell(2)};
+    Row     row2 = {Cell(1), Cell(2), Cell(3)};
+    Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
+    CsvGrid grid = {row1, row2, row3};
 
     grid.InsertColumnInAllRows(1);
 
@@ -905,10 +900,10 @@ TEST(CsvGridTest, Case67_CsvGrid_InsertColumnInAllRows)
 
 TEST(CsvGridTest, Case68_CsvGrid_ClearCells)
 {
-    core_lib::csv_grid::Row     row1 = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row2 = {Cell(1), Cell(2), Cell(3)};
-    core_lib::csv_grid::Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
-    core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
+    Row     row1 = {Cell(1), Cell(2)};
+    Row     row2 = {Cell(1), Cell(2), Cell(3)};
+    Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
+    CsvGrid grid = {row1, row2, row3};
 
     grid.ClearCells();
 
@@ -935,10 +930,10 @@ TEST(CsvGridTest, Case68_CsvGrid_ClearCells)
 
 TEST(CsvGridTest, Case69_CsvGrid_ResetGrid)
 {
-    core_lib::csv_grid::Row     row1 = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row2 = {Cell(1), Cell(2), Cell(3)};
-    core_lib::csv_grid::Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
-    core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
+    Row     row1 = {Cell(1), Cell(2)};
+    Row     row2 = {Cell(1), Cell(2), Cell(3)};
+    Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
+    CsvGrid grid = {row1, row2, row3};
 
     grid.ResetGrid();
 
@@ -947,15 +942,15 @@ TEST(CsvGridTest, Case69_CsvGrid_ResetGrid)
 
 TEST(CsvGridTest, Case70_CsvGrid_LoadFromCSVFile_1)
 {
-    core_lib::csv_grid::CsvGrid grid;
-    bool                        correctException;
+    CsvGrid grid;
+    bool    correctException;
 
     try
     {
-        grid.LoadFromCSVFile("dummyfile.csv", core_lib::csv_grid::eCellFormatOptions::simpleCells);
+        grid.LoadFromCSVFile("dummyfile.csv", eCellFormatOptions::simpleCells);
         correctException = false;
     }
-    catch (core_lib::csv_grid::xCsvGridCreateFileStreamError& e)
+    catch (xCsvGridCreateFileStreamError& e)
     {
         (void)e;
         correctException = true;
@@ -970,11 +965,10 @@ TEST(CsvGridTest, Case70_CsvGrid_LoadFromCSVFile_1)
 
 TEST(CsvGridTest, Case71_CsvGrid_LoadFromCSVFile_2)
 {
-    core_lib::csv_grid::CsvGrid grid;
+    CsvGrid grid;
     try
     {
-        core_lib::csv_grid::CsvGrid grid(path1,
-                                         core_lib::csv_grid::eCellFormatOptions::simpleCells);
+        CsvGrid grid(path1, eCellFormatOptions::simpleCells);
         EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
         EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
         EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
@@ -989,10 +983,10 @@ TEST(CsvGridTest, Case71_CsvGrid_LoadFromCSVFile_2)
 
 TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
 {
-    core_lib::csv_grid::Row     row1 = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row2 = {Cell(1), Cell(2), Cell(3)};
-    core_lib::csv_grid::Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
-    core_lib::csv_grid::CsvGrid grid = {row1, row2, row3};
+    Row     row1 = {Cell(1), Cell(2)};
+    Row     row2 = {Cell(1), Cell(2), Cell(3)};
+    Row     row3 = {Cell(1), Cell(2), Cell(3), Cell(4)};
+    CsvGrid grid = {row1, row2, row3};
 
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(3));
 
@@ -1007,8 +1001,7 @@ TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
 
     try
     {
-        core_lib::csv_grid::CsvGrid grid(path1,
-                                         core_lib::csv_grid::eCellFormatOptions::simpleCells);
+        CsvGrid grid(path1, eCellFormatOptions::simpleCells);
         EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(1000));
         EXPECT_EQ(grid[0].GetSize(), static_cast<size_t>(130));
         EXPECT_EQ(grid[999].GetSize(), static_cast<size_t>(130));
@@ -1023,14 +1016,14 @@ TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
 
 TEST(CsvGridTest, Case73_CsvGrid_SaveToCSVFile_1)
 {
-    core_lib::csv_grid::Row     row1    = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row2    = {Cell(1), Cell(2), Cell(3)};
-    core_lib::csv_grid::Row     row3    = {Cell(1), Cell(2), Cell(3), Cell(4)};
-    core_lib::csv_grid::CsvGrid gridOut = {row1, row2, row3};
+    Row     row1    = {Cell(1), Cell(2)};
+    Row     row2    = {Cell(1), Cell(2), Cell(3)};
+    Row     row3    = {Cell(1), Cell(2), Cell(3), Cell(4)};
+    CsvGrid gridOut = {row1, row2, row3};
 
     try
     {
-        gridOut.SaveToCsvFile("testSave.csv", core_lib::csv_grid::eSaveToFileOptions::truncate);
+        gridOut.SaveToCsvFile("testSave.csv", eSaveToFileOptions::truncate);
     }
     catch (...)
     {
@@ -1039,8 +1032,7 @@ TEST(CsvGridTest, Case73_CsvGrid_SaveToCSVFile_1)
 
     try
     {
-        core_lib::csv_grid::CsvGrid gridIn("testSave.csv",
-                                           core_lib::csv_grid::eCellFormatOptions::simpleCells);
+        CsvGrid gridIn("testSave.csv", eCellFormatOptions::simpleCells);
 
         EXPECT_EQ(gridIn.GetRowCount(), gridOut.GetRowCount());
 
@@ -1056,7 +1048,7 @@ TEST(CsvGridTest, Case73_CsvGrid_SaveToCSVFile_1)
             }
         }
 
-        ::remove("testSave.csv");
+        bfs::remove("testSave.csv");
     }
     catch (...)
     {
@@ -1066,14 +1058,14 @@ TEST(CsvGridTest, Case73_CsvGrid_SaveToCSVFile_1)
 
 TEST(CsvGridTest, Case74_CsvGrid_SaveToCSVFile_2)
 {
-    core_lib::csv_grid::Row     row1    = {Cell(1), Cell(2)};
-    core_lib::csv_grid::Row     row2    = {Cell("1,/nbum"), Cell("2"), Cell("3")};
-    core_lib::csv_grid::Row     row3    = {Cell(1), Cell(2), Cell(3), Cell(4)};
-    core_lib::csv_grid::CsvGrid gridOut = {row1, row2, row3};
+    Row     row1    = {Cell(1), Cell(2)};
+    Row     row2    = {Cell("1,/nbum"), Cell("2"), Cell("3")};
+    Row     row3    = {Cell(1), Cell(2), Cell(3), Cell(4)};
+    CsvGrid gridOut = {row1, row2, row3};
 
     try
     {
-        gridOut.SaveToCsvFile("testSave.csv", core_lib::csv_grid::eSaveToFileOptions::truncate);
+        gridOut.SaveToCsvFile("testSave.csv", eSaveToFileOptions::truncate);
     }
     catch (...)
     {
@@ -1082,8 +1074,7 @@ TEST(CsvGridTest, Case74_CsvGrid_SaveToCSVFile_2)
 
     try
     {
-        core_lib::csv_grid::CsvGrid gridIn(
-            "testSave.csv", core_lib::csv_grid::eCellFormatOptions::doubleQuotedCells);
+        CsvGrid gridIn("testSave.csv", eCellFormatOptions::doubleQuotedCells);
 
         EXPECT_EQ(gridIn.GetRowCount(), gridOut.GetRowCount());
 
@@ -1099,7 +1090,7 @@ TEST(CsvGridTest, Case74_CsvGrid_SaveToCSVFile_2)
             }
         }
 
-        ::remove("testSave.csv");
+        bfs::remove("testSave.csv");
     }
     catch (...)
     {
@@ -1109,18 +1100,18 @@ TEST(CsvGridTest, Case74_CsvGrid_SaveToCSVFile_2)
 
 TEST(CsvGridTest, Case76_Cell_LongDoubleConstructor)
 {
-    long double              value1 = 1000000000.0L;
-    core_lib::csv_grid::Cell cell(value1);
-    long double              value2 = cell;
+    long double value1 = 1000000000.0L;
+    Cell        cell(value1);
+    long double value2 = cell;
     EXPECT_EQ(value1, value2);
 }
 
 TEST(CsvGridTest, Case77_Cell_LongDoubleAssignment)
 {
-    core_lib::csv_grid::Cell cell;
-    long double              value1 = 1000000000.0L;
-    cell                            = value1;
-    long double value2              = cell;
+    Cell        cell;
+    long double value1 = 1000000000.0L;
+    cell               = value1;
+    long double value2 = cell;
     EXPECT_EQ(value1, value2);
 }
 
@@ -1130,8 +1121,8 @@ TEST(CsvGridTest, Case78_Cell_LongDoubleConvertException)
 
     try
     {
-        core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-        long double              temp = static_cast<long double>(cell);
+        Cell        cell("I'm not a number I'm a free man!");
+        long double temp = static_cast<long double>(cell);
         (void)temp;
         correctException = false;
     }
@@ -1150,30 +1141,30 @@ TEST(CsvGridTest, Case78_Cell_LongDoubleConvertException)
 
 TEST(CsvGridTest, Case79_Cell_LongToDoubleDef_1)
 {
-    core_lib::csv_grid::Cell cell("I'm not a number I'm a free man!");
-    const long double        testValue = std::numeric_limits<long double>::max() / 2;
-    long double              value     = cell.ToLongDoubleDef(testValue);
+    Cell              cell("I'm not a number I'm a free man!");
+    const long double testValue = std::numeric_limits<long double>::max() / 2;
+    long double       value     = cell.ToLongDoubleDef(testValue);
     EXPECT_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case80_Cell_LongToDoubleDef_2)
 {
-    const long double        testValue = std::numeric_limits<long double>::max() / 2;
-    core_lib::csv_grid::Cell cell(testValue);
-    long double              value = cell.ToLongDoubleDef(0);
+    const long double testValue = std::numeric_limits<long double>::max() / 2;
+    Cell              cell(testValue);
+    long double       value = cell.ToLongDoubleDef(0);
     EXPECT_EQ(value, testValue);
 }
 
 TEST(CsvGridTest, Case81_Row_InitializerListLongDoubleConstructor)
 {
-    long double             i   = 0;
-    core_lib::csv_grid::Row row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
+    long double i   = 0;
+    Row         row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
 TEST(CsvGridTest, Case82_Row_AddColumnAsLongDouble)
 {
-    core_lib::csv_grid::Row row;
+    Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
     row.AddColumn(100.1L);
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(1));
@@ -1182,7 +1173,7 @@ TEST(CsvGridTest, Case82_Row_AddColumnAsLongDouble)
 
 TEST(CsvGridTest, Case83_Row_InsertColumnAsLongDouble)
 {
-    core_lib::csv_grid::Row row = {Cell(1.1L), Cell(2.2L), Cell(3.3L), Cell(4.4L), Cell(5.5L)};
+    Row row = {Cell(1.1L), Cell(2.2L), Cell(3.3L), Cell(4.4L), Cell(5.5L)};
     row.InsertColumn(3, 666.6L);
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(6));
     EXPECT_EQ(static_cast<long double>(row[0]), 1.1L);
@@ -1195,39 +1186,39 @@ TEST(CsvGridTest, Case83_Row_InsertColumnAsLongDouble)
 
 TEST(CsvGridTest, Case84_CellDouble_DefaultConstructor)
 {
-    core_lib::csv_grid::CellDouble cell;
-    double                         value = cell;
+    CellDouble cell;
+    double     value = cell;
     EXPECT_DOUBLE_EQ(value, 0.0);
 }
 
 TEST(CsvGridTest, Case85_CellDouble_DoubleConstructor)
 {
-    double                         value1 = std::numeric_limits<double>::max() / 2;
-    core_lib::csv_grid::CellDouble cell(value1);
-    double                         value2 = cell;
+    double     value1 = std::numeric_limits<double>::max() / 2;
+    CellDouble cell(value1);
+    double     value2 = cell;
     EXPECT_DOUBLE_EQ(value1, value2);
 }
 
 TEST(CsvGridTest, Case86_CellDouble_CopyConstructor)
 {
-    core_lib::csv_grid::CellDouble cell(666.6);
-    core_lib::csv_grid::CellDouble cellCopy(cell);
-    double                         value     = cell;
-    double                         valueCopy = cellCopy;
+    CellDouble cell(666.6);
+    CellDouble cellCopy(cell);
+    double     value     = cell;
+    double     valueCopy = cellCopy;
     EXPECT_DOUBLE_EQ(value, valueCopy);
 }
 
 TEST(CsvGridTest, Case87_CellDouble_MoveConstructor)
 {
-    core_lib::csv_grid::CellDouble cell(core_lib::csv_grid::CellDouble(666.6));
-    double                         value = cell;
+    CellDouble cell(CellDouble(666.6));
+    double     value = cell;
     EXPECT_DOUBLE_EQ(value, 666.6);
 }
 
 TEST(CsvGridTest, Case88_CellDouble_CopyAssignment)
 {
-    core_lib::csv_grid::CellDouble cell(666.6);
-    core_lib::csv_grid::CellDouble cellCopy;
+    CellDouble cell(666.6);
+    CellDouble cellCopy;
     cellCopy         = cell;
     double value     = cell;
     double valueCopy = cellCopy;
@@ -1236,15 +1227,15 @@ TEST(CsvGridTest, Case88_CellDouble_CopyAssignment)
 
 TEST(CsvGridTest, Case89_CellDouble_MoveAssignment)
 {
-    core_lib::csv_grid::CellDouble cell;
-    cell         = core_lib::csv_grid::CellDouble(666.6);
+    CellDouble cell;
+    cell         = CellDouble(666.6);
     double value = cell;
     EXPECT_DOUBLE_EQ(value, 666.6);
 }
 
 TEST(CsvGridTest, Case90_CellDouble_DoubleAssignment_DoubleConversion)
 {
-    core_lib::csv_grid::Cell cell;
+    CellDouble cell;
     cell         = 666.6;
     double value = cell;
     EXPECT_DOUBLE_EQ(value, 666.6);
@@ -1252,8 +1243,8 @@ TEST(CsvGridTest, Case90_CellDouble_DoubleAssignment_DoubleConversion)
 
 TEST(CsvGridTest, Case91_CellDouble_StringConversion)
 {
-    core_lib::csv_grid::Cell cell(666.6);
-    std::string              value = cell;
+    CellDouble  cell(666.6);
+    std::string value = cell;
     EXPECT_STREQ(value.c_str(), "666.6");
 }
 
@@ -1273,6 +1264,46 @@ TEST(CsvGridTest, Case92_CsvGridD_Specialization)
     EXPECT_DOUBLE_EQ(grid[2][0], 7.7);
     EXPECT_DOUBLE_EQ(grid[2][1], 8.8);
     EXPECT_DOUBLE_EQ(grid[2][2], 9.9);
+}
+
+TEST(CsvGridTest, Case93_CsvGridD_SaveLoad)
+{
+    using namespace core_lib::csv_grid;
+    CsvGridD grid{{CellDouble(1.1), CellDouble(2.2), CellDouble(3.3)},
+                  {CellDouble(4.4), CellDouble(5.5), CellDouble(6.6)},
+                  {CellDouble(7.7), CellDouble(8.8), CellDouble(9.9)}};
+
+    try
+    {
+        grid.SaveToCsvFile("testSave.csv", eSaveToFileOptions::truncate);
+    }
+    catch (...)
+    {
+        FAIL() << "unexpected exception caught when saving to file";
+    }
+
+    CsvGridD gridIn;
+
+    try
+    {
+        gridIn.LoadFromCSVFile("testSave.csv", eCellFormatOptions::simpleCells);
+    }
+    catch (...)
+    {
+        FAIL() << "unexpected exception caught when loadig from file";
+    }
+
+    EXPECT_DOUBLE_EQ(grid[0][0], gridIn[0][0]);
+    EXPECT_DOUBLE_EQ(grid[0][1], gridIn[0][1]);
+    EXPECT_DOUBLE_EQ(grid[0][2], gridIn[0][2]);
+    EXPECT_DOUBLE_EQ(grid[1][0], gridIn[1][0]);
+    EXPECT_DOUBLE_EQ(grid[1][1], gridIn[1][1]);
+    EXPECT_DOUBLE_EQ(grid[1][2], gridIn[1][2]);
+    EXPECT_DOUBLE_EQ(grid[2][0], gridIn[2][0]);
+    EXPECT_DOUBLE_EQ(grid[2][1], gridIn[2][1]);
+    EXPECT_DOUBLE_EQ(grid[2][2], gridIn[2][2]);
+
+    bfs::remove("testSave.csv");
 }
 
 #endif // DISABLE_CSVGRID_TESTS

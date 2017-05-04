@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file JoinThreads.h
  * \brief File containing multi-thread joiner declaration.
@@ -31,94 +30,96 @@
 #include <thread>
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The threads namespace. */
-namespace threads {
+namespace threads
+{
 
 /*!
  * \brief Class to manage joining multiple threads held as objects in an STL container.
  *
  * You can specify the container type in the template argument.
- *
- * std::vector<std::thread> myThreads(2);
- * JoinThreads<std::vector> joiner(myThreads);
+\code
+std::vector<std::thread> myThreads(2);
+JoinThreads<std::vector> joiner(myThreads);
+\endcode
  */
-template<template<class, class> class C>
-class JoinThreads final
+template <template <class, class> class C> class JoinThreads final
 {
 public:
-	/*! \brief typedef for container type */
-	typedef C<std::thread, std::allocator<std::thread>> container_type;
-	/*!
-	 * \brief Initialisation constructor.
+    /*! \brief typedef for container type */
+    typedef C<std::thread, std::allocator<std::thread>> container_type;
+    /*!
+     * \brief Initialisation constructor.
      * \param[in] threads - Containr of std::threads.
-	 */
-	explicit JoinThreads(container_type& threads)
-		: m_threads(threads)
-	{
-	}
-	/*! \brief Copy constructor - deleted.*/
-	JoinThreads(const JoinThreads&) = delete;
-	/*! \brief Destructor- joins the threads.*/
-	~JoinThreads()
-	{
-		for (auto& t : m_threads)
-		{
-			if (t.joinable())
-			{
-				t.join();
-			}
-		}
-	}
-	/*! \brief Copy assignment operator - deleted.*/
-	JoinThreads& operator= (const JoinThreads&) = delete;
+     */
+    explicit JoinThreads(container_type& threads)
+        : m_threads(threads)
+    {
+    }
+    /*! \brief Copy constructor - deleted.*/
+    JoinThreads(const JoinThreads&) = delete;
+    /*! \brief Destructor- joins the threads.*/
+    ~JoinThreads()
+    {
+        for (auto& t : m_threads)
+        {
+            if (t.joinable())
+            {
+                t.join();
+            }
+        }
+    }
+    /*! \brief Copy assignment operator - deleted.*/
+    JoinThreads& operator=(const JoinThreads&) = delete;
 
 private:
-	/*! \brief Container of threads.*/
-	container_type& m_threads;
+    /*! \brief Container of threads.*/
+    container_type& m_threads;
 };
 
 /*!
  * \brief Class to manage joining multiple threads held as pointers in an STL container.
  *
  * You can specify the container type in the template argument.
- *
- * std::vector<std::thread*> myThreads(2);
- * JoinThreads<std::vector> joiner(myThreads);
+\code
+std::vector<std::thread*> myThreads(2);
+JoinThreads<std::vector> joiner(myThreads);
+\endcode
  */
-template<template<class, class> class C>
-class JoinThreadsP final
+template <template <class, class> class C> class JoinThreadsP final
 {
 public:
-	/*! \brief typedef for container type */
-	typedef C<std::thread*, std::allocator<std::thread*>> container_type;
-	/*!
-	 * \brief Initialisation constructor.
+    /*! \brief typedef for container type */
+    typedef C<std::thread*, std::allocator<std::thread*>> container_type;
+    /*!
+     * \brief Initialisation constructor.
      * \param[in] threads - Containr of std::threads.
-	 */
-	explicit JoinThreadsP(container_type& threads)
-		: m_threads(threads)
-	{
-	}
-	/*! \brief Copy constructor - deleted.*/
-	JoinThreadsP(const JoinThreadsP&) = delete;
-	/*! \brief Destructor- joins the threads.*/
-	~JoinThreadsP()
-	{
-		for (auto& t : m_threads)
-		{
+     */
+    explicit JoinThreadsP(container_type& threads)
+        : m_threads(threads)
+    {
+    }
+    /*! \brief Copy constructor - deleted.*/
+    JoinThreadsP(const JoinThreadsP&) = delete;
+    /*! \brief Destructor- joins the threads.*/
+    ~JoinThreadsP()
+    {
+        for (auto& t : m_threads)
+        {
             if (t && t->joinable())
-			{
-				t->join();
-			}
-		}
-	}
-	/*! \brief Copy assignment operator - deleted.*/
-	JoinThreadsP& operator= (const JoinThreadsP&) = delete;
+            {
+                t->join();
+            }
+        }
+    }
+    /*! \brief Copy assignment operator - deleted.*/
+    JoinThreadsP& operator=(const JoinThreadsP&) = delete;
 
 private:
-	/*! \brief Container of threads.*/
-	container_type& m_threads;
+    /*! \brief Container of threads.*/
+    container_type& m_threads;
 };
 
 } // namespace threads

@@ -31,6 +31,8 @@ static const std::string path_invalid = "../../../data/test_file.ini";
 static const std::string path_temp    = "../../../data/test_file_tmp.ini";
 #endif
 
+namespace bfs = boost::filesystem;
+
 TEST(IniFileTest, Case1_InvalidLine)
 {
     bool correctException;
@@ -218,8 +220,7 @@ TEST(IniFileTest, Case7_ValidFile)
 
 TEST(IniFileTest, Case8_ValidFileCompare)
 {
-    boost::filesystem::copy_file(
-        path6, path_temp, boost::filesystem::copy_option::overwrite_if_exists);
+    bfs::copy_file(path6, path_temp, bfs::copy_option::overwrite_if_exists);
     bool noException;
 
     try
@@ -256,7 +257,7 @@ TEST(IniFileTest, Case8_ValidFileCompare)
     iniFileA.close();
     iniFileB.close();
 
-    boost::filesystem::remove(path_temp);
+    bfs::remove(path_temp);
 }
 
 TEST(IniFileTest, Case9_CopyConstructor)
@@ -284,7 +285,7 @@ TEST(IniFileTest, Case9_CopyConstructor)
     iniFileA.close();
     iniFileB.close();
 
-    boost::filesystem::remove(path_temp);
+    bfs::remove(path_temp);
 }
 
 TEST(IniFileTest, Case10_MoveConstructor)
@@ -311,7 +312,7 @@ TEST(IniFileTest, Case10_MoveConstructor)
     iniFileA.close();
     iniFileB.close();
 
-    boost::filesystem::remove(path_temp);
+    bfs::remove(path_temp);
 }
 
 TEST(IniFileTest, Case11_GetSections)

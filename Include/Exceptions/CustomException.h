@@ -35,19 +35,21 @@
 #if BOOST_OS_WINDOWS
 namespace boost
 {
-    class CORE_LIBRARY_DLL_SHARED_API exception;
+class CORE_LIBRARY_DLL_SHARED_API exception;
 }
 
 namespace std
 {
-    class CORE_LIBRARY_DLL_SHARED_API exception;
+class CORE_LIBRARY_DLL_SHARED_API exception;
 }
 #endif
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The exceptions namespace. */
-namespace exceptions {
+namespace exceptions
+{
 
 /*!
  * \brief Exception base class from which to define custom exceptions.
@@ -61,49 +63,50 @@ namespace exceptions {
  *
  * To access extended info do the following:
  *
- * try
- * {
- *     // something throws a n exception derived from
- *     // core_lib::exceptions::xCustomException
- * }
- * catch(core_lib::exceptions::xCustomException& e)
- * {
- *     std::cerr << boost::diagnostic_information(e);
- * }
- * catch(...)
- * {
- *     std::cerr << "Unhandled exception!" << std::endl
- *               << boost::current_exception_diagnostic_information();
- * }
+\code{.cpp}
+try
+{
+   // something throws a n exception derived from
+   // core_lib::exceptions::xCustomException
+}
+catch(core_lib::exceptions::xCustomException& e)
+{
+   std::cerr << boost::diagnostic_information(e);
+}
+catch(...)
+{
+   std::cerr << "Unhandled exception!" << std::endl
+             << boost::current_exception_diagnostic_information();
+}
+\endcode
  */
-class CORE_LIBRARY_DLL_SHARED_API xCustomException : public virtual boost::exception
-        , public virtual std::exception
+class CORE_LIBRARY_DLL_SHARED_API xCustomException : public virtual boost::exception,
+                                                     public virtual std::exception
 {
 public:
-	/*! \brief Default constructor. */
-	xCustomException();
-	/*!
-	 * \brief Initializing constructor.
-	 * \param[in] message - A user specified message string.
-	 */
-	explicit xCustomException(const std::string& message);
-	/*! \brief Virtual destructor. */
-	virtual ~xCustomException();
-	/*! \brief Copy constructor. */
-	xCustomException(const xCustomException&) = default;
-	/*! \brief Copy assignment operator. */
-	xCustomException& operator=(const xCustomException&) = default;
-	/*!
-	 * \brief Function to get the exception message.
-	 * \return The exception message.
-	 */
-	virtual const char* what() const NO_EXCEPT_ final;
+    /*! \brief Default constructor. */
+    xCustomException();
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xCustomException(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xCustomException();
+    /*! \brief Copy constructor. */
+    xCustomException(const xCustomException&) = default;
+    /*! \brief Copy assignment operator. */
+    xCustomException& operator=(const xCustomException&) = default;
+    /*!
+     * \brief Function to get the exception message.
+     * \return The exception message.
+     */
+    virtual const char* what() const NO_EXCEPT_ final;
 
 protected:
-	/*! \brief The exception message. */
-	std::string m_message;
+    /*! \brief The exception message. */
+    std::string m_message;
 };
-
 
 } // namespace exceptions
 } // namespace core_lib

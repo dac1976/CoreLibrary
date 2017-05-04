@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file IniFileSectionDetails.h
  * \brief File containing declarations relating the IniFile support classes.
@@ -32,26 +31,29 @@
 #define INIFILESECTIONDETAILS
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The ini_file namespace. */
-namespace ini_file {
+namespace ini_file
+{
 /*! \brief The if_private namespace. */
-namespace if_private {
+namespace if_private
+{
 
-/*! \brief Class to section details. */
+/*! \brief Class to represent an INI file's section details. */
 class CORE_LIBRARY_DLL_SHARED_API SectionDetails
 {
 public:
-	/*! \brief Default constructor. */
-	SectionDetails() = default;
-	/*! \brief Copy constructor. */
-	SectionDetails(const SectionDetails&) = default;
-	/*! \brief Initialising constructor. */
-	explicit SectionDetails(const line_iter& sectIter);
+    /*! \brief Default constructor. */
+    SectionDetails() = default;
+    /*! \brief Copy constructor. */
+    SectionDetails(const SectionDetails&) = default;
+    /*! \brief Initialising constructor. */
+    explicit SectionDetails(const line_iter& sectIter);
     /*! \brief Destructor. */
-	~SectionDetails() = default;
-	/*! \brief Copy assignment operator. */
-	SectionDetails& operator=(const SectionDetails&) = default;
+    ~SectionDetails() = default;
+    /*! \brief Copy assignment operator. */
+    SectionDetails& operator=(const SectionDetails&) = default;
 #ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     SectionDetails(SectionDetails&& section);
@@ -63,71 +65,66 @@ public:
     /*! \brief Move assignment operator. */
     SectionDetails& operator=(SectionDetails&&) = default;
 #endif
-	/*!
-	 * \brief Get the section.
-	 * \return The section.
-	 */
+    /*!
+     * \brief Get the section.
+     * \return The section.
+     */
     const std::string& Section() const;
-	/*!
-	 * \brief Does a key exist
-	 * \param[in] key - The key.
-	 * \return True if exists, false otherwise.
-	 */
-	bool KeyExists(const std::string& key) const;
-	/*!
-	 * \brief Add a key to the section.
-	 * \param[in] keyIter - The key iterator.
-	 */
-	void AddKey(const line_iter& keyIter);
-	/*!
-	 * \brief Update a key's value in the section.
-	 * \param[in] key - The key.
-	 * \param[in] value - The value.
-	 */
-	void UpdateKey(const std::string& key
-				   , const std::string& value);
-	/*!
-	 * \brief Erase a key value from the section.
-	 * \param[in] key - The key.
-	 * \param[out] lineIter - Line iterator to the erased key.
-	 * \return True if erased, false otherwise.
-	 */
-	bool EraseKey(const std::string& key
-				  , line_iter& lineIter);
-	/*!
-	 * \brief Get a key's value from the section.
-	 * \param[in] key - The key.
-	 * \param[in] defaultValue - The default value to use if key not found.
-	 * \return The value for the key.
-	 */
-	std::string GetValue(const std::string& key
-						 , const std::string& defaultValue = "") const;
-	/*!
-	 * \brief Get a list of keys in the section.
-	 * \param[out] keys - The list of keys.
-	 */
-	void GetKeys(keys_list& keys) const;
-	/*!
-	 * \brief Get the line iterator.
-	 * \return Line iterator.
-	 */
-	line_iter LineIterator() const;
+    /*!
+     * \brief Does a key exist
+     * \param[in] key - The key.
+     * \return True if exists, false otherwise.
+     */
+    bool KeyExists(const std::string& key) const;
+    /*!
+     * \brief Add a key to the section.
+     * \param[in] keyIter - The key iterator.
+     */
+    void AddKey(const line_iter& keyIter);
+    /*!
+     * \brief Update a key's value in the section.
+     * \param[in] key - The key.
+     * \param[in] value - The value.
+     */
+    void UpdateKey(const std::string& key, const std::string& value);
+    /*!
+     * \brief Erase a key value from the section.
+     * \param[in] key - The key.
+     * \param[out] lineIter - Line iterator to the erased key.
+     * \return True if erased, false otherwise.
+     */
+    bool EraseKey(const std::string& key, line_iter& lineIter);
+    /*!
+     * \brief Get a key's value from the section.
+     * \param[in] key - The key.
+     * \param[in] defaultValue - The default value to use if key not found.
+     * \return The value for the key.
+     */
+    std::string GetValue(const std::string& key, const std::string& defaultValue = "") const;
+    /*!
+     * \brief Get a list of keys in the section.
+     * \param[out] keys - The list of keys.
+     */
+    void GetKeys(keys_list& keys) const;
+    /*!
+     * \brief Get the line iterator.
+     * \return Line iterator.
+     */
+    line_iter LineIterator() const;
 
 private:
-	/*! \brief Line iterator. */
-	line_iter m_sectIter{};
-	/*! \brief Line iterator lists typedef. */
-	typedef std::list<line_iter> line_iter_list;
-	/*! \brief Line iterator list. */
-	line_iter_list m_keyIters{};
-	/*! \brief Line iterator list iterator. */
-	typedef line_iter_list::iterator keys_iter;
+    /*! \brief Line iterator. */
+    line_iter m_sectIter{};
+    /*! \brief Line iterator lists typedef. */
+    typedef std::list<line_iter> line_iter_list;
+    /*! \brief Line iterator list. */
+    line_iter_list m_keyIters{};
+    /*! \brief Line iterator list iterator. */
+    typedef line_iter_list::iterator keys_iter;
 };
-
 
 } // namespace if_private
 } // namespace ini_file
 } // namespace core_lib
 
-
-#endif //INIFILESECTIONDETAILS
+#endif // INIFILESECTIONDETAILS

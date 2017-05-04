@@ -67,6 +67,13 @@ public:
      * Initialise the cell with a double.
      */
     explicit CellDouble(const double value);
+    /*!
+     * \brief Initializing constructor
+     * \param[in] value - The initial value.
+     *
+     * Initialise the cell with a string.
+     */
+    explicit CellDouble(const std::string& value);
     /*! \brief Destructor. */
     ~CellDouble() = default;
     /*! \brief Copy assignment operator. */
@@ -86,6 +93,14 @@ public:
      * Assign to a double precision floating point value.
      */
     CellDouble& operator=(const double rhs);
+    /*!
+     * \brief Value assignment operator.
+     * \param[in] rhs - The value to assign.
+     * \return Modified Cell object.
+     *
+     * Assign to a string.
+     */
+    CellDouble& operator=(const std::string& rhs);
     /*!
      * \brief Value method.
      * \return Get the underlying double value of the Cell.

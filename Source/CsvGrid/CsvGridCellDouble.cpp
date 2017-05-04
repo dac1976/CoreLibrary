@@ -57,9 +57,20 @@ CellDouble::CellDouble(const double value)
 {
 }
 
+CellDouble::CellDouble(const std::string& value)
+    : m_value(std::stod(value))
+{
+}
+
 CellDouble& CellDouble::operator=(const double rhs)
 {
     m_value = rhs;
+    return *this;
+}
+
+CellDouble& CellDouble::operator=(const std::string& rhs)
+{
+    m_value = std::stod(rhs);
     return *this;
 }
 

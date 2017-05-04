@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file StringUtils.h
  * \brief File containing declarations relating various string utilities.
@@ -34,9 +33,11 @@
 #include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The string_utils namespace. */
-namespace string_utils {
+namespace string_utils
+{
 
 /*!
  * \brief Tidy a string obtained from getline function.
@@ -54,21 +55,21 @@ void CORE_LIBRARY_DLL_SHARED_API PackStdString(std::string& line);
  * This exception class is intended to be thrown by the SplitString function
  * to signify that an error has occured.
  */
-class CORE_LIBRARY_DLL_SHARED_API xSplitStringBadDelim: public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xSplitStringBadDelim : public exceptions::xCustomException
 {
 public:
-	/*! \brief Default constructor. */
-	xSplitStringBadDelim();
-	/*!
-	 * \brief Initializing constructor.
-	 * \param[in] message - A user specified message string.
-	 */
-	explicit xSplitStringBadDelim(const std::string& message);
-	/*! \brief Virtual destructor. */
-	virtual ~xSplitStringBadDelim();
-	/*! \brief Copy constructor. */
+    /*! \brief Default constructor. */
+    xSplitStringBadDelim();
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xSplitStringBadDelim(const std::string& message);
+    /*! \brief Virtual destructor. */
+    virtual ~xSplitStringBadDelim();
+    /*! \brief Copy constructor. */
     xSplitStringBadDelim(const xSplitStringBadDelim&) = default;
-	/*! \brief Copy assignment operator. */
+    /*! \brief Copy assignment operator. */
     xSplitStringBadDelim& operator=(const xSplitStringBadDelim&) = default;
 };
 
@@ -78,21 +79,22 @@ public:
  * This exception class is intended to be thrown by the SplitString function
  * to signify that an error has occured.
  */
-class CORE_LIBRARY_DLL_SHARED_API xSplitStringTooManySubstrings : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xSplitStringTooManySubstrings
+    : public exceptions::xCustomException
 {
 public:
-	/*! \brief Default constructor. */
-	xSplitStringTooManySubstrings();
-	/*!
-	 * \brief Initializing constructor.
-	 * \param[in] message - A user specified message string.
-	 */
-	explicit xSplitStringTooManySubstrings(const std::string& message);
-	/*! \brief Virtual destructor.*/
-	virtual ~xSplitStringTooManySubstrings();
-	/*! \brief Copy constructor. */
+    /*! \brief Default constructor. */
+    xSplitStringTooManySubstrings();
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xSplitStringTooManySubstrings(const std::string& message);
+    /*! \brief Virtual destructor.*/
+    virtual ~xSplitStringTooManySubstrings();
+    /*! \brief Copy constructor. */
     xSplitStringTooManySubstrings(const xSplitStringTooManySubstrings&) = default;
-	/*! \brief Copy assignment operator. */
+    /*! \brief Copy assignment operator. */
     xSplitStringTooManySubstrings& operator=(const xSplitStringTooManySubstrings&) = default;
 };
 
@@ -104,10 +106,10 @@ public:
  */
 enum class eSplitStringResult
 {
-	/*! \brief Trim the results, removing pre/pro-ceeding spaces. */
-	trimmed,
-	/*! \brief Do not trim the results. */
-	notTrimmed
+    /*! \brief Trim the results, removing pre/pro-ceeding spaces. */
+    trimmed,
+    /*! \brief Do not trim the results. */
+    notTrimmed
 };
 
 /*!
@@ -125,8 +127,8 @@ enum class eSplitStringResult
  * substrings then a xSplitStringTooManySubStrings exception is thrown.
  */
 void CORE_LIBRARY_DLL_SHARED_API SplitString(std::string& subStr1, std::string& subStr2,
-				 const std::string& toSplit, const std::string& delim,
-				 const eSplitStringResult option);
+                                             const std::string& toSplit, const std::string& delim,
+                                             const eSplitStringResult option);
 
 /*!
  * \brief Format float options enumeration.
@@ -135,16 +137,16 @@ void CORE_LIBRARY_DLL_SHARED_API SplitString(std::string& subStr1, std::string& 
  */
 enum class eFloatStringFormat
 {
-	/*! \brief Default formating. */
-	normal,
-	/*! \brief Fixed formatting. */
-	fixed,
-	/*! \brief Scientific formatting. */
-	scientific
+    /*! \brief Default formating. */
+    normal,
+    /*! \brief Fixed formatting. */
+    fixed,
+    /*! \brief Scientific formatting. */
+    scientific
 };
 
 /*!
- * \brief Convert a floating point value to a string representation.
+ * \brief Convert a floating point value to a formatted string representation.
  * \param[in] value - Floating point value to convert to a string.
  * \param[in] precision - Precision to display the number to as a string.
  * \param[in] formatting - Formatting options.
@@ -155,32 +157,31 @@ enum class eFloatStringFormat
  */
 template <typename T>
 std::string FormatFloatString(const T value, const int precision = 15,
-							  const eFloatStringFormat formatting
-							  = eFloatStringFormat::normal)
+                              const eFloatStringFormat formatting = eFloatStringFormat::normal)
 {
-	std::ostringstream ss;
+    std::ostringstream ss;
 
-	switch(formatting)
-	{
-	case eFloatStringFormat::fixed:
-		ss << std::fixed;
-		break;
-	case eFloatStringFormat::scientific:
-		ss << std::scientific;
-		break;
-	case eFloatStringFormat::normal:
-	default:
-		// do nothing
-		break;
-	}
+    switch (formatting)
+    {
+    case eFloatStringFormat::fixed:
+        ss << std::fixed;
+        break;
+    case eFloatStringFormat::scientific:
+        ss << std::scientific;
+        break;
+    case eFloatStringFormat::normal:
+    default:
+        // do nothing
+        break;
+    }
 
-	if (precision >= 0)
-	{
-		ss << std::setprecision(precision);
-	}
+    if (precision >= 0)
+    {
+        ss << std::setprecision(precision);
+    }
 
-	ss << value;
-	return ss.str();
+    ss << value;
+    return ss.str();
 }
 
 } // namespace string_utils
