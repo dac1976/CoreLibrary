@@ -2,7 +2,7 @@
 // classes.
 //
 // Copyright (C) 2014 to present, Duncan Crutchley
-// Contact <duncan.crutchley+corelibrary@gmail.com>
+// Contact <dac1976github@outlook.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published
