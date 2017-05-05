@@ -4,7 +4,7 @@ This library (CoreLibrary) is a collection of useful C++11 utility classes to as
 
 It is licensed under the GNU Lesser General Public License and the relevant documentation for this can be found at the top of each source file and in the files COPYING and COPYING.LESSER.
 
-The code is the work of Duncan Crutchley (<duncan.crutchely+corelibrary@gmail.com>).
+The code is the work of Duncan Crutchley (<dac1976github@outlook.com>).
 
 Copyright (C) 2014 (to present) Duncan Crutchley.
 
