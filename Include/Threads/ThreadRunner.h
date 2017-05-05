@@ -42,12 +42,9 @@ namespace threads
 /*!
  * \brief ThreadRunner class.
  *
- * When writing new code a user is most likely going to
- * derive their own derieved class from ThreadBase but
- * sometimes it may be preferable to have a thread runner
- * object as a member variable of a class that is to have
- * threaded out functionality. In which case ThreadRunner
- * can be used.
+ * When writing new code a user is most likely going to derive their own derieved class from ThreadBase but
+ * sometimes it may be preferable to have a thread runner object as a member variable of a class that is to have
+ * threaded out functionality. In which case ThreadRunner can be used.
  */
 class CORE_LIBRARY_DLL_SHARED_API ThreadRunner final : public ThreadBase
 {
