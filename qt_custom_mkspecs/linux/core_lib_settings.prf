@@ -2,4 +2,4 @@ CONFIG += boost \
           loki  \
           cereal
 
-INCLUDEPATH += /home/duncan/projects/corelibrary/Include
+INCLUDEPATH += /home/duncan/projects/CoreLibrary/Include
