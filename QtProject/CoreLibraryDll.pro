@@ -72,7 +72,7 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-HEADERS +=                                              \
+HEADERS +=                                           \
 	../Include/Asio/AsioDefines.h                    \
     ../Include/Asio/IoServiceThreadGroup.h           \
 	../Include/Asio/MessageUtils.h                   \
@@ -116,12 +116,13 @@ HEADERS +=                                              \
     ../Include/Asio/SimpleUdpSender.h                \
     ../Include/Asio/SimpleUdpReceiver.h              \
     ../Include/Platform/PlatformDefines.h            \
-	../Include/CoreLibraryDllGlobal.h \
-    ../Include/Asio/MulticastTypedSender.h \
-    ../Include/Asio/SimpleMulticastSender.h \
-    ../Include/Asio/SimpleMulticastReceiver.h
+    ../Include/CoreLibraryDllGlobal.h                \
+    ../Include/Asio/MulticastTypedSender.h           \
+    ../Include/Asio/SimpleMulticastSender.h          \
+    ../Include/Asio/SimpleMulticastReceiver.h        \
+    ../Include/Threads/ThreadRunner.h
 
-SOURCES +=                                                \
+SOURCES +=                                             \
     ../Source/Asio/AsioDefines.cpp                     \
 	../Source/Asio/IoServiceThreadGroup.cpp            \
 	../Source/Asio/MessageUtils.cpp                    \
@@ -153,9 +154,10 @@ SOURCES +=                                                \
     ../Source/Asio/MulticastReceiver.cpp               \
     ../Source/Asio/MulticastSender.cpp                 \
     ../Source/Asio/SimpleUdpSender.cpp                 \
-    ../Source/Asio/SimpleUdpReceiver.cpp \
-    ../Source/Asio/SimpleMulticastSender.cpp \
-    ../Source/Asio/SimpleMulticastReceiver.cpp
+    ../Source/Asio/SimpleUdpReceiver.cpp               \
+    ../Source/Asio/SimpleMulticastSender.cpp           \
+    ../Source/Asio/SimpleMulticastReceiver.cpp         \
+    ../Source/Threads/ThreadRunner.cpp
 
 DISTFILES += CoreLibraryDll_resource.rc
 	

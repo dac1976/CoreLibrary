@@ -96,7 +96,8 @@ var hierarchy =
     [ "core_lib::asio::tcp::TcpTypedServer< core_lib::asio::messages::MessageBuilder >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html", null ],
     [ "core_lib::csv_grid::TCsvGrid< C, T >", "classcore__lib_1_1csv__grid_1_1_t_csv_grid.html", null ],
     [ "core_lib::threads::ThreadBase", "classcore__lib_1_1threads_1_1_thread_base.html", [
-      [ "core_lib::threads::MessageQueueThread< MessageId, MessageType >", "classcore__lib_1_1threads_1_1_message_queue_thread.html", null ]
+      [ "core_lib::threads::MessageQueueThread< MessageId, MessageType >", "classcore__lib_1_1threads_1_1_message_queue_thread.html", null ],
+      [ "core_lib::threads::ThreadRunner", "classcore__lib_1_1threads_1_1_thread_runner.html", null ]
     ] ],
     [ "core_lib::threads::ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html", null ],
     [ "core_lib::serialize::impl::ToCharVectorImpl< T, A >", "structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl.html", null ],

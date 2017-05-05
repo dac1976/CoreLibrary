@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file SyncEvent.h
  * \brief File containing declaration of SyncEvent class.
@@ -33,29 +32,31 @@
 #include <condition_variable>
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The threads namespace. */
-namespace threads {
+namespace threads
+{
 
 /*! \brief Enumeration defining reset mechanism for event. */
 enum class eResetCondition
 {
-	manualReset,
-	autoReset
+    manualReset,
+    autoReset
 };
 
 /*! \brief Enumeration defining notify mechanism for event. */
 enum class eNotifyType
 {
-	signalOneThread,
-	signalAllThreads
+    signalOneThread,
+    signalAllThreads
 };
 
 /*! \brief Enumeration defining intial state of event. */
 enum class eIntialCondition
 {
-	notSignalled,
-	signalled
+    notSignalled,
+    signalled
 };
 
 /*!
@@ -63,95 +64,98 @@ enum class eIntialCondition
  *
  * This class implemented a thread syncronisation event
  * that is built using a mutex and a condition variable
- * it makes for a neater package than using these constructs
- * bare.
+ * it makes for a neater implementation than using these
+ * types of object as is.
  */
 class CORE_LIBRARY_DLL_SHARED_API SyncEvent final
 {
 public:
-	/*!
-	 * \brief Default constructor.
-	 *
-	 * Create the SyncEvent in auto-reset mode, signal
-     * one thread and initially not signalled.
-	 */
-	SyncEvent() = default;
-	/*!
-	 * \brief Intialising constructor.
+    /*!
+     * \brief Default constructor.
+     *
+     * Create the SyncEvent in auto-reset mode, signaling
+     * one thread at a time and initially in a not signalled
+     * state.
+     */
+    SyncEvent() = default;
+    /*!
+     * \brief Intialising constructor.
      * \param[in] notifyCondition - Notify type.
      * \param[in] resetCondition - Reset condition.
      * \param[in] initialCondition - Initial condition.
-	 *
-	 * Create the SyncEvent setting whether auto-
-	 * or manual reset is to be used. Also setting
-	 * whether when signalled it notifies all waiting
-	 * threads or just one. Can also set the initial
-	 * condition as signalled or not signalled.
-	 *
-	 * If notifyCondition == eNotifyType::signalAllThreads
-	 * then eResetCondition == eResetCondition::manualReset.
-	 */
-	SyncEvent(const eNotifyType notifyCondition
-			  , const eResetCondition resetCondition
-			  , const eIntialCondition initialCondition);
-	/*! \brief Destructor. */
-	~SyncEvent() = default;
-	/*! \brief Copy constructor - disabled. */
-	SyncEvent(const SyncEvent&) = delete;
-	/*! \brief Copy assignment operator - disabled. */
-	SyncEvent& operator=(const SyncEvent&) = delete;
-	/*!
-	 * \brief Wait for event.
-	 *
-	 * Blocking function that waits until underlying condition
-	 * variable is signalled at which point this function returns.
-	 */
-	void Wait();
-	/*!
-	 * \brief Wait for event for a period of time.
+     *
+     * Create the SyncEvent setting whether auto-
+     * or manual reset is to be used. Also setting
+     * whether when signalled it notifies all waiting
+     * threads or just one of them. Can also set the
+     * initial condition as signalled or not signalled.
+     *
+     * If notifyCondition == eNotifyType::signalAllThreads
+     * then eResetCondition == eResetCondition::manualReset.
+     * This is because before you resue the event for signalling
+     * you must make sure all the signalled threads have finished
+     * their task(s) before the SyncEvent object is reset manually.
+     */
+    SyncEvent(const eNotifyType notifyCondition, const eResetCondition resetCondition,
+              const eIntialCondition initialCondition);
+    /*! \brief Destructor. */
+    ~SyncEvent() = default;
+    /*! \brief Copy constructor - disabled. */
+    SyncEvent(const SyncEvent&) = delete;
+    /*! \brief Copy assignment operator - disabled. */
+    SyncEvent& operator=(const SyncEvent&) = delete;
+    /*!
+     * \brief Wait for event.
+     *
+     * Blocking function that waits until underlying condition
+     * variable is signalled at which point this function returns.
+     */
+    void Wait();
+    /*!
+     * \brief Wait for event for a period of time.
      * \param[in] milliseconds - Number of milliseconds to wait.
-	 * \return true if signalled, false if timed out.
-	 *
-	 * Blocking function that waits until underlying condition
-	 * variable is signalled at which point this function returns
-	 * or if not signalled this function returns after a defined
-	 * number of milliseconds.
-	 */
-	bool WaitForTime(const size_t milliseconds);
-	/*!
-	 * \brief Signal event.
-	 *
-	 * Call this function to signal the underlying condition variable.
-	 * If a thread is blocked on a call to Wait or WaitForTime then
-	 * the waiting function will unblock and return.
-	 */
-	void Signal();
-	/*!
-	 * \brief Reset event.reset_condition
-	 *
-	 * Use this function when SYncEvent created in maunal reset mode.
-	 * Call to reset the signalled state of the event. This should
-	 * not be called while athread is blocked on a call to Wait or
-	 * WaitForTime. This should be called after the event has been
-	 * signalled and Wait or WaitFor Time has returned and before
-	 * calling Wait or WaitForTime again.
-	 */
-	void Reset();
+     * \return true if signalled, false if timed out.
+     *
+     * Blocking function that waits until underlying condition
+     * variable is signalled at which point this function returns
+     * or if not signalled this function returns after a defined
+     * number of milliseconds.
+     */
+    bool WaitForTime(const size_t milliseconds);
+    /*!
+     * \brief Signal event.
+     *
+     * Call this function to signal the underlying condition variable.
+     * If a thread is blocked on a call to Wait or WaitForTime then
+     * the waiting function will unblock and return.
+     */
+    void Signal();
+    /*!
+     * \brief Reset event.reset_condition
+     *
+     * Use this function when SYncEvent created in maunal reset mode.
+     * Call to reset the signalled state of the event. This should
+     * not be called while athread is blocked on a call to Wait or
+     * WaitForTime. This should be called after the event has been
+     * signalled and Wait or WaitFor Time has returned and before
+     * calling Wait or WaitForTime again.
+     */
+    void Reset();
 
 private:
-	/*! \brief Mutex to lock access to members. */
-	mutable std::mutex m_signalMutex;
-	/*! \brief Condition vairable to perform the waiting and signalling. */
-	std::condition_variable m_signalCondVar;
-	/*! \brief Signal type flag. */
-	const bool m_signalAllThreads{};
-	/*! \brief Auto-reset flag. */
-	const bool m_autoReset{true};
-	/*! \brief Signal flag. */
-	bool m_signalFlag{};
+    /*! \brief Mutex to lock access to members. */
+    mutable std::mutex m_signalMutex;
+    /*! \brief Condition vairable to perform the waiting and signalling. */
+    std::condition_variable m_signalCondVar;
+    /*! \brief Signal type flag. */
+    const bool m_signalAllThreads{};
+    /*! \brief Auto-reset flag. */
+    const bool m_autoReset{true};
+    /*! \brief Signal flag. */
+    bool m_signalFlag{};
 };
 
 } // namespace threads
 } // namespace core_lib
 
-#endif //SYNCEVENT
+#endif // SYNCEVENT

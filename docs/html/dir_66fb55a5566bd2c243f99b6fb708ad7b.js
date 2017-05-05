@@ -23,5 +23,8 @@ var dir_66fb55a5566bd2c243f99b6fb708ad7b =
     [ "ThreadGroup.h", "_thread_group_8h.html", [
       [ "xThreadGroupError", "classcore__lib_1_1threads_1_1x_thread_group_error.html", "classcore__lib_1_1threads_1_1x_thread_group_error" ],
       [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html", "classcore__lib_1_1threads_1_1_thread_group" ]
+    ] ],
+    [ "ThreadRunner.h", "_thread_runner_8h.html", [
+      [ "ThreadRunner", "classcore__lib_1_1threads_1_1_thread_runner.html", "classcore__lib_1_1threads_1_1_thread_runner" ]
     ] ]
 ];

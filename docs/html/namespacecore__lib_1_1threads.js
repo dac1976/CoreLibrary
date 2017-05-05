@@ -10,6 +10,7 @@ var namespacecore__lib_1_1threads =
     [ "SyncEvent", "classcore__lib_1_1threads_1_1_sync_event.html", "classcore__lib_1_1threads_1_1_sync_event" ],
     [ "ThreadBase", "classcore__lib_1_1threads_1_1_thread_base.html", "classcore__lib_1_1threads_1_1_thread_base" ],
     [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html", "classcore__lib_1_1threads_1_1_thread_group" ],
+    [ "ThreadRunner", "classcore__lib_1_1threads_1_1_thread_runner.html", "classcore__lib_1_1threads_1_1_thread_runner" ],
     [ "xMsgHandlerError", "classcore__lib_1_1threads_1_1x_msg_handler_error.html", "classcore__lib_1_1threads_1_1x_msg_handler_error" ],
     [ "xQueuePopQueueEmptyError", "classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html", "classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error" ],
     [ "xQueuePopTimeoutError", "classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html", "classcore__lib_1_1threads_1_1x_queue_pop_timeout_error" ],

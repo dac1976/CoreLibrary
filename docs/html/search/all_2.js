@@ -65,6 +65,7 @@ var searchData=
   ['file_5futils',['file_utils',['../namespacecore__lib_1_1file__utils.html',1,'core_lib']]],
   ['if_5fprivate',['if_private',['../namespacecore__lib_1_1ini__file_1_1if__private.html',1,'core_lib::ini_file']]],
   ['impl',['impl',['../namespacecore__lib_1_1serialize_1_1impl.html',1,'core_lib::serialize']]],
+  ['corelibrary',['CoreLibrary',['../index.html',1,'']]],
   ['ini_5ffile',['ini_file',['../namespacecore__lib_1_1ini__file.html',1,'core_lib']]],
   ['log',['log',['../namespacecore__lib_1_1log.html',1,'core_lib']]],
   ['messages',['messages',['../namespacecore__lib_1_1asio_1_1messages.html',1,'core_lib::asio']]],

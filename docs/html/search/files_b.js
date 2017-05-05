@@ -13,5 +13,7 @@ var searchData=
   ['threadbase_2ecpp',['ThreadBase.cpp',['../_thread_base_8cpp.html',1,'']]],
   ['threadbase_2eh',['ThreadBase.h',['../_thread_base_8h.html',1,'']]],
   ['threadgroup_2ecpp',['ThreadGroup.cpp',['../_thread_group_8cpp.html',1,'']]],
-  ['threadgroup_2eh',['ThreadGroup.h',['../_thread_group_8h.html',1,'']]]
+  ['threadgroup_2eh',['ThreadGroup.h',['../_thread_group_8h.html',1,'']]],
+  ['threadrunner_2ecpp',['ThreadRunner.cpp',['../_thread_runner_8cpp.html',1,'']]],
+  ['threadrunner_2eh',['ThreadRunner.h',['../_thread_runner_8h.html',1,'']]]
 ];

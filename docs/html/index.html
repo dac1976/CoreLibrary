@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Core Library: Main Page</title>
+<title>Core Library: CoreLibrary</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,15 +82,38 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Core Library Documentation</div>  </div>
+<div class="title">CoreLibrary </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><h2>Introduction</h2>
+<p>This library (CoreLibrary) is a collection of useful C++11 utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on.</p>
+<p>It is licensed under the GNU Lesser General Public License and the relevant documentation for this can be found at the top of each source file and in the files COPYING and COPYING.LESSER.</p>
+<p>The code is the work of Duncan Crutchley (<a href="#" onclick="location.href='mai'+'lto:'+'dun'+'ca'+'n.c'+'ru'+'tch'+'el'+'y+c'+'or'+'eli'+'br'+'ary'+'@g'+'mai'+'l.'+'com'; return false;">dunca<span style="display: none;">.nosp@m.</span>n.cr<span style="display: none;">.nosp@m.</span>utche<span style="display: none;">.nosp@m.</span>ly+c<span style="display: none;">.nosp@m.</span>oreli<span style="display: none;">.nosp@m.</span>brar<span style="display: none;">.nosp@m.</span>y@gma<span style="display: none;">.nosp@m.</span>il.c<span style="display: none;">.nosp@m.</span>om</a>).</p>
+<p>Copyright (C) 2014 (to present) Duncan Crutchley.</p>
+<h2>Requirements</h2>
+<p>This library has been developed in Qt Creator for Windows and Linux. In Windows it is recommended to use the MSVC2015 32bit and 64bit tool chain from within Qt Creator to build and test the code. However, other compilers have been tested in Windows such as Clang 3.8+ and GCC (MinGW) 4.8.X+. In Linux the code has been tested with GCC 4.8.X+ and Clang 3.8+.</p>
+<p>The projects supplied for the library and unit tests are for Qt Creator and will work in Linux and Windows. To achieve this the projects rely on the custom mkspecs to be copied from the qt_custom_mkspecs folder into Qt's appropriate mkspec feature folder, e.g. &lt;...&gt;\5.8. Example mkspecs are provided for compatibility with MSVC2015 32 bit and 64bit and Linux. These should be customized for the user's own system.</p>
+<p>You may use this code within other development and build environments but it is up to the user to create the required projects or makefiles for those environments. This should be fairly easy by referring to the Qt project (.pro) file and the previously mentioned mkspec files.</p>
+<p>This library requires some third-party open source libraries for it to compile and function. These are as follows:</p>
+<ul>
+<li>Boost (tested with 1.57+ but newest version recommended): <a href="http://www.boost.org/">http://www.boost.org/</a></li>
+<li>Cereal (tested with 1.2.1+ but newest version recommended): <a href="http://uscilab.github.io/cereal/">http://uscilab.github.io/cereal/</a></li>
+<li>Loki: <a href="http://loki-lib.sourceforge.net/">http://loki-lib.sourceforge.net/</a></li>
+<li>Google Test (tested with 1.7.0+, but newest recommended): <a href="https://github.com/google/googletest/graphs/contributors">https://github.com/google/googletest/graphs/contributors</a></li>
+</ul>
+<h2>Notes</h2>
+<p>This is largely a hobby project based on the knowledge I've gained in my many years of experience working in software development and academia. I started the development of this code in early 2014. This represents a collection of, hopefully, straightforward to use and useful classes for commonly occurring software development needs.</p>
+<p>All the code has been unit tested and I've used this code in my own projects without issue. I also have used much of this code and similar code written by me in commercial projects, often with (soft) real-time requirements, and have not had any issues so feel free to use this in commercial projects as long as you adhere to the license.</p>
+<p>I fix bugs and improve the code as and when necessary but make no guarantees on how often this happens. I provide no warranty or support for any issues that are encountered while using it. Although if you are really stuck email me at the provided address and if I have the time I will try to help/fix the issue if it's within my power.</p>
+<p>The code is commented using Doxygen style comments so check the documentation in the /docs/html/ folder and open index.html in your browser of choice.</p>
+<p>For usage examples I recommend looking at the unit test code in the /UnitTests/GoogleTests folder.</p>
+<p>The networking unit tests require network connectivity and expect 2 adapters setup, one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu May 4 2017 23:00:24 for Core Library by
+    <li class="footer">Generated on Fri May 5 2017 22:30:23 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
