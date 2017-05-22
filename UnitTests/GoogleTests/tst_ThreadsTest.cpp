@@ -8,6 +8,7 @@
 #include <set>
 #include <limits>
 #include <algorithm>
+#include <future>
 #include "Threads/SyncEvent.h"
 #include "Threads/ThreadBase.h"
 #include "Threads/ThreadRunner.h"
@@ -372,6 +373,73 @@ private:
         {
             std::lock_guard<std::mutex> lock(m_mutex);
             m_counter = m_counter == std::numeric_limits<size_t>::max() ? 0 : m_counter + 1;
+        }
+    }
+
+    virtual void ProcessTerminationConditions() NO_EXCEPT_
+    {
+        m_queue.BreakPopWait();
+    }
+};
+
+class QueuedThread3 final : public core_lib::threads::ThreadBase
+{
+public:
+    QueuedThread3(core_lib::threads::SyncEvent& readyEvent, size_t maxCount)
+        : ThreadBase()
+        , m_readyEvent(readyEvent)
+        , m_maxCount(maxCount)
+        , m_counter(0)
+    {
+        // Do this last in constructor.
+        Start();
+    }
+
+    virtual ~QueuedThread3()
+    {
+        // Do this first in destructor.
+        Stop();
+    }
+
+    size_t GetCounter() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_counter;
+    }
+
+    void Push(QueueMsg* item)
+    {
+        m_queue.Push(std::move(item));
+    }
+
+private:
+    core_lib::threads::SyncEvent&                 m_readyEvent;
+    size_t                                        m_maxCount;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> m_queue;
+    mutable std::mutex                            m_mutex;
+    size_t                                        m_counter{};
+
+    virtual void ThreadIteration() NO_EXCEPT_
+    {
+        QueueMsg* message{};
+
+        if (!m_queue.Pop(message) && message)
+        {
+            return;
+        }
+
+        delete message;
+        size_t count = 0;
+
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_counter = m_counter == std::numeric_limits<size_t>::max() ? 0 : m_counter + 1;
+            count     = m_counter;
+        }
+
+        if (count == m_maxCount)
+        {
+            m_readyEvent.Signal();
         }
     }
 
@@ -1274,6 +1342,43 @@ TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
     }
 
     EXPECT_TRUE(correctException);
+}
+
+TEST(QueueStressTest, testCase_ConcurrentQueue6)
+{
+    int                          max_i         = 10000000;
+    int                          max_i_quarter = 2500000;
+    core_lib::threads::SyncEvent readyEvent;
+    QueuedThread3                qt(readyEvent, max_i);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    EXPECT_TRUE(qt.GetCounter() == 0);
+
+    std::vector<std::future<void>> futures;
+
+    auto func = [max_i_quarter, &qt](int i) {
+        for (int k = 0; k < max_i_quarter; ++k)
+        {
+            qt.Push(CreateQueueMsgPtr(10, k + (i * max_i_quarter) + 1));
+        }
+    };
+
+    // Spawn 4 async tasks (threads) and have each task generate
+    // a quarter of our messages and push them onto the QueueThread
+    // concurrently with the QueueThread trying to read messages as they arrive.
+    for (int i = 0; i < 4; ++i)
+    {
+        futures.push_back(std::async(std::launch::async, func, i));
+    }
+
+    EXPECT_TRUE(readyEvent.WaitForTime(120000));
+    size_t count = qt.GetCounter();
+    EXPECT_TRUE(count == static_cast<size_t>(max_i));
+
+    // Make sure our futures have all returned from the async calls.
+    for (auto& f : futures)
+    {
+        f.get();
+    }
 }
 
 // ****************************************************************************
