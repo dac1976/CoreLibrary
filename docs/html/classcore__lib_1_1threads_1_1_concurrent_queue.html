@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.1.0</span>
+   &#160;<span id="projectnumber">1.4.2.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
   </td>
@@ -82,6 +82,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1threads_1_1_concurre
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
@@ -97,6 +98,13 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1threads_1_1_concurre
 
 <p><code>#include &lt;<a class="el" href="_concurrent_queue_8h_source.html">ConcurrentQueue.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a50a9c75e4422397aa5cf01edf00f3537"><td class="memItemLeft" align="right" valign="top"><a id="a50a9c75e4422397aa5cf01edf00f3537"></a>
+typedef std::deque&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a></td></tr>
+<tr class="memdesc:a50a9c75e4422397aa5cf01edf00f3537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for container type. <br /></td></tr>
+<tr class="separator:a50a9c75e4422397aa5cf01edf00f3537"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a26fb2097dfdc6b2a358dc4f259e64256"><td class="memItemLeft" align="right" valign="top"><a id="a26fb2097dfdc6b2a358dc4f259e64256"></a>
@@ -157,6 +165,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3dad5b5d8a631dbe9151432494144e90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a3dad5b5d8a631dbe9151432494144e90">Clear</a> ()</td></tr>
 <tr class="memdesc:a3dad5b5d8a631dbe9151432494144e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the queue.  <a href="#a3dad5b5d8a631dbe9151432494144e90">More...</a><br /></td></tr>
 <tr class="separator:a3dad5b5d8a631dbe9151432494144e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af860cec5b94be5c143d4df77a7caa39f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#af860cec5b94be5c143d4df77a7caa39f">TakeAll</a> ()</td></tr>
+<tr class="memdesc:af860cec5b94be5c143d4df77a7caa39f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take all items from the queue and return them, thus clearing down the internal queue.  <a href="#af860cec5b94be5c143d4df77a7caa39f">More...</a><br /></td></tr>
+<tr class="separator:af860cec5b94be5c143d4df77a7caa39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
@@ -165,10 +176,6 @@ Private Types</h2></td></tr>
  }<tr class="memdesc:a2cdf8c31f8359021a9fdbf3a10d46c66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration controlling end of queue to pop from.  <a href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a2cdf8c31f8359021a9fdbf3a10d46c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50a9c75e4422397aa5cf01edf00f3537"><td class="memItemLeft" align="right" valign="top"><a id="a50a9c75e4422397aa5cf01edf00f3537"></a>
-typedef std::deque&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a></td></tr>
-<tr class="memdesc:a50a9c75e4422397aa5cf01edf00f3537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for container type. <br /></td></tr>
-<tr class="separator:a50a9c75e4422397aa5cf01edf00f3537"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -294,7 +301,7 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Clear the queue. </p>
-<p>The method should only be called when no threads are blocked on any of the pop methods. If the queue items are unmanaged e.g. raw pointers then the user should instead individually pop each item off the queue and destroy it appropriately. If not then calling this method will result in leaked memory. </p>
+<p>If this method is called while a thread is blocking on the item event then due to interleving of calls and mutex lock timings this may cause the list to be cleared before a waiting pop function has had a chance to pop anything from the queue. This is safe but what it means is the pop function will not find anything to pop and will either throw or return false to indicate that nothing was popped off the queue. </p>
 
 </div>
 </div>
@@ -628,6 +635,36 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a id="af860cec5b94be5c143d4df77a7caa39f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af860cec5b94be5c143d4df77a7caa39f">&#9670;&nbsp;</a></span>TakeAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a> <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::TakeAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Take all items from the queue and return them, thus clearing down the internal queue. </p>
+<p>If this method is called while a thread is blocking on the item event then due to interleving of calls and mutex lock timings this may cause the list to be cleared before a waiting pop function has had a chance to pop anything from the queue. This is safe but what it means is the pop function will not find anything to pop and will either throw or return false to indicate that nothing was popped off the queue. </p>
+
+</div>
+</div>
 <a id="aed8ab138639410e4e314c9890458ae34"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aed8ab138639410e4e314c9890458ae34">&#9670;&nbsp;</a></span>TimedPop()</h2>
 
@@ -900,7 +937,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Duncan Crutchley/Documents/MyProjects/CoreLibrary/Include/Threads/<a class="el" href="_concurrent_queue_8h_source.html">ConcurrentQueue.h</a></li>
+<li>D:/Projects/CoreLibrary/Include/Threads/<a class="el" href="_concurrent_queue_8h_source.html">ConcurrentQueue.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -908,7 +945,7 @@ template&lt;typename T&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a></li>
-    <li class="footer">Generated on Mon May 15 2017 11:37:32 for Core Library by
+    <li class="footer">Generated on Sun May 28 2017 23:12:52 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

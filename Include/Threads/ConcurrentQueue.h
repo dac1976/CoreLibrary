@@ -336,17 +336,42 @@ public:
     /*!
      * \brief Clear the queue.
      *
-     * The method should only be called when no threads are blocked
-     * on any of the pop methods. If the queue items are unmanaged
-     * e.g. raw pointers then the user should instead individually
-     * pop each item off the queue and destroy it appropriately. If
-     * not then calling this method will result in leaked memory.
+     * If this method is called while a thread is blocking on
+     * the item event then due to interleving of calls and mutex
+     * lock timings this may cause the list to be cleared before
+     * a waiting pop function has had a chance to pop anything from
+     * the queue. This is safe but what it means is the pop function
+     * will not find anything to pop and will either throw or return
+     * false to indicate that nothing was popped off the queue.
      */
     void Clear()
     {
         std::lock_guard<std::mutex> lock{m_mutex};
         m_queue.clear();
-        m_itemEvent.Reset();
+    }    
+    /*! \brief Typedef for container type. */
+    typedef std::deque<T> container_type;
+    /*!
+     * \brief Take all items from the queue and return them, thus clearing down the internal queue.
+     *
+     * If this method is called while a thread is blocking on
+     * the item event then due to interleving of calls and mutex
+     * lock timings this may cause the list to be cleared before
+     * a waiting pop function has had a chance to pop anything from
+     * the queue. This is safe but what it means is the pop function
+     * will not find anything to pop and will either throw or return
+     * false to indicate that nothing was popped off the queue.
+     */
+    container_type TakeAll()
+    {
+        container_type q;
+
+        {
+            std::lock_guard<std::mutex> lock{m_mutex};
+            q.swap(m_queue);
+        }
+
+        return q;
     }
 
 private:
@@ -355,8 +380,6 @@ private:
     /*! \brief Synchronization event. */
     SyncEvent m_itemEvent{
         eNotifyType::signalOneThread, eResetCondition::manualReset, eIntialCondition::notSignalled};
-    /*! \brief Typedef for container type. */
-    typedef std::deque<T> container_type;
     /*! \brief Underlying deque container acting as the queue. */
     container_type m_queue;
 

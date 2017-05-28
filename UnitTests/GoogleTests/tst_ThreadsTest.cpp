@@ -1342,6 +1342,20 @@ TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
     }
 
     EXPECT_TRUE(correctException);
+
+    EXPECT_TRUE(m_queue.Empty());
+    m_queue.Push(CreateQueueMsg(2, 666));
+    m_queue.Push(CreateQueueMsg(3, 666));
+    m_queue.Push(CreateQueueMsg(4, 666));
+    EXPECT_TRUE(m_queue.Size() == 3);
+
+    auto q = m_queue.TakeAll();
+    EXPECT_TRUE(m_queue.Empty());
+    ASSERT_TRUE(q.size() == 3);
+
+    EXPECT_TRUE(CheckQueueMsg(*q[0], 666));
+    EXPECT_TRUE(CheckQueueMsg(*q[1], 666));
+    EXPECT_TRUE(CheckQueueMsg(*q[2], 666));
 }
 
 TEST(QueueStressTest, testCase_ConcurrentQueue6)

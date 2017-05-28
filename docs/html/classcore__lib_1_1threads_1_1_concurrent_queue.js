@@ -20,6 +20,7 @@ var classcore__lib_1_1threads_1_1_concurrent_queue =
     [ "PopThrow", "classcore__lib_1_1threads_1_1_concurrent_queue.html#aa005fa06cdf70eca7c2f2187811b2a84", null ],
     [ "Push", "classcore__lib_1_1threads_1_1_concurrent_queue.html#afc992f1ab10e46088b4190437a5e36b6", null ],
     [ "Size", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a71a86f55f3471566151aef7e9eee5ccd", null ],
+    [ "TakeAll", "classcore__lib_1_1threads_1_1_concurrent_queue.html#af860cec5b94be5c143d4df77a7caa39f", null ],
     [ "TimedPop", "classcore__lib_1_1threads_1_1_concurrent_queue.html#aed8ab138639410e4e314c9890458ae34", null ],
     [ "TimedPopThrow", "classcore__lib_1_1threads_1_1_concurrent_queue.html#ae058092f8f616ecf14145db7cc3a7429", null ],
     [ "TryPop", "classcore__lib_1_1threads_1_1_concurrent_queue.html#aa24340e08122e91037bbc84d2fdc50b4", null ],
