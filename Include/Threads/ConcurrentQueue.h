@@ -348,6 +348,34 @@ public:
     {
         std::lock_guard<std::mutex> lock{m_mutex};
         m_queue.clear();
+    }
+    /*!
+     * \brief Clear the queue.
+     * \param[in] deleter - If queue items are not RAII objects that will tidy
+     *                      up after themselves the you can pass in a suitable deleter to
+     *                      delete each queue item.
+     *
+     * It is also expected that the queue items are raw pointers.
+     *
+     * If this method is called while a thread is blocking on
+     * the item event then due to interleving of calls and mutex
+     * lock timings this may cause the list to be cleared before
+     * a waiting pop function has had a chance to pop anything from
+     * the queue. This is safe but what it means is the pop function
+     * will not find anything to pop and will either throw or return
+     * false to indicate that nothing was popped off the queue.
+     */
+    template <typename F>
+    void Clear(F deleter)
+    {
+        std::lock_guard<std::mutex> lock{m_mutex};
+
+        for (auto& qi : m_queue)
+        {
+            deleter(qi);
+        }
+
+        m_queue.clear();
     }    
     /*! \brief Typedef for container type. */
     typedef std::deque<T> container_type;

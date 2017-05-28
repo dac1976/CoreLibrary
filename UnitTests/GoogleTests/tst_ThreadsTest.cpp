@@ -1358,7 +1358,19 @@ TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
     EXPECT_TRUE(CheckQueueMsg(*q[2], 666));
 }
 
-TEST(QueueStressTest, testCase_ConcurrentQueue6)
+TEST(QueueTest, testCase_ConcurrentQueue6)
+{
+    core_lib::threads::ConcurrentQueue<QueueMsg*> q;
+    q.Push(CreateQueueMsgPtr(2, 666));
+    q.Push(CreateQueueMsgPtr(3, 666));
+    q.Push(CreateQueueMsgPtr(4, 666));
+    EXPECT_TRUE(q.Size() == 3);
+
+    q.Clear(core_lib::threads::SingleItemDeleter<QueueMsg>());
+    EXPECT_TRUE(q.Empty());
+}
+
+TEST(QueueStressTest, testCase_ConcurrentQueue7)
 {
     int                          max_i         = 10000000;
     int                          max_i_quarter = 2500000;
