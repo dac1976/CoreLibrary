@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.0</span>
+   &#160;<span id="projectnumber">1.4.3.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
   </td>
@@ -119,9 +119,8 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#acb24f09bc37cc42ba84391d7a57d6d52">operator=</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;)=delete</td></tr>
 <tr class="memdesc:acb24f09bc37cc42ba84391d7a57d6d52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator deleted. <br /></td></tr>
 <tr class="separator:acb24f09bc37cc42ba84391d7a57d6d52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="memItemLeft" align="right" valign="top"><a id="a26f3df82263ff6c7e1fbb1b4053569a2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a26f3df82263ff6c7e1fbb1b4053569a2">~ConcurrentQueue</a> ()</td></tr>
-<tr class="memdesc:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="memitem:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a26f3df82263ff6c7e1fbb1b4053569a2">~ConcurrentQueue</a> ()</td></tr>
+<tr class="memdesc:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a26f3df82263ff6c7e1fbb1b4053569a2">More...</a><br /></td></tr>
 <tr class="separator:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71a86f55f3471566151aef7e9eee5ccd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a71a86f55f3471566151aef7e9eee5ccd">Size</a> () const</td></tr>
 <tr class="memdesc:a71a86f55f3471566151aef7e9eee5ccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the queue.  <a href="#a71a86f55f3471566151aef7e9eee5ccd">More...</a><br /></td></tr>
@@ -248,6 +247,37 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a26f3df82263ff6c7e1fbb1b4053569a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26f3df82263ff6c7e1fbb1b4053569a2">&#9670;&nbsp;</a></span>~ConcurrentQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::~<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+<p>If the que items aren't RAII-like objects and so don't manager their own memory then make sure you call the second Clear method, defined later, that takes a deleter functor to tidy up th ememory of each queue item. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a7f3d0e1d8a6dfc60c9f2c5205f12d8c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7f3d0e1d8a6dfc60c9f2c5205f12d8c5">&#9670;&nbsp;</a></span>BreakPopWait()</h2>
@@ -340,7 +370,7 @@ template&lt;typename F &gt; </div>
 <p>Clear the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">deleter</td><td>- If queue items are not RAII objects that will tidy up after themselves the you can pass in a suitable deleter to delete each queue item.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">deleter</td><td>- If queue items are not RAII objects that will tidy up after themselves then you can pass in a suitable deleter to delete each queue item.</td></tr>
   </table>
   </dd>
 </dl>
@@ -989,7 +1019,7 @@ template&lt;typename T&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a></li>
-    <li class="footer">Generated on Sun May 28 2017 23:59:27 for Core Library by
+    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

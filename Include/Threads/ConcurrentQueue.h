@@ -150,10 +150,16 @@ public:
     ConcurrentQueue(const ConcurrentQueue&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     ConcurrentQueue& operator=(const ConcurrentQueue&) = delete;
-    /*! \brief Destructor.*/
+    /*!
+     * \brief Destructor
+     *
+     * If the que items aren't RAII-like objects and so don't
+     * manager their own memory then make sure you call the
+     * second Clear method, defined later, that takes a
+     * deleter functor to tidy up th ememory of each queue item.
+     */
     ~ConcurrentQueue()
     {
-        Clear();
     }
     /*!
      * \brief Size of the queue.
@@ -352,8 +358,8 @@ public:
     /*!
      * \brief Clear the queue.
      * \param[in] deleter - If queue items are not RAII objects that will tidy
-     *                      up after themselves the you can pass in a suitable deleter to
-     *                      delete each queue item.
+     *                      up after themselves then you can pass in a suitable
+     *                      deleter to delete each queue item.
      *
      * It is also expected that the queue items are raw pointers.
      *
