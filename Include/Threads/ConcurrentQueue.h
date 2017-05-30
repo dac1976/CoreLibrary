@@ -180,18 +180,46 @@ public:
         return m_queue.empty();
     }
     /*!
-     * \brief Push an item onto the queue.
-     * \param[in] item - Object of type T to push onto queue.
+	 * \brief Push an item onto the queue.
+	 * \param[in] item - Object of type T to push onto queue.
+	 *
+	 * The arg item must be moveable either implicitly or by
+	 * passing it to Push wrapped in a std::move() and item
+	 * will be invalid once this function returns due to
+	 * being moved onto the internal queue.
+	 *
+	 * It is preferred to use this version when performance
+	 * matters as move semantics are enforced.
      */
     void Push(T&& item)
-    {
-        {
-            std::lock_guard<std::mutex> lock{m_mutex};
+	{
+		{
+			std::lock_guard<std::mutex> lock{m_mutex};
             m_queue.emplace_back(std::move(item));
-        }
+		}
 
-        m_itemEvent.Signal();
-    }
+		m_itemEvent.Signal();
+	}
+    /*!
+	 * \brief Push an item onto the queue.
+	 * \param[in] item - Object of type T to push onto queue.
+	 *
+	 * Use this version only when you want to push a copy of
+	 * the item arg onto the innternal queue because maybe
+	 * you want to use item afterwards.
+	 *
+	 * This option is not as efficient as the first version
+	 * of Push because move semantics are not enforced.
+     */
+	void Push(const T& item)
+	{
+		{
+			std::lock_guard<std::mutex> lock{m_mutex};
+            m_queue.emplace_back(item);
+		}
+
+		m_itemEvent.Signal();
+	}
     /*!
      * \brief Break out of waiting on a Pop method.
      *

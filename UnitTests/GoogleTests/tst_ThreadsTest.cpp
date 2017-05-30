@@ -1370,7 +1370,83 @@ TEST(QueueTest, testCase_ConcurrentQueue6)
     EXPECT_TRUE(q.Empty());
 }
 
-TEST(QueueStressTest, testCase_ConcurrentQueue7)
+TEST(QueueTest, testCase_ConcurrentQueue7)
+{
+	core_lib::threads::ConcurrentQueue<QueueMsg*> q;
+
+	QueueMsg* m = CreateQueueMsgPtr(2, 666);
+
+	q.Push(std::move(m));
+	EXPECT_TRUE(q.Size() == 1);
+
+	m = nullptr;
+	EXPECT_TRUE(q.Pop(m));
+	EXPECT_TRUE(m != nullptr);
+	EXPECT_TRUE(q.Empty());
+	EXPECT_TRUE(CheckQueueMsg(*m, 666));
+
+	delete m;
+}
+
+TEST(QueueTest, testCase_ConcurrentQueue8)
+{
+	core_lib::threads::ConcurrentQueue<char*> q;
+
+	char* m = new char[12];
+	strcpy(m, "I AM A TEST");
+
+	q.Push(std::move(m));
+	EXPECT_TRUE(q.Size() == 1);
+
+	m = nullptr;
+	EXPECT_TRUE(q.Pop(m));
+	EXPECT_TRUE(m != nullptr);
+	EXPECT_TRUE(q.Empty());
+	EXPECT_STREQ(m, "I AM A TEST");
+
+	delete [] m;
+}
+
+TEST(QueueTest, testCase_ConcurrentQueue9)
+{
+	core_lib::threads::ConcurrentQueue<QueueMsg*> q;
+
+	QueueMsg* m = CreateQueueMsgPtr(2, 666);
+
+	q.Push(m);
+	EXPECT_TRUE(q.Size() == 1);
+	EXPECT_TRUE(CheckQueueMsg(*m, 666));
+
+	m = nullptr;
+	EXPECT_TRUE(q.Pop(m));
+	EXPECT_TRUE(m != nullptr);
+	EXPECT_TRUE(q.Empty());
+	EXPECT_TRUE(CheckQueueMsg(*m, 666));
+
+	delete m;
+}
+
+TEST(QueueTest, testCase_ConcurrentQueue10)
+{
+	core_lib::threads::ConcurrentQueue<char*> q;
+
+	char* m = new char[12];
+	strcpy(m, "I AM A TEST");
+
+	q.Push(m);
+	EXPECT_TRUE(q.Size() == 1);
+	EXPECT_STREQ(m, "I AM A TEST");
+
+	m = nullptr;
+	EXPECT_TRUE(q.Pop(m));
+	EXPECT_TRUE(m != nullptr);
+	EXPECT_TRUE(q.Empty());
+	EXPECT_STREQ(m, "I AM A TEST");
+
+	delete [] m;
+}
+
+TEST(QueueStressTest, testCase_ConcurrentQueue11)
 {
     int                          max_i         = 10000000;
     int                          max_i_quarter = 2500000;
