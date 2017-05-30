@@ -153,10 +153,10 @@ public:
     /*!
      * \brief Destructor
      *
-     * If the que items aren't RAII-like objects and so don't
+     * If the queue items aren't RAII-like objects and so don't
      * manager their own memory then make sure you call the
      * second Clear method, defined later, that takes a
-     * deleter functor to tidy up th ememory of each queue item.
+     * deleter functor to tidy up the memory of each queue item.
      */
     ~ConcurrentQueue()
     {
