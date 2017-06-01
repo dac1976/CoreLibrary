@@ -36,6 +36,31 @@ namespace core_lib {
 namespace file_utils {
 
 // ****************************************************************************
+// FindFileRecursively definition
+// ****************************************************************************	
+bool FindFileRecursively(const std::wstring& dirPath, const std::wstring& fileName,
+						 std::wstring& pathFound)
+{
+	const bfs::recursive_directory_iterator end;
+
+	auto findFunc =[&fileName](const bfs::directory_entry& e)
+	{
+		return e.path().filename().wstring() == fileName;
+	};
+
+	const auto it = std::find_if(bfs::recursive_directory_iterator(dirPath), end, findFunc);
+	bool success = false;
+
+	if (it != end)
+	{
+		pathFound = it->path().wstring();
+		success = true;
+	}
+
+	return success;
+}
+
+// ****************************************************************************
 // FindCommonRootPath definition
 // ****************************************************************************
 std::string FindCommonRootPath(const std::string& path1
