@@ -41,11 +41,12 @@ namespace file_utils {
  * \brief Find the common root path of 2 paths.
  * \param[in] dirPath - Directory to search recusively.
  * \param[in] fileName - Name of file to search for.
- * \param[out] path2 - Full path to the file.
+ * \param[out] pathFound - Full path to the file.
+ * \param[in] includeFileName - Flag to indicate if pathFound should include name of file.
  * \return True if found, false otherwise.
  */	
 bool FindFileRecursively(const std::wstring& dirPath, const std::wstring& fileName,
-						 std::wstring& pathFound);
+						 std::wstring& pathFound, const bool includeFileName = true);
 
 /*!
  * \brief Find the common root path of 2 paths.

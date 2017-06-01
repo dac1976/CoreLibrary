@@ -39,7 +39,7 @@ namespace file_utils {
 // FindFileRecursively definition
 // ****************************************************************************	
 bool FindFileRecursively(const std::wstring& dirPath, const std::wstring& fileName,
-						 std::wstring& pathFound)
+						 std::wstring& pathFound, const bool includeFileName)
 {
 	const bfs::recursive_directory_iterator end;
 
@@ -53,7 +53,7 @@ bool FindFileRecursively(const std::wstring& dirPath, const std::wstring& fileNa
 
 	if (it != end)
 	{
-		pathFound = it->path().wstring();
+		pathFound = includeFileName ? it->path().wstring() : it->path().parent_path().wstring();
 		success = true;
 	}
 
