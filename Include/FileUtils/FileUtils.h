@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file FileUtils.h
  * \brief File containing declarations relating various file utilities.
@@ -33,9 +32,11 @@
 #include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The file_utils namespace. */
-namespace file_utils {
+namespace file_utils
+{
 
 /*!
  * \brief Find the common root path of 2 paths.
@@ -44,9 +45,11 @@ namespace file_utils {
  * \param[out] pathFound - Full path to the file.
  * \param[in] includeFileName - Flag to indicate if pathFound should include name of file.
  * \return True if found, false otherwise.
- */	
-bool FindFileRecursively(const std::wstring& dirPath, const std::wstring& fileName,
-						 std::wstring& pathFound, const bool includeFileName = true);
+ */
+bool CORE_LIBRARY_DLL_SHARED_API FindFileRecursively(const std::wstring& dirPath,
+                                                     const std::wstring& fileName,
+                                                     std::wstring&       pathFound,
+                                                     const bool          includeFileName = true);
 
 /*!
  * \brief Find the common root path of 2 paths.
@@ -56,8 +59,8 @@ bool FindFileRecursively(const std::wstring& dirPath, const std::wstring& fileNa
  * Based on an example given in Learning Boost C++ Libraries
  * by Arindam Mukherjee.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API FindCommonRootPath(const std::string& path1
-                                                           , const std::string& path2);
+std::string CORE_LIBRARY_DLL_SHARED_API FindCommonRootPath(const std::string& path1,
+                                                           const std::string& path2);
 
 /*!
  * \brief Copying a directory error exception.
@@ -65,7 +68,7 @@ std::string CORE_LIBRARY_DLL_SHARED_API FindCommonRootPath(const std::string& pa
  * This exception class is intended to be thrown by the CopyDirectoryRecursively
  * function to signify that an error has occured.
  */
-class CORE_LIBRARY_DLL_SHARED_API xCopyDirectoryError: public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xCopyDirectoryError : public exceptions::xCustomException
 {
 public:
     /*! \brief Default constructor. */
@@ -111,10 +114,9 @@ enum class eCopyDirectoryOptions
  * already exists then the source is copied into a folder within
  * the target folder with the same name as the srouce folder.
  */
-void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(const std::string& source
-                                                          , const std::string& target
-                                                          , const eCopyDirectoryOptions options
-                                                                = eCopyDirectoryOptions::continueIfTargetExists);
+void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(
+    const std::string& source, const std::string& target,
+    const eCopyDirectoryOptions options = eCopyDirectoryOptions::continueIfTargetExists);
 
 /*!
  * \brief List of regular files in the specified directory.
@@ -124,8 +126,8 @@ void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(const std::string& sou
  *
  * Throws boost::filesystem_error if a problem occurs.
  */
-std::list<std::string> CORE_LIBRARY_DLL_SHARED_API ListDirectoryContents(const std::string& path
-                                                                         , const std::string& extMatch = "");
+std::list<std::string> CORE_LIBRARY_DLL_SHARED_API
+ListDirectoryContents(const std::string& path, const std::string& extMatch = "");
 
 } // namespace file_utils
 } // namespace core_lib
