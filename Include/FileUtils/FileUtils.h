@@ -59,8 +59,8 @@ bool CORE_LIBRARY_DLL_SHARED_API FindFileRecursively(const std::wstring& dirPath
  * Based on an example given in Learning Boost C++ Libraries
  * by Arindam Mukherjee.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API FindCommonRootPath(const std::string& path1,
-                                                           const std::string& path2);
+std::wstring CORE_LIBRARY_DLL_SHARED_API FindCommonRootPath(const std::wstring& path1,
+                                                            const std::wstring& path2);
 
 /*!
  * \brief Copying a directory error exception.
@@ -115,7 +115,7 @@ enum class eCopyDirectoryOptions
  * the target folder with the same name as the srouce folder.
  */
 void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(
-    const std::string& source, const std::string& target,
+    const std::wstring& source, const std::wstring& target,
     const eCopyDirectoryOptions options = eCopyDirectoryOptions::continueIfTargetExists);
 
 /*!
@@ -126,8 +126,8 @@ void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(
  *
  * Throws boost::filesystem_error if a problem occurs.
  */
-std::list<std::string> CORE_LIBRARY_DLL_SHARED_API
-ListDirectoryContents(const std::string& path, const std::string& extMatch = "");
+std::list<std::wstring> CORE_LIBRARY_DLL_SHARED_API
+ListDirectoryContents(const std::wstring& path, const std::wstring& extMatch = L"");
 
 } // namespace file_utils
 } // namespace core_lib

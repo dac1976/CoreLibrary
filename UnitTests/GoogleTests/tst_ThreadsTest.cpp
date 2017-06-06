@@ -361,9 +361,9 @@ private:
 
     virtual void ThreadIteration() NO_EXCEPT_
     {
-        QueueMsg* message{};
+        QueueMsg* message{nullptr};
 
-        if (!m_queue.Pop(message) && message)
+        if (!m_queue.Pop(message))
         {
             return;
         }
@@ -421,9 +421,9 @@ private:
 
     virtual void ThreadIteration() NO_EXCEPT_
     {
-        QueueMsg* message{};
+        QueueMsg* message{nullptr};
 
-        if (!m_queue.Pop(message) && message)
+        if (!m_queue.Pop(message))
         {
             return;
         }
@@ -1557,7 +1557,7 @@ TEST_F(ThreadsTest, testCase_MessageQueueThread1)
         mqtt.PushMessageId(MessageQueueThreadTest::M3);
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     EXPECT_TRUE(mqtt.CountMessageId(MessageQueueThreadTest::M1) == 11);
     EXPECT_TRUE(mqtt.CountMessageId(MessageQueueThreadTest::M2) == 11);

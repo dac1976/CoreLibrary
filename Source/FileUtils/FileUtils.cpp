@@ -32,39 +32,39 @@
 
 namespace bfs = boost::filesystem;
 
-namespace core_lib {
-namespace file_utils {
+namespace core_lib
+{
+namespace file_utils
+{
 
 // ****************************************************************************
 // FindFileRecursively definition
-// ****************************************************************************	
+// ****************************************************************************
 bool FindFileRecursively(const std::wstring& dirPath, const std::wstring& fileName,
-						 std::wstring& pathFound, const bool includeFileName)
+                         std::wstring& pathFound, const bool includeFileName)
 {
-	const bfs::recursive_directory_iterator end;
+    const bfs::recursive_directory_iterator end;
 
-	auto findFunc =[&fileName](const bfs::directory_entry& e)
-	{
-		return e.path().filename().wstring() == fileName;
-	};
+    auto findFunc = [&fileName](const bfs::directory_entry& e) {
+        return e.path().filename().wstring() == fileName;
+    };
 
-	const auto it = std::find_if(bfs::recursive_directory_iterator(dirPath), end, findFunc);
-	bool success = false;
+    const auto it      = std::find_if(bfs::recursive_directory_iterator(dirPath), end, findFunc);
+    bool       success = false;
 
-	if (it != end)
-	{
-		pathFound = includeFileName ? it->path().wstring() : it->path().parent_path().wstring();
-		success = true;
-	}
+    if (it != end)
+    {
+        pathFound = includeFileName ? it->path().wstring() : it->path().parent_path().wstring();
+        success   = true;
+    }
 
-	return success;
+    return success;
 }
 
 // ****************************************************************************
 // FindCommonRootPath definition
 // ****************************************************************************
-std::string FindCommonRootPath(const std::string& path1
-                               , const std::string& path2)
+std::wstring FindCommonRootPath(const std::wstring& path1, const std::wstring& path2)
 {
     // Convert our path strings to boost::filesystem::path objects.
     bfs::path bfsPath1(path1);
@@ -73,34 +73,25 @@ std::string FindCommonRootPath(const std::string& path1
     // If they are on different drives then return empty string.
     if (bfsPath1.root_directory() != bfsPath2.root_directory())
     {
-        return "";
+        return L"";
     }
 
     // Define a lambda function to help us out.
-    auto FindRoot =
-        [](const bfs::path& p1, const bfs::path& p2)
-        {
-            auto result =
-                std::mismatch(p1.begin(), p1.end(), p2.begin());
+    auto FindRoot = [](const bfs::path& p1, const bfs::path& p2) {
+        auto result = std::mismatch(p1.begin(), p1.end(), p2.begin());
 
-            bfs::path root;
+        bfs::path root;
 
-            std::for_each(p2.begin(), result.second
-              , [&root](const bfs::path& p)
-                {
-                    root /= p;
-                });
+        std::for_each(p2.begin(), result.second, [&root](const bfs::path& p) { root /= p; });
 
-            return bfs::system_complete(root);
-        };
+        return bfs::system_complete(root).wstring();
+    };
 
     // Now compute the common root path .
-    const size_t n1 = std::distance(bfsPath1.begin(), bfsPath1.end());
-    const size_t n2 = std::distance(bfsPath2.begin(), bfsPath2.end());
+    auto n1 = std::distance(bfsPath1.begin(), bfsPath1.end());
+    auto n2 = std::distance(bfsPath2.begin(), bfsPath2.end());
 
-    return (n1 < n2)
-           ? FindRoot(bfsPath1, bfsPath2).string()
-           : FindRoot(bfsPath2, bfsPath1).string();
+    return (n1 < n2) ? FindRoot(bfsPath1, bfsPath2) : FindRoot(bfsPath2, bfsPath1);
 }
 
 // ****************************************************************************
@@ -123,14 +114,12 @@ xCopyDirectoryError::~xCopyDirectoryError()
 // ****************************************************************************
 // CopyDirectoryRecursively definition
 // ****************************************************************************
-void CopyDirectoryRecursively(const std::string& source
-                              , const std::string& target
-                              , const eCopyDirectoryOptions options)
+void CopyDirectoryRecursively(const std::wstring& source, const std::wstring& target,
+                              const eCopyDirectoryOptions options)
 {
-    if (!bfs::is_directory(source)
-        || (bfs::exists(target) && !bfs::is_directory(target))
-        || !bfs::is_directory(bfs::absolute(target).parent_path())
-        || (FindCommonRootPath(source, target) == source))
+    if (!bfs::is_directory(source) || (bfs::exists(target) && !bfs::is_directory(target)) ||
+        !bfs::is_directory(bfs::absolute(target).parent_path()) ||
+        (FindCommonRootPath(source, target) == source))
     {
         BOOST_THROW_EXCEPTION(xCopyDirectoryError("precondition(s) violated"));
     }
@@ -157,17 +146,14 @@ void CopyDirectoryRecursively(const std::string& source
     bfs::directory_iterator dirItr(bfsSource);
     bfs::directory_iterator endDirItr;
 
-    while(dirItr != endDirItr)
+    while (dirItr != endDirItr)
     {
-        auto status = dirItr->symlink_status();
-        auto currentTarget
-            = effectiveTarget / dirItr->path().filename();
+        auto status        = dirItr->symlink_status();
+        auto currentTarget = effectiveTarget / dirItr->path().filename();
 
         if (bfs::regular_file == status.type())
         {
-            bfs::copy_file(*dirItr
-                           , currentTarget
-                           , bfs::copy_option::overwrite_if_exists);
+            bfs::copy_file(*dirItr, currentTarget, bfs::copy_option::overwrite_if_exists);
         }
         else if (bfs::symlink_file == status.type())
         {
@@ -175,9 +161,7 @@ void CopyDirectoryRecursively(const std::string& source
         }
         else if (bfs::directory_file == status.type())
         {
-            CopyDirectoryRecursively(dirItr->path().string()
-                                     , effectiveTarget.string()
-                                     , options);
+            CopyDirectoryRecursively(dirItr->path().wstring(), effectiveTarget.wstring(), options);
         }
 
         ++dirItr;
@@ -187,10 +171,10 @@ void CopyDirectoryRecursively(const std::string& source
 // ****************************************************************************
 // ListDirectoryContents definition
 // ****************************************************************************
-std::list<std::string> ListDirectoryContents(const std::string& path
-                                             , const std::string& extMatch)
+std::list<std::wstring> ListDirectoryContents(const std::wstring& path,
+                                              const std::wstring& extMatch)
 {
-    std::list<std::string> files;
+    std::list<std::wstring> files;
 
     if (!bfs::exists(path) || !bfs::is_directory(path))
     {
@@ -204,11 +188,10 @@ std::list<std::string> ListDirectoryContents(const std::string& path
             continue;
         }
 
-        if (extMatch.empty()
-            || (boost::to_upper_copy(extMatch)
-                == boost::to_upper_copy(entry.path().extension().string())))
+        if (extMatch.empty() || (boost::to_upper_copy(extMatch) ==
+                                 boost::to_upper_copy(entry.path().extension().wstring())))
         {
-            files.push_back(entry.path().filename().string());
+            files.push_back(entry.path().filename().wstring());
         }
     }
 
