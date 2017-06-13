@@ -1,0 +1,5 @@
+CONFIG += boost \
+          loki  \
+          cereal
+
+INCLUDEPATH += $$(CORE_LIBRARY)/Include
