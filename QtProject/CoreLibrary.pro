@@ -26,7 +26,7 @@ unix:!symbian {
 # On Windows we do this, assumes we'll be using MS VC 2015.
 win32 {	
     # disable incremental linking with debug builds
-	QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
+    QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
     # Set binary's output folder.
     # This is for x86 builds.
     !contains(QMAKE_TARGET.arch, x86_64) {
