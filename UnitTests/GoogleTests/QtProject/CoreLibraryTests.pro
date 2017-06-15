@@ -22,6 +22,9 @@ CONFIG += core_lib_dll
 
 # On Windows we do this, assumes we'll be using MS VC 2015.
 win32 {
+    # disable incremental linking with debug builds
+	QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
+	
     # Due to exporting from DLL we might get suprious warnings.
     QMAKE_CXXFLAGS += /wd4251 /wd4275 /wd4100
     DEFINES += _CRT_SECURE_NO_WARNINGS=1
