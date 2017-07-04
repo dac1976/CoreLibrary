@@ -65,15 +65,14 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-SOURCES += \
-    ../tst_SerializationUtilsTest.cpp \
-    ../tst_GenericSortingTest.cpp \
-    ../tst_StringUtilsTest.cpp \
-    ../tst_FileUtilsTest.cpp \
-    ../tst_IniFileTest.cpp \
-    ../tst_ThreadsTest.cpp \
-    ../tst_DebugLogTest.cpp \
-    ../tst_AsioTest.cpp \
+SOURCES +=  ../tst_SerializationUtilsTest.cpp \
+    ../tst_GenericSortingTest.cpp             \
+    ../tst_StringUtilsTest.cpp                \
+    ../tst_FileUtilsTest.cpp                  \
+    ../tst_IniFileTest.cpp                    \
+    ../tst_ThreadsTest.cpp                    \
+    ../tst_DebugLogTest.cpp                   \
+    ../tst_AsioTest.cpp                       \
     ../tst_CsvGridTest.cpp
 
 HEADERS += \
