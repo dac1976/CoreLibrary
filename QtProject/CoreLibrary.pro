@@ -24,7 +24,7 @@ unix:!symbian {
 }
 
 # On Windows we do this, assumes we'll be using MS VC 2015.
-win32 {	
+win32 {
     # disable incremental linking with debug builds
     QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
     # Set binary's output folder.
@@ -69,6 +69,7 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Asio/SimpleTcpClient.h                \
     ../Include/Asio/SimpleTcpServer.h                \
     ../Include/Asio/TcpClient.h                      \
+    ../Include/Asio/TcpClientList.h                  \
     ../Include/Asio/TcpConnection.h                  \
     ../Include/Asio/TcpConnections.h                 \
     ../Include/Asio/TcpServer.h                      \
@@ -118,6 +119,7 @@ SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/SimpleTcpClient.cpp                 \
     ../Source/Asio/SimpleTcpServer.cpp                 \
     ../Source/Asio/TcpClient.cpp                       \
+    ../Source/Asio/TcpClientList.cpp                   \
     ../Source/Asio/TcpConnection.cpp                   \
     ../Source/Asio/TcpConnections.cpp                  \
     ../Source/Asio/TcpServer.cpp                       \
@@ -147,7 +149,7 @@ SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/SimpleMulticastSender.cpp           \
     ../Source/Asio/SimpleMulticastReceiver.cpp         \
     ../Source/Threads/ThreadRunner.cpp
-	
-	
-	
-	
+
+
+
+
