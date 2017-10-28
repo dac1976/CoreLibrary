@@ -81,6 +81,7 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Asio/IoServiceThreadGroup.h           \
     ../Include/Asio/MessageUtils.h                   \
     ../Include/Asio/SimpleTcpClient.h                \
+    ../Include/Asio/SimpleTcpClientList.h            \
     ../Include/Asio/SimpleTcpServer.h                \
     ../Include/Asio/TcpClient.h                      \
     ../Include/Asio/TcpClientList.h                  \
@@ -131,6 +132,7 @@ SOURCES +=  ../Source/Asio/AsioDefines.cpp             \
     ../Source/Asio/IoServiceThreadGroup.cpp            \
     ../Source/Asio/MessageUtils.cpp                    \
     ../Source/Asio/SimpleTcpClient.cpp                 \
+    ../Source/Asio/SimpleTcpClientList.cpp             \
     ../Source/Asio/SimpleTcpServer.cpp                 \
     ../Source/Asio/TcpClient.cpp                       \
     ../Source/Asio/TcpClientList.cpp                   \

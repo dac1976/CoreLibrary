@@ -63,7 +63,8 @@ public:
      * header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and
      * disptaching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
@@ -82,7 +83,7 @@ public:
     * header block.
     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
     * computing how many bytes are left until a complete message.
-    * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
+    * \param[in] messageReceivedHandler - Function object capable of handling a received message and
     * disptaching it accordingly.
     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
     *
