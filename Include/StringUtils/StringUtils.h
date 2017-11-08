@@ -184,6 +184,35 @@ std::string FormatFloatString(const T value, const int precision = 15,
     return ss.str();
 }
 
+/*!
+ * \brief Return a string with any illegal chars replaced with replacement char.
+ * \param[in] text - Source string potentially with illegal chars.
+ * \param[in] illegalChars - String containing illegal chars to look for in text.
+ * \param[in] replacementChar - String containing replacement.
+ * \return Copy of text with ilegal chars replaced.
+ */
+std::wstring CORE_LIBRARY_DLL_SHARED_API RemoveIllegalChars(
+    const std::wstring& text, const std::wstring& illegalChars = L"~#%&*{}\\:<>?/+|\"",
+    const wchar_t replacementChar = L'_');
+
+std::string CORE_LIBRARY_DLL_SHARED_API
+RemoveIllegalChars(const std::string& text, const std::string& illegalChars = "~#%&*{}\\:<>?/+|\"",
+                   const char replacementChar = '_');
+
+/*!
+ * \brief Convert a std::string to std::wstring.
+ * \param[in] text - Source string.
+ * \return Converted string.
+ */
+std::wstring CORE_LIBRARY_DLL_SHARED_API StringToWString(const std::string& text);
+
+/*!
+ * \brief Convert a std::wstring to std::string.
+ * \param[in] text - Source string
+ * \return Converted string.
+ */
+std::string CORE_LIBRARY_DLL_SHARED_API WStringToString(const std::wstring& text);
+
 } // namespace string_utils
 } // namespace core_lib
 
