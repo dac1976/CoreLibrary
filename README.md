@@ -2,7 +2,7 @@
 ## Introduction ##
 This library (CoreLibrary) is a collection of useful C++11 utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on.
 
-It is licensed under the GNU Lesser General Public License and the relevant documentation for this can be found at the top of each source file and in the files COPYING and COPYING.LESSER.
+It is licensed under the GNU Lesser General Public License 3.0 and the relevant documentation for this can be found at the top of each source file and in the LICENSE text file.
 
 The code is the work of Duncan Crutchley (<dac1976github@outlook.com>).
 
@@ -34,4 +34,4 @@ The code is commented using Doxygen style comments so check the documentation in
 
 For usage examples I recommend looking at the unit test code in the /UnitTests/GoogleTests folder.
 
-The networking unit tests require network connectivity and expect 2 adapters setup, one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters.
+The networking unit tests require network connectivity and expects 2 adapters setup, one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
