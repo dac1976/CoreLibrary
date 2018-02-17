@@ -14,11 +14,13 @@ static const bfs::path data_base_path     = L"../data";
 static const bfs::path alt_base_path      = L"../";
 static const bfs::path copy_base_path     = L"../data_copy";
 static const bfs::path alt_copy_base_path = L"../data_copy";
+static const bfs::path subdirs_path       = L"../data/../";
 #else
 static const bfs::path data_base_path     = L"../../../data";
 static const bfs::path alt_base_path      = L"../../../";
 static const bfs::path copy_base_path     = L"../../../data_copy";
 static const bfs::path alt_copy_base_path = L"../../../../data_copy";
+static const bfs::path subdirs_path       = L"../../../data/../";
 #endif
 
 TEST(FileUtilsTest, Case1_CommonRoot_SameLevel)
@@ -153,11 +155,11 @@ TEST(FileUtilsTest, Case11_FindFileRecursively_1)
 {
     std::wstring pathFound;
 
-    EXPECT_TRUE(FindFileRecursively(bfs::system_complete(data_base_path).wstring(),
-                                     L"test_file_1.ini", pathFound));
+    EXPECT_TRUE(FindFileRecursively(
+        bfs::system_complete(data_base_path).wstring(), L"test_file_1.ini", pathFound));
 
     auto finalPath = data_base_path;
-    finalPath /=  L"test_file_1.ini";
+    finalPath /= L"test_file_1.ini";
 
     EXPECT_TRUE(bfs::system_complete(finalPath).wstring() == pathFound);
 }
@@ -166,8 +168,8 @@ TEST(FileUtilsTest, Case12_FindFileRecursively_2)
 {
     std::wstring pathFound;
 
-    EXPECT_TRUE(FindFileRecursively(bfs::system_complete(data_base_path).wstring(),
-                                     L"test_file_1.ini", pathFound, false));
+    EXPECT_TRUE(FindFileRecursively(
+        bfs::system_complete(data_base_path).wstring(), L"test_file_1.ini", pathFound, false));
 
     EXPECT_TRUE(bfs::system_complete(data_base_path).wstring() == pathFound);
 }
@@ -176,16 +178,26 @@ TEST(FileUtilsTest, Case13_FindFileRecursively_3)
 {
     std::wstring pathFound;
 
-    EXPECT_ANY_THROW(FindFileRecursively(bfs::system_complete(copy_base_path).wstring(),
-                                     L"test_file_1.ini", pathFound));
+    EXPECT_ANY_THROW(FindFileRecursively(
+        bfs::system_complete(copy_base_path).wstring(), L"test_file_1.ini", pathFound));
 }
 
 TEST(FileUtilsTest, Case14_FindFileRecursively_4)
 {
     std::wstring pathFound;
 
-    EXPECT_FALSE(FindFileRecursively(bfs::system_complete(data_base_path).wstring(),
-                                     L"test_file_666.ini", pathFound));
+    EXPECT_FALSE(FindFileRecursively(
+        bfs::system_complete(data_base_path).wstring(), L"test_file_666.ini", pathFound));
+}
+
+TEST(FileUtilsTest, Case15_ListSubDirectories_1)
+{
+    bfs::path dir = bfs::system_complete(subdirs_path);
+
+    std::list<std::wstring> files;
+    EXPECT_NO_THROW(files = ListSubDirectories(dir.wstring()));
+
+    EXPECT_EQ(files.size(), 2U);
 }
 
 #endif // DISABLE_FILEUTILS_TESTS

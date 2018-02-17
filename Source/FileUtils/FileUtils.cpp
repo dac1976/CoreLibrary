@@ -107,9 +107,7 @@ xCopyDirectoryError::xCopyDirectoryError(const std::string& message)
 {
 }
 
-xCopyDirectoryError::~xCopyDirectoryError()
-{
-}
+xCopyDirectoryError::~xCopyDirectoryError() {}
 
 // ****************************************************************************
 // CopyDirectoryRecursively definition
@@ -193,6 +191,31 @@ std::list<std::wstring> ListDirectoryContents(const std::wstring& path,
         {
             files.push_back(entry.path().filename().wstring());
         }
+    }
+
+    return files;
+}
+
+// ****************************************************************************
+// ListSubDirectories definition
+// ****************************************************************************
+std::list<std::wstring> ListSubDirectories(const std::wstring& path)
+{
+    std::list<std::wstring> files;
+
+    if (!bfs::exists(path) || !bfs::is_directory(path))
+    {
+        return files;
+    }
+
+    for (const auto& entry : bfs::directory_iterator(path))
+    {
+        if (bfs::directory_file != entry.status().type())
+        {
+            continue;
+        }
+
+        files.push_back(entry.path().filename().wstring());
     }
 
     return files;

@@ -127,7 +127,16 @@ void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(
  * Throws boost::filesystem_error if a problem occurs.
  */
 std::list<std::wstring> CORE_LIBRARY_DLL_SHARED_API
-ListDirectoryContents(const std::wstring& path, const std::wstring& extMatch = L"");
+                        ListDirectoryContents(const std::wstring& path, const std::wstring& extMatch = L"");
+
+/*!
+ * \brief List of immediate sub-directories in the specified directory.
+ * \param[in] path - Directory path.
+ * \return List of sub-directories in the directory.
+ *
+ * Throws boost::filesystem_error if a problem occurs.
+ */
+std::list<std::wstring> CORE_LIBRARY_DLL_SHARED_API ListSubDirectories(const std::wstring& path);
 
 } // namespace file_utils
 } // namespace core_lib
