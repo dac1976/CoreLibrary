@@ -62,7 +62,7 @@ else {
     QMAKE_CXXFLAGS += -std=c++14
 
     # Set version info for library.
-    VERSION = 1.4.4
+    VERSION = 1.4.5
 
     # Set binary's output folder.
     CONFIG(debug, debug|release) {
@@ -114,6 +114,7 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Threads/SyncEvent.h                   \
     ../Include/Threads/ThreadBase.h                  \
     ../Include/Threads/ThreadGroup.h                 \
+    ../Include/Threads/EventThread.h                 \
     ../Include/Asio/UdpSender.h                      \
     ../Include/Asio/UdpReceiver.h                    \
     ../Include/Asio/MulticastReceiver.h              \
@@ -156,6 +157,7 @@ SOURCES +=  ../Source/Asio/AsioDefines.cpp             \
     ../Source/Threads/SyncEvent.cpp                    \
     ../Source/Threads/ThreadBase.cpp                   \
     ../Source/Threads/ThreadGroup.cpp                  \
+    ../Source/Threads/EventThread.cpp                  \
     ../Source/Asio/UdpSender.cpp                       \
     ../Source/Asio/UdpReceiver.cpp                     \
     ../Source/Asio/MulticastReceiver.cpp               \
