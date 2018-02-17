@@ -37,12 +37,13 @@ namespace core_lib
 namespace threads
 {
 
-/*! \brief Class defining an EventThread that ticks at a given rate and executes a registered callback. */
-class EventThread final : public core_lib::threads::ThreadBase
+/*! \brief Class defining an EventThread that ticks at a given rate and executes a registered
+ * callback. */
+class CORE_LIBRARY_DLL_SHARED_API EventThread final : public core_lib::threads::ThreadBase
 {
-	/*! \brief Typedef defining message handler functor.  */
-	typedef std::function<void()> event_callback_t; 
-	
+    /*! \brief Typedef defining message handler functor.  */
+    typedef std::function<void()> event_callback_t;
+
 public:
     /*!
      * \brief EventThread constructor.
@@ -53,25 +54,25 @@ public:
 
     /*! \brief EventThread destructor. */
     virtual ~EventThread();
-	
-	/*! \brief Copy constructor deleted.*/
+
+    /*! \brief Copy constructor deleted.*/
     EventThread(const EventThread&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     EventThread& operator=(const EventThread&) = delete;
 
 private:
-	/*! \brief Thread iteration function.*/
+    /*! \brief Thread iteration function.*/
     virtual void ThreadIteration() NO_EXCEPT_;
-	/*! \brief Function to process termination conditions.*/
+    /*! \brief Function to process termination conditions.*/
     virtual void ProcessTerminationConditions() NO_EXCEPT_;
 
 private:
     /*! \brief Update event.*/
     core_lib::threads::SyncEvent m_updateEvent{};
-	/*! \brief Callback fires on event.*/
-	event_callback_t m_evenCallback{};
-	/*! \brief Event tick period.*/
-	unsigned int const  m_eventPeriodMillisecs{};
+    /*! \brief Callback fires on event.*/
+    event_callback_t m_evenCallback{};
+    /*! \brief Event tick period.*/
+    unsigned int const m_eventPeriodMillisecs{};
 };
 
 } // namespace threads
