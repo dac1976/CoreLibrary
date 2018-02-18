@@ -35,10 +35,10 @@ namespace threads
 // ****************************************************************************
 // 'class EventThread' definition
 // ****************************************************************************
-EventThread::EventThread(event_callback_t const& evenCallback,
+EventThread::EventThread(event_callback_t const& eventCallback,
                          unsigned int const      eventPeriodMillisecs)
     : core_lib::threads::ThreadBase()
-    , m_evenCallback(evenCallback)
+    , m_eventCallback(eventCallback)
     , m_eventPeriodMillisecs(eventPeriodMillisecs)
 {
     Start();
@@ -51,9 +51,9 @@ EventThread::~EventThread()
 
 void EventThread::ThreadIteration() NO_EXCEPT_
 {
-    if (m_evenCallback)
+    if (m_eventCallback)
     {
-        m_evenCallback();
+        m_eventCallback();
     }
 
     if (m_updateEvent.WaitForTime(m_eventPeriodMillisecs))
