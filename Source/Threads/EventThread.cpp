@@ -51,14 +51,14 @@ EventThread::~EventThread()
 
 void EventThread::ThreadIteration() NO_EXCEPT_
 {
-    if (m_updateEvent.WaitForTime(m_eventPeriodMillisecs))
-    {
-        return;
-    }
-
     if (m_evenCallback)
     {
         m_evenCallback();
+    }
+
+    if (m_updateEvent.WaitForTime(m_eventPeriodMillisecs))
+    {
+        return;
     }
 }
 
