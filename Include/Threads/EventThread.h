@@ -47,10 +47,10 @@ class CORE_LIBRARY_DLL_SHARED_API EventThread final : public core_lib::threads::
 public:
     /*!
      * \brief EventThread constructor.
-     * \param[in] evenCallback - Function object to be called when event ticks.
+     * \param[in] eventCallback - Function object to be called when event ticks.
      * \param[in] eventPeriodMillisecs - Period between event being triggered.
      */
-    EventThread(event_callback_t const& evenCallback, unsigned int const eventPeriodMillisecs);
+    EventThread(event_callback_t const& eventCallback, unsigned int const eventPeriodMillisecs);
 
     /*! \brief EventThread destructor. */
     virtual ~EventThread();
@@ -70,7 +70,7 @@ private:
     /*! \brief Update event.*/
     core_lib::threads::SyncEvent m_updateEvent{};
     /*! \brief Callback fires on event.*/
-    event_callback_t m_evenCallback{};
+    event_callback_t m_eventCallback{};
     /*! \brief Event tick period.*/
     unsigned int const m_eventPeriodMillisecs{};
 };
