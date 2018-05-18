@@ -257,12 +257,7 @@ private:
     }
     /*! \brief Delete next message. */
     void DeleteNextMessage()
-    {
-        if (!m_messageDeleter)
-        {
-            return;
-        }
-
+    {        
         MessageType msg{};
 
         if (!m_messageQueue.Pop(msg))
@@ -272,7 +267,10 @@ private:
 
         try
         {
-            m_messageDeleter(msg);
+			if (m_messageDeleter)
+			{
+				m_messageDeleter(msg);
+			}
         }
         catch (...)
         {
