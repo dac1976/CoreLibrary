@@ -33,7 +33,7 @@
 #if defined(CORE_LIBRARY_DLL)
 #if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
 #define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllexport))
-#elif BOOST_COMP_MSVC
+#elif _MSC_VER
 #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
 #else
 #error Unsupported compiler! Please modify this header to add support.
