@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file DebugLogSingleton.h
  * \brief File containing declaration of DebugLog Singleton.
@@ -32,24 +31,37 @@
 #include "loki/Singleton.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The log namespace. */
-namespace log {
+namespace log
+{
 
 /*! \brief Typedef defining our default log's type. */
-typedef DebugLog<DefaultLogFormat> default_log_t;
-
-/*! \brief Typedef defining our actual log's singelton. */
-typedef Loki::SingletonHolder<default_log_t
-                              , Loki::CreateUsingNew
-                              , Loki::DeletableSingleton>
-    DebugLogSingleton;
-
-/*! \brief Typedef defining a singleton deleter. */
-typedef Loki::DeletableSingleton<default_log_t>
-    DebugLogSingletonDeleter;
+using default_log_t = hgl::log::DebugLog<DefaultLogFormat>;
 
 } // namespace log
 } // namespace core_lib
+
+using debug_singelton_t = Loki::SingletonHolder<core_lib::log::default_log_t, Loki::CreateUsingNew,
+                                                Loki::DeletableSingleton>;
+
+using debug_singelton_deleter_t = Loki::DeletableSingleton<core_lib::log::default_log_t>;
+
+inline core_lib::log::default_log_t& DebugLogInstance()
+{
+    return debug_singelton_t::Instance();
+}
+
+inline void DebugLogGracefulDelete()
+{
+    debug_singelton_deleter_t::GracefulDelete();
+}
+
+/*! \brief Macro defining our actual log's singelton. */
+#define DEBUG_LOG_SINGLETON DebugLogInstance()
+
+/*! \brief Macro defining a singleton deleter. */
+#define DEBUG_LOG_SINGLETON_DELETER DebugLogGracefulDelete()
 
 #endif // DEBUGLOGSINGLETON
