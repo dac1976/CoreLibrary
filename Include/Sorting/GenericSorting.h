@@ -221,11 +221,15 @@ public:
      */
     explicit xBucketValueOutOfRangeError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xBucketValueOutOfRangeError();
+    ~xBucketValueOutOfRangeError() override = default;
     /*! \brief Copy constructor. */
     xBucketValueOutOfRangeError(const xBucketValueOutOfRangeError&) = default;
     /*! \brief Copy assignment operator. */
     xBucketValueOutOfRangeError& operator=(const xBucketValueOutOfRangeError&) = default;
+    /*! \brief Move constructor. */
+    xBucketValueOutOfRangeError(xBucketValueOutOfRangeError&&) = default;
+    /*! \brief Move assignment operator. */
+    xBucketValueOutOfRangeError& operator=(xBucketValueOutOfRangeError&&) = default;
 };
 
 /*!

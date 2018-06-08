@@ -45,10 +45,6 @@ xThreadNotStartedError::xThreadNotStartedError(const std::string& message)
 {
 }
 
-xThreadNotStartedError::~xThreadNotStartedError()
-{
-}
-
 // ****************************************************************************
 // 'class ThreadBase' definition
 // ****************************************************************************
@@ -118,7 +114,7 @@ bool ThreadBase::IsTerminating() const
     return m_terminating;
 }
 
-void ThreadBase::SleepForTime(const unsigned int milliSecs) const
+void ThreadBase::SleepForTime(unsigned int milliSecs) const
 {
     if (!IsStarted() || IsTerminating())
     {
@@ -141,13 +137,13 @@ void ThreadBase::SetThreadIdAndNativeHandle(const std::thread::id&              
     m_nativeHandle = nativeHandle;
 }
 
-void ThreadBase::SetStarted(const bool started)
+void ThreadBase::SetStarted(bool started)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
     m_started = started;
 }
 
-void ThreadBase::SetTerminating(const bool terminating)
+void ThreadBase::SetTerminating(bool terminating)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
     m_terminating = terminating;

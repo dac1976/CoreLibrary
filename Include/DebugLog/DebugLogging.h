@@ -28,7 +28,7 @@
 #define DEBUGLOGGING
 
 #include "DebugLogSingleton.h"
-#include "boost/current_function.hpp"
+#include <boost/current_function.hpp>
 
 /*!
  * \brief Constants for each log error level.

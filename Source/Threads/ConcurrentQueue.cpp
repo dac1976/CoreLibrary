@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file ConcurrentQueue.cpp
  * \brief File containing concurrent queue definition.
@@ -27,23 +26,21 @@
 
 #include "Threads/ConcurrentQueue.h"
 
-namespace core_lib {
-namespace threads {
+namespace core_lib
+{
+namespace threads
+{
 
 // ****************************************************************************
 // 'class xQueuePopTimeoutError' definition
 // ****************************************************************************
 xQueuePopTimeoutError::xQueuePopTimeoutError()
-	: exceptions::xCustomException("pop timeout")
+    : exceptions::xCustomException("pop timeout")
 {
 }
 
 xQueuePopTimeoutError::xQueuePopTimeoutError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xQueuePopTimeoutError::~xQueuePopTimeoutError()
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -51,16 +48,12 @@ xQueuePopTimeoutError::~xQueuePopTimeoutError()
 // 'class xQueuePopQueueEmptyError' definition
 // ****************************************************************************
 xQueuePopQueueEmptyError::xQueuePopQueueEmptyError()
-	: exceptions::xCustomException("pop queue empty")
+    : exceptions::xCustomException("pop queue empty")
 {
 }
 
 xQueuePopQueueEmptyError::xQueuePopQueueEmptyError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xQueuePopQueueEmptyError::~xQueuePopQueueEmptyError()
+    : exceptions::xCustomException(message)
 {
 }
 

@@ -42,14 +42,14 @@ namespace threads
 /*!
  * \brief ThreadRunner class.
  *
- * When writing new code a user is most likely going to derive their own derieved class from ThreadBase but
- * sometimes it may be preferable to have a thread runner object as a member variable of a class that is to have
- * threaded out functionality. In which case ThreadRunner can be used.
+ * When writing new code a user is most likely going to derive their own derieved class from
+ * ThreadBase but sometimes it may be preferable to have a thread runner object as a member variable
+ * of a class that is to have threaded out functionality. In which case ThreadRunner can be used.
  */
 class CORE_LIBRARY_DLL_SHARED_API ThreadRunner final : public ThreadBase
 {
     /*! \brief Typedef defining functor for virtual thread functions. */
-    typedef std::function<void()> thread_function_t;
+    using thread_function_t = std::function<void()>;
 
 public:
     /*! \brief Default constructor deleted.*/
@@ -58,6 +58,10 @@ public:
     ThreadRunner(const ThreadRunner&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     ThreadRunner& operator=(const ThreadRunner&) = delete;
+    /*! \brief Copy constructor deleted.*/
+    ThreadRunner(ThreadRunner&&) = delete;
+    /*! \brief Copy assignment operator deleted.*/
+    ThreadRunner& operator=(ThreadRunner&&) = delete;
     /*!
      * \brief Initialisation constructor.
      * \param[in] threadFunction - Functor to call in the ThreadFunction method.
@@ -68,10 +72,9 @@ public:
      * The functors should not throw any exceptions.
      */
     ThreadRunner(const thread_function_t& threadFunction,
-                 const thread_function_t& processTerminationConditions,
-                 const bool               autoStart = false);
+                 const thread_function_t& processTerminationConditions, bool autoStart = false);
     /*! \brief Destructor.*/
-    ~ThreadRunner();
+    ~ThreadRunner() override;
     /*!
      * \brief Make this thread sleep for a period of time.
      * \param[in] milliSecs - Time period in milliseconds.
@@ -80,7 +83,7 @@ public:
      * if thread not fully started and therefore cannot be
      * made to sleep.
      */
-    void SleepThreadForTime(const unsigned int milliSecs) const;
+    void SleepThreadForTime(unsigned int milliSecs) const;
 
 private:
     /*! \brief Functor to call in the ThreadFunction method. */
@@ -99,7 +102,7 @@ private:
      * what needs to be run in a single iteratation of the
      * threads run loop.
      */
-    virtual void ThreadIteration() NO_EXCEPT_;
+    void ThreadIteration() NO_EXCEPT_ override;
     /*!
      * \brief Perform any special termination actions.
      *
@@ -109,7 +112,7 @@ private:
      * required after the terminting flag is set but before
      * we call join on our underlying std::thread object.
      */
-    virtual void ProcessTerminationConditions() NO_EXCEPT_;
+    void ProcessTerminationConditions() NO_EXCEPT_ override;
 };
 
 } // namespace threads

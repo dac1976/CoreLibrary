@@ -49,7 +49,7 @@ template <template <class, class> class C> class JoinThreads final
 {
 public:
     /*! \brief typedef for container type */
-    typedef C<std::thread, std::allocator<std::thread>> container_type;
+    using container_type = C<std::thread, std::allocator<std::thread>>;
     /*!
      * \brief Initialisation constructor.
      * \param[in] threads - Containr of std::threads.
@@ -58,8 +58,14 @@ public:
         : m_threads(threads)
     {
     }
-    /*! \brief Copy constructor - deleted.*/
+    /*! \brief Copy constructor deleted.*/
     JoinThreads(const JoinThreads&) = delete;
+    /*! \brief Copy assignment operator deleted.*/
+    JoinThreads& operator=(const JoinThreads&) = delete;
+    /*! \brief Move constructor deleted.*/
+    JoinThreads(JoinThreads&&) = delete;
+    /*! \brief Move assignment operator deleted.*/
+    JoinThreads& operator=(JoinThreads&&) = delete;
     /*! \brief Destructor- joins the threads.*/
     ~JoinThreads()
     {
@@ -71,8 +77,6 @@ public:
             }
         }
     }
-    /*! \brief Copy assignment operator - deleted.*/
-    JoinThreads& operator=(const JoinThreads&) = delete;
 
 private:
     /*! \brief Container of threads.*/
@@ -92,7 +96,7 @@ template <template <class, class> class C> class JoinThreadsP final
 {
 public:
     /*! \brief typedef for container type */
-    typedef C<std::thread*, std::allocator<std::thread*>> container_type;
+    using container_type = C<std::thread*, std::allocator<std::thread*>>;
     /*!
      * \brief Initialisation constructor.
      * \param[in] threads - Containr of std::threads.
@@ -101,8 +105,14 @@ public:
         : m_threads(threads)
     {
     }
-    /*! \brief Copy constructor - deleted.*/
+    /*! \brief Copy constructor deleted.*/
     JoinThreadsP(const JoinThreadsP&) = delete;
+    /*! \brief Copy assignment operator deleted.*/
+    JoinThreadsP& operator=(const JoinThreadsP&) = delete;
+    /*! \brief Move constructor deleted.*/
+    JoinThreadsP(JoinThreadsP&&) = delete;
+    /*! \brief Move assignment operator deleted.*/
+    JoinThreadsP& operator=(JoinThreadsP&&) = delete;
     /*! \brief Destructor- joins the threads.*/
     ~JoinThreadsP()
     {
@@ -114,8 +124,6 @@ public:
             }
         }
     }
-    /*! \brief Copy assignment operator - deleted.*/
-    JoinThreadsP& operator=(const JoinThreadsP&) = delete;
 
 private:
     /*! \brief Container of threads.*/

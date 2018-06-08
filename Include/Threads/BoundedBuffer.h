@@ -30,8 +30,8 @@
 #include <mutex>
 #include <condition_variable>
 #include <functional>
-#include "boost/circular_buffer.hpp"
-#include "boost/call_traits.hpp"
+#include <boost/circular_buffer.hpp>
+#include <boost/call_traits.hpp>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -55,25 +55,31 @@ template <typename T> class BoundedBuffer final
 {
 public:
     /*! \brief Typedef for container type. */
-    typedef boost::circular_buffer<T> container_type;
+    using container_type = boost::circular_buffer<T>;
     /*! \brief Typedef for container size type. */
-    typedef typename container_type::size_type size_type;
+    using size_type = typename container_type::size_type;
     /*! \brief Typedef for container value type. */
-    typedef typename container_type::value_type value_type;
+    using value_type = typename container_type::value_type;
     /*! \brief Typedef for container param type. */
-    typedef typename boost::call_traits<value_type>::param_type param_type;
+    using param_type = typename boost::call_traits<value_type>::param_type;
     /*!
      * \brief Constructor.
      * \param[in] capacity - The capacity for the underlying circular buffer.
      */
-    explicit BoundedBuffer(const size_type capacity)
+    explicit BoundedBuffer(size_type capacity)
         : m_container{capacity}
     {
     }
+    /*! \brief Default destructor.*/
+    ~BoundedBuffer() = default;
     /*! \brief Copy constructor deleted.*/
     BoundedBuffer(const BoundedBuffer&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     BoundedBuffer& operator=(const BoundedBuffer&) = delete;
+    /*! \brief Move constructor deleted.*/
+    BoundedBuffer(BoundedBuffer&&) = delete;
+    /*! \brief Move assignment operator deleted.*/
+    BoundedBuffer& operator=(BoundedBuffer&&) = delete;
     /*!
      * \brief Push new item to the front.
      * \param[in] item - The item to push to the front.
@@ -120,7 +126,7 @@ private:
     /*! \brief Unread count. */
     size_type m_unreadCount{0};
     /*! \brief Circular buffer. */
-    container_type m_container;
+    container_type m_container{};
     /*!
      * \brief Test if buffer not empty.
      * \return True if buffer not empty, false otherwise.

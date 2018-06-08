@@ -63,11 +63,15 @@ public:
      */
     explicit xMessageLengthError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xMessageLengthError();
+    ~xMessageLengthError() override = default;
     /*! \brief Copy constructor. */
     xMessageLengthError(const xMessageLengthError&) = default;
     /*! \brief Copy assignment operator. */
     xMessageLengthError& operator=(const xMessageLengthError&) = default;
+    /*! \brief Move constructor. */
+    xMessageLengthError(xMessageLengthError&&) = default;
+    /*! \brief Move assignment operator. */
+    xMessageLengthError& operator=(xMessageLengthError&&) = default;
 };
 
 /*!
@@ -87,11 +91,15 @@ public:
      */
     explicit xMagicStringError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xMagicStringError();
+    ~xMagicStringError() override = default;
     /*! \brief Copy constructor. */
     xMagicStringError(const xMagicStringError&) = default;
     /*! \brief Copy assignment operator. */
     xMagicStringError& operator=(const xMagicStringError&) = default;
+    /*! \brief Move constructor. */
+    xMagicStringError(xMagicStringError&&) = default;
+    /*! \brief Move assignment operator. */
+    xMagicStringError& operator=(xMagicStringError&&) = default;
 };
 
 /*!
@@ -111,11 +119,15 @@ public:
      */
     explicit xArchiveTypeError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xArchiveTypeError();
+    ~xArchiveTypeError() override = default;
     /*! \brief Copy constructor. */
     xArchiveTypeError(const xArchiveTypeError&) = default;
     /*! \brief Copy assignment operator. */
     xArchiveTypeError& operator=(const xArchiveTypeError&) = default;
+    /*! \brief Move constructor. */
+    xArchiveTypeError(xArchiveTypeError&&) = default;
+    /*! \brief Move assignment operator. */
+    xArchiveTypeError& operator=(xArchiveTypeError&&) = default;
 };
 
 /*!
@@ -192,8 +204,8 @@ private:
  * This function only works with headers of the type MessageHeader.
  */
 defs::MessageHeader CORE_LIBRARY_DLL_SHARED_API
-FillHeader(const std::string& magicString, const defs::eArchiveType archiveType,
-           const uint32_t messageId, const defs::connection_t& responseAddress);
+                    FillHeader(const std::string& magicString, const defs::eArchiveType archiveType,
+                               const uint32_t messageId, const defs::connection_t& responseAddress);
 
 /*!
  * \brief Archive type enumerator as a template class.
@@ -437,11 +449,15 @@ public:
      */
     explicit xMessageDeserializationError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xMessageDeserializationError();
+    ~xMessageDeserializationError() override = default;
     /*! \brief Copy constructor. */
     xMessageDeserializationError(const xMessageDeserializationError&) = default;
     /*! \brief Copy assignment operator. */
     xMessageDeserializationError& operator=(const xMessageDeserializationError&) = default;
+    /*! \brief Move constructor. */
+    xMessageDeserializationError(xMessageDeserializationError&&) = default;
+    /*! \brief Move assignment operator. */
+    xMessageDeserializationError& operator=(xMessageDeserializationError&&) = default;
 };
 
 /*!

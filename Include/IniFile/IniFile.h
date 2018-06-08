@@ -58,11 +58,15 @@ public:
      */
     explicit xIniFileDataConvertError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xIniFileDataConvertError();
+    ~xIniFileDataConvertError() override = default;
     /*! \brief Copy constructor. */
     xIniFileDataConvertError(const xIniFileDataConvertError&) = default;
     /*! \brief Copy assignment operator. */
     xIniFileDataConvertError& operator=(const xIniFileDataConvertError&) = default;
+    /*! \brief Move constructor. */
+    xIniFileDataConvertError(xIniFileDataConvertError&&) = default;
+    /*! \brief Move assignment operator. */
+    xIniFileDataConvertError& operator=(xIniFileDataConvertError&&) = default;
 };
 
 /*!
@@ -82,11 +86,15 @@ public:
      */
     explicit xIniFileParserError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xIniFileParserError();
+    ~xIniFileParserError() override = default;
     /*! \brief Copy constructor. */
     xIniFileParserError(const xIniFileParserError&) = default;
     /*! \brief Copy assignment operator. */
     xIniFileParserError& operator=(const xIniFileParserError&) = default;
+    /*! \brief Move constructor. */
+    xIniFileParserError(xIniFileParserError&&) = default;
+    /*! \brief Move assignment operator. */
+    xIniFileParserError& operator=(xIniFileParserError&&) = default;
 };
 
 /*!
@@ -106,11 +114,15 @@ public:
      */
     explicit xIniFileSaveError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xIniFileSaveError();
+    ~xIniFileSaveError() override = default;
     /*! \brief Copy constructor. */
     xIniFileSaveError(const xIniFileSaveError&) = default;
     /*! \brief Copy assignment operator. */
     xIniFileSaveError& operator=(const xIniFileSaveError&) = default;
+    /*! \brief Move constructor. */
+    xIniFileSaveError(xIniFileSaveError&&) = default;
+    /*! \brief Move assignment operator. */
+    xIniFileSaveError& operator=(xIniFileSaveError&&) = default;
 };
 
 /*!
@@ -130,11 +142,15 @@ public:
      */
     explicit xIniFileInvalidKeyError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xIniFileInvalidKeyError();
+    ~xIniFileInvalidKeyError() override = default;
     /*! \brief Copy constructor. */
     xIniFileInvalidKeyError(const xIniFileInvalidKeyError&) = default;
     /*! \brief Copy assignment operator. */
     xIniFileInvalidKeyError& operator=(const xIniFileInvalidKeyError&) = default;
+    /*! \brief Move constructor. */
+    xIniFileInvalidKeyError(xIniFileInvalidKeyError&&) = default;
+    /*! \brief Move assignment operator. */
+    xIniFileInvalidKeyError& operator=(xIniFileInvalidKeyError&&) = default;
 };
 
 /*!
@@ -154,11 +170,15 @@ public:
      */
     explicit xIniFileInvalidSectionError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xIniFileInvalidSectionError();
+    ~xIniFileInvalidSectionError() override = default;
     /*! \brief Copy constructor. */
     xIniFileInvalidSectionError(const xIniFileInvalidSectionError&) = default;
     /*! \brief Copy assignment operator. */
     xIniFileInvalidSectionError& operator=(const xIniFileInvalidSectionError&) = default;
+    /*! \brief Move constructor. */
+    xIniFileInvalidSectionError(xIniFileInvalidSectionError&&) = default;
+    /*! \brief Move assignment operator. */
+    xIniFileInvalidSectionError& operator=(xIniFileInvalidSectionError&&) = default;
 };
 
 /*!

@@ -24,7 +24,7 @@
  * \brief File containing declaration of DLL import/export control defines.
  */
 
-#include "boost/predef.h"
+#include <boost/predef.h>
 
 #ifndef CORELIBRARYDLLGLOBALH
 #define CORELIBRARYDLLGLOBALH

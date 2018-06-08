@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file CsvGridMain.cpp
  * \brief File containing definitions relating the TCsvGrid class.
@@ -28,23 +27,21 @@
 #include "CsvGrid/CsvGridMain.h"
 #include "StringUtils/StringUtils.h"
 
-namespace core_lib {
-namespace csv_grid {
+namespace core_lib
+{
+namespace csv_grid
+{
 
 // ****************************************************************************
 // 'class xCsvGridDimensionError' definition
 // ****************************************************************************
 xCsvGridDimensionError::xCsvGridDimensionError()
-	: exceptions::xCustomException("rows and cols must be > 0")
+    : exceptions::xCustomException("rows and cols must be > 0")
 {
 }
 
 xCsvGridDimensionError::xCsvGridDimensionError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xCsvGridDimensionError::~xCsvGridDimensionError()
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -52,16 +49,12 @@ xCsvGridDimensionError::~xCsvGridDimensionError()
 // 'class xCsvGridRowOutOfRangeError' definition
 // ****************************************************************************
 xCsvGridRowOutOfRangeError::xCsvGridRowOutOfRangeError()
-	: exceptions::xCustomException("invalid row index")
+    : exceptions::xCustomException("invalid row index")
 {
 }
 
 xCsvGridRowOutOfRangeError::xCsvGridRowOutOfRangeError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xCsvGridRowOutOfRangeError::~xCsvGridRowOutOfRangeError()
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -69,16 +62,12 @@ xCsvGridRowOutOfRangeError::~xCsvGridRowOutOfRangeError()
 // 'class xCsvGridCreateFileStreamError' definition
 // ****************************************************************************
 xCsvGridCreateFileStreamError::xCsvGridCreateFileStreamError()
-	: exceptions::xCustomException("failed to create file stream")
+    : exceptions::xCustomException("failed to create file stream")
 {
 }
 
 xCsvGridCreateFileStreamError::xCsvGridCreateFileStreamError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xCsvGridCreateFileStreamError::~xCsvGridCreateFileStreamError()
+    : exceptions::xCustomException(message)
 {
 }
 

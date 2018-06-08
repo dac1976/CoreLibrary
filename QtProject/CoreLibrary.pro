@@ -130,7 +130,6 @@ SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/CsvGrid/CsvGridRow.cpp                   \
     ../Source/CsvGrid/CsvGridMain.cpp                  \
     ../Source/DebugLog/DebugLog.cpp                    \
-    ../Source/Exceptions/CustomException.cpp           \
     ../Source/FileUtils/FileUtils.cpp                  \
     ../Source/IniFile/IniFileLines.cpp                 \
     ../Source/IniFile/IniFileSectionDetails.cpp        \

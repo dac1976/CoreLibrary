@@ -28,29 +28,28 @@
 #include "Asio/MessageUtils.h"
 #include <cassert>
 #include <cstdio>
-#include "boost/throw_exception.hpp"
+#include <boost/throw_exception.hpp>
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The tcp namespace. */
-namespace messages {
+namespace messages
+{
 
 // ****************************************************************************
 // 'class xMessageLengthError' definition
 // ****************************************************************************
 xMessageLengthError::xMessageLengthError()
-	: exceptions::xCustomException("incorrect message length")
+    : exceptions::xCustomException("incorrect message length")
 {
 }
 
 xMessageLengthError::xMessageLengthError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xMessageLengthError::~xMessageLengthError()
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -58,16 +57,12 @@ xMessageLengthError::~xMessageLengthError()
 // 'class xMagicStringError' definition
 // ****************************************************************************
 xMagicStringError::xMagicStringError()
-	: exceptions::xCustomException("incorrect magic string")
+    : exceptions::xCustomException("incorrect magic string")
 {
 }
 
 xMagicStringError::xMagicStringError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xMagicStringError::~xMagicStringError()
+    : exceptions::xCustomException(message)
 {
 }
 
@@ -84,81 +79,75 @@ xArchiveTypeError::xArchiveTypeError(const std::string& message)
 {
 }
 
-xArchiveTypeError::~xArchiveTypeError()
-{
-}
-
-
-// ****************************************************************************
-// 'class MessageHandler' definition
-// ****************************************************************************
+    // ****************************************************************************
+    // 'class MessageHandler' definition
+    // ****************************************************************************
 
 #ifdef USE_DEFAULT_CONSTRUCTOR_
-	MessageHandler::MessageHandler()
-		: m_magicString(defs::DEFAULT_MAGIC_STRING)
-	{
-
-	}
+MessageHandler::MessageHandler()
+    : m_magicString(defs::DEFAULT_MAGIC_STRING)
+{
+}
 #endif
 
-MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher
-							   , const std::string& magicString)
-	: m_messageDispatcher(messageDispatcher)
-	, m_magicString(magicString)
+MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher,
+                               const std::string&                        magicString)
+    : m_messageDispatcher(messageDispatcher)
+    , m_magicString(magicString)
 {
 }
 
 size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) const
 {
-	CheckMessage(message);
+    CheckMessage(message);
 
-	auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
+    auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
 
-	if (m_magicString != pHeader->magicString)
-	{
-		BOOST_THROW_EXCEPTION(xMagicStringError());
-	}
+    if (m_magicString != pHeader->magicString)
+    {
+        BOOST_THROW_EXCEPTION(xMagicStringError());
+    }
 
-	if (pHeader->totalLength < message.size())
-	{
-		BOOST_THROW_EXCEPTION(xMessageLengthError());
-	}
+    if (pHeader->totalLength < message.size())
+    {
+        BOOST_THROW_EXCEPTION(xMessageLengthError());
+    }
 
-	return pHeader->totalLength - message.size();
+    return pHeader->totalLength - message.size();
 }
 
 void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) const
 {
-	CheckMessage(message);
+    CheckMessage(message);
 
-	auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
-    auto receivedMessage = std::make_shared<defs::default_received_message_t>();
-	receivedMessage->header = *pHeader;
+    auto pHeader            = reinterpret_cast<const defs::MessageHeader*>(&message.front());
+    auto receivedMessage    = std::make_shared<defs::default_received_message_t>();
+    receivedMessage->header = *pHeader;
 
     if (pHeader->totalLength > sizeof(defs::MessageHeader))
     {
         receivedMessage->body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
     }
 
-	m_messageDispatcher(receivedMessage);
+    m_messageDispatcher(receivedMessage);
 }
 
 void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 {
-	if (message.size() < sizeof(defs::MessageHeader))
-	{
-		BOOST_THROW_EXCEPTION(xMessageLengthError());
-	}
+    if (message.size() < sizeof(defs::MessageHeader))
+    {
+        BOOST_THROW_EXCEPTION(xMessageLengthError());
+    }
 }
 
 // ****************************************************************************
 // Utility functions
 // ****************************************************************************
 
-auto FillHeader(const std::string& magicString, const defs::eArchiveType archiveType
-                , const uint32_t messageId, const defs::connection_t& responseAddress)
+auto FillHeader(const std::string& magicString, const defs::eArchiveType archiveType,
+                const uint32_t messageId, const defs::connection_t& responseAddress)
     -> defs::MessageHeader
-{    
+{
     assert(magicString.size() < defs::MAGIC_STRING_LEN);
 
     if (magicString.size() >= defs::MAGIC_STRING_LEN)
@@ -175,24 +164,26 @@ auto FillHeader(const std::string& magicString, const defs::eArchiveType archive
 
     defs::MessageHeader header;
     std::snprintf(header.magicString, sizeof(header.magicString), "%s", magicString.c_str());
-    std::snprintf(header.responseAddress, sizeof(header.responseAddress), "%s", responseAddress.first.c_str());
+    std::snprintf(header.responseAddress,
+                  sizeof(header.responseAddress),
+                  "%s",
+                  responseAddress.first.c_str());
     header.responsePort = responseAddress.second;
-    header.messageId = messageId;
-    header.archiveType = archiveType;
+    header.messageId    = messageId;
+    header.archiveType  = archiveType;
 
     return header;
 }
 
-// ****************************************************************************
-// 'class MessageBuilder' definition
-// ****************************************************************************
+    // ****************************************************************************
+    // 'class MessageBuilder' definition
+    // ****************************************************************************
 
 #ifdef USE_DEFAULT_CONSTRUCTOR_
-	MessageBuilder::MessageBuilder()
-		: m_magicString(defs::DEFAULT_MAGIC_STRING)
-	{
-
-	}
+MessageBuilder::MessageBuilder()
+    : m_magicString(defs::DEFAULT_MAGIC_STRING)
+{
+}
 #endif
 
 MessageBuilder::MessageBuilder(const std::string& magicString)
@@ -200,9 +191,8 @@ MessageBuilder::MessageBuilder(const std::string& magicString)
 {
 }
 
-auto MessageBuilder::Build(const uint32_t messageId
-                           , const defs::connection_t& responseAddress) const
-    -> defs::char_buffer_t
+auto MessageBuilder::Build(const uint32_t            messageId,
+                           const defs::connection_t& responseAddress) const -> defs::char_buffer_t
 {
     auto header = FillHeader(m_magicString, defs::eArchiveType::raw, messageId, responseAddress);
 
@@ -210,8 +200,7 @@ auto MessageBuilder::Build(const uint32_t messageId
     messageBuffer.reserve(header.totalLength);
 
     const char* headerCharBuf = reinterpret_cast<const char*>(&header);
-    std::copy(headerCharBuf, headerCharBuf + sizeof(header)
-              , std::back_inserter(messageBuffer));
+    std::copy(headerCharBuf, headerCharBuf + sizeof(header), std::back_inserter(messageBuffer));
 
     return messageBuffer;
 }
@@ -226,10 +215,6 @@ xMessageDeserializationError::xMessageDeserializationError()
 
 xMessageDeserializationError::xMessageDeserializationError(const std::string& message)
     : exceptions::xCustomException(message)
-{
-}
-
-xMessageDeserializationError::~xMessageDeserializationError()
 {
 }
 

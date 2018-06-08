@@ -48,10 +48,6 @@ xLogMsgHandlerError::xLogMsgHandlerError(const std::string& message)
 {
 }
 
-xLogMsgHandlerError::~xLogMsgHandlerError()
-{
-}
-
 // ****************************************************************************
 // 'class xInstantiationError' definition
 // ******************************B*********************************************
@@ -62,10 +58,6 @@ xInstantiationError::xInstantiationError()
 
 xInstantiationError::xInstantiationError(const std::string& message)
     : exceptions::xCustomException(message)
-{
-}
-
-xInstantiationError::~xInstantiationError()
 {
 }
 

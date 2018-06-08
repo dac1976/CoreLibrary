@@ -35,8 +35,7 @@ namespace threads
 // ****************************************************************************
 // 'class EventThread' definition
 // ****************************************************************************
-EventThread::EventThread(event_callback_t const& eventCallback,
-                         unsigned int const      eventPeriodMillisecs)
+EventThread::EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs)
     : core_lib::threads::ThreadBase()
     , m_eventCallback(eventCallback)
     , m_eventPeriodMillisecs(eventPeriodMillisecs)

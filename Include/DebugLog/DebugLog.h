@@ -46,7 +46,7 @@
 #include <type_traits>
 #include "Threads/MessageQueueThread.h"
 #define BOOST_NO_CXX11_SCOPED_ENUMS
-#include "boost/filesystem.hpp"
+#include <boost/filesystem.hpp>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -128,11 +128,15 @@ public:
      */
     explicit xLogMsgHandlerError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xLogMsgHandlerError();
+    ~xLogMsgHandlerError() override = default;
     /*! \brief Copy constructor. */
     xLogMsgHandlerError(const xLogMsgHandlerError&) = default;
     /*! \brief Copy assignment operator. */
     xLogMsgHandlerError& operator=(const xLogMsgHandlerError&) = default;
+    /*! \brief Copy constructor. */
+    xLogMsgHandlerError(xLogMsgHandlerError&&) = default;
+    /*! \brief Copy assignment operator. */
+    xLogMsgHandlerError& operator=(xLogMsgHandlerError&&) = default;
 };
 
 /*!
@@ -152,11 +156,15 @@ public:
      */
     explicit xInstantiationError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xInstantiationError();
+    ~xInstantiationError() override = default;
     /*! \brief Copy constructor. */
     xInstantiationError(const xInstantiationError&) = default;
     /*! \brief Copy assignment operator. */
     xInstantiationError& operator=(const xInstantiationError&) = default;
+    /*! \brief Move constructor. */
+    xInstantiationError(xInstantiationError&&) = default;
+    /*! \brief Move assignment operator. */
+    xInstantiationError& operator=(xInstantiationError&&) = default;
 };
 
 /*!

@@ -27,8 +27,8 @@
 #include "FileUtils/FileUtils.h"
 #include <algorithm>
 #include <iterator>
-#include "boost/filesystem.hpp"
-#include "boost/algorithm/string/case_conv.hpp"
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
 
 namespace bfs = boost::filesystem;
 
@@ -106,8 +106,6 @@ xCopyDirectoryError::xCopyDirectoryError(const std::string& message)
     : exceptions::xCustomException(message)
 {
 }
-
-xCopyDirectoryError::~xCopyDirectoryError() {}
 
 // ****************************************************************************
 // CopyDirectoryRecursively definition

@@ -28,7 +28,7 @@
 #define DEBUGLOGSINGLETON
 
 #include "DebugLog.h"
-#include "loki/Singleton.h"
+#include <loki/Singleton.h>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib

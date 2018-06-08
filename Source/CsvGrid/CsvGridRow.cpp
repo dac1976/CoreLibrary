@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file CsvGridRow.cpp
  * \brief File containing definitions relating the CsvGridRow class.
@@ -27,23 +26,21 @@
 
 #include "CsvGrid/CsvGridRow.h"
 
-namespace core_lib {
-namespace csv_grid {
+namespace core_lib
+{
+namespace csv_grid
+{
 
 // ****************************************************************************
 // 'class xRowOutOfRangeError' definition
 // ****************************************************************************
 xCsvGridColOutOfRangeError::xCsvGridColOutOfRangeError()
-	: exceptions::xCustomException("invalid column index")
+    : exceptions::xCustomException("invalid column index")
 {
 }
 
 xCsvGridColOutOfRangeError::xCsvGridColOutOfRangeError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xCsvGridColOutOfRangeError::~xCsvGridColOutOfRangeError()
+    : exceptions::xCustomException(message)
 {
 }
 

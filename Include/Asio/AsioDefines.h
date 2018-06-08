@@ -35,7 +35,7 @@
 #include <utility>
 #include <string>
 #include <cstdint>
-#include "boost/asio.hpp"
+#include <boost/asio.hpp>
 
 namespace boost_sys          = boost::system;
 namespace boost_asio         = boost::asio;
@@ -104,10 +104,10 @@ enum class eUdpOption
 STATIC_CONSTEXPR_ size_t UDP_DATAGRAM_MAX_SIZE{65507};
 
 /*! \brief UDP default buffer size.
-*
-* By default we use a size of 8KiB but this can be
-* changed by the user.
-*/
+ *
+ * By default we use a size of 8KiB but this can be
+ * changed by the user.
+ */
 STATIC_CONSTEXPR_ size_t DEFAULT_UDP_BUF_SIZE{8192};
 
 /*! \brief The multicast TTL enumeration. */

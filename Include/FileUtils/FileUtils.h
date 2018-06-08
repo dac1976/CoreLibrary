@@ -79,11 +79,15 @@ public:
      */
     explicit xCopyDirectoryError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xCopyDirectoryError();
+    ~xCopyDirectoryError() override = default;
     /*! \brief Copy constructor. */
     xCopyDirectoryError(const xCopyDirectoryError&) = default;
     /*! \brief Copy assignment operator. */
     xCopyDirectoryError& operator=(const xCopyDirectoryError&) = default;
+    /*! \brief Move constructor. */
+    xCopyDirectoryError(xCopyDirectoryError&&) = default;
+    /*! \brief Move assignment operator. */
+    xCopyDirectoryError& operator=(xCopyDirectoryError&&) = default;
 };
 
 /*! \brief Copy directory options enumeration. */

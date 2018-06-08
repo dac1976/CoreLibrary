@@ -19,27 +19,26 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
-* \file SyncEvent.cpp
-* \brief File containing definition of SyncEvent class.
-*/
+ * \file SyncEvent.cpp
+ * \brief File containing definition of SyncEvent class.
+ */
 
 #include "Threads/SyncEvent.h"
 #include <chrono>
 
-namespace core_lib {
-namespace threads {
+namespace core_lib
+{
+namespace threads
+{
 
 // ****************************************************************************
 // 'class SyncEvent' definition
 // ****************************************************************************
-SyncEvent::SyncEvent(const eNotifyType notifyCondition
-                    , const eResetCondition resetCondition
-                    , const eIntialCondition initialCondition)
+SyncEvent::SyncEvent(eNotifyType notifyCondition, eResetCondition resetCondition,
+                     eIntialCondition initialCondition)
     : m_signalAllThreads{notifyCondition == eNotifyType::signalAllThreads}
-    , m_autoReset{m_signalAllThreads
-                  ? false : resetCondition == eResetCondition::autoReset}
+    , m_autoReset{m_signalAllThreads ? false : resetCondition == eResetCondition::autoReset}
     , m_signalFlag{initialCondition == eIntialCondition::signalled}
 {
 }
@@ -47,7 +46,7 @@ SyncEvent::SyncEvent(const eNotifyType notifyCondition
 void SyncEvent::Wait()
 {
     std::unique_lock<std::mutex> lock{m_signalMutex};
-    m_signalCondVar.wait(lock, [this]{ return m_signalFlag; });
+    m_signalCondVar.wait(lock, [this] { return m_signalFlag; });
 
     if (m_autoReset && m_signalFlag)
     {
@@ -55,12 +54,11 @@ void SyncEvent::Wait()
     }
 }
 
-bool SyncEvent::WaitForTime(const size_t milliseconds)
+bool SyncEvent::WaitForTime(size_t milliseconds)
 {
     std::unique_lock<std::mutex> lock{m_signalMutex};
-    bool result
-        = m_signalCondVar.wait_for(lock, std::chrono::milliseconds(milliseconds)
-             , [this]{ return m_signalFlag; });
+    bool                         result = m_signalCondVar.wait_for(
+        lock, std::chrono::milliseconds(milliseconds), [this] { return m_signalFlag; });
 
     if (m_autoReset && m_signalFlag)
     {

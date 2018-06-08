@@ -57,11 +57,15 @@ public:
      */
     explicit xThreadGroupError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xThreadGroupError();
+    ~xThreadGroupError() override = default;
     /*! \brief Copy constructor. */
     xThreadGroupError(const xThreadGroupError&) = default;
     /*! \brief Copy assignment operator. */
     xThreadGroupError& operator=(const xThreadGroupError&) = default;
+    /*! \brief Move constructor. */
+    xThreadGroupError(xThreadGroupError&&) = default;
+    /*! \brief Move assignment operator. */
+    xThreadGroupError& operator=(xThreadGroupError&&) = default;
 };
 
 /*!
@@ -85,6 +89,10 @@ public:
     ThreadGroup(const ThreadGroup&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     ThreadGroup& operator=(const ThreadGroup&) = delete;
+    /*! \brief Move constructor deleted.*/
+    ThreadGroup(ThreadGroup&&) = delete;
+    /*! \brief Move assignment operator deleted.*/
+    ThreadGroup& operator=(ThreadGroup&&) = delete;
     /*!
      * \brief Is current thread in group.
      * \return True if in group, false otherwise.
@@ -155,9 +163,9 @@ private:
     /*! \brief Access mutex for private data. */
     mutable std::mutex m_mutex;
     /*! \brief Typedef for thread list type. */
-    typedef std::list<std::thread*> thread_list;
+    using thread_list = std::list<std::thread*>;
     /*! \brief Typedef for thread list iterator type. */
-    typedef thread_list::iterator thread_list_iter;
+    using thread_list_iter = thread_list::iterator;
     /*! \brief List containing threads. */
     thread_list m_threadGroup;
     /*!

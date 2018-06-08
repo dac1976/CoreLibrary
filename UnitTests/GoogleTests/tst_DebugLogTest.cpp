@@ -1,8 +1,8 @@
 #ifndef DISABLE_DEBUGLOG_TESTS
 
 #include <ostream>
+#include <boost/filesystem.hpp>
 #include "DebugLog/DebugLogging.h"
-#include "boost/filesystem.hpp"
 
 #include "gtest/gtest.h"
 

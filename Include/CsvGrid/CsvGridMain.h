@@ -62,11 +62,15 @@ public:
      */
     explicit xCsvGridDimensionError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xCsvGridDimensionError();
+    ~xCsvGridDimensionError() override = default;
     /*! \brief Copy constructor. */
     xCsvGridDimensionError(const xCsvGridDimensionError&) = default;
     /*! \brief Copy assignment operator. */
     xCsvGridDimensionError& operator=(const xCsvGridDimensionError&) = default;
+    /*! \brief Move constructor. */
+    xCsvGridDimensionError(xCsvGridDimensionError&&) = default;
+    /*! \brief Move assignment operator. */
+    xCsvGridDimensionError& operator=(xCsvGridDimensionError&&) = default;
 };
 
 /*!
@@ -86,11 +90,15 @@ public:
      */
     explicit xCsvGridRowOutOfRangeError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xCsvGridRowOutOfRangeError();
+    ~xCsvGridRowOutOfRangeError() override = default;
     /*! \brief Copy constructor. */
     xCsvGridRowOutOfRangeError(const xCsvGridRowOutOfRangeError&) = default;
     /*! \brief Copy assignment operator. */
     xCsvGridRowOutOfRangeError& operator=(const xCsvGridRowOutOfRangeError&) = default;
+    /*! \brief Move constructor. */
+    xCsvGridRowOutOfRangeError(xCsvGridRowOutOfRangeError&&) = default;
+    /*! \brief Move assignment operator. */
+    xCsvGridRowOutOfRangeError& operator=(xCsvGridRowOutOfRangeError&&) = default;
 };
 
 /*!
@@ -111,11 +119,15 @@ public:
      */
     explicit xCsvGridCreateFileStreamError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xCsvGridCreateFileStreamError();
+    ~xCsvGridCreateFileStreamError() override = default;
     /*! \brief Copy constructor. */
     xCsvGridCreateFileStreamError(const xCsvGridCreateFileStreamError&) = default;
     /*! \brief Copy assignment operator. */
     xCsvGridCreateFileStreamError& operator=(const xCsvGridCreateFileStreamError&) = default;
+    /*! \brief Move constructor. */
+    xCsvGridCreateFileStreamError(xCsvGridCreateFileStreamError&&) = default;
+    /*! \brief Move assignment operator. */
+    xCsvGridCreateFileStreamError& operator=(xCsvGridCreateFileStreamError&&) = default;
 };
 
 /*! \brief Enumeration controlling how file is saved. */
@@ -377,11 +389,11 @@ public:
         }
     }
     /*!
-    * \brief Clear the contents of all cells.
-    *
-    * The contents of each cell in the grid is cleared but the row and
-    * column counts remain unchanged.
-    */
+     * \brief Clear the contents of all cells.
+     *
+     * The contents of each cell in the grid is cleared but the row and
+     * column counts remain unchanged.
+     */
     // cppcheck-suppress functionConst
     void ClearCells()
     {
@@ -391,10 +403,10 @@ public:
         }
     }
     /*!
-    * \brief Clear the entire grid.
-    *
-    * All rows are removed from the grid leaving a row count of 0 afterwards.
-    */
+     * \brief Clear the entire grid.
+     *
+     * All rows are removed from the grid leaving a row count of 0 afterwards.
+     */
     void ResetGrid()
     {
         m_grid.clear();

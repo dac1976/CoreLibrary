@@ -34,8 +34,7 @@ namespace threads
 // 'class ThreadRunner' definition
 // ****************************************************************************
 ThreadRunner::ThreadRunner(const thread_function_t& threadFunction,
-                           const thread_function_t& processTerminationConditions,
-                           const bool               autoStart)
+                           const thread_function_t& processTerminationConditions, bool autoStart)
     : ThreadBase()
     , m_threadFunction(threadFunction)
     , m_processTerminationConditions(processTerminationConditions)
@@ -51,7 +50,7 @@ ThreadRunner::~ThreadRunner()
     Stop();
 }
 
-void ThreadRunner::SleepThreadForTime(const unsigned int milliSecs) const
+void ThreadRunner::SleepThreadForTime(unsigned int milliSecs) const
 {
     SleepForTime(milliSecs);
 }

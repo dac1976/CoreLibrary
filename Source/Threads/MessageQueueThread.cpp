@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file MessageQueueThread.cpp
  * \brief File containing definition of MessageQueueThread class.
@@ -27,23 +26,21 @@
 
 #include "Threads/MessageQueueThread.h"
 
-namespace core_lib {
-namespace threads {
+namespace core_lib
+{
+namespace threads
+{
 
 // ****************************************************************************
 // 'class xMsgHandlerError' definition
 // ******************************B**********************************************
 xMsgHandlerError::xMsgHandlerError()
-	: exceptions::xCustomException("message handler error")
+    : exceptions::xCustomException("message handler error")
 {
 }
 
 xMsgHandlerError::xMsgHandlerError(const std::string& message)
-	: exceptions::xCustomException(message)
-{
-}
-
-xMsgHandlerError::~xMsgHandlerError()
+    : exceptions::xCustomException(message)
 {
 }
 

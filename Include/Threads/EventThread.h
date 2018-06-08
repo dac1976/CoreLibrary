@@ -42,7 +42,7 @@ namespace threads
 class CORE_LIBRARY_DLL_SHARED_API EventThread final : public core_lib::threads::ThreadBase
 {
     /*! \brief Typedef defining message handler functor.  */
-    typedef std::function<void()> event_callback_t;
+    using event_callback_t = std::function<void()>;
 
 public:
     /*!
@@ -50,21 +50,25 @@ public:
      * \param[in] eventCallback - Function object to be called when event ticks.
      * \param[in] eventPeriodMillisecs - Period between event being triggered.
      */
-    EventThread(event_callback_t const& eventCallback, unsigned int const eventPeriodMillisecs);
+    EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs);
 
     /*! \brief EventThread destructor. */
-    virtual ~EventThread();
+    ~EventThread() override;
 
     /*! \brief Copy constructor deleted.*/
     EventThread(const EventThread&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     EventThread& operator=(const EventThread&) = delete;
+    /*! \brief Move constructor deleted.*/
+    EventThread(EventThread&&) = delete;
+    /*! \brief Move assignment operator deleted.*/
+    EventThread& operator=(EventThread&&) = delete;
 
 private:
     /*! \brief Thread iteration function.*/
-    virtual void ThreadIteration() NO_EXCEPT_;
+    void ThreadIteration() NO_EXCEPT_ override;
     /*! \brief Function to process termination conditions.*/
-    virtual void ProcessTerminationConditions() NO_EXCEPT_;
+    void ProcessTerminationConditions() NO_EXCEPT_ override;
 
 private:
     /*! \brief Update event.*/

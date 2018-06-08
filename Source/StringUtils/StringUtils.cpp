@@ -28,8 +28,8 @@
 #include <vector>
 #include <locale>
 #include <codecvt>
-#include "boost/algorithm/string/trim.hpp"
-#include "boost/algorithm/string/split.hpp"
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 namespace core_lib
 {
@@ -63,10 +63,6 @@ xSplitStringBadDelim::xSplitStringBadDelim(const std::string& message)
 {
 }
 
-xSplitStringBadDelim::~xSplitStringBadDelim()
-{
-}
-
 // ****************************************************************************
 // 'class xSplitStringTooManySubstrings' definition
 // ****************************************************************************
@@ -77,10 +73,6 @@ xSplitStringTooManySubstrings::xSplitStringTooManySubstrings()
 
 xSplitStringTooManySubstrings::xSplitStringTooManySubstrings(const std::string& message)
     : exceptions::xCustomException(message)
-{
-}
-
-xSplitStringTooManySubstrings::~xSplitStringTooManySubstrings()
 {
 }
 
@@ -124,7 +116,7 @@ std::wstring RemoveIllegalChars(const std::wstring& text, const std::wstring& il
                                 const wchar_t replacementChar)
 {
     auto textFixed = text;
-    auto replacer = [=](const wchar_t c) { return illegalChars.find(c) != std::wstring::npos; };
+    auto replacer  = [=](const wchar_t c) { return illegalChars.find(c) != std::wstring::npos; };
     std::replace_if(textFixed.begin(), textFixed.end(), replacer, replacementChar);
     return textFixed;
 }
@@ -133,7 +125,7 @@ std::string RemoveIllegalChars(const std::string& text, const std::string& illeg
                                const char replacementChar)
 {
     auto textFixed = text;
-    auto replacer = [=](const char c) { return illegalChars.find(c) != std::string::npos; };
+    auto replacer  = [=](const char c) { return illegalChars.find(c) != std::string::npos; };
     std::replace_if(textFixed.begin(), textFixed.end(), replacer, replacementChar);
     return textFixed;
 }

@@ -27,9 +27,9 @@
 #ifdef USE_EXPLICIT_MOVE_
 #include <utility>
 #endif
+#include <boost/algorithm/string/trim.hpp>
 #include "CsvGrid/CsvGridCell.h"
 #include "StringUtils/StringUtils.h"
-#include "boost/algorithm/string/trim.hpp"
 
 namespace core_lib
 {

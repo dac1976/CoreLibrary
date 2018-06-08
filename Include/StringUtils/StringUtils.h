@@ -66,11 +66,15 @@ public:
      */
     explicit xSplitStringBadDelim(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xSplitStringBadDelim();
+    ~xSplitStringBadDelim() override = default;
     /*! \brief Copy constructor. */
     xSplitStringBadDelim(const xSplitStringBadDelim&) = default;
     /*! \brief Copy assignment operator. */
     xSplitStringBadDelim& operator=(const xSplitStringBadDelim&) = default;
+    /*! \brief Move constructor. */
+    xSplitStringBadDelim(xSplitStringBadDelim&&) = default;
+    /*! \brief Move assignment operator. */
+    xSplitStringBadDelim& operator=(xSplitStringBadDelim&&) = default;
 };
 
 /*!
@@ -91,11 +95,15 @@ public:
      */
     explicit xSplitStringTooManySubstrings(const std::string& message);
     /*! \brief Virtual destructor.*/
-    virtual ~xSplitStringTooManySubstrings();
+    ~xSplitStringTooManySubstrings() override = default;
     /*! \brief Copy constructor. */
     xSplitStringTooManySubstrings(const xSplitStringTooManySubstrings&) = default;
     /*! \brief Copy assignment operator. */
     xSplitStringTooManySubstrings& operator=(const xSplitStringTooManySubstrings&) = default;
+    /*! \brief Move constructor. */
+    xSplitStringTooManySubstrings(xSplitStringTooManySubstrings&&) = default;
+    /*! \brief Move assignment operator. */
+    xSplitStringTooManySubstrings& operator=(xSplitStringTooManySubstrings&&) = default;
 };
 
 /*!
@@ -196,8 +204,8 @@ std::wstring CORE_LIBRARY_DLL_SHARED_API RemoveIllegalChars(
     const wchar_t replacementChar = L'_');
 
 std::string CORE_LIBRARY_DLL_SHARED_API
-RemoveIllegalChars(const std::string& text, const std::string& illegalChars = "~#%&*{}\\:<>?/+|\"",
-                   const char replacementChar = '_');
+            RemoveIllegalChars(const std::string& text, const std::string& illegalChars = "~#%&*{}\\:<>?/+|\"",
+                               const char replacementChar = '_');
 
 /*!
  * \brief Convert a std::string to std::wstring.

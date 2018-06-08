@@ -19,7 +19,6 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file GenericSorting.cpp
  * \brief File containing definitions generic sorting algorithms.
@@ -27,25 +26,23 @@
 
 #include "Sorting/GenericSorting.h"
 
-namespace core_lib {
-namespace sorting {
+namespace core_lib
+{
+namespace sorting
+{
 
 // ****************************************************************************
 // 'class xBucketValueOutOfRangeError' definition
 // ****************************************************************************
 xBucketValueOutOfRangeError::xBucketValueOutOfRangeError()
-	: exceptions::xCustomException("bucket value out of range")
+    : exceptions::xCustomException("bucket value out of range")
 {
 }
 
 xBucketValueOutOfRangeError::xBucketValueOutOfRangeError(const std::string& message)
-	: exceptions::xCustomException(message)
+    : exceptions::xCustomException(message)
 {
 }
 
-xBucketValueOutOfRangeError::~xBucketValueOutOfRangeError()
-{
-}
-
-}// namespace sorting
-}// namespace core_lib
+} // namespace sorting
+} // namespace core_lib

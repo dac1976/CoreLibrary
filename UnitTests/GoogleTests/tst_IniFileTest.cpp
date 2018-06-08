@@ -2,9 +2,9 @@
 
 #include <fstream>
 #include <sstream>
-#include "boost/predef.h"
+#include <boost/predef.h>
 #define BOOST_NO_CXX11_SCOPED_ENUMS
-#include "boost/filesystem.hpp"
+#include <boost/filesystem.hpp>
 #include "IniFile/IniFile.h"
 
 #include "gtest/gtest.h"

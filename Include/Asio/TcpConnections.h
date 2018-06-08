@@ -59,11 +59,15 @@ public:
      */
     explicit xUnknownConnectionError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xUnknownConnectionError();
+    ~xUnknownConnectionError() override = default;
     /*! \brief Copy constructor. */
     xUnknownConnectionError(const xUnknownConnectionError&) = default;
     /*! \brief Copy assignment operator. */
     xUnknownConnectionError& operator=(const xUnknownConnectionError&) = default;
+    /*! \brief Move constructor. */
+    xUnknownConnectionError(xUnknownConnectionError&&) = default;
+    /*! \brief Move assignment operator. */
+    xUnknownConnectionError& operator=(xUnknownConnectionError&&) = default;
 };
 
 /*! \brief Forward declaration of TCP connection class. */

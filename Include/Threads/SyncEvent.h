@@ -96,14 +96,18 @@ public:
      * you must make sure all the signalled threads have finished
      * their task(s) before the SyncEvent object is reset manually.
      */
-    SyncEvent(const eNotifyType notifyCondition, const eResetCondition resetCondition,
-              const eIntialCondition initialCondition);
+    SyncEvent(eNotifyType notifyCondition, eResetCondition resetCondition,
+              eIntialCondition initialCondition);
     /*! \brief Destructor. */
     ~SyncEvent() = default;
     /*! \brief Copy constructor - disabled. */
     SyncEvent(const SyncEvent&) = delete;
     /*! \brief Copy assignment operator - disabled. */
     SyncEvent& operator=(const SyncEvent&) = delete;
+    /*! \brief Move constructor - disabled. */
+    SyncEvent(SyncEvent&&) = delete;
+    /*! \brief Move assignment operator - disabled. */
+    SyncEvent& operator=(SyncEvent&&) = delete;
     /*!
      * \brief Wait for event.
      *
@@ -121,7 +125,7 @@ public:
      * or if not signalled this function returns after a defined
      * number of milliseconds.
      */
-    bool WaitForTime(const size_t milliseconds);
+    bool WaitForTime(size_t milliseconds);
     /*!
      * \brief Signal event.
      *
@@ -148,11 +152,11 @@ private:
     /*! \brief Condition vairable to perform the waiting and signalling. */
     std::condition_variable m_signalCondVar;
     /*! \brief Signal type flag. */
-    const bool m_signalAllThreads{};
+    bool m_signalAllThreads{false};
     /*! \brief Auto-reset flag. */
-    const bool m_autoReset{true};
+    bool m_autoReset{true};
     /*! \brief Signal flag. */
-    bool m_signalFlag{};
+    bool m_signalFlag{false};
 };
 
 } // namespace threads

@@ -1,7 +1,7 @@
 #ifndef DISABLE_STRINGUTILS_TESTS
 
 #include "StringUtils/StringUtils.h"
-#include "boost/predef.h"
+#include <boost/predef.h>
 
 #include "gtest/gtest.h"
 

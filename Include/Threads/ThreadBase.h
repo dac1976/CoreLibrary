@@ -58,11 +58,15 @@ public:
      */
     explicit xThreadNotStartedError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xThreadNotStartedError();
+    ~xThreadNotStartedError() override = default;
     /*! \brief Copy constructor. */
     xThreadNotStartedError(const xThreadNotStartedError&) = default;
     /*! \brief Copy assignment operator. */
     xThreadNotStartedError& operator=(const xThreadNotStartedError&) = default;
+    /*! \brief Move constructor. */
+    xThreadNotStartedError(xThreadNotStartedError&&) = default;
+    /*! \brief Move assignment operator. */
+    xThreadNotStartedError& operator=(xThreadNotStartedError&&) = default;
 };
 
 /*!
@@ -79,6 +83,10 @@ public:
     ThreadBase(const ThreadBase&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     ThreadBase& operator=(const ThreadBase&) = delete;
+    /*! \brief Move constructor deleted.*/
+    ThreadBase(ThreadBase&&) = default;
+    /*! \brief Move assignment operator deleted.*/
+    ThreadBase& operator=(ThreadBase&&) = default;
     /*! \brief Destructor.*/
     virtual ~ThreadBase() = default;
     /*!
@@ -127,7 +135,7 @@ protected:
      * \brief Set terminating flag.
      * \param[in] terminating - True if terminating, false otherwise.
      */
-    void SetTerminating(const bool terminating = true);
+    void SetTerminating(bool terminating = true);
     /*!
      * \brief Is thread terminating.
      * \return Returns true if terminating, false otherwise.
@@ -141,7 +149,7 @@ protected:
      * if thread not fully started and therefore cannot be
      * made to sleep.
      */
-    void SleepForTime(const unsigned int milliSecs) const;
+    void SleepForTime(unsigned int milliSecs) const;
     /*!
      * \brief Execute a single iteration of the thread.
      *
@@ -166,19 +174,6 @@ protected:
     virtual void ProcessTerminationConditions() NO_EXCEPT_;
 
 private:
-    /*! \brief Access mutex to protect private data.*/
-    mutable std::mutex m_mutex;
-    /*! \brief Boolean flag to mark thread as started.*/
-    bool m_started{};
-    /*! \brief Boolean flag to mark thread as terminating.*/
-    bool m_terminating{};
-    /*! \brief Thread ID of started thread object.*/
-    std::thread::id m_threadId;
-    /*! \brief Native thread handle (where supported) of started thread.*/
-    std::thread::native_handle_type m_nativeHandle;
-    /*! \brief Underlying std::thread object.*/
-    std::thread m_thread;
-
     /*!
      * \brief Store thread ID and native handle.
      * \param[in] threadId - Thread ID.
@@ -190,7 +185,7 @@ private:
      * \brief Set started flag.
      * \param[in] started - True if started, false otherwise.
      */
-    void SetStarted(const bool started = true);
+    void SetStarted(bool started = true);
     /*!
      * \brief Run the thread's iterations in a loop.
      *
@@ -199,6 +194,20 @@ private:
      * when the thread is termainted.
      */
     void Run();
+
+private:
+    /*! \brief Access mutex to protect private data.*/
+    mutable std::mutex m_mutex;
+    /*! \brief Boolean flag to mark thread as started.*/
+    bool m_started{false};
+    /*! \brief Boolean flag to mark thread as terminating.*/
+    bool m_terminating{false};
+    /*! \brief Thread ID of started thread object.*/
+    std::thread::id m_threadId{};
+    /*! \brief Native thread handle (where supported) of started thread.*/
+    std::thread::native_handle_type m_nativeHandle{};
+    /*! \brief Underlying std::thread object.*/
+    std::thread m_thread{};
 };
 
 } // namespace threads

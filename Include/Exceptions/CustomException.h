@@ -27,22 +27,10 @@
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 #include <string>
-#include "boost/exception/all.hpp"
+#include <boost/exception/all.hpp>
 
 #ifndef CUSTOMEXCEPTION
 #define CUSTOMEXCEPTION
-
-#if BOOST_OS_WINDOWS
-namespace boost
-{
-class CORE_LIBRARY_DLL_SHARED_API exception;
-}
-
-namespace std
-{
-class CORE_LIBRARY_DLL_SHARED_API exception;
-}
-#endif
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -79,33 +67,37 @@ catch(...)
              << boost::current_exception_diagnostic_information();
 }
 \endcode
+ *
+ * This class is defined inline to make exporting from a DLL
+ * containing this class trivial as we are deriving from
+ * boost::exception and std::exception.
  */
-class CORE_LIBRARY_DLL_SHARED_API xCustomException : public virtual boost::exception,
-                                                     public virtual std::exception
+class xCustomException : public virtual boost::exception, public virtual std::exception
 {
 public:
     /*! \brief Default constructor. */
-    xCustomException();
+    xCustomException()
+        : std::exception("custom exception")
+    {
+    }
     /*!
      * \brief Initializing constructor.
      * \param[in] message - A user specified message string.
      */
-    explicit xCustomException(const std::string& message);
+    explicit xCustomException(const std::string& message)
+        : std::exception(message.c_str())
+    {
+    }
     /*! \brief Virtual destructor. */
-    virtual ~xCustomException();
+    ~xCustomException() override = default;
     /*! \brief Copy constructor. */
     xCustomException(const xCustomException&) = default;
     /*! \brief Copy assignment operator. */
     xCustomException& operator=(const xCustomException&) = default;
-    /*!
-     * \brief Function to get the exception message.
-     * \return The exception message.
-     */
-    virtual const char* what() const NO_EXCEPT_ final;
-
-protected:
-    /*! \brief The exception message. */
-    std::string m_message;
+    /*! \brief Move constructor. */
+    xCustomException(xCustomException&&) = default;
+    /*! \brief Move assignment operator. */
+    xCustomException& operator=(xCustomException&&) = default;
 };
 
 } // namespace exceptions

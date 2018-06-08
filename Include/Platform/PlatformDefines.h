@@ -27,7 +27,7 @@
 #ifndef PLATFORMDEFINES
 #define PLATFORMDEFINES
 
-#include "boost/predef.h"
+#include <boost/predef.h>
 
 #undef USE_EXPLICIT_MOVE_
 #undef USE_DEFAULT_CONSTRUCTOR_

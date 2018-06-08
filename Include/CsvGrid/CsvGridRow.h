@@ -37,8 +37,8 @@
 #ifdef USE_EXPLICIT_MOVE_
 #include <utility>
 #endif
-#include "boost/tokenizer.hpp"
-#include "boost/algorithm/string/trim.hpp"
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/trim.hpp>
 #include "Exceptions/CustomException.h"
 #include "StringUtils/StringUtils.h"
 #include "CsvGridCell.h"
@@ -68,11 +68,15 @@ public:
      */
     explicit xCsvGridColOutOfRangeError(const std::string& message);
     /*! \brief Virtual destructor. */
-    virtual ~xCsvGridColOutOfRangeError();
+    ~xCsvGridColOutOfRangeError() override = default;
     /*! \brief Copy constructor. */
     xCsvGridColOutOfRangeError(const xCsvGridColOutOfRangeError&) = default;
     /*! \brief Copy assignment operator. */
     xCsvGridColOutOfRangeError& operator=(const xCsvGridColOutOfRangeError&) = default;
+    /*! \brief Move constructor. */
+    xCsvGridColOutOfRangeError(xCsvGridColOutOfRangeError&&) = default;
+    /*! \brief Move assignment operator. */
+    xCsvGridColOutOfRangeError& operator=(xCsvGridColOutOfRangeError&&) = default;
 };
 
 /*!
@@ -285,46 +289,46 @@ public:
         return std::distance(m_cells.begin(), m_cells.end());
     }
     /*!
-    * \brief Set the number of columns in the row.
-    * \param[in] cols - The number of columns to set.
-    *
-    * If the number of columns are being increased then existing content
-    * is preserved and new cells are added at the end of the row forming
-    * the extra columns.
-    */
+     * \brief Set the number of columns in the row.
+     * \param[in] cols - The number of columns to set.
+     *
+     * If the number of columns are being increased then existing content
+     * is preserved and new cells are added at the end of the row forming
+     * the extra columns.
+     */
     void SetSize(const size_t cols)
     {
         m_cells.resize(cols);
     }
     /*!
-    * \brief Add a column with the given value.
-    * \param[in] value - The cell's value for the new column.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given string.
-    */
+     * \brief Add a column with the given value.
+     * \param[in] value - The cell's value for the new column.
+     *
+     * The column count is increased by one and the new cell is initialised
+     * with the given string.
+     */
     template <typename V> void AddColumn(V value)
     {
         m_cells.emplace_back(value);
     }
     /*!
-    * \brief Add a column with default value.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * default value from default cell constructor.
-    */
+     * \brief Add a column with default value.
+     *
+     * The column count is increased by one and the new cell is initialised
+     * default value from default cell constructor.
+     */
     void AddColumn()
     {
         m_cells.emplace_back();
     }
     /*!
-    * \brief Insert a new cell.
-    * \param[in] col - The column index at which the new cell is to be inserted.
-    * \param[in] value - The value to assign to the newly inserted cell.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the given string.
-    */
+     * \brief Insert a new cell.
+     * \param[in] col - The column index at which the new cell is to be inserted.
+     * \param[in] value - The value to assign to the newly inserted cell.
+     *
+     * The column count is increased by one and the new cell is initialised
+     * with the given string.
+     */
     template <typename V> void InsertColumn(const size_t col, V value)
     {
         if (col >= GetSize())
@@ -335,12 +339,12 @@ public:
         m_cells.emplace(std::next(m_cells.begin(), col), value);
     }
     /*!
-    * \brief Insert a new cell.
-    * \param[in] col - The column index at which the new cell is to be inserted.
-    *
-    * The column count is increased by one and the new cell is initialised
-    * with the default cell constructor.
-    */
+     * \brief Insert a new cell.
+     * \param[in] col - The column index at which the new cell is to be inserted.
+     *
+     * The column count is increased by one and the new cell is initialised
+     * with the default cell constructor.
+     */
     void InsertColumn(const size_t col)
     {
         if (col >= GetSize())
@@ -351,21 +355,21 @@ public:
         m_cells.emplace(std::next(m_cells.begin(), col));
     }
     /*!
-    * \brief Clear the cells' contents.
-    *
-    * The contents of each column's cell is cleared but the column count
-    * remains unchanged.
-    */
+     * \brief Clear the cells' contents.
+     *
+     * The contents of each column's cell is cleared but the column count
+     * remains unchanged.
+     */
     void ClearCells()
     {
         std::fill(m_cells.begin(), m_cells.end(), Cell());
     }
     /*!
-    * \brief Clear the entire row.
-    *
-    * The cells are completely removed from the row leaving the column
-    * count as 0 afterwards.
-    */
+     * \brief Clear the entire row.
+     *
+     * The cells are completely removed from the row leaving the column
+     * count as 0 afterwards.
+     */
     void ResetRow()
     {
         m_cells.clear();
@@ -377,13 +381,13 @@ private:
     /*!  \brief The row's cells. */
     container_type m_cells;
     /*!
-    * \brief Load a row from a line in a CSV file.
-    * \param[in] line - The line from the CSV file.
-    * \param[in] options - The cell format options.
-    *
-    * Create a row by loading it from a line read in from a CSV file.
-    * The options parameter is used to decide how to tokenize the line.
-    */
+     * \brief Load a row from a line in a CSV file.
+     * \param[in] line - The line from the CSV file.
+     * \param[in] options - The cell format options.
+     *
+     * Create a row by loading it from a line read in from a CSV file.
+     * The options parameter is used to decide how to tokenize the line.
+     */
     void LoadRowFromCsvFileLine(const std::string& line, const eCellFormatOptions options)
     {
         if (options == eCellFormatOptions::doubleQuotedCells)
@@ -396,12 +400,12 @@ private:
         }
     }
     /*!
-    * \brief Write the row's contents to a stream object.
-    * \param[in,out] os - The stream object to write to.
-    *
-    * The row's contents are formatted using CSV formating and output to the
-    * stream object.
-    */
+     * \brief Write the row's contents to a stream object.
+     * \param[in,out] os - The stream object to write to.
+     *
+     * The row's contents are formatted using CSV formating and output to the
+     * stream object.
+     */
     void OutputRowToStream(std::ostream& os) const
     {
         // for each row loop over its columns...
@@ -439,12 +443,12 @@ private:
         }
     }
     /*!
-    * \brief Tokenize a row with double quoted cells.
-    * \param[in] line - A CSV file's line of text.
-    *
-    * The comma separated row's tokens are extracted using a boost
-    * tokenizer object. This does impact the performance slightly.
-    */
+     * \brief Tokenize a row with double quoted cells.
+     * \param[in] line - A CSV file's line of text.
+     *
+     * The comma separated row's tokens are extracted using a boost
+     * tokenizer object. This does impact the performance slightly.
+     */
     void TokenizeLineQuoted(const std::string& line)
     {
         typedef boost::tokenizer<boost::escaped_list_separator<char>> Tokenizer;
@@ -460,13 +464,13 @@ private:
         }
     }
     /*!
-    * \brief Tokenize a row with simple cells.
-    * \param[in] line - A CSV file's line of text.
-    *
-    * The comma separated row's tokens are extracted using a
-    * simple getline based algorithm. This versio ncannot handle
-    * double quoted cells.
-    */
+     * \brief Tokenize a row with simple cells.
+     * \param[in] line - A CSV file's line of text.
+     *
+     * The comma separated row's tokens are extracted using a
+     * simple getline based algorithm. This versio ncannot handle
+     * double quoted cells.
+     */
     void TokenizeLine(const std::string& line)
     {
         std::stringstream line_ss{line};

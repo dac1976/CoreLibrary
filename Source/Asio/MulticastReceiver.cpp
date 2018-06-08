@@ -25,52 +25,56 @@
  */
 
 #include "Asio/MulticastReceiver.h"
-#include "boost/bind.hpp"
+#include <boost/bind.hpp>
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
 // ****************************************************************************
 // 'class MulticastReceiver' definition
 // ****************************************************************************
-MulticastReceiver::MulticastReceiver(boost_ioservice_t& ioService
-                                     , const defs::connection_t& multicastConnection
-                                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                                     , const defs::message_received_handler_t& messageReceivedHandler
-                                     , const std::string& interfaceAddress
-                                     , const size_t receiveBufferSize)
+MulticastReceiver::MulticastReceiver(boost_ioservice_t&                      ioService,
+                                     const defs::connection_t&               multicastConnection,
+                                     const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                                     const defs::message_received_handler_t& messageReceivedHandler,
+                                     const std::string&                      interfaceAddress,
+                                     const size_t                            receiveBufferSize)
     : m_closing(false)
     , m_ioService(ioService)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-	, m_socket{m_ioService}
-	, m_checkBytesLeftToRead{checkBytesLeftToRead}
-	, m_messageReceivedHandler{messageReceivedHandler}
-	, m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
+    , m_socket{m_ioService}
+    , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_messageReceivedHandler{messageReceivedHandler}
+    , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
 {
-	CreateMulticastSocket(receiveBufferSize);
+    CreateMulticastSocket(receiveBufferSize);
 }
 
-MulticastReceiver::MulticastReceiver(const defs::connection_t& multicastConnection
-                                     , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-                                     , const defs::message_received_handler_t& messageReceivedHandler
-                                     , const std::string& interfaceAddress
-                                     , const size_t receiveBufferSize)
+MulticastReceiver::MulticastReceiver(const defs::connection_t&               multicastConnection,
+                                     const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                                     const defs::message_received_handler_t& messageReceivedHandler,
+                                     const std::string&                      interfaceAddress,
+                                     const size_t                            receiveBufferSize)
     : m_closing(false)
-    , m_ioThreadGroup{new IoServiceThreadGroup(1)}// 1 thread is sufficient only receive one message at a time
-	, m_ioService(m_ioThreadGroup->IoService())
+    , m_ioThreadGroup{new IoServiceThreadGroup(1)}
+    // 1 thread is sufficient only receive one message at a time
+    , m_ioService(m_ioThreadGroup->IoService())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-	, m_socket{m_ioService}
-	, m_checkBytesLeftToRead{checkBytesLeftToRead}
-	, m_messageReceivedHandler{messageReceivedHandler}
-	, m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
+    , m_socket{m_ioService}
+    , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_messageReceivedHandler{messageReceivedHandler}
+    , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
 {
-	CreateMulticastSocket(receiveBufferSize);
+    CreateMulticastSocket(receiveBufferSize);
 }
 
 MulticastReceiver::~MulticastReceiver()
@@ -81,8 +85,7 @@ MulticastReceiver::~MulticastReceiver()
     }
 
     SetClosing(true);
-    m_ioService.post(boost::bind(&MulticastReceiver::ProcessCloseSocket
-                                 , this));
+    m_ioService.post(boost::bind(&MulticastReceiver::ProcessCloseSocket, this));
     m_closedEvent.Wait();
 }
 
@@ -99,76 +102,71 @@ std::string MulticastReceiver::InterfaceAddress() const
 void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
 {
     m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
-    
-    boost_udp_t::endpoint receiveEndpoint(boost_udp_t::v4()
-                                          , m_multicastConnection.second);
-    m_socket.open(receiveEndpoint.protocol());    
+
+    boost_udp_t::endpoint receiveEndpoint(boost_udp_t::v4(), m_multicastConnection.second);
+    m_socket.open(receiveEndpoint.protocol());
     m_socket.set_option(boost_udp_t::socket::reuse_address(true));
-    
+
     boost::asio::socket_base::receive_buffer_size sizeOption(static_cast<int>(receiveBufferSize));
     m_socket.set_option(sizeOption);
-    
+
     m_socket.bind(receiveEndpoint);
 
-    const boost_address_t mcastAddr
-        = boost_address_t::from_string(m_multicastConnection.first);
+    const boost_address_t mcastAddr = boost_address_t::from_string(m_multicastConnection.first);
 
     if (!m_interfaceAddress.empty() && ("0.0.0.0" != m_interfaceAddress))
     {
-        const boost_address_t listenAddr
-            = boost_address_t::from_string(m_interfaceAddress);
+        const boost_address_t listenAddr = boost_address_t::from_string(m_interfaceAddress);
 
-        m_socket.set_option(boost_mcast::join_group(mcastAddr.to_v4()
-                                                    , listenAddr.to_v4()));
+        m_socket.set_option(boost_mcast::join_group(mcastAddr.to_v4(), listenAddr.to_v4()));
     }
     else
     {
         m_socket.set_option(boost_mcast::join_group(mcastAddr));
     }
 
-	StartAsyncRead();
+    StartAsyncRead();
 }
 
 void MulticastReceiver::StartAsyncRead()
 {
-	m_messageBuffer.clear();
+    m_messageBuffer.clear();
 
-	m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer)
-								, m_senderEndpoint
-								, boost::bind(&MulticastReceiver::ReadComplete
-											  , this
-											  , boost_placeholders::error
-											  , boost_placeholders::bytes_transferred));
+    m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
+                                m_senderEndpoint,
+                                boost::bind(&MulticastReceiver::ReadComplete,
+                                            this,
+                                            boost_placeholders::error,
+                                            boost_placeholders::bytes_transferred));
 }
 
-void MulticastReceiver::ReadComplete(const boost_sys::error_code& error
-							   , const size_t bytesReceived)
+void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived)
 {
     if (IsClosing() || error)
-	{
-		// This will be because we are closing our socket.
-		return;
+    {
+        // This will be because we are closing our socket.
+        return;
     }
 
-	try
-	{
-		std::copy(m_receiveBuffer.begin()
-				  , m_receiveBuffer.begin() + bytesReceived
-				  , std::back_inserter(m_messageBuffer));
+    try
+    {
+        std::copy(m_receiveBuffer.begin(),
+                  m_receiveBuffer.begin() + bytesReceived,
+                  std::back_inserter(m_messageBuffer));
 
-		const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
+        const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
 
-		if (numBytesLeft == 0)
-		{
-			m_messageReceivedHandler(m_messageBuffer);
-		}
-	}
-	catch(const std::exception& /*e*/)
-	{
-		// Nothing to do here for now.
-	}
+        if (numBytesLeft == 0)
+        {
+            m_messageReceivedHandler(m_messageBuffer);
+        }
+    }
+    catch (const std::exception& /*e*/)
+    {
+        // Nothing to do here for now.
+    }
 
-	StartAsyncRead();
+    StartAsyncRead();
 }
 
 void MulticastReceiver::SetClosing(const bool closing)

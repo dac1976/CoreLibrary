@@ -56,13 +56,13 @@ win32 {
 
     DISTFILES += CoreLibraryDll_resource.rc
 }
-# On non-windows, assumed to beLinux, we do ths.
+# On non-windows, assumed to be Linux, we do this.
 else {
     # Make sure we enable C++14 support.
     QMAKE_CXXFLAGS += -std=c++14
 
     # Set version info for library.
-    VERSION = 1.4.6
+    VERSION = 1.5.0
 
     # Set binary's output folder.
     CONFIG(debug, debug|release) {
@@ -145,7 +145,6 @@ SOURCES +=  ../Source/Asio/AsioDefines.cpp             \
     ../Source/CsvGrid/CsvGridRow.cpp                   \
     ../Source/CsvGrid/CsvGridMain.cpp                  \
     ../Source/DebugLog/DebugLog.cpp                    \
-    ../Source/Exceptions/CustomException.cpp           \
     ../Source/FileUtils/FileUtils.cpp                  \
     ../Source/IniFile/IniFileLines.cpp                 \
     ../Source/IniFile/IniFileSectionDetails.cpp        \
