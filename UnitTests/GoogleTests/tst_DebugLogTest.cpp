@@ -410,7 +410,7 @@ TEST_F(DebugLogTest, testCase_DebugLog7)
     bfs::remove("test_log.txt");
 }
 
-TEST_F(DebugLogTest, testCase_DebugLog8)
+TEST_F(DebugLogTest, testCase_DebugLog)
 {
     DEBUG_MESSAGE_INSTANTIATE("1.0.0.0", "", "test_log");
     Loki::DeletableSingleton<default_log_t>::GracefulDelete();
