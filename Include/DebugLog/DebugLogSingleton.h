@@ -30,22 +30,32 @@
 #include "DebugLog.h"
 #include <loki/Singleton.h>
 
+/*! \brief The core_lib namespace. */
+namespace core_lib
+{
+/*! \brief The log namespace. */
+namespace log
+{
+
 /*! \brief Typedef defining our default log's type. */
-using default_log_t = core_lib::log::DebugLog<core_lib::log::DefaultLogFormat>;
+using default_log_t = DebugLog<DefaultLogFormat>;
 
 using debug_singelton_t =
     Loki::SingletonHolder<default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton>;
 
 using debug_singelton_deleter_t = Loki::DeletableSingleton<default_log_t>;
 
-inline default_log_t& DebugLogInstance()
+} // namespace log
+} // namespace core_lib
+
+inline core_lib::log::default_log_t& DebugLogInstance()
 {
-    return debug_singelton_t::Instance();
+    return core_lib::log::debug_singelton_t::Instance();
 }
 
 inline void DebugLogGracefulDelete()
 {
-    debug_singelton_deleter_t::GracefulDelete();
+    core_lib::log::debug_singelton_deleter_t::GracefulDelete();
 }
 
 /*! \brief Macro defining our actual log's singelton. */

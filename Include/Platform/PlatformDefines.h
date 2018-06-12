@@ -32,7 +32,7 @@
 #undef USE_EXPLICIT_MOVE_
 #undef USE_DEFAULT_CONSTRUCTOR_
 
-#if BOOST_COMP_MSVC
+#if defined(_MSC_VER)
 #if _MSC_VER < 1900
 /*! \brief NO_EXCEPT_ definition mapping to nothing*/
 #define NO_EXCEPT_
@@ -44,15 +44,17 @@
 #define CONSTEXPR_ const
 /*! \brief STATIC_CONSTEXPR_ definition mapping to static const*/
 #define STATIC_CONSTEXPR_ static const
+/*! \brief TYPENAME_DECL_ definition mapping to nothing*/
+#define TYPENAME_DECL_
 #else
 #define NO_EXCEPT_ noexcept
 /*! \brief CONSTEXPR_ definition mapping to constexpr*/
 #define CONSTEXPR_ constexpr
 /*! \brief STATIC_CONSTEXPR_ definition mapping to static constexpr*/
 #define STATIC_CONSTEXPR_ static constexpr
+/*! \brief TYPENAME_DECL_ definition mapping to typename*/
+#define TYPENAME_DECL_ typename
 #endif
-/*! \brief TYPENAME_DECL_ definition mapping to nothing*/
-#define TYPENAME_DECL_
 #else
 /*! \brief NO_EXCEPT_ definition mapping to noexcept*/
 #define NO_EXCEPT_ noexcept

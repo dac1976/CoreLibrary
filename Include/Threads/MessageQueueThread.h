@@ -30,6 +30,8 @@
 #include "Platform/PlatformDefines.h"
 #include <functional>
 #include <map>
+#include <stdexcept>
+#include <boost/throw_exception.hpp>
 #include "ThreadBase.h"
 #include "ConcurrentQueue.h"
 
@@ -40,33 +42,6 @@ namespace core_lib
 namespace threads
 {
 
-/*!
- * \brief Message handler exception.
- *
- * This exception class is intended to be thrown by functions in
- * MessageQueueThread class when a message handler error occurs.
- */
-class CORE_LIBRARY_DLL_SHARED_API xMsgHandlerError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xMsgHandlerError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xMsgHandlerError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xMsgHandlerError() override = default;
-    /*! \brief Copy constructor. */
-    xMsgHandlerError(const xMsgHandlerError&) = default;
-    /*! \brief Copy assignment operator. */
-    xMsgHandlerError& operator=(const xMsgHandlerError&) = default;
-    /*! \brief Move constructor. */
-    xMsgHandlerError(xMsgHandlerError&&) = default;
-    /*! \brief Move assignment operator. */
-    xMsgHandlerError& operator=(xMsgHandlerError&&) = default;
-};
 /*! \brief Control how messages get destroyed in destructor. */
 enum class eOnDestroyOptions
 {
@@ -114,19 +89,20 @@ public:
      * \param[in] messageIdDecoder - Function object that returns the message ID for a message.
      * \param[in] destroyOptions - (Optional) Set the Message threads destroy option.
      * \param[in] messageDeleter - (Optional) Message deletion helper.
+     *
+     * Throws a std::runtime_error exception if thread fails to start.
      */
     explicit MessageQueueThread(
         const msg_id_decoder_t& messageIdDecoder,
         eOnDestroyOptions       destroyOptions = eOnDestroyOptions::ignoreRemainingItems,
         const msg_deleter_t&    messageDeleter = msg_deleter_t())
-        : ThreadBase()
-        , m_msgIdDecoder{messageIdDecoder}
+        : m_msgIdDecoder{messageIdDecoder}
         , m_destroyOptions{destroyOptions}
         , m_messageDeleter{messageDeleter}
     {
         if (!Start())
         {
-            BOOST_THROW_EXCEPTION(xThreadNotStartedError("ThreadBase::Start() returned false"));
+            BOOST_THROW_EXCEPTION(std::runtime_error("ThreadBase::Start() returned false"));
         }
     }
     /*! \brief Copy constructor deleted.*/
@@ -170,7 +146,7 @@ public:
      * \param[in] messageID - Message ID.
      * \param[in] messageHandler - Function object to handle messages with specified message ID.
      *
-     * Throws a xMsgHandlerError exception if handler for message ID is
+     * Throws a std::runtime_error exception if handler for message ID is
      * already defined.
      */
     void RegisterMessageHandler(MessageId const& messageID, msg_handler_t const& messageHandler)
@@ -179,7 +155,7 @@ public:
 
         if (m_msgHandlerMap.count(messageID) > 0)
         {
-            BOOST_THROW_EXCEPTION(xMsgHandlerError("message handler already defined"));
+            BOOST_THROW_EXCEPTION(std::runtime_error("message handler already defined"));
         }
 
         m_msgHandlerMap.emplace(messageID, messageHandler);
@@ -194,20 +170,6 @@ public:
     }
 
 private:
-    /*! Mutex to lock access to message handler map. */
-    mutable std::mutex m_mutex;
-    /*! \brief Message ID decoder function object. */
-    msg_id_decoder_t m_msgIdDecoder;
-    /*! \brief Control the handling of the queue items in destructor. */
-    eOnDestroyOptions m_destroyOptions;
-    /*! \brief Optional message item deleter function object. */
-    msg_deleter_t m_messageDeleter;
-    /*! \brief Typedef for message map type. */
-    using msg_map_t = std::map<MessageId, msg_handler_t>;
-    /*! \brief Message handler function Map. */
-    msg_map_t m_msgHandlerMap;
-    /*! \brief Message queue. */
-    ConcurrentQueue<MessageType> m_messageQueue;
     /*! \brief Execute a single iteration of the thread. */
     void ThreadIteration() NO_EXCEPT_ override
     {
@@ -284,6 +246,22 @@ private:
             // Do nothing.
         }
     }
+
+private:
+    /*! Mutex to lock access to message handler map. */
+    mutable std::mutex m_mutex;
+    /*! \brief Message ID decoder function object. */
+    msg_id_decoder_t m_msgIdDecoder{};
+    /*! \brief Control the handling of the queue items in destructor. */
+    eOnDestroyOptions m_destroyOptions{};
+    /*! \brief Optional message item deleter function object. */
+    msg_deleter_t m_messageDeleter{};
+    /*! \brief Typedef for message map type. */
+    using msg_map_t = std::map<MessageId, msg_handler_t>;
+    /*! \brief Message handler function Map. */
+    msg_map_t m_msgHandlerMap{};
+    /*! \brief Message queue. */
+    ConcurrentQueue<MessageType> m_messageQueue{};
 };
 
 } // namespace threads

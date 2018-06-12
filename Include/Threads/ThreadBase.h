@@ -27,11 +27,10 @@
 #ifndef THREADBASE
 #define THREADBASE
 
-#include "Platform/PlatformDefines.h"
-
 #include <thread>
 #include <mutex>
-#include "Exceptions/CustomException.h"
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -39,35 +38,6 @@ namespace core_lib
 /*! \brief The threads namespace. */
 namespace threads
 {
-
-/*!
- * \brief Thread not started exception.
- *
- * This exception class is intended to be thrown by functions in ThreadBase
- * class and its child classes when a function is called that is dependent on
- * the thread being started.
- */
-class CORE_LIBRARY_DLL_SHARED_API xThreadNotStartedError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xThreadNotStartedError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xThreadNotStartedError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xThreadNotStartedError() override = default;
-    /*! \brief Copy constructor. */
-    xThreadNotStartedError(const xThreadNotStartedError&) = default;
-    /*! \brief Copy assignment operator. */
-    xThreadNotStartedError& operator=(const xThreadNotStartedError&) = default;
-    /*! \brief Move constructor. */
-    xThreadNotStartedError(xThreadNotStartedError&&) = default;
-    /*! \brief Move assignment operator. */
-    xThreadNotStartedError& operator=(xThreadNotStartedError&&) = default;
-};
 
 /*!
  * \brief Thread base class.
@@ -114,7 +84,7 @@ public:
      * \brief Get this thread's thread ID.
      * \return Returns thread ID.
      *
-     * This function throws a xThreadNotStartedError exception
+     * This function throws a std::runtime_error exception
      * if thread not fully started and so has not got a valid ID.
      */
     std::thread::id ThreadID() const;
@@ -122,7 +92,7 @@ public:
      * \brief Get the underlying std::thread's native handle.
      * \return Returns native thread handle if supported.
      *
-     * This function throws a xThreadNotStartedError exception
+     * This function throws a std::runtime_error exception
      * if thread not fully started and so has not got a handle
      * assigned.
      */
@@ -145,7 +115,7 @@ protected:
      * \brief Make this thread sleep for a period of time.
      * \param[in] milliSecs - Time period in milliseconds.
      *
-     * This function throws a xThreadNotStartedError exception
+     * This function throws a std::runtime_error exception
      * if thread not fully started and therefore cannot be
      * made to sleep.
      */

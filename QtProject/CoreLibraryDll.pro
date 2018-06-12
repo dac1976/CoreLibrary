@@ -151,8 +151,6 @@ SOURCES +=  ../Source/Asio/AsioDefines.cpp             \
     ../Source/IniFile/IniFile.cpp                      \
     ../Source/Sorting/GenericSorting.cpp               \
     ../Source/StringUtils/StringUtils.cpp              \
-    ../Source/Threads/ConcurrentQueue.cpp              \
-    ../Source/Threads/MessageQueueThread.cpp           \
     ../Source/Threads/SyncEvent.cpp                    \
     ../Source/Threads/ThreadBase.cpp                   \
     ../Source/Threads/ThreadGroup.cpp                  \

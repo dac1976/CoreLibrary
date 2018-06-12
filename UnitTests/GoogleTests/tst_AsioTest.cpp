@@ -79,7 +79,7 @@ struct MyHeader
 
     MyHeader()
     {
-#if BOOST_COMP_MSVC
+#if defined(_MSC_VER)
         strncpy_s(magicString, sizeof(magicString), "MyHeader", 8);
         magicString[8] = 0;
 #else

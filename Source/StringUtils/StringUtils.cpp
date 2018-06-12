@@ -28,8 +28,10 @@
 #include <vector>
 #include <locale>
 #include <codecvt>
+#include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/throw_exception.hpp>
 
 namespace core_lib
 {
@@ -45,42 +47,16 @@ void PackStdString(std::string& line)
 
     if (pos < std::string::npos)
     {
-        std::string correctedLine{line.begin(), line.begin() + pos};
+        std::string correctedLine{line.begin(), line.begin() + static_cast<int>(pos)};
         line.swap(correctedLine);
     }
-}
-
-// ****************************************************************************
-// 'class xSplitStringBadDelim' definition
-// ****************************************************************************
-xSplitStringBadDelim::xSplitStringBadDelim()
-    : exceptions::xCustomException("split string bad delimiter")
-{
-}
-
-xSplitStringBadDelim::xSplitStringBadDelim(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xSplitStringTooManySubstrings' definition
-// ****************************************************************************
-xSplitStringTooManySubstrings::xSplitStringTooManySubstrings()
-    : exceptions::xCustomException("too many substrings")
-{
-}
-
-xSplitStringTooManySubstrings::xSplitStringTooManySubstrings(const std::string& message)
-    : exceptions::xCustomException(message)
-{
 }
 
 // ****************************************************************************
 // SplitString definition
 // ****************************************************************************
 void SplitString(std::string& subStr1, std::string& subStr2, const std::string& toSplit,
-                 const std::string& delimiters, const eSplitStringResult option)
+                 const std::string& delimiters, eSplitStringResult option)
 {
     std::vector<std::string> splitVec;
     boost::split(splitVec,
@@ -92,11 +68,11 @@ void SplitString(std::string& subStr1, std::string& subStr2, const std::string& 
     if (splitVec.size() <= 1U)
     {
         BOOST_THROW_EXCEPTION(
-            xSplitStringBadDelim(std::string("cannot find delimiter in string: ") + toSplit));
+            std::invalid_argument(std::string("cannot find delimiter in string: ") + toSplit));
     }
     else if (splitVec.size() > 2U)
     {
-        BOOST_THROW_EXCEPTION(xSplitStringTooManySubstrings());
+        BOOST_THROW_EXCEPTION(std::runtime_error("too many substrings"));
     }
 
     subStr1 = splitVec[0];
@@ -113,7 +89,7 @@ void SplitString(std::string& subStr1, std::string& subStr2, const std::string& 
 // RemoveIllegalChars definition
 // ****************************************************************************
 std::wstring RemoveIllegalChars(const std::wstring& text, const std::wstring& illegalChars,
-                                const wchar_t replacementChar)
+                                wchar_t replacementChar)
 {
     auto textFixed = text;
     auto replacer  = [=](const wchar_t c) { return illegalChars.find(c) != std::wstring::npos; };
@@ -122,7 +98,7 @@ std::wstring RemoveIllegalChars(const std::wstring& text, const std::wstring& il
 }
 
 std::string RemoveIllegalChars(const std::string& text, const std::string& illegalChars,
-                               const char replacementChar)
+                               char replacementChar)
 {
     auto textFixed = text;
     auto replacer  = [=](const char c) { return illegalChars.find(c) != std::string::npos; };

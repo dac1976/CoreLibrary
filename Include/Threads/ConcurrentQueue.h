@@ -30,8 +30,9 @@
 #include <deque>
 #include <algorithm>
 #include <utility>
+#include <stdexcept>
+#include <boost/throw_exception.hpp>
 #include "SyncEvent.h"
-#include "Exceptions/CustomException.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -39,62 +40,6 @@ namespace core_lib
 /*! \brief The threads namespace. */
 namespace threads
 {
-
-/*!
- * \brief Pop timeout exception.
- *
- * This exception class is intended to be thrown by pop methods in
- * the ConcurrentQueue class.
- */
-class CORE_LIBRARY_DLL_SHARED_API xQueuePopTimeoutError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xQueuePopTimeoutError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xQueuePopTimeoutError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xQueuePopTimeoutError() override = default;
-    /*! \brief Copy constructor. */
-    xQueuePopTimeoutError(const xQueuePopTimeoutError&) = default;
-    /*! \brief Copy assignment operator. */
-    xQueuePopTimeoutError& operator=(const xQueuePopTimeoutError&) = default;
-    /*! \brief Move constructor. */
-    xQueuePopTimeoutError(xQueuePopTimeoutError&&) = default;
-    /*! \brief Move assignment operator. */
-    xQueuePopTimeoutError& operator=(xQueuePopTimeoutError&&) = default;
-};
-
-/*!
- * \brief Pop queue empty exception.
- *
- * This exception class is intended to be thrown by pop methods in
- * the ConcurrentQueue class.
- */
-class CORE_LIBRARY_DLL_SHARED_API xQueuePopQueueEmptyError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xQueuePopQueueEmptyError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xQueuePopQueueEmptyError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xQueuePopQueueEmptyError() override = default;
-    /*! \brief Copy constructor. */
-    xQueuePopQueueEmptyError(const xQueuePopQueueEmptyError&) = default;
-    /*! \brief Copy assignment operator. */
-    xQueuePopQueueEmptyError& operator=(const xQueuePopQueueEmptyError&) = default;
-    /*! \brief Move constructor. */
-    xQueuePopQueueEmptyError(xQueuePopQueueEmptyError&&) = default;
-    /*! \brief Move assignment operator. */
-    xQueuePopQueueEmptyError& operator=(xQueuePopQueueEmptyError&&) = default;
-};
 
 /*!
  * \brief Single item deleter for queue item.
@@ -258,7 +203,7 @@ public:
      * Method will block forever or until an item is placed on the
      * queue.
      *
-     * This will throw xQueuePopQueueEmptyError if there are no items
+     * This will throw std::runtime_error if there are no items
      * on the queue when called.
      */
     void PopThrow(T& item)
@@ -267,7 +212,7 @@ public:
 
         if (!PopNow(item))
         {
-            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
+            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
         }
     }
     /*!
@@ -283,14 +228,14 @@ public:
      * \brief Pop an item off the queue.
      * \param[out] item - The popped item.
      *
-     * This will throw xQueuePopQueueEmptyError if there are no items
+     * This will throw std::runtime_error if there are no items
      * on the queue when called.
      */
     void TryPopThrow(T& item)
     {
         if (!PopNow(item))
         {
-            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
+            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
         }
     }
     /*!
@@ -316,18 +261,18 @@ public:
      * \param[out] item - The popped item.
      *
      * If no items have been put onto the queue after the specified amount to time
-     * then a xQueuePopTimeoutError exception is throw.
+     * then a std::runtime_error exception is throw.
      */
     void TimedPopThrow(unsigned int timeoutMilliseconds, T& item)
     {
         if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
         {
-            BOOST_THROW_EXCEPTION(xQueuePopTimeoutError());
+            BOOST_THROW_EXCEPTION(std::runtime_error("item event timed out"));
         }
 
         if (!PopNow(item))
         {
-            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
+            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
         }
     }
     /*!
@@ -343,14 +288,14 @@ public:
      * \brief Steal an item from the back of the queue.
      * \param[out] item - The stolen item.
      *
-     * This will throw xQueuePopQueueEmptyError if there are no items
+     * This will throw std::runtime_error if there are no items
      * on the queue when called.
      */
     void TryStealThrow(T& item)
     {
         if (!PopNow(item, eQueueEnd::back))
         {
-            BOOST_THROW_EXCEPTION(xQueuePopQueueEmptyError());
+            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
         }
     }
     /*!
@@ -444,14 +389,6 @@ public:
     }
 
 private:
-    /*! \brief Synchronization mutex. */
-    mutable std::mutex m_mutex;
-    /*! \brief Synchronization event. */
-    SyncEvent m_itemEvent{
-        eNotifyType::signalOneThread, eResetCondition::manualReset, eIntialCondition::notSignalled};
-    /*! \brief Underlying deque container acting as the queue. */
-    container_type m_queue{};
-
     /*! \brief Enumeration controlling end of queue to pop from. */
     enum class eQueueEnd
     {
@@ -460,7 +397,6 @@ private:
         /*! \brief Pop back of the queue. */
         back
     };
-
     /*!
      * \brief Pop an item off the queue.
      * \param[out] item - Item popped off queue.
@@ -511,6 +447,15 @@ private:
         item = std::move(m_queue.back());
         m_queue.pop_back();
     }
+
+private:
+    /*! \brief Synchronization mutex. */
+    mutable std::mutex m_mutex;
+    /*! \brief Synchronization event. */
+    SyncEvent m_itemEvent{
+        eNotifyType::signalOneThread, eResetCondition::manualReset, eIntialCondition::notSignalled};
+    /*! \brief Underlying deque container acting as the queue. */
+    container_type m_queue{};
 };
 
 } // namespace threads

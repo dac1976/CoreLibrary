@@ -36,32 +36,6 @@ namespace log
 {
 
 // ****************************************************************************
-// 'class xMsgHandlerError' definition
-// ******************************B*********************************************
-xLogMsgHandlerError::xLogMsgHandlerError()
-    : exceptions::xCustomException("log message handler error")
-{
-}
-
-xLogMsgHandlerError::xLogMsgHandlerError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xInstantiationError' definition
-// ******************************B*********************************************
-xInstantiationError::xInstantiationError()
-    : exceptions::xCustomException("instantiation error")
-{
-}
-
-xInstantiationError::xInstantiationError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
 // 'struct DefaultLogFormat' definition
 // ****************************************************************************
 void DefaultLogFormat::operator()(std::ostream& os, std::time_t timeStamp,
@@ -71,10 +45,14 @@ void DefaultLogFormat::operator()(std::ostream& os, std::time_t timeStamp,
 {
     if (timeStamp != 0)
     {
-#if BOOST_COMP_MSVC
+#if defined(_MSC_VER)
+#if _MSC_VER < 1900
         struct tm result;
         localtime_s(&result, &timeStamp);
         os << std::put_time(&result, "%F %T") << " | ";
+#else
+        os << std::put_time(std::localtime(&timeStamp), "%F %T") << " | ";
+#endif
 #else
         os << std::put_time(std::localtime(&timeStamp), "%F %T") << " | ";
 #endif
@@ -124,10 +102,9 @@ void DefaultLogFormat::operator()(std::ostream& os, std::time_t timeStamp,
 // ****************************************************************************
 namespace dl_private
 {
-LogQueueMessage::LogQueueMessage(const std::string& message, const time_t timeStamp,
-                                 const std::string& file, const std::string& function,
-                                 const int lineNo, const std::thread::id& threadID,
-                                 const eLogMessageLevel errorLevel)
+LogQueueMessage::LogQueueMessage(const std::string& message, time_t timeStamp,
+                                 const std::string& file, const std::string& function, int lineNo,
+                                 const std::thread::id& threadID, eLogMessageLevel errorLevel)
     : m_message(message)
     , m_timeStamp(timeStamp)
     , m_file(file)

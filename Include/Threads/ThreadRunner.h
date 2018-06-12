@@ -27,8 +27,6 @@
 #ifndef THREADRUNNER
 #define THREADRUNNER
 
-#include "Platform/PlatformDefines.h"
-
 #include <functional>
 #include "ThreadBase.h"
 
@@ -79,7 +77,7 @@ public:
      * \brief Make this thread sleep for a period of time.
      * \param[in] milliSecs - Time period in milliseconds.
      *
-     * This function throws a xThreadNotStartedError exception
+     * This function throws a std::runtime_error exception
      * if thread not fully started and therefore cannot be
      * made to sleep.
      */

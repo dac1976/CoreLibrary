@@ -33,7 +33,7 @@ public:
 
     bool GetThreadRunState(const std::thread::id& tId) const
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex>                     lock(m_mutex);
         std::map<std::thread::id, bool>::const_iterator t_it = m_threadRunMap.find(tId);
 
         if (t_it == m_threadRunMap.end())
@@ -49,7 +49,7 @@ public:
     }
 
 private:
-    mutable std::mutex m_mutex;
+    mutable std::mutex              m_mutex;
     std::map<std::thread::id, bool> m_threadRunMap;
 };
 
@@ -79,7 +79,7 @@ public:
 
     bool GetEventSignalledState(const std::thread::id& tId) const
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex>                     lock(m_mutex);
         std::map<std::thread::id, bool>::const_iterator t_it = m_eventSignalledMap.find(tId);
 
         if (t_it == m_eventSignalledMap.end())
@@ -95,8 +95,8 @@ public:
     }
 
 private:
-    core_lib::threads::SyncEvent& m_event;
-    mutable std::mutex            m_mutex;
+    core_lib::threads::SyncEvent&   m_event;
+    mutable std::mutex              m_mutex;
     std::map<std::thread::id, bool> m_eventSignalledMap;
 
     void SetSignalled(const std::thread::id& tId, bool signalled)
@@ -585,7 +585,7 @@ public:
             return *this;
         }
 #else
-        Message(Message&&)          = default;
+        Message(Message&&) = default;
         Message& operator=(Message&&) = default;
 #endif
 
@@ -609,9 +609,7 @@ public:
         m_countMap[M3] = 0;
     }
 
-    ~MessageQueueThreadTest()
-    {
-    }
+    ~MessageQueueThreadTest() {}
 
     void PushMessageId(MessageIds id)
     {
@@ -624,7 +622,7 @@ public:
     }
 
 private:
-    typedef std::shared_ptr<Message> message_t;
+    typedef std::shared_ptr<Message>                      message_t;
     core_lib::threads::MessageQueueThread<int, message_t> m_mqt;
     std::map<int, size_t>                                 m_countMap;
 
@@ -662,9 +660,7 @@ protected:
     ThreadTestHelper m_helper;
 
 protected:
-    ThreadsTest()
-    {
-    }
+    ThreadsTest() {}
 };
 
 } // End of unnamed namespace.
@@ -793,7 +789,7 @@ TEST_F(ThreadsTest, testCase_ThreadGroup8)
     {
         tg.AddThread(t);
     }
-    catch (core_lib::threads::xThreadGroupError&)
+    catch (std::runtime_error&)
     {
         correctException = true;
     }
@@ -824,7 +820,7 @@ TEST_F(ThreadsTest, testCase_SyncEvent1)
 
 TEST_F(ThreadsTest, testCase_SyncEvent2)
 {
-    core_lib::threads::SyncEvent event(core_lib::threads::eNotifyType::signalOneThread,
+    core_lib::threads::SyncEvent   event(core_lib::threads::eNotifyType::signalOneThread,
                                        core_lib::threads::eResetCondition::autoReset,
                                        core_lib::threads::eIntialCondition::signalled);
     ThreadTestHelper2              helper(event);
@@ -866,7 +862,7 @@ TEST_F(ThreadsTest, testCase_SyncEvent4)
 
 TEST_F(ThreadsTest, testCase_SyncEvent5)
 {
-    core_lib::threads::SyncEvent event(core_lib::threads::eNotifyType::signalAllThreads,
+    core_lib::threads::SyncEvent   event(core_lib::threads::eNotifyType::signalAllThreads,
                                        core_lib::threads::eResetCondition::manualReset,
                                        core_lib::threads::eIntialCondition::notSignalled);
     ThreadTestHelper2              helper(event);
@@ -892,7 +888,7 @@ TEST_F(ThreadsTest, testCase_SyncEvent5)
 
 TEST_F(ThreadsTest, testCase_SyncEvent6)
 {
-    core_lib::threads::SyncEvent event(core_lib::threads::eNotifyType::signalAllThreads,
+    core_lib::threads::SyncEvent   event(core_lib::threads::eNotifyType::signalAllThreads,
                                        core_lib::threads::eResetCondition::manualReset,
                                        core_lib::threads::eIntialCondition::signalled);
     ThreadTestHelper2              helper(event);
@@ -916,7 +912,7 @@ TEST_F(ThreadsTest, testCase_SyncEvent6)
 
 TEST_F(ThreadsTest, testCase_SyncEvent7)
 {
-    core_lib::threads::SyncEvent event(core_lib::threads::eNotifyType::signalOneThread,
+    core_lib::threads::SyncEvent   event(core_lib::threads::eNotifyType::signalOneThread,
                                        core_lib::threads::eResetCondition::manualReset,
                                        core_lib::threads::eIntialCondition::notSignalled);
     ThreadTestHelper2              helper(event);
@@ -1245,7 +1241,7 @@ TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
         m_queue.TimedPopThrow(100, tempPtr);
         correctException = false;
     }
-    catch (core_lib::threads::xQueuePopTimeoutError&)
+    catch (std::runtime_error&)
     {
         correctException = true;
     }
@@ -1286,7 +1282,7 @@ TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
         m_queue.TryPopThrow(tempPtr);
         correctException = false;
     }
-    catch (core_lib::threads::xQueuePopQueueEmptyError&)
+    catch (std::runtime_error&)
     {
         correctException = true;
     }
@@ -1332,7 +1328,7 @@ TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
         m_queue.TryStealThrow(tempPtr);
         correctException = false;
     }
-    catch (core_lib::threads::xQueuePopQueueEmptyError&)
+    catch (std::runtime_error&)
     {
         correctException = true;
     }
@@ -1372,78 +1368,78 @@ TEST(QueueTest, testCase_ConcurrentQueue6)
 
 TEST(QueueTest, testCase_ConcurrentQueue7)
 {
-	core_lib::threads::ConcurrentQueue<QueueMsg*> q;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> q;
 
-	QueueMsg* m = CreateQueueMsgPtr(2, 666);
+    QueueMsg* m = CreateQueueMsgPtr(2, 666);
 
-	q.Push(std::move(m));
-	EXPECT_TRUE(q.Size() == 1);
+    q.Push(std::move(m));
+    EXPECT_TRUE(q.Size() == 1);
 
-	m = nullptr;
-	EXPECT_TRUE(q.Pop(m));
-	EXPECT_TRUE(m != nullptr);
-	EXPECT_TRUE(q.Empty());
-	EXPECT_TRUE(CheckQueueMsg(*m, 666));
+    m = nullptr;
+    EXPECT_TRUE(q.Pop(m));
+    EXPECT_TRUE(m != nullptr);
+    EXPECT_TRUE(q.Empty());
+    EXPECT_TRUE(CheckQueueMsg(*m, 666));
 
-	delete m;
+    delete m;
 }
 
 TEST(QueueTest, testCase_ConcurrentQueue8)
 {
-	core_lib::threads::ConcurrentQueue<char*> q;
+    core_lib::threads::ConcurrentQueue<char*> q;
 
-	char* m = new char[12];
-	strcpy(m, "I AM A TEST");
+    char* m = new char[12];
+    strcpy(m, "I AM A TEST");
 
-	q.Push(std::move(m));
-	EXPECT_TRUE(q.Size() == 1);
+    q.Push(std::move(m));
+    EXPECT_TRUE(q.Size() == 1);
 
-	m = nullptr;
-	EXPECT_TRUE(q.Pop(m));
-	EXPECT_TRUE(m != nullptr);
-	EXPECT_TRUE(q.Empty());
-	EXPECT_STREQ(m, "I AM A TEST");
+    m = nullptr;
+    EXPECT_TRUE(q.Pop(m));
+    EXPECT_TRUE(m != nullptr);
+    EXPECT_TRUE(q.Empty());
+    EXPECT_STREQ(m, "I AM A TEST");
 
-	delete [] m;
+    delete[] m;
 }
 
 TEST(QueueTest, testCase_ConcurrentQueue9)
 {
-	core_lib::threads::ConcurrentQueue<QueueMsg*> q;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> q;
 
-	QueueMsg* m = CreateQueueMsgPtr(2, 666);
+    QueueMsg* m = CreateQueueMsgPtr(2, 666);
 
-	q.Push(m);
-	EXPECT_TRUE(q.Size() == 1);
-	EXPECT_TRUE(CheckQueueMsg(*m, 666));
+    q.Push(m);
+    EXPECT_TRUE(q.Size() == 1);
+    EXPECT_TRUE(CheckQueueMsg(*m, 666));
 
-	m = nullptr;
-	EXPECT_TRUE(q.Pop(m));
-	EXPECT_TRUE(m != nullptr);
-	EXPECT_TRUE(q.Empty());
-	EXPECT_TRUE(CheckQueueMsg(*m, 666));
+    m = nullptr;
+    EXPECT_TRUE(q.Pop(m));
+    EXPECT_TRUE(m != nullptr);
+    EXPECT_TRUE(q.Empty());
+    EXPECT_TRUE(CheckQueueMsg(*m, 666));
 
-	delete m;
+    delete m;
 }
 
 TEST(QueueTest, testCase_ConcurrentQueue10)
 {
-	core_lib::threads::ConcurrentQueue<char*> q;
+    core_lib::threads::ConcurrentQueue<char*> q;
 
-	char* m = new char[12];
-	strcpy(m, "I AM A TEST");
+    char* m = new char[12];
+    strcpy(m, "I AM A TEST");
 
-	q.Push(m);
-	EXPECT_TRUE(q.Size() == 1);
-	EXPECT_STREQ(m, "I AM A TEST");
+    q.Push(m);
+    EXPECT_TRUE(q.Size() == 1);
+    EXPECT_STREQ(m, "I AM A TEST");
 
-	m = nullptr;
-	EXPECT_TRUE(q.Pop(m));
-	EXPECT_TRUE(m != nullptr);
-	EXPECT_TRUE(q.Empty());
-	EXPECT_STREQ(m, "I AM A TEST");
+    m = nullptr;
+    EXPECT_TRUE(q.Pop(m));
+    EXPECT_TRUE(m != nullptr);
+    EXPECT_TRUE(q.Empty());
+    EXPECT_STREQ(m, "I AM A TEST");
 
-	delete [] m;
+    delete[] m;
 }
 
 TEST(QueueStressTest, testCase_ConcurrentQueue11)

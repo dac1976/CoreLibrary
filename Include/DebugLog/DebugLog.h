@@ -44,9 +44,11 @@
 #include <memory>
 #include <functional>
 #include <type_traits>
-#include "Threads/MessageQueueThread.h"
+#include <stdexcept>
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
+#include <boost/throw_exception.hpp>
+#include "Threads/MessageQueueThread.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -83,11 +85,11 @@ namespace std
 template <> struct hash<core_lib::log::eLogMessageLevel>
 {
     /*! \brief Typedef for argument type. */
-    typedef core_lib::log::eLogMessageLevel argument_t;
+    using argument_t = core_lib::log::eLogMessageLevel;
     /*! \brief Typedef for result type. */
-    typedef std::size_t result_t;
+    using result_t = std::size_t;
     /*! \brief Typedef for underlying type. */
-    typedef TYPENAME_DECL_ std::underlying_type<argument_t>::type enumType_t;
+    using enumType_t = TYPENAME_DECL_ std::underlying_type<argument_t>::type;
 
     /*!
      * \brief Function operator to perform the hash.
@@ -96,7 +98,7 @@ template <> struct hash<core_lib::log::eLogMessageLevel>
      */
     result_t operator()(const argument_t& a) const
     {
-        enumType_t            a2 = static_cast<enumType_t>(a);
+        auto                  a2 = static_cast<enumType_t>(a);
         std::hash<enumType_t> h;
         return h(a2);
     }
@@ -110,62 +112,6 @@ namespace core_lib
 /*! \brief The log namespace. */
 namespace log
 {
-
-/*!
- * \brief Message handler exception.
- *
- * This exception class is intended to be thrown by functions in
- * DebugLog class when a message handler error occurs.
- */
-class CORE_LIBRARY_DLL_SHARED_API xLogMsgHandlerError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xLogMsgHandlerError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xLogMsgHandlerError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xLogMsgHandlerError() override = default;
-    /*! \brief Copy constructor. */
-    xLogMsgHandlerError(const xLogMsgHandlerError&) = default;
-    /*! \brief Copy assignment operator. */
-    xLogMsgHandlerError& operator=(const xLogMsgHandlerError&) = default;
-    /*! \brief Copy constructor. */
-    xLogMsgHandlerError(xLogMsgHandlerError&&) = default;
-    /*! \brief Copy assignment operator. */
-    xLogMsgHandlerError& operator=(xLogMsgHandlerError&&) = default;
-};
-
-/*!
- * \brief Instantiation exception.
- *
- * This exception class is intended to be thrown by the
- * DebugLog class when an invalid instantiation has occurred.
- */
-class CORE_LIBRARY_DLL_SHARED_API xInstantiationError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xInstantiationError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in]  message - A user specified message string.
-     */
-    explicit xInstantiationError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xInstantiationError() override = default;
-    /*! \brief Copy constructor. */
-    xInstantiationError(const xInstantiationError&) = default;
-    /*! \brief Copy assignment operator. */
-    xInstantiationError& operator=(const xInstantiationError&) = default;
-    /*! \brief Move constructor. */
-    xInstantiationError(xInstantiationError&&) = default;
-    /*! \brief Move assignment operator. */
-    xInstantiationError& operator=(xInstantiationError&&) = default;
-};
 
 /*!
  * \brief Default log line formater.
@@ -192,10 +138,9 @@ struct CORE_LIBRARY_DLL_SHARED_API DefaultLogFormat
      * \param[in] lineNo - Line number where log message was generated.
      * \param[in] threadID - Thread ID fo where log message was generated.
      */
-    void operator()(std::ostream& os, const std::time_t timeStamp, const std::string& message,
+    void operator()(std::ostream& os, std::time_t timeStamp, const std::string& message,
                     const std::string& logMsgLevel, const std::string& file,
-                    const std::string& function, const int lineNo,
-                    const std::thread::id& threadID) const;
+                    const std::string& function, int lineNo, const std::thread::id& threadID) const;
 };
 
 /*! \brief Static constant defining number of bytes in a mebibyte. */
@@ -215,7 +160,7 @@ class CORE_LIBRARY_DLL_SHARED_API LogQueueMessage
 {
 public:
     /*! \brief Static message ID to register on message queue.*/
-    static const int MESSAGE_ID{1};
+    STATIC_CONSTEXPR_ int MESSAGE_ID{1};
     /*! \brief Default constructor.*/
     LogQueueMessage() = default;
     /*!
@@ -231,9 +176,9 @@ public:
      * \param[in] threadID - Thread ID where message was added from.
      * \param[in] errorLevel - Message level.
      */
-    LogQueueMessage(const std::string& message, const time_t timeStamp, const std::string& file,
-                    const std::string& function, const int lineNo, const std::thread::id& threadID,
-                    const eLogMessageLevel errorLevel);
+    LogQueueMessage(const std::string& message, time_t timeStamp, const std::string& file,
+                    const std::string& function, int lineNo, const std::thread::id& threadID,
+                    eLogMessageLevel errorLevel);
     /*! \brief Copy constructor. */
     LogQueueMessage(const LogQueueMessage&) = default;
     /*! \brief Destructor.*/
@@ -289,17 +234,17 @@ public:
 
 private:
     /*! \brief Message string.*/
-    std::string m_message;
+    std::string m_message{};
     /*! \brief Time stamp.*/
     time_t m_timeStamp{0};
     /*! \brief Source file name.*/
-    std::string m_file;
+    std::string m_file{};
     /*! \brief Function name.*/
-    std::string m_function;
+    std::string m_function{};
     /*! \brief Line number in source file.*/
     int m_lineNo{0};
     /*! \brief Thread ID where message originated.*/
-    std::thread::id m_threadID;
+    std::thread::id m_threadID{};
     /*! \brief Message error level.*/
     eLogMessageLevel m_errorLevel{eLogMessageLevel::not_defined};
 };
@@ -354,7 +299,7 @@ public:
      * extension is automatically appending to log file's name.
      */
     DebugLog(const std::string& softwareVersion, const std::string& logFolderPath,
-             const std::string& logName, const long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
+             const std::string& logName, long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
         :
 #ifdef USE_DEFAULT_CONSTRUCTOR_
         m_unknownLogMsgLevel("?")
@@ -362,9 +307,15 @@ public:
 #endif
         m_maxLogSize(maxLogSize)
         , m_softwareVersion(softwareVersion)
-        , m_logFilePath(logFolderPath + logName + ".txt")
-        , m_oldLogFilePath(logFolderPath + logName + "_old.txt")
+        , m_logFilePath(logFolderPath)
+        , m_oldLogFilePath(logFolderPath)
     {
+        m_logFilePath.append(logName);
+        m_logFilePath.append(".txt");
+
+        m_oldLogFilePath.append(logName);
+        m_oldLogFilePath.append("_old.txt");
+
 #ifdef USE_DEFAULT_CONSTRUCTOR_
         InitialiseLogMessageLevelLookupMap();
 #endif
@@ -375,6 +326,10 @@ public:
     DebugLog(const DebugLog&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     DebugLog& operator=(const DebugLog&) = delete;
+    /*! \brief Move constructor deleted.*/
+    DebugLog(DebugLog&&) = delete;
+    /*! \brief Move assignment operator deleted.*/
+    DebugLog& operator=(DebugLog&&) = delete;
     /*! \brief Destructor*/
     ~DebugLog()
     {
@@ -395,22 +350,29 @@ public:
      * This method should only be used when constructing a DebugLog
      * using the default constructor.
      *
-     * This method throws xInstantiationError exception if object
+     * This method throws std::runtime_error exception if object
      * already instantiated.
      */
     void Instantiate(const std::string& softwareVersion, const std::string& logFolderPath,
-                     const std::string& logName, const long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
+                     const std::string& logName, long maxLogSize = 5 * BYTES_IN_MEBIBYTE)
     {
         m_maxLogSize = maxLogSize;
 
         if ((m_softwareVersion != "") || (m_logFilePath != "") || (m_oldLogFilePath != ""))
         {
-            BOOST_THROW_EXCEPTION(xInstantiationError("DebugLog already instantiated"));
+            BOOST_THROW_EXCEPTION(std::runtime_error("DebugLog already instantiated"));
         }
 
         m_softwareVersion = softwareVersion;
-        m_logFilePath     = logFolderPath + logName + ".txt";
-        m_oldLogFilePath  = logFolderPath + logName + "_old.txt";
+        m_logFilePath     = logFolderPath;
+        m_oldLogFilePath  = logFolderPath;
+
+        m_logFilePath.append(logName);
+        m_logFilePath.append(".txt");
+
+        m_oldLogFilePath.append(logName);
+        m_oldLogFilePath.append("_old.txt");
+
         RegisterLogQueueMessageId();
         OpenOfStream(m_logFilePath, eFileOpenOptions::append_file);
     }
@@ -426,7 +388,7 @@ public:
      * messages of this type will not appear in the log from this point
      * until you later remove the filter.
      */
-    void AddLogMsgLevelFilter(const eLogMessageLevel logMessageLevel)
+    void AddLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -446,7 +408,7 @@ public:
      * this function messages of the specified level will once again
      * appear in the log file.
      */
-    void RemoveLogMsgLevelFilter(const eLogMessageLevel logMessageLevel)
+    void RemoveLogMsgLevelFilter(eLogMessageLevel logMessageLevel)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -497,8 +459,7 @@ public:
      * file, line no. etc.
      */
     void AddLogMessage(const std::string& message, const std::string& file,
-                       const std::string& function, const int lineNo,
-                       const eLogMessageLevel logMsgLevel)
+                       const std::string& function, int lineNo, eLogMessageLevel logMsgLevel)
     {
         if (!IsLogMsgLevelFilterSet(logMsgLevel))
         {
@@ -515,46 +476,6 @@ public:
     }
 
 private:
-    /*! \brief Mutex to lock access.*/
-    mutable std::mutex m_mutex;
-
-#ifdef USE_DEFAULT_CONSTRUCTOR_
-    /*! \brief String for unknown message level.*/
-    const std::string m_unknownLogMsgLevel;
-    /*! \brief Message level string lookup map.*/
-    std::unordered_map<eLogMessageLevel, std::string> m_logMsgLevelLookup;
-#else
-    /*! \brief String for unknown message level.*/
-    const std::string m_unknownLogMsgLevel{"?"};
-    /*! \brief Message level string lookup map.*/
-    const std::unordered_map<eLogMessageLevel, std::string> m_logMsgLevelLookup{
-        {eLogMessageLevel::not_defined, ""},
-        {eLogMessageLevel::debug, "Debug"},
-        {eLogMessageLevel::info, "Info"},
-        {eLogMessageLevel::warning, "Warning"},
-        {eLogMessageLevel::error, "Error"},
-        {eLogMessageLevel::fatal, "Fatal"}};
-#endif
-    /*! \brief Message level filter set.*/
-    std::set<eLogMessageLevel> m_logMsgFilterSet;
-    /*! \brief Log formatter object.*/
-    Formatter m_logFormatter;
-    /*! \brief Log file max size.*/
-    long m_maxLogSize{5 * BYTES_IN_MEBIBYTE};
-    /*! \brief Output file stream.*/
-    std::ofstream m_ofStream;
-    /*! \brief Software version string.*/
-    std::string m_softwareVersion;
-    /*! \brief Path to current log file.*/
-    std::string m_logFilePath;
-    /*! \brief Path to old log file.*/
-    std::string m_oldLogFilePath;
-    /*! \brief Typedef for message queue thread.*/
-    typedef threads::MessageQueueThread<int, dl_private::LogQueueMessage> log_msg_queue;
-    /*! \brief Unique_ptr holding message queue thread.*/
-    std::unique_ptr<log_msg_queue> m_logMsgQueueThread{
-        new log_msg_queue(std::bind(&DebugLog<Formatter>::MessageDecoder, std::placeholders::_1),
-                          threads::eOnDestroyOptions::processRemainingItems)};
 #ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Initialise lookup map. */
     void InitialiseLogMessageLevelLookupMap()
@@ -586,10 +507,6 @@ private:
      */
     static int MessageDecoder(const dl_private::LogQueueMessage& message)
     {
-#if BOOST_COMP_MSVC
-        // The line below is to stop erroneous C4100 compiler warning in MSVC2013.
-        (void)message;
-#endif
         return message.MESSAGE_ID;
     }
     /*!
@@ -608,7 +525,7 @@ private:
      * \param[in] logMessageLevel - Message level.
      * \return True if message level is found, false otherwise.
      */
-    bool IsLogMsgLevelInLookup(const eLogMessageLevel logMessageLevel) const
+    bool IsLogMsgLevelInLookup(eLogMessageLevel logMessageLevel) const
     {
         return m_logMsgLevelLookup.count(logMessageLevel) > 0;
     }
@@ -617,7 +534,7 @@ private:
      * \param[in] logMessageLevel - Message level.
      * \return Message level string.
      */
-    const std::string& GetLogMsgLevelAsString(const eLogMessageLevel logMessageLevel) const
+    const std::string& GetLogMsgLevelAsString(eLogMessageLevel logMessageLevel) const
     {
         return IsLogMsgLevelInLookup(logMessageLevel)
                    ? m_logMsgLevelLookup.find(logMessageLevel)->second
@@ -628,7 +545,7 @@ private:
      * \param[in] logMessageLevel - Message level.
      * \return True if message level is found, false otherwise.
      */
-    bool IsLogMsgLevelFilterSetNoMutex(const eLogMessageLevel logMessageLevel) const
+    bool IsLogMsgLevelFilterSetNoMutex(eLogMessageLevel logMessageLevel) const
     {
         return (m_logMsgFilterSet.find(logMessageLevel) != m_logMsgFilterSet.end());
     }
@@ -637,7 +554,7 @@ private:
      * \param[in] logMessageLevel - Message level.
      * \return True if message level is found, false otherwise.
      */
-    bool IsLogMsgLevelFilterSet(const eLogMessageLevel logMessageLevel) const
+    bool IsLogMsgLevelFilterSet(eLogMessageLevel logMessageLevel) const
     {
         std::lock_guard<std::mutex> lock{m_mutex};
         return IsLogMsgLevelFilterSetNoMutex(logMessageLevel);
@@ -655,7 +572,7 @@ private:
      * \param[in] filePath - File path.
      * \param[in] fileOptions - File options (truncate or append).
      */
-    void OpenOfStream(const std::string& filePath, const eFileOpenOptions fileOptions)
+    void OpenOfStream(const std::string& filePath, eFileOpenOptions fileOptions)
     {
         if (m_ofStream.is_open())
         {
@@ -699,14 +616,14 @@ private:
      * \brief Check size of current log file.
      * \param[in] requiredSpace - Space required in file to write new message.
      */
-    void CheckLogFileSize(const long requiredSpace)
+    void CheckLogFileSize(long requiredSpace)
     {
         if (!m_ofStream.is_open())
         {
             return;
         }
 
-        long pos = static_cast<long>(m_ofStream.tellp());
+        auto pos = static_cast<long>(m_ofStream.tellp());
 
         if ((MaxLogSize() - pos) < requiredSpace)
         {
@@ -733,6 +650,47 @@ private:
                        logMessage.ThreadID());
         m_ofStream.flush();
     }
+
+private:
+    /*! \brief Mutex to lock access.*/
+    mutable std::mutex m_mutex;
+#ifdef USE_DEFAULT_CONSTRUCTOR_
+    /*! \brief String for unknown message level.*/
+    std::string m_unknownLogMsgLevel;
+    /*! \brief Message level string lookup map.*/
+    std::unordered_map<eLogMessageLevel, std::string> m_logMsgLevelLookup;
+#else
+    /*! \brief String for unknown message level.*/
+    std::string m_unknownLogMsgLevel{"?"};
+    /*! \brief Message level string lookup map.*/
+    std::unordered_map<eLogMessageLevel, std::string> m_logMsgLevelLookup{
+        {eLogMessageLevel::not_defined, ""},
+        {eLogMessageLevel::debug, "Debug"},
+        {eLogMessageLevel::info, "Info"},
+        {eLogMessageLevel::warning, "Warning"},
+        {eLogMessageLevel::error, "Error"},
+        {eLogMessageLevel::fatal, "Fatal"}};
+#endif
+    /*! \brief Message level filter set.*/
+    std::set<eLogMessageLevel> m_logMsgFilterSet{};
+    /*! \brief Log formatter object.*/
+    Formatter m_logFormatter{};
+    /*! \brief Log file max size.*/
+    long m_maxLogSize{5 * BYTES_IN_MEBIBYTE};
+    /*! \brief Output file stream.*/
+    std::ofstream m_ofStream{};
+    /*! \brief Software version string.*/
+    std::string m_softwareVersion{};
+    /*! \brief Path to current log file.*/
+    std::string m_logFilePath{};
+    /*! \brief Path to old log file.*/
+    std::string m_oldLogFilePath{};
+    /*! \brief Typedef for message queue thread.*/
+    using log_msg_queue = threads::MessageQueueThread<int, dl_private::LogQueueMessage>;
+    /*! \brief Unique_ptr holding message queue thread.*/
+    std::unique_ptr<log_msg_queue> m_logMsgQueueThread{
+        new log_msg_queue(std::bind(&DebugLog<Formatter>::MessageDecoder, std::placeholders::_1),
+                          threads::eOnDestroyOptions::processRemainingItems)};
 };
 
 } // namespace log

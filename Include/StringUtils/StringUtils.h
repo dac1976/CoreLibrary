@@ -30,7 +30,8 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include "Exceptions/CustomException.h"
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -48,63 +49,6 @@ namespace string_utils
  * greater than pos of null char.
  */
 void CORE_LIBRARY_DLL_SHARED_API PackStdString(std::string& line);
-
-/*!
- * \brief Split string bad delimiter exception.
- *
- * This exception class is intended to be thrown by the SplitString function
- * to signify that an error has occured.
- */
-class CORE_LIBRARY_DLL_SHARED_API xSplitStringBadDelim : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xSplitStringBadDelim();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xSplitStringBadDelim(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xSplitStringBadDelim() override = default;
-    /*! \brief Copy constructor. */
-    xSplitStringBadDelim(const xSplitStringBadDelim&) = default;
-    /*! \brief Copy assignment operator. */
-    xSplitStringBadDelim& operator=(const xSplitStringBadDelim&) = default;
-    /*! \brief Move constructor. */
-    xSplitStringBadDelim(xSplitStringBadDelim&&) = default;
-    /*! \brief Move assignment operator. */
-    xSplitStringBadDelim& operator=(xSplitStringBadDelim&&) = default;
-};
-
-/*!
- * \brief Split string sub-strings exception.
- *
- * This exception class is intended to be thrown by the SplitString function
- * to signify that an error has occured.
- */
-class CORE_LIBRARY_DLL_SHARED_API xSplitStringTooManySubstrings
-    : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xSplitStringTooManySubstrings();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xSplitStringTooManySubstrings(const std::string& message);
-    /*! \brief Virtual destructor.*/
-    ~xSplitStringTooManySubstrings() override = default;
-    /*! \brief Copy constructor. */
-    xSplitStringTooManySubstrings(const xSplitStringTooManySubstrings&) = default;
-    /*! \brief Copy assignment operator. */
-    xSplitStringTooManySubstrings& operator=(const xSplitStringTooManySubstrings&) = default;
-    /*! \brief Move constructor. */
-    xSplitStringTooManySubstrings(xSplitStringTooManySubstrings&&) = default;
-    /*! \brief Move assignment operator. */
-    xSplitStringTooManySubstrings& operator=(xSplitStringTooManySubstrings&&) = default;
-};
 
 /*!
  * \brief Split string options enumeration.
@@ -130,13 +74,13 @@ enum class eSplitStringResult
  *
  * Given an input string and a string containing delimiters the input
  * string is split into two parts either side of the deilimiter string.
- * If none of the delimiters can be found then a xSplitStringBadDelim
+ * If none of the delimiters can be found then a std::invalid_argument
  * exception is thrown. If the string will be split into more than two
- * substrings then a xSplitStringTooManySubStrings exception is thrown.
+ * substrings then a std::runtime_error exception is thrown.
  */
 void CORE_LIBRARY_DLL_SHARED_API SplitString(std::string& subStr1, std::string& subStr2,
                                              const std::string& toSplit, const std::string& delim,
-                                             const eSplitStringResult option);
+                                             eSplitStringResult option);
 
 /*!
  * \brief Format float options enumeration.
@@ -165,7 +109,7 @@ enum class eFloatStringFormat
  */
 template <typename T>
 std::string FormatFloatString(const T value, const int precision = 15,
-                              const eFloatStringFormat formatting = eFloatStringFormat::normal)
+                              eFloatStringFormat formatting = eFloatStringFormat::normal)
 {
     std::ostringstream ss;
 
@@ -200,11 +144,11 @@ std::string FormatFloatString(const T value, const int precision = 15,
  */
 std::wstring CORE_LIBRARY_DLL_SHARED_API RemoveIllegalChars(
     const std::wstring& text, const std::wstring& illegalChars = L"~#%&*{}\\:<>?/+|\"",
-    const wchar_t replacementChar = L'_');
+    wchar_t replacementChar = L'_');
 
 std::string CORE_LIBRARY_DLL_SHARED_API
             RemoveIllegalChars(const std::string& text, const std::string& illegalChars = "~#%&*{}\\:<>?/+|\"",
-                               const char replacementChar = '_');
+                               char replacementChar = '_');
 
 /*!
  * \brief Convert a std::string to std::wstring.

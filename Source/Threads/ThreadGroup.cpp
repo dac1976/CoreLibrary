@@ -25,26 +25,15 @@
  */
 
 #include "Threads/ThreadGroup.h"
-#include "Threads/JoinThreads.h"
 #include <algorithm>
+#include <stdexcept>
+#include <boost/throw_exception.hpp>
+#include "Threads/JoinThreads.h"
 
 namespace core_lib
 {
 namespace threads
 {
-
-// ****************************************************************************
-// 'class xThreadNotStartedError' definition
-// ****************************************************************************
-xThreadGroupError::xThreadGroupError()
-    : exceptions::xCustomException("thread group error")
-{
-}
-
-xThreadGroupError::xThreadGroupError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
 
 // ****************************************************************************
 // 'class ThreadGroup' definition
@@ -89,7 +78,7 @@ void ThreadGroup::AddThread(std::thread* threadPtr)
 
     if (IsThreadInNoMutex(threadPtr->get_id()))
     {
-        BOOST_THROW_EXCEPTION(xThreadGroupError("thread already in group"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("thread already in group"));
     }
 
     m_threadGroup.push_back(threadPtr);

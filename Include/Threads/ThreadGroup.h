@@ -31,7 +31,8 @@
 #include <mutex>
 #include <list>
 #include <vector>
-#include "Exceptions/CustomException.h"
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -39,34 +40,6 @@ namespace core_lib
 /*! \brief The threads namespace. */
 namespace threads
 {
-
-/*!
- * \brief Thread group error.
- *
- * This exception class is intended to be thrown by functions in ThreadGroup
- * class.
- */
-class CORE_LIBRARY_DLL_SHARED_API xThreadGroupError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xThreadGroupError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xThreadGroupError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xThreadGroupError() override = default;
-    /*! \brief Copy constructor. */
-    xThreadGroupError(const xThreadGroupError&) = default;
-    /*! \brief Copy assignment operator. */
-    xThreadGroupError& operator=(const xThreadGroupError&) = default;
-    /*! \brief Move constructor. */
-    xThreadGroupError(xThreadGroupError&&) = default;
-    /*! \brief Move assignment operator. */
-    xThreadGroupError& operator=(xThreadGroupError&&) = default;
-};
 
 /*!
  * \brief Thread group class.
@@ -126,7 +99,7 @@ public:
      * \brief Add thread to group.
      * \param[in] threadPtr - Pointer to thread.
      *
-     * Throws xThreadGroupError if called with a thread that
+     * Throws std::runtime_error if called with a thread that
      * already belongs to the thread group.
      */
     void AddThread(std::thread* threadPtr);

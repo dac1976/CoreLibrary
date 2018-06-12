@@ -21,9 +21,9 @@ TEST(StringUtilsTest, Case2_xSplitStringBadDelim_1)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::string_utils::xSplitStringBadDelim());
+        BOOST_THROW_EXCEPTION(std::invalid_argument());
     }
-    catch (core_lib::string_utils::xSplitStringBadDelim& e)
+    catch (std::invalid_argument& e)
     {
         EXPECT_STREQ(e.what(), "split string bad delimiter");
         std::string info = boost::diagnostic_information(e);
@@ -35,9 +35,9 @@ TEST(StringUtilsTest, Case3_xSplitStringBadDelim_2)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::string_utils::xSplitStringBadDelim("user defined message"));
+        BOOST_THROW_EXCEPTION(std::invalid_argument("user defined message"));
     }
-    catch (core_lib::string_utils::xSplitStringBadDelim& e)
+    catch (std::invalid_argument& e)
     {
         EXPECT_STREQ(e.what(), "user defined message");
         std::string info = boost::diagnostic_information(e);
@@ -49,9 +49,9 @@ TEST(StringUtilsTest, Case4_xSplitStringTooManySubstrings_1)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(core_lib::string_utils::xSplitStringTooManySubstrings());
+        BOOST_THROW_EXCEPTION(std::runtime_error());
     }
-    catch (core_lib::string_utils::xSplitStringTooManySubstrings& e)
+    catch (std::runtime_error& e)
     {
         EXPECT_STREQ(e.what(), "too many substrings");
         std::string info = boost::diagnostic_information(e);
@@ -63,10 +63,9 @@ TEST(StringUtilsTest, Case5_xSplitStringTooManySubstrings_2)
 {
     try
     {
-        BOOST_THROW_EXCEPTION(
-            core_lib::string_utils::xSplitStringTooManySubstrings("user defined message"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("user defined message"));
     }
-    catch (core_lib::string_utils::xSplitStringTooManySubstrings& e)
+    catch (std::runtime_error& e)
     {
         EXPECT_STREQ(e.what(), "user defined message");
         std::string info = boost::diagnostic_information(e);
@@ -86,7 +85,7 @@ TEST(StringUtilsTest, Case6_SplitString_1)
             subStr1, subStr2, toSplit, "=", core_lib::string_utils::eSplitStringResult::trimmed);
         exceptionThrown = false;
     }
-    catch (core_lib::string_utils::xSplitStringBadDelim& e)
+    catch (std::invalid_argument& e)
     {
         (void)e;
         exceptionThrown = true;
@@ -111,7 +110,7 @@ TEST(StringUtilsTest, Case7_SplitString_2)
             subStr1, subStr2, toSplit, ",", core_lib::string_utils::eSplitStringResult::trimmed);
         exceptionThrown = false;
     }
-    catch (core_lib::string_utils::xSplitStringTooManySubstrings& e)
+    catch (std::runtime_error& e)
     {
         (void)e;
         exceptionThrown = true;
