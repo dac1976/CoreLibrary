@@ -413,7 +413,7 @@ TEST_F(DebugLogTest, testCase_DebugLog7)
 TEST_F(DebugLogTest, testCase_DebugLog8)
 {
     DEBUG_MESSAGE_INSTANTIATE("1.0.0.0", "", "test_log");
-    Loki::DeletableSingleton<core_lib::log::default_log_t>::GracefulDelete();
+    Loki::DeletableSingleton<default_log_t>::GracefulDelete();
 
     std::ifstream ifs("test_log.txt");
     EXPECT_TRUE(ifs.is_open());
