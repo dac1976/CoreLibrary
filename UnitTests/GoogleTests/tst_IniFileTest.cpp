@@ -42,7 +42,7 @@ TEST(IniFileTest, Case1_InvalidLine)
         core_lib::ini_file::IniFile iniFile(path1);
         correctException = false;
     }
-    catch (core_lib::ini_file::xIniFileParserError& e)
+    catch (std::runtime_error& e)
     {
         if (std::string(e.what()).compare("file contains invalid line") == 0)
         {
@@ -70,7 +70,7 @@ TEST(IniFileTest, Case2_InvalidKey)
         core_lib::ini_file::IniFile iniFile(path2);
         correctException = false;
     }
-    catch (core_lib::ini_file::xIniFileParserError& e)
+    catch (std::runtime_error& e)
     {
         if (std::string(e.what()).compare("file contains invalid key") == 0)
         {
@@ -98,7 +98,7 @@ TEST(IniFileTest, Case3_InvalidSection)
         core_lib::ini_file::IniFile iniFile(path3);
         correctException = false;
     }
-    catch (core_lib::ini_file::xIniFileParserError& e)
+    catch (std::runtime_error& e)
     {
         if (std::string(e.what()).compare("file contains invalid section") == 0)
         {
@@ -126,7 +126,7 @@ TEST(IniFileTest, Case4_DuplicateKey)
         core_lib::ini_file::IniFile iniFile(path4);
         correctException = false;
     }
-    catch (core_lib::ini_file::xIniFileParserError& e)
+    catch (std::runtime_error& e)
     {
         if (std::string(e.what()).compare("file contains duplicate key") == 0)
         {
@@ -154,7 +154,7 @@ TEST(IniFileTest, Case5_DuplicateSection)
         core_lib::ini_file::IniFile iniFile(path5);
         correctException = false;
     }
-    catch (core_lib::ini_file::xIniFileParserError& e)
+    catch (std::runtime_error& e)
     {
         if (std::string(e.what()).compare("file contains duplicate section") == 0)
         {
@@ -182,7 +182,7 @@ TEST(IniFileTest, Case6_InvalidFile)
         core_lib::ini_file::IniFile iniFile(path_invalid);
         correctException = false;
     }
-    catch (core_lib::ini_file::xIniFileParserError& e)
+    catch (std::runtime_error& e)
     {
         if (std::string(e.what()).compare("cannot create ifstream") == 0)
         {

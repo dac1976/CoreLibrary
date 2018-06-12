@@ -29,78 +29,15 @@
 #include <fstream>
 #include <sstream>
 #include <iterator>
+#include <stdexcept>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/throw_exception.hpp>
 #include "StringUtils/StringUtils.h"
 
 namespace core_lib
 {
 namespace ini_file
 {
-
-// ****************************************************************************
-// 'class xIniFileDataConvertError' definition
-// ****************************************************************************
-xIniFileDataConvertError::xIniFileDataConvertError()
-    : exceptions::xCustomException("data convert error")
-{
-}
-
-xIniFileDataConvertError::xIniFileDataConvertError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xIniFileParserError' definition
-// ****************************************************************************
-xIniFileParserError::xIniFileParserError()
-    : exceptions::xCustomException("parser error")
-{
-}
-
-xIniFileParserError::xIniFileParserError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xIniFileSaveError' definition
-// ****************************************************************************
-xIniFileSaveError::xIniFileSaveError()
-    : exceptions::xCustomException("save error")
-{
-}
-
-xIniFileSaveError::xIniFileSaveError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xIniFileInvalidKeyError' definition
-// ****************************************************************************
-xIniFileInvalidKeyError::xIniFileInvalidKeyError()
-    : exceptions::xCustomException("invalid key")
-{
-}
-
-xIniFileInvalidKeyError::xIniFileInvalidKeyError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xIniFileInvalidSectionError' definition
-// ****************************************************************************
-xIniFileInvalidSectionError::xIniFileInvalidSectionError()
-    : exceptions::xCustomException("invalid section")
-{
-}
-
-xIniFileInvalidSectionError::xIniFileInvalidSectionError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
 
 // ****************************************************************************
 // 'class IniFile' definition
@@ -198,7 +135,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 
     if (!iniFile.is_open() || !iniFile.good())
     {
-        BOOST_THROW_EXCEPTION(xIniFileParserError("cannot create ifstream"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("cannot create ifstream"));
     }
 
     std::stringstream iniStream;
@@ -207,7 +144,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
               std::ostreambuf_iterator<char>(iniStream));
     iniFile.close();
 
-    section_iter sectIt = m_sectionMap.end();
+    auto sectIt = m_sectionMap.end();
 
     while (iniStream.good())
     {
@@ -229,15 +166,15 @@ void IniFile::LoadFile(const std::string& iniFilePath)
         {
             if (str1 == "")
             {
-                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid section"));
+                BOOST_THROW_EXCEPTION(std::runtime_error("file contains invalid section"));
             }
 
             if (m_sectionMap.find(str1) != m_sectionMap.end())
             {
-                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains duplicate section"));
+                BOOST_THROW_EXCEPTION(std::runtime_error("file contains duplicate section"));
             }
 
-            if_private::line_iter sectLineIter =
+            auto sectLineIter =
                 m_lines.insert(m_lines.end(), std::make_shared<if_private::SectionLine>(str1));
             std::pair<section_iter, bool> result{m_sectionMap.insert(
                 std::make_pair(str1, if_private::SectionDetails(sectLineIter)))};
@@ -247,21 +184,21 @@ void IniFile::LoadFile(const std::string& iniFilePath)
         {
             if ((str1 == "") || (sectIt == m_sectionMap.end()))
             {
-                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid key"));
+                BOOST_THROW_EXCEPTION(std::runtime_error("file contains invalid key"));
             }
 
             if (sectIt->second.KeyExists(str1))
             {
-                BOOST_THROW_EXCEPTION(xIniFileParserError("file contains duplicate key"));
+                BOOST_THROW_EXCEPTION(std::runtime_error("file contains duplicate key"));
             }
 
-            if_private::line_iter keyLineIter =
+            auto keyLineIter =
                 m_lines.insert(m_lines.end(), std::make_shared<if_private::KeyLine>(str1, str2));
             sectIt->second.AddKey(keyLineIter);
         }
         else
         {
-            BOOST_THROW_EXCEPTION(xIniFileParserError("file contains invalid line"));
+            BOOST_THROW_EXCEPTION(std::runtime_error("file contains invalid line"));
         }
     }
 }
@@ -286,7 +223,7 @@ void IniFile::UpdateFile(const std::string& overridePath) const
 
     if (!iniFile.is_open() || !iniFile.good())
     {
-        BOOST_THROW_EXCEPTION(xIniFileSaveError("cannot create ofstream"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("cannot create ofstream"));
     }
 
     std::stringstream iniStream;
@@ -362,7 +299,7 @@ bool IniFile::ReadBool(const std::string& section, const std::string& key, bool 
     }
     catch (...)
     {
-        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to bool"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to bool"));
     }
 
     return value == 1;
@@ -379,7 +316,7 @@ int32_t IniFile::ReadInt32(const std::string& section, const std::string& key,
     }
     catch (...)
     {
-        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to int"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to int"));
     }
 
     return value;
@@ -396,7 +333,7 @@ int64_t IniFile::ReadInt64(const std::string& section, const std::string& key,
     }
     catch (...)
     {
-        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to int64_t"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to int64_t"));
     }
 
     return value;
@@ -414,7 +351,7 @@ double IniFile::ReadDouble(const std::string& section, const std::string& key,
     }
     catch (...)
     {
-        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to double"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to double"));
     }
 
     return value;
@@ -432,7 +369,7 @@ long double IniFile::ReadLongDouble(const std::string& section, const std::strin
     }
     catch (...)
     {
-        BOOST_THROW_EXCEPTION(xIniFileDataConvertError("failed to convert to long double"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to long double"));
     }
 
     return value;
@@ -494,20 +431,20 @@ void IniFile::WriteValueString(const std::string& section, const std::string& ke
 {
     if (section == "")
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidSectionError("section must be non-empty"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("section must be non-empty"));
     }
 
     if (key == "")
     {
-        BOOST_THROW_EXCEPTION(xIniFileInvalidKeyError("key must be non-empty"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("key must be non-empty"));
     }
 
-    bool         addNewKey = false;
-    section_iter sectIt    = m_sectionMap.find(section);
+    bool addNewKey = false;
+    auto sectIt    = m_sectionMap.find(section);
 
     if (sectIt == m_sectionMap.end())
     {
-        if_private::line_iter secLineIter =
+        auto secLineIter =
             m_lines.insert(m_lines.end(), std::make_shared<if_private::SectionLine>(section));
         std::pair<section_iter, bool> result{
             m_sectionMap.insert(std::make_pair(section, if_private::SectionDetails(secLineIter)))};
@@ -528,7 +465,7 @@ void IniFile::WriteValueString(const std::string& section, const std::string& ke
 
     if (addNewKey)
     {
-        if_private::line_iter insertPos = sectIt->second.LineIterator();
+        auto insertPos = sectIt->second.LineIterator();
 
         do
         {
@@ -536,7 +473,7 @@ void IniFile::WriteValueString(const std::string& section, const std::string& ke
         } while ((insertPos != m_lines.end()) &&
                  (!std::dynamic_pointer_cast<if_private::SectionLine>(*insertPos)));
 
-        if_private::line_iter keyLineIter =
+        auto keyLineIter =
             m_lines.insert(insertPos, std::make_shared<if_private::KeyLine>(key, value));
         sectIt->second.AddKey(keyLineIter);
     }
@@ -546,11 +483,11 @@ void IniFile::WriteValueString(const std::string& section, const std::string& ke
 
 void IniFile::EraseSection(const std::string& section)
 {
-    section_iter sectIt = m_sectionMap.find(section);
+    auto sectIt = m_sectionMap.find(section);
 
     if (sectIt != m_sectionMap.end())
     {
-        if_private::line_iter lineIter = sectIt->second.LineIterator();
+        auto lineIter = sectIt->second.LineIterator();
         m_sectionMap.erase(sectIt);
 
         do
@@ -582,11 +519,11 @@ void IniFile::EraseSections()
 
 void IniFile::EraseKey(const std::string& section, const std::string& key)
 {
-    section_iter sectIt = m_sectionMap.find(section);
+    auto sectIt = m_sectionMap.find(section);
 
     if (sectIt != m_sectionMap.end())
     {
-        if_private::line_iter keyLineIter = m_lines.end();
+        auto keyLineIter = m_lines.end();
 
         if (sectIt->second.EraseKey(key, keyLineIter))
         {

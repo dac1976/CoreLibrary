@@ -27,11 +27,11 @@
 #ifndef INIFILELINES
 #define INIFILELINES
 
-#include "CoreLibraryDllGlobal.h"
-#include "Platform/PlatformDefines.h"
 #include <string>
 #include <list>
 #include <memory>
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -41,7 +41,7 @@ namespace ini_file
 {
 
 /*! \brief Typedef defining the key-value pair list for section entries. */
-typedef std::list<std::pair<std::string, std::string>> keys_list;
+using keys_list = std::list<std::pair<std::string, std::string>>;
 
 /*! \brief The if_private namespace. */
 namespace if_private
@@ -51,12 +51,19 @@ namespace if_private
 class CORE_LIBRARY_DLL_SHARED_API Line
 {
 public:
+    Line()            = default;
+    virtual ~Line()   = default;
+    Line(Line const&) = default;
+    Line(Line&&)      = default;
+    Line& operator=(Line const&) = default;
+    Line& operator=(Line&&) = default;
+
     /*!
      * \brief Virtual Print function
      * \param[in,out] os - Stream to write to.
      * \param[in] addLineFeed - (Optional) add a line feed.
      */
-    virtual void Print(std::ostream& os, const bool addLineFeed = true) const = 0;
+    virtual void Print(std::ostream& os, bool addLineFeed = true) const = 0;
 };
 
 /*! \brief Class to manage a blank line in an INI file. */
@@ -68,7 +75,7 @@ public:
     /*! \brief Copy constructor. */
     BlankLine(const BlankLine&) = default;
     /*! \brief Virtual destructor. */
-    virtual ~BlankLine() = default;
+    ~BlankLine() override = default;
     /*! \brief Copy assignment operator. */
     BlankLine& operator=(const BlankLine&) = default;
 #ifdef USE_EXPLICIT_MOVE_
@@ -87,7 +94,7 @@ public:
      * \param[in,out] os - Stream to write to.
      * \param[in] addLineFeed - (Optional) add a line feed.
      */
-    virtual void Print(std::ostream& os, const bool addLineFeed = true) const;
+    void Print(std::ostream& os, bool addLineFeed = true) const override;
 };
 
 /*! \brief Class to manage a comment line in an INI file. */
@@ -101,7 +108,7 @@ public:
     /*! \brief Initialising constructor. */
     explicit CommentLine(const std::string& comment);
     /*! \brief Virtual destructor. */
-    virtual ~CommentLine() = default;
+    ~CommentLine() override = default;
     /*! \brief Copy assignment operator. */
     CommentLine& operator=(const CommentLine&) = default;
 #ifdef USE_EXPLICIT_MOVE_
@@ -125,7 +132,7 @@ public:
      * \param[in,out] os - Stream to write to.
      * \param[in] addLineFeed - (Optional) add a line feed.
      */
-    virtual void Print(std::ostream& os, const bool addLineFeed = true) const;
+    void Print(std::ostream& os, bool addLineFeed = true) const override;
 
 private:
     /*! \brief The comment. */
@@ -143,7 +150,7 @@ public:
     /*! \brief Initialising constructor. */
     explicit SectionLine(const std::string& section);
     /*! \brief Virtual destructor. */
-    virtual ~SectionLine() = default;
+    ~SectionLine() override = default;
     /*! \brief Copy assignment operator. */
     SectionLine& operator=(const SectionLine&) = default;
 #ifdef USE_EXPLICIT_MOVE_
@@ -167,7 +174,7 @@ public:
      * \param[in,out] os - Stream to write to.
      * \param[in] addLineFeed - (Optional) add a line feed.
      */
-    virtual void Print(std::ostream& os, const bool addLineFeed = true) const;
+    void Print(std::ostream& os, bool addLineFeed = true) const override;
 
 private:
     /*! \brief The section. */
@@ -185,7 +192,7 @@ public:
     /*! \brief Initialising constructor. */
     KeyLine(const std::string& key, const std::string& value);
     /*! \brief Virtual destructor. */
-    virtual ~KeyLine() = default;
+    ~KeyLine() override = default;
     /*! \brief Copy assignment operator. */
     KeyLine& operator=(const KeyLine&) = default;
 #ifdef USE_EXPLICIT_MOVE_
@@ -224,7 +231,7 @@ public:
      * \param[in,out] os - Stream to write to.
      * \param[in] addLineFeed - (Optional) add a line feed.
      */
-    virtual void Print(std::ostream& os, const bool addLineFeed = true) const;
+    void Print(std::ostream& os, bool addLineFeed = true) const override;
 
 private:
     /*! \brief The key. */
@@ -234,11 +241,11 @@ private:
 };
 
 /*! \brief Line list typedef. */
-typedef std::list<std::shared_ptr<Line>> line_list;
+using line_list = std::list<std::shared_ptr<Line>>;
 /*! \brief Line list iterator typedef. */
-typedef line_list::iterator line_iter;
+using line_iter = line_list::iterator;
 /*! \brief Line list const iterator typedef. */
-typedef line_list::const_iterator line_citer;
+using line_citer = line_list::const_iterator;
 
 } // namespace if_private
 } // namespace ini_file

@@ -19,164 +19,166 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file IniFileLines.cpp
  * \brief File containing definitions relating the IniFile support classes.
  */
- 
+
 #include "IniFile/IniFileLines.h"
 #include <iostream>
- 
+
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The ini_file namespace. */
-namespace ini_file {
+namespace ini_file
+{
 /*! \brief The if_private namespace. */
-namespace if_private {
- 
+namespace if_private
+{
+
 // ****************************************************************************
 // 'class IniFile' support class definitions.
 // ****************************************************************************
 
 #ifdef USE_EXPLICIT_MOVE_
-    BlankLine::BlankLine(BlankLine&& line)
-    {
-        *this = std::move(line);
-    }
+BlankLine::BlankLine(BlankLine&& line)
+{
+    *this = std::move(line);
+}
 
-    BlankLine& BlankLine::operator=(BlankLine&& line)
-    {
-        Line::operator=(std::move(line));
-        return *this;
-    }
+BlankLine& BlankLine::operator=(BlankLine&& line)
+{
+    Line::operator=(std::move(line));
+    return *this;
+}
 #endif
 
-void BlankLine::Print(std::ostream &os, bool addLineFeed) const
+void BlankLine::Print(std::ostream& os, bool addLineFeed) const
 {
-	if (addLineFeed)
-	{
-		os << std::endl;
-	}
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 #ifdef USE_EXPLICIT_MOVE_
-    CommentLine::CommentLine(CommentLine&& line)
-    {
-        *this = std::move(line);
-    }
+CommentLine::CommentLine(CommentLine&& line)
+{
+    *this = std::move(line);
+}
 
-    CommentLine& CommentLine::operator=(CommentLine&& line)
-    {
-        Line::operator=(std::move(line));
-        std::swap(m_comment, line.m_comment);
-        return *this;
-    }
+CommentLine& CommentLine::operator=(CommentLine&& line)
+{
+    Line::operator=(std::move(line));
+    std::swap(m_comment, line.m_comment);
+    return *this;
+}
 #endif
 
 CommentLine::CommentLine(const std::string& comment)
-	: Line(), m_comment(comment)
+    : m_comment(comment)
 {
 }
 
 const std::string& CommentLine::Comment() const
 {
-	return m_comment;
+    return m_comment;
 }
 
-void CommentLine::Print(std::ostream &os, bool addLineFeed) const
+void CommentLine::Print(std::ostream& os, bool addLineFeed) const
 {
-	os << ";" << m_comment;
+    os << ";" << m_comment;
 
-	if (addLineFeed)
-	{
-		os << std::endl;
-	}
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 #ifdef USE_EXPLICIT_MOVE_
-    SectionLine::SectionLine(SectionLine&& line)
-    {
-        *this = std::move(line);
-    }
+SectionLine::SectionLine(SectionLine&& line)
+{
+    *this = std::move(line);
+}
 
-    SectionLine& SectionLine::operator=(SectionLine&& line)
-    {
-        Line::operator=(std::move(line));
-        std::swap(m_section, line.m_section);
-        return *this;
-    }
+SectionLine& SectionLine::operator=(SectionLine&& line)
+{
+    Line::operator=(std::move(line));
+    std::swap(m_section, line.m_section);
+    return *this;
+}
 #endif
 
 SectionLine::SectionLine(const std::string& section)
-	: Line(), m_section(section)
+    : m_section(section)
 {
 }
 
 const std::string& SectionLine::Section() const
 {
-	return m_section;
+    return m_section;
 }
 
-void SectionLine::Print(std::ostream &os, bool addLineFeed) const
+void SectionLine::Print(std::ostream& os, bool addLineFeed) const
 {
-	os << "[" << m_section << "]";
+    os << "[" << m_section << "]";
 
-	if (addLineFeed)
-	{
-		os << std::endl;
-	}
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 #ifdef USE_EXPLICIT_MOVE_
-    KeyLine::KeyLine(KeyLine&& line)
-    {
-        *this = std::move(line);
-    }
+KeyLine::KeyLine(KeyLine&& line)
+{
+    *this = std::move(line);
+}
 
-    KeyLine& KeyLine::operator=(KeyLine&& line)
-    {
-        Line::operator=(std::move(line));
-        std::swap(m_key, line.m_key);
-        std::swap(m_value, line.m_value);
-        return *this;
-    }
+KeyLine& KeyLine::operator=(KeyLine&& line)
+{
+    Line::operator=(std::move(line));
+    std::swap(m_key, line.m_key);
+    std::swap(m_value, line.m_value);
+    return *this;
+}
 #endif
 
-KeyLine::KeyLine(const std::string& key
-						  , const std::string& value)
-	: Line(), m_key(key), m_value(value)
+KeyLine::KeyLine(const std::string& key, const std::string& value)
+    : m_key(key)
+    , m_value(value)
 {
 }
 
 const std::string& KeyLine::Key() const
 {
-	return m_key;
+    return m_key;
 }
 
 const std::string& KeyLine::Value() const
 {
-	return m_value;
+    return m_value;
 }
 
 void KeyLine::Value(const std::string& value)
 {
-	m_value = value;
+    m_value = value;
 }
 
 void KeyLine::Value(std::string&& value)
 {
-	m_value = value;
+    m_value = value;
 }
 
-void KeyLine::Print(std::ostream &os, bool addLineFeed) const
+void KeyLine::Print(std::ostream& os, bool addLineFeed) const
 {
-	os << m_key << "=" << m_value;
+    os << m_key << "=" << m_value;
 
-	if (addLineFeed)
-	{
-		os << std::endl;
-	}
+    if (addLineFeed)
+    {
+        os << std::endl;
+    }
 }
 
 } // namespace if_private

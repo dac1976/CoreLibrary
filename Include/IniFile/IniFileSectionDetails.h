@@ -24,7 +24,6 @@
  * \brief File containing declarations relating the IniFile support classes.
  */
 
-#include "Platform/PlatformDefines.h"
 #include "IniFileLines.h"
 
 #ifndef INIFILESECTIONDETAILS
@@ -41,7 +40,7 @@ namespace if_private
 {
 
 /*! \brief Class to represent an INI file's section details. */
-class CORE_LIBRARY_DLL_SHARED_API SectionDetails
+class CORE_LIBRARY_DLL_SHARED_API SectionDetails final
 {
 public:
     /*! \brief Default constructor. */
@@ -116,11 +115,11 @@ private:
     /*! \brief Line iterator. */
     line_iter m_sectIter{};
     /*! \brief Line iterator lists typedef. */
-    typedef std::list<line_iter> line_iter_list;
+    using line_iter_list = std::list<line_iter>;
     /*! \brief Line iterator list. */
     line_iter_list m_keyIters{};
     /*! \brief Line iterator list iterator. */
-    typedef line_iter_list::iterator keys_iter;
+    using keys_iter = line_iter_list::iterator;
 };
 
 } // namespace if_private

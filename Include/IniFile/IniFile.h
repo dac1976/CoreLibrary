@@ -31,7 +31,6 @@
 #include <utility>
 #include <map>
 #include <cstdint>
-#include "Exceptions/CustomException.h"
 #include "IniFileSectionDetails.h"
 
 /*! \brief The core_lib namespace. */
@@ -40,146 +39,6 @@ namespace core_lib
 /*! \brief The ini_file namespace. */
 namespace ini_file
 {
-
-/*!
- * \brief Ini file data conversion exception.
- *
- * This exception class is intended to be thrown by functions in the IniFIie
- * class when a data conversion error eoccurs.
- */
-class CORE_LIBRARY_DLL_SHARED_API xIniFileDataConvertError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xIniFileDataConvertError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xIniFileDataConvertError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xIniFileDataConvertError() override = default;
-    /*! \brief Copy constructor. */
-    xIniFileDataConvertError(const xIniFileDataConvertError&) = default;
-    /*! \brief Copy assignment operator. */
-    xIniFileDataConvertError& operator=(const xIniFileDataConvertError&) = default;
-    /*! \brief Move constructor. */
-    xIniFileDataConvertError(xIniFileDataConvertError&&) = default;
-    /*! \brief Move assignment operator. */
-    xIniFileDataConvertError& operator=(xIniFileDataConvertError&&) = default;
-};
-
-/*!
- * \brief Ini file parser error.
- *
- * This exception class is intended to be thrown by functions in the IniFIie
- * class when a parser error eoccurs.
- */
-class CORE_LIBRARY_DLL_SHARED_API xIniFileParserError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xIniFileParserError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xIniFileParserError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xIniFileParserError() override = default;
-    /*! \brief Copy constructor. */
-    xIniFileParserError(const xIniFileParserError&) = default;
-    /*! \brief Copy assignment operator. */
-    xIniFileParserError& operator=(const xIniFileParserError&) = default;
-    /*! \brief Move constructor. */
-    xIniFileParserError(xIniFileParserError&&) = default;
-    /*! \brief Move assignment operator. */
-    xIniFileParserError& operator=(xIniFileParserError&&) = default;
-};
-
-/*!
- * \brief Ini file save error.
- *
- * This exception class is intended to be thrown by functions in the IniFIie
- * class when a save error eoccurs.
- */
-class CORE_LIBRARY_DLL_SHARED_API xIniFileSaveError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xIniFileSaveError();
-    /*!
-     * \brief Initializing constnructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xIniFileSaveError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xIniFileSaveError() override = default;
-    /*! \brief Copy constructor. */
-    xIniFileSaveError(const xIniFileSaveError&) = default;
-    /*! \brief Copy assignment operator. */
-    xIniFileSaveError& operator=(const xIniFileSaveError&) = default;
-    /*! \brief Move constructor. */
-    xIniFileSaveError(xIniFileSaveError&&) = default;
-    /*! \brief Move assignment operator. */
-    xIniFileSaveError& operator=(xIniFileSaveError&&) = default;
-};
-
-/*!
- * \brief Ini file invalid key error.
- *
- * This exception class is intended to be thrown by functions in the IniFIie
- * class when an invalid key is used occurs.
- */
-class CORE_LIBRARY_DLL_SHARED_API xIniFileInvalidKeyError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xIniFileInvalidKeyError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xIniFileInvalidKeyError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xIniFileInvalidKeyError() override = default;
-    /*! \brief Copy constructor. */
-    xIniFileInvalidKeyError(const xIniFileInvalidKeyError&) = default;
-    /*! \brief Copy assignment operator. */
-    xIniFileInvalidKeyError& operator=(const xIniFileInvalidKeyError&) = default;
-    /*! \brief Move constructor. */
-    xIniFileInvalidKeyError(xIniFileInvalidKeyError&&) = default;
-    /*! \brief Move assignment operator. */
-    xIniFileInvalidKeyError& operator=(xIniFileInvalidKeyError&&) = default;
-};
-
-/*!
- * \brief Ini file invalid section error.
- *
- * This exception class is intended to be thrown by functions in the IniFIie
- * class when an invalid section is used occurs.
- */
-class CORE_LIBRARY_DLL_SHARED_API xIniFileInvalidSectionError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xIniFileInvalidSectionError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xIniFileInvalidSectionError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xIniFileInvalidSectionError() override = default;
-    /*! \brief Copy constructor. */
-    xIniFileInvalidSectionError(const xIniFileInvalidSectionError&) = default;
-    /*! \brief Copy assignment operator. */
-    xIniFileInvalidSectionError& operator=(const xIniFileInvalidSectionError&) = default;
-    /*! \brief Move constructor. */
-    xIniFileInvalidSectionError(xIniFileInvalidSectionError&&) = default;
-    /*! \brief Move assignment operator. */
-    xIniFileInvalidSectionError& operator=(xIniFileInvalidSectionError&&) = default;
-};
 
 /*!
  * \brief Ini file class
@@ -290,7 +149,7 @@ public:
      * \return Returns the value stored in the INI file.
      */
     bool ReadBool(const std::string& section, const std::string& key,
-                  const bool defaultValue = false) const;
+                  bool defaultValue = false) const;
     /*!
      * \brief Read 32 bit integer value.
      * \param[in] section - Section name.
@@ -299,7 +158,7 @@ public:
      * \return Returns the value stored in the INI file.
      */
     int32_t ReadInt32(const std::string& section, const std::string& key,
-                      const int32_t defaultValue = 0) const;
+                      int32_t defaultValue = 0) const;
     /*!
      * \brief Read 64 bit integer value.
      * \param[in] section - Section name.
@@ -308,7 +167,7 @@ public:
      * \return Returns the value stored in the INI file.
      */
     int64_t ReadInt64(const std::string& section, const std::string& key,
-                      const int64_t defaultValue = 0L) const;
+                      int64_t defaultValue = 0L) const;
     /*!
      * \brief Read double value.
      * \param[in] section - Section name.
@@ -317,7 +176,7 @@ public:
      * \return Returns the value stored in the INI file.
      */
     double ReadDouble(const std::string& section, const std::string& key,
-                      const double defaultValue = 0.0) const;
+                      double defaultValue = 0.0) const;
     /*!
      * \brief Read long double value.
      * \param[in] section - Section name.
@@ -326,7 +185,7 @@ public:
      * \return Returns the value stored in the INI file.
      */
     long double ReadLongDouble(const std::string& section, const std::string& key,
-                               const long double defaultValue = 0.0L) const;
+                               long double defaultValue = 0.0L) const;
     /*!
      * \brief Read string value.
      * \param[in] section - Section name.
@@ -343,36 +202,35 @@ public:
      * \param[in] key - Key name.
      * \param[in] value - Value to write to file.
      */
-    void WriteBool(const std::string& section, const std::string& key, const bool value);
+    void WriteBool(const std::string& section, const std::string& key, bool value);
     /*!
      * \brief Write 32 bit integer value.
      * \param[in] section - Section name.
      * \param[in] key - Key name.
      * \param[in] value - Value to write to file.
      */
-    void WriteInt32(const std::string& section, const std::string& key, const int32_t value);
+    void WriteInt32(const std::string& section, const std::string& key, int32_t value);
     /*!
      * \brief Write 64 bit integer value.
      * \param[in] section - Section name.
      * \param[in] key - Key name.
      * \param[in] value - Value to write to file.
      */
-    void WriteInt64(const std::string& section, const std::string& key, const int64_t value);
+    void WriteInt64(const std::string& section, const std::string& key, int64_t value);
     /*!
      * \brief Write double value.
      * \param[in] section - Section name.
      * \param[in] key - Key name.
      * \param[in] value - Value to write to file.
      */
-    void WriteDouble(const std::string& section, const std::string& key, const double value);
+    void WriteDouble(const std::string& section, const std::string& key, double value);
     /*!
      * \brief Write long double value.
      * \param[in] section - Section name.
      * \param[in] key - Key name.
      * \param[in] value - Value to write to file.
      */
-    void WriteLongDouble(const std::string& section, const std::string& key,
-                         const long double value);
+    void WriteLongDouble(const std::string& section, const std::string& key, long double value);
     /*!
      * \brief Write string value.
      * \param[in] section - Section name.
@@ -414,13 +272,13 @@ private:
     std::string m_iniFilePath{"config.ini"};
 #endif
     /*! \brief Section map typedef. */
-    typedef std::map<std::string, if_private::SectionDetails> section_map;
+    using section_map = std::map<std::string, if_private::SectionDetails>;
     /*! \brief Sectin map. */
     section_map m_sectionMap;
     /*! \brief Section map iterator typedef. */
-    typedef section_map::iterator section_iter;
+    using section_iter = section_map::iterator;
     /*! \brief Section map const iterator typedef. */
-    typedef section_map::const_iterator section_citer;
+    using section_citer = section_map::const_iterator;
     /*! \brief Line list. */
     if_private::line_list m_lines;
 

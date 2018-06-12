@@ -19,152 +19,144 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-
 /*!
  * \file IniFileSectionDetails.cpp
  * \brief File containing definitions relating the IniFile support classes.
  */
- 
+
 #include "IniFile/IniFileSectionDetails.h"
- 
+
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The ini_file namespace. */
-namespace ini_file {
+namespace ini_file
+{
 /*! \brief The if_private namespace. */
-namespace if_private {
- 
+namespace if_private
+{
+
 // ****************************************************************************
 // 'class IniFile' support class definitions.
 // ****************************************************************************
 #ifdef USE_EXPLICIT_MOVE_
-    SectionDetails::SectionDetails(SectionDetails&& section)
-    {
-        *this = std::move(section);
-    }
+SectionDetails::SectionDetails(SectionDetails&& section)
+{
+    *this = std::move(section);
+}
 
-    SectionDetails& SectionDetails::operator=(SectionDetails&& section)
-    {
-        std::swap(m_sectIter, section.m_sectIter);
-        std::swap(m_keyIters, section.m_keyIters);
-        return *this;
-    }
+SectionDetails& SectionDetails::operator=(SectionDetails&& section)
+{
+    std::swap(m_sectIter, section.m_sectIter);
+    std::swap(m_keyIters, section.m_keyIters);
+    return *this;
+}
 #endif
 
 SectionDetails::SectionDetails(const line_iter& sectIter)
-	: m_sectIter(sectIter)
+    : m_sectIter(sectIter)
 {
 }
 
 const std::string& SectionDetails::Section() const
 {
-	return std::dynamic_pointer_cast<SectionLine>(*m_sectIter)->Section();
+    return std::dynamic_pointer_cast<SectionLine>(*m_sectIter)->Section();
 }
 
 bool SectionDetails::KeyExists(const std::string& key) const
 {
-	bool found = false;
+    bool found = false;
 
     for (const auto& lineIter : m_keyIters)
-	{
-		std::shared_ptr<KeyLine> keyLine
-				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
+    {
+        std::shared_ptr<KeyLine> keyLine = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-		if (key == keyLine->Key())
-		{
-			found = true;
-			break;
-		}
-	}
+        if (key == keyLine->Key())
+        {
+            found = true;
+            break;
+        }
+    }
 
-	return found;
+    return found;
 }
 
 void SectionDetails::AddKey(const line_iter& keyIter)
 {
-	m_keyIters.push_back(keyIter);
+    m_keyIters.push_back(keyIter);
 }
 
-void SectionDetails::UpdateKey(const std::string& key
-										, const std::string& value)
+void SectionDetails::UpdateKey(const std::string& key, const std::string& value)
 {
 
     for (const auto& lineIter : m_keyIters)
-	{
-		std::shared_ptr<KeyLine> keyLine
-				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
+    {
+        std::shared_ptr<KeyLine> keyLine = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-		if (key == keyLine->Key())
-		{
-			keyLine->Value(value);
-			break;
-		}
-	}
+        if (key == keyLine->Key())
+        {
+            keyLine->Value(value);
+            break;
+        }
+    }
 }
 
-bool SectionDetails::EraseKey(const std::string& key
-									   , line_iter& lineIter)
+bool SectionDetails::EraseKey(const std::string& key, line_iter& lineIter)
 {
-	bool erased = false;
+    bool erased = false;
 
-	for (keys_iter keyIter = m_keyIters.begin()
-		 ; keyIter != m_keyIters.end()
-		 ; ++keyIter)
-	{		
-		std::shared_ptr<KeyLine> keyLine
-				= std::dynamic_pointer_cast<KeyLine>(**keyIter);
+    for (auto keyIter = m_keyIters.begin(); keyIter != m_keyIters.end(); ++keyIter)
+    {
+        std::shared_ptr<KeyLine> keyLine = std::dynamic_pointer_cast<KeyLine>(**keyIter);
 
-		if (keyLine && (key == keyLine->Key()))
-		{
-			lineIter = *keyIter;
-			m_keyIters.erase(keyIter);
-			erased = true;
-			break;
-		}
-	}
+        if (keyLine && (key == keyLine->Key()))
+        {
+            lineIter = *keyIter;
+            m_keyIters.erase(keyIter);
+            erased = true;
+            break;
+        }
+    }
 
-	return erased;
+    return erased;
 }
 
-std::string SectionDetails::GetValue(const std::string& key
-											  , const std::string& defaultValue) const
+std::string SectionDetails::GetValue(const std::string& key, const std::string& defaultValue) const
 {
-	std::string value{defaultValue};
+    std::string value{defaultValue};
 
     for (const auto& lineIter : m_keyIters)
-	{
-		std::shared_ptr<KeyLine> keyLine
-				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
+    {
+        std::shared_ptr<KeyLine> keyLine = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-		if (keyLine && (key == keyLine->Key()))
-		{
-			value = keyLine->Value();
-			break;
-		}
-	}
+        if (keyLine && (key == keyLine->Key()))
+        {
+            value = keyLine->Value();
+            break;
+        }
+    }
 
-	return value;
+    return value;
 }
 
 void SectionDetails::GetKeys(keys_list& keys) const
 {
-	keys.clear();
+    keys.clear();
 
     for (const auto& lineIter : m_keyIters)
-	{
-		std::shared_ptr<KeyLine> keyLine
-				= std::dynamic_pointer_cast<KeyLine>(*lineIter);
+    {
+        std::shared_ptr<KeyLine> keyLine = std::dynamic_pointer_cast<KeyLine>(*lineIter);
 
-		if (keyLine)
-		{
-			keys.push_back(std::make_pair(keyLine->Key(), keyLine->Value()));
-		}
-	}
+        if (keyLine)
+        {
+            keys.emplace_back(std::make_pair(keyLine->Key(), keyLine->Value()));
+        }
+    }
 }
 
 line_iter SectionDetails::LineIterator() const
 {
-	return m_sectIter;
+    return m_sectIter;
 }
 
 } // namespace if_private
