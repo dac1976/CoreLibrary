@@ -33,7 +33,8 @@
 #include <vector>
 #include <list>
 #include <iterator>
-#include "Exceptions/CustomException.h"
+#include <stdexcept>
+#include <boost/throw_exception.hpp>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -53,7 +54,7 @@ template <typename T, typename Pred = std::less<T>> class Bubble
 {
 public:
     /*! \brief Public typedef for predicate. */
-    typedef Pred item_compare;
+    using item_compare = Pred;
 
     /*!
      * \brief In-place static sort function.
@@ -96,7 +97,7 @@ template <typename T, typename Pred = std::less<T>> class Selection
 {
 public:
     /*! \brief Public typedef for predicate. */
-    typedef Pred item_compare;
+    using item_compare = Pred;
 
     /*!
      * \brief In-place static sort function.
@@ -137,7 +138,7 @@ template <typename T, typename Pred = std::less<T>> class Insertion
 {
 public:
     /*! \brief Public typedef for predicate. */
-    typedef Pred item_compare;
+    using item_compare = Pred;
 
     /*!
      * \brief In-place static sort function.
@@ -174,7 +175,7 @@ template <typename T, typename Pred = std::less<T>> class Quick
 {
 public:
     /*! \brief Public typedef for predicate. */
-    typedef Pred item_compare;
+    using item_compare = Pred;
 
     /*!
      * \brief In-place static sort function.
@@ -187,7 +188,7 @@ public:
      */
     template <typename TIterator> static void Sort(TIterator begin, TIterator end)
     {
-        auto const length = std::distance(begin, end);
+        auto length = std::distance(begin, end);
 
         if (length <= 1)
         {
@@ -204,35 +205,6 @@ public:
 };
 
 /*!
- * \brief Bucket value out of range.
- *
- * This exception class is intended to be thrown by the bucket sort
- * class if a value is found in the collection to be sorted that does
- * not belong to any defined bucket.
- */
-class CORE_LIBRARY_DLL_SHARED_API xBucketValueOutOfRangeError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xBucketValueOutOfRangeError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xBucketValueOutOfRangeError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xBucketValueOutOfRangeError() override = default;
-    /*! \brief Copy constructor. */
-    xBucketValueOutOfRangeError(const xBucketValueOutOfRangeError&) = default;
-    /*! \brief Copy assignment operator. */
-    xBucketValueOutOfRangeError& operator=(const xBucketValueOutOfRangeError&) = default;
-    /*! \brief Move constructor. */
-    xBucketValueOutOfRangeError(xBucketValueOutOfRangeError&&) = default;
-    /*! \brief Move assignment operator. */
-    xBucketValueOutOfRangeError& operator=(xBucketValueOutOfRangeError&&) = default;
-};
-
-/*!
  * \brief Templated static class to perform a bucket sort.
  *
  * Template args are T, the type of value to be sorted, and
@@ -243,11 +215,11 @@ template <typename T, typename Pred = std::less<T>> class Bucket
 {
 public:
     /*! \brief Public typedef for predicate. */
-    typedef Pred item_compare;
+    using item_compare = Pred;
     /*! \brief Public typedef for bucket definitions. */
-    typedef std::vector<std::pair<T, T>> bucket_definitions;
+    using bucket_definitions = std::vector<std::pair<T, T>>;
     /*! \brief Public typedef for bucket values. */
-    typedef std::vector<std::list<T>> bucket_values;
+    using bucket_values = std::vector<std::list<T>>;
 
     /*!
      * \brief In-place static sort function.
@@ -344,7 +316,7 @@ private:
 
         if (index == bucketDefinitions.size())
         {
-            BOOST_THROW_EXCEPTION(xBucketValueOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::runtime_error("bucket not found"));
         }
 
         return index;

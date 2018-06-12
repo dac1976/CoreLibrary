@@ -91,7 +91,7 @@ TEST(FileUtilsTest, Case5_CopyDirectory_TargetExists_Disallowed)
     EXPECT_TRUE(bfs::exists(target));
     EXPECT_THROW(CopyDirectoryRecursively(
                      source.wstring(), target.wstring(), eCopyDirectoryOptions::failIfTargetExists),
-                 xCopyDirectoryError);
+                 std::runtime_error);
     EXPECT_TRUE(bfs::exists(target));
     EXPECT_TRUE(bfs::remove_all(target) > 0);
     EXPECT_FALSE(bfs::exists(target));

@@ -271,7 +271,7 @@ public:
 
 private:
     /*! \brief The cell's value data memeber. */
-    std::string m_value;
+    std::string m_value{};
 };
 
 } // namespace csv_grid

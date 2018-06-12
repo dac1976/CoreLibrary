@@ -3,8 +3,8 @@
 #include <string>
 #include <boost/predef.h>
 #include "Serialization/SerializeToVector.h"
-#include "cereal/types/string.hpp"
-#include "cereal/types/vector.hpp"
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
 #include "gtest/gtest.h"
 
 namespace

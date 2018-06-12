@@ -26,10 +26,10 @@
 
 #ifndef CSVGRID
 #define CSVGRID
-#include <vector>
 
-#include "CsvGridMain.h"
+#include <vector>
 #include <list>
+#include "CsvGridMain.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib

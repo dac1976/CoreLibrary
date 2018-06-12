@@ -34,7 +34,7 @@
 #include <iterator>
 #include <type_traits>
 #include <algorithm>
-#include "cereal/types/vector.hpp"
+#include <cereal/types/vector.hpp>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -44,7 +44,7 @@ namespace serialize
 {
 
 /*! \brief Typedef for char vector. */
-typedef std::vector<char> char_vector_t;
+using char_vector_t = std::vector<char>;
 
 /*! \brief In archive placeholder struct for serializing POD objects. */
 struct CORE_LIBRARY_DLL_SHARED_API raw_iarchive
@@ -61,25 +61,25 @@ namespace archives
 {
 
 /*! \brief Typedef to output portable binary archive. */
-typedef cereal::PortableBinaryOutputArchive out_port_bin_t;
+using out_port_bin_t = cereal::PortableBinaryOutputArchive;
 /*! \brief Typedef to output binary archive. */
-typedef cereal::BinaryOutputArchive out_bin_t;
+using out_bin_t = cereal::BinaryOutputArchive;
 /*! \brief Typedef to output xml archive. */
-typedef cereal::XMLOutputArchive out_xml_t;
+using out_xml_t = cereal::XMLOutputArchive;
 /*! \brief Typedef to output json archive. */
-typedef cereal::JSONOutputArchive out_json_t;
+using out_json_t = cereal::JSONOutputArchive;
 /*! \brief Typedef to output raw archive. */
-typedef raw_oarchive out_raw_t;
+using out_raw_t = raw_oarchive;
 /*! \brief Typedef to input portable binary archive. */
-typedef cereal::PortableBinaryInputArchive in_port_bin_t;
+using in_port_bin_t = cereal::PortableBinaryInputArchive;
 /*! \brief Typedef to input binary archive. */
-typedef cereal::BinaryInputArchive in_bin_t;
+using in_bin_t = cereal::BinaryInputArchive;
 /*! \brief Typedef to input xml archive. */
-typedef cereal::XMLInputArchive in_xml_t;
+using in_xml_t = cereal::XMLInputArchive;
 /*! \brief Typedef to input json archive. */
-typedef cereal::JSONInputArchive in_json_t;
+using in_json_t = cereal::JSONInputArchive;
 /*! \brief Typedef to input raw archive. */
-typedef raw_iarchive in_raw_t;
+using in_raw_t = raw_iarchive;
 
 } // namespace archives
 
@@ -112,6 +112,7 @@ template <typename T, typename A> struct ToCharVectorImpl
             // CEREAL_NVP is required to fully support xml archives.
             oa(CEREAL_NVP(object));
         }
+
         char_vector_t charVector;
         charVector.reserve(os.str().size());
         charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
@@ -136,11 +137,9 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
             return charVector;
         }
 
-        const char* begin = reinterpret_cast<const char*>(&object);
-        const char* end   = begin + sizeof(T);
-
+        auto begin = reinterpret_cast<char const*>(&object);
+        auto end   = std::next(begin, static_cast<int>(sizeof(T)));
         std::copy(begin, end, std::back_inserter(charVector));
-
         return charVector;
     }
 };
@@ -172,6 +171,7 @@ template <typename T, typename A> struct ToObjectImpl
             // CEREAL_NVP is required to fully support xml archives.
             ia(CEREAL_NVP(object));
         }
+
         return object;
     }
 };
@@ -194,7 +194,6 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
         }
 
         memcpy(&object, charVector.data(), charVector.size());
-
         return object;
     }
 };

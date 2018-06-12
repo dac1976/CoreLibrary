@@ -127,14 +127,11 @@ SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/TcpServer.cpp                       \
     ../Source/CsvGrid/CsvGridCell.cpp                  \
     ../Source/CsvGrid/CsvGridCellDouble.cpp            \
-    ../Source/CsvGrid/CsvGridRow.cpp                   \
-    ../Source/CsvGrid/CsvGridMain.cpp                  \
     ../Source/DebugLog/DebugLog.cpp                    \
     ../Source/FileUtils/FileUtils.cpp                  \
     ../Source/IniFile/IniFileLines.cpp                 \
     ../Source/IniFile/IniFileSectionDetails.cpp        \
     ../Source/IniFile/IniFile.cpp                      \
-    ../Source/Sorting/GenericSorting.cpp               \
     ../Source/StringUtils/StringUtils.cpp              \
     ../Source/Threads/SyncEvent.cpp                    \
     ../Source/Threads/ThreadBase.cpp                   \

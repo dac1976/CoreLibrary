@@ -30,11 +30,6 @@
 #include <fstream>
 #include <limits>
 #include <cmath>
-#ifdef USE_EXPLICIT_MOVE_
-#include <utility>
-#endif
-#include "CoreLibraryDllGlobal.h"
-#include "Platform/PlatformDefines.h"
 #include "CsvGridRow.h"
 
 /*! \brief The core_lib namespace. */
@@ -43,91 +38,6 @@ namespace core_lib
 /*! \brief The csv_grid namespace. */
 namespace csv_grid
 {
-
-/*!
- * \brief Grid dimension exception.
- *
- * This exception class is intended to be thrown by functions in the CsvGrid
- * class when invalid grid dimensions are specified.
- */
-class CORE_LIBRARY_DLL_SHARED_API xCsvGridDimensionError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xCsvGridDimensionError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xCsvGridDimensionError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xCsvGridDimensionError() override = default;
-    /*! \brief Copy constructor. */
-    xCsvGridDimensionError(const xCsvGridDimensionError&) = default;
-    /*! \brief Copy assignment operator. */
-    xCsvGridDimensionError& operator=(const xCsvGridDimensionError&) = default;
-    /*! \brief Move constructor. */
-    xCsvGridDimensionError(xCsvGridDimensionError&&) = default;
-    /*! \brief Move assignment operator. */
-    xCsvGridDimensionError& operator=(xCsvGridDimensionError&&) = default;
-};
-
-/*!
- * \brief Row index out of range exception.
- *
- * This exception class is intended to be thrown by functions in the CsvGrid
- * class when an invalid row idex is used.
- */
-class CORE_LIBRARY_DLL_SHARED_API xCsvGridRowOutOfRangeError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xCsvGridRowOutOfRangeError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xCsvGridRowOutOfRangeError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xCsvGridRowOutOfRangeError() override = default;
-    /*! \brief Copy constructor. */
-    xCsvGridRowOutOfRangeError(const xCsvGridRowOutOfRangeError&) = default;
-    /*! \brief Copy assignment operator. */
-    xCsvGridRowOutOfRangeError& operator=(const xCsvGridRowOutOfRangeError&) = default;
-    /*! \brief Move constructor. */
-    xCsvGridRowOutOfRangeError(xCsvGridRowOutOfRangeError&&) = default;
-    /*! \brief Move assignment operator. */
-    xCsvGridRowOutOfRangeError& operator=(xCsvGridRowOutOfRangeError&&) = default;
-};
-
-/*!
- * \brief File stream creation failure exception.
- *
- *  This exception class is intended to be thrown by functions in the CsvGrid
- *  class when an invalid row idex is used.
- */
-class CORE_LIBRARY_DLL_SHARED_API xCsvGridCreateFileStreamError
-    : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xCsvGridCreateFileStreamError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xCsvGridCreateFileStreamError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xCsvGridCreateFileStreamError() override = default;
-    /*! \brief Copy constructor. */
-    xCsvGridCreateFileStreamError(const xCsvGridCreateFileStreamError&) = default;
-    /*! \brief Copy assignment operator. */
-    xCsvGridCreateFileStreamError& operator=(const xCsvGridCreateFileStreamError&) = default;
-    /*! \brief Move constructor. */
-    xCsvGridCreateFileStreamError(xCsvGridCreateFileStreamError&&) = default;
-    /*! \brief Move assignment operator. */
-    xCsvGridCreateFileStreamError& operator=(xCsvGridCreateFileStreamError&&) = default;
-};
 
 /*! \brief Enumeration controlling how file is saved. */
 enum class eSaveToFileOptions
@@ -195,14 +105,14 @@ public:
      * \param[in] cols - The number of columns.
      *
      * Create the rectangular grid object with a non-zero number of rows and
-     * columns. If rows or columns are 0 then xCsvGridDimensionError exception
+     * columns. If rows or columns are 0 then std::out_of_range exception
      * is thrown.
      */
     TCsvGrid(size_t rows, size_t cols)
     {
         if ((rows == 0) || (cols == 0))
         {
-            BOOST_THROW_EXCEPTION(xCsvGridDimensionError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("rows or cols is 0"));
         }
 
         m_grid.resize(rows, row_type(cols));
@@ -214,7 +124,7 @@ public:
      *
      * Create a grid object from a CSV file. If cells are wrapped in double
      * quotes in the CSV file then set options = doubleQuotedCells else set
-     * options = simpleCells. Throw a xCsvGridCreateFileStreamError exceptions
+     * options = simpleCells. Throw a std::runtime_error exception
      * if the file cannot be loaded.
      */
     TCsvGrid(const std::string& filename, eCellFormatOptions options)
@@ -254,13 +164,13 @@ public:
      *
      * Retrieve the row at a given row index within a grid.
      *
-     * \note If the index is out of bounds a xCsvGridRowOutOfRangeError exception is thrown.
+     * \note If the index is out of bounds a std::out_of_range exception is thrown.
      */
     row_type& operator[](size_t row)
     {
         if (row >= GetRowCount())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("row out of range"));
         }
 
         return *std::next(m_grid.begin(), row);
@@ -272,13 +182,13 @@ public:
      *
      * Retrieve the row at a given row index within a grid.
      *
-     * \note If the index is out of bounds a xCsvGridRowOutOfRangeError exception is thrown.
+     * \note If the index is out of bounds a std::out_of_range exception is thrown.
      */
     const row_type& operator[](size_t row) const
     {
         if (row >= GetRowCount())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("row out of range"));
         }
 
         return *std::next(m_grid.begin(), row);
@@ -305,14 +215,14 @@ public:
      * \return The number of columns for this row.
      *
      * \note
-     * If the index is out of bounds a xCsvGridRowOutOfRangeError
+     * If the index is out of bounds a std::out_of_range
      * exception is thrown.
      */
     size_t GetColCount(size_t row) const
     {
         if (row >= GetRowCount())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("row out of range"));
         }
 
         auto n = std::next(m_grid.begin(), row);
@@ -358,13 +268,13 @@ public:
      * \param[in] defaultCols - The default number of columns for the new row.
      *
      * Insert a new row at a given row index in the grid. If the row index is
-     * out of range a xCsvGridRowOutOfRangeError exception is thrown.
+     * out of range a std::out_of_range exception is thrown.
      */
     void InsertRow(size_t row, size_t defaultCols = 0)
     {
         if (row >= GetRowCount())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("row out of range"));
         }
 
         m_grid.emplace(std::next(m_grid.begin(), row), defaultCols);
@@ -420,7 +330,7 @@ public:
      * Create a grid object from a CSV file. If cells are wrapped in double
      * quotes in the CSV file then set options = doubleQuotedCells else set
      * options = simpleCells. If the file stream cannot be created or opened
-     * the a xCsvGridCreateFileStreamError exception is thrown.
+     * the a std::runtime_error exception is thrown.
      */
     void LoadFromCSVFile(const std::string& filename, eCellFormatOptions options,
                          size_t firstRowToLoad   = 0,
@@ -430,8 +340,10 @@ public:
 
         if (!csvfile.is_open())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridCreateFileStreamError(
-                std::string("failed to create file stream for loading: ") + filename));
+            std::string err("failed to create file stream for loading: ");
+            err.append(filename);
+
+            BOOST_THROW_EXCEPTION(std::runtime_error(err));
         }
 
         m_grid.clear();
@@ -447,7 +359,7 @@ public:
 
             if ((csvfile.tellg() == csvfile.gcount()) || csvfile.eof())
             {
-                if (line == "")
+                if (line.compare("") == 0)
                 {
                     break;
                 }
@@ -490,7 +402,7 @@ public:
      * \param[in] option - (Optional) Save to file options: append to or overwrite existing file.
      *
      * Create a CSV file from a grid object. If the file stream cannot
-     * be created or opened the a xCsvGridCreateFileStreamError exception
+     * be created or opened the a std::runtime_error exception
      * is thrown.
      */
     void SaveToCsvFile(const std::string& filename,
@@ -509,8 +421,10 @@ public:
 
         if (!csvfile.is_open())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridCreateFileStreamError(
-                std::string("failed to create file stream for saving: ") + filename));
+            std::string err("failed to create file stream for saving: ");
+            err.append(filename);
+
+            BOOST_THROW_EXCEPTION(std::runtime_error(err));
         }
 
         OutputCsvGridToStream(csvfile);
@@ -518,8 +432,6 @@ public:
     }
 
 private:
-    /*! \brief The grid row data. */
-    container_type m_grid;
     /*!
      * \brief Output the grid to a stream object.
      * \param[in] os - The stream object.
@@ -555,6 +467,10 @@ private:
         std::string::difference_type numQuotes = std::count(row.begin(), row.end(), '"');
         return (numQuotes % 2) == 0;
     }
+
+private:
+    /*! \brief The grid row data. */
+    container_type m_grid{};
 };
 
 } // namespace csv_grid

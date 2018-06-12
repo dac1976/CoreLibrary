@@ -20,133 +20,21 @@ static const std::string path1 = "../../../data/testfile1.csv";
 static const std::string path2 = "../../../data/testfile2.csv";
 #endif
 
-TEST(CsvGridTest, Case1_xCsvGridColOutOfRangeError_1)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
-    }
-    catch (xCsvGridColOutOfRangeError& e)
-    {
-        EXPECT_STREQ(e.what(), "invalid column index");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case1_xCsvGridColOutOfRangeError_2)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError("user defined message"));
-    }
-    catch (xCsvGridColOutOfRangeError& e)
-    {
-        EXPECT_STREQ(e.what(), "user defined message");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case1_xCsvGridDimensionError_1)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridDimensionError());
-    }
-    catch (xCsvGridDimensionError& e)
-    {
-        EXPECT_STREQ(e.what(), "rows and cols must be > 0");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case4_xCsvGridDimensionError_2)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridDimensionError("user defined message"));
-    }
-    catch (xCsvGridDimensionError& e)
-    {
-        EXPECT_STREQ(e.what(), "user defined message");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case5_xCsvGridRowOutOfRangeError_1)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError());
-    }
-    catch (xCsvGridRowOutOfRangeError& e)
-    {
-        EXPECT_STREQ(e.what(), "invalid row index");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case6_xCsvGridRowOutOfRangeError_2)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridRowOutOfRangeError("user defined message"));
-    }
-    catch (xCsvGridRowOutOfRangeError& e)
-    {
-        EXPECT_STREQ(e.what(), "user defined message");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case7_xCsvGridCreateFileStreamError_1)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridCreateFileStreamError());
-    }
-    catch (xCsvGridCreateFileStreamError& e)
-    {
-        EXPECT_STREQ(e.what(), "failed to create file stream");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case8_xCsvGridCreateFileStreamError_2)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(xCsvGridCreateFileStreamError("user defined message"));
-    }
-    catch (xCsvGridCreateFileStreamError& e)
-    {
-        EXPECT_STREQ(e.what(), "user defined message");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(CsvGridTest, Case9_Cell_DefaultConstructor)
+TEST(CsvGridTest, Cell_DefaultConstructor)
 {
     Cell        cell;
     std::string value = cell;
     EXPECT_STREQ(value.c_str(), "");
 }
 
-TEST(CsvGridTest, Case10_Cell_StringConstructor)
+TEST(CsvGridTest, Cell_StringConstructor)
 {
     Cell        cell("test string");
     std::string value = cell;
     EXPECT_STREQ(value.c_str(), "test string");
 }
 
-TEST(CsvGridTest, Case11_Cell_CopyConstructor)
+TEST(CsvGridTest, Cell_CopyConstructor)
 {
     Cell        cell("test string");
     Cell        cellCopy(cell);
@@ -155,14 +43,14 @@ TEST(CsvGridTest, Case11_Cell_CopyConstructor)
     EXPECT_STREQ(value.c_str(), valueCopy.c_str());
 }
 
-TEST(CsvGridTest, Case12_Cell_MoveConstructor)
+TEST(CsvGridTest, Cell_MoveConstructor)
 {
     Cell        cell(Cell("test string"));
     std::string value = cell;
     EXPECT_STREQ(value.c_str(), "test string");
 }
 
-TEST(CsvGridTest, Case13_Cell_Int32Constructor)
+TEST(CsvGridTest, Cell_Int32Constructor)
 {
     int32_t value1 = std::numeric_limits<int32_t>::max() / 2;
     Cell    cell(value1);
@@ -170,7 +58,7 @@ TEST(CsvGridTest, Case13_Cell_Int32Constructor)
     EXPECT_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case14_Cell_Int64Constructor)
+TEST(CsvGridTest, Cell_Int64Constructor)
 {
     int64_t value1 = std::numeric_limits<int64_t>::max() / 2;
     Cell    cell(value1);
@@ -178,7 +66,7 @@ TEST(CsvGridTest, Case14_Cell_Int64Constructor)
     EXPECT_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case15_Cell_DoubleConstructor)
+TEST(CsvGridTest, Cell_DoubleConstructor)
 {
     double value1 = std::numeric_limits<double>::max() / 2;
     Cell   cell(value1);
@@ -186,7 +74,7 @@ TEST(CsvGridTest, Case15_Cell_DoubleConstructor)
     EXPECT_DOUBLE_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case16_Cell_CopyAssignment)
+TEST(CsvGridTest, Cell_CopyAssignment)
 {
     Cell cell("test string");
     Cell cellCopy;
@@ -196,7 +84,7 @@ TEST(CsvGridTest, Case16_Cell_CopyAssignment)
     EXPECT_STREQ(value.c_str(), valueCopy.c_str());
 }
 
-TEST(CsvGridTest, Case17_Cell_MoveAssignment)
+TEST(CsvGridTest, Cell_MoveAssignment)
 {
     Cell cell;
     cell              = Cell("test string");
@@ -204,7 +92,7 @@ TEST(CsvGridTest, Case17_Cell_MoveAssignment)
     EXPECT_STREQ(value.c_str(), "test string");
 }
 
-TEST(CsvGridTest, Case18_Cell_StringAssignment)
+TEST(CsvGridTest, Cell_StringAssignment)
 {
     Cell        cell;
     std::string value     = "test string";
@@ -213,7 +101,7 @@ TEST(CsvGridTest, Case18_Cell_StringAssignment)
     EXPECT_STREQ(cellValue.c_str(), value.c_str());
 }
 
-TEST(CsvGridTest, Case19_Cell_Int32Assignment)
+TEST(CsvGridTest, Cell_Int32Assignment)
 {
     Cell    cell;
     int32_t value1 = std::numeric_limits<int32_t>::max() / 2;
@@ -222,7 +110,7 @@ TEST(CsvGridTest, Case19_Cell_Int32Assignment)
     EXPECT_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case20_Cell_Int64Assignment)
+TEST(CsvGridTest, Cell_Int64Assignment)
 {
     Cell    cell;
     int64_t value1 = std::numeric_limits<int64_t>::max() / 2;
@@ -231,7 +119,7 @@ TEST(CsvGridTest, Case20_Cell_Int64Assignment)
     EXPECT_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case21_Cell_DoubleAssignment)
+TEST(CsvGridTest, Cell_DoubleAssignment)
 {
     Cell   cell;
     double value1 = std::numeric_limits<double>::max() / 2;
@@ -240,7 +128,7 @@ TEST(CsvGridTest, Case21_Cell_DoubleAssignment)
     EXPECT_DOUBLE_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case22_Cell_Int32ConvertException)
+TEST(CsvGridTest, Cell_Int32ConvertException)
 {
     bool correctException;
 
@@ -264,7 +152,7 @@ TEST(CsvGridTest, Case22_Cell_Int32ConvertException)
     EXPECT_TRUE(correctException);
 }
 
-TEST(CsvGridTest, Case23_Cell_Int64ConvertException)
+TEST(CsvGridTest, Cell_Int64ConvertException)
 {
     bool correctException;
 
@@ -288,7 +176,7 @@ TEST(CsvGridTest, Case23_Cell_Int64ConvertException)
     EXPECT_TRUE(correctException);
 }
 
-TEST(CsvGridTest, Case24_Cell_DoubleConvertException)
+TEST(CsvGridTest, Cell_DoubleConvertException)
 {
     bool correctException;
 
@@ -312,7 +200,7 @@ TEST(CsvGridTest, Case24_Cell_DoubleConvertException)
     EXPECT_TRUE(correctException);
 }
 
-TEST(CsvGridTest, Case25_Cell_ToInt32Def_1)
+TEST(CsvGridTest, Cell_ToInt32Def_1)
 {
     Cell          cell("I'm not a number I'm a free man!");
     const int32_t testValue = std::numeric_limits<int32_t>::max() / 2;
@@ -320,7 +208,7 @@ TEST(CsvGridTest, Case25_Cell_ToInt32Def_1)
     EXPECT_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case26_Cell_ToInt32Def_2)
+TEST(CsvGridTest, Cell_ToInt32Def_2)
 {
     const int32_t testValue = std::numeric_limits<int32_t>::max() / 2;
     Cell          cell(testValue);
@@ -328,7 +216,7 @@ TEST(CsvGridTest, Case26_Cell_ToInt32Def_2)
     EXPECT_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case27_Cell_ToInt64Def_1)
+TEST(CsvGridTest, Cell_ToInt64Def_1)
 {
     Cell          cell("I'm not a number I'm a free man!");
     const int64_t testValue = std::numeric_limits<int64_t>::max() / 2;
@@ -336,7 +224,7 @@ TEST(CsvGridTest, Case27_Cell_ToInt64Def_1)
     EXPECT_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case28_Cell_ToInt64Def_2)
+TEST(CsvGridTest, Cell_ToInt64Def_2)
 {
     const int64_t testValue = std::numeric_limits<int64_t>::max() / 2;
     Cell          cell(testValue);
@@ -344,7 +232,7 @@ TEST(CsvGridTest, Case28_Cell_ToInt64Def_2)
     EXPECT_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case29_Cell_ToDoubleDef_1)
+TEST(CsvGridTest, Cell_ToDoubleDef_1)
 {
     Cell         cell("I'm not a number I'm a free man!");
     const double testValue = std::numeric_limits<double>::max() / 2;
@@ -352,7 +240,7 @@ TEST(CsvGridTest, Case29_Cell_ToDoubleDef_1)
     EXPECT_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case30_Cell_ToDoubleDef_2)
+TEST(CsvGridTest, Cell_ToDoubleDef_2)
 {
     const double testValue = std::numeric_limits<double>::max() / 2;
     Cell         cell(testValue);
@@ -360,13 +248,13 @@ TEST(CsvGridTest, Case30_Cell_ToDoubleDef_2)
     EXPECT_DOUBLE_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case31_Row_DefaultConstructor)
+TEST(CsvGridTest, Row_DefaultConstructor)
 {
     Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
 }
 
-TEST(CsvGridTest, Case32_Row_CopyConstructor)
+TEST(CsvGridTest, Row_CopyConstructor)
 {
     Row row;
     row.SetSize(100);
@@ -375,52 +263,52 @@ TEST(CsvGridTest, Case32_Row_CopyConstructor)
     EXPECT_EQ(row.GetSize(), rowCopy.GetSize());
 }
 
-TEST(CsvGridTest, Case33_Row_MoveConstructor)
+TEST(CsvGridTest, Row_MoveConstructor)
 {
     Row row(Row(100));
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(100));
 }
 
-TEST(CsvGridTest, Case34_Row_InitializingConstructor)
+TEST(CsvGridTest, Row_InitializingConstructor)
 {
     Row row(666);
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(666));
 }
 
-TEST(CsvGridTest, Case35_Row_InitializerListCellConstructor)
+TEST(CsvGridTest, Row_InitializerListCellConstructor)
 {
     Row row = {Cell(), Cell(), Cell(), Cell(), Cell()};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
-TEST(CsvGridTest, Case36_Row_InitializerListStringConstructor)
+TEST(CsvGridTest, Row_InitializerListStringConstructor)
 {
     Row row = {Cell(""), Cell(""), Cell(""), Cell(""), Cell("")};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
-TEST(CsvGridTest, Case37_Row_InitializerListInt32Constructor)
+TEST(CsvGridTest, Row_InitializerListInt32Constructor)
 {
     int32_t i   = 0;
     Row     row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
-TEST(CsvGridTest, Case38_Row_InitializerListInt64Constructor)
+TEST(CsvGridTest, Row_InitializerListInt64Constructor)
 {
     int64_t i   = 0;
     Row     row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
-TEST(CsvGridTest, Case39_Row_InitializerListDoubleConstructor)
+TEST(CsvGridTest, Row_InitializerListDoubleConstructor)
 {
     double i   = 0;
     Row    row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
-TEST(CsvGridTest, Case40_Row_CopyAssignment)
+TEST(CsvGridTest, Row_CopyAssignment)
 {
     Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     Row rowCopy;
@@ -428,14 +316,14 @@ TEST(CsvGridTest, Case40_Row_CopyAssignment)
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
-TEST(CsvGridTest, Case41_Row_MoveAssignment)
+TEST(CsvGridTest, Row_MoveAssignment)
 {
     Row row;
     row = Row(100);
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(100));
 }
 
-TEST(CsvGridTest, Case42_Row_SubscriptOperator)
+TEST(CsvGridTest, Row_SubscriptOperator)
 {
     Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     EXPECT_EQ(static_cast<int32_t>(row[0]), 1);
@@ -460,7 +348,7 @@ TEST(CsvGridTest, Case42_Row_SubscriptOperator)
     EXPECT_TRUE(exceptionThrown);
 }
 
-TEST(CsvGridTest, Case43_Row_AddColumnAsString)
+TEST(CsvGridTest, Row_AddColumnAsString)
 {
     Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
@@ -469,7 +357,7 @@ TEST(CsvGridTest, Case43_Row_AddColumnAsString)
     EXPECT_EQ(static_cast<std::string>(row[0]), std::string("new entry"));
 }
 
-TEST(CsvGridTest, Case44_Row_AddColumnAsInt32)
+TEST(CsvGridTest, Row_AddColumnAsInt32)
 {
     Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
@@ -478,7 +366,7 @@ TEST(CsvGridTest, Case44_Row_AddColumnAsInt32)
     EXPECT_EQ(static_cast<int32_t>(row[0]), int32_t(100));
 }
 
-TEST(CsvGridTest, Case45_Row_AddColumnAsInt64)
+TEST(CsvGridTest, Row_AddColumnAsInt64)
 {
     Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
@@ -487,7 +375,7 @@ TEST(CsvGridTest, Case45_Row_AddColumnAsInt64)
     EXPECT_EQ(static_cast<int64_t>(row[0]), int64_t(100));
 }
 
-TEST(CsvGridTest, Case46_Row_AddColumnAsDouble)
+TEST(CsvGridTest, Row_AddColumnAsDouble)
 {
     Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
@@ -496,7 +384,7 @@ TEST(CsvGridTest, Case46_Row_AddColumnAsDouble)
     EXPECT_EQ(static_cast<double>(row[0]), double(100.1));
 }
 
-TEST(CsvGridTest, Case47_Row_InsertColumnAsString)
+TEST(CsvGridTest, Row_InsertColumnAsString)
 {
     Row row = {Cell("1"), Cell("2"), Cell("3"), Cell("4"), Cell("5")};
     row.InsertColumn(3, "666");
@@ -515,7 +403,7 @@ TEST(CsvGridTest, Case47_Row_InsertColumnAsString)
         row.InsertColumn(100, "667");
         exceptionThrown = false;
     }
-    catch (xCsvGridColOutOfRangeError& e)
+    catch (std::out_of_range& e)
     {
         (void)e;
         exceptionThrown = true;
@@ -528,7 +416,7 @@ TEST(CsvGridTest, Case47_Row_InsertColumnAsString)
     EXPECT_TRUE(exceptionThrown);
 }
 
-TEST(CsvGridTest, Case48_Row_InsertColumnAsInt32)
+TEST(CsvGridTest, Row_InsertColumnAsInt32)
 {
     Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     row.InsertColumn(3, static_cast<int32_t>(666));
@@ -541,7 +429,7 @@ TEST(CsvGridTest, Case48_Row_InsertColumnAsInt32)
     EXPECT_EQ(static_cast<int32_t>(row[5]), int32_t(5));
 }
 
-TEST(CsvGridTest, Case49_Row_InsertColumnAsInt64)
+TEST(CsvGridTest, Row_InsertColumnAsInt64)
 {
     Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     row.InsertColumn(3, static_cast<int64_t>(666));
@@ -554,7 +442,7 @@ TEST(CsvGridTest, Case49_Row_InsertColumnAsInt64)
     EXPECT_EQ(static_cast<int64_t>(row[5]), int64_t(5));
 }
 
-TEST(CsvGridTest, Case50_Row_InsertColumnAsDouble)
+TEST(CsvGridTest, Row_InsertColumnAsDouble)
 {
     Row row = {Cell(1.1), Cell(2.2), Cell(3.3), Cell(4.4), Cell(5.5)};
     row.InsertColumn(3, static_cast<double>(666.6));
@@ -567,7 +455,7 @@ TEST(CsvGridTest, Case50_Row_InsertColumnAsDouble)
     EXPECT_EQ(static_cast<double>(row[5]), double(5.5));
 }
 
-TEST(CsvGridTest, Case51_Row_ClearCells)
+TEST(CsvGridTest, Row_ClearCells)
 {
     Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
@@ -580,7 +468,7 @@ TEST(CsvGridTest, Case51_Row_ClearCells)
     EXPECT_EQ(static_cast<std::string>(row[4]), std::string(""));
 }
 
-TEST(CsvGridTest, Case52_Row_ResetRow)
+TEST(CsvGridTest, Row_ResetRow)
 {
     Row row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
@@ -588,13 +476,13 @@ TEST(CsvGridTest, Case52_Row_ResetRow)
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
 }
 
-TEST(CsvGridTest, Case53_CsvGrid_DefaultConstructor)
+TEST(CsvGridTest, CsvGrid_DefaultConstructor)
 {
     CsvGrid grid;
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(0));
 }
 
-TEST(CsvGridTest, Case54_CsvGrid_InitializingConstructor_1)
+TEST(CsvGridTest, CsvGrid_InitializingConstructor_1)
 {
     CsvGrid grid(10, 10);
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(10));
@@ -606,7 +494,7 @@ TEST(CsvGridTest, Case54_CsvGrid_InitializingConstructor_1)
     }
 }
 
-TEST(CsvGridTest, Case55_CsvGrid_InitializingConstructor_2)
+TEST(CsvGridTest, CsvGrid_InitializingConstructor_2)
 {
     bool exceptionThrown;
 
@@ -615,7 +503,7 @@ TEST(CsvGridTest, Case55_CsvGrid_InitializingConstructor_2)
         CsvGrid grid(0, 0);
         exceptionThrown = false;
     }
-    catch (xCsvGridDimensionError& e)
+    catch (std::out_of_range& e)
     {
         (void)e;
         exceptionThrown = true;
@@ -628,7 +516,7 @@ TEST(CsvGridTest, Case55_CsvGrid_InitializingConstructor_2)
     EXPECT_TRUE(exceptionThrown);
 }
 
-TEST(CsvGridTest, Case56_CsvGrid_InitializerListConstructor)
+TEST(CsvGridTest, CsvGrid_InitializerListConstructor)
 {
     Row     row  = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     CsvGrid grid = {row, row, row, row, row};
@@ -642,7 +530,7 @@ TEST(CsvGridTest, Case56_CsvGrid_InitializerListConstructor)
     }
 }
 
-TEST(CsvGridTest, Case57_CsvGrid_CopyConstructor)
+TEST(CsvGridTest, CsvGrid_CopyConstructor)
 {
     Row     row  = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     CsvGrid grid = {row, row, row, row, row};
@@ -657,7 +545,7 @@ TEST(CsvGridTest, Case57_CsvGrid_CopyConstructor)
     }
 }
 
-TEST(CsvGridTest, Case58_CsvGrid_MoveConstructor)
+TEST(CsvGridTest, CsvGrid_MoveConstructor)
 {
     Row     row = {Cell(1), Cell(2), Cell(3), Cell(4), Cell(5)};
     CsvGrid gridCopy(CsvGrid{row, row, row, row, row});
@@ -671,7 +559,7 @@ TEST(CsvGridTest, Case58_CsvGrid_MoveConstructor)
     }
 }
 
-TEST(CsvGridTest, Case59_CsvGrid_FileConstructor_SimpleCells)
+TEST(CsvGridTest, CsvGrid_FileConstructor_SimpleCells)
 {
     try
     {
@@ -688,7 +576,7 @@ TEST(CsvGridTest, Case59_CsvGrid_FileConstructor_SimpleCells)
     }
 }
 
-TEST(CsvGridTest, Case60_CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130Cells)
+TEST(CsvGridTest, CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130Cells)
 {
     try
     {
@@ -700,7 +588,7 @@ TEST(CsvGridTest, Case60_CsvGrid_FileConstructor_SimpleCells_Benchmark_1000by130
     }
 }
 
-TEST(CsvGridTest, Case61_CsvGrid_FileConstructor_DoubleQuotedCells)
+TEST(CsvGridTest, CsvGrid_FileConstructor_DoubleQuotedCells)
 {
     try
     {
@@ -717,7 +605,7 @@ TEST(CsvGridTest, Case61_CsvGrid_FileConstructor_DoubleQuotedCells)
     }
 }
 
-TEST(CsvGridTest, Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_1000by130Cells)
+TEST(CsvGridTest, CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_1000by130Cells)
 {
     try
     {
@@ -729,7 +617,7 @@ TEST(CsvGridTest, Case62_CsvGrid_FileConstructor_DoubleQuotedCells_Benchmark_100
     }
 }
 
-TEST(CsvGridTest, Case63_CsvGrid_SetColCount)
+TEST(CsvGridTest, CsvGrid_SetColCount)
 {
     CsvGrid grid(10, 10);
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(10));
@@ -769,7 +657,7 @@ TEST(CsvGridTest, Case63_CsvGrid_SetColCount)
     }
 }
 
-TEST(CsvGridTest, Case64_CsvGrid_AddRow)
+TEST(CsvGridTest, CsvGrid_AddRow)
 {
     CsvGrid grid(10, 10);
     grid.AddRow(5);
@@ -791,7 +679,7 @@ TEST(CsvGridTest, Case64_CsvGrid_AddRow)
     }
 }
 
-TEST(CsvGridTest, Case65_CsvGrid_AddColumnToAllRows)
+TEST(CsvGridTest, CsvGrid_AddColumnToAllRows)
 {
     Row     row1 = {Cell(1)};
     Row     row2 = {Cell(1), Cell(2)};
@@ -805,7 +693,7 @@ TEST(CsvGridTest, Case65_CsvGrid_AddColumnToAllRows)
     EXPECT_EQ(grid[2].GetSize(), static_cast<size_t>(4));
 }
 
-TEST(CsvGridTest, Case66_CsvGrid_InsertRow)
+TEST(CsvGridTest, CsvGrid_InsertRow)
 {
     Row     row1 = {Cell(1)};
     Row     row2 = {Cell(1), Cell(2)};
@@ -839,7 +727,7 @@ TEST(CsvGridTest, Case66_CsvGrid_InsertRow)
         grid.InsertRow(100);
         correctException = false;
     }
-    catch (xCsvGridRowOutOfRangeError& e)
+    catch (std::out_of_range& e)
     {
         (void)e;
         correctException = true;
@@ -852,7 +740,7 @@ TEST(CsvGridTest, Case66_CsvGrid_InsertRow)
     EXPECT_TRUE(correctException);
 }
 
-TEST(CsvGridTest, Case67_CsvGrid_InsertColumnInAllRows)
+TEST(CsvGridTest, CsvGrid_InsertColumnInAllRows)
 {
     Row     row1 = {Cell(1), Cell(2)};
     Row     row2 = {Cell(1), Cell(2), Cell(3)};
@@ -898,7 +786,7 @@ TEST(CsvGridTest, Case67_CsvGrid_InsertColumnInAllRows)
     }
 }
 
-TEST(CsvGridTest, Case68_CsvGrid_ClearCells)
+TEST(CsvGridTest, CsvGrid_ClearCells)
 {
     Row     row1 = {Cell(1), Cell(2)};
     Row     row2 = {Cell(1), Cell(2), Cell(3)};
@@ -928,7 +816,7 @@ TEST(CsvGridTest, Case68_CsvGrid_ClearCells)
     }
 }
 
-TEST(CsvGridTest, Case69_CsvGrid_ResetGrid)
+TEST(CsvGridTest, CsvGrid_ResetGrid)
 {
     Row     row1 = {Cell(1), Cell(2)};
     Row     row2 = {Cell(1), Cell(2), Cell(3)};
@@ -940,7 +828,7 @@ TEST(CsvGridTest, Case69_CsvGrid_ResetGrid)
     EXPECT_EQ(grid.GetRowCount(), static_cast<size_t>(0));
 }
 
-TEST(CsvGridTest, Case70_CsvGrid_LoadFromCSVFile_1)
+TEST(CsvGridTest, CsvGrid_LoadFromCSVFile_1)
 {
     CsvGrid grid;
     bool    correctException;
@@ -950,7 +838,7 @@ TEST(CsvGridTest, Case70_CsvGrid_LoadFromCSVFile_1)
         grid.LoadFromCSVFile("dummyfile.csv", eCellFormatOptions::simpleCells);
         correctException = false;
     }
-    catch (xCsvGridCreateFileStreamError& e)
+    catch (std::runtime_error& e)
     {
         (void)e;
         correctException = true;
@@ -963,7 +851,7 @@ TEST(CsvGridTest, Case70_CsvGrid_LoadFromCSVFile_1)
     EXPECT_TRUE(correctException);
 }
 
-TEST(CsvGridTest, Case71_CsvGrid_LoadFromCSVFile_2)
+TEST(CsvGridTest, CsvGrid_LoadFromCSVFile_2)
 {
     CsvGrid grid;
     try
@@ -981,7 +869,7 @@ TEST(CsvGridTest, Case71_CsvGrid_LoadFromCSVFile_2)
     }
 }
 
-TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
+TEST(CsvGridTest, CsvGrid_LoadFromCSVFile_3)
 {
     Row     row1 = {Cell(1), Cell(2)};
     Row     row2 = {Cell(1), Cell(2), Cell(3)};
@@ -1014,7 +902,7 @@ TEST(CsvGridTest, Case72_CsvGrid_LoadFromCSVFile_3)
     }
 }
 
-TEST(CsvGridTest, Case73_CsvGrid_SaveToCSVFile_1)
+TEST(CsvGridTest, CsvGrid_SaveToCSVFile_1)
 {
     Row     row1    = {Cell(1), Cell(2)};
     Row     row2    = {Cell(1), Cell(2), Cell(3)};
@@ -1056,7 +944,7 @@ TEST(CsvGridTest, Case73_CsvGrid_SaveToCSVFile_1)
     }
 }
 
-TEST(CsvGridTest, Case74_CsvGrid_SaveToCSVFile_2)
+TEST(CsvGridTest, CsvGrid_SaveToCSVFile_2)
 {
     Row     row1    = {Cell(1), Cell(2)};
     Row     row2    = {Cell("1,/nbum"), Cell("2"), Cell("3")};
@@ -1098,7 +986,7 @@ TEST(CsvGridTest, Case74_CsvGrid_SaveToCSVFile_2)
     }
 }
 
-TEST(CsvGridTest, Case76_Cell_LongDoubleConstructor)
+TEST(CsvGridTest, Cell_LongDoubleConstructor)
 {
     long double value1 = 1000000000.0L;
     Cell        cell(value1);
@@ -1106,7 +994,7 @@ TEST(CsvGridTest, Case76_Cell_LongDoubleConstructor)
     EXPECT_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case77_Cell_LongDoubleAssignment)
+TEST(CsvGridTest, Cell_LongDoubleAssignment)
 {
     Cell        cell;
     long double value1 = 1000000000.0L;
@@ -1115,7 +1003,7 @@ TEST(CsvGridTest, Case77_Cell_LongDoubleAssignment)
     EXPECT_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case78_Cell_LongDoubleConvertException)
+TEST(CsvGridTest, Cell_LongDoubleConvertException)
 {
     bool correctException;
 
@@ -1139,7 +1027,7 @@ TEST(CsvGridTest, Case78_Cell_LongDoubleConvertException)
     EXPECT_TRUE(correctException);
 }
 
-TEST(CsvGridTest, Case79_Cell_LongToDoubleDef_1)
+TEST(CsvGridTest, Cell_LongToDoubleDef_1)
 {
     Cell              cell("I'm not a number I'm a free man!");
     const long double testValue = std::numeric_limits<long double>::max() / 2;
@@ -1147,7 +1035,7 @@ TEST(CsvGridTest, Case79_Cell_LongToDoubleDef_1)
     EXPECT_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case80_Cell_LongToDoubleDef_2)
+TEST(CsvGridTest, Cell_LongToDoubleDef_2)
 {
     const long double testValue = std::numeric_limits<long double>::max() / 2;
     Cell              cell(testValue);
@@ -1155,14 +1043,14 @@ TEST(CsvGridTest, Case80_Cell_LongToDoubleDef_2)
     EXPECT_EQ(value, testValue);
 }
 
-TEST(CsvGridTest, Case81_Row_InitializerListLongDoubleConstructor)
+TEST(CsvGridTest, Row_InitializerListLongDoubleConstructor)
 {
     long double i   = 0;
     Row         row = {Cell(i), Cell(i), Cell(i), Cell(i), Cell(i)};
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(5));
 }
 
-TEST(CsvGridTest, Case82_Row_AddColumnAsLongDouble)
+TEST(CsvGridTest, Row_AddColumnAsLongDouble)
 {
     Row row;
     EXPECT_EQ(row.GetSize(), static_cast<size_t>(0));
@@ -1171,7 +1059,7 @@ TEST(CsvGridTest, Case82_Row_AddColumnAsLongDouble)
     EXPECT_EQ(static_cast<long double>(row[0]), 100.1L);
 }
 
-TEST(CsvGridTest, Case83_Row_InsertColumnAsLongDouble)
+TEST(CsvGridTest, Row_InsertColumnAsLongDouble)
 {
     Row row = {Cell(1.1L), Cell(2.2L), Cell(3.3L), Cell(4.4L), Cell(5.5L)};
     row.InsertColumn(3, 666.6L);
@@ -1184,14 +1072,14 @@ TEST(CsvGridTest, Case83_Row_InsertColumnAsLongDouble)
     EXPECT_EQ(static_cast<long double>(row[5]), 5.5L);
 }
 
-TEST(CsvGridTest, Case84_CellDouble_DefaultConstructor)
+TEST(CsvGridTest, CellDouble_DefaultConstructor)
 {
     CellDouble cell;
     double     value = cell;
     EXPECT_DOUBLE_EQ(value, 0.0);
 }
 
-TEST(CsvGridTest, Case85_CellDouble_DoubleConstructor)
+TEST(CsvGridTest, CellDouble_DoubleConstructor)
 {
     double     value1 = std::numeric_limits<double>::max() / 2;
     CellDouble cell(value1);
@@ -1199,7 +1087,7 @@ TEST(CsvGridTest, Case85_CellDouble_DoubleConstructor)
     EXPECT_DOUBLE_EQ(value1, value2);
 }
 
-TEST(CsvGridTest, Case86_CellDouble_CopyConstructor)
+TEST(CsvGridTest, CellDouble_CopyConstructor)
 {
     CellDouble cell(666.6);
     CellDouble cellCopy(cell);
@@ -1208,14 +1096,14 @@ TEST(CsvGridTest, Case86_CellDouble_CopyConstructor)
     EXPECT_DOUBLE_EQ(value, valueCopy);
 }
 
-TEST(CsvGridTest, Case87_CellDouble_MoveConstructor)
+TEST(CsvGridTest, CellDouble_MoveConstructor)
 {
     CellDouble cell(CellDouble(666.6));
     double     value = cell;
     EXPECT_DOUBLE_EQ(value, 666.6);
 }
 
-TEST(CsvGridTest, Case88_CellDouble_CopyAssignment)
+TEST(CsvGridTest, CellDouble_CopyAssignment)
 {
     CellDouble cell(666.6);
     CellDouble cellCopy;
@@ -1225,7 +1113,7 @@ TEST(CsvGridTest, Case88_CellDouble_CopyAssignment)
     EXPECT_DOUBLE_EQ(value, valueCopy);
 }
 
-TEST(CsvGridTest, Case89_CellDouble_MoveAssignment)
+TEST(CsvGridTest, CellDouble_MoveAssignment)
 {
     CellDouble cell;
     cell         = CellDouble(666.6);
@@ -1233,7 +1121,7 @@ TEST(CsvGridTest, Case89_CellDouble_MoveAssignment)
     EXPECT_DOUBLE_EQ(value, 666.6);
 }
 
-TEST(CsvGridTest, Case90_CellDouble_DoubleAssignment_DoubleConversion)
+TEST(CsvGridTest, CellDouble_DoubleAssignment_DoubleConversion)
 {
     CellDouble cell;
     cell         = 666.6;
@@ -1241,14 +1129,14 @@ TEST(CsvGridTest, Case90_CellDouble_DoubleAssignment_DoubleConversion)
     EXPECT_DOUBLE_EQ(value, 666.6);
 }
 
-TEST(CsvGridTest, Case91_CellDouble_StringConversion)
+TEST(CsvGridTest, CellDouble_StringConversion)
 {
     CellDouble  cell(666.6);
     std::string value = cell;
     EXPECT_STREQ(value.c_str(), "666.6");
 }
 
-TEST(CsvGridTest, Case92_CsvGridD_Specialization)
+TEST(CsvGridTest, CsvGridD_Specialization)
 {
     using namespace core_lib::csv_grid;
     CsvGridD grid{{CellDouble(1.1), CellDouble(2.2), CellDouble(3.3)},
@@ -1266,7 +1154,7 @@ TEST(CsvGridTest, Case92_CsvGridD_Specialization)
     EXPECT_DOUBLE_EQ(grid[2][2], 9.9);
 }
 
-TEST(CsvGridTest, Case93_CsvGridD_SaveLoad)
+TEST(CsvGridTest, CsvGridD_SaveLoad)
 {
     using namespace core_lib::csv_grid;
     CsvGridD grid{{CellDouble(1.1), CellDouble(2.2), CellDouble(3.3)},

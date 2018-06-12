@@ -27,8 +27,10 @@
 #include "FileUtils/FileUtils.h"
 #include <algorithm>
 #include <iterator>
+#include <stdexcept>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
+#include <boost/throw_exception.hpp>
 
 namespace bfs = boost::filesystem;
 
@@ -95,19 +97,6 @@ std::wstring FindCommonRootPath(const std::wstring& path1, const std::wstring& p
 }
 
 // ****************************************************************************
-// 'class xCopyDirectoryError' definition
-// ****************************************************************************
-xCopyDirectoryError::xCopyDirectoryError()
-    : exceptions::xCustomException("error copying directory")
-{
-}
-
-xCopyDirectoryError::xCopyDirectoryError(const std::string& message)
-    : exceptions::xCustomException(message)
-{
-}
-
-// ****************************************************************************
 // CopyDirectoryRecursively definition
 // ****************************************************************************
 void CopyDirectoryRecursively(const std::wstring& source, const std::wstring& target,
@@ -117,7 +106,7 @@ void CopyDirectoryRecursively(const std::wstring& source, const std::wstring& ta
         !bfs::is_directory(bfs::absolute(target).parent_path()) ||
         (FindCommonRootPath(source, target) == source))
     {
-        BOOST_THROW_EXCEPTION(xCopyDirectoryError("precondition(s) violated"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("precondition(s) violated"));
     }
 
     bfs::path bfsSource(source);
@@ -128,7 +117,7 @@ void CopyDirectoryRecursively(const std::wstring& source, const std::wstring& ta
     {
         if (options == eCopyDirectoryOptions::failIfTargetExists)
         {
-            BOOST_THROW_EXCEPTION(xCopyDirectoryError("target folder already exists"));
+            BOOST_THROW_EXCEPTION(std::runtime_error("target folder already exists"));
         }
 
         effectiveTarget /= bfsSource.filename();
@@ -136,7 +125,7 @@ void CopyDirectoryRecursively(const std::wstring& source, const std::wstring& ta
 
     if (!bfs::create_directories(effectiveTarget))
     {
-        BOOST_THROW_EXCEPTION(xCopyDirectoryError("failed to create target directory"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("failed to create target directory"));
     }
 
     bfs::directory_iterator dirItr(bfsSource);

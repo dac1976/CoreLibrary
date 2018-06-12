@@ -53,8 +53,8 @@ Cell& Cell::operator=(Cell&& cell)
 }
 #endif
 
-Cell::Cell(const std::string& data)
-    : m_value(data)
+Cell::Cell(const std::string& value)
+    : m_value(value)
 {
 }
 

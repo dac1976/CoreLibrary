@@ -29,7 +29,8 @@
 
 #include <string>
 #include <list>
-#include "Exceptions/CustomException.h"
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -49,7 +50,7 @@ namespace file_utils
 bool CORE_LIBRARY_DLL_SHARED_API FindFileRecursively(const std::wstring& dirPath,
                                                      const std::wstring& fileName,
                                                      std::wstring&       pathFound,
-                                                     const bool          includeFileName = true);
+                                                     bool                includeFileName = true);
 
 /*!
  * \brief Find the common root path of 2 paths.
@@ -61,34 +62,6 @@ bool CORE_LIBRARY_DLL_SHARED_API FindFileRecursively(const std::wstring& dirPath
  */
 std::wstring CORE_LIBRARY_DLL_SHARED_API FindCommonRootPath(const std::wstring& path1,
                                                             const std::wstring& path2);
-
-/*!
- * \brief Copying a directory error exception.
- *
- * This exception class is intended to be thrown by the CopyDirectoryRecursively
- * function to signify that an error has occured.
- */
-class CORE_LIBRARY_DLL_SHARED_API xCopyDirectoryError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xCopyDirectoryError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xCopyDirectoryError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xCopyDirectoryError() override = default;
-    /*! \brief Copy constructor. */
-    xCopyDirectoryError(const xCopyDirectoryError&) = default;
-    /*! \brief Copy assignment operator. */
-    xCopyDirectoryError& operator=(const xCopyDirectoryError&) = default;
-    /*! \brief Move constructor. */
-    xCopyDirectoryError(xCopyDirectoryError&&) = default;
-    /*! \brief Move assignment operator. */
-    xCopyDirectoryError& operator=(xCopyDirectoryError&&) = default;
-};
 
 /*! \brief Copy directory options enumeration. */
 enum class eCopyDirectoryOptions
@@ -114,13 +87,13 @@ enum class eCopyDirectoryOptions
  * 3. The parent of the target path must be a directory.
  * 4. The target path must not be a subdirectory of the source path.
  *
- * Throws xCopyDirectoryError if an error occurs. If target folder
+ * Throws std::runtime_error if an error occurs. If target folder
  * already exists then the source is copied into a folder within
  * the target folder with the same name as the srouce folder.
  */
 void CORE_LIBRARY_DLL_SHARED_API CopyDirectoryRecursively(
     const std::wstring& source, const std::wstring& target,
-    const eCopyDirectoryOptions options = eCopyDirectoryOptions::continueIfTargetExists);
+    eCopyDirectoryOptions options = eCopyDirectoryOptions::continueIfTargetExists);
 
 /*!
  * \brief List of regular files in the specified directory.

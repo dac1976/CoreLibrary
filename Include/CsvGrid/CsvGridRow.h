@@ -31,14 +31,15 @@
 #include <ostream>
 #include <algorithm>
 #include <iterator>
+#include <stdexcept>
 #ifdef USE_EXPLICIT_MOVE_
 #include <utility>
 #endif
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/throw_exception.hpp>
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
-#include "Exceptions/CustomException.h"
 #include "StringUtils/StringUtils.h"
 #include "CsvGridCell.h"
 #include "CsvGridCellDouble.h"
@@ -49,34 +50,6 @@ namespace core_lib
 /*! \brief The csv_grid namespace. */
 namespace csv_grid
 {
-
-/*!
- * \brief Column index out of range exception.
- *
- * This exception class is intended to be thrown by functions in the CsvGrid
- * class and its child classes when an invalid column index is used.
- */
-class CORE_LIBRARY_DLL_SHARED_API xCsvGridColOutOfRangeError : public exceptions::xCustomException
-{
-public:
-    /*! \brief Default constructor. */
-    xCsvGridColOutOfRangeError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xCsvGridColOutOfRangeError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xCsvGridColOutOfRangeError() override = default;
-    /*! \brief Copy constructor. */
-    xCsvGridColOutOfRangeError(const xCsvGridColOutOfRangeError&) = default;
-    /*! \brief Copy assignment operator. */
-    xCsvGridColOutOfRangeError& operator=(const xCsvGridColOutOfRangeError&) = default;
-    /*! \brief Move constructor. */
-    xCsvGridColOutOfRangeError(xCsvGridColOutOfRangeError&&) = default;
-    /*! \brief Move assignment operator. */
-    xCsvGridColOutOfRangeError& operator=(xCsvGridColOutOfRangeError&&) = default;
-};
 
 /*!
  * \brief Cell format options enumeration.
@@ -239,14 +212,14 @@ public:
      * Retrieve the cell at a given column index within a row.
      *
      * \note
-     * If the index is out of bounds a xCsvGridColOutOfRangeError
+     * If the index is out of bounds a std::out_of_range
      * exception is thrown.
      */
     cell_type& operator[](size_t col)
     {
         if (col >= GetSize())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("col out of range"));
         }
 
         return *std::next(m_cells.begin(), col);
@@ -259,14 +232,14 @@ public:
      * Retrieve the cell at a given column index within a row.
      *
      * \note
-     * If the index is out of bounds a xCsvGridColOutOfRangeError
+     * If the index is out of bounds a std::out_of_range
      * exception is thrown.
      */
     const cell_type& operator[](size_t col) const
     {
         if (col >= GetSize())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("col out of range"));
         }
 
         return *std::next(m_cells.begin(), col);
@@ -327,12 +300,16 @@ public:
      *
      * The column count is increased by one and the new cell is initialised
      * with the given string.
+     *
+     * \note
+     * If the index is out of bounds a std::out_of_range
+     * exception is thrown.
      */
     template <typename V> void InsertColumn(size_t col, V value)
     {
         if (col >= GetSize())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("col out of range"));
         }
 
         m_cells.emplace(std::next(m_cells.begin(), col), value);
@@ -343,12 +320,16 @@ public:
      *
      * The column count is increased by one and the new cell is initialised
      * with the default cell constructor.
+     *
+     * \note
+     * If the index is out of bounds a std::out_of_range
+     * exception is thrown.
      */
     void InsertColumn(size_t col)
     {
         if (col >= GetSize())
         {
-            BOOST_THROW_EXCEPTION(xCsvGridColOutOfRangeError());
+            BOOST_THROW_EXCEPTION(std::out_of_range("col out of range"));
         }
 
         m_cells.emplace(std::next(m_cells.begin(), col));
@@ -375,10 +356,6 @@ public:
     }
 
 private:
-    /*!  \brief The reservation function to use when initialising the container. */
-    reserver::ContainerReserver<C, T> m_reserve;
-    /*!  \brief The row's cells. */
-    container_type m_cells;
     /*!
      * \brief Load a row from a line in a CSV file.
      * \param[in] line - The line from the CSV file.
@@ -408,7 +385,7 @@ private:
     void OutputRowToStream(std::ostream& os) const
     {
         // for each row loop over its columns...
-        size_t col{};
+        size_t col = 0;
 
         for (const auto& cellItem : m_cells)
         {
@@ -428,9 +405,10 @@ private:
             // if cell contains ',', '\n' or '\r' wrap it in quotes...
             if (cell.find_first_of(",\r\n") != std::string::npos)
             {
-                cell.append("\"");
-                cell.append(cell);
-                cell.append("\"");
+                std::string temp = "\"";
+                temp.append(cell);
+                temp.append("\"");
+                cell.swap(temp);
             }
 
             // output corrected cell...
@@ -484,6 +462,12 @@ private:
             m_cells.emplace_back(tok);
         }
     }
+
+private:
+    /*!  \brief The reservation function to use when initialising the container. */
+    reserver::ContainerReserver<C, T> m_reserve{};
+    /*!  \brief The row's cells. */
+    container_type m_cells{};
 };
 
 } // namespace csv_grid

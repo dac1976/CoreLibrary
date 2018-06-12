@@ -22,8 +22,8 @@
 #include "Asio/MulticastTypedSender.h"
 #include "Asio/SimpleMulticastReceiver.h"
 #include "Asio/SimpleMulticastSender.h"
-#include "cereal/types/string.hpp"
-#include "cereal/types/vector.hpp"
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
 
 #include "gtest/gtest.h"
 

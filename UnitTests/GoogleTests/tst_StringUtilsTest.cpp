@@ -5,7 +5,7 @@
 
 #include "gtest/gtest.h"
 
-TEST(StringUtilsTest, Case1_PackStdString)
+TEST(StringUtilsTest, PackStdString)
 {
     const std::string comparator = "I am a test string.";
     std::string       testString = "I am a test string. I am a test string.";
@@ -17,63 +17,7 @@ TEST(StringUtilsTest, Case1_PackStdString)
     EXPECT_EQ(comparator, testString);
 }
 
-TEST(StringUtilsTest, Case2_xSplitStringBadDelim_1)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(std::invalid_argument());
-    }
-    catch (std::invalid_argument& e)
-    {
-        EXPECT_STREQ(e.what(), "split string bad delimiter");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(StringUtilsTest, Case3_xSplitStringBadDelim_2)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(std::invalid_argument("user defined message"));
-    }
-    catch (std::invalid_argument& e)
-    {
-        EXPECT_STREQ(e.what(), "user defined message");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(StringUtilsTest, Case4_xSplitStringTooManySubstrings_1)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error());
-    }
-    catch (std::runtime_error& e)
-    {
-        EXPECT_STREQ(e.what(), "too many substrings");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(StringUtilsTest, Case5_xSplitStringTooManySubstrings_2)
-{
-    try
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error("user defined message"));
-    }
-    catch (std::runtime_error& e)
-    {
-        EXPECT_STREQ(e.what(), "user defined message");
-        std::string info = boost::diagnostic_information(e);
-        EXPECT_TRUE(info != "");
-    }
-}
-
-TEST(StringUtilsTest, Case6_SplitString_1)
+TEST(StringUtilsTest, SplitString_1)
 {
     bool exceptionThrown;
 
@@ -98,7 +42,7 @@ TEST(StringUtilsTest, Case6_SplitString_1)
     EXPECT_TRUE(exceptionThrown);
 }
 
-TEST(StringUtilsTest, Case7_SplitString_2)
+TEST(StringUtilsTest, SplitString_2)
 {
     bool exceptionThrown;
 
@@ -123,7 +67,7 @@ TEST(StringUtilsTest, Case7_SplitString_2)
     EXPECT_TRUE(exceptionThrown);
 }
 
-TEST(StringUtilsTest, Case8_SplitString_3)
+TEST(StringUtilsTest, SplitString_3)
 {
     bool exceptionThrown;
 
@@ -145,7 +89,7 @@ TEST(StringUtilsTest, Case8_SplitString_3)
     EXPECT_TRUE(!exceptionThrown);
 }
 
-TEST(StringUtilsTest, Case9_SplitString_4)
+TEST(StringUtilsTest, SplitString_4)
 {
     bool exceptionThrown;
 
@@ -167,7 +111,7 @@ TEST(StringUtilsTest, Case9_SplitString_4)
     EXPECT_TRUE(!exceptionThrown);
 }
 
-TEST(StringUtilsTest, Case10_FormatFloatString_1)
+TEST(StringUtilsTest, FormatFloatString_1)
 {
     float       value  = 1234.123f;
     std::string result = core_lib::string_utils::FormatFloatString(
@@ -176,7 +120,7 @@ TEST(StringUtilsTest, Case10_FormatFloatString_1)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1234.123");
 }
 
-TEST(StringUtilsTest, Case11_FormatFloatString_2)
+TEST(StringUtilsTest, FormatFloatString_2)
 {
     float       value  = 1234.123f;
     std::string result = core_lib::string_utils::FormatFloatString(
@@ -185,7 +129,7 @@ TEST(StringUtilsTest, Case11_FormatFloatString_2)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1234.123");
 }
 
-TEST(StringUtilsTest, Case12_FormatFloatString_3)
+TEST(StringUtilsTest, FormatFloatString_3)
 {
     float       value  = 1234.123f;
     std::string result = core_lib::string_utils::FormatFloatString(
@@ -202,7 +146,7 @@ TEST(StringUtilsTest, Case12_FormatFloatString_3)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1.234123");
 }
 
-TEST(StringUtilsTest, Case13_FormatFloatString_4)
+TEST(StringUtilsTest, FormatFloatString_4)
 {
     double      value  = 1234.123;
     std::string result = core_lib::string_utils::FormatFloatString(
@@ -211,7 +155,7 @@ TEST(StringUtilsTest, Case13_FormatFloatString_4)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1234.123");
 }
 
-TEST(StringUtilsTest, Case14_FormatFloatString_5)
+TEST(StringUtilsTest, FormatFloatString_5)
 {
     double      value  = 1234.123;
     std::string result = core_lib::string_utils::FormatFloatString(
@@ -220,7 +164,7 @@ TEST(StringUtilsTest, Case14_FormatFloatString_5)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1234.123");
 }
 
-TEST(StringUtilsTest, Case15_FormatFloatString_6)
+TEST(StringUtilsTest, FormatFloatString_6)
 {
     double      value  = 1234.123;
     std::string result = core_lib::string_utils::FormatFloatString(
@@ -237,7 +181,7 @@ TEST(StringUtilsTest, Case15_FormatFloatString_6)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1.234123");
 }
 
-TEST(StringUtilsTest, Case16_FormatFloatString_rvalue)
+TEST(StringUtilsTest, FormatFloatString_rvalue)
 {
     std::string result = core_lib::string_utils::FormatFloatString(
         1234.123, 15, core_lib::string_utils::eFloatStringFormat::normal);
@@ -245,7 +189,7 @@ TEST(StringUtilsTest, Case16_FormatFloatString_rvalue)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1234.123");
 }
 
-TEST(StringUtilsTest, Case17_RemoveIllegalChars_Wide)
+TEST(StringUtilsTest, RemoveIllegalChars_Wide)
 {
     std::wstring source = L"+I\\contain| bad* chars\" that<need>: to be#removed% and{replaced} "
                           L"with a safe&char/ for file? names~";
@@ -255,7 +199,7 @@ TEST(StringUtilsTest, Case17_RemoveIllegalChars_Wide)
     EXPECT_EQ(result, check);
 }
 
-TEST(StringUtilsTest, Case18_RemoveIllegalChars_Narrow)
+TEST(StringUtilsTest, RemoveIllegalChars_Narrow)
 {
     std::string source = "+I\\contain| bad* chars\" that<need>: to be#removed% and{replaced} "
                          "with a safe&char/ for file? names~";
@@ -265,7 +209,7 @@ TEST(StringUtilsTest, Case18_RemoveIllegalChars_Narrow)
     EXPECT_EQ(result, check);
 }
 
-TEST(StringUtilsTest, Case19_StringConversion)
+TEST(StringUtilsTest, StringConversion)
 {
     std::string  narrow     = "I am a test string";
     std::wstring wide       = L"I am a test string";
