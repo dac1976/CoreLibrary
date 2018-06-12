@@ -24,10 +24,10 @@
  * \brief File containing definitions relating the CellDouble class.
  */
 
+#include "CsvGrid/CsvGridCellDouble.h"
 #ifdef USE_EXPLICIT_MOVE_
 #include <utility>
 #endif
-#include "CsvGrid/CsvGridCellDouble.h"
 #include "StringUtils/StringUtils.h"
 
 namespace core_lib
@@ -52,7 +52,7 @@ CellDouble& CellDouble::operator=(CellDouble&& cell)
 }
 #endif
 
-CellDouble::CellDouble(const double value)
+CellDouble::CellDouble(double value)
     : m_value(value)
 {
 }
@@ -62,7 +62,7 @@ CellDouble::CellDouble(const std::string& value)
 {
 }
 
-CellDouble& CellDouble::operator=(const double rhs)
+CellDouble& CellDouble::operator=(double rhs)
 {
     m_value = rhs;
     return *this;

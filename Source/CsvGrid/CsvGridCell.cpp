@@ -24,11 +24,11 @@
  * \brief File containing definitions relating the Cell class.
  */
 
+#include "CsvGrid/CsvGridCell.h"
 #ifdef USE_EXPLICIT_MOVE_
 #include <utility>
 #endif
 #include <boost/algorithm/string/trim.hpp>
-#include "CsvGrid/CsvGridCell.h"
 #include "StringUtils/StringUtils.h"
 
 namespace core_lib
@@ -58,27 +58,27 @@ Cell::Cell(const std::string& data)
 {
 }
 
-Cell::Cell(const int32_t value)
+Cell::Cell(int32_t value)
     : m_value(std::to_string(value))
 {
 }
 
-Cell::Cell(const int64_t value)
+Cell::Cell(int64_t value)
     : m_value(std::to_string(value))
 {
 }
 
-Cell::Cell(const float value)
+Cell::Cell(float value)
     : m_value(string_utils::FormatFloatString(value))
 {
 }
 
-Cell::Cell(const double value)
+Cell::Cell(double value)
     : m_value(string_utils::FormatFloatString(value))
 {
 }
 
-Cell::Cell(const long double value)
+Cell::Cell(long double value)
     : m_value(string_utils::FormatFloatString(value, 30))
 {
 }
@@ -89,31 +89,31 @@ Cell& Cell::operator=(const std::string& rhs)
     return *this;
 }
 
-Cell& Cell::operator=(const int32_t rhs)
+Cell& Cell::operator=(int32_t rhs)
 {
     m_value = std::to_string(rhs);
     return *this;
 }
 
-Cell& Cell::operator=(const int64_t rhs)
+Cell& Cell::operator=(int64_t rhs)
 {
     m_value = std::to_string(rhs);
     return *this;
 }
 
-Cell& Cell::operator=(const float rhs)
+Cell& Cell::operator=(float rhs)
 {
     m_value = string_utils::FormatFloatString(rhs);
     return *this;
 }
 
-Cell& Cell::operator=(const double rhs)
+Cell& Cell::operator=(double rhs)
 {
     m_value = string_utils::FormatFloatString(rhs);
     return *this;
 }
 
-Cell& Cell::operator=(const long double rhs)
+Cell& Cell::operator=(long double rhs)
 {
     m_value = string_utils::FormatFloatString(rhs, 30);
     return *this;
@@ -154,7 +154,7 @@ Cell::operator long double() const
     return std::stold(boost::trim_copy(m_value));
 }
 
-int32_t Cell::ToInt32Def(const int32_t defval) const NO_EXCEPT_
+int32_t Cell::ToInt32Def(int32_t defval) const NO_EXCEPT_
 {
     int32_t val;
 
@@ -170,7 +170,7 @@ int32_t Cell::ToInt32Def(const int32_t defval) const NO_EXCEPT_
     return val;
 }
 
-int64_t Cell::ToInt64Def(const int64_t defval) const NO_EXCEPT_
+int64_t Cell::ToInt64Def(int64_t defval) const NO_EXCEPT_
 {
     int64_t val;
 
@@ -186,7 +186,7 @@ int64_t Cell::ToInt64Def(const int64_t defval) const NO_EXCEPT_
     return val;
 }
 
-float Cell::ToFloatDef(const float defval) const NO_EXCEPT_
+float Cell::ToFloatDef(float defval) const NO_EXCEPT_
 {
     float val;
 
@@ -202,7 +202,7 @@ float Cell::ToFloatDef(const float defval) const NO_EXCEPT_
     return val;
 }
 
-double Cell::ToDoubleDef(const double defval) const NO_EXCEPT_
+double Cell::ToDoubleDef(double defval) const NO_EXCEPT_
 {
     double val;
 
@@ -218,7 +218,7 @@ double Cell::ToDoubleDef(const double defval) const NO_EXCEPT_
     return val;
 }
 
-long double Cell::ToLongDoubleDef(const long double defval) const NO_EXCEPT_
+long double Cell::ToLongDoubleDef(long double defval) const NO_EXCEPT_
 {
     long double val;
 

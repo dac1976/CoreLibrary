@@ -27,9 +27,9 @@
 #ifndef CSVGRIDCELLDOUBLE
 #define CSVGRIDCELLDOUBLE
 
+#include <string>
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
-#include <string>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -66,7 +66,7 @@ public:
      *
      * Initialise the cell with a double.
      */
-    explicit CellDouble(const double value);
+    explicit CellDouble(double value);
     /*!
      * \brief Initializing constructor
      * \param[in] value - The initial value.
@@ -92,7 +92,7 @@ public:
      *
      * Assign to a double precision floating point value.
      */
-    CellDouble& operator=(const double rhs);
+    CellDouble& operator=(double rhs);
     /*!
      * \brief Value assignment operator.
      * \param[in] rhs - The value to assign.

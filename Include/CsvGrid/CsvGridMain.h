@@ -27,15 +27,14 @@
 #ifndef CSVGRIDMAIN
 #define CSVGRIDMAIN
 
-#include "CoreLibraryDllGlobal.h"
-#include "Platform/PlatformDefines.h"
-
 #include <fstream>
 #include <limits>
 #include <cmath>
 #ifdef USE_EXPLICIT_MOVE_
 #include <utility>
 #endif
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 #include "CsvGridRow.h"
 
 /*! \brief The core_lib namespace. */
@@ -173,9 +172,9 @@ template <template <class, class> class C, class T = Cell> class TCsvGrid final
 {
 public:
     /*! \brief typedef for row type */
-    typedef TRow<C, T> row_type;
+    using row_type = TRow<C, T>;
     /*! \brief typedef for container type */
-    typedef C<row_type, std::allocator<row_type>> container_type;
+    using container_type = C<row_type, std::allocator<row_type>>;
     /*! \brief Default constructor. */
     TCsvGrid() = default;
     /*! \brief Copy constructor. */
@@ -199,7 +198,7 @@ public:
      * columns. If rows or columns are 0 then xCsvGridDimensionError exception
      * is thrown.
      */
-    TCsvGrid(const size_t rows, const size_t cols)
+    TCsvGrid(size_t rows, size_t cols)
     {
         if ((rows == 0) || (cols == 0))
         {
@@ -218,7 +217,7 @@ public:
      * options = simpleCells. Throw a xCsvGridCreateFileStreamError exceptions
      * if the file cannot be loaded.
      */
-    TCsvGrid(const std::string& filename, const eCellFormatOptions options)
+    TCsvGrid(const std::string& filename, eCellFormatOptions options)
     {
         LoadFromCSVFile(filename, options);
     }
@@ -257,7 +256,7 @@ public:
      *
      * \note If the index is out of bounds a xCsvGridRowOutOfRangeError exception is thrown.
      */
-    row_type& operator[](const size_t row)
+    row_type& operator[](size_t row)
     {
         if (row >= GetRowCount())
         {
@@ -275,7 +274,7 @@ public:
      *
      * \note If the index is out of bounds a xCsvGridRowOutOfRangeError exception is thrown.
      */
-    const row_type& operator[](const size_t row) const
+    const row_type& operator[](size_t row) const
     {
         if (row >= GetRowCount())
         {
@@ -309,7 +308,7 @@ public:
      * If the index is out of bounds a xCsvGridRowOutOfRangeError
      * exception is thrown.
      */
-    size_t GetColCount(const size_t row) const
+    size_t GetColCount(size_t row) const
     {
         if (row >= GetRowCount())
         {
@@ -326,7 +325,7 @@ public:
      *
      * Resize the grid, adding or dropping rows as necessary.
      */
-    void SetRowCount(const size_t rows, const size_t defaultCols = 0)
+    void SetRowCount(size_t rows, size_t defaultCols = 0)
     {
         m_grid.resize(rows, row_type(defaultCols));
     }
@@ -336,7 +335,7 @@ public:
      *
      * Resize the grid, adding a new row with the given number of cells.
      */
-    void AddRow(const size_t cols = 0)
+    void AddRow(size_t cols = 0)
     {
         m_grid.emplace_back(cols);
     }
@@ -361,7 +360,7 @@ public:
      * Insert a new row at a given row index in the grid. If the row index is
      * out of range a xCsvGridRowOutOfRangeError exception is thrown.
      */
-    void InsertRow(const size_t row, const size_t defaultCols = 0)
+    void InsertRow(size_t row, size_t defaultCols = 0)
     {
         if (row >= GetRowCount())
         {
@@ -378,7 +377,7 @@ public:
      * the row in the grid otherwise a column is not added to the row.
      */
     // cppcheck-suppress functionConst
-    void InsertColumnInAllRows(const size_t col)
+    void InsertColumnInAllRows(size_t col)
     {
         for (auto& row : m_grid)
         {
@@ -423,9 +422,9 @@ public:
      * options = simpleCells. If the file stream cannot be created or opened
      * the a xCsvGridCreateFileStreamError exception is thrown.
      */
-    void LoadFromCSVFile(const std::string& filename, const eCellFormatOptions options,
-                         const size_t firstRowToLoad   = 0,
-                         const size_t maxNumRowsToLoad = std::numeric_limits<size_t>::max())
+    void LoadFromCSVFile(const std::string& filename, eCellFormatOptions options,
+                         size_t firstRowToLoad   = 0,
+                         size_t maxNumRowsToLoad = std::numeric_limits<size_t>::max())
     {
         std::ifstream csvfile{filename.c_str()};
 
@@ -494,8 +493,8 @@ public:
      * be created or opened the a xCsvGridCreateFileStreamError exception
      * is thrown.
      */
-    void SaveToCsvFile(const std::string&       filename,
-                       const eSaveToFileOptions option = eSaveToFileOptions::truncate) const
+    void SaveToCsvFile(const std::string& filename,
+                       eSaveToFileOptions option = eSaveToFileOptions::truncate) const
     {
         std::ofstream csvfile;
 

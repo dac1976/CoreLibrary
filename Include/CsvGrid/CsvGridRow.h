@@ -27,9 +27,6 @@
 #ifndef CSVGRIDROW
 #define CSVGRIDROW
 
-#include "CoreLibraryDllGlobal.h"
-#include "Platform/PlatformDefines.h"
-
 #include <initializer_list>
 #include <ostream>
 #include <algorithm>
@@ -39,6 +36,8 @@
 #endif
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 #include "Exceptions/CustomException.h"
 #include "StringUtils/StringUtils.h"
 #include "CsvGridCell.h"
@@ -110,7 +109,7 @@ template <template <class, class> class C, class T> class ContainerReserver
 {
 public:
     /*! \brief Typedef to container type. */
-    typedef C<T, std::allocator<T>> container_type;
+    using container_type = C<T, std::allocator<T>>;
     /*!
      * \brief Function operator.
      * \param[in] container - Container to reserve space in.
@@ -120,7 +119,7 @@ public:
      * for containers that do not have a built-in reserve
      * method, such as std::list.
      */
-    void operator()(container_type& container, const size_t size) const
+    void operator()(container_type& container, size_t size) const
     {
         (void)container;
         (void)size;
@@ -134,7 +133,7 @@ template <class T> class ContainerReserver<std::vector, T>
 {
 public:
     /*! \brief Typedef to container type. */
-    typedef std::vector<T> container_type;
+    using container_type = std::vector<T>;
     /*!
      * \brief Function operator.
      * \param[in] container - Container to reserve space in.
@@ -143,7 +142,7 @@ public:
      * This version of the functor calls the vector's built-in
      * reserve method.
      */
-    void operator()(container_type& container, const size_t size) const
+    void operator()(container_type& container, size_t size) const
     {
         container.reserve(size);
     }
@@ -165,9 +164,9 @@ template <template <class, class> class C, class T = Cell> class TRow final
 {
 public:
     /*! \brief typedef for container type */
-    typedef C<T, std::allocator<T>> container_type;
+    using container_type = C<T, std::allocator<T>>;
     /*! \brief typedef for container type */
-    typedef T cell_type;
+    using cell_type = T;
     /*! \brief Friend declaration of CsvGrid so it can have private access to its rows. */
     friend class TCsvGrid<C, T>;
     /*! \brief Default constructor. */
@@ -190,7 +189,7 @@ public:
      *
      * Create the row with an initial number of columns.
      */
-    explicit TRow(const size_t numCols)
+    explicit TRow(size_t numCols)
         : m_cells(numCols)
     {
     }
@@ -202,7 +201,7 @@ public:
      * Create the row with an initial value and specify whether cells
      * are wrapped in double quotes in the CSV file.
      */
-    TRow(const std::string& line, const eCellFormatOptions options)
+    TRow(const std::string& line, eCellFormatOptions options)
     {
         LoadRowFromCsvFileLine(line, options);
     }
@@ -243,7 +242,7 @@ public:
      * If the index is out of bounds a xCsvGridColOutOfRangeError
      * exception is thrown.
      */
-    cell_type& operator[](const size_t col)
+    cell_type& operator[](size_t col)
     {
         if (col >= GetSize())
         {
@@ -263,7 +262,7 @@ public:
      * If the index is out of bounds a xCsvGridColOutOfRangeError
      * exception is thrown.
      */
-    const cell_type& operator[](const size_t col) const
+    const cell_type& operator[](size_t col) const
     {
         if (col >= GetSize())
         {
@@ -296,7 +295,7 @@ public:
      * is preserved and new cells are added at the end of the row forming
      * the extra columns.
      */
-    void SetSize(const size_t cols)
+    void SetSize(size_t cols)
     {
         m_cells.resize(cols);
     }
@@ -329,7 +328,7 @@ public:
      * The column count is increased by one and the new cell is initialised
      * with the given string.
      */
-    template <typename V> void InsertColumn(const size_t col, V value)
+    template <typename V> void InsertColumn(size_t col, V value)
     {
         if (col >= GetSize())
         {
@@ -345,7 +344,7 @@ public:
      * The column count is increased by one and the new cell is initialised
      * with the default cell constructor.
      */
-    void InsertColumn(const size_t col)
+    void InsertColumn(size_t col)
     {
         if (col >= GetSize())
         {
@@ -388,7 +387,7 @@ private:
      * Create a row by loading it from a line read in from a CSV file.
      * The options parameter is used to decide how to tokenize the line.
      */
-    void LoadRowFromCsvFileLine(const std::string& line, const eCellFormatOptions options)
+    void LoadRowFromCsvFileLine(const std::string& line, eCellFormatOptions options)
     {
         if (options == eCellFormatOptions::doubleQuotedCells)
         {
@@ -429,7 +428,9 @@ private:
             // if cell contains ',', '\n' or '\r' wrap it in quotes...
             if (cell.find_first_of(",\r\n") != std::string::npos)
             {
-                cell = "\"" + cell + "\"";
+                cell.append("\"");
+                cell.append(cell);
+                cell.append("\"");
             }
 
             // output corrected cell...
@@ -451,9 +452,9 @@ private:
      */
     void TokenizeLineQuoted(const std::string& line)
     {
-        typedef boost::tokenizer<boost::escaped_list_separator<char>> Tokenizer;
-        Tokenizer                                                     tokzr{line};
-        Tokenizer::const_iterator                                     tokIter{tokzr.begin()};
+        using Tokenizer = boost::tokenizer<boost::escaped_list_separator<char>>;
+        Tokenizer                 tokzr{line};
+        Tokenizer::const_iterator tokIter{tokzr.begin()};
 
         while (tokIter != tokzr.end())
         {

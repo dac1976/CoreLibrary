@@ -27,10 +27,10 @@
 #ifndef CSVGRIDCELL
 #define CSVGRIDCELL
 
-#include "CoreLibraryDllGlobal.h"
-#include "Platform/PlatformDefines.h"
 #include <cstdint>
 #include <string>
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -73,35 +73,35 @@ public:
      *
      * Initialise the cell with a 32bit integer value.
      */
-    explicit Cell(const int32_t value);
+    explicit Cell(int32_t value);
     /*!
      * \brief Initializing constructor
      * \param[in] value - The initial value.
      *
      * Initialise the cell with a 64bit integer value.
      */
-    explicit Cell(const int64_t value);
+    explicit Cell(int64_t value);
     /*!
      * \brief Initializing constructor
      * \param[in] value - The initial value.
      *
      * Initialise the cell with a single precision floating point value.
      */
-    explicit Cell(const float value);
+    explicit Cell(float value);
     /*!
      * \brief Initializing constructor
      * \param[in] value - The initial value.
      *
      * Initialise the cell with a double precision floating point value.
      */
-    explicit Cell(const double value);
+    explicit Cell(double value);
     /*!
      * \brief Initializing constructor
      * \param[in] value - The initial value.
      *
      * Initialise the cell with a long double precision floating point value.
      */
-    explicit Cell(const long double value);
+    explicit Cell(long double value);
     /*! \brief Destructor. */
     ~Cell() = default;
     /*! \brief Copy assignment operator. */
@@ -128,7 +128,7 @@ public:
      *
      * Assign to a 32bit integer value.
      */
-    Cell& operator=(const int32_t rhs);
+    Cell& operator=(int32_t rhs);
     /*!
      * \brief Value assignment operator.
      * \param[in] rhs - The value to assign.
@@ -136,7 +136,7 @@ public:
      *
      * Assign to a 64bit integer value.
      */
-    Cell& operator=(const int64_t rhs);
+    Cell& operator=(int64_t rhs);
     /*!
      * \brief Value assignment operator.
      * \param[in] rhs - The value to assign.
@@ -144,7 +144,7 @@ public:
      *
      * Assign to a single precision floating point value.
      */
-    Cell& operator=(const float rhs);
+    Cell& operator=(float rhs);
     /*!
      * \brief Value assignment operator.
      * \param[in] rhs - The value to assign.
@@ -152,7 +152,7 @@ public:
      *
      * Assign to a double precision floating point value.
      */
-    Cell& operator=(const double rhs);
+    Cell& operator=(double rhs);
     /*!
      * \brief Value assignment operator.
      * \param[in] rhs - The value to assign.
@@ -160,7 +160,7 @@ public:
      *
      * Assign to a long double precision floating point value.
      */
-    Cell& operator=(const long double rhs);
+    Cell& operator=(long double rhs);
     /*!
      * \brief Value method.
      * \return Get the underlying std::string value of the Cell.
@@ -231,7 +231,7 @@ public:
      * Convert the cell to a 32bit integer and if this cannot be
      * performed safely return the default value instead.
      */
-    int32_t ToInt32Def(const int32_t defval = 0) const NO_EXCEPT_;
+    int32_t ToInt32Def(int32_t defval = 0) const NO_EXCEPT_;
     /*!
      * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -240,7 +240,7 @@ public:
      * Convert the cell to a 64bit integer and if this cannot be
      * performed safely return the default value instead.
      */
-    int64_t ToInt64Def(const int64_t defval = 0) const NO_EXCEPT_;
+    int64_t ToInt64Def(int64_t defval = 0) const NO_EXCEPT_;
     /*!
      * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -249,7 +249,7 @@ public:
      * Convert the cell to a float and if this cannot be performed
      * safely return the default value instead.
      */
-    float ToFloatDef(const float defval = 0.0f) const NO_EXCEPT_;
+    float ToFloatDef(float defval = 0.0f) const NO_EXCEPT_;
     /*!
      * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -258,7 +258,7 @@ public:
      * Convert the cell to a double and if this cannot be performed
      * safely return the default value instead.
      */
-    double ToDoubleDef(const double defval = 0.0) const NO_EXCEPT_;
+    double ToDoubleDef(double defval = 0.0) const NO_EXCEPT_;
     /*!
      * \brief Conversion function
      * \param[in] defval - The default value to return in case of a failure.
@@ -267,7 +267,7 @@ public:
      * Convert the cell to a long double and if this cannot be performed
      * safely return the default value instead.
      */
-    long double ToLongDoubleDef(const long double defval = 0.0) const NO_EXCEPT_;
+    long double ToLongDoubleDef(long double defval = 0.0L) const NO_EXCEPT_;
 
 private:
     /*! \brief The cell's value data memeber. */

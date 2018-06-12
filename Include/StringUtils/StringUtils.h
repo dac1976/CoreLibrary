@@ -178,7 +178,6 @@ std::string FormatFloatString(const T value, const int precision = 15,
         ss << std::scientific;
         break;
     case eFloatStringFormat::normal:
-    default:
         // do nothing
         break;
     }
