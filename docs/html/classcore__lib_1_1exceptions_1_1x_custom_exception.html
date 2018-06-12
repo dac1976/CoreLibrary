@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -83,7 +83,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1exceptions_1_1x_cust
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classcore__lib_1_1exceptions_1_1x_custom_exception-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">core_lib::exceptions::xCustomException Class Reference</div>  </div>
@@ -100,31 +100,11 @@ Inheritance diagram for core_lib::exceptions::xCustomException:</div>
  <div class="center">
   <img src="classcore__lib_1_1exceptions_1_1x_custom_exception.png" usemap="#core_5Flib::exceptions::xCustomException_map" alt=""/>
   <map id="core_5Flib::exceptions::xCustomException_map" name="core_5Flib::exceptions::xCustomException_map">
-<area href="classcore__lib_1_1asio_1_1messages_1_1x_archive_type_error.html" title="Archive type error. " alt="core_lib::asio::messages::xArchiveTypeError" shape="rect" coords="501,112,825,136"/>
-<area href="classcore__lib_1_1asio_1_1messages_1_1x_magic_string_error.html" title="Magic string error exception. " alt="core_lib::asio::messages::xMagicStringError" shape="rect" coords="501,168,825,192"/>
-<area href="classcore__lib_1_1asio_1_1messages_1_1x_message_deserialization_error.html" title="Message deserialization error exception. " alt="core_lib::asio::messages::xMessageDeserializationError" shape="rect" coords="501,224,825,248"/>
-<area href="classcore__lib_1_1asio_1_1messages_1_1x_message_length_error.html" title="Message length error exception. " alt="core_lib::asio::messages::xMessageLengthError" shape="rect" coords="501,280,825,304"/>
-<area href="classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html" title="Unknown connection exception. " alt="core_lib::asio::tcp::xUnknownConnectionError" shape="rect" coords="501,336,825,360"/>
-<area href="classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html" title="Column index out of range exception. " alt="core_lib::csv_grid::xCsvGridColOutOfRangeError" shape="rect" coords="501,392,825,416"/>
-<area href="classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html" title="File stream creation failure exception. " alt="core_lib::csv_grid::xCsvGridCreateFileStreamError" shape="rect" coords="501,448,825,472"/>
-<area href="classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html" title="Grid dimension exception. " alt="core_lib::csv_grid::xCsvGridDimensionError" shape="rect" coords="501,504,825,528"/>
-<area href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html" title="Row index out of range exception. " alt="core_lib::csv_grid::xCsvGridRowOutOfRangeError" shape="rect" coords="501,560,825,584"/>
-<area href="classcore__lib_1_1file__utils_1_1x_copy_directory_error.html" title="Copying a directory error exception. " alt="core_lib::file_utils::xCopyDirectoryError" shape="rect" coords="501,616,825,640"/>
-<area href="classcore__lib_1_1ini__file_1_1x_ini_file_data_convert_error.html" title="Ini file data conversion exception. " alt="core_lib::ini_file::xIniFileDataConvertError" shape="rect" coords="501,672,825,696"/>
-<area href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_key_error.html" title="Ini file invalid key error. " alt="core_lib::ini_file::xIniFileInvalidKeyError" shape="rect" coords="501,728,825,752"/>
-<area href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_section_error.html" title="Ini file invalid section error. " alt="core_lib::ini_file::xIniFileInvalidSectionError" shape="rect" coords="501,784,825,808"/>
-<area href="classcore__lib_1_1ini__file_1_1x_ini_file_parser_error.html" title="Ini file parser error. " alt="core_lib::ini_file::xIniFileParserError" shape="rect" coords="501,840,825,864"/>
-<area href="classcore__lib_1_1ini__file_1_1x_ini_file_save_error.html" title="Ini file save error. " alt="core_lib::ini_file::xIniFileSaveError" shape="rect" coords="501,896,825,920"/>
-<area href="classcore__lib_1_1log_1_1x_instantiation_error.html" title="Instantiation exception. " alt="core_lib::log::xInstantiationError" shape="rect" coords="501,952,825,976"/>
-<area href="classcore__lib_1_1log_1_1x_log_msg_handler_error.html" title="Message handler exception. " alt="core_lib::log::xLogMsgHandlerError" shape="rect" coords="501,1008,825,1032"/>
-<area href="classcore__lib_1_1sorting_1_1x_bucket_value_out_of_range_error.html" title="Bucket value out of range. " alt="core_lib::sorting::xBucketValueOutOfRangeError" shape="rect" coords="501,1064,825,1088"/>
-<area href="classcore__lib_1_1string__utils_1_1x_split_string_bad_delim.html" title="Split string bad delimiter exception. " alt="core_lib::string_utils::xSplitStringBadDelim" shape="rect" coords="501,1120,825,1144"/>
-<area href="classcore__lib_1_1string__utils_1_1x_split_string_too_many_substrings.html" title="Split string sub-strings exception. " alt="core_lib::string_utils::xSplitStringTooManySubstrings" shape="rect" coords="501,1176,825,1200"/>
-<area href="classcore__lib_1_1threads_1_1x_msg_handler_error.html" title="Message handler exception. " alt="core_lib::threads::xMsgHandlerError" shape="rect" coords="501,1232,825,1256"/>
-<area href="classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html" title="Pop queue empty exception. " alt="core_lib::threads::xQueuePopQueueEmptyError" shape="rect" coords="501,1288,825,1312"/>
-<area href="classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html" title="Pop timeout exception. " alt="core_lib::threads::xQueuePopTimeoutError" shape="rect" coords="501,1344,825,1368"/>
-<area href="classcore__lib_1_1threads_1_1x_thread_group_error.html" title="Thread group error. " alt="core_lib::threads::xThreadGroupError" shape="rect" coords="501,1400,825,1424"/>
-<area href="classcore__lib_1_1threads_1_1x_thread_not_started_error.html" title="Thread not started exception. " alt="core_lib::threads::xThreadNotStartedError" shape="rect" coords="501,1456,825,1480"/>
+<area href="classcore__lib_1_1asio_1_1messages_1_1x_archive_type_error.html" title="Archive type error. " alt="core_lib::asio::messages::xArchiveTypeError" shape="rect" coords="0,112,324,136"/>
+<area href="classcore__lib_1_1asio_1_1messages_1_1x_magic_string_error.html" title="Magic string error exception. " alt="core_lib::asio::messages::xMagicStringError" shape="rect" coords="334,112,658,136"/>
+<area href="classcore__lib_1_1asio_1_1messages_1_1x_message_deserialization_error.html" title="Message deserialization error exception. " alt="core_lib::asio::messages::xMessageDeserializationError" shape="rect" coords="668,112,992,136"/>
+<area href="classcore__lib_1_1asio_1_1messages_1_1x_message_length_error.html" title="Message length error exception. " alt="core_lib::asio::messages::xMessageLengthError" shape="rect" coords="1002,112,1326,136"/>
+<area href="classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html" title="Unknown connection exception. " alt="core_lib::asio::tcp::xUnknownConnectionError" shape="rect" coords="1336,112,1660,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -137,10 +117,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9a0c9210d29d02c06be84c30826e6f9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a9a0c9210d29d02c06be84c30826e6f9f">xCustomException</a> (const std::string &amp;message)</td></tr>
 <tr class="memdesc:a9a0c9210d29d02c06be84c30826e6f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing constructor.  <a href="#a9a0c9210d29d02c06be84c30826e6f9f">More...</a><br /></td></tr>
 <tr class="separator:a9a0c9210d29d02c06be84c30826e6f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d542b5155382212fe47ab7340f5e5be"><td class="memItemLeft" align="right" valign="top"><a id="a9d542b5155382212fe47ab7340f5e5be"></a>
-virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a9d542b5155382212fe47ab7340f5e5be">~xCustomException</a> ()</td></tr>
-<tr class="memdesc:a9d542b5155382212fe47ab7340f5e5be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor. <br /></td></tr>
-<tr class="separator:a9d542b5155382212fe47ab7340f5e5be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cdea8b01c46a2b602c384f243c44e4b"><td class="memItemLeft" align="right" valign="top"><a id="a1cdea8b01c46a2b602c384f243c44e4b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a1cdea8b01c46a2b602c384f243c44e4b">~xCustomException</a> () override=default</td></tr>
+<tr class="memdesc:a1cdea8b01c46a2b602c384f243c44e4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor. <br /></td></tr>
+<tr class="separator:a1cdea8b01c46a2b602c384f243c44e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9646f57376259d45bcdd5e2cc3c406b"><td class="memItemLeft" align="right" valign="top"><a id="ad9646f57376259d45bcdd5e2cc3c406b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#ad9646f57376259d45bcdd5e2cc3c406b">xCustomException</a> (const <a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">xCustomException</a> &amp;)=default</td></tr>
 <tr class="memdesc:ad9646f57376259d45bcdd5e2cc3c406b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. <br /></td></tr>
@@ -149,22 +129,30 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">xCustomException</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a8c6adec2e4ff4e230837750ebc617e00">operator=</a> (const <a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">xCustomException</a> &amp;)=default</td></tr>
 <tr class="memdesc:a8c6adec2e4ff4e230837750ebc617e00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator. <br /></td></tr>
 <tr class="separator:a8c6adec2e4ff4e230837750ebc617e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a770e19f00da127e7e7004dd00823ebef"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a770e19f00da127e7e7004dd00823ebef">what</a> () const <a class="el" href="_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea">NO_EXCEPT_</a> final</td></tr>
-<tr class="memdesc:a770e19f00da127e7e7004dd00823ebef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to get the exception message.  <a href="#a770e19f00da127e7e7004dd00823ebef">More...</a><br /></td></tr>
-<tr class="separator:a770e19f00da127e7e7004dd00823ebef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a693901194ab8207f29cb1586741a00c1"><td class="memItemLeft" align="right" valign="top"><a id="a693901194ab8207f29cb1586741a00c1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a693901194ab8207f29cb1586741a00c1">xCustomException</a> (<a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">xCustomException</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:a693901194ab8207f29cb1586741a00c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
+<tr class="separator:a693901194ab8207f29cb1586741a00c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0057e3e56b29452469e1b8190f60ab9"><td class="memItemLeft" align="right" valign="top"><a id="af0057e3e56b29452469e1b8190f60ab9"></a>
+<a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">xCustomException</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#af0057e3e56b29452469e1b8190f60ab9">operator=</a> (<a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">xCustomException</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:af0057e3e56b29452469e1b8190f60ab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator. <br /></td></tr>
+<tr class="separator:af0057e3e56b29452469e1b8190f60ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac43d286b052a2601537cbd036bcae79"><td class="memItemLeft" align="right" valign="top"><a id="aac43d286b052a2601537cbd036bcae79"></a>
+char const  *&#160;</td><td class="memItemRight" valign="bottom"><b>what</b> () const <a class="el" href="_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea">NO_EXCEPT_</a> override</td></tr>
+<tr class="separator:aac43d286b052a2601537cbd036bcae79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a21b6cdf8656822d46f74a725b31025d2"><td class="memItemLeft" align="right" valign="top"><a id="a21b6cdf8656822d46f74a725b31025d2"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a21b6cdf8656822d46f74a725b31025d2">m_message</a></td></tr>
-<tr class="memdesc:a21b6cdf8656822d46f74a725b31025d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The exception message. <br /></td></tr>
-<tr class="separator:a21b6cdf8656822d46f74a725b31025d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a87da376be855ccc7b20652149f72c1b4"><td class="memItemLeft" align="right" valign="top"><a id="a87da376be855ccc7b20652149f72c1b4"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>m_what</b></td></tr>
+<tr class="separator:a87da376be855ccc7b20652149f72c1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Exception base class from which to define custom exceptions. </p>
-<p>This class inherits virtually from std::exception and most importantly boost::exception. Inheriting from the latter ensures that we can get extended information when exceptions are thrown using the boost macro BOOST_THROW_EXCEPTION. The extended information contains line, function and file information of where the exception was thrown, as well as providing access to the <a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a770e19f00da127e7e7004dd00823ebef" title="Function to get the exception message. ">what()</a> message.</p>
+<p>This class inherits virtually from std::exception and most importantly boost::exception. Inheriting from the latter ensures that we can get extended information when exceptions are thrown using the boost macro BOOST_THROW_EXCEPTION. The extended information contains line, function and file information of where the exception was thrown, as well as providing access to the what() message.</p>
 <p>To access extended info do the following:</p>
-<div class="fragment"><div class="line"><span class="keywordflow">try</span></div><div class="line">{</div><div class="line">   <span class="comment">// something throws a n exception derived from</span></div><div class="line">   <span class="comment">// core_lib::exceptions::xCustomException</span></div><div class="line">}</div><div class="line"><span class="keywordflow">catch</span>(<a class="code" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">core_lib::exceptions::xCustomException</a>&amp; e)</div><div class="line">{</div><div class="line">   std::cerr &lt;&lt; boost::diagnostic_information(e);</div><div class="line">}</div><div class="line"><span class="keywordflow">catch</span>(...)</div><div class="line">{</div><div class="line">   std::cerr &lt;&lt; <span class="stringliteral">&quot;Unhandled exception!&quot;</span> &lt;&lt; std::endl</div><div class="line">             &lt;&lt; boost::current_exception_diagnostic_information();</div><div class="line">}</div></div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<div class="fragment"><div class="line"><span class="keywordflow">try</span></div><div class="line">{</div><div class="line">   <span class="comment">// something throws a n exception derived from</span></div><div class="line">   <span class="comment">// core_lib::exceptions::xCustomException</span></div><div class="line">}</div><div class="line"><span class="keywordflow">catch</span>(<a class="code" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">core_lib::exceptions::xCustomException</a>&amp; e)</div><div class="line">{</div><div class="line">   std::cerr &lt;&lt; boost::diagnostic_information(e);</div><div class="line">}</div><div class="line"><span class="keywordflow">catch</span>(...)</div><div class="line">{</div><div class="line">   std::cerr &lt;&lt; <span class="stringliteral">&quot;Unhandled exception!&quot;</span> &lt;&lt; std::endl</div><div class="line">             &lt;&lt; boost::current_exception_diagnostic_information();</div><div class="line">}</div></div><!-- fragment --><p>This class is defined inline to make exporting from a DLL containing this class trivial as we are deriving from boost::exception and std::exception. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9a0c9210d29d02c06be84c30826e6f9f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9a0c9210d29d02c06be84c30826e6f9f">&#9670;&nbsp;</a></span>xCustomException()</h2>
 
@@ -184,7 +172,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -199,38 +187,8 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a770e19f00da127e7e7004dd00823ebef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a770e19f00da127e7e7004dd00823ebef">&#9670;&nbsp;</a></span>what()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char * core_lib::exceptions::xCustomException::what </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Function to get the exception message. </p>
-<dl class="section return"><dt>Returns</dt><dd>The exception message. </dd></dl>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Projects/CoreLibrary/Include/Exceptions/<a class="el" href="_custom_exception_8h_source.html">CustomException.h</a></li>
-<li>D:/Projects/CoreLibrary/Source/Exceptions/<a class="el" href="_custom_exception_8cpp.html">CustomException.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -238,7 +196,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1exceptions.html">exceptions</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html">xCustomException</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

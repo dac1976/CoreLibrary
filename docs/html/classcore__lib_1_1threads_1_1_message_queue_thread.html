@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -109,13 +109,13 @@ Inheritance diagram for core_lib::threads::MessageQueueThread&lt; MessageId, Mes
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a224e2f71aaa6929fb4f2117bfd5b3ee0"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; bool(MessageType &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a224e2f71aaa6929fb4f2117bfd5b3ee0">msg_handler_t</a></td></tr>
-<tr class="memdesc:a224e2f71aaa6929fb4f2117bfd5b3ee0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining message handler functor.  <a href="#a224e2f71aaa6929fb4f2117bfd5b3ee0">More...</a><br /></td></tr>
-<tr class="separator:a224e2f71aaa6929fb4f2117bfd5b3ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87213f4a63a4f523828ef04304238ae"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac87213f4a63a4f523828ef04304238ae">msg_handler_t</a> = std::function&lt; bool(MessageType &amp;)&gt;</td></tr>
+<tr class="memdesc:ac87213f4a63a4f523828ef04304238ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining message handler functor.  <a href="#ac87213f4a63a4f523828ef04304238ae">More...</a><br /></td></tr>
+<tr class="separator:ac87213f4a63a4f523828ef04304238ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa726d218b9bb6fcbcb0b103280dc553a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa726d218b9bb6fcbcb0b103280dc553a">MessageQueueThread</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7535a8d378e79b37b1860cde2afac937">msg_id_decoder_t</a> &amp;messageIdDecoder, <a class="el" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706">eOnDestroyOptions</a> destroyOptions=<a class="el" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706a709ce4d50d542e1a000fa119b9680d3e">eOnDestroyOptions::ignoreRemainingItems</a>, const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a581ab20a507b1168e0f9def386b6acf7">msg_deleter_t</a> &amp;messageDeleter=<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a581ab20a507b1168e0f9def386b6acf7">msg_deleter_t</a>())</td></tr>
+<tr class="memitem:aa726d218b9bb6fcbcb0b103280dc553a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa726d218b9bb6fcbcb0b103280dc553a">MessageQueueThread</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aff149687b3d8dff7023eda909d43946e">msg_id_decoder_t</a> &amp;messageIdDecoder, <a class="el" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706">eOnDestroyOptions</a> destroyOptions=<a class="el" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706a709ce4d50d542e1a000fa119b9680d3e">eOnDestroyOptions::ignoreRemainingItems</a>, const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a90446de7d044c7d1a56ef8bf9cd5f5aa">msg_deleter_t</a> &amp;messageDeleter=<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a90446de7d044c7d1a56ef8bf9cd5f5aa">msg_deleter_t</a>())</td></tr>
 <tr class="memdesc:aa726d218b9bb6fcbcb0b103280dc553a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#aa726d218b9bb6fcbcb0b103280dc553a">More...</a><br /></td></tr>
 <tr class="separator:aa726d218b9bb6fcbcb0b103280dc553a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fefa54501ef310ab56062035911f746"><td class="memItemLeft" align="right" valign="top"><a id="a8fefa54501ef310ab56062035911f746"></a>
@@ -126,13 +126,21 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#acfbd38f622fd5adec57983169474b818">operator=</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a> &amp;)=delete</td></tr>
 <tr class="memdesc:acfbd38f622fd5adec57983169474b818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator deleted. <br /></td></tr>
 <tr class="separator:acfbd38f622fd5adec57983169474b818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac142c62c3aaa3238fae5340a7e4029b5"><td class="memItemLeft" align="right" valign="top"><a id="ac142c62c3aaa3238fae5340a7e4029b5"></a>
-virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac142c62c3aaa3238fae5340a7e4029b5">~MessageQueueThread</a> ()</td></tr>
-<tr class="memdesc:ac142c62c3aaa3238fae5340a7e4029b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
-<tr class="separator:ac142c62c3aaa3238fae5340a7e4029b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe4099104ecf05565df9800b67e34b51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#afe4099104ecf05565df9800b67e34b51">RegisterMessageHandler</a> (const MessageId messageID, const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a224e2f71aaa6929fb4f2117bfd5b3ee0">msg_handler_t</a> &amp;messageHandler)</td></tr>
-<tr class="memdesc:afe4099104ecf05565df9800b67e34b51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a function to handle a particular message.  <a href="#afe4099104ecf05565df9800b67e34b51">More...</a><br /></td></tr>
-<tr class="separator:afe4099104ecf05565df9800b67e34b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb52c30d2ef526ff5521d5b410c0c424"><td class="memItemLeft" align="right" valign="top"><a id="abb52c30d2ef526ff5521d5b410c0c424"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abb52c30d2ef526ff5521d5b410c0c424">MessageQueueThread</a> (<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a> &amp;&amp;)=delete</td></tr>
+<tr class="memdesc:abb52c30d2ef526ff5521d5b410c0c424"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor deleted. <br /></td></tr>
+<tr class="separator:abb52c30d2ef526ff5521d5b410c0c424"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a856c5c4179ba2aa5f8fc98e27c333cb1"><td class="memItemLeft" align="right" valign="top"><a id="a856c5c4179ba2aa5f8fc98e27c333cb1"></a>
+<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a856c5c4179ba2aa5f8fc98e27c333cb1">operator=</a> (<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a> &amp;&amp;)=delete</td></tr>
+<tr class="memdesc:a856c5c4179ba2aa5f8fc98e27c333cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator deleted. <br /></td></tr>
+<tr class="separator:a856c5c4179ba2aa5f8fc98e27c333cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a224c1f7fe67fa3f75a8f03d53577fc"><td class="memItemLeft" align="right" valign="top"><a id="a7a224c1f7fe67fa3f75a8f03d53577fc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7a224c1f7fe67fa3f75a8f03d53577fc">~MessageQueueThread</a> () override</td></tr>
+<tr class="memdesc:a7a224c1f7fe67fa3f75a8f03d53577fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="separator:a7a224c1f7fe67fa3f75a8f03d53577fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85acfe82d32878ea0e79d736f1be7060"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a85acfe82d32878ea0e79d736f1be7060">RegisterMessageHandler</a> (MessageId const &amp;messageID, <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac87213f4a63a4f523828ef04304238ae">msg_handler_t</a> const &amp;messageHandler)</td></tr>
+<tr class="memdesc:a85acfe82d32878ea0e79d736f1be7060"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a function to handle a particular message.  <a href="#a85acfe82d32878ea0e79d736f1be7060">More...</a><br /></td></tr>
+<tr class="separator:a85acfe82d32878ea0e79d736f1be7060"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a127349ac28cd122549bda01bd726ae73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a127349ac28cd122549bda01bd726ae73">Push</a> (MessageType &amp;&amp;msg)</td></tr>
 <tr class="memdesc:a127349ac28cd122549bda01bd726ae73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a message as an array of items onto this thread's queue.  <a href="#a127349ac28cd122549bda01bd726ae73">More...</a><br /></td></tr>
 <tr class="separator:a127349ac28cd122549bda01bd726ae73"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,6 +153,14 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a045bb1e03c59fd7b8faf5d4b6c9f4fab">operator=</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a> &amp;)=delete</td></tr>
 <tr class="memdesc:a045bb1e03c59fd7b8faf5d4b6c9f4fab inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator deleted. <br /></td></tr>
 <tr class="separator:a045bb1e03c59fd7b8faf5d4b6c9f4fab inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a6cf56cade534b480cf521b5b7b842a inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top"><a id="a0a6cf56cade534b480cf521b5b7b842a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a0a6cf56cade534b480cf521b5b7b842a">ThreadBase</a> (<a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:a0a6cf56cade534b480cf521b5b7b842a inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor deleted. <br /></td></tr>
+<tr class="separator:a0a6cf56cade534b480cf521b5b7b842a inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2677d5bb104436f2686402bcdad1080f inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top"><a id="a2677d5bb104436f2686402bcdad1080f"></a>
+<a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a2677d5bb104436f2686402bcdad1080f">operator=</a> (<a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:a2677d5bb104436f2686402bcdad1080f inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator deleted. <br /></td></tr>
+<tr class="separator:a2677d5bb104436f2686402bcdad1080f inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9c38efc1e24505d75f87acd2031be17 inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top"><a id="ad9c38efc1e24505d75f87acd2031be17"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ad9c38efc1e24505d75f87acd2031be17">~ThreadBase</a> ()=default</td></tr>
 <tr class="memdesc:ad9c38efc1e24505d75f87acd2031be17 inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
@@ -167,27 +183,27 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:a7535a8d378e79b37b1860cde2afac937"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; MessageId(const MessageType &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7535a8d378e79b37b1860cde2afac937">msg_id_decoder_t</a></td></tr>
-<tr class="memdesc:a7535a8d378e79b37b1860cde2afac937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining message ID decoder function.  <a href="#a7535a8d378e79b37b1860cde2afac937">More...</a><br /></td></tr>
-<tr class="separator:a7535a8d378e79b37b1860cde2afac937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a581ab20a507b1168e0f9def386b6acf7"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; void(MessageType &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a581ab20a507b1168e0f9def386b6acf7">msg_deleter_t</a></td></tr>
-<tr class="memdesc:a581ab20a507b1168e0f9def386b6acf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining message deleter function.  <a href="#a581ab20a507b1168e0f9def386b6acf7">More...</a><br /></td></tr>
-<tr class="separator:a581ab20a507b1168e0f9def386b6acf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7baeaa4b7b962691a59a244775c62320"><td class="memItemLeft" align="right" valign="top"><a id="a7baeaa4b7b962691a59a244775c62320"></a>
-typedef std::map&lt; MessageId, <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a224e2f71aaa6929fb4f2117bfd5b3ee0">msg_handler_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7baeaa4b7b962691a59a244775c62320">msg_map_t</a></td></tr>
-<tr class="memdesc:a7baeaa4b7b962691a59a244775c62320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for message map type. <br /></td></tr>
-<tr class="separator:a7baeaa4b7b962691a59a244775c62320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff149687b3d8dff7023eda909d43946e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aff149687b3d8dff7023eda909d43946e">msg_id_decoder_t</a> = std::function&lt; MessageId(const MessageType &amp;)&gt;</td></tr>
+<tr class="memdesc:aff149687b3d8dff7023eda909d43946e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining message ID decoder function.  <a href="#aff149687b3d8dff7023eda909d43946e">More...</a><br /></td></tr>
+<tr class="separator:aff149687b3d8dff7023eda909d43946e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90446de7d044c7d1a56ef8bf9cd5f5aa"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a90446de7d044c7d1a56ef8bf9cd5f5aa">msg_deleter_t</a> = std::function&lt; void(MessageType &amp;)&gt;</td></tr>
+<tr class="memdesc:a90446de7d044c7d1a56ef8bf9cd5f5aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining message deleter function.  <a href="#a90446de7d044c7d1a56ef8bf9cd5f5aa">More...</a><br /></td></tr>
+<tr class="separator:a90446de7d044c7d1a56ef8bf9cd5f5aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3285227d703533dec74a08beda3dc635"><td class="memItemLeft" align="right" valign="top"><a id="a3285227d703533dec74a08beda3dc635"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a3285227d703533dec74a08beda3dc635">msg_map_t</a> = std::map&lt; MessageId, <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac87213f4a63a4f523828ef04304238ae">msg_handler_t</a> &gt;</td></tr>
+<tr class="memdesc:a3285227d703533dec74a08beda3dc635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for message map type. <br /></td></tr>
+<tr class="separator:a3285227d703533dec74a08beda3dc635"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a75a7c7fd94d58ae9bcc28a6c5e2a46a1"><td class="memItemLeft" align="right" valign="top"><a id="a75a7c7fd94d58ae9bcc28a6c5e2a46a1"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a75a7c7fd94d58ae9bcc28a6c5e2a46a1">ThreadIteration</a> () <a class="el" href="_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea">NO_EXCEPT_</a></td></tr>
-<tr class="memdesc:a75a7c7fd94d58ae9bcc28a6c5e2a46a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single iteration of the thread. <br /></td></tr>
-<tr class="separator:a75a7c7fd94d58ae9bcc28a6c5e2a46a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29fae4b7210b2b268104ab00364f259a"><td class="memItemLeft" align="right" valign="top"><a id="a29fae4b7210b2b268104ab00364f259a"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a29fae4b7210b2b268104ab00364f259a">ProcessTerminationConditions</a> () <a class="el" href="_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea">NO_EXCEPT_</a></td></tr>
-<tr class="memdesc:a29fae4b7210b2b268104ab00364f259a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any special termination actions. <br /></td></tr>
-<tr class="separator:a29fae4b7210b2b268104ab00364f259a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb1814f58d6a71008cf043bc3a487f9f"><td class="memItemLeft" align="right" valign="top"><a id="abb1814f58d6a71008cf043bc3a487f9f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abb1814f58d6a71008cf043bc3a487f9f">ThreadIteration</a> () <a class="el" href="_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea">NO_EXCEPT_</a> override</td></tr>
+<tr class="memdesc:abb1814f58d6a71008cf043bc3a487f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single iteration of the thread. <br /></td></tr>
+<tr class="separator:abb1814f58d6a71008cf043bc3a487f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab73ec129e724149879057669fb259963"><td class="memItemLeft" align="right" valign="top"><a id="ab73ec129e724149879057669fb259963"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ab73ec129e724149879057669fb259963">ProcessTerminationConditions</a> () <a class="el" href="_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea">NO_EXCEPT_</a> override</td></tr>
+<tr class="memdesc:ab73ec129e724149879057669fb259963"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any special termination actions. <br /></td></tr>
+<tr class="separator:ab73ec129e724149879057669fb259963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5813e454c254c7ab69f34dfd215741f9"><td class="memItemLeft" align="right" valign="top"><a id="a5813e454c254c7ab69f34dfd215741f9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a5813e454c254c7ab69f34dfd215741f9">ProcessNextMessage</a> ()</td></tr>
 <tr class="memdesc:a5813e454c254c7ab69f34dfd215741f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process next message. <br /></td></tr>
@@ -202,23 +218,23 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a1236d62aabb0d62c18a582036da52525"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1236d62aabb0d62c18a582036da52525">m_mutex</a></td></tr>
 <tr class="separator:a1236d62aabb0d62c18a582036da52525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1115d78e116bf3c0adb8cad2a7d14238"><td class="memItemLeft" align="right" valign="top"><a id="a1115d78e116bf3c0adb8cad2a7d14238"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7535a8d378e79b37b1860cde2afac937">msg_id_decoder_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1115d78e116bf3c0adb8cad2a7d14238">m_msgIdDecoder</a></td></tr>
+<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aff149687b3d8dff7023eda909d43946e">msg_id_decoder_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a1115d78e116bf3c0adb8cad2a7d14238">m_msgIdDecoder</a> {}</td></tr>
 <tr class="memdesc:a1115d78e116bf3c0adb8cad2a7d14238"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message ID decoder function object. <br /></td></tr>
 <tr class="separator:a1115d78e116bf3c0adb8cad2a7d14238"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add0d79983c7c3b2a2716d98f59ddcc05"><td class="memItemLeft" align="right" valign="top"><a id="add0d79983c7c3b2a2716d98f59ddcc05"></a>
-const <a class="el" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706">eOnDestroyOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#add0d79983c7c3b2a2716d98f59ddcc05">m_destroyOptions</a></td></tr>
-<tr class="memdesc:add0d79983c7c3b2a2716d98f59ddcc05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control the handling of the queue items in destructor. <br /></td></tr>
-<tr class="separator:add0d79983c7c3b2a2716d98f59ddcc05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a870628ff30e5caacc26fbbb1a5292e00"><td class="memItemLeft" align="right" valign="top"><a id="a870628ff30e5caacc26fbbb1a5292e00"></a>
+<a class="el" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706">eOnDestroyOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a870628ff30e5caacc26fbbb1a5292e00">m_destroyOptions</a> {}</td></tr>
+<tr class="memdesc:a870628ff30e5caacc26fbbb1a5292e00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control the handling of the queue items in destructor. <br /></td></tr>
+<tr class="separator:a870628ff30e5caacc26fbbb1a5292e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22fd96be1b69e890a8e3defe514419f2"><td class="memItemLeft" align="right" valign="top"><a id="a22fd96be1b69e890a8e3defe514419f2"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a581ab20a507b1168e0f9def386b6acf7">msg_deleter_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a22fd96be1b69e890a8e3defe514419f2">m_messageDeleter</a></td></tr>
+<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a90446de7d044c7d1a56ef8bf9cd5f5aa">msg_deleter_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a22fd96be1b69e890a8e3defe514419f2">m_messageDeleter</a> {}</td></tr>
 <tr class="memdesc:a22fd96be1b69e890a8e3defe514419f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional message item deleter function object. <br /></td></tr>
 <tr class="separator:a22fd96be1b69e890a8e3defe514419f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe688a3c75cd16e2fab7b2ed743d189f"><td class="memItemLeft" align="right" valign="top"><a id="abe688a3c75cd16e2fab7b2ed743d189f"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7baeaa4b7b962691a59a244775c62320">msg_map_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abe688a3c75cd16e2fab7b2ed743d189f">m_msgHandlerMap</a></td></tr>
+<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a3285227d703533dec74a08beda3dc635">msg_map_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abe688a3c75cd16e2fab7b2ed743d189f">m_msgHandlerMap</a> {}</td></tr>
 <tr class="memdesc:abe688a3c75cd16e2fab7b2ed743d189f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message handler function Map. <br /></td></tr>
 <tr class="separator:abe688a3c75cd16e2fab7b2ed743d189f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcfd2eb7b7deae0ca54846e37796dbbf"><td class="memItemLeft" align="right" valign="top"><a id="abcfd2eb7b7deae0ca54846e37796dbbf"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a>&lt; MessageType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abcfd2eb7b7deae0ca54846e37796dbbf">m_messageQueue</a></td></tr>
+<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a>&lt; MessageType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abcfd2eb7b7deae0ca54846e37796dbbf">m_messageQueue</a> {}</td></tr>
 <tr class="memdesc:abcfd2eb7b7deae0ca54846e37796dbbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message queue. <br /></td></tr>
 <tr class="separator:abcfd2eb7b7deae0ca54846e37796dbbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -229,15 +245,15 @@ Additional Inherited Members</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a76297ff7c47f155ae4a20b361d0624f6">ThreadBase</a> ()=default</td></tr>
 <tr class="memdesc:a76297ff7c47f155ae4a20b361d0624f6 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
 <tr class="separator:a76297ff7c47f155ae4a20b361d0624f6 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61e240d612d040281231cec7f6b3a0d8 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a61e240d612d040281231cec7f6b3a0d8">SetTerminating</a> (const bool terminating=true)</td></tr>
-<tr class="memdesc:a61e240d612d040281231cec7f6b3a0d8 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set terminating flag.  <a href="classcore__lib_1_1threads_1_1_thread_base.html#a61e240d612d040281231cec7f6b3a0d8">More...</a><br /></td></tr>
-<tr class="separator:a61e240d612d040281231cec7f6b3a0d8 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c76aa427752418c20fe354d7eaeb4f9 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a9c76aa427752418c20fe354d7eaeb4f9">SetTerminating</a> (bool terminating=true)</td></tr>
+<tr class="memdesc:a9c76aa427752418c20fe354d7eaeb4f9 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set terminating flag.  <a href="classcore__lib_1_1threads_1_1_thread_base.html#a9c76aa427752418c20fe354d7eaeb4f9">More...</a><br /></td></tr>
+<tr class="separator:a9c76aa427752418c20fe354d7eaeb4f9 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c6b0aa2a108a3c7616f9bcb2e12c116 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a3c6b0aa2a108a3c7616f9bcb2e12c116">IsTerminating</a> () const</td></tr>
 <tr class="memdesc:a3c6b0aa2a108a3c7616f9bcb2e12c116 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is thread terminating.  <a href="classcore__lib_1_1threads_1_1_thread_base.html#a3c6b0aa2a108a3c7616f9bcb2e12c116">More...</a><br /></td></tr>
 <tr class="separator:a3c6b0aa2a108a3c7616f9bcb2e12c116 inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dc4439bccbc49b9d542c00578f7d9bc inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a5dc4439bccbc49b9d542c00578f7d9bc">SleepForTime</a> (const unsigned int milliSecs) const</td></tr>
-<tr class="memdesc:a5dc4439bccbc49b9d542c00578f7d9bc inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make this thread sleep for a period of time.  <a href="classcore__lib_1_1threads_1_1_thread_base.html#a5dc4439bccbc49b9d542c00578f7d9bc">More...</a><br /></td></tr>
-<tr class="separator:a5dc4439bccbc49b9d542c00578f7d9bc inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6474428e300f368f517f268836e006ea inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a6474428e300f368f517f268836e006ea">SleepForTime</a> (unsigned int milliSecs) const</td></tr>
+<tr class="memdesc:a6474428e300f368f517f268836e006ea inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make this thread sleep for a period of time.  <a href="classcore__lib_1_1threads_1_1_thread_base.html#a6474428e300f368f517f268836e006ea">More...</a><br /></td></tr>
+<tr class="separator:a6474428e300f368f517f268836e006ea inherit pro_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename MessageId, typename MessageType&gt;<br />
@@ -247,8 +263,8 @@ class core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</h3>
 <p>This class is designed for processing messages specified by the template argument. The class itself contains no knowledge of how to process these messages, this is handled by the user registering message handler functors per registered command. Instead this class provides a safe thread based mechanism for processing messages added to this class's message queue.</p>
 <p>Template args as follows: MessageId - define the type used for message ID. MessageType - define the type used for the message. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a581ab20a507b1168e0f9def386b6acf7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a581ab20a507b1168e0f9def386b6acf7">&#9670;&nbsp;</a></span>msg_deleter_t</h2>
+<a id="a90446de7d044c7d1a56ef8bf9cd5f5aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90446de7d044c7d1a56ef8bf9cd5f5aa">&#9670;&nbsp;</a></span>msg_deleter_t</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,7 +275,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::function&lt;void(MessageType&amp;)&gt; <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a581ab20a507b1168e0f9def386b6acf7">msg_deleter_t</a></td>
+          <td class="memname">using <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a90446de7d044c7d1a56ef8bf9cd5f5aa">msg_deleter_t</a> =  std::function&lt;void(MessageType&amp;)&gt;</td>
         </tr>
       </table>
   </td>
@@ -280,8 +296,8 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
 
 </div>
 </div>
-<a id="a224e2f71aaa6929fb4f2117bfd5b3ee0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a224e2f71aaa6929fb4f2117bfd5b3ee0">&#9670;&nbsp;</a></span>msg_handler_t</h2>
+<a id="ac87213f4a63a4f523828ef04304238ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac87213f4a63a4f523828ef04304238ae">&#9670;&nbsp;</a></span>msg_handler_t</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,7 +305,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
 template&lt;typename MessageId , typename MessageType &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::function&lt;bool(MessageType&amp;)&gt; <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a224e2f71aaa6929fb4f2117bfd5b3ee0">msg_handler_t</a></td>
+          <td class="memname">using <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac87213f4a63a4f523828ef04304238ae">msg_handler_t</a> =  std::function&lt;bool(MessageType&amp;)&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -306,8 +322,8 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
 
 </div>
 </div>
-<a id="a7535a8d378e79b37b1860cde2afac937"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7535a8d378e79b37b1860cde2afac937">&#9670;&nbsp;</a></span>msg_id_decoder_t</h2>
+<a id="aff149687b3d8dff7023eda909d43946e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff149687b3d8dff7023eda909d43946e">&#9670;&nbsp;</a></span>msg_id_decoder_t</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,7 +334,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::function&lt;MessageId(const MessageType&amp;)&gt; <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7535a8d378e79b37b1860cde2afac937">msg_id_decoder_t</a></td>
+          <td class="memname">using <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aff149687b3d8dff7023eda909d43946e">msg_id_decoder_t</a> =  std::function&lt;MessageId(const MessageType&amp;)&gt;</td>
         </tr>
       </table>
   </td>
@@ -355,7 +371,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a7535a8d378e79b37b1860cde2afac937">msg_id_decoder_t</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aff149687b3d8dff7023eda909d43946e">msg_id_decoder_t</a> &amp;&#160;</td>
           <td class="paramname"><em>messageIdDecoder</em>, </td>
         </tr>
         <tr>
@@ -367,8 +383,8 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a581ab20a507b1168e0f9def386b6acf7">msg_deleter_t</a> &amp;&#160;</td>
-          <td class="paramname"><em>messageDeleter</em> = <code><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a581ab20a507b1168e0f9def386b6acf7">msg_deleter_t</a>()</code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a90446de7d044c7d1a56ef8bf9cd5f5aa">msg_deleter_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>messageDeleter</em> = <code><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a90446de7d044c7d1a56ef8bf9cd5f5aa">msg_deleter_t</a>()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -388,10 +404,11 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">messageIdDecoder</td><td>- Function object that returns the message ID for a message. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">destroyOptions</td><td>- (Optional) Set the Message threads destroy option. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">messageDeleter</td><td>- (Optional) Message deletion helper. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageDeleter</td><td>- (Optional) Message deletion helper.</td></tr>
   </table>
   </dd>
 </dl>
+<p>Throws a std::runtime_error exception if thread fails to start. </p>
 
 </div>
 </div>
@@ -432,8 +449,8 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
 
 </div>
 </div>
-<a id="afe4099104ecf05565df9800b67e34b51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe4099104ecf05565df9800b67e34b51">&#9670;&nbsp;</a></span>RegisterMessageHandler()</h2>
+<a id="a85acfe82d32878ea0e79d736f1be7060"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85acfe82d32878ea0e79d736f1be7060">&#9670;&nbsp;</a></span>RegisterMessageHandler()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -446,13 +463,13 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">core_lib::threads::MessageQueueThread</a>&lt; MessageId, MessageType &gt;::RegisterMessageHandler </td>
           <td>(</td>
-          <td class="paramtype">const MessageId&#160;</td>
+          <td class="paramtype">MessageId const &amp;&#160;</td>
           <td class="paramname"><em>messageID</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a224e2f71aaa6929fb4f2117bfd5b3ee0">msg_handler_t</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ac87213f4a63a4f523828ef04304238ae">msg_handler_t</a> const &amp;&#160;</td>
           <td class="paramname"><em>messageHandler</em>&#160;</td>
         </tr>
         <tr>
@@ -476,7 +493,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
   </table>
   </dd>
 </dl>
-<p>Throws a <a class="el" href="classcore__lib_1_1threads_1_1x_msg_handler_error.html" title="Message handler exception. ">xMsgHandlerError</a> exception if handler for message ID is already defined. </p>
+<p>Throws a std::runtime_error exception if handler for message ID is already defined. </p>
 
 </div>
 </div>
@@ -515,7 +532,7 @@ template&lt;typename MessageId , typename MessageType &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html">MessageQueueThread</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

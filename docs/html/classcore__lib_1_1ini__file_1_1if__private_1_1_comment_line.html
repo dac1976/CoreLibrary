@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -118,10 +118,10 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a5ba14fe33fa398703bb58a0ddf92a56d">CommentLine</a> (const std::string &amp;comment)</td></tr>
 <tr class="memdesc:a5ba14fe33fa398703bb58a0ddf92a56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialising constructor. <br /></td></tr>
 <tr class="separator:a5ba14fe33fa398703bb58a0ddf92a56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42a48999334919bd6b33ae31ba064c33"><td class="memItemLeft" align="right" valign="top"><a id="a42a48999334919bd6b33ae31ba064c33"></a>
-virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a42a48999334919bd6b33ae31ba064c33">~CommentLine</a> ()=default</td></tr>
-<tr class="memdesc:a42a48999334919bd6b33ae31ba064c33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor. <br /></td></tr>
-<tr class="separator:a42a48999334919bd6b33ae31ba064c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5738edbed7d8cfa6414bf74296dd648"><td class="memItemLeft" align="right" valign="top"><a id="ad5738edbed7d8cfa6414bf74296dd648"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#ad5738edbed7d8cfa6414bf74296dd648">~CommentLine</a> () override=default</td></tr>
+<tr class="memdesc:ad5738edbed7d8cfa6414bf74296dd648"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor. <br /></td></tr>
+<tr class="separator:ad5738edbed7d8cfa6414bf74296dd648"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26da56c4f65d00642920631510a6d65d"><td class="memItemLeft" align="right" valign="top"><a id="a26da56c4f65d00642920631510a6d65d"></a>
 <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html">CommentLine</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a26da56c4f65d00642920631510a6d65d">operator=</a> (const <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html">CommentLine</a> &amp;)=default</td></tr>
 <tr class="memdesc:a26da56c4f65d00642920631510a6d65d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator. <br /></td></tr>
@@ -137,9 +137,22 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:a0ad522d445433473e5d1cb547ea6e13b"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a0ad522d445433473e5d1cb547ea6e13b">Comment</a> () const</td></tr>
 <tr class="memdesc:a0ad522d445433473e5d1cb547ea6e13b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the comment.  <a href="#a0ad522d445433473e5d1cb547ea6e13b">More...</a><br /></td></tr>
 <tr class="separator:a0ad522d445433473e5d1cb547ea6e13b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a098b117fbeba0289c57867ea89f4369f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a098b117fbeba0289c57867ea89f4369f">Print</a> (std::ostream &amp;os, const bool addLineFeed=true) const</td></tr>
-<tr class="memdesc:a098b117fbeba0289c57867ea89f4369f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual Print function.  <a href="#a098b117fbeba0289c57867ea89f4369f">More...</a><br /></td></tr>
-<tr class="separator:a098b117fbeba0289c57867ea89f4369f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01f596f02d0e5e86a42e7434978244c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a01f596f02d0e5e86a42e7434978244c1">Print</a> (std::ostream &amp;os, bool addLineFeed=true) const override</td></tr>
+<tr class="memdesc:a01f596f02d0e5e86a42e7434978244c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual Print function.  <a href="#a01f596f02d0e5e86a42e7434978244c1">More...</a><br /></td></tr>
+<tr class="separator:a01f596f02d0e5e86a42e7434978244c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">core_lib::ini_file::if_private::Line</a></td></tr>
+<tr class="memitem:a652971a1c3211f2cf9aec4e0641ee37e inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memItemLeft" align="right" valign="top"><a id="a652971a1c3211f2cf9aec4e0641ee37e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Line</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> const &amp;)=default</td></tr>
+<tr class="separator:a652971a1c3211f2cf9aec4e0641ee37e inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a358f9eace3e460dcce7e79dc576f6c6c inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memItemLeft" align="right" valign="top"><a id="a358f9eace3e460dcce7e79dc576f6c6c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Line</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a358f9eace3e460dcce7e79dc576f6c6c inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a596c9cdee2c1a72181bfedb640cba86e inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memItemLeft" align="right" valign="top"><a id="a596c9cdee2c1a72181bfedb640cba86e"></a>
+<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> const &amp;)=default</td></tr>
+<tr class="separator:a596c9cdee2c1a72181bfedb640cba86e inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a926127ac17ea827fed753438858502ef inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memItemLeft" align="right" valign="top"><a id="a926127ac17ea827fed753438858502ef"></a>
+<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a926127ac17ea827fed753438858502ef inherit pub_methods_classcore__lib_1_1ini__file_1_1if__private_1_1_line"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -171,8 +184,8 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a id="a098b117fbeba0289c57867ea89f4369f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a098b117fbeba0289c57867ea89f4369f">&#9670;&nbsp;</a></span>Print()</h2>
+<a id="a01f596f02d0e5e86a42e7434978244c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01f596f02d0e5e86a42e7434978244c1">&#9670;&nbsp;</a></span>Print()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,7 +202,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const bool&#160;</td>
+          <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>addLineFeed</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
@@ -200,7 +213,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -214,7 +227,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#adf58043d60fe8867bd60bec011a9d49a">core_lib::ini_file::if_private::Line</a>.</p>
+<p>Implements <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a33449c7b1adec1267583ecfd6e018c0a">core_lib::ini_file::if_private::Line</a>.</p>
 
 </div>
 </div>
@@ -228,7 +241,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html">if_private</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html">CommentLine</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

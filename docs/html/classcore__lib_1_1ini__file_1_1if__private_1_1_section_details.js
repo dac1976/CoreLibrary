@@ -1,7 +1,7 @@
 var classcore__lib_1_1ini__file_1_1if__private_1_1_section_details =
 [
-    [ "keys_iter", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a2653b50d89dac181908fd36d6e027c53", null ],
-    [ "line_iter_list", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#abd7ac11e9655d6d714018341a3243938", null ],
+    [ "keys_iter", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a19a9a75e6c6c9c30ddb01318b1adbfdd", null ],
+    [ "line_iter_list", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a4058f6ecae532b7869c58bacc08cda11", null ],
     [ "SectionDetails", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#abb157022172ff9df4d678b310498eb4c", null ],
     [ "SectionDetails", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a2e1e5b82ad27b68771cbde3506b3fe65", null ],
     [ "SectionDetails", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a2825223038969b3cb5c072c696da604d", null ],

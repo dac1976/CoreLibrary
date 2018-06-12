@@ -1,8 +1,6 @@
 var _debug_log_8h =
 [
     [ "hash< core_lib::log::eLogMessageLevel >", "structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html", "structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4" ],
-    [ "xLogMsgHandlerError", "classcore__lib_1_1log_1_1x_log_msg_handler_error.html", "classcore__lib_1_1log_1_1x_log_msg_handler_error" ],
-    [ "xInstantiationError", "classcore__lib_1_1log_1_1x_instantiation_error.html", "classcore__lib_1_1log_1_1x_instantiation_error" ],
     [ "DefaultLogFormat", "structcore__lib_1_1log_1_1_default_log_format.html", "structcore__lib_1_1log_1_1_default_log_format" ],
     [ "LogQueueMessage", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html", "classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message" ],
     [ "DebugLog", "classcore__lib_1_1log_1_1_debug_log.html", "classcore__lib_1_1log_1_1_debug_log" ],

@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -97,16 +97,16 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1csv__grid_1_1reserve
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a4d2ed0a08f9067f9d760125ec9cf99ef"><td class="memItemLeft" align="right" valign="top"><a id="a4d2ed0a08f9067f9d760125ec9cf99ef"></a>
-typedef C&lt; T, std::allocator&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a4d2ed0a08f9067f9d760125ec9cf99ef">container_type</a></td></tr>
-<tr class="memdesc:a4d2ed0a08f9067f9d760125ec9cf99ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to container type. <br /></td></tr>
-<tr class="separator:a4d2ed0a08f9067f9d760125ec9cf99ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fe9a1e5d48b1477388b9dba08d9eb0f"><td class="memItemLeft" align="right" valign="top"><a id="a6fe9a1e5d48b1477388b9dba08d9eb0f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a6fe9a1e5d48b1477388b9dba08d9eb0f">container_type</a> = C&lt; T, std::allocator&lt; T &gt; &gt;</td></tr>
+<tr class="memdesc:a6fe9a1e5d48b1477388b9dba08d9eb0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to container type. <br /></td></tr>
+<tr class="separator:a6fe9a1e5d48b1477388b9dba08d9eb0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a611e1416c18f9e13eb6b119808ff646b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a611e1416c18f9e13eb6b119808ff646b">operator()</a> (<a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a4d2ed0a08f9067f9d760125ec9cf99ef">container_type</a> &amp;container, const size_t size) const</td></tr>
-<tr class="memdesc:a611e1416c18f9e13eb6b119808ff646b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator.  <a href="#a611e1416c18f9e13eb6b119808ff646b">More...</a><br /></td></tr>
-<tr class="separator:a611e1416c18f9e13eb6b119808ff646b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab80b4cacf138c12381bb1eb4d3196fcb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#ab80b4cacf138c12381bb1eb4d3196fcb">operator()</a> (<a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a6fe9a1e5d48b1477388b9dba08d9eb0f">container_type</a> &amp;container, size_t size) const</td></tr>
+<tr class="memdesc:ab80b4cacf138c12381bb1eb4d3196fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator.  <a href="#ab80b4cacf138c12381bb1eb4d3196fcb">More...</a><br /></td></tr>
+<tr class="separator:ab80b4cacf138c12381bb1eb4d3196fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;template&lt; class, class &gt; class C, class T&gt;<br />
@@ -114,13 +114,13 @@ class core_lib::csv_grid::reserver::ContainerReserver&lt; C, T &gt;</h3>
 
 <p>Default container reserver functor. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a611e1416c18f9e13eb6b119808ff646b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a611e1416c18f9e13eb6b119808ff646b">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="ab80b4cacf138c12381bb1eb4d3196fcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab80b4cacf138c12381bb1eb4d3196fcb">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;template&lt; class, class &gt; class C, class T&gt; </div>
+template&lt;template&lt; class, class &gt; class C, class T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -128,13 +128,13 @@ template&lt;template&lt; class, class &gt; class C, class T&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html">core_lib::csv_grid::reserver::ContainerReserver</a>&lt; C, T &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a4d2ed0a08f9067f9d760125ec9cf99ef">container_type</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a6fe9a1e5d48b1477388b9dba08d9eb0f">container_type</a> &amp;&#160;</td>
           <td class="paramname"><em>container</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>
@@ -171,7 +171,7 @@ template&lt;template&lt; class, class &gt; class C, class T&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid_1_1reserver.html">reserver</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html">ContainerReserver</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -114,61 +114,49 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">TRow</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class defining a row of the grid.  <a href="classcore__lib_1_1csv__grid_1_1_t_row.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html">xCsvGridColOutOfRangeError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column index out of range exception.  <a href="classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html">xCsvGridCreateFileStreamError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">File stream creation failure exception.  <a href="classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html">xCsvGridDimensionError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grid dimension exception.  <a href="classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html">xCsvGridRowOutOfRangeError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Row index out of range exception.  <a href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a429f55b021add7a1a61baaa4f674aabb"><td class="memItemLeft" align="right" valign="top"><a id="a429f55b021add7a1a61baaa4f674aabb"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::vector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a429f55b021add7a1a61baaa4f674aabb">CsvGridV</a></td></tr>
-<tr class="memdesc:a429f55b021add7a1a61baaa4f674aabb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::vector as underlying container type. More efficient when grid has a fixed size. <br /></td></tr>
-<tr class="separator:a429f55b021add7a1a61baaa4f674aabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3f2c2b479226be17497c88a0da4acc0"><td class="memItemLeft" align="right" valign="top"><a id="ac3f2c2b479226be17497c88a0da4acc0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#ac3f2c2b479226be17497c88a0da4acc0">CsvGridV</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::vector &gt;</td></tr>
+<tr class="memdesc:ac3f2c2b479226be17497c88a0da4acc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::vector as underlying container type. More efficient when grid has a fixed size. <br /></td></tr>
+<tr class="separator:ac3f2c2b479226be17497c88a0da4acc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2e9a6705615804761d728015d79d14e"><td class="memItemLeft" align="right" valign="top"><a id="ac2e9a6705615804761d728015d79d14e"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">CsvGridV::row_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#ac2e9a6705615804761d728015d79d14e">RowV</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#ac2e9a6705615804761d728015d79d14e">RowV</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">CsvGridV::row_type</a></td></tr>
 <tr class="memdesc:ac2e9a6705615804761d728015d79d14e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to RowV object using CSVGridV::row_type. <br /></td></tr>
 <tr class="separator:ac2e9a6705615804761d728015d79d14e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3426acd11bd45eb05437e351020bcf7"><td class="memItemLeft" align="right" valign="top"><a id="aa3426acd11bd45eb05437e351020bcf7"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::list &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#aa3426acd11bd45eb05437e351020bcf7">CsvGridL</a></td></tr>
-<tr class="memdesc:aa3426acd11bd45eb05437e351020bcf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::list as underlying container type. More efficient when grid will be dynamically resized. <br /></td></tr>
-<tr class="separator:aa3426acd11bd45eb05437e351020bcf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a082d3f6536901942f76c60a72b96dd44"><td class="memItemLeft" align="right" valign="top"><a id="a082d3f6536901942f76c60a72b96dd44"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a082d3f6536901942f76c60a72b96dd44">CsvGridL</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::list &gt;</td></tr>
+<tr class="memdesc:a082d3f6536901942f76c60a72b96dd44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::list as underlying container type. More efficient when grid will be dynamically resized. <br /></td></tr>
+<tr class="separator:a082d3f6536901942f76c60a72b96dd44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a5de680189b27bae426bd989ea56462"><td class="memItemLeft" align="right" valign="top"><a id="a1a5de680189b27bae426bd989ea56462"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">CsvGridL::row_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a1a5de680189b27bae426bd989ea56462">RowL</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a1a5de680189b27bae426bd989ea56462">RowL</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">CsvGridL::row_type</a></td></tr>
 <tr class="memdesc:a1a5de680189b27bae426bd989ea56462"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to RowL object using CSVGridL::row_type. <br /></td></tr>
 <tr class="separator:a1a5de680189b27bae426bd989ea56462"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a934bc95ebfb6000fc771b8da1a096ff6"><td class="memItemLeft" align="right" valign="top"><a id="a934bc95ebfb6000fc771b8da1a096ff6"></a>
-typedef <a class="el" href="namespacecore__lib_1_1csv__grid.html#aa3426acd11bd45eb05437e351020bcf7">CsvGridL</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a934bc95ebfb6000fc771b8da1a096ff6">CsvGrid</a></td></tr>
-<tr class="memdesc:a934bc95ebfb6000fc771b8da1a096ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef our default general use grid object to CSVGridL. <br /></td></tr>
-<tr class="separator:a934bc95ebfb6000fc771b8da1a096ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6556a2a443f194cbb76d03a34bac8cf8"><td class="memItemLeft" align="right" valign="top"><a id="a6556a2a443f194cbb76d03a34bac8cf8"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">CsvGrid::row_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a6556a2a443f194cbb76d03a34bac8cf8">Row</a></td></tr>
-<tr class="memdesc:a6556a2a443f194cbb76d03a34bac8cf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to Row object using CSVGrid::row_type. <br /></td></tr>
-<tr class="separator:a6556a2a443f194cbb76d03a34bac8cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12e78bdda600597419b36753cc4e9ec3"><td class="memItemLeft" align="right" valign="top"><a id="a12e78bdda600597419b36753cc4e9ec3"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::vector, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html">CellDouble</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a12e78bdda600597419b36753cc4e9ec3">CsvGridVD</a></td></tr>
-<tr class="memdesc:a12e78bdda600597419b36753cc4e9ec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::vector as underlying container type. More efficient when grid has a fixed size and only contains numerical data (stored as double type). <br /></td></tr>
-<tr class="separator:a12e78bdda600597419b36753cc4e9ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2312e7838761afa89007e8687e877996"><td class="memItemLeft" align="right" valign="top"><a id="a2312e7838761afa89007e8687e877996"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::list, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html">CellDouble</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a2312e7838761afa89007e8687e877996">CsvGridLD</a></td></tr>
-<tr class="memdesc:a2312e7838761afa89007e8687e877996"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::list as underlying container type. More efficient when grid will be dynamically resized and only contains numerical data (stored as double type). <br /></td></tr>
-<tr class="separator:a2312e7838761afa89007e8687e877996"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3484ddaf8504afb4cba35184e6a1cdc8"><td class="memItemLeft" align="right" valign="top"><a id="a3484ddaf8504afb4cba35184e6a1cdc8"></a>
-typedef <a class="el" href="namespacecore__lib_1_1csv__grid.html#a2312e7838761afa89007e8687e877996">CsvGridLD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a3484ddaf8504afb4cba35184e6a1cdc8">CsvGridD</a></td></tr>
-<tr class="memdesc:a3484ddaf8504afb4cba35184e6a1cdc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for grid when cells only contain double precision data. <br /></td></tr>
-<tr class="separator:a3484ddaf8504afb4cba35184e6a1cdc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a918a69fa9d6589041307fbe727740165"><td class="memItemLeft" align="right" valign="top"><a id="a918a69fa9d6589041307fbe727740165"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">CsvGridD::row_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a918a69fa9d6589041307fbe727740165">RowD</a></td></tr>
-<tr class="memdesc:a918a69fa9d6589041307fbe727740165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to Row object using CSVGrid::row_type. <br /></td></tr>
-<tr class="separator:a918a69fa9d6589041307fbe727740165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7913621df34f1938af5ba5db220b56a2"><td class="memItemLeft" align="right" valign="top"><a id="a7913621df34f1938af5ba5db220b56a2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a7913621df34f1938af5ba5db220b56a2">CsvGrid</a> = <a class="el" href="namespacecore__lib_1_1csv__grid.html#a082d3f6536901942f76c60a72b96dd44">CsvGridL</a></td></tr>
+<tr class="memdesc:a7913621df34f1938af5ba5db220b56a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef our default general use grid object to CSVGridL. <br /></td></tr>
+<tr class="separator:a7913621df34f1938af5ba5db220b56a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50088b241a6397e033cbb8d8260627a"><td class="memItemLeft" align="right" valign="top"><a id="ac50088b241a6397e033cbb8d8260627a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#ac50088b241a6397e033cbb8d8260627a">Row</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">CsvGrid::row_type</a></td></tr>
+<tr class="memdesc:ac50088b241a6397e033cbb8d8260627a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to Row object using CSVGrid::row_type. <br /></td></tr>
+<tr class="separator:ac50088b241a6397e033cbb8d8260627a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6b2b12ac6c4a7e4d4b907d6f8467669"><td class="memItemLeft" align="right" valign="top"><a id="af6b2b12ac6c4a7e4d4b907d6f8467669"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#af6b2b12ac6c4a7e4d4b907d6f8467669">CsvGridVD</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::vector, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html">CellDouble</a> &gt;</td></tr>
+<tr class="memdesc:af6b2b12ac6c4a7e4d4b907d6f8467669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::vector as underlying container type. More efficient when grid has a fixed size and only contains numerical data (stored as double type). <br /></td></tr>
+<tr class="separator:af6b2b12ac6c4a7e4d4b907d6f8467669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a6424f564c10046dee64464e90f3522"><td class="memItemLeft" align="right" valign="top"><a id="a2a6424f564c10046dee64464e90f3522"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a2a6424f564c10046dee64464e90f3522">CsvGridLD</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a>&lt; std::list, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html">CellDouble</a> &gt;</td></tr>
+<tr class="memdesc:a2a6424f564c10046dee64464e90f3522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to CsvGrid object using std::list as underlying container type. More efficient when grid will be dynamically resized and only contains numerical data (stored as double type). <br /></td></tr>
+<tr class="separator:a2a6424f564c10046dee64464e90f3522"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab53d2382a575e2b3f0eb807775baf4b9"><td class="memItemLeft" align="right" valign="top"><a id="ab53d2382a575e2b3f0eb807775baf4b9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#ab53d2382a575e2b3f0eb807775baf4b9">CsvGridD</a> = <a class="el" href="namespacecore__lib_1_1csv__grid.html#a2a6424f564c10046dee64464e90f3522">CsvGridLD</a></td></tr>
+<tr class="memdesc:ab53d2382a575e2b3f0eb807775baf4b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for grid when cells only contain double precision data. <br /></td></tr>
+<tr class="separator:ab53d2382a575e2b3f0eb807775baf4b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a790b435105054949d8a802fa49d8c8ce"><td class="memItemLeft" align="right" valign="top"><a id="a790b435105054949d8a802fa49d8c8ce"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a790b435105054949d8a802fa49d8c8ce">RowD</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">CsvGridD::row_type</a></td></tr>
+<tr class="memdesc:a790b435105054949d8a802fa49d8c8ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to Row object using CSVGrid::row_type. <br /></td></tr>
+<tr class="separator:a790b435105054949d8a802fa49d8c8ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -253,7 +241,7 @@ Enumerations</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:05 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

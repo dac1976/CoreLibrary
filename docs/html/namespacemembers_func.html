@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func.html','');});
 : <a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a75f9d7b204afda3e0063ee81fc2ad792">core_lib::asio::messages</a>
 </li>
 <li>CopyDirectoryRecursively()
-: <a class="el" href="namespacecore__lib_1_1file__utils.html#a985806bc48beedb3c0032b9c3b2d2a74">core_lib::file_utils</a>
+: <a class="el" href="namespacecore__lib_1_1file__utils.html#a2025edafa37f6866ded1dc908497aa54">core_lib::file_utils</a>
 </li>
 <li>DeserializeMessage()
 : <a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a8f76c46492c70797c356420b69295387">core_lib::asio::messages</a>
@@ -95,13 +95,19 @@ $(document).ready(function(){initNavTree('namespacemembers_func.html','');});
 : <a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a49a6eb238ddb3ea1d1d97bcabf08a366">core_lib::asio::messages</a>
 </li>
 <li>FindCommonRootPath()
-: <a class="el" href="namespacecore__lib_1_1file__utils.html#a92a0c9bdc62793e72ca851469f3d2370">core_lib::file_utils</a>
+: <a class="el" href="namespacecore__lib_1_1file__utils.html#aa4251be48265d80ec294da8cad824df5">core_lib::file_utils</a>
+</li>
+<li>FindFileRecursively()
+: <a class="el" href="namespacecore__lib_1_1file__utils.html#aa2defa75129ffcd4a0d35acdca038e82">core_lib::file_utils</a>
 </li>
 <li>FormatFloatString()
-: <a class="el" href="namespacecore__lib_1_1string__utils.html#acbf313f08e425374f225d4f7972878d2">core_lib::string_utils</a>
+: <a class="el" href="namespacecore__lib_1_1string__utils.html#a9af48f361142117fef94372b9a291b3d">core_lib::string_utils</a>
 </li>
 <li>ListDirectoryContents()
-: <a class="el" href="namespacecore__lib_1_1file__utils.html#a3ba5eacfb2614e86b0c45fb956f9185b">core_lib::file_utils</a>
+: <a class="el" href="namespacecore__lib_1_1file__utils.html#a922a68f2048c869ace2cd47dd0595bb2">core_lib::file_utils</a>
+</li>
+<li>ListSubDirectories()
+: <a class="el" href="namespacecore__lib_1_1file__utils.html#a7a23b45090ddcc50c5ae7bb27397ccd3">core_lib::file_utils</a>
 </li>
 <li>NULL_CONNECTION()
 : <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a286d01d758a1624159ee2418091f66c9">core_lib::asio::defs</a>
@@ -109,8 +115,14 @@ $(document).ready(function(){initNavTree('namespacemembers_func.html','');});
 <li>PackStdString()
 : <a class="el" href="namespacecore__lib_1_1string__utils.html#a0016720d11e6e4fe751381d7cb121630">core_lib::string_utils</a>
 </li>
+<li>RemoveIllegalChars()
+: <a class="el" href="namespacecore__lib_1_1string__utils.html#a3ba7ba8baee14121591a02f2af0425ca">core_lib::string_utils</a>
+</li>
 <li>SplitString()
-: <a class="el" href="namespacecore__lib_1_1string__utils.html#a163942ad82b7685b7adb7ba07c80d8bf">core_lib::string_utils</a>
+: <a class="el" href="namespacecore__lib_1_1string__utils.html#ac29af203fb8dd95cf24851ae3f8a2c17">core_lib::string_utils</a>
+</li>
+<li>StringToWString()
+: <a class="el" href="namespacecore__lib_1_1string__utils.html#ac7720660074f52f79604b91ff0f38126">core_lib::string_utils</a>
 </li>
 <li>ToCharVector()
 : <a class="el" href="namespacecore__lib_1_1serialize.html#ad4aa01ddc0b4571e7442b150cdd10ec8">core_lib::serialize</a>
@@ -118,13 +130,16 @@ $(document).ready(function(){initNavTree('namespacemembers_func.html','');});
 <li>ToObject()
 : <a class="el" href="namespacecore__lib_1_1serialize.html#a8316a47202c696fefd9e21c18b31e594">core_lib::serialize</a>
 </li>
+<li>WStringToString()
+: <a class="el" href="namespacecore__lib_1_1string__utils.html#ab656e115ee5d57fda92d6d4b2ab91f32">core_lib::string_utils</a>
+</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

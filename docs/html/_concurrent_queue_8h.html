@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -94,19 +94,14 @@ $(document).ready(function(){initNavTree('_concurrent_queue_8h.html','');});
 <div class="textblock"><code>#include &lt;deque&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;boost/throw_exception.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="_sync_event_8h_source.html">SyncEvent.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_custom_exception_8h_source.html">Exceptions/CustomException.h</a>&quot;</code><br />
 </div>
 <p><a href="_concurrent_queue_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html">core_lib::threads::xQueuePopTimeoutError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop timeout exception.  <a href="classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html">core_lib::threads::xQueuePopQueueEmptyError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop queue empty exception.  <a href="classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1threads_1_1_single_item_deleter.html">core_lib::threads::SingleItemDeleter&lt; P &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Single item deleter for queue item.  <a href="structcore__lib_1_1threads_1_1_single_item_deleter.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,7 +129,7 @@ Namespaces</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_66fb55a5566bd2c243f99b6fb708ad7b.html">Threads</a></li><li class="navelem"><a class="el" href="_concurrent_queue_8h.html">ConcurrentQueue.h</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:05 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:52 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

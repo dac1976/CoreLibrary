@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#afb48f5c10fa71f7d9ae4a46781888995">core_lib::csv_grid::Cell</a>
 </li>
 <li>cell_type
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a1bc8278bd88bc14c574e16bbddaef751">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a26d9a282837a487397cdb439f647ba17">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
 <li>CellDouble()
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html#a9267cc7862f622db8daebd6c2c103ac3">core_lib::csv_grid::CellDouble</a>
@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#a4131311c4d490b28161b27d594e387ca">core_lib::asio::messages::MessageHandler</a>
 </li>
 <li>CheckLogFileSize()
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#af15b1bad961d7db1578afcceb2e57c0a">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#ab1d57daf98e2cb20aa6b15d158c46237">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>CheckMessage()
 : <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#af4e40f77ff8756f7498da0d216be39e0">core_lib::asio::messages::MessageHandler</a>
@@ -125,12 +125,16 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 </li>
 <li>CloseConnection()
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a7cfbe38d025bd708c29c83a985fb64e9">core_lib::asio::tcp::SimpleTcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html#a04705e3106b0ca7d852f5a30fe47e38a">core_lib::asio::tcp::SimpleTcpClientList</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a1b45df555633e175cce0cadc6e370f19">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#aa844216146b16fb44851e4367b6c8f47">core_lib::asio::tcp::TcpClientList</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aa7cb46d0a1d2dae687a4fd9bb612280f">core_lib::asio::tcp::TcpConnection</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#aba790f8d5c68d541b01df61155206c5a">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
 </li>
 <li>CloseConnections()
-: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#af9a0a18bb3f695a28731dfa9fc6a6532">core_lib::asio::tcp::TcpConnections</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html#acedf791cc1b2acd322973e9a2725461d">core_lib::asio::tcp::SimpleTcpClientList</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#aed76281396fc673b983afd5731305562">core_lib::asio::tcp::TcpClientList</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#af9a0a18bb3f695a28731dfa9fc6a6532">core_lib::asio::tcp::TcpConnections</a>
 </li>
 <li>CloseOfStream()
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a11a1e33c88d43bd2d89c4f73843d3762">core_lib::log::DebugLog&lt; Formatter &gt;</a>
@@ -142,25 +146,27 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#abd4882def3a224ec52b6ac0a9ad1717d">core_lib::ini_file::if_private::CommentLine</a>
 </li>
 <li>ConcurrentQueue()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a26fb2097dfdc6b2a358dc4f259e64256">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a86f274141d0410f2b2c979866db1cf67">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>Connect()
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#ac752b95df8295d53ca0a88200c3f564a">core_lib::asio::tcp::TcpConnection</a>
 </li>
 <li>Connected()
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a3b40f013cd36ee97997268fc85550793">core_lib::asio::tcp::SimpleTcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html#ab1ccf39aa08073e42a51e9fcab731919">core_lib::asio::tcp::SimpleTcpClientList</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a5ed61b2a7c7650513f29c3d7a11a7e3f">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a0c934bbf7d3be47dc9701887c7590022">core_lib::asio::tcp::TcpClientList</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a97ee6356b7a55418777f5a26d94d744a">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
 </li>
 <li>container_type
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a4d2ed0a08f9067f9d760125ec9cf99ef">core_lib::csv_grid::reserver::ContainerReserver&lt; C, T &gt;</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html#a94ce0171d60dfbbfd894a5f1b8c9a7ca">core_lib::csv_grid::reserver::ContainerReserver&lt; std::vector, T &gt;</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#ae288eb85d706dd73fca398f9c024c6d5">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a4406a3a1bdc3ff80f9456ff302a4bb06">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a5675e5a61375cc8f73c921530397b40c">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_join_threads.html#a3f8fbbd9f072f29d41db04e64217ff70">core_lib::threads::JoinThreads&lt; C &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9">core_lib::threads::JoinThreadsP&lt; C &gt;</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a6fe9a1e5d48b1477388b9dba08d9eb0f">core_lib::csv_grid::reserver::ContainerReserver&lt; C, T &gt;</a>
+, <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html#a8e90e1bdef9e0c3b45257995f385b173">core_lib::csv_grid::reserver::ContainerReserver&lt; std::vector, T &gt;</a>
+, <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a9c4f3a0cc88fce7900a9a894519fbf90">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
+, <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#aa357ab91403af5d1b03dbb068c9bab0a">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a52cbc46e38412df8e665188cc7bae6e2">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a1146e87353baead8d86048cd3f6f2a7e">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_join_threads.html#a8a443aa33613a0d4cb0fe40bf120286f">core_lib::threads::JoinThreads&lt; C &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#ae6a121f2c3ca62fcaf90ade485a131c5">core_lib::threads::JoinThreadsP&lt; C &gt;</a>
 </li>
 <li>ContainsEndOfRow()
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a9904d496b4bf92bcd2bf8c3872721544">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
@@ -171,6 +177,10 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>CreateMulticastSocket()
 : <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ac9b9b1fdb4f9df0fe2cd578df780b187">core_lib::asio::udp::MulticastReceiver</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a32deda9d88b1f4c0a7fcf1b0456ba7d3">core_lib::asio::udp::MulticastSender</a>
+</li>
+<li>CreateTcpClient()
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html#ab6b3cb17931ed9441817fcb8c1aee9b3">core_lib::asio::tcp::SimpleTcpClientList</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#ac547cc0e3014922d39c48d1929af6d98">core_lib::asio::tcp::TcpClientList</a>
 </li>
 <li>CreateThread()
 : <a class="el" href="classcore__lib_1_1threads_1_1_thread_group.html#ad00e834d57483b4da7507aeb71c525ac">core_lib::threads::ThreadGroup</a>
@@ -185,7 +195,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

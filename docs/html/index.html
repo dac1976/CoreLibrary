@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="contents">
 <div class="textblock"><h2>Introduction</h2>
 <p>This library (CoreLibrary) is a collection of useful C++11 utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on.</p>
-<p>It is licensed under the GNU Lesser General Public License and the relevant documentation for this can be found at the top of each source file and in the files COPYING and COPYING.LESSER.</p>
+<p>It is licensed under the GNU Lesser General Public License 3.0 and the relevant documentation for this can be found at the top of each source file and in the LICENSE text file.</p>
 <p>The code is the work of Duncan Crutchley (<a href="#" onclick="location.href='mai'+'lto:'+'dac'+'19'+'76g'+'it'+'hub'+'@o'+'utl'+'oo'+'k.c'+'om'; return false;">dac19<span style="display: none;">.nosp@m.</span>76gi<span style="display: none;">.nosp@m.</span>thub@<span style="display: none;">.nosp@m.</span>outl<span style="display: none;">.nosp@m.</span>ook.c<span style="display: none;">.nosp@m.</span>om</a>).</p>
 <p>Copyright (C) 2014 (to present) Duncan Crutchley.</p>
 <h2>Requirements</h2>
@@ -107,13 +107,13 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>I fix bugs and improve the code as and when necessary but make no guarantees on how often this happens. I provide no warranty or support for any issues that are encountered while using it. Although if you are really stuck email me at the provided address and if I have the time I will try to help/fix the issue if it's within my power.</p>
 <p>The code is commented using Doxygen style comments so check the documentation in the /docs/html/ folder and open index.html in your browser of choice.</p>
 <p>For usage examples I recommend looking at the unit test code in the /UnitTests/GoogleTests folder.</p>
-<p>The networking unit tests require network connectivity and expect 2 adapters setup, one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters. </p>
+<p>The networking unit tests require network connectivity and expects 2 adapters setup, one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

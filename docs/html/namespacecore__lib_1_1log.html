@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -102,27 +102,19 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html">DefaultLogFormat</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default log line formater.  <a href="structcore__lib_1_1log_1_1_default_log_format.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1x_instantiation_error.html">xInstantiationError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiation exception.  <a href="classcore__lib_1_1log_1_1x_instantiation_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1x_log_msg_handler_error.html">xLogMsgHandlerError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message handler exception.  <a href="classcore__lib_1_1log_1_1x_log_msg_handler_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ac8170d34fa79016d45d9b4d4af2998d1"><td class="memItemLeft" align="right" valign="top"><a id="ac8170d34fa79016d45d9b4d4af2998d1"></a>
-typedef <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html">DebugLog</a>&lt; <a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html">DefaultLogFormat</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#ac8170d34fa79016d45d9b4d4af2998d1">default_log_t</a></td></tr>
-<tr class="memdesc:ac8170d34fa79016d45d9b4d4af2998d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining our default log's type. <br /></td></tr>
-<tr class="separator:ac8170d34fa79016d45d9b4d4af2998d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5357b28b3f3e53468b206f09614b47d2"><td class="memItemLeft" align="right" valign="top"><a id="a5357b28b3f3e53468b206f09614b47d2"></a>
-typedef Loki::SingletonHolder&lt; <a class="el" href="namespacecore__lib_1_1log.html#ac8170d34fa79016d45d9b4d4af2998d1">default_log_t</a>, Loki::CreateUsingNew, Loki::DeletableSingleton &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#a5357b28b3f3e53468b206f09614b47d2">DebugLogSingleton</a></td></tr>
-<tr class="memdesc:a5357b28b3f3e53468b206f09614b47d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining our actual log's singelton. <br /></td></tr>
-<tr class="separator:a5357b28b3f3e53468b206f09614b47d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b403a213fcbbebb188d32afc0ace581"><td class="memItemLeft" align="right" valign="top"><a id="a5b403a213fcbbebb188d32afc0ace581"></a>
-typedef Loki::DeletableSingleton&lt; <a class="el" href="namespacecore__lib_1_1log.html#ac8170d34fa79016d45d9b4d4af2998d1">default_log_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#a5b403a213fcbbebb188d32afc0ace581">DebugLogSingletonDeleter</a></td></tr>
-<tr class="memdesc:a5b403a213fcbbebb188d32afc0ace581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining a singleton deleter. <br /></td></tr>
-<tr class="separator:a5b403a213fcbbebb188d32afc0ace581"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a201bedc730c57d53881cb7f84efa3771"><td class="memItemLeft" align="right" valign="top"><a id="a201bedc730c57d53881cb7f84efa3771"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#a201bedc730c57d53881cb7f84efa3771">default_log_t</a> = <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html">DebugLog</a>&lt; <a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html">DefaultLogFormat</a> &gt;</td></tr>
+<tr class="memdesc:a201bedc730c57d53881cb7f84efa3771"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining our default log's type. <br /></td></tr>
+<tr class="separator:a201bedc730c57d53881cb7f84efa3771"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac271d0ca6e9b141e441bd26e15473b38"><td class="memItemLeft" align="right" valign="top"><a id="ac271d0ca6e9b141e441bd26e15473b38"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>debug_singelton_t</b> = Loki::SingletonHolder&lt; <a class="el" href="namespacecore__lib_1_1log.html#a201bedc730c57d53881cb7f84efa3771">default_log_t</a>, Loki::CreateUsingNew, Loki::DeletableSingleton &gt;</td></tr>
+<tr class="separator:ac271d0ca6e9b141e441bd26e15473b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e067e6c63f68e2609f45b565b344454"><td class="memItemLeft" align="right" valign="top"><a id="a1e067e6c63f68e2609f45b565b344454"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>debug_singelton_deleter_t</b> = Loki::DeletableSingleton&lt; <a class="el" href="namespacecore__lib_1_1log.html#a201bedc730c57d53881cb7f84efa3771">default_log_t</a> &gt;</td></tr>
+<tr class="separator:a1e067e6c63f68e2609f45b565b344454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -193,7 +185,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1log.html">log</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -1,10 +1,11 @@
 var classcore__lib_1_1threads_1_1_thread_group =
 [
-    [ "thread_list", "classcore__lib_1_1threads_1_1_thread_group.html#a3bcbc3949196da0017ec93690d62b15f", null ],
-    [ "thread_list_iter", "classcore__lib_1_1threads_1_1_thread_group.html#a1878545231161a3c55341542ccb58501", null ],
+    [ "thread_list", "classcore__lib_1_1threads_1_1_thread_group.html#abbbb7ea215832d1f21e89e1388aa4450", null ],
+    [ "thread_list_iter", "classcore__lib_1_1threads_1_1_thread_group.html#ac891aa27b314e856c9aa4ddb5a3fb3ac", null ],
     [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html#adb821c8ab9836bf9d1144034a5ebfe46", null ],
     [ "~ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html#afeb9893b69d38fb90a49c0a8fb2d9a35", null ],
     [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html#af8c232343e7e8cc749d3b6479104a5f8", null ],
+    [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html#ac3d8c16f82081d7d88b80bfebca6bbce", null ],
     [ "AddThread", "classcore__lib_1_1threads_1_1_thread_group.html#a77e3d1b84cacabe4f9d9f4c943d8a764", null ],
     [ "CreateThread", "classcore__lib_1_1threads_1_1_thread_group.html#ad00e834d57483b4da7507aeb71c525ac", null ],
     [ "DeleteThread", "classcore__lib_1_1threads_1_1_thread_group.html#ad7d5e15d7d90344a2a22ea16d9db1b90", null ],
@@ -16,6 +17,7 @@ var classcore__lib_1_1threads_1_1_thread_group =
     [ "IsThreadInNoMutex", "classcore__lib_1_1threads_1_1_thread_group.html#ae020c8960ee737b846c365e128166a02", null ],
     [ "JoinAll", "classcore__lib_1_1threads_1_1_thread_group.html#ae02067e634d805cc1edc37dacdb66b3d", null ],
     [ "operator=", "classcore__lib_1_1threads_1_1_thread_group.html#a89ab578570c7f087e929f9c305d08500", null ],
+    [ "operator=", "classcore__lib_1_1threads_1_1_thread_group.html#a23f1035d8f30a0e1d57528449c8f1e06", null ],
     [ "RemoveThread", "classcore__lib_1_1threads_1_1_thread_group.html#a9844891e52512a7e8e0317a065f6bc01", null ],
     [ "RemoveThread", "classcore__lib_1_1threads_1_1_thread_group.html#a6cab50287cbb2ce7a2887c64770dbdb9", null ],
     [ "Size", "classcore__lib_1_1threads_1_1_thread_group.html#ab1e22e6fa8734c4a8789a64159a1c912", null ],

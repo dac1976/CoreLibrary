@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -107,8 +107,10 @@ $(document).ready(function(){initNavTree('_debug_log_8h.html','');});
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;boost/filesystem.hpp&gt;</code><br />
+<code>#include &lt;boost/throw_exception.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="_message_queue_thread_8h_source.html">Threads/MessageQueueThread.h</a>&quot;</code><br />
-<code>#include &quot;boost/filesystem.hpp&quot;</code><br />
 </div>
 <p><a href="_debug_log_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -116,12 +118,6 @@ $(document).ready(function(){initNavTree('_debug_log_8h.html','');});
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html">std::hash&lt; core_lib::log::eLogMessageLevel &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template specialisation of std::hash for enum eLogMessageLevel.  <a href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1x_log_msg_handler_error.html">core_lib::log::xLogMsgHandlerError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message handler exception.  <a href="classcore__lib_1_1log_1_1x_log_msg_handler_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1x_instantiation_error.html">core_lib::log::xInstantiationError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiation exception.  <a href="classcore__lib_1_1log_1_1x_instantiation_error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html">core_lib::log::DefaultLogFormat</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default log line formater.  <a href="structcore__lib_1_1log_1_1_default_log_format.html#details">More...</a><br /></td></tr>
@@ -175,7 +171,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_a5789a75eb43e5152704aea29b318b64.html">DebugLog</a></li><li class="navelem"><a class="el" href="_debug_log_8h.html">DebugLog.h</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:05 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:52 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

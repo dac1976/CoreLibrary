@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -95,11 +95,7 @@ $(document).ready(function(){initNavTree('namespacecore__lib_1_1string__utils.ht
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1string__utils_1_1x_split_string_bad_delim.html">xSplitStringBadDelim</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Split string bad delimiter exception.  <a href="classcore__lib_1_1string__utils_1_1x_split_string_bad_delim.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1string__utils_1_1x_split_string_too_many_substrings.html">xSplitStringTooManySubstrings</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Split string sub-strings exception.  <a href="classcore__lib_1_1string__utils_1_1x_split_string_too_many_substrings.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1string__utils_1_1deletable__facet.html">deletable_facet</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -121,13 +117,25 @@ Functions</h2></td></tr>
 <tr class="memitem:a0016720d11e6e4fe751381d7cb121630"><td class="memItemLeft" align="right" valign="top">void CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#a0016720d11e6e4fe751381d7cb121630">PackStdString</a> (std::string &amp;line)</td></tr>
 <tr class="memdesc:a0016720d11e6e4fe751381d7cb121630"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tidy a string obtained from getline function.  <a href="#a0016720d11e6e4fe751381d7cb121630">More...</a><br /></td></tr>
 <tr class="separator:a0016720d11e6e4fe751381d7cb121630"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a163942ad82b7685b7adb7ba07c80d8bf"><td class="memItemLeft" align="right" valign="top">void CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#a163942ad82b7685b7adb7ba07c80d8bf">SplitString</a> (std::string &amp;subStr1, std::string &amp;subStr2, const std::string &amp;toSplit, const std::string &amp;delim, const <a class="el" href="namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833b">eSplitStringResult</a> option)</td></tr>
-<tr class="memdesc:a163942ad82b7685b7adb7ba07c80d8bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Split a string into two parts given delimiters.  <a href="#a163942ad82b7685b7adb7ba07c80d8bf">More...</a><br /></td></tr>
-<tr class="separator:a163942ad82b7685b7adb7ba07c80d8bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbf313f08e425374f225d4f7972878d2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:acbf313f08e425374f225d4f7972878d2"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#acbf313f08e425374f225d4f7972878d2">FormatFloatString</a> (const T value, const int precision=15, const <a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5">eFloatStringFormat</a> formatting=<a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5afea087517c26fadd409bd4b9dc642555">eFloatStringFormat::normal</a>)</td></tr>
-<tr class="memdesc:acbf313f08e425374f225d4f7972878d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a floating point value to a formatted string representation.  <a href="#acbf313f08e425374f225d4f7972878d2">More...</a><br /></td></tr>
-<tr class="separator:acbf313f08e425374f225d4f7972878d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac29af203fb8dd95cf24851ae3f8a2c17"><td class="memItemLeft" align="right" valign="top">void CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#ac29af203fb8dd95cf24851ae3f8a2c17">SplitString</a> (std::string &amp;subStr1, std::string &amp;subStr2, const std::string &amp;toSplit, const std::string &amp;delim, <a class="el" href="namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833b">eSplitStringResult</a> option)</td></tr>
+<tr class="memdesc:ac29af203fb8dd95cf24851ae3f8a2c17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Split a string into two parts given delimiters.  <a href="#ac29af203fb8dd95cf24851ae3f8a2c17">More...</a><br /></td></tr>
+<tr class="separator:ac29af203fb8dd95cf24851ae3f8a2c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9af48f361142117fef94372b9a291b3d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a9af48f361142117fef94372b9a291b3d"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#a9af48f361142117fef94372b9a291b3d">FormatFloatString</a> (const T value, const int precision=15, <a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5">eFloatStringFormat</a> formatting=<a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5afea087517c26fadd409bd4b9dc642555">eFloatStringFormat::normal</a>)</td></tr>
+<tr class="memdesc:a9af48f361142117fef94372b9a291b3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a floating point value to a formatted string representation.  <a href="#a9af48f361142117fef94372b9a291b3d">More...</a><br /></td></tr>
+<tr class="separator:a9af48f361142117fef94372b9a291b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ba7ba8baee14121591a02f2af0425ca"><td class="memItemLeft" align="right" valign="top">std::wstring CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#a3ba7ba8baee14121591a02f2af0425ca">RemoveIllegalChars</a> (const std::wstring &amp;text, const std::wstring &amp;illegalChars=L&quot;~#%&amp;*{}&lt;&gt;?/+|\, wchar_t replacementChar=L '_')</td></tr>
+<tr class="memdesc:a3ba7ba8baee14121591a02f2af0425ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string with any illegal chars replaced with replacement char.  <a href="#a3ba7ba8baee14121591a02f2af0425ca">More...</a><br /></td></tr>
+<tr class="separator:a3ba7ba8baee14121591a02f2af0425ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ac0221ad48a0a5a1072a92359cbd2b2"><td class="memItemLeft" align="right" valign="top"><a id="a0ac0221ad48a0a5a1072a92359cbd2b2"></a>
+std::string CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveIllegalChars</b> (const std::string &amp;text, const std::string &amp;illegalChars=&quot;~#%&amp;*{}&lt;&gt;?/+|\, char replacementChar='_')</td></tr>
+<tr class="separator:a0ac0221ad48a0a5a1072a92359cbd2b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7720660074f52f79604b91ff0f38126"><td class="memItemLeft" align="right" valign="top">std::wstring CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#ac7720660074f52f79604b91ff0f38126">StringToWString</a> (const std::string &amp;text)</td></tr>
+<tr class="memdesc:ac7720660074f52f79604b91ff0f38126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a std::string to std::wstring.  <a href="#ac7720660074f52f79604b91ff0f38126">More...</a><br /></td></tr>
+<tr class="separator:ac7720660074f52f79604b91ff0f38126"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab656e115ee5d57fda92d6d4b2ab91f32"><td class="memItemLeft" align="right" valign="top">std::string CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1string__utils.html#ab656e115ee5d57fda92d6d4b2ab91f32">WStringToString</a> (const std::wstring &amp;text)</td></tr>
+<tr class="memdesc:ab656e115ee5d57fda92d6d4b2ab91f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a std::wstring to std::string.  <a href="#ab656e115ee5d57fda92d6d4b2ab91f32">More...</a><br /></td></tr>
+<tr class="separator:ab656e115ee5d57fda92d6d4b2ab91f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="namespacecore__lib_1_1string__utils.html" title="The string_utils namespace. ">string_utils</a> namespace. </p>
@@ -197,8 +205,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="acbf313f08e425374f225d4f7972878d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbf313f08e425374f225d4f7972878d2">&#9670;&nbsp;</a></span>FormatFloatString()</h2>
+<a id="a9af48f361142117fef94372b9a291b3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9af48f361142117fef94372b9a291b3d">&#9670;&nbsp;</a></span>FormatFloatString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,7 +228,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5">eFloatStringFormat</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5">eFloatStringFormat</a>&#160;</td>
           <td class="paramname"><em>formatting</em> = <code><a class="el" href="namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5afea087517c26fadd409bd4b9dc642555">eFloatStringFormat::normal</a></code>&#160;</td>
         </tr>
         <tr>
@@ -271,8 +279,53 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a163942ad82b7685b7adb7ba07c80d8bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a163942ad82b7685b7adb7ba07c80d8bf">&#9670;&nbsp;</a></span>SplitString()</h2>
+<a id="a3ba7ba8baee14121591a02f2af0425ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ba7ba8baee14121591a02f2af0425ca">&#9670;&nbsp;</a></span>RemoveIllegalChars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::wstring core_lib::string_utils::RemoveIllegalChars </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>illegalChars</em> = <code>L&quot;~#%&amp;*{}\\:&lt;&gt;?/+|\&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">wchar_t&#160;</td>
+          <td class="paramname"><em>replacementChar</em> = <code>L'_'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a string with any illegal chars replaced with replacement char. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">text</td><td>- Source string potentially with illegal chars. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">illegalChars</td><td>- String containing illegal chars to look for in text. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">replacementChar</td><td>- String containing replacement. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Copy of text with ilegal chars replaced. </dd></dl>
+
+</div>
+</div>
+<a id="ac29af203fb8dd95cf24851ae3f8a2c17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac29af203fb8dd95cf24851ae3f8a2c17">&#9670;&nbsp;</a></span>SplitString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -304,7 +357,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833b">eSplitStringResult</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833b">eSplitStringResult</a>&#160;</td>
           <td class="paramname"><em>option</em>&#160;</td>
         </tr>
         <tr>
@@ -326,7 +379,61 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<p>Given an input string and a string containing delimiters the input string is split into two parts either side of the deilimiter string. If none of the delimiters can be found then a <a class="el" href="classcore__lib_1_1string__utils_1_1x_split_string_bad_delim.html" title="Split string bad delimiter exception. ">xSplitStringBadDelim</a> exception is thrown. If the string will be split into more than two substrings then a xSplitStringTooManySubStrings exception is thrown. </p>
+<p>Given an input string and a string containing delimiters the input string is split into two parts either side of the deilimiter string. If none of the delimiters can be found then a std::invalid_argument exception is thrown. If the string will be split into more than two substrings then a std::runtime_error exception is thrown. </p>
+
+</div>
+</div>
+<a id="ac7720660074f52f79604b91ff0f38126"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7720660074f52f79604b91ff0f38126">&#9670;&nbsp;</a></span>StringToWString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::wstring core_lib::string_utils::StringToWString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a std::string to std::wstring. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">text</td><td>- Source string. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Converted string. </dd></dl>
+
+</div>
+</div>
+<a id="ab656e115ee5d57fda92d6d4b2ab91f32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab656e115ee5d57fda92d6d4b2ab91f32">&#9670;&nbsp;</a></span>WStringToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core_lib::string_utils::WStringToString </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a std::wstring to std::string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">text</td><td>- Source string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Converted string. </dd></dl>
 
 </div>
 </div>
@@ -336,7 +443,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1string__utils.html">string_utils</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

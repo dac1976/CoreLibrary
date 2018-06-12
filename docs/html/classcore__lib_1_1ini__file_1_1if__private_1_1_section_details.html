@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1ini__file_1_1if__pri
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">core_lib::ini_file::if_private::SectionDetails Class Reference</div>  </div>
+<div class="title">core_lib::ini_file::if_private::SectionDetails Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -107,7 +107,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a2e1e5b82ad27b68771cbde3506b3fe65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. <br /></td></tr>
 <tr class="separator:a2e1e5b82ad27b68771cbde3506b3fe65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2825223038969b3cb5c072c696da604d"><td class="memItemLeft" align="right" valign="top"><a id="a2825223038969b3cb5c072c696da604d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a2825223038969b3cb5c072c696da604d">SectionDetails</a> (const <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a> &amp;sectIter)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a2825223038969b3cb5c072c696da604d">SectionDetails</a> (const <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> &amp;sectIter)</td></tr>
 <tr class="memdesc:a2825223038969b3cb5c072c696da604d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialising constructor. <br /></td></tr>
 <tr class="separator:a2825223038969b3cb5c072c696da604d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57e4ed05534a38932858a3f5badd82a9"><td class="memItemLeft" align="right" valign="top"><a id="a57e4ed05534a38932858a3f5badd82a9"></a>
@@ -132,44 +132,44 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afb56645125534fd8fb84df38fb3d929f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#afb56645125534fd8fb84df38fb3d929f">KeyExists</a> (const std::string &amp;key) const</td></tr>
 <tr class="memdesc:afb56645125534fd8fb84df38fb3d929f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does a key exist.  <a href="#afb56645125534fd8fb84df38fb3d929f">More...</a><br /></td></tr>
 <tr class="separator:afb56645125534fd8fb84df38fb3d929f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a192c4fa950241a54e362368ff56527"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a3a192c4fa950241a54e362368ff56527">AddKey</a> (const <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a> &amp;keyIter)</td></tr>
+<tr class="memitem:a3a192c4fa950241a54e362368ff56527"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a3a192c4fa950241a54e362368ff56527">AddKey</a> (const <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> &amp;keyIter)</td></tr>
 <tr class="memdesc:a3a192c4fa950241a54e362368ff56527"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a key to the section.  <a href="#a3a192c4fa950241a54e362368ff56527">More...</a><br /></td></tr>
 <tr class="separator:a3a192c4fa950241a54e362368ff56527"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d6f9a18dccca0245f470f15b6faa37b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a1d6f9a18dccca0245f470f15b6faa37b">UpdateKey</a> (const std::string &amp;key, const std::string &amp;value)</td></tr>
 <tr class="memdesc:a1d6f9a18dccca0245f470f15b6faa37b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update a key's value in the section.  <a href="#a1d6f9a18dccca0245f470f15b6faa37b">More...</a><br /></td></tr>
 <tr class="separator:a1d6f9a18dccca0245f470f15b6faa37b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c85e6542abd606bffdeb1b526723d18"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a8c85e6542abd606bffdeb1b526723d18">EraseKey</a> (const std::string &amp;key, <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a> &amp;lineIter)</td></tr>
+<tr class="memitem:a8c85e6542abd606bffdeb1b526723d18"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a8c85e6542abd606bffdeb1b526723d18">EraseKey</a> (const std::string &amp;key, <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> &amp;lineIter)</td></tr>
 <tr class="memdesc:a8c85e6542abd606bffdeb1b526723d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase a key value from the section.  <a href="#a8c85e6542abd606bffdeb1b526723d18">More...</a><br /></td></tr>
 <tr class="separator:a8c85e6542abd606bffdeb1b526723d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d20931b8dea79955caa8cf8d50fed6a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a5d20931b8dea79955caa8cf8d50fed6a">GetValue</a> (const std::string &amp;key, const std::string &amp;defaultValue=&quot;&quot;) const</td></tr>
 <tr class="memdesc:a5d20931b8dea79955caa8cf8d50fed6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a key's value from the section.  <a href="#a5d20931b8dea79955caa8cf8d50fed6a">More...</a><br /></td></tr>
 <tr class="separator:a5d20931b8dea79955caa8cf8d50fed6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9278dbd85996b868126b779b937cb27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#ad9278dbd85996b868126b779b937cb27">GetKeys</a> (<a class="el" href="namespacecore__lib_1_1ini__file.html#ae761b2040bcf6477afe9eb14a58c5d26">keys_list</a> &amp;keys) const</td></tr>
+<tr class="memitem:ad9278dbd85996b868126b779b937cb27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#ad9278dbd85996b868126b779b937cb27">GetKeys</a> (<a class="el" href="namespacecore__lib_1_1ini__file.html#acb2215ac1ac9ec77960c2921c3c13444">keys_list</a> &amp;keys) const</td></tr>
 <tr class="memdesc:ad9278dbd85996b868126b779b937cb27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a list of keys in the section.  <a href="#ad9278dbd85996b868126b779b937cb27">More...</a><br /></td></tr>
 <tr class="separator:ad9278dbd85996b868126b779b937cb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab63bbc2aea27543c6a7bd0c1279da96d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#ab63bbc2aea27543c6a7bd0c1279da96d">LineIterator</a> () const</td></tr>
+<tr class="memitem:ab63bbc2aea27543c6a7bd0c1279da96d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#ab63bbc2aea27543c6a7bd0c1279da96d">LineIterator</a> () const</td></tr>
 <tr class="memdesc:ab63bbc2aea27543c6a7bd0c1279da96d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the line iterator.  <a href="#ab63bbc2aea27543c6a7bd0c1279da96d">More...</a><br /></td></tr>
 <tr class="separator:ab63bbc2aea27543c6a7bd0c1279da96d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:abd7ac11e9655d6d714018341a3243938"><td class="memItemLeft" align="right" valign="top"><a id="abd7ac11e9655d6d714018341a3243938"></a>
-typedef std::list&lt; <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#abd7ac11e9655d6d714018341a3243938">line_iter_list</a></td></tr>
-<tr class="memdesc:abd7ac11e9655d6d714018341a3243938"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> iterator lists typedef. <br /></td></tr>
-<tr class="separator:abd7ac11e9655d6d714018341a3243938"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2653b50d89dac181908fd36d6e027c53"><td class="memItemLeft" align="right" valign="top"><a id="a2653b50d89dac181908fd36d6e027c53"></a>
-typedef line_iter_list::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a2653b50d89dac181908fd36d6e027c53">keys_iter</a></td></tr>
-<tr class="memdesc:a2653b50d89dac181908fd36d6e027c53"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> iterator list iterator. <br /></td></tr>
-<tr class="separator:a2653b50d89dac181908fd36d6e027c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4058f6ecae532b7869c58bacc08cda11"><td class="memItemLeft" align="right" valign="top"><a id="a4058f6ecae532b7869c58bacc08cda11"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a4058f6ecae532b7869c58bacc08cda11">line_iter_list</a> = std::list&lt; <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> &gt;</td></tr>
+<tr class="memdesc:a4058f6ecae532b7869c58bacc08cda11"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> iterator lists typedef. <br /></td></tr>
+<tr class="separator:a4058f6ecae532b7869c58bacc08cda11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19a9a75e6c6c9c30ddb01318b1adbfdd"><td class="memItemLeft" align="right" valign="top"><a id="a19a9a75e6c6c9c30ddb01318b1adbfdd"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a19a9a75e6c6c9c30ddb01318b1adbfdd">keys_iter</a> = line_iter_list::iterator</td></tr>
+<tr class="memdesc:a19a9a75e6c6c9c30ddb01318b1adbfdd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> iterator list iterator. <br /></td></tr>
+<tr class="separator:a19a9a75e6c6c9c30ddb01318b1adbfdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a5dccd60d7bdc0166370b7e3b9630446c"><td class="memItemLeft" align="right" valign="top"><a id="a5dccd60d7bdc0166370b7e3b9630446c"></a>
-<a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a5dccd60d7bdc0166370b7e3b9630446c">m_sectIter</a> {}</td></tr>
+<a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a5dccd60d7bdc0166370b7e3b9630446c">m_sectIter</a> {}</td></tr>
 <tr class="memdesc:a5dccd60d7bdc0166370b7e3b9630446c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> iterator. <br /></td></tr>
 <tr class="separator:a5dccd60d7bdc0166370b7e3b9630446c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93413c5c96546455633362f264d45d3a"><td class="memItemLeft" align="right" valign="top"><a id="a93413c5c96546455633362f264d45d3a"></a>
-<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#abd7ac11e9655d6d714018341a3243938">line_iter_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a93413c5c96546455633362f264d45d3a">m_keyIters</a> {}</td></tr>
+<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a4058f6ecae532b7869c58bacc08cda11">line_iter_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a93413c5c96546455633362f264d45d3a">m_keyIters</a> {}</td></tr>
 <tr class="memdesc:a93413c5c96546455633362f264d45d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> iterator list. <br /></td></tr>
 <tr class="separator:a93413c5c96546455633362f264d45d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -185,7 +185,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void core_lib::ini_file::if_private::SectionDetails::AddKey </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> &amp;&#160;</td>
           <td class="paramname"><em>keyIter</em></td><td>)</td>
           <td></td>
         </tr>
@@ -217,7 +217,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> &amp;&#160;</td>
           <td class="paramname"><em>lineIter</em>&#160;</td>
         </tr>
         <tr>
@@ -249,7 +249,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void core_lib::ini_file::if_private::SectionDetails::GetKeys </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1ini__file.html#ae761b2040bcf6477afe9eb14a58c5d26">keys_list</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1ini__file.html#acb2215ac1ac9ec77960c2921c3c13444">keys_list</a> &amp;&#160;</td>
           <td class="paramname"><em>keys</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -338,7 +338,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a> core_lib::ini_file::if_private::SectionDetails::LineIterator </td>
+          <td class="memname"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> core_lib::ini_file::if_private::SectionDetails::LineIterator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -418,7 +418,7 @@ Private Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html">if_private</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html">SectionDetails</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

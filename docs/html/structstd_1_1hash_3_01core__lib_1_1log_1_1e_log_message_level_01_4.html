@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -97,22 +97,22 @@ $(document).ready(function(){initNavTree('structstd_1_1hash_3_01core__lib_1_1log
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a3adabed9dec03b9671bd7a25be499607"><td class="memItemLeft" align="right" valign="top"><a id="a3adabed9dec03b9671bd7a25be499607"></a>
-typedef <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">core_lib::log::eLogMessageLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a3adabed9dec03b9671bd7a25be499607">argument_t</a></td></tr>
-<tr class="memdesc:a3adabed9dec03b9671bd7a25be499607"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for argument type. <br /></td></tr>
-<tr class="separator:a3adabed9dec03b9671bd7a25be499607"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26b82c3b9798fd2881924383d0f726d8"><td class="memItemLeft" align="right" valign="top"><a id="a26b82c3b9798fd2881924383d0f726d8"></a>
-typedef std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a26b82c3b9798fd2881924383d0f726d8">result_t</a></td></tr>
-<tr class="memdesc:a26b82c3b9798fd2881924383d0f726d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for result type. <br /></td></tr>
-<tr class="separator:a26b82c3b9798fd2881924383d0f726d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb04a2486dae7da40a5c42421a0134d1"><td class="memItemLeft" align="right" valign="top"><a id="acb04a2486dae7da40a5c42421a0134d1"></a>
-typedef <a class="el" href="_platform_defines_8h.html#aab8ce52d305ed9aac07efb498766b5fb">TYPENAME_DECL_</a> std::underlying_type&lt; <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#acb04a2486dae7da40a5c42421a0134d1">enumType_t</a></td></tr>
-<tr class="memdesc:acb04a2486dae7da40a5c42421a0134d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for underlying type. <br /></td></tr>
-<tr class="separator:acb04a2486dae7da40a5c42421a0134d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad44feb3ba3ad4d2df8efc34535530281"><td class="memItemLeft" align="right" valign="top"><a id="ad44feb3ba3ad4d2df8efc34535530281"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#ad44feb3ba3ad4d2df8efc34535530281">argument_t</a> = <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">core_lib::log::eLogMessageLevel</a></td></tr>
+<tr class="memdesc:ad44feb3ba3ad4d2df8efc34535530281"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for argument type. <br /></td></tr>
+<tr class="separator:ad44feb3ba3ad4d2df8efc34535530281"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe354be346ae0fb8fbad7fcda0063599"><td class="memItemLeft" align="right" valign="top"><a id="abe354be346ae0fb8fbad7fcda0063599"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abe354be346ae0fb8fbad7fcda0063599">result_t</a> = std::size_t</td></tr>
+<tr class="memdesc:abe354be346ae0fb8fbad7fcda0063599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for result type. <br /></td></tr>
+<tr class="separator:abe354be346ae0fb8fbad7fcda0063599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc8e72bd1cc27691881641acbb20d17a"><td class="memItemLeft" align="right" valign="top"><a id="abc8e72bd1cc27691881641acbb20d17a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abc8e72bd1cc27691881641acbb20d17a">enumType_t</a> = <a class="el" href="_platform_defines_8h.html#aab8ce52d305ed9aac07efb498766b5fb">TYPENAME_DECL_</a> std::underlying_type&lt; <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &gt;::type</td></tr>
+<tr class="memdesc:abc8e72bd1cc27691881641acbb20d17a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for underlying type. <br /></td></tr>
+<tr class="separator:abc8e72bd1cc27691881641acbb20d17a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2b86bca802b089767f08507f9a647118"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a26b82c3b9798fd2881924383d0f726d8">result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a2b86bca802b089767f08507f9a647118">operator()</a> (const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &amp;a) const</td></tr>
+<tr class="memitem:a2b86bca802b089767f08507f9a647118"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abe354be346ae0fb8fbad7fcda0063599">result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a2b86bca802b089767f08507f9a647118">operator()</a> (const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &amp;a) const</td></tr>
 <tr class="memdesc:a2b86bca802b089767f08507f9a647118"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator to perform the hash.  <a href="#a2b86bca802b089767f08507f9a647118">More...</a><br /></td></tr>
 <tr class="separator:a2b86bca802b089767f08507f9a647118"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -132,7 +132,7 @@ struct std::hash&lt; core_lib::log::eLogMessageLevel &gt;</h3>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#a26b82c3b9798fd2881924383d0f726d8">result_t</a> std::hash&lt; <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">core_lib::log::eLogMessageLevel</a> &gt;::operator() </td>
+          <td class="memname"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html#abe354be346ae0fb8fbad7fcda0063599">result_t</a> std::hash&lt; <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">core_lib::log::eLogMessageLevel</a> &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">argument_t</a> &amp;&#160;</td>
           <td class="paramname"><em>a</em></td><td>)</td>
@@ -166,7 +166,7 @@ struct std::hash&lt; core_lib::log::eLogMessageLevel &gt;</h3>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacestd.html">std</a></li><li class="navelem"><a class="el" href="structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html">hash&lt; core_lib::log::eLogMessageLevel &gt;</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

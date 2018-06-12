@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -95,9 +95,9 @@ $(document).ready(function(){initNavTree('_udp_typed_sender_8h_source.html','');
 <div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender_html_a0f70e83b1f76bcca209835844c16fbf3"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a0f70e83b1f76bcca209835844c16fbf3">core_lib::asio::udp::UdpTypedSender::~UdpTypedSender</a></div><div class="ttdeci">~UdpTypedSender()=default</div><div class="ttdoc">Default destructor. </div></div>
 <div class="ttc" id="namespacecore__lib_1_1asio_1_1defs_html_a286d01d758a1624159ee2418091f66c9"><div class="ttname"><a href="namespacecore__lib_1_1asio_1_1defs.html#a286d01d758a1624159ee2418091f66c9">core_lib::asio::defs::NULL_CONNECTION</a></div><div class="ttdeci">static const connection_t NULL_CONNECTION(&quot;0.0.0.0&quot;, 0)</div><div class="ttdoc">Constant defining a null network connection as (&quot;0.0.0.0&quot;, 0). </div></div>
 <div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender_html_a984bc36c1d591de0d2a6459c0d95aa91"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a984bc36c1d591de0d2a6459c0d95aa91">core_lib::asio::udp::UdpTypedSender::SendMessage</a></div><div class="ttdeci">bool SendMessage(const uint32_t messageId, const defs::connection_t &amp;responseAddress=defs::NULL_CONNECTION)</div><div class="ttdoc">Send a header-only message to the receiver. </div><div class="ttdef"><b>Definition:</b> UdpTypedSender.h:122</div></div>
-<div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_sender_html_a1240619848b157b8d46657a3a18fd1e1"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a1240619848b157b8d46657a3a18fd1e1">core_lib::asio::udp::UdpSender::SendMessage</a></div><div class="ttdeci">bool SendMessage(const defs::char_buffer_t &amp;message)</div><div class="ttdoc">Send a message buffer to the receiver. </div><div class="ttdef"><b>Definition:</b> UdpSender.cpp:67</div></div>
+<div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_sender_html_a1240619848b157b8d46657a3a18fd1e1"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a1240619848b157b8d46657a3a18fd1e1">core_lib::asio::udp::UdpSender::SendMessage</a></div><div class="ttdeci">bool SendMessage(const defs::char_buffer_t &amp;message)</div><div class="ttdoc">Send a message buffer to the receiver. </div><div class="ttdef"><b>Definition:</b> UdpSender.cpp:68</div></div>
 <div class="ttc" id="_asio_defines_8h_html_a53ffbb3053790d3977defed39a8cea99"><div class="ttname"><a href="_asio_defines_8h.html#a53ffbb3053790d3977defed39a8cea99">boost_ioservice_t</a></div><div class="ttdeci">boost_asio::io_service boost_ioservice_t</div><div class="ttdoc">Boost IO service convenience typedef. </div><div class="ttdef"><b>Definition:</b> AsioDefines.h:46</div></div>
-<div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_sender_html_a14203753ed0215c250d55d932caa8a97"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a14203753ed0215c250d55d932caa8a97">core_lib::asio::udp::UdpSender::ReceiverConnection</a></div><div class="ttdeci">defs::connection_t ReceiverConnection() const</div><div class="ttdoc">Retrieve receiver connection details. </div><div class="ttdef"><b>Definition:</b> UdpSender.cpp:62</div></div>
+<div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_sender_html_a14203753ed0215c250d55d932caa8a97"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a14203753ed0215c250d55d932caa8a97">core_lib::asio::udp::UdpSender::ReceiverConnection</a></div><div class="ttdeci">defs::connection_t ReceiverConnection() const</div><div class="ttdoc">Retrieve receiver connection details. </div><div class="ttdef"><b>Definition:</b> UdpSender.cpp:63</div></div>
 <div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender_html_aed86a1d455d175ee7a23c1632c691547"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#aed86a1d455d175ee7a23c1632c691547">core_lib::asio::udp::UdpTypedSender::m_messageBuilder</a></div><div class="ttdeci">const MsgBldr &amp; m_messageBuilder</div><div class="ttdoc">Const reference to message builder object. </div><div class="ttdef"><b>Definition:</b> UdpTypedSender.h:147</div></div>
 <div class="ttc" id="namespacecore__lib_html"><div class="ttname"><a href="namespacecore__lib.html">core_lib</a></div><div class="ttdoc">The core_lib namespace. </div><div class="ttdef"><b>Definition:</b> AsioDefines.h:59</div></div>
 <div class="ttc" id="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender_html_abba9e92cd6253ff51feed2ab238399b1"><div class="ttname"><a href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#abba9e92cd6253ff51feed2ab238399b1">core_lib::asio::udp::UdpTypedSender::m_udpSender</a></div><div class="ttdeci">UdpSender m_udpSender</div><div class="ttdoc">Underlying UDP sender object. </div><div class="ttdef"><b>Definition:</b> UdpTypedSender.h:149</div></div>
@@ -114,7 +114,7 @@ $(document).ready(function(){initNavTree('_udp_typed_sender_8h_source.html','');
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_cd8f788b2c3d76b815cf5350446e93a9.html">Asio</a></li><li class="navelem"><a class="el" href="_udp_typed_sender_8h.html">UdpTypedSender.h</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:04 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:51 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

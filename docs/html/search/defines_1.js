@@ -20,6 +20,8 @@ var searchData=
   ['debug_5flog_5fremove_5ffilter_5ffatal',['DEBUG_LOG_REMOVE_FILTER_FATAL',['../_debug_logging_8h.html#a8acd825bb97e32a96431d931d874c798',1,'DebugLogging.h']]],
   ['debug_5flog_5fremove_5ffilter_5finfo',['DEBUG_LOG_REMOVE_FILTER_INFO',['../_debug_logging_8h.html#a77893336ca94fb2104ccd5d6994d118f',1,'DebugLogging.h']]],
   ['debug_5flog_5fremove_5ffilter_5fwarning',['DEBUG_LOG_REMOVE_FILTER_WARNING',['../_debug_logging_8h.html#a3867020cf72e39bd08d3df9d4622dd22',1,'DebugLogging.h']]],
+  ['debug_5flog_5fsingleton',['DEBUG_LOG_SINGLETON',['../_debug_log_singleton_8h.html#ad7048a4318c043865ee61e5132427eb5',1,'DebugLogSingleton.h']]],
+  ['debug_5flog_5fsingleton_5fdeleter',['DEBUG_LOG_SINGLETON_DELETER',['../_debug_log_singleton_8h.html#a11a216c0921fdfc5497cd0be82c306a7',1,'DebugLogSingleton.h']]],
   ['debug_5fmessage',['DEBUG_MESSAGE',['../_debug_logging_8h.html#aebd765dac78bc4f48911a40498b66381',1,'DebugLogging.h']]],
   ['debug_5fmessage_5fadd_5ffilter',['DEBUG_MESSAGE_ADD_FILTER',['../_debug_logging_8h.html#af1749e16d7e0482552b2dbd866ec32e5',1,'DebugLogging.h']]],
   ['debug_5fmessage_5fadd_5ffilter_5fdebug',['DEBUG_MESSAGE_ADD_FILTER_DEBUG',['../_debug_logging_8h.html#ae8979e1b9fcd5b174e739f347a5e1e48',1,'DebugLogging.h']]],

@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -100,14 +100,14 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1csv__grid_1_1_t_csv_
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a2e2e754467c237f57fa932fca576fbbe"><td class="memItemLeft" align="right" valign="top"><a id="a2e2e754467c237f57fa932fca576fbbe"></a>
-typedef <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">TRow</a>&lt; C, T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a></td></tr>
-<tr class="memdesc:a2e2e754467c237f57fa932fca576fbbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">typedef for row type <br /></td></tr>
-<tr class="separator:a2e2e754467c237f57fa932fca576fbbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae288eb85d706dd73fca398f9c024c6d5"><td class="memItemLeft" align="right" valign="top"><a id="ae288eb85d706dd73fca398f9c024c6d5"></a>
-typedef C&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a>, std::allocator&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#ae288eb85d706dd73fca398f9c024c6d5">container_type</a></td></tr>
-<tr class="memdesc:ae288eb85d706dd73fca398f9c024c6d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">typedef for container type <br /></td></tr>
-<tr class="separator:ae288eb85d706dd73fca398f9c024c6d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d0a99d664e690c48c6dfa9938f50edf"><td class="memItemLeft" align="right" valign="top"><a id="a3d0a99d664e690c48c6dfa9938f50edf"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a> = <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html">TRow</a>&lt; C, T &gt;</td></tr>
+<tr class="memdesc:a3d0a99d664e690c48c6dfa9938f50edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">typedef for row type <br /></td></tr>
+<tr class="separator:a3d0a99d664e690c48c6dfa9938f50edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c4f3a0cc88fce7900a9a894519fbf90"><td class="memItemLeft" align="right" valign="top"><a id="a9c4f3a0cc88fce7900a9a894519fbf90"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a9c4f3a0cc88fce7900a9a894519fbf90">container_type</a> = C&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a>, std::allocator&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a> &gt; &gt;</td></tr>
+<tr class="memdesc:a9c4f3a0cc88fce7900a9a894519fbf90"><td class="mdescLeft">&#160;</td><td class="mdescRight">typedef for container type <br /></td></tr>
+<tr class="separator:a9c4f3a0cc88fce7900a9a894519fbf90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -123,13 +123,13 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a63249cc0df44aeedcffc5b31062abb0a">TCsvGrid</a> (<a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a> &amp;&amp;)=default</td></tr>
 <tr class="memdesc:a63249cc0df44aeedcffc5b31062abb0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor. <br /></td></tr>
 <tr class="separator:a63249cc0df44aeedcffc5b31062abb0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64ea29cf4f7fe131a7aa8b68e617a46e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a64ea29cf4f7fe131a7aa8b68e617a46e">TCsvGrid</a> (const size_t rows, const size_t cols)</td></tr>
-<tr class="memdesc:a64ea29cf4f7fe131a7aa8b68e617a46e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing constructor.  <a href="#a64ea29cf4f7fe131a7aa8b68e617a46e">More...</a><br /></td></tr>
-<tr class="separator:a64ea29cf4f7fe131a7aa8b68e617a46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a779680a448ec3194589b5bcf6bbc9c4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a779680a448ec3194589b5bcf6bbc9c4c">TCsvGrid</a> (const std::string &amp;filename, const <a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a> options)</td></tr>
-<tr class="memdesc:a779680a448ec3194589b5bcf6bbc9c4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing constructor.  <a href="#a779680a448ec3194589b5bcf6bbc9c4c">More...</a><br /></td></tr>
-<tr class="separator:a779680a448ec3194589b5bcf6bbc9c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66a8c09bf5739c059e6b63e1367b85eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a66a8c09bf5739c059e6b63e1367b85eb">TCsvGrid</a> (std::initializer_list&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a> &gt; rows)</td></tr>
+<tr class="memitem:a1335404b5fba547ab4baf6f36c0d9413"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a1335404b5fba547ab4baf6f36c0d9413">TCsvGrid</a> (size_t rows, size_t cols)</td></tr>
+<tr class="memdesc:a1335404b5fba547ab4baf6f36c0d9413"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing constructor.  <a href="#a1335404b5fba547ab4baf6f36c0d9413">More...</a><br /></td></tr>
+<tr class="separator:a1335404b5fba547ab4baf6f36c0d9413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fe213d2e1078c815c20ade5f249cb55"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2fe213d2e1078c815c20ade5f249cb55">TCsvGrid</a> (const std::string &amp;filename, <a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a> options)</td></tr>
+<tr class="memdesc:a2fe213d2e1078c815c20ade5f249cb55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing constructor.  <a href="#a2fe213d2e1078c815c20ade5f249cb55">More...</a><br /></td></tr>
+<tr class="separator:a2fe213d2e1078c815c20ade5f249cb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66a8c09bf5739c059e6b63e1367b85eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a66a8c09bf5739c059e6b63e1367b85eb">TCsvGrid</a> (std::initializer_list&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a> &gt; rows)</td></tr>
 <tr class="memdesc:a66a8c09bf5739c059e6b63e1367b85eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializer list constructor.  <a href="#a66a8c09bf5739c059e6b63e1367b85eb">More...</a><br /></td></tr>
 <tr class="separator:a66a8c09bf5739c059e6b63e1367b85eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeeec70aeade8abc80957b5a1354dec9f"><td class="memItemLeft" align="right" valign="top"><a id="aeeec70aeade8abc80957b5a1354dec9f"></a>
@@ -144,48 +144,48 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a18d5b41d7679692be004418496873de3">operator=</a> (<a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a> &amp;&amp;)=default</td></tr>
 <tr class="memdesc:a18d5b41d7679692be004418496873de3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator. <br /></td></tr>
 <tr class="separator:a18d5b41d7679692be004418496873de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92c7da92f676cf71288239c66b90f205"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a92c7da92f676cf71288239c66b90f205">operator[]</a> (const size_t row)</td></tr>
-<tr class="memdesc:a92c7da92f676cf71288239c66b90f205"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscript operator.  <a href="#a92c7da92f676cf71288239c66b90f205">More...</a><br /></td></tr>
-<tr class="separator:a92c7da92f676cf71288239c66b90f205"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ee33dbc508fd89fc2b0d779f9ca3586"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a9ee33dbc508fd89fc2b0d779f9ca3586">operator[]</a> (const size_t row) const</td></tr>
-<tr class="memdesc:a9ee33dbc508fd89fc2b0d779f9ca3586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const subscript operator.  <a href="#a9ee33dbc508fd89fc2b0d779f9ca3586">More...</a><br /></td></tr>
-<tr class="separator:a9ee33dbc508fd89fc2b0d779f9ca3586"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a953d1e378aae4c2b7e3f932c4a6405aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a953d1e378aae4c2b7e3f932c4a6405aa">operator[]</a> (size_t row)</td></tr>
+<tr class="memdesc:a953d1e378aae4c2b7e3f932c4a6405aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscript operator.  <a href="#a953d1e378aae4c2b7e3f932c4a6405aa">More...</a><br /></td></tr>
+<tr class="separator:a953d1e378aae4c2b7e3f932c4a6405aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a079f1373c4e9ea2ca67e99e93443ba2a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a079f1373c4e9ea2ca67e99e93443ba2a">operator[]</a> (size_t row) const</td></tr>
+<tr class="memdesc:a079f1373c4e9ea2ca67e99e93443ba2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const subscript operator.  <a href="#a079f1373c4e9ea2ca67e99e93443ba2a">More...</a><br /></td></tr>
+<tr class="separator:a079f1373c4e9ea2ca67e99e93443ba2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b8958c7043397fee0ecd292ed962760"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a7b8958c7043397fee0ecd292ed962760">Empty</a> () const</td></tr>
 <tr class="memdesc:a7b8958c7043397fee0ecd292ed962760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get empty state of grid.  <a href="#a7b8958c7043397fee0ecd292ed962760">More...</a><br /></td></tr>
 <tr class="separator:a7b8958c7043397fee0ecd292ed962760"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a008feef4bce905ede497d1cfd90e6b76"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a008feef4bce905ede497d1cfd90e6b76">GetRowCount</a> () const</td></tr>
 <tr class="memdesc:a008feef4bce905ede497d1cfd90e6b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of rows.  <a href="#a008feef4bce905ede497d1cfd90e6b76">More...</a><br /></td></tr>
 <tr class="separator:a008feef4bce905ede497d1cfd90e6b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72735a4b403b4d2442a110627a791619"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a72735a4b403b4d2442a110627a791619">GetColCount</a> (const size_t row) const</td></tr>
-<tr class="memdesc:a72735a4b403b4d2442a110627a791619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of columns for a given row.  <a href="#a72735a4b403b4d2442a110627a791619">More...</a><br /></td></tr>
-<tr class="separator:a72735a4b403b4d2442a110627a791619"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0faa059ab31dbc5616dfcfc8661f67e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#aa0faa059ab31dbc5616dfcfc8661f67e">SetRowCount</a> (const size_t rows, const size_t defaultCols=0)</td></tr>
-<tr class="memdesc:aa0faa059ab31dbc5616dfcfc8661f67e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize the grid.  <a href="#aa0faa059ab31dbc5616dfcfc8661f67e">More...</a><br /></td></tr>
-<tr class="separator:aa0faa059ab31dbc5616dfcfc8661f67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a005181019ec808a0328c840e6f66efaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a005181019ec808a0328c840e6f66efaf">AddRow</a> (const size_t cols=0)</td></tr>
-<tr class="memdesc:a005181019ec808a0328c840e6f66efaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new row.  <a href="#a005181019ec808a0328c840e6f66efaf">More...</a><br /></td></tr>
-<tr class="separator:a005181019ec808a0328c840e6f66efaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69126a459aec94744cc908798ab16208"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a69126a459aec94744cc908798ab16208">GetColCount</a> (size_t row) const</td></tr>
+<tr class="memdesc:a69126a459aec94744cc908798ab16208"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of columns for a given row.  <a href="#a69126a459aec94744cc908798ab16208">More...</a><br /></td></tr>
+<tr class="separator:a69126a459aec94744cc908798ab16208"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4348c7e1ac52012018401aaa3c63b6ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a4348c7e1ac52012018401aaa3c63b6ee">SetRowCount</a> (size_t rows, size_t defaultCols=0)</td></tr>
+<tr class="memdesc:a4348c7e1ac52012018401aaa3c63b6ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize the grid.  <a href="#a4348c7e1ac52012018401aaa3c63b6ee">More...</a><br /></td></tr>
+<tr class="separator:a4348c7e1ac52012018401aaa3c63b6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287b2eb8a9f45518064bc5039a73ff96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a287b2eb8a9f45518064bc5039a73ff96">AddRow</a> (size_t cols=0)</td></tr>
+<tr class="memdesc:a287b2eb8a9f45518064bc5039a73ff96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new row.  <a href="#a287b2eb8a9f45518064bc5039a73ff96">More...</a><br /></td></tr>
+<tr class="separator:a287b2eb8a9f45518064bc5039a73ff96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bcb903673789282804132372780741c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a7bcb903673789282804132372780741c">AddColumnToAllRows</a> ()</td></tr>
 <tr class="memdesc:a7bcb903673789282804132372780741c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a column to each row.  <a href="#a7bcb903673789282804132372780741c">More...</a><br /></td></tr>
 <tr class="separator:a7bcb903673789282804132372780741c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a181f9b3932e56f12556391665be34857"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a181f9b3932e56f12556391665be34857">InsertRow</a> (const size_t row, const size_t defaultCols=0)</td></tr>
-<tr class="memdesc:a181f9b3932e56f12556391665be34857"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a new row.  <a href="#a181f9b3932e56f12556391665be34857">More...</a><br /></td></tr>
-<tr class="separator:a181f9b3932e56f12556391665be34857"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a241cf355916f0b7ff6fd25256365d421"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a241cf355916f0b7ff6fd25256365d421">InsertColumnInAllRows</a> (const size_t col)</td></tr>
-<tr class="memdesc:a241cf355916f0b7ff6fd25256365d421"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a new column in all rows.  <a href="#a241cf355916f0b7ff6fd25256365d421">More...</a><br /></td></tr>
-<tr class="separator:a241cf355916f0b7ff6fd25256365d421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a2638668b990bd953169ced677586eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a5a2638668b990bd953169ced677586eb">InsertRow</a> (size_t row, size_t defaultCols=0)</td></tr>
+<tr class="memdesc:a5a2638668b990bd953169ced677586eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a new row.  <a href="#a5a2638668b990bd953169ced677586eb">More...</a><br /></td></tr>
+<tr class="separator:a5a2638668b990bd953169ced677586eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef10590f4fb7904a2b6a2e6026de3b4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#aef10590f4fb7904a2b6a2e6026de3b4a">InsertColumnInAllRows</a> (size_t col)</td></tr>
+<tr class="memdesc:aef10590f4fb7904a2b6a2e6026de3b4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a new column in all rows.  <a href="#aef10590f4fb7904a2b6a2e6026de3b4a">More...</a><br /></td></tr>
+<tr class="separator:aef10590f4fb7904a2b6a2e6026de3b4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a5c426f39a3e281cab4afd4dba1290c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2a5c426f39a3e281cab4afd4dba1290c">ClearCells</a> ()</td></tr>
 <tr class="memdesc:a2a5c426f39a3e281cab4afd4dba1290c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the contents of all cells.  <a href="#a2a5c426f39a3e281cab4afd4dba1290c">More...</a><br /></td></tr>
 <tr class="separator:a2a5c426f39a3e281cab4afd4dba1290c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d11f043b69321e21d62120a1ba30fbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a0d11f043b69321e21d62120a1ba30fbe">ResetGrid</a> ()</td></tr>
 <tr class="memdesc:a0d11f043b69321e21d62120a1ba30fbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the entire grid.  <a href="#a0d11f043b69321e21d62120a1ba30fbe">More...</a><br /></td></tr>
 <tr class="separator:a0d11f043b69321e21d62120a1ba30fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dd4ade8f18af3ad878a3872b73e795d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a0dd4ade8f18af3ad878a3872b73e795d">LoadFromCSVFile</a> (const std::string &amp;filename, const <a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a> options, const size_t firstRowToLoad=0, const size_t maxNumRowsToLoad=std::numeric_limits&lt; size_t &gt;::max())</td></tr>
-<tr class="memdesc:a0dd4ade8f18af3ad878a3872b73e795d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a csv file into the grid.  <a href="#a0dd4ade8f18af3ad878a3872b73e795d">More...</a><br /></td></tr>
-<tr class="separator:a0dd4ade8f18af3ad878a3872b73e795d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b996fa31bdf7b775fd9f7943c2b0f1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a9b996fa31bdf7b775fd9f7943c2b0f1c">SaveToCsvFile</a> (const std::string &amp;filename, const <a class="el" href="namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143eda">eSaveToFileOptions</a> option=<a class="el" href="namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143edaa244f58cf07c35fd48d7524b289551e5c">eSaveToFileOptions::truncate</a>) const</td></tr>
-<tr class="memdesc:a9b996fa31bdf7b775fd9f7943c2b0f1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the grid to a CSV file.  <a href="#a9b996fa31bdf7b775fd9f7943c2b0f1c">More...</a><br /></td></tr>
-<tr class="separator:a9b996fa31bdf7b775fd9f7943c2b0f1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83f9792dd2a78aa141147cae0130ce62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a83f9792dd2a78aa141147cae0130ce62">LoadFromCSVFile</a> (const std::string &amp;filename, <a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a> options, size_t firstRowToLoad=0, size_t maxNumRowsToLoad=std::numeric_limits&lt; size_t &gt;::max())</td></tr>
+<tr class="memdesc:a83f9792dd2a78aa141147cae0130ce62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a csv file into the grid.  <a href="#a83f9792dd2a78aa141147cae0130ce62">More...</a><br /></td></tr>
+<tr class="separator:a83f9792dd2a78aa141147cae0130ce62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7839f8945828d983868df495fc4bf513"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a7839f8945828d983868df495fc4bf513">SaveToCsvFile</a> (const std::string &amp;filename, <a class="el" href="namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143eda">eSaveToFileOptions</a> option=<a class="el" href="namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143edaa244f58cf07c35fd48d7524b289551e5c">eSaveToFileOptions::truncate</a>) const</td></tr>
+<tr class="memdesc:a7839f8945828d983868df495fc4bf513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the grid to a CSV file.  <a href="#a7839f8945828d983868df495fc4bf513">More...</a><br /></td></tr>
+<tr class="separator:a7839f8945828d983868df495fc4bf513"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -202,7 +202,7 @@ Static Private Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:af0868d5d5560ea52aa65568b6b330eae"><td class="memItemLeft" align="right" valign="top"><a id="af0868d5d5560ea52aa65568b6b330eae"></a>
-<a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#ae288eb85d706dd73fca398f9c024c6d5">container_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#af0868d5d5560ea52aa65568b6b330eae">m_grid</a></td></tr>
+<a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a9c4f3a0cc88fce7900a9a894519fbf90">container_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#af0868d5d5560ea52aa65568b6b330eae">m_grid</a> {}</td></tr>
 <tr class="memdesc:af0868d5d5560ea52aa65568b6b330eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The grid row data. <br /></td></tr>
 <tr class="separator:af0868d5d5560ea52aa65568b6b330eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -217,8 +217,8 @@ class core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</h3>
 <p>The default behaviour is to be able to handle CSV files that may have their cells contained in double quotes. There is a slight performance overhead associated with this because extra parsing is required to tokenize each line. If it is known that the CSV file contains simple data, e.g. no cells in the CSV file are in double quotes, then the user can disable double quote handling, which gives a slight performance increase. With large data sets the performance increase can be significant.</p>
 <dl class="section note"><dt>Note</dt><dd>This class loads the entire CSV file into memory so if the file is particulary large you will crash your program if you do not have enough free memory. However, if you know in advance from what row number you want to start readingdata from a CSV file and how many rows you want to read then you can sepcify these in the LoadFromCSVFile method. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a64ea29cf4f7fe131a7aa8b68e617a46e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64ea29cf4f7fe131a7aa8b68e617a46e">&#9670;&nbsp;</a></span>TCsvGrid() <span class="overload">[1/3]</span></h2>
+<a id="a1335404b5fba547ab4baf6f36c0d9413"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1335404b5fba547ab4baf6f36c0d9413">&#9670;&nbsp;</a></span>TCsvGrid() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -231,13 +231,13 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::<a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a> </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>rows</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>cols</em>&#160;</td>
         </tr>
         <tr>
@@ -261,12 +261,12 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   </table>
   </dd>
 </dl>
-<p>Create the rectangular grid object with a non-zero number of rows and columns. If rows or columns are 0 then <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html" title="Grid dimension exception. ">xCsvGridDimensionError</a> exception is thrown. </p>
+<p>Create the rectangular grid object with a non-zero number of rows and columns. If rows or columns are 0 then std::out_of_range exception is thrown. </p>
 
 </div>
 </div>
-<a id="a779680a448ec3194589b5bcf6bbc9c4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a779680a448ec3194589b5bcf6bbc9c4c">&#9670;&nbsp;</a></span>TCsvGrid() <span class="overload">[2/3]</span></h2>
+<a id="a2fe213d2e1078c815c20ade5f249cb55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fe213d2e1078c815c20ade5f249cb55">&#9670;&nbsp;</a></span>TCsvGrid() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +285,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a>&#160;</td>
           <td class="paramname"><em>options</em>&#160;</td>
         </tr>
         <tr>
@@ -309,7 +309,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   </table>
   </dd>
 </dl>
-<p>Create a grid object from a CSV file. If cells are wrapped in double quotes in the CSV file then set options = doubleQuotedCells else set options = simpleCells. Throw a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html" title="File stream creation failure exception. ">xCsvGridCreateFileStreamError</a> exceptions if the file cannot be loaded. </p>
+<p>Create a grid object from a CSV file. If cells are wrapped in double quotes in the CSV file then set options = doubleQuotedCells else set options = simpleCells. Throw a std::runtime_error exception if the file cannot be loaded. </p>
 
 </div>
 </div>
@@ -327,7 +327,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::<a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a> </td>
           <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a> &gt;&#160;</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a> &gt;&#160;</td>
           <td class="paramname"><em>rows</em></td><td>)</td>
           <td></td>
         </tr>
@@ -381,8 +381,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 
 </div>
 </div>
-<a id="a005181019ec808a0328c840e6f66efaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a005181019ec808a0328c840e6f66efaf">&#9670;&nbsp;</a></span>AddRow()</h2>
+<a id="a287b2eb8a9f45518064bc5039a73ff96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a287b2eb8a9f45518064bc5039a73ff96">&#9670;&nbsp;</a></span>AddRow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -395,7 +395,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::AddRow </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>cols</em> = <code>0</code></td><td>)</td>
           <td></td>
         </tr>
@@ -516,8 +516,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 
 </div>
 </div>
-<a id="a72735a4b403b4d2442a110627a791619"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72735a4b403b4d2442a110627a791619">&#9670;&nbsp;</a></span>GetColCount()</h2>
+<a id="a69126a459aec94744cc908798ab16208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69126a459aec94744cc908798ab16208">&#9670;&nbsp;</a></span>GetColCount()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -530,7 +530,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="memname">size_t <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::GetColCount </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>row</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -550,7 +550,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of columns for this row.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If the index is out of bounds a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html" title="Row index out of range exception. ">xCsvGridRowOutOfRangeError</a> exception is thrown. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the index is out of bounds a std::out_of_range exception is thrown. </dd></dl>
 
 </div>
 </div>
@@ -584,8 +584,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 
 </div>
 </div>
-<a id="a241cf355916f0b7ff6fd25256365d421"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a241cf355916f0b7ff6fd25256365d421">&#9670;&nbsp;</a></span>InsertColumnInAllRows()</h2>
+<a id="aef10590f4fb7904a2b6a2e6026de3b4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef10590f4fb7904a2b6a2e6026de3b4a">&#9670;&nbsp;</a></span>InsertColumnInAllRows()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -598,7 +598,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::InsertColumnInAllRows </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>col</em></td><td>)</td>
           <td></td>
         </tr>
@@ -621,8 +621,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 
 </div>
 </div>
-<a id="a181f9b3932e56f12556391665be34857"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a181f9b3932e56f12556391665be34857">&#9670;&nbsp;</a></span>InsertRow()</h2>
+<a id="a5a2638668b990bd953169ced677586eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a2638668b990bd953169ced677586eb">&#9670;&nbsp;</a></span>InsertRow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -635,13 +635,13 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::InsertRow </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>row</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>defaultCols</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
@@ -665,12 +665,12 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   </table>
   </dd>
 </dl>
-<p>Insert a new row at a given row index in the grid. If the row index is out of range a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html" title="Row index out of range exception. ">xCsvGridRowOutOfRangeError</a> exception is thrown. </p>
+<p>Insert a new row at a given row index in the grid. If the row index is out of range a std::out_of_range exception is thrown. </p>
 
 </div>
 </div>
-<a id="a0dd4ade8f18af3ad878a3872b73e795d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0dd4ade8f18af3ad878a3872b73e795d">&#9670;&nbsp;</a></span>LoadFromCSVFile()</h2>
+<a id="a83f9792dd2a78aa141147cae0130ce62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83f9792dd2a78aa141147cae0130ce62">&#9670;&nbsp;</a></span>LoadFromCSVFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -689,19 +689,19 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720e">eCellFormatOptions</a>&#160;</td>
           <td class="paramname"><em>options</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>firstRowToLoad</em> = <code>0</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>maxNumRowsToLoad</em> = <code>std::numeric_limits&lt;size_t&gt;::max()</code>&#160;</td>
         </tr>
         <tr>
@@ -727,12 +727,12 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   </table>
   </dd>
 </dl>
-<p>Create a grid object from a CSV file. If cells are wrapped in double quotes in the CSV file then set options = doubleQuotedCells else set options = simpleCells. If the file stream cannot be created or opened the a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html" title="File stream creation failure exception. ">xCsvGridCreateFileStreamError</a> exception is thrown. </p>
+<p>Create a grid object from a CSV file. If cells are wrapped in double quotes in the CSV file then set options = doubleQuotedCells else set options = simpleCells. If the file stream cannot be created or opened the a std::runtime_error exception is thrown. </p>
 
 </div>
 </div>
-<a id="a92c7da92f676cf71288239c66b90f205"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92c7da92f676cf71288239c66b90f205">&#9670;&nbsp;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
+<a id="a953d1e378aae4c2b7e3f932c4a6405aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a953d1e378aae4c2b7e3f932c4a6405aa">&#9670;&nbsp;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -743,9 +743,9 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a>&amp; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a>&amp; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>row</em></td><td>)</td>
           <td></td>
         </tr>
@@ -766,12 +766,12 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The row at the given row index.</dd></dl>
 <p>Retrieve the row at a given row index within a grid.</p>
-<dl class="section note"><dt>Note</dt><dd>If the index is out of bounds a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html" title="Row index out of range exception. ">xCsvGridRowOutOfRangeError</a> exception is thrown. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the index is out of bounds a std::out_of_range exception is thrown. </dd></dl>
 
 </div>
 </div>
-<a id="a9ee33dbc508fd89fc2b0d779f9ca3586"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ee33dbc508fd89fc2b0d779f9ca3586">&#9670;&nbsp;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
+<a id="a079f1373c4e9ea2ca67e99e93443ba2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a079f1373c4e9ea2ca67e99e93443ba2a">&#9670;&nbsp;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -782,9 +782,9 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a2e2e754467c237f57fa932fca576fbbe">row_type</a>&amp; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::operator[] </td>
+          <td class="memname">const <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a3d0a99d664e690c48c6dfa9938f50edf">row_type</a>&amp; <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>row</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -805,7 +805,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The row at the given row index.</dd></dl>
 <p>Retrieve the row at a given row index within a grid.</p>
-<dl class="section note"><dt>Note</dt><dd>If the index is out of bounds a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html" title="Row index out of range exception. ">xCsvGridRowOutOfRangeError</a> exception is thrown. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the index is out of bounds a std::out_of_range exception is thrown. </dd></dl>
 
 </div>
 </div>
@@ -876,8 +876,8 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 
 </div>
 </div>
-<a id="a9b996fa31bdf7b775fd9f7943c2b0f1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b996fa31bdf7b775fd9f7943c2b0f1c">&#9670;&nbsp;</a></span>SaveToCsvFile()</h2>
+<a id="a7839f8945828d983868df495fc4bf513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7839f8945828d983868df495fc4bf513">&#9670;&nbsp;</a></span>SaveToCsvFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -896,7 +896,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143eda">eSaveToFileOptions</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143eda">eSaveToFileOptions</a>&#160;</td>
           <td class="paramname"><em>option</em> = <code><a class="el" href="namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143edaa244f58cf07c35fd48d7524b289551e5c">eSaveToFileOptions::truncate</a></code>&#160;</td>
         </tr>
         <tr>
@@ -920,12 +920,12 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
   </table>
   </dd>
 </dl>
-<p>Create a CSV file from a grid object. If the file stream cannot be created or opened the a <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html" title="File stream creation failure exception. ">xCsvGridCreateFileStreamError</a> exception is thrown. </p>
+<p>Create a CSV file from a grid object. If the file stream cannot be created or opened the a std::runtime_error exception is thrown. </p>
 
 </div>
 </div>
-<a id="aa0faa059ab31dbc5616dfcfc8661f67e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0faa059ab31dbc5616dfcfc8661f67e">&#9670;&nbsp;</a></span>SetRowCount()</h2>
+<a id="a4348c7e1ac52012018401aaa3c63b6ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4348c7e1ac52012018401aaa3c63b6ee">&#9670;&nbsp;</a></span>SetRowCount()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -938,13 +938,13 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">core_lib::csv_grid::TCsvGrid</a>&lt; C, T &gt;::SetRowCount </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>rows</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>defaultCols</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
@@ -981,7 +981,7 @@ template&lt;template&lt; class, class &gt; class C, class T  = Cell&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1csv__grid.html">csv_grid</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html">TCsvGrid</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:05 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

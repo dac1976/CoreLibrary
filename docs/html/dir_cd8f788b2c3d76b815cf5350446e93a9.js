@@ -23,6 +23,9 @@ var dir_cd8f788b2c3d76b815cf5350446e93a9 =
     [ "SimpleTcpClient.h", "_simple_tcp_client_8h.html", [
       [ "SimpleTcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client" ]
     ] ],
+    [ "SimpleTcpClientList.h", "_simple_tcp_client_list_8h.html", [
+      [ "SimpleTcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list" ]
+    ] ],
     [ "SimpleTcpServer.h", "_simple_tcp_server_8h.html", [
       [ "SimpleTcpServer", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server" ]
     ] ],
@@ -34,6 +37,9 @@ var dir_cd8f788b2c3d76b815cf5350446e93a9 =
     ] ],
     [ "TcpClient.h", "_tcp_client_8h.html", [
       [ "TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client" ]
+    ] ],
+    [ "TcpClientList.h", "_tcp_client_list_8h.html", [
+      [ "TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list" ]
     ] ],
     [ "TcpConnection.h", "_tcp_connection_8h.html", [
       [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection" ]

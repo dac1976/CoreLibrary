@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -135,7 +135,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3deeda531f31fc1535f78d88aa934adf"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a3deeda531f31fc1535f78d88aa934adf">GetSections</a> () const</td></tr>
 <tr class="memdesc:a3deeda531f31fc1535f78d88aa934adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get sections.  <a href="#a3deeda531f31fc1535f78d88aa934adf">More...</a><br /></td></tr>
 <tr class="separator:a3deeda531f31fc1535f78d88aa934adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69bdb9b1623f024f515f1ca6fbd3f1ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1ini__file.html#ae761b2040bcf6477afe9eb14a58c5d26">keys_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a69bdb9b1623f024f515f1ca6fbd3f1ad">GetSection</a> (const std::string &amp;section) const</td></tr>
+<tr class="memitem:a69bdb9b1623f024f515f1ca6fbd3f1ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecore__lib_1_1ini__file.html#acb2215ac1ac9ec77960c2921c3c13444">keys_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a69bdb9b1623f024f515f1ca6fbd3f1ad">GetSection</a> (const std::string &amp;section) const</td></tr>
 <tr class="memdesc:a69bdb9b1623f024f515f1ca6fbd3f1ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get section's key-value pairs.  <a href="#a69bdb9b1623f024f515f1ca6fbd3f1ad">More...</a><br /></td></tr>
 <tr class="separator:a69bdb9b1623f024f515f1ca6fbd3f1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9707627c478120036a39a2ab7067a9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#aa9707627c478120036a39a2ab7067a9d">SectionExists</a> (const std::string &amp;section) const</td></tr>
@@ -144,39 +144,39 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afa415131f80af175dd824b1151655944"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#afa415131f80af175dd824b1151655944">KeyExists</a> (const std::string &amp;section, const std::string &amp;key) const</td></tr>
 <tr class="memdesc:afa415131f80af175dd824b1151655944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a key exists for a section.  <a href="#afa415131f80af175dd824b1151655944">More...</a><br /></td></tr>
 <tr class="separator:afa415131f80af175dd824b1151655944"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a825d376d4cab4ade2ebf94e4a83347d9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a825d376d4cab4ade2ebf94e4a83347d9">ReadBool</a> (const std::string &amp;section, const std::string &amp;key, const bool defaultValue=false) const</td></tr>
-<tr class="memdesc:a825d376d4cab4ade2ebf94e4a83347d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read boolean value.  <a href="#a825d376d4cab4ade2ebf94e4a83347d9">More...</a><br /></td></tr>
-<tr class="separator:a825d376d4cab4ade2ebf94e4a83347d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a051fcc3f5782ac7ac1c3551224310375"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a051fcc3f5782ac7ac1c3551224310375">ReadInt32</a> (const std::string &amp;section, const std::string &amp;key, const int32_t defaultValue=0) const</td></tr>
-<tr class="memdesc:a051fcc3f5782ac7ac1c3551224310375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 32 bit integer value.  <a href="#a051fcc3f5782ac7ac1c3551224310375">More...</a><br /></td></tr>
-<tr class="separator:a051fcc3f5782ac7ac1c3551224310375"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab52eea835d3779e96ac8793c761a2573"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ab52eea835d3779e96ac8793c761a2573">ReadInt64</a> (const std::string &amp;section, const std::string &amp;key, const int64_t defaultValue=0L) const</td></tr>
-<tr class="memdesc:ab52eea835d3779e96ac8793c761a2573"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 64 bit integer value.  <a href="#ab52eea835d3779e96ac8793c761a2573">More...</a><br /></td></tr>
-<tr class="separator:ab52eea835d3779e96ac8793c761a2573"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf299e64955f2536e6edbda4a063dd12"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#aaf299e64955f2536e6edbda4a063dd12">ReadDouble</a> (const std::string &amp;section, const std::string &amp;key, const double defaultValue=0.0) const</td></tr>
-<tr class="memdesc:aaf299e64955f2536e6edbda4a063dd12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read double value.  <a href="#aaf299e64955f2536e6edbda4a063dd12">More...</a><br /></td></tr>
-<tr class="separator:aaf299e64955f2536e6edbda4a063dd12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31c82f1f6f1e4764ad46d327e0ed9344"><td class="memItemLeft" align="right" valign="top">long double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a31c82f1f6f1e4764ad46d327e0ed9344">ReadLongDouble</a> (const std::string &amp;section, const std::string &amp;key, const long double defaultValue=0.0L) const</td></tr>
-<tr class="memdesc:a31c82f1f6f1e4764ad46d327e0ed9344"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read long double value.  <a href="#a31c82f1f6f1e4764ad46d327e0ed9344">More...</a><br /></td></tr>
-<tr class="separator:a31c82f1f6f1e4764ad46d327e0ed9344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc03267308578bfd6db5a156dca8e594"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#acc03267308578bfd6db5a156dca8e594">ReadBool</a> (const std::string &amp;section, const std::string &amp;key, bool defaultValue=false) const</td></tr>
+<tr class="memdesc:acc03267308578bfd6db5a156dca8e594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read boolean value.  <a href="#acc03267308578bfd6db5a156dca8e594">More...</a><br /></td></tr>
+<tr class="separator:acc03267308578bfd6db5a156dca8e594"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8603625f5969959c7940b1e6246e849d"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a8603625f5969959c7940b1e6246e849d">ReadInt32</a> (const std::string &amp;section, const std::string &amp;key, int32_t defaultValue=0) const</td></tr>
+<tr class="memdesc:a8603625f5969959c7940b1e6246e849d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 32 bit integer value.  <a href="#a8603625f5969959c7940b1e6246e849d">More...</a><br /></td></tr>
+<tr class="separator:a8603625f5969959c7940b1e6246e849d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4c98de3a9f6d272a59923cc3c305279"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ae4c98de3a9f6d272a59923cc3c305279">ReadInt64</a> (const std::string &amp;section, const std::string &amp;key, int64_t defaultValue=0L) const</td></tr>
+<tr class="memdesc:ae4c98de3a9f6d272a59923cc3c305279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 64 bit integer value.  <a href="#ae4c98de3a9f6d272a59923cc3c305279">More...</a><br /></td></tr>
+<tr class="separator:ae4c98de3a9f6d272a59923cc3c305279"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47c15d528b4b7ab4c5d82791f4efcf5e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a47c15d528b4b7ab4c5d82791f4efcf5e">ReadDouble</a> (const std::string &amp;section, const std::string &amp;key, double defaultValue=0.0) const</td></tr>
+<tr class="memdesc:a47c15d528b4b7ab4c5d82791f4efcf5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read double value.  <a href="#a47c15d528b4b7ab4c5d82791f4efcf5e">More...</a><br /></td></tr>
+<tr class="separator:a47c15d528b4b7ab4c5d82791f4efcf5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68380839ddb9eaacffab715db8dfd775"><td class="memItemLeft" align="right" valign="top">long double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a68380839ddb9eaacffab715db8dfd775">ReadLongDouble</a> (const std::string &amp;section, const std::string &amp;key, long double defaultValue=0.0L) const</td></tr>
+<tr class="memdesc:a68380839ddb9eaacffab715db8dfd775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read long double value.  <a href="#a68380839ddb9eaacffab715db8dfd775">More...</a><br /></td></tr>
+<tr class="separator:a68380839ddb9eaacffab715db8dfd775"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76d60fe3ad56645b2c68de8747d35e5c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a76d60fe3ad56645b2c68de8747d35e5c">ReadString</a> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;defaultValue=&quot;&quot;) const</td></tr>
 <tr class="memdesc:a76d60fe3ad56645b2c68de8747d35e5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read string value.  <a href="#a76d60fe3ad56645b2c68de8747d35e5c">More...</a><br /></td></tr>
 <tr class="separator:a76d60fe3ad56645b2c68de8747d35e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a000c75a943391507ba1ac0bc0f6c987b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a000c75a943391507ba1ac0bc0f6c987b">WriteBool</a> (const std::string &amp;section, const std::string &amp;key, const bool value)</td></tr>
-<tr class="memdesc:a000c75a943391507ba1ac0bc0f6c987b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write boolean value.  <a href="#a000c75a943391507ba1ac0bc0f6c987b">More...</a><br /></td></tr>
-<tr class="separator:a000c75a943391507ba1ac0bc0f6c987b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84be532d4eacf52d50b5173c85e77dab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a84be532d4eacf52d50b5173c85e77dab">WriteInt32</a> (const std::string &amp;section, const std::string &amp;key, const int32_t value)</td></tr>
-<tr class="memdesc:a84be532d4eacf52d50b5173c85e77dab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 32 bit integer value.  <a href="#a84be532d4eacf52d50b5173c85e77dab">More...</a><br /></td></tr>
-<tr class="separator:a84be532d4eacf52d50b5173c85e77dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aced73ed8b3616928339a91c0cbfb61ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#aced73ed8b3616928339a91c0cbfb61ad">WriteInt64</a> (const std::string &amp;section, const std::string &amp;key, const int64_t value)</td></tr>
-<tr class="memdesc:aced73ed8b3616928339a91c0cbfb61ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 64 bit integer value.  <a href="#aced73ed8b3616928339a91c0cbfb61ad">More...</a><br /></td></tr>
-<tr class="separator:aced73ed8b3616928339a91c0cbfb61ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7276c5f81a5ab455d3c589630b27ae8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a7276c5f81a5ab455d3c589630b27ae8b">WriteDouble</a> (const std::string &amp;section, const std::string &amp;key, const double value)</td></tr>
-<tr class="memdesc:a7276c5f81a5ab455d3c589630b27ae8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write double value.  <a href="#a7276c5f81a5ab455d3c589630b27ae8b">More...</a><br /></td></tr>
-<tr class="separator:a7276c5f81a5ab455d3c589630b27ae8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63541a7b67a6b82cafc45f5d332707f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a63541a7b67a6b82cafc45f5d332707f1">WriteLongDouble</a> (const std::string &amp;section, const std::string &amp;key, const long double value)</td></tr>
-<tr class="memdesc:a63541a7b67a6b82cafc45f5d332707f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write long double value.  <a href="#a63541a7b67a6b82cafc45f5d332707f1">More...</a><br /></td></tr>
-<tr class="separator:a63541a7b67a6b82cafc45f5d332707f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a856ef7fadf9021d2e3bfa774fa1b1b28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a856ef7fadf9021d2e3bfa774fa1b1b28">WriteBool</a> (const std::string &amp;section, const std::string &amp;key, bool value)</td></tr>
+<tr class="memdesc:a856ef7fadf9021d2e3bfa774fa1b1b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write boolean value.  <a href="#a856ef7fadf9021d2e3bfa774fa1b1b28">More...</a><br /></td></tr>
+<tr class="separator:a856ef7fadf9021d2e3bfa774fa1b1b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad943d80ef91349bd24a4f57e54f5cd0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad943d80ef91349bd24a4f57e54f5cd0c">WriteInt32</a> (const std::string &amp;section, const std::string &amp;key, int32_t value)</td></tr>
+<tr class="memdesc:ad943d80ef91349bd24a4f57e54f5cd0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 32 bit integer value.  <a href="#ad943d80ef91349bd24a4f57e54f5cd0c">More...</a><br /></td></tr>
+<tr class="separator:ad943d80ef91349bd24a4f57e54f5cd0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a077c5865b4f0950fc4fd9f8e62ec0f2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a077c5865b4f0950fc4fd9f8e62ec0f2c">WriteInt64</a> (const std::string &amp;section, const std::string &amp;key, int64_t value)</td></tr>
+<tr class="memdesc:a077c5865b4f0950fc4fd9f8e62ec0f2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 64 bit integer value.  <a href="#a077c5865b4f0950fc4fd9f8e62ec0f2c">More...</a><br /></td></tr>
+<tr class="separator:a077c5865b4f0950fc4fd9f8e62ec0f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b0fb4851d402f706a971b5b0fd6c1e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a7b0fb4851d402f706a971b5b0fd6c1e9">WriteDouble</a> (const std::string &amp;section, const std::string &amp;key, double value)</td></tr>
+<tr class="memdesc:a7b0fb4851d402f706a971b5b0fd6c1e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write double value.  <a href="#a7b0fb4851d402f706a971b5b0fd6c1e9">More...</a><br /></td></tr>
+<tr class="separator:a7b0fb4851d402f706a971b5b0fd6c1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1608495c8e79687e17f5dc33641077"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a2e1608495c8e79687e17f5dc33641077">WriteLongDouble</a> (const std::string &amp;section, const std::string &amp;key, long double value)</td></tr>
+<tr class="memdesc:a2e1608495c8e79687e17f5dc33641077"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write long double value.  <a href="#a2e1608495c8e79687e17f5dc33641077">More...</a><br /></td></tr>
+<tr class="separator:a2e1608495c8e79687e17f5dc33641077"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0e738e786f334855db59d826c698219"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ad0e738e786f334855db59d826c698219">WriteString</a> (const std::string &amp;section, const std::string &amp;key, const std::string &amp;value)</td></tr>
 <tr class="memdesc:ad0e738e786f334855db59d826c698219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write string value.  <a href="#ad0e738e786f334855db59d826c698219">More...</a><br /></td></tr>
 <tr class="separator:ad0e738e786f334855db59d826c698219"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,18 +196,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:a4daeae3eb4c5b41e183244c6d4cbb6ac"><td class="memItemLeft" align="right" valign="top"><a id="a4daeae3eb4c5b41e183244c6d4cbb6ac"></a>
-typedef std::map&lt; std::string, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html">if_private::SectionDetails</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a4daeae3eb4c5b41e183244c6d4cbb6ac">section_map</a></td></tr>
-<tr class="memdesc:a4daeae3eb4c5b41e183244c6d4cbb6ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map typedef. <br /></td></tr>
-<tr class="separator:a4daeae3eb4c5b41e183244c6d4cbb6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a61e1d021218e999917651dcfb04455"><td class="memItemLeft" align="right" valign="top"><a id="a6a61e1d021218e999917651dcfb04455"></a>
-typedef section_map::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a6a61e1d021218e999917651dcfb04455">section_iter</a></td></tr>
-<tr class="memdesc:a6a61e1d021218e999917651dcfb04455"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map iterator typedef. <br /></td></tr>
-<tr class="separator:a6a61e1d021218e999917651dcfb04455"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b21fd73ed14ee5fadca7ac096c66c0a"><td class="memItemLeft" align="right" valign="top"><a id="a9b21fd73ed14ee5fadca7ac096c66c0a"></a>
-typedef section_map::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a9b21fd73ed14ee5fadca7ac096c66c0a">section_citer</a></td></tr>
-<tr class="memdesc:a9b21fd73ed14ee5fadca7ac096c66c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map const iterator typedef. <br /></td></tr>
-<tr class="separator:a9b21fd73ed14ee5fadca7ac096c66c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6a068f33e15bb75b3bb2e990e2237c"><td class="memItemLeft" align="right" valign="top"><a id="a9c6a068f33e15bb75b3bb2e990e2237c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a9c6a068f33e15bb75b3bb2e990e2237c">section_map</a> = std::map&lt; std::string, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html">if_private::SectionDetails</a> &gt;</td></tr>
+<tr class="memdesc:a9c6a068f33e15bb75b3bb2e990e2237c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map typedef. <br /></td></tr>
+<tr class="separator:a9c6a068f33e15bb75b3bb2e990e2237c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6608df470240c4aeb4e2e03acb954f5b"><td class="memItemLeft" align="right" valign="top"><a id="a6608df470240c4aeb4e2e03acb954f5b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a6608df470240c4aeb4e2e03acb954f5b">section_iter</a> = section_map::iterator</td></tr>
+<tr class="memdesc:a6608df470240c4aeb4e2e03acb954f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map iterator typedef. <br /></td></tr>
+<tr class="separator:a6608df470240c4aeb4e2e03acb954f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95470c10ca5fc81b6df85ff6dd65636a"><td class="memItemLeft" align="right" valign="top"><a id="a95470c10ca5fc81b6df85ff6dd65636a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a95470c10ca5fc81b6df85ff6dd65636a">section_citer</a> = section_map::const_iterator</td></tr>
+<tr class="memdesc:a95470c10ca5fc81b6df85ff6dd65636a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section map const iterator typedef. <br /></td></tr>
+<tr class="separator:a95470c10ca5fc81b6df85ff6dd65636a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -229,11 +229,11 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memdesc:a21d873a4bbac05e843be4104d9ac295f"><td class="mdescLeft">&#160;</td><td class="mdescRight">INI file path. <br /></td></tr>
 <tr class="separator:a21d873a4bbac05e843be4104d9ac295f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5942db8c4fcd69463591f1755418722a"><td class="memItemLeft" align="right" valign="top"><a id="a5942db8c4fcd69463591f1755418722a"></a>
-<a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a4daeae3eb4c5b41e183244c6d4cbb6ac">section_map</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a5942db8c4fcd69463591f1755418722a">m_sectionMap</a></td></tr>
+<a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a9c6a068f33e15bb75b3bb2e990e2237c">section_map</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a5942db8c4fcd69463591f1755418722a">m_sectionMap</a></td></tr>
 <tr class="memdesc:a5942db8c4fcd69463591f1755418722a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sectin map. <br /></td></tr>
 <tr class="separator:a5942db8c4fcd69463591f1755418722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d5f4ce788ee215617abf217a940f2c6"><td class="memItemLeft" align="right" valign="top"><a id="a0d5f4ce788ee215617abf217a940f2c6"></a>
-<a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#ae32615def0341ed7c6e3ea6ad5a4c83f">if_private::line_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0d5f4ce788ee215617abf217a940f2c6">m_lines</a></td></tr>
+<a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#ab4a873ad7a345d8b196262cd098bd45c">if_private::line_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#a0d5f4ce788ee215617abf217a940f2c6">m_lines</a></td></tr>
 <tr class="memdesc:a0d5f4ce788ee215617abf217a940f2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line list. <br /></td></tr>
 <tr class="separator:a0d5f4ce788ee215617abf217a940f2c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -388,7 +388,7 @@ Section2_Key3=Section2_Value3
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecore__lib_1_1ini__file.html#ae761b2040bcf6477afe9eb14a58c5d26">keys_list</a> core_lib::ini_file::IniFile::GetSection </td>
+          <td class="memname"><a class="el" href="namespacecore__lib_1_1ini__file.html#acb2215ac1ac9ec77960c2921c3c13444">keys_list</a> core_lib::ini_file::IniFile::GetSection </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>section</em></td><td>)</td>
@@ -493,8 +493,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="a825d376d4cab4ade2ebf94e4a83347d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a825d376d4cab4ade2ebf94e4a83347d9">&#9670;&nbsp;</a></span>ReadBool()</h2>
+<a id="acc03267308578bfd6db5a156dca8e594"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc03267308578bfd6db5a156dca8e594">&#9670;&nbsp;</a></span>ReadBool()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -514,7 +514,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const bool&#160;</td>
+          <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>defaultValue</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
@@ -538,8 +538,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="aaf299e64955f2536e6edbda4a063dd12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf299e64955f2536e6edbda4a063dd12">&#9670;&nbsp;</a></span>ReadDouble()</h2>
+<a id="a47c15d528b4b7ab4c5d82791f4efcf5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47c15d528b4b7ab4c5d82791f4efcf5e">&#9670;&nbsp;</a></span>ReadDouble()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -559,7 +559,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const double&#160;</td>
+          <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>defaultValue</em> = <code>0.0</code>&#160;</td>
         </tr>
         <tr>
@@ -583,8 +583,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="a051fcc3f5782ac7ac1c3551224310375"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a051fcc3f5782ac7ac1c3551224310375">&#9670;&nbsp;</a></span>ReadInt32()</h2>
+<a id="a8603625f5969959c7940b1e6246e849d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8603625f5969959c7940b1e6246e849d">&#9670;&nbsp;</a></span>ReadInt32()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -604,7 +604,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int32_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>defaultValue</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
@@ -628,8 +628,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="ab52eea835d3779e96ac8793c761a2573"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab52eea835d3779e96ac8793c761a2573">&#9670;&nbsp;</a></span>ReadInt64()</h2>
+<a id="ae4c98de3a9f6d272a59923cc3c305279"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4c98de3a9f6d272a59923cc3c305279">&#9670;&nbsp;</a></span>ReadInt64()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -649,7 +649,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int64_t&#160;</td>
+          <td class="paramtype">int64_t&#160;</td>
           <td class="paramname"><em>defaultValue</em> = <code>0L</code>&#160;</td>
         </tr>
         <tr>
@@ -673,8 +673,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="a31c82f1f6f1e4764ad46d327e0ed9344"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31c82f1f6f1e4764ad46d327e0ed9344">&#9670;&nbsp;</a></span>ReadLongDouble()</h2>
+<a id="a68380839ddb9eaacffab715db8dfd775"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68380839ddb9eaacffab715db8dfd775">&#9670;&nbsp;</a></span>ReadLongDouble()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -694,7 +694,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const long double&#160;</td>
+          <td class="paramtype">long double&#160;</td>
           <td class="paramname"><em>defaultValue</em> = <code>0.0L</code>&#160;</td>
         </tr>
         <tr>
@@ -870,8 +870,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="a000c75a943391507ba1ac0bc0f6c987b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a000c75a943391507ba1ac0bc0f6c987b">&#9670;&nbsp;</a></span>WriteBool()</h2>
+<a id="a856ef7fadf9021d2e3bfa774fa1b1b28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a856ef7fadf9021d2e3bfa774fa1b1b28">&#9670;&nbsp;</a></span>WriteBool()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -891,7 +891,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const bool&#160;</td>
+          <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -914,8 +914,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="a7276c5f81a5ab455d3c589630b27ae8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7276c5f81a5ab455d3c589630b27ae8b">&#9670;&nbsp;</a></span>WriteDouble()</h2>
+<a id="a7b0fb4851d402f706a971b5b0fd6c1e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b0fb4851d402f706a971b5b0fd6c1e9">&#9670;&nbsp;</a></span>WriteDouble()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -935,7 +935,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const double&#160;</td>
+          <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -958,8 +958,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="a84be532d4eacf52d50b5173c85e77dab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84be532d4eacf52d50b5173c85e77dab">&#9670;&nbsp;</a></span>WriteInt32()</h2>
+<a id="ad943d80ef91349bd24a4f57e54f5cd0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad943d80ef91349bd24a4f57e54f5cd0c">&#9670;&nbsp;</a></span>WriteInt32()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -979,7 +979,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int32_t&#160;</td>
+          <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -1002,8 +1002,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="aced73ed8b3616928339a91c0cbfb61ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aced73ed8b3616928339a91c0cbfb61ad">&#9670;&nbsp;</a></span>WriteInt64()</h2>
+<a id="a077c5865b4f0950fc4fd9f8e62ec0f2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a077c5865b4f0950fc4fd9f8e62ec0f2c">&#9670;&nbsp;</a></span>WriteInt64()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1023,7 +1023,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int64_t&#160;</td>
+          <td class="paramtype">int64_t&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -1046,8 +1046,8 @@ Section2_Key3=Section2_Value3
 
 </div>
 </div>
-<a id="a63541a7b67a6b82cafc45f5d332707f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63541a7b67a6b82cafc45f5d332707f1">&#9670;&nbsp;</a></span>WriteLongDouble()</h2>
+<a id="a2e1608495c8e79687e17f5dc33641077"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e1608495c8e79687e17f5dc33641077">&#9670;&nbsp;</a></span>WriteLongDouble()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1067,7 +1067,7 @@ Section2_Key3=Section2_Value3
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const long double&#160;</td>
+          <td class="paramtype">long double&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -1196,7 +1196,7 @@ Section2_Key3=Section2_Value3
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html">IniFile</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

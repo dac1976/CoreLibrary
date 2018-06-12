@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -82,7 +82,6 @@ $(document).ready(function(){initNavTree('namespacecore__lib_1_1file__utils.html
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -93,12 +92,6 @@ $(document).ready(function(){initNavTree('namespacecore__lib_1_1file__utils.html
 <p>The <a class="el" href="namespacecore__lib_1_1file__utils.html" title="The file_utils namespace. ">file_utils</a> namespace.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1file__utils_1_1x_copy_directory_error.html">xCopyDirectoryError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copying a directory error exception.  <a href="classcore__lib_1_1file__utils_1_1x_copy_directory_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a7982ac6ae2073592b0dc577534c02cba"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cba">eCopyDirectoryOptions</a> { <a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cbaae4032037821487c3ac8287058718c5f3">eCopyDirectoryOptions::failIfTargetExists</a>, 
@@ -109,15 +102,21 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a92a0c9bdc62793e72ca851469f3d2370"><td class="memItemLeft" align="right" valign="top">std::string CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a92a0c9bdc62793e72ca851469f3d2370">FindCommonRootPath</a> (const std::string &amp;path1, const std::string &amp;path2)</td></tr>
-<tr class="memdesc:a92a0c9bdc62793e72ca851469f3d2370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the common root path of 2 paths.  <a href="#a92a0c9bdc62793e72ca851469f3d2370">More...</a><br /></td></tr>
-<tr class="separator:a92a0c9bdc62793e72ca851469f3d2370"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a985806bc48beedb3c0032b9c3b2d2a74"><td class="memItemLeft" align="right" valign="top">void CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a985806bc48beedb3c0032b9c3b2d2a74">CopyDirectoryRecursively</a> (const std::string &amp;source, const std::string &amp;target, const <a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cba">eCopyDirectoryOptions</a> options=<a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cbaad7e3a78cc481a58b0e0cb3d83503823f">eCopyDirectoryOptions::continueIfTargetExists</a>)</td></tr>
-<tr class="memdesc:a985806bc48beedb3c0032b9c3b2d2a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively copy one directory and its contents to another location.  <a href="#a985806bc48beedb3c0032b9c3b2d2a74">More...</a><br /></td></tr>
-<tr class="separator:a985806bc48beedb3c0032b9c3b2d2a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ba5eacfb2614e86b0c45fb956f9185b"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt; CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a3ba5eacfb2614e86b0c45fb956f9185b">ListDirectoryContents</a> (const std::string &amp;path, const std::string &amp;extMatch=&quot;&quot;)</td></tr>
-<tr class="memdesc:a3ba5eacfb2614e86b0c45fb956f9185b"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of regular files in the specified directory.  <a href="#a3ba5eacfb2614e86b0c45fb956f9185b">More...</a><br /></td></tr>
-<tr class="separator:a3ba5eacfb2614e86b0c45fb956f9185b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2defa75129ffcd4a0d35acdca038e82"><td class="memItemLeft" align="right" valign="top">bool CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#aa2defa75129ffcd4a0d35acdca038e82">FindFileRecursively</a> (const std::wstring &amp;dirPath, const std::wstring &amp;fileName, std::wstring &amp;pathFound, bool includeFileName=true)</td></tr>
+<tr class="memdesc:aa2defa75129ffcd4a0d35acdca038e82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the common root path of 2 paths.  <a href="#aa2defa75129ffcd4a0d35acdca038e82">More...</a><br /></td></tr>
+<tr class="separator:aa2defa75129ffcd4a0d35acdca038e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4251be48265d80ec294da8cad824df5"><td class="memItemLeft" align="right" valign="top">std::wstring CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#aa4251be48265d80ec294da8cad824df5">FindCommonRootPath</a> (const std::wstring &amp;path1, const std::wstring &amp;path2)</td></tr>
+<tr class="memdesc:aa4251be48265d80ec294da8cad824df5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the common root path of 2 paths.  <a href="#aa4251be48265d80ec294da8cad824df5">More...</a><br /></td></tr>
+<tr class="separator:aa4251be48265d80ec294da8cad824df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2025edafa37f6866ded1dc908497aa54"><td class="memItemLeft" align="right" valign="top">void CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a2025edafa37f6866ded1dc908497aa54">CopyDirectoryRecursively</a> (const std::wstring &amp;source, const std::wstring &amp;target, <a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cba">eCopyDirectoryOptions</a> options=<a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cbaad7e3a78cc481a58b0e0cb3d83503823f">eCopyDirectoryOptions::continueIfTargetExists</a>)</td></tr>
+<tr class="memdesc:a2025edafa37f6866ded1dc908497aa54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively copy one directory and its contents to another location.  <a href="#a2025edafa37f6866ded1dc908497aa54">More...</a><br /></td></tr>
+<tr class="separator:a2025edafa37f6866ded1dc908497aa54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a922a68f2048c869ace2cd47dd0595bb2"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::wstring &gt; CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a922a68f2048c869ace2cd47dd0595bb2">ListDirectoryContents</a> (const std::wstring &amp;path, const std::wstring &amp;extMatch=L&quot;&quot;)</td></tr>
+<tr class="memdesc:a922a68f2048c869ace2cd47dd0595bb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of regular files in the specified directory.  <a href="#a922a68f2048c869ace2cd47dd0595bb2">More...</a><br /></td></tr>
+<tr class="separator:a922a68f2048c869ace2cd47dd0595bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a23b45090ddcc50c5ae7bb27397ccd3"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::wstring &gt; CORE_LIBRARY_DLL_SHARED_API&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1file__utils.html#a7a23b45090ddcc50c5ae7bb27397ccd3">ListSubDirectories</a> (const std::wstring &amp;path)</td></tr>
+<tr class="memdesc:a7a23b45090ddcc50c5ae7bb27397ccd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of immediate sub-directories in the specified directory.  <a href="#a7a23b45090ddcc50c5ae7bb27397ccd3">More...</a><br /></td></tr>
+<tr class="separator:a7a23b45090ddcc50c5ae7bb27397ccd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="namespacecore__lib_1_1file__utils.html" title="The file_utils namespace. ">file_utils</a> namespace. </p>
@@ -153,8 +152,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a985806bc48beedb3c0032b9c3b2d2a74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a985806bc48beedb3c0032b9c3b2d2a74">&#9670;&nbsp;</a></span>CopyDirectoryRecursively()</h2>
+<a id="a2025edafa37f6866ded1dc908497aa54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2025edafa37f6866ded1dc908497aa54">&#9670;&nbsp;</a></span>CopyDirectoryRecursively()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,19 +161,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void core_lib::file_utils::CopyDirectoryRecursively </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
           <td class="paramname"><em>source</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
           <td class="paramname"><em>target</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cba">eCopyDirectoryOptions</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cba">eCopyDirectoryOptions</a>&#160;</td>
           <td class="paramname"><em>options</em> = <code><a class="el" href="namespacecore__lib_1_1file__utils.html#a7982ac6ae2073592b0dc577534c02cbaad7e3a78cc481a58b0e0cb3d83503823f">eCopyDirectoryOptions::continueIfTargetExists</a></code>&#160;</td>
         </tr>
         <tr>
@@ -201,26 +200,26 @@ Functions</h2></td></tr>
 <li>The parent of the target path must be a directory.</li>
 <li>The target path must not be a subdirectory of the source path.</li>
 </ol>
-<p>Throws <a class="el" href="classcore__lib_1_1file__utils_1_1x_copy_directory_error.html" title="Copying a directory error exception. ">xCopyDirectoryError</a> if an error occurs. If target folder already exists then the source is copied into a folder within the target folder with the same name as the srouce folder. </p>
+<p>Throws std::runtime_error if an error occurs. If target folder already exists then the source is copied into a folder within the target folder with the same name as the srouce folder. </p>
 
 </div>
 </div>
-<a id="a92a0c9bdc62793e72ca851469f3d2370"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92a0c9bdc62793e72ca851469f3d2370">&#9670;&nbsp;</a></span>FindCommonRootPath()</h2>
+<a id="aa4251be48265d80ec294da8cad824df5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4251be48265d80ec294da8cad824df5">&#9670;&nbsp;</a></span>FindCommonRootPath()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string core_lib::file_utils::FindCommonRootPath </td>
+          <td class="memname">std::wstring core_lib::file_utils::FindCommonRootPath </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
           <td class="paramname"><em>path1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
           <td class="paramname"><em>path2</em>&#160;</td>
         </tr>
         <tr>
@@ -243,23 +242,75 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3ba5eacfb2614e86b0c45fb956f9185b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ba5eacfb2614e86b0c45fb956f9185b">&#9670;&nbsp;</a></span>ListDirectoryContents()</h2>
+<a id="aa2defa75129ffcd4a0d35acdca038e82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2defa75129ffcd4a0d35acdca038e82">&#9670;&nbsp;</a></span>FindFileRecursively()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt; std::string &gt; core_lib::file_utils::ListDirectoryContents </td>
+          <td class="memname">bool core_lib::file_utils::FindFileRecursively </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>dirPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>pathFound</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>includeFileName</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find the common root path of 2 paths. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dirPath</td><td>- Directory to search recusively. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fileName</td><td>- Name of file to search for. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">pathFound</td><td>- Full path to the file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">includeFileName</td><td>- Flag to indicate if pathFound should include name of file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if found, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a922a68f2048c869ace2cd47dd0595bb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a922a68f2048c869ace2cd47dd0595bb2">&#9670;&nbsp;</a></span>ListDirectoryContents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt; std::wstring &gt; core_lib::file_utils::ListDirectoryContents </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>extMatch</em> = <code>&quot;&quot;</code>&#160;</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>extMatch</em> = <code>L&quot;&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -282,13 +333,41 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a7a23b45090ddcc50c5ae7bb27397ccd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a23b45090ddcc50c5ae7bb27397ccd3">&#9670;&nbsp;</a></span>ListSubDirectories()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt; std::wstring &gt; core_lib::file_utils::ListSubDirectories </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of immediate sub-directories in the specified directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>- Directory path. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>List of sub-directories in the directory.</dd></dl>
+<p>Throws boost::filesystem_error if a problem occurs. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1file__utils.html">file_utils</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

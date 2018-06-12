@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -98,33 +98,41 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1threads_1_1_join_thr
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a804748d8b5299cdc258e9f7fb6162dc9"><td class="memItemLeft" align="right" valign="top"><a id="a804748d8b5299cdc258e9f7fb6162dc9"></a>
-typedef C&lt; std::thread *, std::allocator&lt; std::thread * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9">container_type</a></td></tr>
-<tr class="memdesc:a804748d8b5299cdc258e9f7fb6162dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">typedef for container type <br /></td></tr>
-<tr class="separator:a804748d8b5299cdc258e9f7fb6162dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6a121f2c3ca62fcaf90ade485a131c5"><td class="memItemLeft" align="right" valign="top"><a id="ae6a121f2c3ca62fcaf90ade485a131c5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#ae6a121f2c3ca62fcaf90ade485a131c5">container_type</a> = C&lt; std::thread *, std::allocator&lt; std::thread * &gt; &gt;</td></tr>
+<tr class="memdesc:ae6a121f2c3ca62fcaf90ade485a131c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">typedef for container type <br /></td></tr>
+<tr class="separator:ae6a121f2c3ca62fcaf90ade485a131c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a40a415359515c3cca0c011ace583bf0e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a40a415359515c3cca0c011ace583bf0e">JoinThreadsP</a> (<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9">container_type</a> &amp;threads)</td></tr>
+<tr class="memitem:a40a415359515c3cca0c011ace583bf0e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a40a415359515c3cca0c011ace583bf0e">JoinThreadsP</a> (<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#ae6a121f2c3ca62fcaf90ade485a131c5">container_type</a> &amp;threads)</td></tr>
 <tr class="memdesc:a40a415359515c3cca0c011ace583bf0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialisation constructor.  <a href="#a40a415359515c3cca0c011ace583bf0e">More...</a><br /></td></tr>
 <tr class="separator:a40a415359515c3cca0c011ace583bf0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add9d7a1c30b5ea883e298b674d6b4e4e"><td class="memItemLeft" align="right" valign="top"><a id="add9d7a1c30b5ea883e298b674d6b4e4e"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#add9d7a1c30b5ea883e298b674d6b4e4e">JoinThreadsP</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;)=delete</td></tr>
-<tr class="memdesc:add9d7a1c30b5ea883e298b674d6b4e4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor - deleted. <br /></td></tr>
+<tr class="memdesc:add9d7a1c30b5ea883e298b674d6b4e4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor deleted. <br /></td></tr>
 <tr class="separator:add9d7a1c30b5ea883e298b674d6b4e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14ec852341341fb9b0acee9c79349472"><td class="memItemLeft" align="right" valign="top"><a id="a14ec852341341fb9b0acee9c79349472"></a>
+<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a14ec852341341fb9b0acee9c79349472">operator=</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a14ec852341341fb9b0acee9c79349472"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator deleted. <br /></td></tr>
+<tr class="separator:a14ec852341341fb9b0acee9c79349472"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c33c26917838daa6e4e76e6e2a677e6"><td class="memItemLeft" align="right" valign="top"><a id="a9c33c26917838daa6e4e76e6e2a677e6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a9c33c26917838daa6e4e76e6e2a677e6">JoinThreadsP</a> (<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;&amp;)=delete</td></tr>
+<tr class="memdesc:a9c33c26917838daa6e4e76e6e2a677e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor deleted. <br /></td></tr>
+<tr class="separator:a9c33c26917838daa6e4e76e6e2a677e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cf09ce4eddc0d05e0fe1348039a6c47"><td class="memItemLeft" align="right" valign="top"><a id="a0cf09ce4eddc0d05e0fe1348039a6c47"></a>
+<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a0cf09ce4eddc0d05e0fe1348039a6c47">operator=</a> (<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;&amp;)=delete</td></tr>
+<tr class="memdesc:a0cf09ce4eddc0d05e0fe1348039a6c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator deleted. <br /></td></tr>
+<tr class="separator:a0cf09ce4eddc0d05e0fe1348039a6c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1d2db467703b6cd43d4ce6b8ac23b20"><td class="memItemLeft" align="right" valign="top"><a id="aa1d2db467703b6cd43d4ce6b8ac23b20"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#aa1d2db467703b6cd43d4ce6b8ac23b20">~JoinThreadsP</a> ()</td></tr>
 <tr class="memdesc:aa1d2db467703b6cd43d4ce6b8ac23b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor- joins the threads. <br /></td></tr>
 <tr class="separator:aa1d2db467703b6cd43d4ce6b8ac23b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14ec852341341fb9b0acee9c79349472"><td class="memItemLeft" align="right" valign="top"><a id="a14ec852341341fb9b0acee9c79349472"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a14ec852341341fb9b0acee9c79349472">operator=</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> &amp;)=delete</td></tr>
-<tr class="memdesc:a14ec852341341fb9b0acee9c79349472"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator - deleted. <br /></td></tr>
-<tr class="separator:a14ec852341341fb9b0acee9c79349472"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a8992219da142701b03ee78757bb8ac19"><td class="memItemLeft" align="right" valign="top"><a id="a8992219da142701b03ee78757bb8ac19"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9">container_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a8992219da142701b03ee78757bb8ac19">m_threads</a></td></tr>
+<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#ae6a121f2c3ca62fcaf90ade485a131c5">container_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a8992219da142701b03ee78757bb8ac19">m_threads</a></td></tr>
 <tr class="memdesc:a8992219da142701b03ee78757bb8ac19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container of threads. <br /></td></tr>
 <tr class="separator:a8992219da142701b03ee78757bb8ac19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -148,7 +156,7 @@ template&lt;template&lt; class, class &gt; class C&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">core_lib::threads::JoinThreadsP</a>&lt; C &gt;::<a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a804748d8b5299cdc258e9f7fb6162dc9">container_type</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#ae6a121f2c3ca62fcaf90ade485a131c5">container_type</a> &amp;&#160;</td>
           <td class="paramname"><em>threads</em></td><td>)</td>
           <td></td>
         </tr>
@@ -179,7 +187,7 @@ template&lt;template&lt; class, class &gt; class C&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html">JoinThreadsP</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

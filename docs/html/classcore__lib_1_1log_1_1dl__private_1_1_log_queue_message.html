@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -83,7 +83,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1log_1_1dl__private_1
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -102,9 +102,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#aca472924e3eec88f30afeca733c33d12">LogQueueMessage</a> ()=default</td></tr>
 <tr class="memdesc:aca472924e3eec88f30afeca733c33d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
 <tr class="separator:aca472924e3eec88f30afeca733c33d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a7ac435eb06e640bf72b8663d260938"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a0a7ac435eb06e640bf72b8663d260938">LogQueueMessage</a> (const std::string &amp;message, const time_t timeStamp, const std::string &amp;file, const std::string &amp;function, const int lineNo, const std::thread::id &amp;threadID, const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">eLogMessageLevel</a> errorLevel)</td></tr>
-<tr class="memdesc:a0a7ac435eb06e640bf72b8663d260938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialising constructor.  <a href="#a0a7ac435eb06e640bf72b8663d260938">More...</a><br /></td></tr>
-<tr class="separator:a0a7ac435eb06e640bf72b8663d260938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab751fe9c18043d6aa89cc7d5a4113e4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ab751fe9c18043d6aa89cc7d5a4113e4c">LogQueueMessage</a> (const std::string &amp;message, time_t timeStamp, const std::string &amp;file, const std::string &amp;function, int lineNo, const std::thread::id &amp;threadID, <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">eLogMessageLevel</a> errorLevel)</td></tr>
+<tr class="memdesc:ab751fe9c18043d6aa89cc7d5a4113e4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialising constructor.  <a href="#ab751fe9c18043d6aa89cc7d5a4113e4c">More...</a><br /></td></tr>
+<tr class="separator:ab751fe9c18043d6aa89cc7d5a4113e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afee264648efcf60b0fc34c07621c73c7"><td class="memItemLeft" align="right" valign="top"><a id="afee264648efcf60b0fc34c07621c73c7"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#afee264648efcf60b0fc34c07621c73c7">LogQueueMessage</a> (const <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">LogQueueMessage</a> &amp;)=default</td></tr>
 <tr class="memdesc:afee264648efcf60b0fc34c07621c73c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. <br /></td></tr>
@@ -147,17 +147,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab09bf4b9b44f843c063c722bcb9cd856"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get message error level.  <a href="#ab09bf4b9b44f843c063c722bcb9cd856">More...</a><br /></td></tr>
 <tr class="separator:ab09bf4b9b44f843c063c722bcb9cd856"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a882ca8babff300ef40788ae5d3c3b02c"><td class="memItemLeft" align="right" valign="top"><a id="a882ca8babff300ef40788ae5d3c3b02c"></a>
-static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a882ca8babff300ef40788ae5d3c3b02c">MESSAGE_ID</a> {1}</td></tr>
-<tr class="memdesc:a882ca8babff300ef40788ae5d3c3b02c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static message ID to register on message queue. <br /></td></tr>
-<tr class="separator:a882ca8babff300ef40788ae5d3c3b02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a9328cb328cbb8580bb6b13358695203b"><td class="memItemLeft" align="right" valign="top"><a id="a9328cb328cbb8580bb6b13358695203b"></a>
+<a class="el" href="_platform_defines_8h.html#a05d8f96bb92db37f4f27ee4c15c48c24">STATIC_CONSTEXPR_</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a9328cb328cbb8580bb6b13358695203b">MESSAGE_ID</a> {1}</td></tr>
+<tr class="memdesc:a9328cb328cbb8580bb6b13358695203b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static message ID to register on message queue. <br /></td></tr>
+<tr class="separator:a9328cb328cbb8580bb6b13358695203b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:ad7e6b9d0e9402973e21894b99509376d"><td class="memItemLeft" align="right" valign="top"><a id="ad7e6b9d0e9402973e21894b99509376d"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ad7e6b9d0e9402973e21894b99509376d">m_message</a></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ad7e6b9d0e9402973e21894b99509376d">m_message</a> {}</td></tr>
 <tr class="memdesc:ad7e6b9d0e9402973e21894b99509376d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message string. <br /></td></tr>
 <tr class="separator:ad7e6b9d0e9402973e21894b99509376d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb5b983f5b0a8eb6e4e6dde1dab6ddbf"><td class="memItemLeft" align="right" valign="top"><a id="adb5b983f5b0a8eb6e4e6dde1dab6ddbf"></a>
@@ -165,11 +165,11 @@ time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memdesc:adb5b983f5b0a8eb6e4e6dde1dab6ddbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time stamp. <br /></td></tr>
 <tr class="separator:adb5b983f5b0a8eb6e4e6dde1dab6ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af377753762ac4999d196b89a8507112e"><td class="memItemLeft" align="right" valign="top"><a id="af377753762ac4999d196b89a8507112e"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#af377753762ac4999d196b89a8507112e">m_file</a></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#af377753762ac4999d196b89a8507112e">m_file</a> {}</td></tr>
 <tr class="memdesc:af377753762ac4999d196b89a8507112e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source file name. <br /></td></tr>
 <tr class="separator:af377753762ac4999d196b89a8507112e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d34c5c6f31200549d9c88ea7ddb43f4"><td class="memItemLeft" align="right" valign="top"><a id="a7d34c5c6f31200549d9c88ea7ddb43f4"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a7d34c5c6f31200549d9c88ea7ddb43f4">m_function</a></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a7d34c5c6f31200549d9c88ea7ddb43f4">m_function</a> {}</td></tr>
 <tr class="memdesc:a7d34c5c6f31200549d9c88ea7ddb43f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function name. <br /></td></tr>
 <tr class="separator:a7d34c5c6f31200549d9c88ea7ddb43f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27376b0646c0d5b03dd13bb8802e6d9d"><td class="memItemLeft" align="right" valign="top"><a id="a27376b0646c0d5b03dd13bb8802e6d9d"></a>
@@ -177,7 +177,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memdesc:a27376b0646c0d5b03dd13bb8802e6d9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Line number in source file. <br /></td></tr>
 <tr class="separator:a27376b0646c0d5b03dd13bb8802e6d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3431d60c8a8e90615799684c47225745"><td class="memItemLeft" align="right" valign="top"><a id="a3431d60c8a8e90615799684c47225745"></a>
-std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a3431d60c8a8e90615799684c47225745">m_threadID</a></td></tr>
+std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a3431d60c8a8e90615799684c47225745">m_threadID</a> {}</td></tr>
 <tr class="memdesc:a3431d60c8a8e90615799684c47225745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread ID where message originated. <br /></td></tr>
 <tr class="separator:a3431d60c8a8e90615799684c47225745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7ed567be821344eab55fabe5482c1f7"><td class="memItemLeft" align="right" valign="top"><a id="ab7ed567be821344eab55fabe5482c1f7"></a>
@@ -189,8 +189,8 @@ std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
 <div class="textblock"><p>Log Queue Message class. </p>
 <p>Message to be placed on message queue to process debug log entry to add to file. This is used internally by the <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html" title="DebugLog class. ">DebugLog</a> class and so is in its own private namespace and is not needed to be used externally to <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html" title="DebugLog class. ">DebugLog</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a0a7ac435eb06e640bf72b8663d260938"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a7ac435eb06e640bf72b8663d260938">&#9670;&nbsp;</a></span>LogQueueMessage()</h2>
+<a id="ab751fe9c18043d6aa89cc7d5a4113e4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab751fe9c18043d6aa89cc7d5a4113e4c">&#9670;&nbsp;</a></span>LogQueueMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +204,7 @@ std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const time_t&#160;</td>
+          <td class="paramtype">time_t&#160;</td>
           <td class="paramname"><em>timeStamp</em>, </td>
         </tr>
         <tr>
@@ -222,7 +222,7 @@ std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>lineNo</em>, </td>
         </tr>
         <tr>
@@ -234,7 +234,7 @@ std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">eLogMessageLevel</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc">eLogMessageLevel</a>&#160;</td>
           <td class="paramname"><em>errorLevel</em>&#160;</td>
         </tr>
         <tr>
@@ -412,7 +412,7 @@ std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1log.html">log</a></li><li class="navelem"><b>dl_private</b></li><li class="navelem"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">LogQueueMessage</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

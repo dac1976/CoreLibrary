@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -90,62 +90,66 @@ $(document).ready(function(){initNavTree('functions_func_t.html','');});
 <li>TcpClient()
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a2c8836f480214cf1951280c493b58a57">core_lib::asio::tcp::TcpClient</a>
 </li>
+<li>TcpClientList()
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a8d9ea96004f12452ab81f19df07704f9">core_lib::asio::tcp::TcpClientList</a>
+</li>
 <li>TcpConnection()
-: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a779a49ffd4f797ca0ccb605bce13a8ad">core_lib::asio::tcp::TcpConnection</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a2d8fdff0ea2b61f7171a701d05a9ba71">core_lib::asio::tcp::TcpConnection</a>
 </li>
 <li>TcpConnections()
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#a66dc48213080c3315e46fec28fd79a77">core_lib::asio::tcp::TcpConnections</a>
 </li>
 <li>TcpServer()
-: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a3da0ce10c85bb9deddb7476f8471124e">core_lib::asio::tcp::TcpServer</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a15ed4475029b5d8065096e2abb2b3150">core_lib::asio::tcp::TcpServer</a>
 </li>
 <li>TcpTypedClient()
-: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#a3a3e830bafd686f5c8e9fd2d6fabf37f">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html#aea4e75a4255bd2bd887461e690cbba21">core_lib::asio::tcp::TcpTypedClient&lt; MsgBldr &gt;</a>
 </li>
 <li>TcpTypedServer()
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#abe31d3fdbe15b3abcd16a867a3cb06e3">core_lib::asio::tcp::TcpTypedServer&lt; MsgBldr &gt;</a>
 </li>
 <li>TCsvGrid()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#abc93aed4949b635ff501340cb15438da">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a66a8c09bf5739c059e6b63e1367b85eb">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
 </li>
 <li>ThreadBase()
 : <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#aaa818892960ae729237c45ec289a66a0">core_lib::threads::ThreadBase</a>
 </li>
 <li>ThreadGroup()
-: <a class="el" href="classcore__lib_1_1threads_1_1_thread_group.html#af8c232343e7e8cc749d3b6479104a5f8">core_lib::threads::ThreadGroup</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_thread_group.html#adb821c8ab9836bf9d1144034a5ebfe46">core_lib::threads::ThreadGroup</a>
 </li>
 <li>ThreadID()
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a1766ead1aa8c373d3fe89cd7639de88b">core_lib::log::dl_private::LogQueueMessage</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a88c0009d9543fe94ba0b94c0b373f845">core_lib::threads::ThreadBase</a>
 </li>
 <li>ThreadIteration()
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a75a7c7fd94d58ae9bcc28a6c5e2a46a1">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a67a25b252dc4aac5b01d9259f418059a">core_lib::threads::EventThread</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#abb1814f58d6a71008cf043bc3a487f9f">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a638d5c65b65d950648a87f9e212b14c2">core_lib::threads::ThreadBase</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_thread_runner.html#a74afae51d7ea15b09b2a9af8744c25f6">core_lib::threads::ThreadRunner</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_thread_runner.html#a22abccad5c1c89393ee7ff97b3f32f80">core_lib::threads::ThreadRunner</a>
 </li>
 <li>ThreadRunner()
-: <a class="el" href="classcore__lib_1_1threads_1_1_thread_runner.html#afdfcb9210a3e917ec9fadf7ac6f301a7">core_lib::threads::ThreadRunner</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_thread_runner.html#a149e24f0cbc555dbc5928c5b922bd0ce">core_lib::threads::ThreadRunner</a>
 </li>
 <li>TimedPop()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aed8ab138639410e4e314c9890458ae34">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2e80977a24adce8baf939a395a975f19">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>TimedPopThrow()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ae058092f8f616ecf14145db7cc3a7429">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a4363dd5fe2e0ee2be4d7cc724699a3f5">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>TimeStamp()
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a948449f4cb5fbc43309780efd9e2607f">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
 <li>ToDoubleDef()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a6f5630e60376371e046da61657bcca5c">core_lib::csv_grid::Cell</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a4674c69f7dafbe5a86c888bb7af03c67">core_lib::csv_grid::Cell</a>
 </li>
 <li>ToFloatDef()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#ade3bc4e1158a4d9c681fa4e12b3abb8f">core_lib::csv_grid::Cell</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#ac49f4925ae3b0c64782e5704d5310a34">core_lib::csv_grid::Cell</a>
 </li>
 <li>ToInt32Def()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#ab81e768a3bd117e3ee010b0234b4abf6">core_lib::csv_grid::Cell</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#ada255c76cc6ec05dc12e871c376eab18">core_lib::csv_grid::Cell</a>
 </li>
 <li>ToInt64Def()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a067359bc7945971e03b7809bafc54ef5">core_lib::csv_grid::Cell</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a5fa71692261c4a557871868c154e6303">core_lib::csv_grid::Cell</a>
 </li>
 <li>TokenizeLine()
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#ae8831cb13a32d887207143c11068c49e">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
@@ -154,10 +158,10 @@ $(document).ready(function(){initNavTree('functions_func_t.html','');});
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a36ba3cab45787935eb8cee1e87a41c94">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
 <li>ToLongDoubleDef()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a50dd6c4bd89816bc26eb43098732d245">core_lib::csv_grid::Cell</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a55d670f4628bd49c747d2d7996051566">core_lib::csv_grid::Cell</a>
 </li>
 <li>TRow()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a7fa08afd8cf2329cdd54a7f8a799241c">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#afc022723c53a8eedd1260f26c4d49aab">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
 <li>TryPop()
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aa24340e08122e91037bbc84d2fdc50b4">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
@@ -177,7 +181,7 @@ $(document).ready(function(){initNavTree('functions_func_t.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

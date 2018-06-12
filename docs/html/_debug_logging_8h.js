@@ -42,5 +42,10 @@ var _debug_logging_8h =
     [ "DEBUG_MESSAGE_REMOVE_FILTER_ERROR", "_debug_logging_8h.html#a83a4aa66d0f60929db2fc4d1bbf5ea3d", null ],
     [ "DEBUG_MESSAGE_REMOVE_FILTER_FATAL", "_debug_logging_8h.html#a78a836b8ef2b3a1537b27b695ddb89a8", null ],
     [ "DEBUG_MESSAGE_REMOVE_FILTER_INFO", "_debug_logging_8h.html#a6508d7d7cd7c43c88e401f2bd78a62b4", null ],
-    [ "DEBUG_MESSAGE_REMOVE_FILTER_WARNING", "_debug_logging_8h.html#af6ca5f68012138a1d8e05b243593bd11", null ]
+    [ "DEBUG_MESSAGE_REMOVE_FILTER_WARNING", "_debug_logging_8h.html#af6ca5f68012138a1d8e05b243593bd11", null ],
+    [ "LOG_LEVEL_DEBUG", "_debug_logging_8h.html#ab78f259a98092790c2c3280610b7838f", null ],
+    [ "LOG_LEVEL_ERROR", "_debug_logging_8h.html#a52e22aeb9cc157e1ec5beb1b2ac30155", null ],
+    [ "LOG_LEVEL_FATAL", "_debug_logging_8h.html#a2b8f4341c23729ae5a6f6f1c596e7873", null ],
+    [ "LOG_LEVEL_INFO", "_debug_logging_8h.html#afe60d320ac206a4d791b7cc1b3791a84", null ],
+    [ "LOG_LEVEL_WARNING", "_debug_logging_8h.html#a105b6a99e6156da82310b133cb9127d5", null ]
 ];

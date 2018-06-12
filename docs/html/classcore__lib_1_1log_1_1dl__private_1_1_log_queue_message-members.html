@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1log_1_1dl__private_1
   <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ae24e1f74bac6677ef8cd8e9dd88e296d">Function</a>() const</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ab75058bae23e9bab2c090bafe613b101">LineNo</a>() const</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#aca472924e3eec88f30afeca733c33d12">LogQueueMessage</a>()=default</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a0a7ac435eb06e640bf72b8663d260938">LogQueueMessage</a>(const std::string &amp;message, const time_t timeStamp, const std::string &amp;file, const std::string &amp;function, const int lineNo, const std::thread::id &amp;threadID, const eLogMessageLevel errorLevel)</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ab751fe9c18043d6aa89cc7d5a4113e4c">LogQueueMessage</a>(const std::string &amp;message, time_t timeStamp, const std::string &amp;file, const std::string &amp;function, int lineNo, const std::thread::id &amp;threadID, eLogMessageLevel errorLevel)</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#afee264648efcf60b0fc34c07621c73c7">LogQueueMessage</a>(const LogQueueMessage &amp;)=default</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a13113345e936295c4bef2ff5f8bb6e2c">LogQueueMessage</a>(LogQueueMessage &amp;&amp;)=default</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#ab7ed567be821344eab55fabe5482c1f7">m_errorLevel</a></td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1log_1_1dl__private_1
   <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a3431d60c8a8e90615799684c47225745">m_threadID</a></td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#adb5b983f5b0a8eb6e4e6dde1dab6ddbf">m_timeStamp</a></td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a2acae381e0e0f4613edeb37da9d3105c">Message</a>() const</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a882ca8babff300ef40788ae5d3c3b02c">MESSAGE_ID</a></td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a9328cb328cbb8580bb6b13358695203b">MESSAGE_ID</a></td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a6caf722ce631d52137238a8a7a5cb8aa">operator=</a>(const LogQueueMessage &amp;)=default</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a588c43d6a724a9848898a3d052504c37">operator=</a>(LogQueueMessage &amp;&amp;)=default</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a1766ead1aa8c373d3fe89cd7639de88b">ThreadID</a>() const</td><td class="entry"><a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">core_lib::log::dl_private::LogQueueMessage</a></td><td class="entry"></td></tr>
@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1log_1_1dl__private_1
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

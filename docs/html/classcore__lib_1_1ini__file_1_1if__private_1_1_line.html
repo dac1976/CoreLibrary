@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -108,15 +108,27 @@ Inheritance diagram for core_lib::ini_file::if_private::Line:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adf58043d60fe8867bd60bec011a9d49a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#adf58043d60fe8867bd60bec011a9d49a">Print</a> (std::ostream &amp;os, const bool addLineFeed=true) const =0</td></tr>
-<tr class="memdesc:adf58043d60fe8867bd60bec011a9d49a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual Print function.  <a href="#adf58043d60fe8867bd60bec011a9d49a">More...</a><br /></td></tr>
-<tr class="separator:adf58043d60fe8867bd60bec011a9d49a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a652971a1c3211f2cf9aec4e0641ee37e"><td class="memItemLeft" align="right" valign="top"><a id="a652971a1c3211f2cf9aec4e0641ee37e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Line</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> const &amp;)=default</td></tr>
+<tr class="separator:a652971a1c3211f2cf9aec4e0641ee37e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a358f9eace3e460dcce7e79dc576f6c6c"><td class="memItemLeft" align="right" valign="top"><a id="a358f9eace3e460dcce7e79dc576f6c6c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Line</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a358f9eace3e460dcce7e79dc576f6c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a596c9cdee2c1a72181bfedb640cba86e"><td class="memItemLeft" align="right" valign="top"><a id="a596c9cdee2c1a72181bfedb640cba86e"></a>
+<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> const &amp;)=default</td></tr>
+<tr class="separator:a596c9cdee2c1a72181bfedb640cba86e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a926127ac17ea827fed753438858502ef"><td class="memItemLeft" align="right" valign="top"><a id="a926127ac17ea827fed753438858502ef"></a>
+<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a926127ac17ea827fed753438858502ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33449c7b1adec1267583ecfd6e018c0a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a33449c7b1adec1267583ecfd6e018c0a">Print</a> (std::ostream &amp;os, bool addLineFeed=true) const =0</td></tr>
+<tr class="memdesc:a33449c7b1adec1267583ecfd6e018c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual Print function.  <a href="#a33449c7b1adec1267583ecfd6e018c0a">More...</a><br /></td></tr>
+<tr class="separator:a33449c7b1adec1267583ecfd6e018c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class to manage a line in an INI file. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="adf58043d60fe8867bd60bec011a9d49a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf58043d60fe8867bd60bec011a9d49a">&#9670;&nbsp;</a></span>Print()</h2>
+<a id="a33449c7b1adec1267583ecfd6e018c0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33449c7b1adec1267583ecfd6e018c0a">&#9670;&nbsp;</a></span>Print()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -133,7 +145,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const bool&#160;</td>
+          <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>addLineFeed</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
@@ -158,7 +170,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#a496cc0e5e9e9e5612db6018d1a9d0ea7">core_lib::ini_file::if_private::KeyLine</a>, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#abcef1725ed9a46f91fe5af7c34d751c2">core_lib::ini_file::if_private::SectionLine</a>, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a098b117fbeba0289c57867ea89f4369f">core_lib::ini_file::if_private::CommentLine</a>, and <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_blank_line.html#ab860c46caff1a22ba00f5c71c6d0fbda">core_lib::ini_file::if_private::BlankLine</a>.</p>
+<p>Implemented in <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#a817dfc3af3769f90c2c5c7dd7c30d31b">core_lib::ini_file::if_private::KeyLine</a>, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#a806a44218365dd0081fc0e015f6aad55">core_lib::ini_file::if_private::SectionLine</a>, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a01f596f02d0e5e86a42e7434978244c1">core_lib::ini_file::if_private::CommentLine</a>, and <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_blank_line.html#af3bda0dc3c7b36b0e1b7757795c4abf0">core_lib::ini_file::if_private::BlankLine</a>.</p>
 
 </div>
 </div>
@@ -171,7 +183,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html">if_private</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

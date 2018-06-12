@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('_serialize_to_vector_8h.html','');});
 <code>#include &lt;iterator&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &quot;cereal/types/vector.hpp&quot;</code><br />
+<code>#include &lt;cereal/types/vector.hpp&gt;</code><br />
 </div>
 <p><a href="_serialize_to_vector_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -142,50 +142,50 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a44a4538f3603583992dec4d1a9a61bbe"><td class="memItemLeft" align="right" valign="top"><a id="a44a4538f3603583992dec4d1a9a61bbe"></a>
-typedef std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize.html#a44a4538f3603583992dec4d1a9a61bbe">core_lib::serialize::char_vector_t</a></td></tr>
-<tr class="memdesc:a44a4538f3603583992dec4d1a9a61bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for char vector. <br /></td></tr>
-<tr class="separator:a44a4538f3603583992dec4d1a9a61bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d667d054588d2e680e53a4cf09e5ecd"><td class="memItemLeft" align="right" valign="top"><a id="a9d667d054588d2e680e53a4cf09e5ecd"></a>
-typedef cereal::PortableBinaryOutputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a9d667d054588d2e680e53a4cf09e5ecd">core_lib::serialize::archives::out_port_bin_t</a></td></tr>
-<tr class="memdesc:a9d667d054588d2e680e53a4cf09e5ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output portable binary archive. <br /></td></tr>
-<tr class="separator:a9d667d054588d2e680e53a4cf09e5ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67bf9a2def0aacc6b9eb61de3331671b"><td class="memItemLeft" align="right" valign="top"><a id="a67bf9a2def0aacc6b9eb61de3331671b"></a>
-typedef cereal::BinaryOutputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a67bf9a2def0aacc6b9eb61de3331671b">core_lib::serialize::archives::out_bin_t</a></td></tr>
-<tr class="memdesc:a67bf9a2def0aacc6b9eb61de3331671b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output binary archive. <br /></td></tr>
-<tr class="separator:a67bf9a2def0aacc6b9eb61de3331671b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7afc47c9e528d177d3c64fcb079206fc"><td class="memItemLeft" align="right" valign="top"><a id="a7afc47c9e528d177d3c64fcb079206fc"></a>
-typedef cereal::XMLOutputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a7afc47c9e528d177d3c64fcb079206fc">core_lib::serialize::archives::out_xml_t</a></td></tr>
-<tr class="memdesc:a7afc47c9e528d177d3c64fcb079206fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output xml archive. <br /></td></tr>
-<tr class="separator:a7afc47c9e528d177d3c64fcb079206fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee95f828b8d24a69fead81382cf7175d"><td class="memItemLeft" align="right" valign="top"><a id="aee95f828b8d24a69fead81382cf7175d"></a>
-typedef cereal::JSONOutputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#aee95f828b8d24a69fead81382cf7175d">core_lib::serialize::archives::out_json_t</a></td></tr>
-<tr class="memdesc:aee95f828b8d24a69fead81382cf7175d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output json archive. <br /></td></tr>
-<tr class="separator:aee95f828b8d24a69fead81382cf7175d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd11f324fcc97f179979fd3a8ea80f9c"><td class="memItemLeft" align="right" valign="top"><a id="acd11f324fcc97f179979fd3a8ea80f9c"></a>
-typedef raw_oarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#acd11f324fcc97f179979fd3a8ea80f9c">core_lib::serialize::archives::out_raw_t</a></td></tr>
-<tr class="memdesc:acd11f324fcc97f179979fd3a8ea80f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output raw archive. <br /></td></tr>
-<tr class="separator:acd11f324fcc97f179979fd3a8ea80f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1b046a9a1b30c2a06031a55e960f78e"><td class="memItemLeft" align="right" valign="top"><a id="af1b046a9a1b30c2a06031a55e960f78e"></a>
-typedef cereal::PortableBinaryInputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#af1b046a9a1b30c2a06031a55e960f78e">core_lib::serialize::archives::in_port_bin_t</a></td></tr>
-<tr class="memdesc:af1b046a9a1b30c2a06031a55e960f78e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input portable binary archive. <br /></td></tr>
-<tr class="separator:af1b046a9a1b30c2a06031a55e960f78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f333416f5110844fb55648e34fbd9e4"><td class="memItemLeft" align="right" valign="top"><a id="a6f333416f5110844fb55648e34fbd9e4"></a>
-typedef cereal::BinaryInputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a6f333416f5110844fb55648e34fbd9e4">core_lib::serialize::archives::in_bin_t</a></td></tr>
-<tr class="memdesc:a6f333416f5110844fb55648e34fbd9e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input binary archive. <br /></td></tr>
-<tr class="separator:a6f333416f5110844fb55648e34fbd9e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0626adfc706e489620a6697045a9309"><td class="memItemLeft" align="right" valign="top"><a id="ab0626adfc706e489620a6697045a9309"></a>
-typedef cereal::XMLInputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#ab0626adfc706e489620a6697045a9309">core_lib::serialize::archives::in_xml_t</a></td></tr>
-<tr class="memdesc:ab0626adfc706e489620a6697045a9309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input xml archive. <br /></td></tr>
-<tr class="separator:ab0626adfc706e489620a6697045a9309"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17b36646f404cc83050bddbf993e419f"><td class="memItemLeft" align="right" valign="top"><a id="a17b36646f404cc83050bddbf993e419f"></a>
-typedef cereal::JSONInputArchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a17b36646f404cc83050bddbf993e419f">core_lib::serialize::archives::in_json_t</a></td></tr>
-<tr class="memdesc:a17b36646f404cc83050bddbf993e419f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input json archive. <br /></td></tr>
-<tr class="separator:a17b36646f404cc83050bddbf993e419f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f38b90722c01a9023897ba5586a5d02"><td class="memItemLeft" align="right" valign="top"><a id="a8f38b90722c01a9023897ba5586a5d02"></a>
-typedef raw_iarchive&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a8f38b90722c01a9023897ba5586a5d02">core_lib::serialize::archives::in_raw_t</a></td></tr>
-<tr class="memdesc:a8f38b90722c01a9023897ba5586a5d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input raw archive. <br /></td></tr>
-<tr class="separator:a8f38b90722c01a9023897ba5586a5d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8081ddc092edfb4e20d6d94766b1cee6"><td class="memItemLeft" align="right" valign="top"><a id="a8081ddc092edfb4e20d6d94766b1cee6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize.html#a8081ddc092edfb4e20d6d94766b1cee6">core_lib::serialize::char_vector_t</a> = std::vector&lt; char &gt;</td></tr>
+<tr class="memdesc:a8081ddc092edfb4e20d6d94766b1cee6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for char vector. <br /></td></tr>
+<tr class="separator:a8081ddc092edfb4e20d6d94766b1cee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0a3bcd700977b4017ed00abeab5cbe9"><td class="memItemLeft" align="right" valign="top"><a id="ae0a3bcd700977b4017ed00abeab5cbe9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#ae0a3bcd700977b4017ed00abeab5cbe9">core_lib::serialize::archives::out_port_bin_t</a> = cereal::PortableBinaryOutputArchive</td></tr>
+<tr class="memdesc:ae0a3bcd700977b4017ed00abeab5cbe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output portable binary archive. <br /></td></tr>
+<tr class="separator:ae0a3bcd700977b4017ed00abeab5cbe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af81e475ca13abc8dabe84b717be7240a"><td class="memItemLeft" align="right" valign="top"><a id="af81e475ca13abc8dabe84b717be7240a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#af81e475ca13abc8dabe84b717be7240a">core_lib::serialize::archives::out_bin_t</a> = cereal::BinaryOutputArchive</td></tr>
+<tr class="memdesc:af81e475ca13abc8dabe84b717be7240a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output binary archive. <br /></td></tr>
+<tr class="separator:af81e475ca13abc8dabe84b717be7240a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39d88b1dec43f9dd870aedd58b253ff4"><td class="memItemLeft" align="right" valign="top"><a id="a39d88b1dec43f9dd870aedd58b253ff4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a39d88b1dec43f9dd870aedd58b253ff4">core_lib::serialize::archives::out_xml_t</a> = cereal::XMLOutputArchive</td></tr>
+<tr class="memdesc:a39d88b1dec43f9dd870aedd58b253ff4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output xml archive. <br /></td></tr>
+<tr class="separator:a39d88b1dec43f9dd870aedd58b253ff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23eb427520a817f5ca51304756b7e38d"><td class="memItemLeft" align="right" valign="top"><a id="a23eb427520a817f5ca51304756b7e38d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a23eb427520a817f5ca51304756b7e38d">core_lib::serialize::archives::out_json_t</a> = cereal::JSONOutputArchive</td></tr>
+<tr class="memdesc:a23eb427520a817f5ca51304756b7e38d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output json archive. <br /></td></tr>
+<tr class="separator:a23eb427520a817f5ca51304756b7e38d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95a32f60835d800d6e730aad31135a4f"><td class="memItemLeft" align="right" valign="top"><a id="a95a32f60835d800d6e730aad31135a4f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a95a32f60835d800d6e730aad31135a4f">core_lib::serialize::archives::out_raw_t</a> = raw_oarchive</td></tr>
+<tr class="memdesc:a95a32f60835d800d6e730aad31135a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output raw archive. <br /></td></tr>
+<tr class="separator:a95a32f60835d800d6e730aad31135a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a481a42c16cb8998ed3f58a0c9e61829a"><td class="memItemLeft" align="right" valign="top"><a id="a481a42c16cb8998ed3f58a0c9e61829a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a481a42c16cb8998ed3f58a0c9e61829a">core_lib::serialize::archives::in_port_bin_t</a> = cereal::PortableBinaryInputArchive</td></tr>
+<tr class="memdesc:a481a42c16cb8998ed3f58a0c9e61829a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input portable binary archive. <br /></td></tr>
+<tr class="separator:a481a42c16cb8998ed3f58a0c9e61829a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b2568bbd14974947563ad620639a6e0"><td class="memItemLeft" align="right" valign="top"><a id="a4b2568bbd14974947563ad620639a6e0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a4b2568bbd14974947563ad620639a6e0">core_lib::serialize::archives::in_bin_t</a> = cereal::BinaryInputArchive</td></tr>
+<tr class="memdesc:a4b2568bbd14974947563ad620639a6e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input binary archive. <br /></td></tr>
+<tr class="separator:a4b2568bbd14974947563ad620639a6e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a138bc5c4cf0865e22be5ba7d11d747b8"><td class="memItemLeft" align="right" valign="top"><a id="a138bc5c4cf0865e22be5ba7d11d747b8"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a138bc5c4cf0865e22be5ba7d11d747b8">core_lib::serialize::archives::in_xml_t</a> = cereal::XMLInputArchive</td></tr>
+<tr class="memdesc:a138bc5c4cf0865e22be5ba7d11d747b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input xml archive. <br /></td></tr>
+<tr class="separator:a138bc5c4cf0865e22be5ba7d11d747b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4bea4ba6b5a9ceb2ca52fac1aac9d7f"><td class="memItemLeft" align="right" valign="top"><a id="aa4bea4ba6b5a9ceb2ca52fac1aac9d7f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#aa4bea4ba6b5a9ceb2ca52fac1aac9d7f">core_lib::serialize::archives::in_json_t</a> = cereal::JSONInputArchive</td></tr>
+<tr class="memdesc:aa4bea4ba6b5a9ceb2ca52fac1aac9d7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input json archive. <br /></td></tr>
+<tr class="separator:aa4bea4ba6b5a9ceb2ca52fac1aac9d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9897be2e5f426809537fa24fe928ad1d"><td class="memItemLeft" align="right" valign="top"><a id="a9897be2e5f426809537fa24fe928ad1d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1serialize_1_1archives.html#a9897be2e5f426809537fa24fe928ad1d">core_lib::serialize::archives::in_raw_t</a> = raw_iarchive</td></tr>
+<tr class="memdesc:a9897be2e5f426809537fa24fe928ad1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input raw archive. <br /></td></tr>
+<tr class="separator:a9897be2e5f426809537fa24fe928ad1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -206,7 +206,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_175fde1093034a3276b493a112c34406.html">Serialization</a></li><li class="navelem"><a class="el" href="_serialize_to_vector_8h.html">SerializeToVector.h</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:05 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:52 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

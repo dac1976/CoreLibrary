@@ -6,6 +6,6 @@ var searchData=
   ['boost_5ftcp_5facceptor_5ft',['boost_tcp_acceptor_t',['../_asio_defines_8h.html#a13f5e65f807558c0129859d7c0fcc45e',1,'AsioDefines.h']]],
   ['boost_5ftcp_5ft',['boost_tcp_t',['../_asio_defines_8h.html#abf15d04852d9980b1bf7afe7b6cfd3ca',1,'AsioDefines.h']]],
   ['boost_5fudp_5ft',['boost_udp_t',['../_asio_defines_8h.html#a41429e61ee77739e8cc62a49d280f4aa',1,'AsioDefines.h']]],
-  ['bucket_5fdefinitions',['bucket_definitions',['../classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3',1,'core_lib::sorting::Bucket']]],
-  ['bucket_5fvalues',['bucket_values',['../classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b',1,'core_lib::sorting::Bucket']]]
+  ['bucket_5fdefinitions',['bucket_definitions',['../classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133',1,'core_lib::sorting::Bucket']]],
+  ['bucket_5fvalues',['bucket_values',['../classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8',1,'core_lib::sorting::Bucket']]]
 ];

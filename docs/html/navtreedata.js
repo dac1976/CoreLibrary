@@ -30,6 +30,7 @@ var NAVTREE =
       [ "File List", "files.html", "files" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
+        [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
@@ -40,11 +41,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"_string_utils_8h.html#a163942ad82b7685b7adb7ba07c80d8bf",
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#aff732000b05e029688910a002d867bca",
-"classcore__lib_1_1csv__grid_1_1_t_csv_grid.html",
-"classcore__lib_1_1log_1_1_debug_log.html#a51affdd46da3c324ae68a39aeb6bd8b3",
-"classcore__lib_1_1threads_1_1_thread_runner.html#a5e5b0ff1ca4b6ff2f3306d993f2d547b"
+"_simple_udp_receiver_8h.html",
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a08d030a05ee7f3156d6e7fc6838f716e",
+"classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a9c0a397ebf93f9312160f71b412dfb82",
+"classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a93413c5c96546455633362f264d45d3a",
+"classcore__lib_1_1threads_1_1_thread_base.html#a97b89f94759baed854fa8b973d1e17b0"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

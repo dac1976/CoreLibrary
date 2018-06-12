@@ -1,6 +1,5 @@
 var _csv_grid_row_8h =
 [
-    [ "xCsvGridColOutOfRangeError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html", "classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error" ],
     [ "ContainerReserver", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver" ],
     [ "ContainerReserver< std::vector, T >", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4" ],
     [ "TCsvGrid", "classcore__lib_1_1csv__grid_1_1_t_csv_grid.html", "classcore__lib_1_1csv__grid_1_1_t_csv_grid" ],

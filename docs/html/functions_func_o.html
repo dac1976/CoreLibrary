@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a92f952138dca3583650a908008decd22">core_lib::asio::tcp::TcpTypedServer&lt; MsgBldr &gt;</a>
 </li>
 <li>OpenOfStream()
-: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#ac9d0c012e56678c1b577171d182cf00a">core_lib::log::DebugLog&lt; Formatter &gt;</a>
+: <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a0a0f1b92c5a084bc99e4902eae777190">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>operator double()
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a0fa743d6b16a2e750de1ecd3187a2b7e">core_lib::csv_grid::Cell</a>
@@ -113,9 +113,9 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 , <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html#a516aa0a1e8a6de6bdffdc2be5de1174c">core_lib::csv_grid::CellDouble</a>
 </li>
 <li>operator()()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#a611e1416c18f9e13eb6b119808ff646b">core_lib::csv_grid::reserver::ContainerReserver&lt; C, T &gt;</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html#a85045a4853b57516c183159816367a0a">core_lib::csv_grid::reserver::ContainerReserver&lt; std::vector, T &gt;</a>
-, <a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html#a1feab3c0f21ae6853d2df8353b4614cb">core_lib::log::DefaultLogFormat</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html#ab80b4cacf138c12381bb1eb4d3196fcb">core_lib::csv_grid::reserver::ContainerReserver&lt; C, T &gt;</a>
+, <a class="el" href="classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html#ae659b8a07f8053899e3956b60df37cf5">core_lib::csv_grid::reserver::ContainerReserver&lt; std::vector, T &gt;</a>
+, <a class="el" href="structcore__lib_1_1log_1_1_default_log_format.html#a99f93bb5656c13abb9f83d3f3436b960">core_lib::log::DefaultLogFormat</a>
 , <a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl.html#a51fc2e6d684174bb7e3cd50b4f9ad0e7">core_lib::serialize::impl::ToCharVectorImpl&lt; T, A &gt;</a>
 , <a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl_3_01_t_00_01archives_1_1out__raw__t_01_4.html#affd1577940345173c8a36d2cac532e46">core_lib::serialize::impl::ToCharVectorImpl&lt; T, archives::out_raw_t &gt;</a>
 , <a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl.html#aec2ed20de0d3ae722ef5b76b7ec48557">core_lib::serialize::impl::ToObjectImpl&lt; T, A &gt;</a>
@@ -135,8 +135,10 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 , <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1x_message_deserialization_error.html#aca00da3413216d752868413782521c81">core_lib::asio::messages::xMessageDeserializationError</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1x_message_length_error.html#a6e0c5f99cab80cc238224e7c3476d4b6">core_lib::asio::messages::xMessageLengthError</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html#a159cc8268ff1c906b8649c645b3206ec">core_lib::asio::tcp::SimpleTcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html#ad4d75b5eab5360af2ba2a7b69e11c528">core_lib::asio::tcp::SimpleTcpClientList</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#a670e6b3f58e60b97fccc5f4ee3b21e59">core_lib::asio::tcp::SimpleTcpServer</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a77ad82d6c0572756752b08f6dfcceaa8">core_lib::asio::tcp::TcpClient</a>
+, <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a0debf37c949de3b4a821e3099107e95a">core_lib::asio::tcp::TcpClientList</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a28ec87bb98896a6ede2aa68ac4b2f5c0">core_lib::asio::tcp::TcpConnection</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#ab7acea6c407d410eac4403590f611387">core_lib::asio::tcp::TcpConnections</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8e184a8358c3abcdb696f190110c6fcd">core_lib::asio::tcp::TcpServer</a>
@@ -153,52 +155,33 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 , <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4279e4b97dfab2e0cb0359b5f2feda75">core_lib::asio::udp::UdpReceiver</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#adfd15bc6b613c9b012266d201a4294d9">core_lib::asio::udp::UdpSender</a>
 , <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad9a4bae50d88cecebb3f08a9b83756fd">core_lib::asio::udp::UdpTypedSender&lt; MsgBldr &gt;</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a4933ca7256afbab3e26d1dea309c4cf1">core_lib::csv_grid::Cell</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html#aa57bd6c3518bd454ea47699b0f8caef8">core_lib::csv_grid::CellDouble</a>
+, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell.html#a68007572fc9370374259c81491bc4119">core_lib::csv_grid::Cell</a>
+, <a class="el" href="classcore__lib_1_1csv__grid_1_1_cell_double.html#aeddd8d080420b98164fda5e1f2e2c3a0">core_lib::csv_grid::CellDouble</a>
 , <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#ad25d5cd183fb8f7830c67c358d4b22e8">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
 , <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a42753b9b6e9d93877df97b7f0b3c9cfe">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html#ab092e6f78867e9ead6eb947b8f2027d3">core_lib::csv_grid::xCsvGridColOutOfRangeError</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html#a09a23cb224ab19b3ab954d14d88684f0">core_lib::csv_grid::xCsvGridCreateFileStreamError</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html#a0730da85c0e8e01be29ce7d504629bcb">core_lib::csv_grid::xCsvGridDimensionError</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html#a18de0e7ad58630f90192960f7496374d">core_lib::csv_grid::xCsvGridRowOutOfRangeError</a>
 , <a class="el" href="classcore__lib_1_1exceptions_1_1x_custom_exception.html#a8c6adec2e4ff4e230837750ebc617e00">core_lib::exceptions::xCustomException</a>
-, <a class="el" href="classcore__lib_1_1file__utils_1_1x_copy_directory_error.html#a565a30b1eae197e265fcd05d4e0057b8">core_lib::file_utils::xCopyDirectoryError</a>
 , <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_blank_line.html#ace38bb814a06f8266b46d6d710368589">core_lib::ini_file::if_private::BlankLine</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a26da56c4f65d00642920631510a6d65d">core_lib::ini_file::if_private::CommentLine</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#aa1ebfe2de3e23a2a9e126cefb75d0d26">core_lib::ini_file::if_private::KeyLine</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a97fa2f64a135e6246527d9eaa1d0e708">core_lib::ini_file::if_private::SectionDetails</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#a608a18071c61d4d87493ac9f25933065">core_lib::ini_file::if_private::SectionLine</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#af03d2bb436370a6c95f0eb5ed058ce37">core_lib::ini_file::if_private::CommentLine</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#ad3ff5b3f61950033b48944e4c972a37c">core_lib::ini_file::if_private::KeyLine</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a7ad1dc09d2a386b0648c1010fca699b7">core_lib::ini_file::if_private::SectionDetails</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#ac55166e7179209273566f57cea7a9d59">core_lib::ini_file::if_private::SectionLine</a>
 , <a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html#ae4d5300c09a953daa93b3a7a8edbb971">core_lib::ini_file::IniFile</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_data_convert_error.html#a82272957792cd46549f3ccc66f0463bd">core_lib::ini_file::xIniFileDataConvertError</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_key_error.html#aa949ef79dfa7c089306e09d6af74d7f3">core_lib::ini_file::xIniFileInvalidKeyError</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_section_error.html#a8f77f82bcf76bbf8531c1e4ee9a2fe17">core_lib::ini_file::xIniFileInvalidSectionError</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_parser_error.html#abd88660008f697bb5ee0f3012377c1fa">core_lib::ini_file::xIniFileParserError</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_save_error.html#ac7e102d6701dfc33af2f718ee196569c">core_lib::ini_file::xIniFileSaveError</a>
 , <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a7f2fbfdbbc20353c0936ed876a4fe702">core_lib::log::DebugLog&lt; Formatter &gt;</a>
-, <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a588c43d6a724a9848898a3d052504c37">core_lib::log::dl_private::LogQueueMessage</a>
-, <a class="el" href="classcore__lib_1_1log_1_1x_instantiation_error.html#ac04f98a433edb507d469abea29242b9f">core_lib::log::xInstantiationError</a>
-, <a class="el" href="classcore__lib_1_1log_1_1x_log_msg_handler_error.html#a8627090d7d55245661f7770aba09f719">core_lib::log::xLogMsgHandlerError</a>
-, <a class="el" href="classcore__lib_1_1sorting_1_1x_bucket_value_out_of_range_error.html#a3d51348463cd8828da32e1bdc58078d6">core_lib::sorting::xBucketValueOutOfRangeError</a>
-, <a class="el" href="classcore__lib_1_1string__utils_1_1x_split_string_bad_delim.html#a8461f22c70568123302d46d3c48e4428">core_lib::string_utils::xSplitStringBadDelim</a>
-, <a class="el" href="classcore__lib_1_1string__utils_1_1x_split_string_too_many_substrings.html#a3136418194ab191e929f802da4539898">core_lib::string_utils::xSplitStringTooManySubstrings</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#a1fad7ff9e977c5e24b83f1afd3bc675e">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
+, <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a6caf722ce631d52137238a8a7a5cb8aa">core_lib::log::dl_private::LogQueueMessage</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_bounded_buffer.html#aba465f85a426eba9883ffe382c25e603">core_lib::threads::BoundedBuffer&lt; T &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#acb24f09bc37cc42ba84391d7a57d6d52">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a80d201696de91685d1aebdea7f605fda">core_lib::threads::EventThread</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_join_threads.html#a57d63ee3e2a022f0fc80bec4b2420ed5">core_lib::threads::JoinThreads&lt; C &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a14ec852341341fb9b0acee9c79349472">core_lib::threads::JoinThreadsP&lt; C &gt;</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_join_threads_p.html#a0cf09ce4eddc0d05e0fe1348039a6c47">core_lib::threads::JoinThreadsP&lt; C &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#acfbd38f622fd5adec57983169474b818">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#aa32a22e1fd8754499652a42c4408f756">core_lib::threads::SyncEvent</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html#a94652c84d98da0317bfb5c922ce0ab79">core_lib::threads::SyncEvent</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a045bb1e03c59fd7b8faf5d4b6c9f4fab">core_lib::threads::ThreadBase</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_thread_group.html#a89ab578570c7f087e929f9c305d08500">core_lib::threads::ThreadGroup</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_thread_group.html#a23f1035d8f30a0e1d57528449c8f1e06">core_lib::threads::ThreadGroup</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_thread_runner.html#aa8fd05173c8ea41ccf1575ad33fb704f">core_lib::threads::ThreadRunner</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1x_msg_handler_error.html#a322c017aa4ccc34f535916a4f977be05">core_lib::threads::xMsgHandlerError</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html#a6cb35125c33227d0a0301bc55ef5a2cf">core_lib::threads::xQueuePopQueueEmptyError</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html#ae306f22e2bea2440e36cd5db341b4d76">core_lib::threads::xQueuePopTimeoutError</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1x_thread_group_error.html#aaffd06a03f18c7345bcce80a0be0cf9a">core_lib::threads::xThreadGroupError</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1x_thread_not_started_error.html#a21cc364c0b1d4bb0c035a27031d881c2">core_lib::threads::xThreadNotStartedError</a>
 </li>
 <li>operator[]()
-: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a92c7da92f676cf71288239c66b90f205">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
-, <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#ab5a82a5495181bcec3f3ab44241a140e">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
+: <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a079f1373c4e9ea2ca67e99e93443ba2a">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
+, <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_row.html#a3e77693554882b9dff95397aaaae434e">core_lib::csv_grid::TRow&lt; C, T &gt;</a>
 </li>
 <li>OutputCsvGridToStream()
 : <a class="el" href="classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#abd49d7f2f342474c00492266bebfd0c5">core_lib::csv_grid::TCsvGrid&lt; C, T &gt;</a>
@@ -212,7 +195,7 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

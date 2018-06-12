@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -83,7 +83,9 @@ $(document).ready(function(){initNavTree('_debug_log_singleton_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">DebugLogSingleton.h File Reference</div>  </div>
 </div><!--header-->
@@ -92,7 +94,7 @@ $(document).ready(function(){initNavTree('_debug_log_singleton_8h.html','');});
 <p>File containing declaration of DebugLog Singleton.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_debug_log_8h_source.html">DebugLog.h</a>&quot;</code><br />
-<code>#include &quot;loki/Singleton.h&quot;</code><br />
+<code>#include &lt;loki/Singleton.h&gt;</code><br />
 </div>
 <p><a href="_debug_log_singleton_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -105,20 +107,38 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:namespacecore__lib_1_1log"><td class="mdescLeft">&#160;</td><td class="mdescRight">The log namespace. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ad7048a4318c043865ee61e5132427eb5"><td class="memItemLeft" align="right" valign="top"><a id="ad7048a4318c043865ee61e5132427eb5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_debug_log_singleton_8h.html#ad7048a4318c043865ee61e5132427eb5">DEBUG_LOG_SINGLETON</a>&#160;&#160;&#160;DebugLogInstance()</td></tr>
+<tr class="memdesc:ad7048a4318c043865ee61e5132427eb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro defining our actual log's singelton. <br /></td></tr>
+<tr class="separator:ad7048a4318c043865ee61e5132427eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11a216c0921fdfc5497cd0be82c306a7"><td class="memItemLeft" align="right" valign="top"><a id="a11a216c0921fdfc5497cd0be82c306a7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_debug_log_singleton_8h.html#a11a216c0921fdfc5497cd0be82c306a7">DEBUG_LOG_SINGLETON_DELETER</a>&#160;&#160;&#160;DebugLogGracefulDelete()</td></tr>
+<tr class="memdesc:a11a216c0921fdfc5497cd0be82c306a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro defining a singleton deleter. <br /></td></tr>
+<tr class="separator:a11a216c0921fdfc5497cd0be82c306a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ac8170d34fa79016d45d9b4d4af2998d1"><td class="memItemLeft" align="right" valign="top"><a id="ac8170d34fa79016d45d9b4d4af2998d1"></a>
-typedef DebugLog&lt; DefaultLogFormat &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#ac8170d34fa79016d45d9b4d4af2998d1">core_lib::log::default_log_t</a></td></tr>
-<tr class="memdesc:ac8170d34fa79016d45d9b4d4af2998d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining our default log's type. <br /></td></tr>
-<tr class="separator:ac8170d34fa79016d45d9b4d4af2998d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5357b28b3f3e53468b206f09614b47d2"><td class="memItemLeft" align="right" valign="top"><a id="a5357b28b3f3e53468b206f09614b47d2"></a>
-typedef Loki::SingletonHolder&lt; default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#a5357b28b3f3e53468b206f09614b47d2">core_lib::log::DebugLogSingleton</a></td></tr>
-<tr class="memdesc:a5357b28b3f3e53468b206f09614b47d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining our actual log's singelton. <br /></td></tr>
-<tr class="separator:a5357b28b3f3e53468b206f09614b47d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b403a213fcbbebb188d32afc0ace581"><td class="memItemLeft" align="right" valign="top"><a id="a5b403a213fcbbebb188d32afc0ace581"></a>
-typedef Loki::DeletableSingleton&lt; default_log_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#a5b403a213fcbbebb188d32afc0ace581">core_lib::log::DebugLogSingletonDeleter</a></td></tr>
-<tr class="memdesc:a5b403a213fcbbebb188d32afc0ace581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining a singleton deleter. <br /></td></tr>
-<tr class="separator:a5b403a213fcbbebb188d32afc0ace581"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a201bedc730c57d53881cb7f84efa3771"><td class="memItemLeft" align="right" valign="top"><a id="a201bedc730c57d53881cb7f84efa3771"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1log.html#a201bedc730c57d53881cb7f84efa3771">core_lib::log::default_log_t</a> = DebugLog&lt; DefaultLogFormat &gt;</td></tr>
+<tr class="memdesc:a201bedc730c57d53881cb7f84efa3771"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining our default log's type. <br /></td></tr>
+<tr class="separator:a201bedc730c57d53881cb7f84efa3771"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac271d0ca6e9b141e441bd26e15473b38"><td class="memItemLeft" align="right" valign="top"><a id="ac271d0ca6e9b141e441bd26e15473b38"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::log::debug_singelton_t</b> = Loki::SingletonHolder&lt; default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton &gt;</td></tr>
+<tr class="separator:ac271d0ca6e9b141e441bd26e15473b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e067e6c63f68e2609f45b565b344454"><td class="memItemLeft" align="right" valign="top"><a id="a1e067e6c63f68e2609f45b565b344454"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>core_lib::log::debug_singelton_deleter_t</b> = Loki::DeletableSingleton&lt; default_log_t &gt;</td></tr>
+<tr class="separator:a1e067e6c63f68e2609f45b565b344454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a1dae4010d1dae761c5856bbfb9c69d2d"><td class="memItemLeft" align="right" valign="top"><a id="a1dae4010d1dae761c5856bbfb9c69d2d"></a>
+<a class="el" href="namespacecore__lib_1_1log.html#a201bedc730c57d53881cb7f84efa3771">core_lib::log::default_log_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>DebugLogInstance</b> ()</td></tr>
+<tr class="separator:a1dae4010d1dae761c5856bbfb9c69d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f91ad34ea54b555e5cc3d69767669ca"><td class="memItemLeft" align="right" valign="top"><a id="a3f91ad34ea54b555e5cc3d69767669ca"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>DebugLogGracefulDelete</b> ()</td></tr>
+<tr class="separator:a3f91ad34ea54b555e5cc3d69767669ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing declaration of DebugLog Singleton. </p>
@@ -128,7 +148,7 @@ typedef Loki::DeletableSingleton&lt; default_log_t &gt;&#160;</td><td class="mem
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_a5789a75eb43e5152704aea29b318b64.html">DebugLog</a></li><li class="navelem"><a class="el" href="_debug_log_singleton_8h.html">DebugLogSingleton.h</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:05 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:52 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

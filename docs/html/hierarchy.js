@@ -27,31 +27,14 @@ var hierarchy =
         [ "core_lib::asio::messages::xMagicStringError", "classcore__lib_1_1asio_1_1messages_1_1x_magic_string_error.html", null ],
         [ "core_lib::asio::messages::xMessageDeserializationError", "classcore__lib_1_1asio_1_1messages_1_1x_message_deserialization_error.html", null ],
         [ "core_lib::asio::messages::xMessageLengthError", "classcore__lib_1_1asio_1_1messages_1_1x_message_length_error.html", null ],
-        [ "core_lib::asio::tcp::xUnknownConnectionError", "classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html", null ],
-        [ "core_lib::csv_grid::xCsvGridColOutOfRangeError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_col_out_of_range_error.html", null ],
-        [ "core_lib::csv_grid::xCsvGridCreateFileStreamError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_create_file_stream_error.html", null ],
-        [ "core_lib::csv_grid::xCsvGridDimensionError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_dimension_error.html", null ],
-        [ "core_lib::csv_grid::xCsvGridRowOutOfRangeError", "classcore__lib_1_1csv__grid_1_1x_csv_grid_row_out_of_range_error.html", null ],
-        [ "core_lib::file_utils::xCopyDirectoryError", "classcore__lib_1_1file__utils_1_1x_copy_directory_error.html", null ],
-        [ "core_lib::ini_file::xIniFileDataConvertError", "classcore__lib_1_1ini__file_1_1x_ini_file_data_convert_error.html", null ],
-        [ "core_lib::ini_file::xIniFileInvalidKeyError", "classcore__lib_1_1ini__file_1_1x_ini_file_invalid_key_error.html", null ],
-        [ "core_lib::ini_file::xIniFileInvalidSectionError", "classcore__lib_1_1ini__file_1_1x_ini_file_invalid_section_error.html", null ],
-        [ "core_lib::ini_file::xIniFileParserError", "classcore__lib_1_1ini__file_1_1x_ini_file_parser_error.html", null ],
-        [ "core_lib::ini_file::xIniFileSaveError", "classcore__lib_1_1ini__file_1_1x_ini_file_save_error.html", null ],
-        [ "core_lib::log::xInstantiationError", "classcore__lib_1_1log_1_1x_instantiation_error.html", null ],
-        [ "core_lib::log::xLogMsgHandlerError", "classcore__lib_1_1log_1_1x_log_msg_handler_error.html", null ],
-        [ "core_lib::sorting::xBucketValueOutOfRangeError", "classcore__lib_1_1sorting_1_1x_bucket_value_out_of_range_error.html", null ],
-        [ "core_lib::string_utils::xSplitStringBadDelim", "classcore__lib_1_1string__utils_1_1x_split_string_bad_delim.html", null ],
-        [ "core_lib::string_utils::xSplitStringTooManySubstrings", "classcore__lib_1_1string__utils_1_1x_split_string_too_many_substrings.html", null ],
-        [ "core_lib::threads::xMsgHandlerError", "classcore__lib_1_1threads_1_1x_msg_handler_error.html", null ],
-        [ "core_lib::threads::xQueuePopQueueEmptyError", "classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html", null ],
-        [ "core_lib::threads::xQueuePopTimeoutError", "classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html", null ],
-        [ "core_lib::threads::xThreadGroupError", "classcore__lib_1_1threads_1_1x_thread_group_error.html", null ],
-        [ "core_lib::threads::xThreadNotStartedError", "classcore__lib_1_1threads_1_1x_thread_not_started_error.html", null ]
+        [ "core_lib::asio::tcp::xUnknownConnectionError", "classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html", null ]
       ] ]
     ] ],
     [ "exception", null, [
       [ "core_lib::exceptions::xCustomException", "classcore__lib_1_1exceptions_1_1x_custom_exception.html", null ]
+    ] ],
+    [ "Facet", null, [
+      [ "core_lib::string_utils::deletable_facet< Facet >", "structcore__lib_1_1string__utils_1_1deletable__facet.html", null ]
     ] ],
     [ "std::hash< core_lib::log::eLogMessageLevel >", "structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html", null ],
     [ "core_lib::ini_file::IniFile", "classcore__lib_1_1ini__file_1_1_ini_file.html", null ],
@@ -82,12 +65,14 @@ var hierarchy =
     [ "core_lib::asio::udp::SimpleMulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_receiver.html", null ],
     [ "core_lib::asio::udp::SimpleMulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html", null ],
     [ "core_lib::asio::tcp::SimpleTcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html", null ],
+    [ "core_lib::asio::tcp::SimpleTcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html", null ],
     [ "core_lib::asio::tcp::SimpleTcpServer", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html", null ],
     [ "core_lib::asio::udp::SimpleUdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html", null ],
     [ "core_lib::asio::udp::SimpleUdpSender", "classcore__lib_1_1asio_1_1udp_1_1_simple_udp_sender.html", null ],
     [ "core_lib::threads::SingleItemDeleter< P >", "structcore__lib_1_1threads_1_1_single_item_deleter.html", null ],
     [ "core_lib::threads::SyncEvent", "classcore__lib_1_1threads_1_1_sync_event.html", null ],
     [ "core_lib::asio::tcp::TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html", null ],
+    [ "core_lib::asio::tcp::TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html", null ],
     [ "core_lib::asio::tcp::TcpConnections", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html", null ],
     [ "core_lib::asio::tcp::TcpServer", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html", null ],
     [ "core_lib::asio::tcp::TcpTypedClient< MsgBldr >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_client.html", null ],
@@ -96,6 +81,7 @@ var hierarchy =
     [ "core_lib::asio::tcp::TcpTypedServer< core_lib::asio::messages::MessageBuilder >", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html", null ],
     [ "core_lib::csv_grid::TCsvGrid< C, T >", "classcore__lib_1_1csv__grid_1_1_t_csv_grid.html", null ],
     [ "core_lib::threads::ThreadBase", "classcore__lib_1_1threads_1_1_thread_base.html", [
+      [ "core_lib::threads::EventThread", "classcore__lib_1_1threads_1_1_event_thread.html", null ],
       [ "core_lib::threads::MessageQueueThread< MessageId, MessageType >", "classcore__lib_1_1threads_1_1_message_queue_thread.html", null ],
       [ "core_lib::threads::ThreadRunner", "classcore__lib_1_1threads_1_1_thread_runner.html", null ]
     ] ],

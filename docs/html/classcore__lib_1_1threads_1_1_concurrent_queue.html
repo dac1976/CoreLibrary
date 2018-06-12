@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -100,17 +100,17 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1threads_1_1_concurre
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a50a9c75e4422397aa5cf01edf00f3537"><td class="memItemLeft" align="right" valign="top"><a id="a50a9c75e4422397aa5cf01edf00f3537"></a>
-typedef std::deque&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a></td></tr>
-<tr class="memdesc:a50a9c75e4422397aa5cf01edf00f3537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for container type. <br /></td></tr>
-<tr class="separator:a50a9c75e4422397aa5cf01edf00f3537"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1146e87353baead8d86048cd3f6f2a7e"><td class="memItemLeft" align="right" valign="top"><a id="a1146e87353baead8d86048cd3f6f2a7e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a1146e87353baead8d86048cd3f6f2a7e">container_type</a> = std::deque&lt; T &gt;</td></tr>
+<tr class="memdesc:a1146e87353baead8d86048cd3f6f2a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for container type. <br /></td></tr>
+<tr class="separator:a1146e87353baead8d86048cd3f6f2a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a26fb2097dfdc6b2a358dc4f259e64256"><td class="memItemLeft" align="right" valign="top"><a id="a26fb2097dfdc6b2a358dc4f259e64256"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a26fb2097dfdc6b2a358dc4f259e64256">ConcurrentQueue</a> ()</td></tr>
-<tr class="memdesc:a26fb2097dfdc6b2a358dc4f259e64256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
-<tr class="separator:a26fb2097dfdc6b2a358dc4f259e64256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86f274141d0410f2b2c979866db1cf67"><td class="memItemLeft" align="right" valign="top"><a id="a86f274141d0410f2b2c979866db1cf67"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a86f274141d0410f2b2c979866db1cf67">ConcurrentQueue</a> ()=default</td></tr>
+<tr class="memdesc:a86f274141d0410f2b2c979866db1cf67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
+<tr class="separator:a86f274141d0410f2b2c979866db1cf67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4f99f517b6c4ac7ca74e64fbedfe4ef"><td class="memItemLeft" align="right" valign="top"><a id="ac4f99f517b6c4ac7ca74e64fbedfe4ef"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ac4f99f517b6c4ac7ca74e64fbedfe4ef">ConcurrentQueue</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;)=delete</td></tr>
 <tr class="memdesc:ac4f99f517b6c4ac7ca74e64fbedfe4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor deleted. <br /></td></tr>
@@ -119,9 +119,17 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#acb24f09bc37cc42ba84391d7a57d6d52">operator=</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;)=delete</td></tr>
 <tr class="memdesc:acb24f09bc37cc42ba84391d7a57d6d52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator deleted. <br /></td></tr>
 <tr class="separator:acb24f09bc37cc42ba84391d7a57d6d52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a26f3df82263ff6c7e1fbb1b4053569a2">~ConcurrentQueue</a> ()</td></tr>
-<tr class="memdesc:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a26f3df82263ff6c7e1fbb1b4053569a2">More...</a><br /></td></tr>
-<tr class="separator:a26f3df82263ff6c7e1fbb1b4053569a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c45f034504c64c3b67e6304701356a1"><td class="memItemLeft" align="right" valign="top"><a id="a9c45f034504c64c3b67e6304701356a1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9c45f034504c64c3b67e6304701356a1">ConcurrentQueue</a> (<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;&amp;)=delete</td></tr>
+<tr class="memdesc:a9c45f034504c64c3b67e6304701356a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor deleted. <br /></td></tr>
+<tr class="separator:a9c45f034504c64c3b67e6304701356a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2661fda65eae9fb59b4e09db03b6490b"><td class="memItemLeft" align="right" valign="top"><a id="a2661fda65eae9fb59b4e09db03b6490b"></a>
+<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2661fda65eae9fb59b4e09db03b6490b">operator=</a> (<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a> &amp;&amp;)=delete</td></tr>
+<tr class="memdesc:a2661fda65eae9fb59b4e09db03b6490b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator deleted. <br /></td></tr>
+<tr class="separator:a2661fda65eae9fb59b4e09db03b6490b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0380520117b67082d955492e22c487ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a0380520117b67082d955492e22c487ea">~ConcurrentQueue</a> ()=default</td></tr>
+<tr class="memdesc:a0380520117b67082d955492e22c487ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a0380520117b67082d955492e22c487ea">More...</a><br /></td></tr>
+<tr class="separator:a0380520117b67082d955492e22c487ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71a86f55f3471566151aef7e9eee5ccd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a71a86f55f3471566151aef7e9eee5ccd">Size</a> () const</td></tr>
 <tr class="memdesc:a71a86f55f3471566151aef7e9eee5ccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the queue.  <a href="#a71a86f55f3471566151aef7e9eee5ccd">More...</a><br /></td></tr>
 <tr class="separator:a71a86f55f3471566151aef7e9eee5ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +139,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afc992f1ab10e46088b4190437a5e36b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#afc992f1ab10e46088b4190437a5e36b6">Push</a> (T &amp;&amp;item)</td></tr>
 <tr class="memdesc:afc992f1ab10e46088b4190437a5e36b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push an item onto the queue.  <a href="#afc992f1ab10e46088b4190437a5e36b6">More...</a><br /></td></tr>
 <tr class="separator:afc992f1ab10e46088b4190437a5e36b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b6e58f6cf7a554eb7838875c74e59c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9b6e58f6cf7a554eb7838875c74e59c9">Push</a> (const T &amp;item)</td></tr>
+<tr class="memdesc:a9b6e58f6cf7a554eb7838875c74e59c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push an item onto the queue.  <a href="#a9b6e58f6cf7a554eb7838875c74e59c9">More...</a><br /></td></tr>
+<tr class="separator:a9b6e58f6cf7a554eb7838875c74e59c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f3d0e1d8a6dfc60c9f2c5205f12d8c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a7f3d0e1d8a6dfc60c9f2c5205f12d8c5">BreakPopWait</a> ()</td></tr>
 <tr class="memdesc:a7f3d0e1d8a6dfc60c9f2c5205f12d8c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Break out of waiting on a Pop method.  <a href="#a7f3d0e1d8a6dfc60c9f2c5205f12d8c5">More...</a><br /></td></tr>
 <tr class="separator:a7f3d0e1d8a6dfc60c9f2c5205f12d8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,21 +157,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a518d08e42fdb9613733ac572fcaa4ecf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a518d08e42fdb9613733ac572fcaa4ecf">TryPopThrow</a> (T &amp;item)</td></tr>
 <tr class="memdesc:a518d08e42fdb9613733ac572fcaa4ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the queue.  <a href="#a518d08e42fdb9613733ac572fcaa4ecf">More...</a><br /></td></tr>
 <tr class="separator:a518d08e42fdb9613733ac572fcaa4ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed8ab138639410e4e314c9890458ae34"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aed8ab138639410e4e314c9890458ae34">TimedPop</a> (const unsigned int timeoutMilliseconds, T &amp;item)</td></tr>
-<tr class="memdesc:aed8ab138639410e4e314c9890458ae34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the queue but only wait for a given amount of time.  <a href="#aed8ab138639410e4e314c9890458ae34">More...</a><br /></td></tr>
-<tr class="separator:aed8ab138639410e4e314c9890458ae34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae058092f8f616ecf14145db7cc3a7429"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ae058092f8f616ecf14145db7cc3a7429">TimedPopThrow</a> (const unsigned int timeoutMilliseconds, T &amp;item)</td></tr>
-<tr class="memdesc:ae058092f8f616ecf14145db7cc3a7429"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the queue but only wait for a given amount of time.  <a href="#ae058092f8f616ecf14145db7cc3a7429">More...</a><br /></td></tr>
-<tr class="separator:ae058092f8f616ecf14145db7cc3a7429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e80977a24adce8baf939a395a975f19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2e80977a24adce8baf939a395a975f19">TimedPop</a> (unsigned int timeoutMilliseconds, T &amp;item)</td></tr>
+<tr class="memdesc:a2e80977a24adce8baf939a395a975f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the queue but only wait for a given amount of time.  <a href="#a2e80977a24adce8baf939a395a975f19">More...</a><br /></td></tr>
+<tr class="separator:a2e80977a24adce8baf939a395a975f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4363dd5fe2e0ee2be4d7cc724699a3f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a4363dd5fe2e0ee2be4d7cc724699a3f5">TimedPopThrow</a> (unsigned int timeoutMilliseconds, T &amp;item)</td></tr>
+<tr class="memdesc:a4363dd5fe2e0ee2be4d7cc724699a3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the queue but only wait for a given amount of time.  <a href="#a4363dd5fe2e0ee2be4d7cc724699a3f5">More...</a><br /></td></tr>
+<tr class="separator:a4363dd5fe2e0ee2be4d7cc724699a3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17a1929f773384c559a3c0bb991255b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a17a1929f773384c559a3c0bb991255b0">TrySteal</a> (T &amp;item)</td></tr>
 <tr class="memdesc:a17a1929f773384c559a3c0bb991255b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Steal an item from the back of the queue if there are any else return.  <a href="#a17a1929f773384c559a3c0bb991255b0">More...</a><br /></td></tr>
 <tr class="separator:a17a1929f773384c559a3c0bb991255b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c6ec6f4828d9bafc2d6bd510ef62e1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a8c6ec6f4828d9bafc2d6bd510ef62e1b">TryStealThrow</a> (T &amp;item)</td></tr>
 <tr class="memdesc:a8c6ec6f4828d9bafc2d6bd510ef62e1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Steal an item from the back of the queue.  <a href="#a8c6ec6f4828d9bafc2d6bd510ef62e1b">More...</a><br /></td></tr>
 <tr class="separator:a8c6ec6f4828d9bafc2d6bd510ef62e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4435a528767e3bdea3ec43ef75bb7ac0"><td class="memItemLeft" align="right" valign="top">const T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a4435a528767e3bdea3ec43ef75bb7ac0">Peek</a> (const size_t index) const</td></tr>
-<tr class="memdesc:a4435a528767e3bdea3ec43ef75bb7ac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take a peek at an item at a given index on the queue.  <a href="#a4435a528767e3bdea3ec43ef75bb7ac0">More...</a><br /></td></tr>
-<tr class="separator:a4435a528767e3bdea3ec43ef75bb7ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad050498c1ce8652fed6c70bc607c17b0"><td class="memItemLeft" align="right" valign="top">const T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ad050498c1ce8652fed6c70bc607c17b0">Peek</a> (size_t index) const</td></tr>
+<tr class="memdesc:ad050498c1ce8652fed6c70bc607c17b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take a peek at an item at a given index on the queue.  <a href="#ad050498c1ce8652fed6c70bc607c17b0">More...</a><br /></td></tr>
+<tr class="separator:ad050498c1ce8652fed6c70bc607c17b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dad5b5d8a631dbe9151432494144e90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a3dad5b5d8a631dbe9151432494144e90">Clear</a> ()</td></tr>
 <tr class="memdesc:a3dad5b5d8a631dbe9151432494144e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the queue.  <a href="#a3dad5b5d8a631dbe9151432494144e90">More...</a><br /></td></tr>
 <tr class="separator:a3dad5b5d8a631dbe9151432494144e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,7 +179,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a76c957659057cc6adcaa6e4c6aeb433b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a76c957659057cc6adcaa6e4c6aeb433b">Clear</a> (F deleter)</td></tr>
 <tr class="memdesc:a76c957659057cc6adcaa6e4c6aeb433b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the queue.  <a href="#a76c957659057cc6adcaa6e4c6aeb433b">More...</a><br /></td></tr>
 <tr class="separator:a76c957659057cc6adcaa6e4c6aeb433b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af860cec5b94be5c143d4df77a7caa39f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#af860cec5b94be5c143d4df77a7caa39f">TakeAll</a> ()</td></tr>
+<tr class="memitem:af860cec5b94be5c143d4df77a7caa39f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a1146e87353baead8d86048cd3f6f2a7e">container_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#af860cec5b94be5c143d4df77a7caa39f">TakeAll</a> ()</td></tr>
 <tr class="memdesc:af860cec5b94be5c143d4df77a7caa39f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take all items from the queue and return them, thus clearing down the internal queue.  <a href="#af860cec5b94be5c143d4df77a7caa39f">More...</a><br /></td></tr>
 <tr class="separator:af860cec5b94be5c143d4df77a7caa39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -182,9 +193,9 @@ Private Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:aa9506ef787e44f5c9e1aec0c7a0a305b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aa9506ef787e44f5c9e1aec0c7a0a305b">PopNow</a> (T &amp;item, const <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66">eQueueEnd</a> whichEnd=<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66ae6ec529ba185279aa0adcf93e645c7cd">eQueueEnd::front</a>)</td></tr>
-<tr class="memdesc:aa9506ef787e44f5c9e1aec0c7a0a305b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the queue.  <a href="#aa9506ef787e44f5c9e1aec0c7a0a305b">More...</a><br /></td></tr>
-<tr class="separator:aa9506ef787e44f5c9e1aec0c7a0a305b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a283c60060231a49bc3a7c8e6afcb06f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a283c60060231a49bc3a7c8e6afcb06f6">PopNow</a> (T &amp;item, <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66">eQueueEnd</a> whichEnd=<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66ae6ec529ba185279aa0adcf93e645c7cd">eQueueEnd::front</a>)</td></tr>
+<tr class="memdesc:a283c60060231a49bc3a7c8e6afcb06f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the queue.  <a href="#a283c60060231a49bc3a7c8e6afcb06f6">More...</a><br /></td></tr>
+<tr class="separator:a283c60060231a49bc3a7c8e6afcb06f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac30195c516adef0e3d84759b051bf5bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ac30195c516adef0e3d84759b051bf5bd">PopFront</a> (T &amp;item)</td></tr>
 <tr class="memdesc:ac30195c516adef0e3d84759b051bf5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop an item off the front of the queue.  <a href="#ac30195c516adef0e3d84759b051bf5bd">More...</a><br /></td></tr>
 <tr class="separator:ac30195c516adef0e3d84759b051bf5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,7 +213,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <tr class="memdesc:a3f4eb3c57b9cf483da061255555ae0b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronization event.  <a href="#a3f4eb3c57b9cf483da061255555ae0b0">More...</a><br /></td></tr>
 <tr class="separator:a3f4eb3c57b9cf483da061255555ae0b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d4be4f826b0a554e2d36bdf3d7a2029"><td class="memItemLeft" align="right" valign="top"><a id="a9d4be4f826b0a554e2d36bdf3d7a2029"></a>
-<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9d4be4f826b0a554e2d36bdf3d7a2029">m_queue</a></td></tr>
+<a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a1146e87353baead8d86048cd3f6f2a7e">container_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9d4be4f826b0a554e2d36bdf3d7a2029">m_queue</a> {}</td></tr>
 <tr class="memdesc:a9d4be4f826b0a554e2d36bdf3d7a2029"><td class="mdescLeft">&#160;</td><td class="mdescRight">Underlying deque container acting as the queue. <br /></td></tr>
 <tr class="separator:a9d4be4f826b0a554e2d36bdf3d7a2029"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -248,8 +259,8 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a26f3df82263ff6c7e1fbb1b4053569a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26f3df82263ff6c7e1fbb1b4053569a2">&#9670;&nbsp;</a></span>~ConcurrentQueue()</h2>
+<a id="a0380520117b67082d955492e22c487ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0380520117b67082d955492e22c487ea">&#9670;&nbsp;</a></span>~ConcurrentQueue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,13 +279,13 @@ template&lt;typename T&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Destructor. </p>
-<p>If the que items aren't RAII-like objects and so don't manager their own memory then make sure you call the second Clear method, defined later, that takes a deleter functor to tidy up th ememory of each queue item. </p>
+<p>If the queue items aren't RAII-like objects and so don't manager their own memory then make sure you call the second Clear method, defined later, that takes a deleter functor to tidy up the memory of each queue item. </p>
 
 </div>
 </div>
@@ -409,8 +420,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a4435a528767e3bdea3ec43ef75bb7ac0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4435a528767e3bdea3ec43ef75bb7ac0">&#9670;&nbsp;</a></span>Peek()</h2>
+<a id="ad050498c1ce8652fed6c70bc607c17b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad050498c1ce8652fed6c70bc607c17b0">&#9670;&nbsp;</a></span>Peek()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -423,7 +434,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">const T* <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::Peek </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -557,8 +568,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="aa9506ef787e44f5c9e1aec0c7a0a305b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9506ef787e44f5c9e1aec0c7a0a305b">&#9670;&nbsp;</a></span>PopNow()</h2>
+<a id="a283c60060231a49bc3a7c8e6afcb06f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a283c60060231a49bc3a7c8e6afcb06f6">&#9670;&nbsp;</a></span>PopNow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -577,7 +588,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66">eQueueEnd</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66">eQueueEnd</a>&#160;</td>
           <td class="paramname"><em>whichEnd</em> = <code><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66ae6ec529ba185279aa0adcf93e645c7cd">eQueueEnd::front</a></code>&#160;</td>
         </tr>
         <tr>
@@ -639,12 +650,12 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <p>Method will block forever or until an item is placed on the queue.</p>
-<p>This will throw <a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html" title="Pop queue empty exception. ">xQueuePopQueueEmptyError</a> if there are no items on the queue when called. </p>
+<p>This will throw std::runtime_error if there are no items on the queue when called. </p>
 
 </div>
 </div>
 <a id="afc992f1ab10e46088b4190437a5e36b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc992f1ab10e46088b4190437a5e36b6">&#9670;&nbsp;</a></span>Push()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afc992f1ab10e46088b4190437a5e36b6">&#9670;&nbsp;</a></span>Push() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -672,10 +683,50 @@ template&lt;typename T&gt; </div>
 <p>Push an item onto the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">item</td><td>- Object of type T to push onto queue. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">item</td><td>- Object of type T to push onto queue.</td></tr>
   </table>
   </dd>
 </dl>
+<p>The arg item must be moveable either implicitly or by passing it to Push wrapped in a std::move() and item will be invalid once this function returns due to being moved onto the internal queue.</p>
+<p>It is preferred to use this version when performance matters as move semantics are enforced. </p>
+
+</div>
+</div>
+<a id="a9b6e58f6cf7a554eb7838875c74e59c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b6e58f6cf7a554eb7838875c74e59c9">&#9670;&nbsp;</a></span>Push() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::Push </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Push an item onto the queue. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">item</td><td>- Object of type T to push onto queue.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Use this version only when you want to push a copy of the item arg onto the innternal queue because maybe you want to use item afterwards.</p>
+<p>This option is not as efficient as the first version of Push because move semantics are not enforced. </p>
 
 </div>
 </div>
@@ -721,7 +772,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a50a9c75e4422397aa5cf01edf00f3537">container_type</a> <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::TakeAll </td>
+          <td class="memname"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a1146e87353baead8d86048cd3f6f2a7e">container_type</a> <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::TakeAll </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -739,8 +790,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="aed8ab138639410e4e314c9890458ae34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed8ab138639410e4e314c9890458ae34">&#9670;&nbsp;</a></span>TimedPop()</h2>
+<a id="a2e80977a24adce8baf939a395a975f19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e80977a24adce8baf939a395a975f19">&#9670;&nbsp;</a></span>TimedPop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -753,7 +804,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">bool <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::TimedPop </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>timeoutMilliseconds</em>, </td>
         </tr>
         <tr>
@@ -787,8 +838,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="ae058092f8f616ecf14145db7cc3a7429"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae058092f8f616ecf14145db7cc3a7429">&#9670;&nbsp;</a></span>TimedPopThrow()</h2>
+<a id="a4363dd5fe2e0ee2be4d7cc724699a3f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4363dd5fe2e0ee2be4d7cc724699a3f5">&#9670;&nbsp;</a></span>TimedPopThrow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -801,7 +852,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">core_lib::threads::ConcurrentQueue</a>&lt; T &gt;::TimedPopThrow </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>timeoutMilliseconds</em>, </td>
         </tr>
         <tr>
@@ -831,7 +882,7 @@ template&lt;typename T&gt; </div>
   </table>
   </dd>
 </dl>
-<p>If no items have been put onto the queue after the specified amount to time then a <a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_timeout_error.html" title="Pop timeout exception. ">xQueuePopTimeoutError</a> exception is throw. </p>
+<p>If no items have been put onto the queue after the specified amount to time then a std::runtime_error exception is throw. </p>
 
 </div>
 </div>
@@ -905,7 +956,7 @@ template&lt;typename T&gt; </div>
   </table>
   </dd>
 </dl>
-<p>This will throw <a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html" title="Pop queue empty exception. ">xQueuePopQueueEmptyError</a> if there are no items on the queue when called. </p>
+<p>This will throw std::runtime_error if there are no items on the queue when called. </p>
 
 </div>
 </div>
@@ -979,7 +1030,7 @@ template&lt;typename T&gt; </div>
   </table>
   </dd>
 </dl>
-<p>This will throw <a class="el" href="classcore__lib_1_1threads_1_1x_queue_pop_queue_empty_error.html" title="Pop queue empty exception. ">xQueuePopQueueEmptyError</a> if there are no items on the queue when called. </p>
+<p>This will throw std::runtime_error if there are no items on the queue when called. </p>
 
 </div>
 </div>
@@ -1019,7 +1070,7 @@ template&lt;typename T&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html">ConcurrentQueue</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

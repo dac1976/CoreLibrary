@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -85,7 +85,7 @@ $(document).ready(function(){initNavTree('functions_func_p.html','');});
 
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>Peek()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a4435a528767e3bdea3ec43ef75bb7ac0">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ad050498c1ce8652fed6c70bc607c17b0">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>Pop()
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ab0739eb098119d7db6a3e78eb35c2cf2">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('functions_func_p.html','');});
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#ac30195c516adef0e3d84759b051bf5bd">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>PopNow()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aa9506ef787e44f5c9e1aec0c7a0a305b">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a283c60060231a49bc3a7c8e6afcb06f6">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 </li>
 <li>PopThrow()
 : <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#aa005fa06cdf70eca7c2f2187811b2a84">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
@@ -107,11 +107,11 @@ $(document).ready(function(){initNavTree('functions_func_p.html','');});
 : <a class="el" href="classcore__lib_1_1asio_1_1_io_service_thread_group.html#a23651d0ab14a4a166f296f7c796458aa">core_lib::asio::IoServiceThreadGroup</a>
 </li>
 <li>Print()
-: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_blank_line.html#ab860c46caff1a22ba00f5c71c6d0fbda">core_lib::ini_file::if_private::BlankLine</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a098b117fbeba0289c57867ea89f4369f">core_lib::ini_file::if_private::CommentLine</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#a496cc0e5e9e9e5612db6018d1a9d0ea7">core_lib::ini_file::if_private::KeyLine</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#adf58043d60fe8867bd60bec011a9d49a">core_lib::ini_file::if_private::Line</a>
-, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#abcef1725ed9a46f91fe5af7c34d751c2">core_lib::ini_file::if_private::SectionLine</a>
+: <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_blank_line.html#af3bda0dc3c7b36b0e1b7757795c4abf0">core_lib::ini_file::if_private::BlankLine</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_comment_line.html#a01f596f02d0e5e86a42e7434978244c1">core_lib::ini_file::if_private::CommentLine</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#a817dfc3af3769f90c2c5c7dd7c30d31b">core_lib::ini_file::if_private::KeyLine</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a33449c7b1adec1267583ecfd6e018c0a">core_lib::ini_file::if_private::Line</a>
+, <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_section_line.html#a806a44218365dd0081fc0e015f6aad55">core_lib::ini_file::if_private::SectionLine</a>
 </li>
 <li>ProcessCloseAcceptor()
 : <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a8adfa37940a9066ae94912adc901939e">core_lib::asio::tcp::TcpServer</a>
@@ -125,12 +125,13 @@ $(document).ready(function(){initNavTree('functions_func_p.html','');});
 : <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a5813e454c254c7ab69f34dfd215741f9">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>ProcessTerminationConditions()
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a29fae4b7210b2b268104ab00364f259a">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a32bba2ef183158bf0a16e502cf3c29e6">core_lib::threads::EventThread</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#ab73ec129e724149879057669fb259963">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#a5ba256c98ab0b7d45bf915833729df84">core_lib::threads::ThreadBase</a>
-, <a class="el" href="classcore__lib_1_1threads_1_1_thread_runner.html#a664dbd8ab35530389ac8a2b2128bc553">core_lib::threads::ThreadRunner</a>
+, <a class="el" href="classcore__lib_1_1threads_1_1_thread_runner.html#a0c78fcef8394fb3c1adb6bf84856b1ed">core_lib::threads::ThreadRunner</a>
 </li>
 <li>Push()
-: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#afc992f1ab10e46088b4190437a5e36b6">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_concurrent_queue.html#a9b6e58f6cf7a554eb7838875c74e59c9">core_lib::threads::ConcurrentQueue&lt; T &gt;</a>
 , <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a127349ac28cd122549bda01bd726ae73">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>PushFront()
@@ -145,7 +146,7 @@ $(document).ready(function(){initNavTree('functions_func_p.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

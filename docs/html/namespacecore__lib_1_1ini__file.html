@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -104,28 +104,13 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1_ini_file.html">IniFile</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ini file class.  <a href="classcore__lib_1_1ini__file_1_1_ini_file.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_data_convert_error.html">xIniFileDataConvertError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ini file data conversion exception.  <a href="classcore__lib_1_1ini__file_1_1x_ini_file_data_convert_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_key_error.html">xIniFileInvalidKeyError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ini file invalid key error.  <a href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_key_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_section_error.html">xIniFileInvalidSectionError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ini file invalid section error.  <a href="classcore__lib_1_1ini__file_1_1x_ini_file_invalid_section_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_parser_error.html">xIniFileParserError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ini file parser error.  <a href="classcore__lib_1_1ini__file_1_1x_ini_file_parser_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1ini__file_1_1x_ini_file_save_error.html">xIniFileSaveError</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ini file save error.  <a href="classcore__lib_1_1ini__file_1_1x_ini_file_save_error.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ae761b2040bcf6477afe9eb14a58c5d26"><td class="memItemLeft" align="right" valign="top"><a id="ae761b2040bcf6477afe9eb14a58c5d26"></a>
-typedef std::list&lt; std::pair&lt; std::string, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file.html#ae761b2040bcf6477afe9eb14a58c5d26">keys_list</a></td></tr>
-<tr class="memdesc:ae761b2040bcf6477afe9eb14a58c5d26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining the key-value pair list for section entries. <br /></td></tr>
-<tr class="separator:ae761b2040bcf6477afe9eb14a58c5d26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb2215ac1ac9ec77960c2921c3c13444"><td class="memItemLeft" align="right" valign="top"><a id="acb2215ac1ac9ec77960c2921c3c13444"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file.html#acb2215ac1ac9ec77960c2921c3c13444">keys_list</a> = std::list&lt; std::pair&lt; std::string, std::string &gt; &gt;</td></tr>
+<tr class="memdesc:acb2215ac1ac9ec77960c2921c3c13444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef defining the key-value pair list for section entries. <br /></td></tr>
+<tr class="separator:acb2215ac1ac9ec77960c2921c3c13444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="namespacecore__lib_1_1ini__file.html" title="The ini_file namespace. ">ini_file</a> namespace. </p>
@@ -135,7 +120,7 @@ typedef std::list&lt; std::pair&lt; std::string, std::string &gt; &gt;&#160;</td
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

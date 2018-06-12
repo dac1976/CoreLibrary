@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -115,18 +115,18 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ae32615def0341ed7c6e3ea6ad5a4c83f"><td class="memItemLeft" align="right" valign="top"><a id="ae32615def0341ed7c6e3ea6ad5a4c83f"></a>
-typedef std::list&lt; std::shared_ptr&lt; <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#ae32615def0341ed7c6e3ea6ad5a4c83f">line_list</a></td></tr>
-<tr class="memdesc:ae32615def0341ed7c6e3ea6ad5a4c83f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> list typedef. <br /></td></tr>
-<tr class="separator:ae32615def0341ed7c6e3ea6ad5a4c83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a783164f12164dcaa8b3a35629f6ad505"><td class="memItemLeft" align="right" valign="top"><a id="a783164f12164dcaa8b3a35629f6ad505"></a>
-typedef line_list::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a783164f12164dcaa8b3a35629f6ad505">line_iter</a></td></tr>
-<tr class="memdesc:a783164f12164dcaa8b3a35629f6ad505"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> list iterator typedef. <br /></td></tr>
-<tr class="separator:a783164f12164dcaa8b3a35629f6ad505"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99843f46fc9f012014c7e5f4d65bb7e7"><td class="memItemLeft" align="right" valign="top"><a id="a99843f46fc9f012014c7e5f4d65bb7e7"></a>
-typedef line_list::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a99843f46fc9f012014c7e5f4d65bb7e7">line_citer</a></td></tr>
-<tr class="memdesc:a99843f46fc9f012014c7e5f4d65bb7e7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> list const iterator typedef. <br /></td></tr>
-<tr class="separator:a99843f46fc9f012014c7e5f4d65bb7e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4a873ad7a345d8b196262cd098bd45c"><td class="memItemLeft" align="right" valign="top"><a id="ab4a873ad7a345d8b196262cd098bd45c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#ab4a873ad7a345d8b196262cd098bd45c">line_list</a> = std::list&lt; std::shared_ptr&lt; <a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html">Line</a> &gt; &gt;</td></tr>
+<tr class="memdesc:ab4a873ad7a345d8b196262cd098bd45c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> list typedef. <br /></td></tr>
+<tr class="separator:ab4a873ad7a345d8b196262cd098bd45c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3515f1f15244ba6d5686d1099ab818f"><td class="memItemLeft" align="right" valign="top"><a id="aa3515f1f15244ba6d5686d1099ab818f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#aa3515f1f15244ba6d5686d1099ab818f">line_iter</a> = line_list::iterator</td></tr>
+<tr class="memdesc:aa3515f1f15244ba6d5686d1099ab818f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> list iterator typedef. <br /></td></tr>
+<tr class="separator:aa3515f1f15244ba6d5686d1099ab818f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba59b8c8d4fc8615c0e7d2c7b2a2342"><td class="memItemLeft" align="right" valign="top"><a id="a0ba59b8c8d4fc8615c0e7d2c7b2a2342"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html#a0ba59b8c8d4fc8615c0e7d2c7b2a2342">line_citer</a> = line_list::const_iterator</td></tr>
+<tr class="memdesc:a0ba59b8c8d4fc8615c0e7d2c7b2a2342"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1ini__file_1_1if__private_1_1_line.html" title="Abstract base class to manage a line in an INI file. ">Line</a> list const iterator typedef. <br /></td></tr>
+<tr class="separator:a0ba59b8c8d4fc8615c0e7d2c7b2a2342"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html" title="The if_private namespace. ">if_private</a> namespace. </p>
@@ -136,7 +136,7 @@ typedef line_list::const_iterator&#160;</td><td class="memItemRight" valign="bot
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file.html">ini_file</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1ini__file_1_1if__private.html">if_private</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

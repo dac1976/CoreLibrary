@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.4.3.1</span>
+   &#160;<span id="projectnumber">1.5.0.0</span>
    </div>
-   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging etc.</div>
+   <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
  </tr>
  </tbody>
@@ -98,44 +98,44 @@ $(document).ready(function(){initNavTree('classcore__lib_1_1sorting_1_1_bucket.h
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ad9bd892b42526d6ade0d3c2daa5ce7ad"><td class="memItemLeft" align="right" valign="top"><a id="ad9bd892b42526d6ade0d3c2daa5ce7ad"></a>
-typedef Pred&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ad9bd892b42526d6ade0d3c2daa5ce7ad">item_compare</a></td></tr>
-<tr class="memdesc:ad9bd892b42526d6ade0d3c2daa5ce7ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public typedef for predicate. <br /></td></tr>
-<tr class="separator:ad9bd892b42526d6ade0d3c2daa5ce7ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1d24e9198a5e526e34d0612cd5750f3"><td class="memItemLeft" align="right" valign="top"><a id="ae1d24e9198a5e526e34d0612cd5750f3"></a>
-typedef std::vector&lt; std::pair&lt; T, T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a></td></tr>
-<tr class="memdesc:ae1d24e9198a5e526e34d0612cd5750f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public typedef for bucket definitions. <br /></td></tr>
-<tr class="separator:ae1d24e9198a5e526e34d0612cd5750f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a483b7a78787ca9b50b942d79a50d628b"><td class="memItemLeft" align="right" valign="top"><a id="a483b7a78787ca9b50b942d79a50d628b"></a>
-typedef std::vector&lt; std::list&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a></td></tr>
-<tr class="memdesc:a483b7a78787ca9b50b942d79a50d628b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public typedef for bucket values. <br /></td></tr>
-<tr class="separator:a483b7a78787ca9b50b942d79a50d628b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a601e515fa532ff8717b6af6f77e1728d"><td class="memItemLeft" align="right" valign="top"><a id="a601e515fa532ff8717b6af6f77e1728d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a601e515fa532ff8717b6af6f77e1728d">item_compare</a> = Pred</td></tr>
+<tr class="memdesc:a601e515fa532ff8717b6af6f77e1728d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public typedef for predicate. <br /></td></tr>
+<tr class="separator:a601e515fa532ff8717b6af6f77e1728d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a507ab0a7ddc4caaa763bef395d8c1133"><td class="memItemLeft" align="right" valign="top"><a id="a507ab0a7ddc4caaa763bef395d8c1133"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> = std::vector&lt; std::pair&lt; T, T &gt; &gt;</td></tr>
+<tr class="memdesc:a507ab0a7ddc4caaa763bef395d8c1133"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public typedef for bucket definitions. <br /></td></tr>
+<tr class="separator:a507ab0a7ddc4caaa763bef395d8c1133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31e4ee64444909ba7d64b785444347e8"><td class="memItemLeft" align="right" valign="top"><a id="a31e4ee64444909ba7d64b785444347e8"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> = std::vector&lt; std::list&lt; T &gt; &gt;</td></tr>
+<tr class="memdesc:a31e4ee64444909ba7d64b785444347e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public typedef for bucket values. <br /></td></tr>
+<tr class="separator:a31e4ee64444909ba7d64b785444347e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:af27db514f2b1c067b1ba8ec77c7ff806"><td class="memTemplParams" colspan="2">template&lt;typename TIterator &gt; </td></tr>
-<tr class="memitem:af27db514f2b1c067b1ba8ec77c7ff806"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#af27db514f2b1c067b1ba8ec77c7ff806">Sort</a> (TIterator begin, TIterator end, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;bucketDefinitions, <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;bucketValues)</td></tr>
+<tr class="memitem:af27db514f2b1c067b1ba8ec77c7ff806"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#af27db514f2b1c067b1ba8ec77c7ff806">Sort</a> (TIterator begin, TIterator end, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;bucketDefinitions, <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;bucketValues)</td></tr>
 <tr class="memdesc:af27db514f2b1c067b1ba8ec77c7ff806"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place static sort function.  <a href="#af27db514f2b1c067b1ba8ec77c7ff806">More...</a><br /></td></tr>
 <tr class="separator:af27db514f2b1c067b1ba8ec77c7ff806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4328262f9b6b70676e3b14ad6536ec48"><td class="memTemplParams" colspan="2">template&lt;typename TIterator &gt; </td></tr>
-<tr class="memitem:a4328262f9b6b70676e3b14ad6536ec48"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a4328262f9b6b70676e3b14ad6536ec48">Sort</a> (TIterator begin, TIterator end, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;bucketDefinitions)</td></tr>
+<tr class="memitem:a4328262f9b6b70676e3b14ad6536ec48"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a4328262f9b6b70676e3b14ad6536ec48">Sort</a> (TIterator begin, TIterator end, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;bucketDefinitions)</td></tr>
 <tr class="memdesc:a4328262f9b6b70676e3b14ad6536ec48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static sort function.  <a href="#a4328262f9b6b70676e3b14ad6536ec48">More...</a><br /></td></tr>
 <tr class="separator:a4328262f9b6b70676e3b14ad6536ec48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a7bec6a87797ff6191fa6b6c510711901"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a7bec6a87797ff6191fa6b6c510711901">CheckBucketsSize</a> (const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;bucketDefinitions, <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;bucketValues)</td></tr>
+<tr class="memitem:a7bec6a87797ff6191fa6b6c510711901"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a7bec6a87797ff6191fa6b6c510711901">CheckBucketsSize</a> (const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;bucketDefinitions, <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;bucketValues)</td></tr>
 <tr class="memdesc:a7bec6a87797ff6191fa6b6c510711901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static function to check bucket values collection size.  <a href="#a7bec6a87797ff6191fa6b6c510711901">More...</a><br /></td></tr>
 <tr class="separator:a7bec6a87797ff6191fa6b6c510711901"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40d4937967c7bb9e45712f884cd47fad"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a40d4937967c7bb9e45712f884cd47fad">GetBucketIndex</a> (const T &amp;value, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;bucketDefinitions)</td></tr>
+<tr class="memitem:a40d4937967c7bb9e45712f884cd47fad"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a40d4937967c7bb9e45712f884cd47fad">GetBucketIndex</a> (const T &amp;value, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;bucketDefinitions)</td></tr>
 <tr class="memdesc:a40d4937967c7bb9e45712f884cd47fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static compute the correct bucket index for a given item.  <a href="#a40d4937967c7bb9e45712f884cd47fad">More...</a><br /></td></tr>
 <tr class="separator:a40d4937967c7bb9e45712f884cd47fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa28dd8185d64bda406850f940a4e9e9c"><td class="memTemplParams" colspan="2">template&lt;typename TIterator &gt; </td></tr>
-<tr class="memitem:aa28dd8185d64bda406850f940a4e9e9c"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#aa28dd8185d64bda406850f940a4e9e9c">PutIntoBuckets</a> (TIterator begin, TIterator end, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;bucketDefinitions, <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;bucketValues)</td></tr>
+<tr class="memitem:aa28dd8185d64bda406850f940a4e9e9c"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#aa28dd8185d64bda406850f940a4e9e9c">PutIntoBuckets</a> (TIterator begin, TIterator end, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;bucketDefinitions, <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;bucketValues)</td></tr>
 <tr class="memdesc:aa28dd8185d64bda406850f940a4e9e9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static to put the items in to the correct buckets.  <a href="#aa28dd8185d64bda406850f940a4e9e9c">More...</a><br /></td></tr>
 <tr class="separator:aa28dd8185d64bda406850f940a4e9e9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf34dd8b8997956f27920abae1da0eb4"><td class="memTemplParams" colspan="2">template&lt;typename TIterator &gt; </td></tr>
-<tr class="memitem:aaf34dd8b8997956f27920abae1da0eb4"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#aaf34dd8b8997956f27920abae1da0eb4">WriteBackBuckets</a> (TIterator begin, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;bucketValues)</td></tr>
+<tr class="memitem:aaf34dd8b8997956f27920abae1da0eb4"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#aaf34dd8b8997956f27920abae1da0eb4">WriteBackBuckets</a> (TIterator begin, const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;bucketValues)</td></tr>
 <tr class="memdesc:aaf34dd8b8997956f27920abae1da0eb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static to move the items from the buckets back into the original collection.  <a href="#aaf34dd8b8997956f27920abae1da0eb4">More...</a><br /></td></tr>
 <tr class="separator:aaf34dd8b8997956f27920abae1da0eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c3420fc47a5d7633c87e3c033701b11"><td class="memTemplParams" colspan="2">template&lt;typename TIterator &gt; </td></tr>
@@ -164,13 +164,13 @@ template&lt;typename T , typename Pred  = std::less&lt;T&gt;&gt; </div>
         <tr>
           <td class="memname">static void <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html">core_lib::sorting::Bucket</a>&lt; T, Pred &gt;::CheckBucketsSize </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketDefinitions</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketValues</em>&#160;</td>
         </tr>
         <tr>
@@ -218,7 +218,7 @@ template&lt;typename T , typename Pred  = std::less&lt;T&gt;&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketDefinitions</em>&#160;</td>
         </tr>
         <tr>
@@ -274,13 +274,13 @@ template&lt;typename TIterator &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketDefinitions</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketValues</em>&#160;</td>
         </tr>
         <tr>
@@ -338,13 +338,13 @@ template&lt;typename TIterator &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketDefinitions</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketValues</em>&#160;</td>
         </tr>
         <tr>
@@ -402,7 +402,7 @@ template&lt;typename TIterator &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#ae1d24e9198a5e526e34d0612cd5750f3">bucket_definitions</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a507ab0a7ddc4caaa763bef395d8c1133">bucket_definitions</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketDefinitions</em>&#160;</td>
         </tr>
         <tr>
@@ -503,7 +503,7 @@ template&lt;typename TIterator &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a483b7a78787ca9b50b942d79a50d628b">bucket_values</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html#a31e4ee64444909ba7d64b785444347e8">bucket_values</a> &amp;&#160;</td>
           <td class="paramname"><em>bucketValues</em>&#160;</td>
         </tr>
         <tr>
@@ -540,7 +540,7 @@ template&lt;typename TIterator &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1sorting.html">sorting</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1sorting_1_1_bucket.html">Bucket</a></li>
-    <li class="footer">Generated on Mon May 29 2017 09:20:06 for Core Library by
+    <li class="footer">Generated on Wed Jun 13 2018 00:36:53 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
