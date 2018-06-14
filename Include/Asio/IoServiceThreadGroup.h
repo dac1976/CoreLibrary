@@ -55,12 +55,15 @@ public:
      * If the number of threads is not specified then the value
      * will be assigned using std::thread::hardware_concurrency().
      */
-    explicit IoServiceThreadGroup(
-        const unsigned int numThreads = std::thread::hardware_concurrency());
+    explicit IoServiceThreadGroup(unsigned int numThreads = std::thread::hardware_concurrency());
     /*! \brief Copy constructor deleted.*/
     IoServiceThreadGroup(const IoServiceThreadGroup&) = delete;
     /*! \brief Copy assignment operator deleted.*/
     IoServiceThreadGroup& operator=(const IoServiceThreadGroup&) = delete;
+    /*! \brief Move constructor deleted.*/
+    IoServiceThreadGroup(IoServiceThreadGroup&&) = delete;
+    /*! \brief Move assignment operator deleted.*/
+    IoServiceThreadGroup& operator=(IoServiceThreadGroup&&) = delete;
     /*! \brief Destructor.*/
     ~IoServiceThreadGroup();
     /*!

@@ -28,12 +28,11 @@
 #ifndef MESSAGEUTILS
 #define MESSAGEUTILS
 
-#include "AsioDefines.h"
-#include "Exceptions/DetailedException.h"
-#include "Serialization/SerializeToVector.h"
 #include <iterator>
 #include <algorithm>
 #include <cstring>
+#include "AsioDefines.h"
+#include "Serialization/SerializeToVector.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -44,91 +43,6 @@ namespace asio
 /*! \brief The tcp namespace. */
 namespace messages
 {
-
-/*!
- * \brief Message length error exception.
- *
- * This exception class is intended to be thrown when a message
- * is received whose length doesn't match what is in the message
- * header.
- */
-class CORE_LIBRARY_DLL_SHARED_API xMessageLengthError : public exceptions::DetailedException
-{
-public:
-    /*! \brief Default constructor. */
-    xMessageLengthError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xMessageLengthError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xMessageLengthError() override = default;
-    /*! \brief Copy constructor. */
-    xMessageLengthError(const xMessageLengthError&) = default;
-    /*! \brief Copy assignment operator. */
-    xMessageLengthError& operator=(const xMessageLengthError&) = default;
-    /*! \brief Move constructor. */
-    xMessageLengthError(xMessageLengthError&&) = default;
-    /*! \brief Move assignment operator. */
-    xMessageLengthError& operator=(xMessageLengthError&&) = default;
-};
-
-/*!
- * \brief Magic string error exception.
- *
- * This exception class is intended to be thrown when a message
- * is received whose magic string does not match what is expected.
- */
-class CORE_LIBRARY_DLL_SHARED_API xMagicStringError : public exceptions::DetailedException
-{
-public:
-    /*! \brief Default constructor. */
-    xMagicStringError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xMagicStringError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xMagicStringError() override = default;
-    /*! \brief Copy constructor. */
-    xMagicStringError(const xMagicStringError&) = default;
-    /*! \brief Copy assignment operator. */
-    xMagicStringError& operator=(const xMagicStringError&) = default;
-    /*! \brief Move constructor. */
-    xMagicStringError(xMagicStringError&&) = default;
-    /*! \brief Move assignment operator. */
-    xMagicStringError& operator=(xMagicStringError&&) = default;
-};
-
-/*!
- * \brief Archive type error.
- *
- * This exception class is intended to be thrown when a message
- * is being constructed using an incorrect archive type.
- */
-class CORE_LIBRARY_DLL_SHARED_API xArchiveTypeError : public exceptions::DetailedException
-{
-public:
-    /*! \brief Default constructor. */
-    xArchiveTypeError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xArchiveTypeError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xArchiveTypeError() override = default;
-    /*! \brief Copy constructor. */
-    xArchiveTypeError(const xArchiveTypeError&) = default;
-    /*! \brief Copy assignment operator. */
-    xArchiveTypeError& operator=(const xArchiveTypeError&) = default;
-    /*! \brief Move constructor. */
-    xArchiveTypeError(xArchiveTypeError&&) = default;
-    /*! \brief Move assignment operator. */
-    xArchiveTypeError& operator=(xArchiveTypeError&&) = default;
-};
 
 /*!
  * \brief Default message handler class.
@@ -160,6 +74,10 @@ public:
     MessageHandler(const MessageHandler&) = delete;
     /*! \brief Deleted copy assignment operator. */
     MessageHandler& operator=(const MessageHandler&) = delete;
+    /*! \brief Deleted move constructor. */
+    MessageHandler(MessageHandler&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    MessageHandler& operator=(MessageHandler&&) = delete;
     /*!
      * \brief Check bytes left to read method.
      * \param[in] message - A received message buffer.
@@ -179,7 +97,7 @@ private:
     const std::string m_magicString;
 #else
     /*! \brief Magic string. */
-    const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
+    const std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
 #endif
     /*!
      * \brief Check message method.
@@ -204,13 +122,13 @@ private:
  * This function only works with headers of the type MessageHeader.
  */
 defs::MessageHeader CORE_LIBRARY_DLL_SHARED_API
-                    FillHeader(const std::string& magicString, const defs::eArchiveType archiveType,
-                               const uint32_t messageId, const defs::connection_t& responseAddress);
+                    FillHeader(const std::string& magicString, defs::eArchiveType archiveType, uint32_t messageId,
+                               const defs::connection_t& responseAddress);
 
 /*!
  * \brief Archive type enumerator as a template class.
  *
- * This is the general case and always throws an xArchiveTypeError exception as a specialised
+ * This is the general case and always throws an std::invalid_argument exception as a specialised
  * template version should always be created for each archive type.
  */
 template <typename A> struct ArchiveTypeToEnum
@@ -221,7 +139,7 @@ template <typename A> struct ArchiveTypeToEnum
      */
     static defs::eArchiveType Enumerate()
     {
-        BOOST_THROW_EXCEPTION(xArchiveTypeError("unknown archive type"));
+        BOOST_THROW_EXCEPTION(std::invalid_argument("unknown archive type"));
         return defs::eArchiveType::raw;
     }
 };
@@ -318,6 +236,10 @@ public:
     MessageBuilder(const MessageBuilder&) = delete;
     /*! \brief Deleted copy assignment operator. */
     MessageBuilder& operator=(const MessageBuilder&) = delete;
+    /*! \brief Deleted move constructor. */
+    MessageBuilder(MessageBuilder&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    MessageBuilder& operator=(MessageBuilder&&) = delete;
     /*!
      * \brief Build message method for header only messages.
      * \param[in] messageId - Unique ID for this message instance.
@@ -328,8 +250,7 @@ public:
      * information such as a command to possibly request some data in response. In this case
      * we invoke this Build method.
      */
-    defs::char_buffer_t Build(const uint32_t            messageId,
-                              const defs::connection_t& responseAddress) const;
+    defs::char_buffer_t Build(uint32_t messageId, const defs::connection_t& responseAddress) const;
     /*!
      * \brief Build message method for header + messaage body messages.
      * \param[in] message - Object to be sent as message body, to be serialized as chosen archive
@@ -345,7 +266,7 @@ public:
      * be sent.
      */
     template <typename T, typename A>
-    defs::char_buffer_t Build(const T& message, const uint32_t messageId,
+    defs::char_buffer_t Build(const T& message, uint32_t messageId,
                               const defs::connection_t& responseAddress) const
     {
         const defs::eArchiveType archiveType = ArchiveTypeToEnum<A>().Enumerate();
@@ -356,7 +277,7 @@ public:
         // cppcheck-suppress functionStatic
         if (body.empty())
         {
-            BOOST_THROW_EXCEPTION(xArchiveTypeError());
+            BOOST_THROW_EXCEPTION(std::runtime_error("cannot serialize message"));
         }
 
         header.totalLength += static_cast<uint32_t>(body.size());
@@ -379,7 +300,7 @@ private:
     const std::string m_magicString;
 #else
     /*! \brief Magic string. */
-    const std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
+    const std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
 #endif
 };
 
@@ -398,9 +319,9 @@ private:
  * the MessageBuilder functor.
  */
 template <typename MsgBldr>
-defs::char_buffer_t
-BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress,
-             const defs::connection_t& fallbackResponseAddress, const MsgBldr& messageBuilder)
+defs::char_buffer_t BuildMessage(uint32_t messageId, const defs::connection_t& responseAddress,
+                                 const defs::connection_t& fallbackResponseAddress,
+                                 const MsgBldr&            messageBuilder)
 {
     auto responseConn =
         (responseAddress == defs::NULL_CONNECTION) ? fallbackResponseAddress : responseAddress;
@@ -424,7 +345,7 @@ BuildMessage(const uint32_t messageId, const defs::connection_t& responseAddress
  */
 template <typename T, typename A, typename MsgBldr>
 defs::char_buffer_t
-BuildMessage(const T& message, const uint32_t messageId, const defs::connection_t& responseAddress,
+BuildMessage(const T& message, uint32_t messageId, const defs::connection_t& responseAddress,
              const defs::connection_t& fallbackResponseAddress, const MsgBldr& messageBuilder)
 {
     auto responseConn =
@@ -433,41 +354,13 @@ BuildMessage(const T& message, const uint32_t messageId, const defs::connection_
 }
 
 /*!
- * \brief Message deserialization error exception.
- *
- * This exception class is intended to be thrown when a message
- * cannot be deserialized correctly.
- */
-class CORE_LIBRARY_DLL_SHARED_API xMessageDeserializationError : public exceptions::DetailedException
-{
-public:
-    /*! \brief Default constructor. */
-    xMessageDeserializationError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xMessageDeserializationError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xMessageDeserializationError() override = default;
-    /*! \brief Copy constructor. */
-    xMessageDeserializationError(const xMessageDeserializationError&) = default;
-    /*! \brief Copy assignment operator. */
-    xMessageDeserializationError& operator=(const xMessageDeserializationError&) = default;
-    /*! \brief Move constructor. */
-    xMessageDeserializationError(xMessageDeserializationError&&) = default;
-    /*! \brief Move assignment operator. */
-    xMessageDeserializationError& operator=(xMessageDeserializationError&&) = default;
-};
-
-/*!
  * \brief Templated message deserializer function.
  * \param[in] messageBuffer - Message buffer to be deserialized.
  * \param[in] archiveType - Serialization archive type.
  * \return The deserialization object T.
  */
 template <typename T>
-T DeserializeMessage(const defs::char_buffer_t& messageBuffer, const defs::eArchiveType archiveType)
+T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveType archiveType)
 {
     switch (archiveType)
     {
@@ -481,11 +374,9 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, const defs::eArch
         return serialize::ToObject<T, serialize::archives::in_json_t>(messageBuffer);
     case defs::eArchiveType::xml:
         return serialize::ToObject<T, serialize::archives::in_xml_t>(messageBuffer);
-    default:
-        BOOST_THROW_EXCEPTION(xMessageDeserializationError("unsupported archive type"));
     }
 
-    return T();
+    return {};
 }
 
 } // namespace messages

@@ -27,8 +27,6 @@
 #ifndef ASIODEFINES
 #define ASIODEFINES
 
-#include "CoreLibraryDllGlobal.h"
-#include "Platform/PlatformDefines.h"
 #include <vector>
 #include <functional>
 #include <memory>
@@ -36,6 +34,8 @@
 #include <string>
 #include <cstdint>
 #include <boost/asio.hpp>
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 namespace boost_sys          = boost::system;
 namespace boost_asio         = boost::asio;
@@ -43,17 +43,17 @@ namespace boost_placeholders = boost::asio::placeholders;
 namespace boost_mcast        = boost::asio::ip::multicast;
 
 /*! \brief Boost IO service convenience typedef. */
-typedef boost_asio::io_service boost_ioservice_t;
+using boost_ioservice_t = boost_asio::io_service;
 /*! \brief Boost tcp convenience typedef. */
-typedef boost_asio::ip::tcp boost_tcp_t;
+using boost_tcp_t = boost_asio::ip::tcp;
 /*! \brief Boost tcp acceptor convenience typedef. */
-typedef boost::asio::ip::tcp::acceptor boost_tcp_acceptor_t;
+using boost_tcp_acceptor_t = boost::asio::ip::tcp::acceptor;
 /*! \brief Boost udp convenience typedef. */
-typedef boost::asio::ip::udp boost_udp_t;
+using boost_udp_t = boost::asio::ip::udp;
 /*! \brief Boost general IP address convenience typedef. */
-typedef boost::asio::ip::address boost_address_t;
+using boost_address_t = boost::asio::ip::address;
 /*! \brief Boost IPV4 address convenience typedef. */
-typedef boost::asio::ip::address_v4 boost_address_v4_t;
+using boost_address_v4_t = boost::asio::ip::address_v4;
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -134,11 +134,11 @@ namespace defs
 {
 
 /*! \brief Typedef describing a network connection as (address, port). */
-typedef std::pair<std::string, uint16_t> connection_t;
+using connection_t = std::pair<std::string, uint16_t>;
 /*! \brief Constant defining a null network connection as ("0.0.0.0", 0). */
 static const connection_t NULL_CONNECTION("0.0.0.0", 0);
 /*! \brief Typedef describing shared_ptr to a TcpConnection object. */
-typedef std::shared_ptr<tcp::TcpConnection> tcp_conn_ptr_t;
+using tcp_conn_ptr_t = std::shared_ptr<tcp::TcpConnection>;
 /*! \brief Constant defining response IP address length in bytes. */
 STATIC_CONSTEXPR_ uint32_t RESPONSE_ADDRESS_LEN{16};
 /*! \brief Constant defining message header magic string length in bytes. */
@@ -172,9 +172,9 @@ enum class eArchiveType : uint8_t
 struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 {
     /*! \brief Magic string to identify message start. */
-    char magicString[MAGIC_STRING_LEN];
+    char magicString[MAGIC_STRING_LEN]{};
     /*! \brief Response address; can be used by receiver to identify sender. */
-    char responseAddress[RESPONSE_ADDRESS_LEN];
+    char responseAddress[RESPONSE_ADDRESS_LEN]{};
     /*! \brief Response port. */
     uint16_t responsePort{0};
     /*! \brief Unique message identifier. */
@@ -208,14 +208,14 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 #pragma pack(pop)
 
 /*! \brief Typedef to generic char buffer based on s std::vector<char>. */
-typedef std::vector<char> char_buffer_t;
+using char_buffer_t = std::vector<char>;
 
 /*! \brief Template class to act as a generic wrapper around a received message for a given header
  * type. */
 template <typename Header> struct ReceivedMessage
 {
     /*! \brief Typedef for header template type. */
-    typedef Header header_t;
+    using header_t = Header;
     /*! \brief Message header. */
     header_t header;
     /*! \brief Message body as a char buffer as all data received form socket is fundamentally an
@@ -251,15 +251,15 @@ template <typename Header> struct ReceivedMessage
 };
 
 /*! \brief Typedef to default version of received message typed to default message header struct. */
-typedef ReceivedMessage<MessageHeader> default_received_message_t;
+using default_received_message_t = ReceivedMessage<MessageHeader>;
 /*! \brief Typedef to default version of received message shared pointer. */
-typedef std::shared_ptr<default_received_message_t> default_received_message_ptr_t;
+using default_received_message_ptr_t = std::shared_ptr<default_received_message_t>;
 /*! \brief Typedef to default message dispatcher function object. */
-typedef std::function<void(default_received_message_ptr_t)> default_message_dispatcher_t;
+using default_message_dispatcher_t = std::function<void(default_received_message_ptr_t)>;
 /*! \brief Typedef to bytes left to reading checking utility function object. */
-typedef std::function<size_t(const char_buffer_t&)> check_bytes_left_to_read_t;
+using check_bytes_left_to_read_t = std::function<size_t(const char_buffer_t&)>;
 /*! \brief Typedef to message received handler function object. */
-typedef std::function<void(const char_buffer_t&)> message_received_handler_t;
+using message_received_handler_t = std::function<void(const char_buffer_t&)>;
 
 } // namespace defs
 } // namespace asio

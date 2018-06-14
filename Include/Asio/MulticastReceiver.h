@@ -72,7 +72,7 @@ public:
                       const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                       const defs::message_received_handler_t& messageReceivedHandler,
                       const std::string&                      interfaceAddress = "",
-                      const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                      size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address
@@ -93,11 +93,15 @@ public:
                       const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                       const defs::message_received_handler_t& messageReceivedHandler,
                       const std::string&                      interfaceAddress = "",
-                      const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                      size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     MulticastReceiver(const MulticastReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     MulticastReceiver& operator=(const MulticastReceiver&) = delete;
+    /*! \brief Move constructor - deleted. */
+    MulticastReceiver(MulticastReceiver&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    MulticastReceiver& operator=(MulticastReceiver&&) = delete;
     /*! \brief Destructor. */
     ~MulticastReceiver();
     /*!
@@ -116,7 +120,7 @@ private:
      * \brief Create multicast socket.
      * \param[in] receiveBufferSize - Receive buffer size.
      */
-    void CreateMulticastSocket(const size_t receiveBufferSize);
+    void CreateMulticastSocket(size_t receiveBufferSize);
     /*! \brief Start asynchronous read. */
     void StartAsyncRead();
     /*!
@@ -124,12 +128,12 @@ private:
      * \param[in] error - Error code if one has happened.
      * \param[in] bytesReceived - Number of bytes received.
      */
-    void ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived);
+    void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived);
     /*!
      * \brief Set closing state.
      * \param[in] closing - Closing socket flag.
      */
-    void SetClosing(const bool closing);
+    void SetClosing(bool closing);
     /*!
      * \brief Get closing state.
      * \return True if closing socket, false otherwise.
@@ -140,31 +144,31 @@ private:
 
 private:
     /*! \brief Mutex to protect shutdown of receiver. */
-    mutable std::mutex m_closingMutex;
+    mutable std::mutex m_closingMutex{};
     /*! \brief Event to synchronise shutdown of receiver. */
-    threads::SyncEvent m_closedEvent;
+    threads::SyncEvent m_closedEvent{};
     /*! \brief Flag to show were are closing socket. */
-    bool m_closing;
+    bool m_closing{false};
     /*! \brief I/O service thread group. */
     std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
     boost_ioservice_t& m_ioService;
     /*! \brief Multicast connection details. */
-    const defs::connection_t m_multicastConnection;
+    defs::connection_t m_multicastConnection{};
     /*! \brief Interface IP address of outgoing network adaptor. */
-    const std::string m_interfaceAddress;
+    std::string m_interfaceAddress{};
     /*! \brief The multicast socket. */
     boost_udp_t::socket m_socket;
     /*! \brief Callback to check number of bytes left to read. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
     /*! \brief Callback to handle received message. */
-    defs::message_received_handler_t m_messageReceivedHandler;
+    defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket receive buffer. */
-    defs::char_buffer_t m_receiveBuffer;
+    defs::char_buffer_t m_receiveBuffer{};
     /*! \brief Message buffer. */
-    defs::char_buffer_t m_messageBuffer;
+    defs::char_buffer_t m_messageBuffer{};
     /*! \brief Sender end-point. */
-    boost_udp_t::endpoint m_senderEndpoint;
+    boost_udp_t::endpoint m_senderEndpoint{};
 };
 
 } // namespace udp

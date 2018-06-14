@@ -44,10 +44,8 @@ MulticastReceiver::MulticastReceiver(boost_ioservice_t&                      ioS
                                      const defs::connection_t&               multicastConnection,
                                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                                      const defs::message_received_handler_t& messageReceivedHandler,
-                                     const std::string&                      interfaceAddress,
-                                     const size_t                            receiveBufferSize)
-    : m_closing(false)
-    , m_ioService(ioService)
+                                     const std::string& interfaceAddress, size_t receiveBufferSize)
+    : m_ioService(ioService)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_socket{m_ioService}
@@ -61,10 +59,8 @@ MulticastReceiver::MulticastReceiver(boost_ioservice_t&                      ioS
 MulticastReceiver::MulticastReceiver(const defs::connection_t&               multicastConnection,
                                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                                      const defs::message_received_handler_t& messageReceivedHandler,
-                                     const std::string&                      interfaceAddress,
-                                     const size_t                            receiveBufferSize)
-    : m_closing(false)
-    , m_ioThreadGroup{new IoServiceThreadGroup(1)}
+                                     const std::string& interfaceAddress, size_t receiveBufferSize)
+    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
     , m_multicastConnection(multicastConnection)
@@ -99,7 +95,7 @@ std::string MulticastReceiver::InterfaceAddress() const
     return m_interfaceAddress;
 }
 
-void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
+void MulticastReceiver::CreateMulticastSocket(size_t receiveBufferSize)
 {
     m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
 
@@ -114,7 +110,7 @@ void MulticastReceiver::CreateMulticastSocket(const size_t receiveBufferSize)
 
     const boost_address_t mcastAddr = boost_address_t::from_string(m_multicastConnection.first);
 
-    if (!m_interfaceAddress.empty() && ("0.0.0.0" != m_interfaceAddress))
+    if (!m_interfaceAddress.empty() && (m_interfaceAddress.compare("0.0.0.0") != 0))
     {
         const boost_address_t listenAddr = boost_address_t::from_string(m_interfaceAddress);
 
@@ -140,7 +136,7 @@ void MulticastReceiver::StartAsyncRead()
                                             boost_placeholders::bytes_transferred));
 }
 
-void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived)
+void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
 {
     if (IsClosing() || error)
     {
@@ -151,7 +147,7 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, const s
     try
     {
         std::copy(m_receiveBuffer.begin(),
-                  m_receiveBuffer.begin() + bytesReceived,
+                  m_receiveBuffer.begin() + static_cast<int>(bytesReceived),
                   std::back_inserter(m_messageBuffer));
 
         const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
@@ -169,7 +165,7 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, const s
     StartAsyncRead();
 }
 
-void MulticastReceiver::SetClosing(const bool closing)
+void MulticastReceiver::SetClosing(bool closing)
 {
     std::lock_guard<std::mutex> lock(m_closingMutex);
     m_closing = closing;

@@ -75,9 +75,8 @@ public:
     MulticastTypedSender(boost_ioservice_t&        ioService,
                          const defs::connection_t& multicastConnection,
                          const MsgBldr& messageBuilder, const std::string& interfaceAddress = "",
-                         const bool          enableLoopback = true,
-                         const eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
-                         const size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+                         bool enableLoopback = true, eMulticastTTL ttl = eMulticastTTL::sameSubnet,
+                         size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
         : m_messageBuilder{messageBuilder}
         , m_multicastSender{
               ioService, multicastConnection, interfaceAddress, enableLoopback, ttl, sendBufferSize}
@@ -100,9 +99,8 @@ public:
      */
     MulticastTypedSender(const defs::connection_t& multicastConnection,
                          const MsgBldr& messageBuilder, const std::string& interfaceAddress = "",
-                         const bool          enableLoopback = true,
-                         const eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
-                         const size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+                         bool enableLoopback = true, eMulticastTTL ttl = eMulticastTTL::sameSubnet,
+                         size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
         : m_messageBuilder{messageBuilder}
         , m_multicastSender{
               multicastConnection, interfaceAddress, enableLoopback, ttl, sendBufferSize}
@@ -112,6 +110,10 @@ public:
     MulticastTypedSender(const MulticastTypedSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     MulticastTypedSender& operator=(const MulticastTypedSender&) = delete;
+    /*! \brief Move constructor - deleted. */
+    MulticastTypedSender(MulticastTypedSender&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    MulticastTypedSender& operator=(MulticastTypedSender&&) = delete;
     /*! \brief Default destructor. */
     ~MulticastTypedSender() = default;
     /*!
@@ -138,7 +140,7 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const uint32_t            messageId,
+    bool SendMessage(uint32_t                  messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_multicastSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
@@ -154,7 +156,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message, const uint32_t messageId,
+    bool SendMessage(const T& message, uint32_t messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_multicastSender.SendMessage(

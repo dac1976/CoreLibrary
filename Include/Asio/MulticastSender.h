@@ -65,9 +65,9 @@ public:
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     MulticastSender(boost_ioservice_t& ioService, const defs::connection_t& multicastConnection,
-                    const std::string& interfaceAddress = "", const bool enableLoopback = true,
-                    const eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
-                    const size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+                    const std::string& interfaceAddress = "", bool enableLoopback = true,
+                    eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
+                    size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address
@@ -83,14 +83,18 @@ public:
      * external IO service constructor is recommended.
      */
     MulticastSender(const defs::connection_t& multicastConnection,
-                    const std::string& interfaceAddress = "", const bool enableLoopback = true,
-                    const eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
-                    const size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+                    const std::string& interfaceAddress = "", bool enableLoopback = true,
+                    eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
+                    size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
     /*! \brief Copy constructor - deleted. */
     MulticastSender(const MulticastSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     MulticastSender& operator=(const MulticastSender&) = delete;
+    /*! \brief Move constructor - deleted. */
+    MulticastSender(MulticastSender&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    MulticastSender& operator=(MulticastSender&&) = delete;
     /*! \brief Default destructor. */
     ~MulticastSender() = default;
     /*!
@@ -117,8 +121,7 @@ private:
      * \param[in] ttl - Time-to-live for multicast messages.
      * \param[in] sendBufferSize - Send buffer size.
      */
-    void CreateMulticastSocket(const bool enableLoopback, const eMulticastTTL ttl,
-                               const size_t sendBufferSize);
+    void CreateMulticastSocket(bool enableLoopback, eMulticastTTL ttl, size_t sendBufferSize);
     /*!
      * \brief Synchronised send to method.
      * \param[in] message - Message buffer to send.
@@ -132,13 +135,13 @@ private:
     /*! \brief I/O service reference. */
     boost_ioservice_t& m_ioService;
     /*! \brief Multicast connection details. */
-    const defs::connection_t m_multicastConnection;
+    defs::connection_t m_multicastConnection{};
     /*! \brief Interface IP address of outgoing network adaptor. */
-    const std::string m_interfaceAddress;
+    std::string m_interfaceAddress{};
     /*! \brief Multicast socket. */
     boost_udp_t::socket m_socket;
     /*! \brief Multicast receiver end-point. */
-    boost_udp_t::endpoint m_multicastEndpoint;
+    boost_udp_t::endpoint m_multicastEndpoint{};
 };
 
 } // namespace udp

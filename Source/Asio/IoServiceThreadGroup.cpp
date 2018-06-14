@@ -35,10 +35,10 @@ namespace asio
 // ****************************************************************************
 // 'class IoServiceThreadGroup' definition
 // ****************************************************************************
-IoServiceThreadGroup::IoServiceThreadGroup(const unsigned int numThreads)
+IoServiceThreadGroup::IoServiceThreadGroup(unsigned int numThreads)
     : m_ioWork(m_ioService)
 {
-    const unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
+    unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
 
     for (unsigned int t = 0; t < numThreadsToUse; ++t)
     {

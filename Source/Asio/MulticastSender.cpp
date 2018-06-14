@@ -42,8 +42,8 @@ namespace udp
 // ****************************************************************************
 MulticastSender::MulticastSender(boost_ioservice_t&        ioService,
                                  const defs::connection_t& multicastConnection,
-                                 const std::string& interfaceAddress, const bool enableLoopback,
-                                 const eMulticastTTL ttl, const size_t sendBufferSize)
+                                 const std::string& interfaceAddress, bool enableLoopback,
+                                 eMulticastTTL ttl, size_t sendBufferSize)
     : m_ioService(ioService)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
@@ -55,8 +55,8 @@ MulticastSender::MulticastSender(boost_ioservice_t&        ioService,
 }
 
 MulticastSender::MulticastSender(const defs::connection_t& multicastConnection,
-                                 const std::string& interfaceAddress, const bool enableLoopback,
-                                 const eMulticastTTL ttl, const size_t sendBufferSize)
+                                 const std::string& interfaceAddress, bool enableLoopback,
+                                 eMulticastTTL ttl, size_t sendBufferSize)
     : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
@@ -84,8 +84,8 @@ bool MulticastSender::SendMessage(const defs::char_buffer_t& message)
     return SyncSendTo(message);
 }
 
-void MulticastSender::CreateMulticastSocket(const bool enableLoopback, const eMulticastTTL ttl,
-                                            const size_t sendBufferSize)
+void MulticastSender::CreateMulticastSocket(bool enableLoopback, eMulticastTTL ttl,
+                                            size_t sendBufferSize)
 {
     m_socket.open(m_multicastEndpoint.protocol());
 

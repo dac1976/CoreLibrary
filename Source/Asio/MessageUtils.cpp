@@ -28,6 +28,7 @@
 #include "Asio/MessageUtils.h"
 #include <cassert>
 #include <cstdio>
+#include <stdexcept>
 #include <boost/throw_exception.hpp>
 
 /*! \brief The core_lib namespace. */
@@ -41,47 +42,8 @@ namespace messages
 {
 
 // ****************************************************************************
-// 'class xMessageLengthError' definition
+// 'class MessageHandler' definition
 // ****************************************************************************
-xMessageLengthError::xMessageLengthError()
-    : exceptions::DetailedException("incorrect message length")
-{
-}
-
-xMessageLengthError::xMessageLengthError(const std::string& message)
-    : exceptions::DetailedException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xMagicStringError' definition
-// ****************************************************************************
-xMagicStringError::xMagicStringError()
-    : exceptions::DetailedException("incorrect magic string")
-{
-}
-
-xMagicStringError::xMagicStringError(const std::string& message)
-    : exceptions::DetailedException(message)
-{
-}
-
-// ****************************************************************************
-// 'class xArchiveTypeError' definition
-// ****************************************************************************
-xArchiveTypeError::xArchiveTypeError()
-    : exceptions::DetailedException("incorrect archive type")
-{
-}
-
-xArchiveTypeError::xArchiveTypeError(const std::string& message)
-    : exceptions::DetailedException(message)
-{
-}
-
-    // ****************************************************************************
-    // 'class MessageHandler' definition
-    // ****************************************************************************
 
 #ifdef USE_DEFAULT_CONSTRUCTOR_
 MessageHandler::MessageHandler()
@@ -103,14 +65,14 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 
     auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
 
-    if (m_magicString != pHeader->magicString)
+    if (m_magicString.compare(pHeader->magicString) != 0)
     {
-        BOOST_THROW_EXCEPTION(xMagicStringError());
+        BOOST_THROW_EXCEPTION(std::runtime_error("incorrect magic string"));
     }
 
     if (pHeader->totalLength < message.size())
     {
-        BOOST_THROW_EXCEPTION(xMessageLengthError());
+        BOOST_THROW_EXCEPTION(std::length_error("message length error"));
     }
 
     return pHeader->totalLength - message.size();
@@ -136,7 +98,7 @@ void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 {
     if (message.size() < sizeof(defs::MessageHeader))
     {
-        BOOST_THROW_EXCEPTION(xMessageLengthError());
+        BOOST_THROW_EXCEPTION(std::length_error("message length error"));
     }
 }
 
@@ -144,27 +106,29 @@ void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 // Utility functions
 // ****************************************************************************
 
-auto FillHeader(const std::string& magicString, const defs::eArchiveType archiveType,
-                const uint32_t messageId, const defs::connection_t& responseAddress)
-    -> defs::MessageHeader
+auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, uint32_t messageId,
+                const defs::connection_t& responseAddress) -> defs::MessageHeader
 {
     assert(magicString.size() < defs::MAGIC_STRING_LEN);
 
     if (magicString.size() >= defs::MAGIC_STRING_LEN)
     {
-        BOOST_THROW_EXCEPTION(xMagicStringError("user magic string too long"));
+        BOOST_THROW_EXCEPTION(std::length_error("magic string too long"));
     }
 
     assert(responseAddress.first.size() < defs::RESPONSE_ADDRESS_LEN);
 
     if (responseAddress.first.size() >= defs::RESPONSE_ADDRESS_LEN)
     {
-        BOOST_THROW_EXCEPTION(xMessageLengthError("response address too long"));
+        BOOST_THROW_EXCEPTION(std::length_error("response address too long"));
     }
 
     defs::MessageHeader header;
-    std::snprintf(header.magicString, sizeof(header.magicString), "%s", magicString.c_str());
-    std::snprintf(header.responseAddress,
+    std::snprintf(static_cast<char*>(header.magicString),
+                  sizeof(header.magicString),
+                  "%s",
+                  magicString.c_str());
+    std::snprintf(static_cast<char*>(header.responseAddress),
                   sizeof(header.responseAddress),
                   "%s",
                   responseAddress.first.c_str());
@@ -191,31 +155,18 @@ MessageBuilder::MessageBuilder(const std::string& magicString)
 {
 }
 
-auto MessageBuilder::Build(const uint32_t            messageId,
-                           const defs::connection_t& responseAddress) const -> defs::char_buffer_t
+auto MessageBuilder::Build(uint32_t messageId, const defs::connection_t& responseAddress) const
+    -> defs::char_buffer_t
 {
     auto header = FillHeader(m_magicString, defs::eArchiveType::raw, messageId, responseAddress);
 
     defs::char_buffer_t messageBuffer;
     messageBuffer.reserve(header.totalLength);
 
-    const char* headerCharBuf = reinterpret_cast<const char*>(&header);
+    auto headerCharBuf = reinterpret_cast<const char*>(&header);
     std::copy(headerCharBuf, headerCharBuf + sizeof(header), std::back_inserter(messageBuffer));
 
     return messageBuffer;
-}
-
-// ****************************************************************************
-// 'class xMessageDeserializationError' definition
-// ****************************************************************************
-xMessageDeserializationError::xMessageDeserializationError()
-    : exceptions::DetailedException("message deserialization error")
-{
-}
-
-xMessageDeserializationError::xMessageDeserializationError(const std::string& message)
-    : exceptions::DetailedException(message)
-{
 }
 
 } // namespace messages
