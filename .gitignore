@@ -32,8 +32,15 @@
 *.out
 *.app
 
+# Debug and info
+*.exp
+*.pdb
+*.res
+
 # Project user files
 *.pro.user
+MakeFile
+MakeFile.*
 
 # Qmake stash
 *.stash
