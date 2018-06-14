@@ -44,12 +44,12 @@ namespace messages
 // 'class xMessageLengthError' definition
 // ****************************************************************************
 xMessageLengthError::xMessageLengthError()
-    : exceptions::xCustomException("incorrect message length")
+    : exceptions::DetailedException("incorrect message length")
 {
 }
 
 xMessageLengthError::xMessageLengthError(const std::string& message)
-    : exceptions::xCustomException(message)
+    : exceptions::DetailedException(message)
 {
 }
 
@@ -57,12 +57,12 @@ xMessageLengthError::xMessageLengthError(const std::string& message)
 // 'class xMagicStringError' definition
 // ****************************************************************************
 xMagicStringError::xMagicStringError()
-    : exceptions::xCustomException("incorrect magic string")
+    : exceptions::DetailedException("incorrect magic string")
 {
 }
 
 xMagicStringError::xMagicStringError(const std::string& message)
-    : exceptions::xCustomException(message)
+    : exceptions::DetailedException(message)
 {
 }
 
@@ -70,12 +70,12 @@ xMagicStringError::xMagicStringError(const std::string& message)
 // 'class xArchiveTypeError' definition
 // ****************************************************************************
 xArchiveTypeError::xArchiveTypeError()
-    : exceptions::xCustomException("incorrect archive type")
+    : exceptions::DetailedException("incorrect archive type")
 {
 }
 
 xArchiveTypeError::xArchiveTypeError(const std::string& message)
-    : exceptions::xCustomException(message)
+    : exceptions::DetailedException(message)
 {
 }
 
@@ -209,12 +209,12 @@ auto MessageBuilder::Build(const uint32_t            messageId,
 // 'class xMessageDeserializationError' definition
 // ****************************************************************************
 xMessageDeserializationError::xMessageDeserializationError()
-    : exceptions::xCustomException("message deserialization error")
+    : exceptions::DetailedException("message deserialization error")
 {
 }
 
 xMessageDeserializationError::xMessageDeserializationError(const std::string& message)
-    : exceptions::xCustomException(message)
+    : exceptions::DetailedException(message)
 {
 }
 

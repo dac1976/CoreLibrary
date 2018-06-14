@@ -8,6 +8,5 @@ var searchData=
   ['csvgridcelldouble_2ecpp',['CsvGridCellDouble.cpp',['../_csv_grid_cell_double_8cpp.html',1,'']]],
   ['csvgridcelldouble_2eh',['CsvGridCellDouble.h',['../_csv_grid_cell_double_8h.html',1,'']]],
   ['csvgridmain_2eh',['CsvGridMain.h',['../_csv_grid_main_8h.html',1,'']]],
-  ['csvgridrow_2eh',['CsvGridRow.h',['../_csv_grid_row_8h.html',1,'']]],
-  ['customexception_2eh',['CustomException.h',['../_custom_exception_8h.html',1,'']]]
+  ['csvgridrow_2eh',['CsvGridRow.h',['../_csv_grid_row_8h.html',1,'']]]
 ];

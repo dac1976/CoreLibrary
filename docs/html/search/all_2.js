@@ -56,7 +56,6 @@ var searchData=
   ['csvgridrow_2eh',['CsvGridRow.h',['../_csv_grid_row_8h.html',1,'']]],
   ['csvgridv',['CsvGridV',['../namespacecore__lib_1_1csv__grid.html#ac3f2c2b479226be17497c88a0da4acc0',1,'core_lib::csv_grid']]],
   ['csvgridvd',['CsvGridVD',['../namespacecore__lib_1_1csv__grid.html#af6b2b12ac6c4a7e4d4b907d6f8467669',1,'core_lib::csv_grid']]],
-  ['customexception_2eh',['CustomException.h',['../_custom_exception_8h.html',1,'']]],
   ['defs',['defs',['../namespacecore__lib_1_1asio_1_1defs.html',1,'core_lib::asio']]],
   ['exceptions',['exceptions',['../namespacecore__lib_1_1exceptions.html',1,'core_lib']]],
   ['file_5futils',['file_utils',['../namespacecore__lib_1_1file__utils.html',1,'core_lib']]],

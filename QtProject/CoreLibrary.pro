@@ -84,7 +84,6 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/DebugLog/DebugLog.h                   \
     ../Include/DebugLog/DebugLogSingleton.h          \
     ../Include/DebugLog/DebugLogging.h               \
-    ../Include/Exceptions/CustomException.h          \
     ../Include/FileUtils/FileUtils.h                 \
     ../Include/IniFile/IniFileLines.h                \
     ../Include/IniFile/IniFileSectionDetails.h       \
@@ -112,7 +111,8 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Asio/MulticastTypedSender.h           \
     ../Include/Asio/SimpleMulticastSender.h          \
     ../Include/Asio/SimpleMulticastReceiver.h        \
-    ../Include/Threads/ThreadRunner.h
+    ../Include/Threads/ThreadRunner.h \
+    ../Include/Exceptions/DetailedException.h
 
 SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/IoServiceThreadGroup.cpp            \

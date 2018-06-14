@@ -39,12 +39,12 @@ namespace tcp
 // 'class xUnknownConnectionError' definition
 // ****************************************************************************
 xUnknownConnectionError::xUnknownConnectionError()
-    : exceptions::xCustomException("unknown connection")
+    : exceptions::DetailedException("unknown connection")
 {
 }
 
 xUnknownConnectionError::xUnknownConnectionError(const std::string& message)
-    : exceptions::xCustomException(message)
+    : exceptions::DetailedException(message)
 {
 }
 

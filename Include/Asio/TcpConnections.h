@@ -28,7 +28,7 @@
 #define TCPCONNECTIONS
 
 #include "AsioDefines.h"
-#include "Exceptions/CustomException.h"
+#include "Exceptions/DetailedException.h"
 #include <map>
 #include <mutex>
 
@@ -48,7 +48,7 @@ namespace tcp
  * This exception class is intended to be thrown when an unknown
  * connection is specified as an argument.
  */
-class CORE_LIBRARY_DLL_SHARED_API xUnknownConnectionError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xUnknownConnectionError : public exceptions::DetailedException
 {
 public:
     /*! \brief Default constructor. */

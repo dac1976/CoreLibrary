@@ -98,7 +98,7 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/DebugLog/DebugLog.h                   \
     ../Include/DebugLog/DebugLogSingleton.h          \
     ../Include/DebugLog/DebugLogging.h               \
-    ../Include/Exceptions/CustomException.h          \
+    ../Include/Exceptions/DetailedException.h        \
     ../Include/FileUtils/FileUtils.h                 \
     ../Include/IniFile/IniFileLines.h                \
     ../Include/IniFile/IniFileSectionDetails.h       \

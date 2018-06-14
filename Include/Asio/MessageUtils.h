@@ -29,7 +29,7 @@
 #define MESSAGEUTILS
 
 #include "AsioDefines.h"
-#include "Exceptions/CustomException.h"
+#include "Exceptions/DetailedException.h"
 #include "Serialization/SerializeToVector.h"
 #include <iterator>
 #include <algorithm>
@@ -52,7 +52,7 @@ namespace messages
  * is received whose length doesn't match what is in the message
  * header.
  */
-class CORE_LIBRARY_DLL_SHARED_API xMessageLengthError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xMessageLengthError : public exceptions::DetailedException
 {
 public:
     /*! \brief Default constructor. */
@@ -80,7 +80,7 @@ public:
  * This exception class is intended to be thrown when a message
  * is received whose magic string does not match what is expected.
  */
-class CORE_LIBRARY_DLL_SHARED_API xMagicStringError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xMagicStringError : public exceptions::DetailedException
 {
 public:
     /*! \brief Default constructor. */
@@ -108,7 +108,7 @@ public:
  * This exception class is intended to be thrown when a message
  * is being constructed using an incorrect archive type.
  */
-class CORE_LIBRARY_DLL_SHARED_API xArchiveTypeError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xArchiveTypeError : public exceptions::DetailedException
 {
 public:
     /*! \brief Default constructor. */
@@ -438,7 +438,7 @@ BuildMessage(const T& message, const uint32_t messageId, const defs::connection_
  * This exception class is intended to be thrown when a message
  * cannot be deserialized correctly.
  */
-class CORE_LIBRARY_DLL_SHARED_API xMessageDeserializationError : public exceptions::xCustomException
+class CORE_LIBRARY_DLL_SHARED_API xMessageDeserializationError : public exceptions::DetailedException
 {
 public:
     /*! \brief Default constructor. */
