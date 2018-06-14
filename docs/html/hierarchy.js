@@ -23,10 +23,6 @@ var hierarchy =
     ] ],
     [ "exception", null, [
       [ "core_lib::exceptions::DetailedException", "classcore__lib_1_1exceptions_1_1_detailed_exception.html", [
-        [ "core_lib::asio::messages::xArchiveTypeError", "classcore__lib_1_1asio_1_1messages_1_1x_archive_type_error.html", null ],
-        [ "core_lib::asio::messages::xMagicStringError", "classcore__lib_1_1asio_1_1messages_1_1x_magic_string_error.html", null ],
-        [ "core_lib::asio::messages::xMessageDeserializationError", "classcore__lib_1_1asio_1_1messages_1_1x_message_deserialization_error.html", null ],
-        [ "core_lib::asio::messages::xMessageLengthError", "classcore__lib_1_1asio_1_1messages_1_1x_message_length_error.html", null ],
         [ "core_lib::asio::tcp::xUnknownConnectionError", "classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html", null ]
       ] ]
     ] ],
