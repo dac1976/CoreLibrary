@@ -76,10 +76,7 @@ class xCustomException : public virtual boost::exception, public virtual std::ex
 {
 public:
     /*! \brief Default constructor. */
-    xCustomException()
-        : m_what("custom exception")
-    {
-    }
+    xCustomException() = default;
     /*!
      * \brief Initializing constructor.
      * \param[in] message - A user specified message string.
@@ -88,8 +85,16 @@ public:
         : m_what(message.c_str())
     {
     }
+    /*!
+     * \brief Initializing constructor.
+     * \param[in] message - A user specified message string.
+     */
+    explicit xCustomException(const char* message)
+        : m_what(message)
+    {
+    }
     /*! \brief Virtual destructor. */
-    ~xCustomException() override = default;
+    ~xCustomException() noexcept override = default;
     /*! \brief Copy constructor. */
     xCustomException(const xCustomException&) = default;
     /*! \brief Copy assignment operator. */
@@ -105,7 +110,7 @@ public:
     }
 
 private:
-    std::string m_what;
+    std::string m_what{"custom exception"};
 };
 
 } // namespace exceptions
