@@ -22,9 +22,7 @@ var hierarchy =
       [ "core_lib::asio::tcp::TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html", null ]
     ] ],
     [ "exception", null, [
-      [ "core_lib::exceptions::DetailedException", "classcore__lib_1_1exceptions_1_1_detailed_exception.html", [
-        [ "core_lib::asio::tcp::xUnknownConnectionError", "classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html", null ]
-      ] ]
+      [ "core_lib::exceptions::DetailedException", "classcore__lib_1_1exceptions_1_1_detailed_exception.html", null ]
     ] ],
     [ "exception", null, [
       [ "core_lib::exceptions::DetailedException", "classcore__lib_1_1exceptions_1_1_detailed_exception.html", null ]

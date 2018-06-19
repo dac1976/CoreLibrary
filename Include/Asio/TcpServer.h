@@ -72,10 +72,10 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    TcpServer(boost_ioservice_t& ioService, const uint16_t listenPort, const size_t minAmountToRead,
+    TcpServer(boost_ioservice_t& ioService, uint16_t listenPort, size_t minAmountToRead,
               const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
               const defs::message_received_handler_t& messageReceivedHandler,
-              const eSendOption                       sendOption = eSendOption::nagleOn);
+              eSendOption                             sendOption = eSendOption::nagleOn);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
@@ -92,16 +92,20 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    TcpServer(const uint16_t listenPort, const size_t minAmountToRead,
+    TcpServer(uint16_t listenPort, size_t minAmountToRead,
               const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
               const defs::message_received_handler_t& messageReceivedHandler,
-              const eSendOption                       sendOption = eSendOption::nagleOn);
+              eSendOption                             sendOption = eSendOption::nagleOn);
     /*! \brief Default destructor. */
     ~TcpServer();
     /*! \brief Copy constructor - deleted. */
     TcpServer(const TcpServer&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     TcpServer& operator=(const TcpServer&) = delete;
+    /*! \brief Move constructor - deleted. */
+    TcpServer(TcpServer&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    TcpServer& operator=(TcpServer&&) = delete;
     /*!
      * \brief Retrieve this server's connection details for a given client.
      * \param[in] client - A client's connection details.
@@ -109,7 +113,7 @@ public:
      *
      * If no such client is known to the server then it returns { "0.0.0.0", listenPort}.
      *
-     * Throws xUnknownConnectionError is remoteEnd is not valid.
+     * Throws std::invalid_argument is remoteEnd is not valid.
      */
     defs::connection_t GetServerDetailsForClient(const defs::connection_t& client) const;
     /*!
@@ -175,21 +179,21 @@ private:
     /*! \brief I/O service reference. */
     boost_ioservice_t& m_ioService;
     /*! \brief The connection acceptor. */
-    std::unique_ptr<boost_tcp_acceptor_t> m_acceptor;
+    std::unique_ptr<boost_tcp_acceptor_t> m_acceptor{};
     /*! \brief Server listen port. */
-    const uint16_t m_listenPort{0};
+    uint16_t m_listenPort{0};
     /*! \brief Minimum amount to read from socket. */
-    const size_t m_minAmountToRead{0};
+    size_t m_minAmountToRead{0};
     /*! \brief Callback to check number of bytes left to read. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
     /*! \brief Callback to handle received message. */
-    defs::message_received_handler_t m_messageReceivedHandler;
+    defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket receive option. */
-    const eSendOption m_sendOption{eSendOption::nagleOn};
+    eSendOption m_sendOption{eSendOption::nagleOn};
     /*! \brief TCP connections object. */
-    TcpConnections m_clientConnections;
+    TcpConnections m_clientConnections{};
     /*! \brief Close event. */
-    threads::SyncEvent m_closedEvent;
+    threads::SyncEvent m_closedEvent{};
 };
 
 } // namespace tcp

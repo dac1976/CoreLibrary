@@ -10,8 +10,8 @@ var classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender =
     [ "MulticastConnection", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#ab9e0451959db23abffa8af6f98162fd1", null ],
     [ "operator=", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#a05948a766d32da6388faf4c6f8a6fd05", null ],
     [ "operator=", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#a8dee394d3b7942cd7bd4fa91c81029cd", null ],
-    [ "SendMessage", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#ac6525eb4d8fda4655a7937b7ecf2ded9", null ],
-    [ "SendMessage", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#a03a932305774eb3ebf12f1939acf8741", null ],
+    [ "SendMessage", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#abeca423c88bfda3b4049bd575d4d7e9b", null ],
+    [ "SendMessage", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#a91eb85bd5342ac7d987479ecc351ff6c", null ],
     [ "m_messageBuilder", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#a9fea94b5f0def823635b13277a5faeae", null ],
     [ "m_multicastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#a43f38e0c6c73c5590e7c592102ef5300", null ]
 ];

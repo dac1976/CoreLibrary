@@ -30,11 +30,14 @@
 #include "UdpTypedSender.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 /*! \brief A simplified UDP sender. */
 class CORE_LIBRARY_DLL_SHARED_API SimpleUdpSender final
 {
@@ -53,10 +56,9 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleUdpSender(boost_ioservice_t& ioService
-                   , const defs::connection_t& receiver
-                   , const eUdpOption sendOption = eUdpOption::broadcast
-                   , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    SimpleUdpSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
+                    eUdpOption sendOption     = eUdpOption::broadcast,
+                    size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] receiver - Connection object describing target receiver's address and port.
@@ -68,44 +70,49 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    SimpleUdpSender(const defs::connection_t& receiver
-                   , const eUdpOption sendOption = eUdpOption::broadcast
-                   , const size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    SimpleUdpSender(const defs::connection_t& receiver,
+                    eUdpOption                sendOption     = eUdpOption::broadcast,
+                    size_t                    sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
-    SimpleUdpSender(const SimpleUdpSender& ) = delete;
+    SimpleUdpSender(const SimpleUdpSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
-    SimpleUdpSender& operator=(const SimpleUdpSender& ) = delete;
+    SimpleUdpSender& operator=(const SimpleUdpSender&) = delete;
+    /*! \brief Move constructor - deleted. */
+    SimpleUdpSender(SimpleUdpSender&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    SimpleUdpSender& operator=(SimpleUdpSender&&) = delete;
     /*! \brief Default destructor. */
     ~SimpleUdpSender() = default;
     /*!
      * \brief Retrieve receiver connection details.
      * \return - Connection object describing target receiver's address and port.
      */
-	defs::connection_t ReceiverConnection() const;
+    defs::connection_t ReceiverConnection() const;
     /*!
      * \brief Send a header-only message to the receiver.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket.
-     * \return Returns the success state of the send as a boolean.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
+     * the response, the default value will mean the response address will point to this client
+     * socket. \return Returns the success state of the send as a boolean.
      *
      * This method only sends a simple core_lib::asio::defs::MessageHeader
      * object to the server.
      */
-    bool SendMessage(const uint32_t messageId
-                     , const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    bool SendMessage(int32_t                   messageId,
+                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a full message to the server.
-     * \param[in] message - The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A.
-     * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket.
-     * \return Returns the success state of the send as a boolean.
+     * \param[in] message - The message of type T to send behind the header serialized to an
+     * boost::serialization-compatible archive of type A. \param[in] messageId - Unique message ID
+     * to insert into message header. \param[in] responseAddress - (Optional) The address and port
+     * where the receiver should send the response, the default value will mean the response address
+     * will point to this client socket. \return Returns the success state of the send as a boolean.
      *
      * This method uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message
-                     , const uint32_t messageId
-                     , const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMessage(const T& message, int32_t messageId,
+                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_udpTypedSender.SendMessage<T, A>(message, messageId, responseAddress);
     }
@@ -122,4 +129,3 @@ private:
 } // namespace core_lib
 
 #endif // SIMPLEUDPSENDER
-

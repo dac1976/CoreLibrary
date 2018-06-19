@@ -94,10 +94,10 @@ private:
     defs::default_message_dispatcher_t m_messageDispatcher;
 #ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Magic string. */
-    const std::string m_magicString;
+    std::string m_magicString;
 #else
     /*! \brief Magic string. */
-    const std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
+    std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
 #endif
     /*!
      * \brief Check message method.
@@ -122,7 +122,7 @@ private:
  * This function only works with headers of the type MessageHeader.
  */
 defs::MessageHeader CORE_LIBRARY_DLL_SHARED_API
-                    FillHeader(const std::string& magicString, defs::eArchiveType archiveType, uint32_t messageId,
+                    FillHeader(const std::string& magicString, defs::eArchiveType archiveType, int32_t messageId,
                                const defs::connection_t& responseAddress);
 
 /*!
@@ -250,7 +250,7 @@ public:
      * information such as a command to possibly request some data in response. In this case
      * we invoke this Build method.
      */
-    defs::char_buffer_t Build(uint32_t messageId, const defs::connection_t& responseAddress) const;
+    defs::char_buffer_t Build(int32_t messageId, const defs::connection_t& responseAddress) const;
     /*!
      * \brief Build message method for header + messaage body messages.
      * \param[in] message - Object to be sent as message body, to be serialized as chosen archive
@@ -266,7 +266,7 @@ public:
      * be sent.
      */
     template <typename T, typename A>
-    defs::char_buffer_t Build(const T& message, uint32_t messageId,
+    defs::char_buffer_t Build(const T& message, int32_t messageId,
                               const defs::connection_t& responseAddress) const
     {
         const defs::eArchiveType archiveType = ArchiveTypeToEnum<A>().Enumerate();
@@ -297,10 +297,10 @@ public:
 private:
 #ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Magic string. */
-    const std::string m_magicString;
+    std::string m_magicString;
 #else
     /*! \brief Magic string. */
-    const std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
+    std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
 #endif
 };
 
@@ -319,7 +319,7 @@ private:
  * the MessageBuilder functor.
  */
 template <typename MsgBldr>
-defs::char_buffer_t BuildMessage(uint32_t messageId, const defs::connection_t& responseAddress,
+defs::char_buffer_t BuildMessage(int32_t messageId, const defs::connection_t& responseAddress,
                                  const defs::connection_t& fallbackResponseAddress,
                                  const MsgBldr&            messageBuilder)
 {
@@ -345,7 +345,7 @@ defs::char_buffer_t BuildMessage(uint32_t messageId, const defs::connection_t& r
  */
 template <typename T, typename A, typename MsgBldr>
 defs::char_buffer_t
-BuildMessage(const T& message, uint32_t messageId, const defs::connection_t& responseAddress,
+BuildMessage(const T& message, int32_t messageId, const defs::connection_t& responseAddress,
              const defs::connection_t& fallbackResponseAddress, const MsgBldr& messageBuilder)
 {
     auto responseConn =

@@ -76,12 +76,10 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    TcpTypedServer(boost_ioservice_t& ioService, const uint16_t listenPort,
-                   const size_t                            minAmountToRead,
+    TcpTypedServer(boost_ioservice_t& ioService, uint16_t listenPort, size_t minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr&                          messageBuilder,
-                   const eSendOption                       sendOption = eSendOption::nagleOn)
+                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn)
         : m_messageBuilder{messageBuilder}
         , m_tcpServer{ioService,
                       listenPort,
@@ -109,11 +107,10 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    TcpTypedServer(const uint16_t listenPort, const size_t minAmountToRead,
+    TcpTypedServer(uint16_t listenPort, size_t minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr&                          messageBuilder,
-                   const eSendOption                       sendOption = eSendOption::nagleOn)
+                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn)
         : m_messageBuilder{messageBuilder}
         , m_tcpServer{
               listenPort, minAmountToRead, checkBytesLeftToRead, messageReceivedHandler, sendOption}
@@ -125,6 +122,10 @@ public:
     TcpTypedServer(const TcpTypedServer&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     TcpTypedServer& operator=(const TcpTypedServer&) = delete;
+    /*! \brief Move constructor - deleted. */
+    TcpTypedServer(TcpTypedServer&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    TcpTypedServer& operator=(TcpTypedServer&&) = delete;
     /*!
      * \brief Retrieve this server's connection details for a given client.
      * \param[in] client - A client's connection details.
@@ -179,7 +180,7 @@ public:
      * method gives best performance when sending.
      */
     void SendMessageToClientAsync(
-        const defs::connection_t& client, const uint32_t messageId,
+        const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         auto messageBuffer = messages::BuildMessage(
@@ -195,7 +196,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     bool
-    SendMessageToClientSync(const defs::connection_t& client, const uint32_t messageId,
+    SendMessageToClientSync(const defs::connection_t& client, int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         auto messageBuffer = messages::BuildMessage(
@@ -213,7 +214,7 @@ public:
      * method gives best performance when sending.
      */
     void
-    SendMessageToAllClients(const uint32_t            messageId,
+    SendMessageToAllClients(int32_t                   messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         auto messageBuffer =
@@ -237,7 +238,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     void SendMessageToClientAsync(
-        const T& message, const defs::connection_t& client, const uint32_t messageId,
+        const T& message, const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         auto messageBuffer =
@@ -260,8 +261,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool
-    SendMessageToClientSync(const T& message, const defs::connection_t& client,
-                            const uint32_t            messageId,
+    SendMessageToClientSync(const T& message, const defs::connection_t& client, int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         auto messageBuffer =
@@ -285,7 +285,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     void
-    SendMessageToAllClients(const T& message, const uint32_t messageId,
+    SendMessageToAllClients(const T& message, int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         auto messageBuffer =
@@ -301,7 +301,7 @@ private:
     /*! \brief Referece to our message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief General purpose TCP server object. */
-    TcpServer m_tcpServer;
+    TcpServer m_tcpServer{};
 };
 
 } // namespace tcp

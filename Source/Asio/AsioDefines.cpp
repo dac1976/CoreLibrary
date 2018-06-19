@@ -27,34 +27,44 @@
 #include "Asio/AsioDefines.h"
 #include <cstdio>
 
-namespace core_lib {
-namespace asio {
-namespace defs {
+namespace core_lib
+{
+namespace asio
+{
+namespace defs
+{
 
 MessageHeader::MessageHeader()
 {
-    std::snprintf(responseAddress, sizeof(responseAddress), "%s", "0.0.0.0");
-    std::snprintf(magicString, sizeof(magicString), "%s", DEFAULT_MAGIC_STRING);
+    std::snprintf(static_cast<char*>(responseAddress), sizeof(responseAddress), "%s", "0.0.0.0");
+    std::snprintf(static_cast<char*>(magicString),
+                  sizeof(magicString),
+                  "%s",
+                  static_cast<char const*>(DEFAULT_MAGIC_STRING));
 }
 
 #ifdef USE_EXPLICIT_MOVE_
-    MessageHeader::MessageHeader(MessageHeader&& header)
-    {
-        std::snprintf(responseAddress, sizeof(responseAddress), "%s", "0.0.0.0");
-        std::snprintf(magicString, sizeof(magicString), "%s", DEFAULT_MAGIC_STRING);
-        *this = std::move(header);
-    }
-    
-	MessageHeader& MessageHeader::operator=(MessageHeader&& header)
-    {
-        std::swap_ranges(magicString, magicString + MAGIC_STRING_LEN, header.magicString);
-        std::swap_ranges(responseAddress, responseAddress + RESPONSE_ADDRESS_LEN, header.responseAddress);
-        std::swap(responsePort, header.responsePort);
-        std::swap(messageId, header.messageId);
-        std::swap(archiveType, header.archiveType);
-        std::swap(totalLength, header.totalLength);
-        return *this;
-    }
+MessageHeader::MessageHeader(MessageHeader&& header)
+{
+    std::snprintf(static_cast<char*>(responseAddress), sizeof(responseAddress), "%s", "0.0.0.0");
+    std::snprintf(static_cast<char*>(magicString),
+                  sizeof(magicString),
+                  "%s",
+                  static_cast<char const*>(DEFAULT_MAGIC_STRING));
+    *this = std::move(header);
+}
+
+MessageHeader& MessageHeader::operator=(MessageHeader&& header)
+{
+    std::swap_ranges(magicString, magicString + MAGIC_STRING_LEN, header.magicString);
+    std::swap_ranges(
+        responseAddress, responseAddress + RESPONSE_ADDRESS_LEN, header.responseAddress);
+    std::swap(responsePort, header.responsePort);
+    std::swap(messageId, header.messageId);
+    std::swap(archiveType, header.archiveType);
+    std::swap(totalLength, header.totalLength);
+    return *this;
+}
 #endif
 
 } // namespace defs

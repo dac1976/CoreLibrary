@@ -45,7 +45,7 @@ class TcpClient;
 /*! \brief A class implementing a collection of bi-directional TCP clients. */
 class CORE_LIBRARY_DLL_SHARED_API TcpClientList final
 {
-    typedef std::shared_ptr<TcpClient> client_ptr_t;
+    typedef std::shared_ptr<TcpClient>                 client_ptr_t;
     typedef std::map<defs::connection_t, client_ptr_t> client_map_t;
 
 public:
@@ -55,7 +55,10 @@ public:
     TcpClientList(TcpClientList const&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     TcpClientList& operator=(TcpClientList const&) = delete;
-
+    /*! \brief Move constructor - deleted. */
+    TcpClientList(TcpClientList&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    TcpClientList& operator=(TcpClientList&&) = delete;
     /*!
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
@@ -73,29 +76,29 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    TcpClientList(boost_ioservice_t& ioService, size_t const minAmountToRead,
+    TcpClientList(boost_ioservice_t& ioService, size_t minAmountToRead,
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
-                  eSendOption const                       sendOption = eSendOption::nagleOn);
+                  eSendOption                             sendOption = eSendOption::nagleOn);
     /*!
-    * \brief Initialisation constructor.
-    * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-    * header block.
-    * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
-    * computing how many bytes are left until a complete message.
-    * \param[in] messageReceivedHandler - Function object capable of handling a received message and
-    * disptaching it accordingly.
-    * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-    *
-    * This constructor does not require an external IO service to run instead it creates
-    * its own IO service object along with its own thread. For very simple cases this
-    * version will be fine but in more performance and resource critical situations the
-    * external IO service constructor is recommened.
-    */
-    TcpClientList(size_t const                            minAmountToRead,
+     * \brief Initialisation constructor.
+     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
+     * header block.
+     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and disptaching it accordingly. \param[in] sendOption - Socket send option to control the use
+     * of the Nagle algorithm.
+     *
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
+     * version will be fine but in more performance and resource critical situations the
+     * external IO service constructor is recommened.
+     */
+    TcpClientList(size_t                                  minAmountToRead,
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
-                  eSendOption const                       sendOption = eSendOption::nagleOn);
+                  eSendOption                             sendOption = eSendOption::nagleOn);
     /*! \brief Default destructor. */
     ~TcpClientList();
     /*!
@@ -172,14 +175,14 @@ private:
     size_t m_minAmountToRead{0};
     /*! \brief Function object capable of decoding the message and computing how many bytes are left
      * until a complete message. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
     /*! \brief Function object cpable of handling a received message and disptaching it accordingly.
      */
-    defs::message_received_handler_t m_messageReceivedHandler;
+    defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket send option to control the use of the Nagle algorithm. */
     eSendOption m_sendOption{eSendOption::nagleOn};
     /*! \brief Map of TCP clients. */
-    client_map_t m_clientMap;
+    client_map_t m_clientMap{};
 };
 
 } // namespace tcp

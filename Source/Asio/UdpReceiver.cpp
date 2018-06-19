@@ -40,12 +40,11 @@ namespace udp
 // ****************************************************************************
 // 'class UdpReceiver' definition
 // ****************************************************************************
-UdpReceiver::UdpReceiver(boost_ioservice_t& ioService, const uint16_t listenPort,
+UdpReceiver::UdpReceiver(boost_ioservice_t& ioService, uint16_t listenPort,
                          const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                          const defs::message_received_handler_t& messageReceivedHandler,
-                         const eUdpOption receiveOptions, const size_t receiveBufferSize)
-    : m_closing(false)
-    , m_ioService(ioService)
+                         eUdpOption receiveOptions, size_t receiveBufferSize)
+    : m_ioService(ioService)
     , m_listenPort{listenPort}
     , m_socket{m_ioService}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -55,12 +54,11 @@ UdpReceiver::UdpReceiver(boost_ioservice_t& ioService, const uint16_t listenPort
     CreateUdpSocket(receiveOptions, receiveBufferSize);
 }
 
-UdpReceiver::UdpReceiver(const uint16_t                          listenPort,
+UdpReceiver::UdpReceiver(uint16_t                                listenPort,
                          const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                          const defs::message_received_handler_t& messageReceivedHandler,
-                         const eUdpOption receiveOptions, const size_t receiveBufferSize)
-    : m_closing(false)
-    , m_ioThreadGroup{new IoServiceThreadGroup(1)}
+                         eUdpOption receiveOptions, size_t receiveBufferSize)
+    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
     , m_listenPort{listenPort}
@@ -89,7 +87,7 @@ uint16_t UdpReceiver::ListenPort() const
     return m_listenPort;
 }
 
-void UdpReceiver::CreateUdpSocket(const eUdpOption receiveOptions, const size_t receiveBufferSize)
+void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBufferSize)
 {
     m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
 
@@ -120,7 +118,7 @@ void UdpReceiver::StartAsyncRead()
                                             boost_placeholders::bytes_transferred));
 }
 
-void UdpReceiver::ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived)
+void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
 {
     if (IsClosing() || error)
     {
@@ -149,7 +147,7 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, const size_t 
     StartAsyncRead();
 }
 
-void UdpReceiver::SetClosing(const bool closing)
+void UdpReceiver::SetClosing(bool closing)
 {
     std::lock_guard<std::mutex> lock(m_closingMutex);
     m_closing = closing;

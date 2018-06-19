@@ -63,10 +63,9 @@ public:
      */
     SimpleMulticastSender(boost_ioservice_t&        ioService,
                           const defs::connection_t& multicastConnection,
-                          const std::string&        interfaceAddress = "",
-                          const bool                enableLoopback   = true,
-                          const eMulticastTTL       ttl              = eMulticastTTL::sameSubnet,
-                          const size_t              sendBufferSize   = DEFAULT_UDP_BUF_SIZE);
+                          const std::string& interfaceAddress = "", bool enableLoopback = true,
+                          eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
+                          size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address
@@ -82,14 +81,17 @@ public:
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     SimpleMulticastSender(const defs::connection_t& multicastConnection,
-                          const std::string&        interfaceAddress = "",
-                          const bool                enableLoopback   = true,
-                          const eMulticastTTL       ttl              = eMulticastTTL::sameSubnet,
-                          const size_t              sendBufferSize   = DEFAULT_UDP_BUF_SIZE);
+                          const std::string& interfaceAddress = "", bool enableLoopback = true,
+                          eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
+                          size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     SimpleMulticastSender(const SimpleMulticastSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     SimpleMulticastSender& operator=(const SimpleMulticastSender&) = delete;
+    /*! \brief Move constructor - deleted. */
+    SimpleMulticastSender(SimpleMulticastSender&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    SimpleMulticastSender& operator=(SimpleMulticastSender&&) = delete;
     /*! \brief Default destructor. */
     ~SimpleMulticastSender() = default;
     /*!
@@ -110,7 +112,7 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const uint32_t            messageId,
+    bool SendMessage(int32_t                   messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a full message to the server.
@@ -123,7 +125,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message, const uint32_t messageId,
+    bool SendMessage(const T& message, int32_t messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_multicastTypedSender.SendMessage<T, A>(message, messageId, responseAddress);
@@ -131,9 +133,9 @@ public:
 
 private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */
-    messages::MessageBuilder m_messageBuilder;
+    messages::MessageBuilder m_messageBuilder{};
     /*! \brief Our actual typed Multicast sender object. */
-    MulticastTypedSender<messages::MessageBuilder> m_multicastTypedSender;
+    MulticastTypedSender<messages::MessageBuilder> m_multicastTypedSender{};
 };
 
 } // namespace udp

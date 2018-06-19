@@ -27,34 +27,43 @@
 #include "Asio/SimpleMulticastReceiver.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
-SimpleMulticastReceiver::SimpleMulticastReceiver(boost_ioservice_t& ioService
-                                                 , const defs::connection_t& multicastConnection
-                                                 , const defs::default_message_dispatcher_t& messageDispatcher
-                                                 , const std::string& interfaceAddress
-                                                 , const size_t receiveBufferSize)
+SimpleMulticastReceiver::SimpleMulticastReceiver(
+    boost_ioservice_t& ioService, const defs::connection_t& multicastConnection,
+    const defs::default_message_dispatcher_t& messageDispatcher,
+    const std::string& interfaceAddress, size_t receiveBufferSize)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
-    , m_mcastReceiver{ioService, multicastConnection
-                    , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
-                    , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                    , interfaceAddress, receiveBufferSize}
+    , m_mcastReceiver{ioService,
+                      multicastConnection,
+                      std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
+                                std::placeholders::_1),
+                      std::bind(&messages::MessageHandler::MessageReceivedHandler,
+                                &m_messageHandler, std::placeholders::_1),
+                      interfaceAddress,
+                      receiveBufferSize}
 {
 }
 
-SimpleMulticastReceiver::SimpleMulticastReceiver(const defs::connection_t& multicastConnection
-                                                 , const defs::default_message_dispatcher_t& messageDispatcher
-                                                 , const std::string& interfaceAddress
-                                                 , const size_t receiveBufferSize)
+SimpleMulticastReceiver::SimpleMulticastReceiver(
+    const defs::connection_t&                 multicastConnection,
+    const defs::default_message_dispatcher_t& messageDispatcher,
+    const std::string& interfaceAddress, size_t receiveBufferSize)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
-    , m_mcastReceiver{multicastConnection
-                       , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
-                       , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                       , interfaceAddress, receiveBufferSize}
+    , m_mcastReceiver{multicastConnection,
+                      std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
+                                std::placeholders::_1),
+                      std::bind(&messages::MessageHandler::MessageReceivedHandler,
+                                &m_messageHandler, std::placeholders::_1),
+                      interfaceAddress,
+                      receiveBufferSize}
 {
 }
 
@@ -67,7 +76,6 @@ std::string SimpleMulticastReceiver::InterfaceAddress() const
 {
     return m_mcastReceiver.InterfaceAddress();
 }
-
 
 } // namespace udp
 } // namespace asio

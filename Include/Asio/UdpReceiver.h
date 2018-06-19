@@ -67,11 +67,11 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    UdpReceiver(boost_ioservice_t& ioService, const uint16_t listenPort,
+    UdpReceiver(boost_ioservice_t& ioService, uint16_t listenPort,
                 const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                 const defs::message_received_handler_t& messageReceivedHandler,
-                const eUdpOption                        receiveOptions    = eUdpOption::broadcast,
-                const size_t                            receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                eUdpOption                              receiveOptions    = eUdpOption::broadcast,
+                size_t                                  receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
@@ -87,15 +87,18 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    UdpReceiver(const uint16_t                          listenPort,
-                const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+    UdpReceiver(uint16_t listenPort, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                 const defs::message_received_handler_t& messageReceivedHandler,
-                const eUdpOption                        receiveOptions    = eUdpOption::broadcast,
-                const size_t                            receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                eUdpOption                              receiveOptions    = eUdpOption::broadcast,
+                size_t                                  receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     UdpReceiver(const UdpReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     UdpReceiver& operator=(const UdpReceiver&) = delete;
+    /*! \brief Move constructor - deleted. */
+    UdpReceiver(UdpReceiver&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    UdpReceiver& operator=(UdpReceiver&&) = delete;
     /*! \brief Destructor. */
     ~UdpReceiver();
     /*!
@@ -110,7 +113,7 @@ private:
      * \param[in] receiveOptions - UDP receive options.
      * \param[in] receiveBufferSize - Receive buffer size.
      */
-    void CreateUdpSocket(const eUdpOption receiveOptions, const size_t receiveBufferSize);
+    void CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBufferSize);
     /*! \brief Start asynchronous read. */
     void StartAsyncRead();
     /*!
@@ -118,12 +121,12 @@ private:
      * \param[in] error - Error code if one has happened.
      * \param[in] bytesReceived - Number of bytes received.
      */
-    void ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived);
+    void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived);
     /*!
      * \brief Set closing state.
      * \param[in] closing - Closing socket flag.
      */
-    void SetClosing(const bool closing);
+    void SetClosing(bool closing);
     /*!
      * \brief Get closing state.
      * \return True if closing socket, false otherwise.
@@ -136,27 +139,27 @@ private:
     /*! \brief Mutex to protect shutdown of receiver. */
     mutable std::mutex m_closingMutex;
     /*! \brief Event to synchronise shutdown of receiver. */
-    threads::SyncEvent m_closedEvent;
+    threads::SyncEvent m_closedEvent{};
     /*! \brief Flag to show were are closing socket. */
-    bool m_closing;
+    bool m_closing{false};
     /*! \brief I/O service thread group. */
     std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
     boost_ioservice_t& m_ioService;
     /*! \brief Receiver listen port. */
-    const uint16_t m_listenPort{0};
+    uint16_t m_listenPort{0};
     /*! \brief UDP socket. */
     boost_udp_t::socket m_socket;
     /*! \brief Callback to check number of bytes left to read. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
     /*! \brief Callback to handle received message. */
-    defs::message_received_handler_t m_messageReceivedHandler;
+    defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket receive buffer. */
-    defs::char_buffer_t m_receiveBuffer;
+    defs::char_buffer_t m_receiveBuffer{};
     /*! \brief Message buffer. */
-    defs::char_buffer_t m_messageBuffer;
+    defs::char_buffer_t m_messageBuffer{};
     /*! \brief Sender end-point. */
-    boost_udp_t::endpoint m_senderEndpoint;
+    boost_udp_t::endpoint m_senderEndpoint{};
 };
 
 } // namespace udp

@@ -47,6 +47,5 @@ var searchData=
   ['_7etrow',['~TRow',['../classcore__lib_1_1csv__grid_1_1_t_row.html#ae98fbe5717b960a5648b1ccc028b36e1',1,'core_lib::csv_grid::TRow']]],
   ['_7eudpreceiver',['~UdpReceiver',['../classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#ad458661b4af72b9d28d171bc5175061e',1,'core_lib::asio::udp::UdpReceiver']]],
   ['_7eudpsender',['~UdpSender',['../classcore__lib_1_1asio_1_1udp_1_1_udp_sender.html#a1ae5c578c423bcaebfe630662307c26c',1,'core_lib::asio::udp::UdpSender']]],
-  ['_7eudptypedsender',['~UdpTypedSender',['../classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a0f70e83b1f76bcca209835844c16fbf3',1,'core_lib::asio::udp::UdpTypedSender']]],
-  ['_7exunknownconnectionerror',['~xUnknownConnectionError',['../classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html#ab123efd37a140592e70d66100047362e',1,'core_lib::asio::tcp::xUnknownConnectionError']]]
+  ['_7eudptypedsender',['~UdpTypedSender',['../classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a0f70e83b1f76bcca209835844c16fbf3',1,'core_lib::asio::udp::UdpTypedSender']]]
 ];

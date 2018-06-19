@@ -140,7 +140,7 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(uint32_t                  messageId,
+    bool SendMessage(int32_t                   messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_multicastSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
@@ -156,7 +156,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message, uint32_t messageId,
+    bool SendMessage(const T& message, int32_t messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_multicastSender.SendMessage(
@@ -167,7 +167,7 @@ private:
     /*! \brief Const reference to message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief Underlying UDP sender object. */
-    MulticastSender m_multicastSender;
+    MulticastSender m_multicastSender{};
 };
 
 } // namespace udp

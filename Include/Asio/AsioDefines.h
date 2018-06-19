@@ -178,7 +178,7 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
     /*! \brief Response port. */
     uint16_t responsePort{0};
     /*! \brief Unique message identifier. */
-    uint32_t messageId{0};
+    int32_t messageId{0};
     /*! \brief Archive type used to serialize payload following this header. */
     eArchiveType archiveType{eArchiveType::portableBinary};
     /*! \brief Total message length including this header. */

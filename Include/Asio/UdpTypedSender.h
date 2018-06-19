@@ -70,9 +70,8 @@ public:
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     UdpTypedSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
-                   const MsgBldr&   messageBuilder,
-                   const eUdpOption sendOption     = eUdpOption::broadcast,
-                   const size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+                   const MsgBldr& messageBuilder, eUdpOption sendOption = eUdpOption::broadcast,
+                   size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
         : m_messageBuilder{messageBuilder}
         , m_udpSender{ioService, receiver, sendOption, sendBufferSize}
     {
@@ -90,8 +89,8 @@ public:
      * external IO service constructor is recommened.
      */
     UdpTypedSender(const defs::connection_t& receiver, const MsgBldr& messageBuilder,
-                   const eUdpOption sendOption     = eUdpOption::broadcast,
-                   const size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+                   eUdpOption sendOption     = eUdpOption::broadcast,
+                   size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE)
 
         : m_messageBuilder{messageBuilder}
         , m_udpSender{receiver, sendOption, sendBufferSize}
@@ -101,6 +100,10 @@ public:
     UdpTypedSender(const UdpTypedSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     UdpTypedSender& operator=(const UdpTypedSender&) = delete;
+    /*! \brief Move constructor - deleted. */
+    UdpTypedSender(UdpTypedSender&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    UdpTypedSender& operator=(UdpTypedSender&&) = delete;
     /*! \brief Default destructor. */
     ~UdpTypedSender() = default;
     /*!
@@ -119,7 +122,7 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const uint32_t            messageId,
+    bool SendMessage(int32_t                   messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_udpSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
@@ -135,7 +138,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message, const uint32_t messageId,
+    bool SendMessage(const T& message, int32_t messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_udpSender.SendMessage(
@@ -146,7 +149,7 @@ private:
     /*! \brief Const reference to message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief Underlying UDP sender object. */
-    UdpSender m_udpSender;
+    UdpSender m_udpSender{};
 };
 
 } // namespace udp

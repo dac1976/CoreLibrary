@@ -72,10 +72,9 @@ public:
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     TcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
-              const size_t                            minAmountToRead,
-              const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+              size_t minAmountToRead, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
               const defs::message_received_handler_t& messageReceivedHandler,
-              const eSendOption                       sendOption = eSendOption::nagleOn);
+              eSendOption                             sendOption = eSendOption::nagleOn);
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
@@ -92,16 +91,20 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    TcpClient(const defs::connection_t& server, const size_t minAmountToRead,
+    TcpClient(const defs::connection_t& server, size_t minAmountToRead,
               const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
               const defs::message_received_handler_t& messageReceivedHandler,
-              const eSendOption                       sendOption = eSendOption::nagleOn);
+              eSendOption                             sendOption = eSendOption::nagleOn);
     /*! \brief Default destructor. */
     ~TcpClient();
     /*! \brief Copy constructor - deleted. */
     TcpClient(const TcpClient&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     TcpClient& operator=(const TcpClient&) = delete;
+    /*! \brief Move constructor - deleted. */
+    TcpClient(TcpClient&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    TcpClient& operator=(TcpClient&&) = delete;
     /*!
      * \brief Retrieve server connection details.
      * \return - Connection object describing target server's address and port.
@@ -155,17 +158,17 @@ private:
     /*! \brief I/O service reference. */
     boost_ioservice_t& m_ioService;
     /*! \brief Server connection details. */
-    const defs::connection_t m_server;
+    defs::connection_t m_server{};
     /*! \brief Minimum amount to read from socket. */
-    const size_t m_minAmountToRead{0};
+    size_t m_minAmountToRead{0};
     /*! \brief Callback to check number of bytes left to read. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
     /*! \brief Callback to handle received message. */
-    defs::message_received_handler_t m_messageReceivedHandler;
+    defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket send option. */
-    const eSendOption m_sendOption{eSendOption::nagleOn};
+    eSendOption m_sendOption{eSendOption::nagleOn};
     /*! \brief TCP connections object. */
-    TcpConnections m_serverConnection;
+    TcpConnections m_serverConnection{};
 };
 
 } // namespace tcp

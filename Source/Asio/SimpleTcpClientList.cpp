@@ -34,7 +34,7 @@ namespace tcp
 
 SimpleTcpClientList::SimpleTcpClientList(
     boost_ioservice_t& ioService, defs::default_message_dispatcher_t const& messageDispatcher,
-    eSendOption const sendOption)
+    eSendOption sendOption)
     : m_ioServicePtr(&ioService)
     , m_messageDispatcher(messageDispatcher)
     , m_sendOption(sendOption)
@@ -42,7 +42,7 @@ SimpleTcpClientList::SimpleTcpClientList(
 }
 
 SimpleTcpClientList::SimpleTcpClientList(
-    defs::default_message_dispatcher_t const& messageDispatcher, eSendOption const sendOption)
+    defs::default_message_dispatcher_t const& messageDispatcher, eSendOption sendOption)
     : m_messageDispatcher(messageDispatcher)
     , m_sendOption(sendOption)
 {
@@ -116,7 +116,7 @@ void SimpleTcpClientList::CloseConnections()
 }
 
 void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
-                                                   uint32_t const            messageId,
+                                                   int32_t                   messageId,
                                                    defs::connection_t const& responseAddress)
 {
     auto clientPtr = FindTcpClient(server);
@@ -133,7 +133,7 @@ void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& ser
 }
 
 bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& server,
-                                                  uint32_t const            messageId,
+                                                  int32_t                   messageId,
                                                   defs::connection_t const& responseAddress)
 {
     bool success   = false;

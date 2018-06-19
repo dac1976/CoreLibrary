@@ -45,7 +45,6 @@ var dir_cd8f788b2c3d76b815cf5350446e93a9 =
       [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection" ]
     ] ],
     [ "TcpConnections.h", "_tcp_connections_8h.html", [
-      [ "xUnknownConnectionError", "classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error.html", "classcore__lib_1_1asio_1_1tcp_1_1x_unknown_connection_error" ],
       [ "TcpConnections", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections" ]
     ] ],
     [ "TcpServer.h", "_tcp_server_8h.html", [

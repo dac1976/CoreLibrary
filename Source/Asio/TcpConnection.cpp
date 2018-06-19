@@ -41,10 +41,10 @@ namespace tcp
 // 'class TcpConnection' definition
 // ****************************************************************************
 TcpConnection::TcpConnection(boost_ioservice_t& ioService, TcpConnections& connections,
-                             const size_t                            minAmountToRead,
+                             size_t                                  minAmountToRead,
                              const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                              const defs::message_received_handler_t& messageReceivedHandler,
-                             const eSendOption                       sendOption)
+                             eSendOption                             sendOption)
     : m_closing{false}
     , m_ioService(ioService)
     , m_strand{ioService}
@@ -94,7 +94,7 @@ void TcpConnection::CloseConnection()
     m_closedEvent.Wait();
 }
 
-void TcpConnection::SetClosing(const bool closing)
+void TcpConnection::SetClosing(bool closing)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
     m_closing = closing;
@@ -127,7 +127,7 @@ void TcpConnection::StartAsyncRead()
     AsyncReadFromSocket(m_minAmountToRead);
 }
 
-void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
+void TcpConnection::AsyncReadFromSocket(size_t amountToRead)
 {
     m_receiveBuffer.resize(amountToRead);
     // We do not need a strand here as a connection object
@@ -143,8 +143,8 @@ void TcpConnection::AsyncReadFromSocket(const size_t amountToRead)
                                        amountToRead));
 }
 
-void TcpConnection::ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived,
-                                 const size_t bytesExpected)
+void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived,
+                                 size_t bytesExpected)
 {
     size_t numBytes    = 0;
     bool   clearMsgBuf = false;
@@ -210,12 +210,12 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
     return m_sendSuccess;
 }
 
-void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message, const bool setSuccessFlag)
+void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message, bool setSuccessFlag)
 {
     SyncWriteToSocket(message, setSuccessFlag);
 }
 
-void TcpConnection::SyncWriteToSocket(const defs::char_buffer_t& message, const bool setSuccessFlag)
+void TcpConnection::SyncWriteToSocket(const defs::char_buffer_t& message, bool setSuccessFlag)
 {
     boost_asio::async_write(m_socket,
                             boost_asio::buffer(message),
@@ -229,8 +229,8 @@ void TcpConnection::SyncWriteToSocket(const defs::char_buffer_t& message, const 
     m_sendEvent.Wait();
 }
 
-void TcpConnection::WriteComplete(const boost_sys::error_code& error, const std::size_t bytesSent,
-                                  const bool setSuccessFlag)
+void TcpConnection::WriteComplete(const boost_sys::error_code& error, std::size_t bytesSent,
+                                  bool setSuccessFlag)
 {
     if (setSuccessFlag)
     {

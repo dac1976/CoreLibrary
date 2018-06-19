@@ -60,10 +60,10 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleUdpReceiver(boost_ioservice_t& ioService, const uint16_t listenPort,
+    SimpleUdpReceiver(boost_ioservice_t& ioService, uint16_t listenPort,
                       const defs::default_message_dispatcher_t& messageDispatcher,
-                      const eUdpOption receiveOptions    = eUdpOption::broadcast,
-                      const size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                      eUdpOption receiveOptions    = eUdpOption::broadcast,
+                      size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
@@ -76,14 +76,18 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    SimpleUdpReceiver(const uint16_t                            listenPort,
+    SimpleUdpReceiver(uint16_t                                  listenPort,
                       const defs::default_message_dispatcher_t& messageDispatcher,
-                      const eUdpOption receiveOptions    = eUdpOption::broadcast,
-                      const size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                      eUdpOption receiveOptions    = eUdpOption::broadcast,
+                      size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     SimpleUdpReceiver(const SimpleUdpReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     SimpleUdpReceiver& operator=(const SimpleUdpReceiver&) = delete;
+    /*! \brief Move constructor - deleted. */
+    SimpleUdpReceiver(SimpleUdpReceiver&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    SimpleUdpReceiver& operator=(SimpleUdpReceiver&&) = delete;
     /*! \brief Default destructor. */
     ~SimpleUdpReceiver() = default;
     /*!
@@ -94,9 +98,9 @@ public:
 
 private:
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
-    messages::MessageHandler m_messageHandler;
+    messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed UDP receiver object. */
-    UdpReceiver m_udpReceiver;
+    UdpReceiver m_udpReceiver{};
 };
 
 } // namespace udp

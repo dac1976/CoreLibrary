@@ -27,51 +27,55 @@
 #include "Asio/TcpClient.h"
 #include "Asio/TcpConnection.h"
 
-namespace core_lib {
-namespace asio {
-namespace tcp {
+namespace core_lib
+{
+namespace asio
+{
+namespace tcp
+{
 
 // ****************************************************************************
 // 'class TcpClient' definition
 // ****************************************************************************
-TcpClient::TcpClient(boost_ioservice_t& ioService
-					 , const defs::connection_t& server
-					 , const size_t minAmountToRead
-					 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-					 , const defs::message_received_handler_t& messageReceivedHandler
-					 , const eSendOption sendOption)
-	: m_ioService(ioService), m_server{server}
-	, m_minAmountToRead{minAmountToRead}
-	, m_checkBytesLeftToRead{checkBytesLeftToRead}
-	, m_messageReceivedHandler{messageReceivedHandler}
-	, m_sendOption{sendOption}
+TcpClient::TcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
+                     size_t                                  minAmountToRead,
+                     const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                     const defs::message_received_handler_t& messageReceivedHandler,
+                     eSendOption                             sendOption)
+    : m_ioService(ioService)
+    , m_server{server}
+    , m_minAmountToRead{minAmountToRead}
+    , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_messageReceivedHandler{messageReceivedHandler}
+    , m_sendOption{sendOption}
 {
-	CreateConnection();
+    CreateConnection();
 }
 
-TcpClient::TcpClient(const defs::connection_t& server
-					 , const size_t minAmountToRead
-					 , const defs::check_bytes_left_to_read_t& checkBytesLeftToRead
-					 , const defs::message_received_handler_t& messageReceivedHandler
-					 , const eSendOption sendOption)
-	: m_ioThreadGroup{new IoServiceThreadGroup(2)} // 2 threads we can send/receive to/from the server
-	, m_ioService(m_ioThreadGroup->IoService())
-	, m_server{server}, m_minAmountToRead{minAmountToRead}
-	, m_checkBytesLeftToRead{checkBytesLeftToRead}
-	, m_messageReceivedHandler{messageReceivedHandler}
-	, m_sendOption{sendOption}
+TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
+                     const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                     const defs::message_received_handler_t& messageReceivedHandler,
+                     eSendOption                             sendOption)
+    : m_ioThreadGroup{new IoServiceThreadGroup(2)}
+    // 2 threads we can send/receive to/from the server
+    , m_ioService(m_ioThreadGroup->IoService())
+    , m_server{server}
+    , m_minAmountToRead{minAmountToRead}
+    , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_messageReceivedHandler{messageReceivedHandler}
+    , m_sendOption{sendOption}
 {
-	CreateConnection();
+    CreateConnection();
 }
 
 TcpClient::~TcpClient()
 {
-	CloseConnection();
+    CloseConnection();
 }
 
 auto TcpClient::ServerConnection() const -> defs::connection_t
 {
-	return m_server;
+    return m_server;
 }
 
 bool TcpClient::Connected() const
@@ -81,12 +85,12 @@ bool TcpClient::Connected() const
 
 auto TcpClient::GetClientDetailsForServer() const -> defs::connection_t
 {
-	return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
+    return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
 }
 
 void TcpClient::CloseConnection()
 {
-	m_serverConnection.CloseConnections();
+    m_serverConnection.CloseConnections();
 }
 
 void TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
@@ -109,33 +113,33 @@ bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
 
 void TcpClient::CreateConnection()
 {
-	try
-	{
-		auto connection = std::make_shared<TcpConnection>(m_ioService
-														  , m_serverConnection
-														  , m_minAmountToRead
-														  , m_checkBytesLeftToRead
-														  , m_messageReceivedHandler
-														  , m_sendOption);
-		connection->Connect(m_server);
-	}
-	catch(boost::system::system_error& )
-	{
-		//NOTE: We catch here because if this fails in constructor
-		// we want our TcpClient to stay viable as calling
-		// TcpClient::SendMessageToServer* later will attempt
-		// to reconnect. Only catch boost::system::system_error
-		// exceptions as any other ones are a problem we should
-		// definitely still propogate.
-	}
+    try
+    {
+        auto connection = std::make_shared<TcpConnection>(m_ioService,
+                                                          m_serverConnection,
+                                                          m_minAmountToRead,
+                                                          m_checkBytesLeftToRead,
+                                                          m_messageReceivedHandler,
+                                                          m_sendOption);
+        connection->Connect(m_server);
+    }
+    catch (boost::system::system_error&)
+    {
+        // NOTE: We catch here because if this fails in constructor
+        // we want our TcpClient to stay viable as calling
+        // TcpClient::SendMessageToServer* later will attempt
+        // to reconnect. Only catch boost::system::system_error
+        // exceptions as any other ones are a problem we should
+        // definitely still propogate.
+    }
 }
 
 bool TcpClient::CheckAndCreateConnection()
 {
-	if (m_serverConnection.Empty())
-	{
-		CreateConnection();
-	}
+    if (m_serverConnection.Empty())
+    {
+        CreateConnection();
+    }
 
     return !m_serverConnection.Empty();
 }

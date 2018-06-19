@@ -33,10 +33,10 @@ namespace asio
 namespace tcp
 {
 
-TcpClientList::TcpClientList(boost_ioservice_t& ioService, size_t const minAmountToRead,
+TcpClientList::TcpClientList(boost_ioservice_t& ioService, size_t minAmountToRead,
                              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                              defs::message_received_handler_t const& messageReceivedHandler,
-                             eSendOption const                       sendOption)
+                             eSendOption                             sendOption)
     : m_ioServicePtr(&ioService)
     , m_minAmountToRead(minAmountToRead)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
@@ -45,10 +45,10 @@ TcpClientList::TcpClientList(boost_ioservice_t& ioService, size_t const minAmoun
 {
 }
 
-TcpClientList::TcpClientList(size_t const                            minAmountToRead,
+TcpClientList::TcpClientList(size_t                                  minAmountToRead,
                              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                              defs::message_received_handler_t const& messageReceivedHandler,
-                             eSendOption const                       sendOption)
+                             eSendOption                             sendOption)
     : m_minAmountToRead(minAmountToRead)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
     , m_messageReceivedHandler(messageReceivedHandler)

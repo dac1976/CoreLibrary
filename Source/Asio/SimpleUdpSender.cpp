@@ -27,26 +27,24 @@
 #include "Asio/SimpleUdpSender.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
-SimpleUdpSender::SimpleUdpSender(boost_ioservice_t& ioService
-                                 , const defs::connection_t& receiver
-                                 , const eUdpOption sendOption
-                                 , const size_t sendBufferSize)
-    : m_udpTypedSender{ioService, receiver, m_messageBuilder
-                       , sendOption, sendBufferSize}
+SimpleUdpSender::SimpleUdpSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
+                                 eUdpOption sendOption, size_t sendBufferSize)
+    : m_udpTypedSender{ioService, receiver, m_messageBuilder, sendOption, sendBufferSize}
 {
 }
 
-SimpleUdpSender::SimpleUdpSender(const defs::connection_t& receiver
-                                 , const eUdpOption sendOption
-                                 , const size_t sendBufferSize)
-    : m_udpTypedSender{receiver, m_messageBuilder
-                       , sendOption, sendBufferSize}
+SimpleUdpSender::SimpleUdpSender(const defs::connection_t& receiver, eUdpOption sendOption,
+                                 size_t sendBufferSize)
+    : m_udpTypedSender{receiver, m_messageBuilder, sendOption, sendBufferSize}
 {
 }
 
@@ -55,8 +53,7 @@ auto SimpleUdpSender::ReceiverConnection() const -> defs::connection_t
     return m_udpTypedSender.ReceiverConnection();
 }
 
-bool SimpleUdpSender::SendMessage(const uint32_t messageId
-                                  , const defs::connection_t& responseAddress)
+bool SimpleUdpSender::SendMessage(int32_t messageId, const defs::connection_t& responseAddress)
 {
     return m_udpTypedSender.SendMessage(messageId, responseAddress);
 }

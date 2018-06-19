@@ -25,6 +25,7 @@
  */
 
 #include "Asio/TcpConnections.h"
+#include <stdexcept>
 #include <boost/throw_exception.hpp>
 #include "Asio/TcpConnection.h"
 
@@ -36,23 +37,10 @@ namespace tcp
 {
 
 // ****************************************************************************
-// 'class xUnknownConnectionError' definition
-// ****************************************************************************
-xUnknownConnectionError::xUnknownConnectionError()
-    : exceptions::DetailedException("unknown connection")
-{
-}
-
-xUnknownConnectionError::xUnknownConnectionError(const std::string& message)
-    : exceptions::DetailedException(message)
-{
-}
-
-// ****************************************************************************
 // 'class TcpConnections' definition
 // ****************************************************************************
 
-void TcpConnections::Add(defs::tcp_conn_ptr_t connection)
+void TcpConnections::Add(defs::tcp_conn_ptr_t const& connection)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
     m_connections.emplace(
@@ -61,7 +49,7 @@ void TcpConnections::Add(defs::tcp_conn_ptr_t connection)
         connection);
 }
 
-void TcpConnections::Remove(defs::tcp_conn_ptr_t connection)
+void TcpConnections::Remove(defs::tcp_conn_ptr_t const& connection)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
     m_connections.erase(std::make_pair(connection->Socket().remote_endpoint().address().to_string(),
@@ -131,7 +119,7 @@ auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd
 
     if (connIt == m_connections.end())
     {
-        BOOST_THROW_EXCEPTION(xUnknownConnectionError());
+        BOOST_THROW_EXCEPTION(std::invalid_argument("unknown connection"));
     }
     else
     {

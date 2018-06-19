@@ -106,7 +106,7 @@ void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 // Utility functions
 // ****************************************************************************
 
-auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, uint32_t messageId,
+auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, int32_t messageId,
                 const defs::connection_t& responseAddress) -> defs::MessageHeader
 {
     assert(magicString.size() < defs::MAGIC_STRING_LEN);
@@ -155,7 +155,7 @@ MessageBuilder::MessageBuilder(const std::string& magicString)
 {
 }
 
-auto MessageBuilder::Build(uint32_t messageId, const defs::connection_t& responseAddress) const
+auto MessageBuilder::Build(int32_t messageId, const defs::connection_t& responseAddress) const
     -> defs::char_buffer_t
 {
     auto header = FillHeader(m_magicString, defs::eArchiveType::raw, messageId, responseAddress);

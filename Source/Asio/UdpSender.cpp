@@ -41,7 +41,7 @@ namespace udp
 // 'class UdpSender' definition
 // ****************************************************************************
 UdpSender::UdpSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
-                     const eUdpOption sendOption, const size_t sendBufferSize)
+                     eUdpOption sendOption, size_t sendBufferSize)
     : m_ioService(ioService)
     , m_receiver{receiver}
     , m_socket{ioService}
@@ -49,8 +49,8 @@ UdpSender::UdpSender(boost_ioservice_t& ioService, const defs::connection_t& rec
     CreateUdpSocket(sendOption, sendBufferSize);
 }
 
-UdpSender::UdpSender(const defs::connection_t& receiver, const eUdpOption sendOption,
-                     const size_t sendBufferSize)
+UdpSender::UdpSender(const defs::connection_t& receiver, eUdpOption sendOption,
+                     size_t sendBufferSize)
     : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
@@ -70,7 +70,7 @@ bool UdpSender::SendMessage(const defs::char_buffer_t& message)
     return SyncSendTo(message);
 }
 
-void UdpSender::CreateUdpSocket(const eUdpOption sendOption, const size_t sendBufferSize)
+void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
 {
     boost_udp_t::resolver        receiverResolver(m_ioService);
     boost_udp_t::resolver::query resolverQuery(

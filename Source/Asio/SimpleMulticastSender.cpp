@@ -27,30 +27,40 @@
 #include "Asio/SimpleMulticastSender.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The udp namespace. */
-namespace udp {
+namespace udp
+{
 
-SimpleMulticastSender::SimpleMulticastSender(boost_ioservice_t& ioService
-                                             , const defs::connection_t& multicastConnection
-                                             , const std::string& interfaceAddress
-                                             , const bool enableLoopback
-                                             , const eMulticastTTL ttl
-                                             , const size_t sendBufferSize)
-    : m_multicastTypedSender{ioService, multicastConnection, m_messageBuilder
-                       , interfaceAddress, enableLoopback, ttl, sendBufferSize}
+SimpleMulticastSender::SimpleMulticastSender(boost_ioservice_t&        ioService,
+                                             const defs::connection_t& multicastConnection,
+                                             const std::string&        interfaceAddress,
+                                             bool enableLoopback, eMulticastTTL ttl,
+                                             size_t sendBufferSize)
+    : m_multicastTypedSender{ioService,
+                             multicastConnection,
+                             m_messageBuilder,
+                             interfaceAddress,
+                             enableLoopback,
+                             ttl,
+                             sendBufferSize}
 {
 }
 
-SimpleMulticastSender::SimpleMulticastSender(const defs::connection_t& multicastConnection
-                                              , const std::string& interfaceAddress
-                                              , const bool enableLoopback
-                                              , const eMulticastTTL ttl
-                                              , const size_t sendBufferSize)
-    : m_multicastTypedSender{multicastConnection, m_messageBuilder
-                            , interfaceAddress, enableLoopback, ttl, sendBufferSize}
+SimpleMulticastSender::SimpleMulticastSender(const defs::connection_t& multicastConnection,
+                                             const std::string&        interfaceAddress,
+                                             bool enableLoopback, eMulticastTTL ttl,
+                                             size_t sendBufferSize)
+    : m_multicastTypedSender{multicastConnection,
+                             m_messageBuilder,
+                             interfaceAddress,
+                             enableLoopback,
+                             ttl,
+                             sendBufferSize}
 {
 }
 
@@ -64,8 +74,8 @@ std::string SimpleMulticastSender::InterfaceAddress() const
     return m_multicastTypedSender.InterfaceAddress();
 }
 
-bool SimpleMulticastSender::SendMessage(const uint32_t messageId
-                 , const defs::connection_t& responseAddress)
+bool SimpleMulticastSender::SendMessage(int32_t                   messageId,
+                                        const defs::connection_t& responseAddress)
 {
     return m_multicastTypedSender.SendMessage(messageId, responseAddress);
 }

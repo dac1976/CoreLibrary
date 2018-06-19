@@ -58,9 +58,9 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleTcpServer(boost_ioservice_t& ioService, const uint16_t listenPort,
+    SimpleTcpServer(boost_ioservice_t& ioService, uint16_t listenPort,
                     const defs::default_message_dispatcher_t& messageDispatcher,
-                    const eSendOption                         sendOption = eSendOption::nagleOn);
+                    eSendOption                               sendOption = eSendOption::nagleOn);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
@@ -72,15 +72,19 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    SimpleTcpServer(const uint16_t                            listenPort,
+    SimpleTcpServer(uint16_t                                  listenPort,
                     const defs::default_message_dispatcher_t& messageDispatcher,
-                    const eSendOption                         sendOption = eSendOption::nagleOn);
+                    eSendOption                               sendOption = eSendOption::nagleOn);
     /*! \brief Default destructor. */
     ~SimpleTcpServer() = default;
     /*! \brief Copy constructor - deleted. */
     SimpleTcpServer(const SimpleTcpServer&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     SimpleTcpServer& operator=(const SimpleTcpServer&) = delete;
+    /*! \brief Move constructor - deleted. */
+    SimpleTcpServer(SimpleTcpServer&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    SimpleTcpServer& operator=(SimpleTcpServer&&) = delete;
     /*!
      * \brief Retrieve this server's connection details for a given client.
      * \param[in] client - A client's connection details.
@@ -120,7 +124,7 @@ public:
      * the client.
      */
     void SendMessageToClientAsync(
-        const defs::connection_t& client, const uint32_t messageId,
+        const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
      * \brief Send a header-only message to a client synchronously.
@@ -134,7 +138,7 @@ public:
      * object to the client.
      */
     bool SendMessageToClientSync(
-        const defs::connection_t& client, const uint32_t messageId,
+        const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
      * \brief Send a header-only message to all clients asynchronously.
@@ -149,8 +153,7 @@ public:
      * the clients.
      */
     void SendMessageToAllClients(
-        const uint32_t            messageId,
-        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
+        int32_t messageId, const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
      * \brief Send a full message to a client asynchronously.
      * \param[in] message - The message of type T to send behind the header serialized to an
@@ -167,7 +170,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     void SendMessageToClientAsync(
-        const T& message, const defs::connection_t& client, const uint32_t messageId,
+        const T& message, const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         m_tcpTypedServer.SendMessageToClientAsync<T, A>(
@@ -187,8 +190,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool
-    SendMessageToClientSync(const T& message, const defs::connection_t& client,
-                            const uint32_t            messageId,
+    SendMessageToClientSync(const T& message, const defs::connection_t& client, int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         return m_tcpTypedServer.SendMessageToClientSync<T, A>(
@@ -209,7 +211,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     void
-    SendMessageToAllClients(const T& message, const uint32_t messageId,
+    SendMessageToAllClients(const T& message, int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         m_tcpTypedServer.SendMessageToAllClients<T, A>(message, messageId, responseAddress);
@@ -219,9 +221,9 @@ private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */
     messages::MessageBuilder m_messageBuilder{};
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
-    messages::MessageHandler m_messageHandler;
+    messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed TCP server object. */
-    TcpTypedServer<messages::MessageBuilder> m_tcpTypedServer;
+    TcpTypedServer<messages::MessageBuilder> m_tcpTypedServer{};
 };
 
 } // namespace tcp

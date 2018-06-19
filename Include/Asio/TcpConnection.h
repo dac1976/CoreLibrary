@@ -64,15 +64,18 @@ public:
      * \param[in] messageReceivedHandler - Message received handler callback.
      * \param[in] sendOption - Socket send option.
      */
-    TcpConnection(boost_ioservice_t& ioService, TcpConnections& connections,
-                  const size_t                            minAmountToRead,
+    TcpConnection(boost_ioservice_t& ioService, TcpConnections& connections, size_t minAmountToRead,
                   const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                   const defs::message_received_handler_t& messageReceivedHandler,
-                  const eSendOption                       sendOption = eSendOption::nagleOn);
+                  eSendOption                             sendOption = eSendOption::nagleOn);
     /*! \brief Copy constructor deleted. */
     TcpConnection(const TcpConnection&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     TcpConnection& operator=(const TcpConnection&) = delete;
+    /*! \brief Move constructor deleted. */
+    TcpConnection(TcpConnection&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    TcpConnection& operator=(TcpConnection&&) = delete;
     /*! \brief Default virtual destructor. */
     virtual ~TcpConnection() = default;
     /*!
@@ -111,7 +114,7 @@ private:
      * \brief Set closing flag.
      * \param[in] closing - Closing state flag.
      */
-    void SetClosing(const bool closing);
+    void SetClosing(bool closing);
     /*!
      * \brief Is the connection closing?
      * \return True if closing, false otherwise.
@@ -125,43 +128,43 @@ private:
      * \brief Asyncrhonously read an amount.
      * \param[in] amountToRead - Number of bytes to read from socket.
      */
-    void AsyncReadFromSocket(const size_t amountToRead);
+    void AsyncReadFromSocket(size_t amountToRead);
     /*!
      * \brief Read completion handler.
      * \param[in] error - Error flag if fault occurred.
      * \param[in] bytesReceived - Number of bytes received.
      * \param[in] bytesExpected - Number of bytes expected.
      */
-    void ReadComplete(const boost_sys::error_code& error, const size_t bytesReceived,
-                      const size_t bytesExpected);
+    void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived,
+                      size_t bytesExpected);
     /*!
      * \brief Asynchrounously write to the socket.
      * \param[in] message - Message buffer to write.
      * \param[in] setSuccessFlag - control setting of success flag.
      */
-    void AsyncWriteToSocket(defs::char_buffer_t message, const bool setSuccessFlag);
+    void AsyncWriteToSocket(defs::char_buffer_t message, bool setSuccessFlag);
     /*!
      * \brief Synchrounously write to the socket.
      * \param[in] message - Message buffer to write.
      * \param[in] setSuccessFlag - control setting of success flag.
      */
-    void SyncWriteToSocket(const defs::char_buffer_t& message, const bool setSuccessFlag);
+    void SyncWriteToSocket(const defs::char_buffer_t& message, bool setSuccessFlag);
     /*!
      * \brief Write completion handler.
      * \param[in] error - Error flag if fault occurred.
      * \param[in] bytesSent - Number of bytes sent.
      * \param[in] setSuccessFlag - control setting of success flag.
      */
-    void WriteComplete(const boost_sys::error_code& error, const std::size_t bytesSent,
-                       const bool setSuccessFlag);
+    void WriteComplete(const boost_sys::error_code& error, std::size_t bytesSent,
+                       bool setSuccessFlag);
 
 private:
     /*! \brief Access mutex for thread safety. */
     mutable std::mutex m_mutex;
     /*! \brief Connection close event. */
-    threads::SyncEvent m_closedEvent;
+    threads::SyncEvent m_closedEvent{};
     /*! \brief Connection send event. */
-    threads::SyncEvent m_sendEvent;
+    threads::SyncEvent m_sendEvent{};
     /*! \brief Closing connection flag. */
     bool m_closing{false};
     /*! \brief I/O serviceobject reference. */
@@ -173,17 +176,17 @@ private:
     /*! \brief Reference to TCP connections object. */
     TcpConnections& m_connections;
     /*! \brief Minimum amount to read from socket. */
-    const size_t m_minAmountToRead{0};
+    size_t m_minAmountToRead{0};
     /*! \brief Check bytes left to read callback. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
     /*! \brief Message received handler callback. */
-    defs::message_received_handler_t m_messageReceivedHandler;
+    defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket send option. */
-    const eSendOption m_sendOption{eSendOption::nagleOn};
+    eSendOption m_sendOption{eSendOption::nagleOn};
     /*! \brief Socket receive buffer. */
-    defs::char_buffer_t m_receiveBuffer;
+    defs::char_buffer_t m_receiveBuffer{};
     /*! \brief Message buffer. */
-    defs::char_buffer_t m_messageBuffer;
+    defs::char_buffer_t m_messageBuffer{};
     /*! \brief Send message success flag. */
     bool m_sendSuccess{false};
 };

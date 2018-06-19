@@ -78,11 +78,10 @@ public:
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     TcpTypedClient(boost_ioservice_t& ioService, const defs::connection_t& server,
-                   const size_t                            minAmountToRead,
+                   size_t                                  minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr&                          messageBuilder,
-                   const eSendOption                       sendOption = eSendOption::nagleOn)
+                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn)
         : m_messageBuilder{messageBuilder}
         , m_tcpClient{ioService,
                       server,
@@ -109,11 +108,10 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommened.
      */
-    TcpTypedClient(const defs::connection_t& server, const size_t minAmountToRead,
+    TcpTypedClient(const defs::connection_t& server, size_t minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr&                          messageBuilder,
-                   const eSendOption                       sendOption = eSendOption::nagleOn)
+                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn)
         : m_messageBuilder{messageBuilder}
         , m_tcpClient{
               server, minAmountToRead, checkBytesLeftToRead, messageReceivedHandler, sendOption}
@@ -125,6 +123,10 @@ public:
     TcpTypedClient(const TcpTypedClient&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     TcpTypedClient& operator=(const TcpTypedClient&) = delete;
+    /*! \brief Move constructor - deleted. */
+    TcpTypedClient(TcpTypedClient&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    TcpTypedClient& operator=(TcpTypedClient&&) = delete;
     /*!
      * \brief Retrieve server connection details.
      * \return - Connection object describing target server's address and port.
@@ -172,7 +174,7 @@ public:
      * only sends a simple core_lib::asio::defs::MessageHeader object to
      * the server.
      */
-    void SendMessageToServerAsync(const uint32_t            messageId,
+    void SendMessageToServerAsync(int32_t                   messageId,
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         auto messageBuffer = messages::BuildMessage(
@@ -186,7 +188,7 @@ public:
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(const uint32_t            messageId,
+    bool SendMessageToServerSync(int32_t                   messageId,
                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         try
@@ -213,7 +215,7 @@ public:
      * method gives best performance when sending.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    void SendMessageToServerAsync(const T& message, const uint32_t messageId,
+    void SendMessageToServerAsync(const T& message, int32_t messageId,
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
@@ -230,7 +232,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerSync(const T& message, const uint32_t messageId,
+    bool SendMessageToServerSync(const T& message, int32_t messageId,
                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         try
@@ -249,7 +251,7 @@ private:
     /*! \brief Referece to our message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief General purpose TCP client object. */
-    TcpClient m_tcpClient;
+    TcpClient m_tcpClient{};
 };
 
 } // namespace tcp

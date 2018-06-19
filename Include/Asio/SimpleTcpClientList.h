@@ -42,8 +42,8 @@ namespace tcp
 /*! \brief A class implementing a collection of bi-directional simple TCP clients. */
 class CORE_LIBRARY_DLL_SHARED_API SimpleTcpClientList final
 {
-    typedef std::shared_ptr<SimpleTcpClient> client_ptr_t;
-    typedef std::map<defs::connection_t, client_ptr_t> client_map_t;
+    using client_ptr_t = std::shared_ptr<SimpleTcpClient>;
+    using client_map_t = std::map<defs::connection_t, client_ptr_t>;
 
 public:
     /*! \brief Default constructor - deleted. */
@@ -52,7 +52,10 @@ public:
     SimpleTcpClientList(SimpleTcpClientList const&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     SimpleTcpClientList& operator=(SimpleTcpClientList const&) = delete;
-
+    /*! \brief Move constructor - deleted. */
+    SimpleTcpClientList(SimpleTcpClientList&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    SimpleTcpClientList& operator=(SimpleTcpClientList&&) = delete;
     /*!
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
@@ -67,20 +70,20 @@ public:
      */
     SimpleTcpClientList(boost_ioservice_t&                        ioService,
                         defs::default_message_dispatcher_t const& messageDispatcher,
-                        eSendOption const sendOption = eSendOption::nagleOn);
+                        eSendOption sendOption = eSendOption::nagleOn);
     /*!
-    * \brief Initialisation constructor.
-    * \param[in] messageDispatcher - Function object capable of handling a received message and
-    * disptaching it accordingly.
-    * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-    *
-    * This constructor does not require an external IO service to run instead it creates
-    * its own IO service object along with its own thread. For very simple cases this
-    * version will be fine but in more performance and resource critical situations the
-    * external IO service constructor is recommened.
-    */
+     * \brief Initialisation constructor.
+     * \param[in] messageDispatcher - Function object capable of handling a received message and
+     * disptaching it accordingly.
+     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+     *
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
+     * version will be fine but in more performance and resource critical situations the
+     * external IO service constructor is recommened.
+     */
     SimpleTcpClientList(defs::default_message_dispatcher_t const& messageDispatcher,
-                        eSendOption const sendOption = eSendOption::nagleOn);
+                        eSendOption sendOption = eSendOption::nagleOn);
     /*! \brief Default destructor. */
     ~SimpleTcpClientList();
     /*!
@@ -117,21 +120,21 @@ public:
      */
     void CloseConnections();
     /*!
-      * \brief Send a header-only message to the server asynchronously.
-      * \param[in] server - Connection object describing server's address and port.
-      * \param[in] messageId - Unique message ID to insert into message header.
-      * \param[in] responseAddress - (Optional) The address and port where the server should send
+     * \brief Send a header-only message to the server asynchronously.
+     * \param[in] server - Connection object describing server's address and port.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send
      * the
-      * response, the default value will mean the response address will point to this client socket.
-      *
-      * This function is asynchronous so will return immediately, with no
-      * success or failure reported, unless an exception is thrown. This
-      * method gives best performance when sending. Furthermore this method
-      * only sends a simple core_lib::asio::defs::MessageHeader object to
-      * the server.
-      */
+     * response, the default value will mean the response address will point to this client socket.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unless an exception is thrown. This
+     * method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::defs::MessageHeader object to
+     * the server.
+     */
     void
-    SendMessageToServerAsync(defs::connection_t const& server, uint32_t const messageId,
+    SendMessageToServerAsync(defs::connection_t const& server, int32_t messageId,
                              defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a header-only message to the server synchronously.
@@ -144,7 +147,7 @@ public:
      * This method only sends a simple core_lib::asio::defs::MessageHeader
      * object to the server.
      */
-    bool SendMessageToServerSync(defs::connection_t const& server, uint32_t const messageId,
+    bool SendMessageToServerSync(defs::connection_t const& server, int32_t messageId,
                                  defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a full message to the server asynchronously.
@@ -162,7 +165,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     void SendMessageToServerAsync(defs::connection_t const& server, T const& message,
-                                  int32_t const             messageId,
+                                  int32_t                   messageId,
                                   defs::connection_t const& responseAddress = defs::NULL_CONNECTION)
     {
         auto clientPtr = FindTcpClient(server);
@@ -191,7 +194,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessageToServerSync(defs::connection_t const& server, T const& message,
-                                 uint32_t const            messageId,
+                                 int32_t                   messageId,
                                  defs::connection_t const& responseAddress = defs::NULL_CONNECTION)
     {
         bool success   = false;
@@ -229,11 +232,11 @@ private:
     boost_ioservice_t* m_ioServicePtr{nullptr};
     /*! \brief Function object cpable of handling a received message and disptaching it accordingly.
      */
-    defs::default_message_dispatcher_t m_messageDispatcher;
+    defs::default_message_dispatcher_t m_messageDispatcher{};
     /*! \brief Socket send option to control the use of the Nagle algorithm. */
     eSendOption m_sendOption{eSendOption::nagleOn};
     /*! \brief Map of simple TCP clients. */
-    client_map_t m_clientMap;
+    client_map_t m_clientMap{};
 };
 
 } // namespace tcp

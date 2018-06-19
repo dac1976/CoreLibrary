@@ -2,7 +2,7 @@ var searchData=
 [
   ['acceptconnection',['AcceptConnection',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#ad1a3cf817a9088f12b50fd193b5e8f5b',1,'core_lib::asio::tcp::TcpServer']]],
   ['accepthandler',['AcceptHandler',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_server.html#a4c9afec65ddb79c1b2e99a6e280cbe36',1,'core_lib::asio::tcp::TcpServer']]],
-  ['add',['Add',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#a439df3c18a5b26bcb821cf137d092067',1,'core_lib::asio::tcp::TcpConnections']]],
+  ['add',['Add',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#a1dd96c46007ee7de63453d26758f3b25',1,'core_lib::asio::tcp::TcpConnections']]],
   ['addcolumn',['AddColumn',['../classcore__lib_1_1csv__grid_1_1_t_row.html#a0cf9aa2495db750d0c419f97b7ea7672',1,'core_lib::csv_grid::TRow::AddColumn(V value)'],['../classcore__lib_1_1csv__grid_1_1_t_row.html#af0cda17ef8dd64808ad783d745855f0e',1,'core_lib::csv_grid::TRow::AddColumn()']]],
   ['addcolumntoallrows',['AddColumnToAllRows',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a7bcb903673789282804132372780741c',1,'core_lib::csv_grid::TCsvGrid']]],
   ['addkey',['AddKey',['../classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a3a192c4fa950241a54e362368ff56527',1,'core_lib::ini_file::if_private::SectionDetails']]],
@@ -23,6 +23,6 @@ var searchData=
   ['arraydeleter',['ArrayDeleter',['../structcore__lib_1_1threads_1_1_array_deleter.html',1,'core_lib::threads']]],
   ['asiodefines_2ecpp',['AsioDefines.cpp',['../_asio_defines_8cpp.html',1,'']]],
   ['asiodefines_2eh',['AsioDefines.h',['../_asio_defines_8h.html',1,'']]],
-  ['asyncreadfromsocket',['AsyncReadFromSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aec2a02f875d849ec21a053b9999f52f9',1,'core_lib::asio::tcp::TcpConnection']]],
-  ['asyncwritetosocket',['AsyncWriteToSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a96ec877359e48cf93d5f4773aa354272',1,'core_lib::asio::tcp::TcpConnection']]]
+  ['asyncreadfromsocket',['AsyncReadFromSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aeba56be7724b1c215869bc06eb820b6b',1,'core_lib::asio::tcp::TcpConnection']]],
+  ['asyncwritetosocket',['AsyncWriteToSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a1075efcd849927249b4dfdab171c7216',1,'core_lib::asio::tcp::TcpConnection']]]
 ];

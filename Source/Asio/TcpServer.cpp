@@ -25,6 +25,7 @@
  */
 
 #include "Asio/TcpServer.h"
+#include <stdexcept>
 #include <boost/bind.hpp>
 #include "Asio/TcpConnection.h"
 
@@ -38,11 +39,10 @@ namespace tcp
 // ****************************************************************************
 // 'class TcpServer' definition
 // ****************************************************************************
-TcpServer::TcpServer(boost_ioservice_t& ioService, const uint16_t listenPort,
-                     const size_t                            minAmountToRead,
+TcpServer::TcpServer(boost_ioservice_t& ioService, uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     const eSendOption                       sendOption)
+                     eSendOption                             sendOption)
     : m_ioService(ioService)
     , m_listenPort{listenPort}
     , m_minAmountToRead{minAmountToRead}
@@ -53,10 +53,10 @@ TcpServer::TcpServer(boost_ioservice_t& ioService, const uint16_t listenPort,
     OpenAcceptor();
 }
 
-TcpServer::TcpServer(const uint16_t listenPort, const size_t minAmountToRead,
+TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     const eSendOption                       sendOption)
+                     eSendOption                             sendOption)
     : m_ioThreadGroup{new IoServiceThreadGroup(std::thread::hardware_concurrency())}
     // Num logical cores threads as we can send/receive to/from multiple clients
     , m_ioService(m_ioThreadGroup->IoService())
@@ -106,8 +106,8 @@ void TcpServer::OpenAcceptor()
 {
     if (!m_acceptor || !m_acceptor->is_open())
     {
-        m_acceptor.reset(new boost_tcp_acceptor_t(
-            m_ioService, boost_tcp_t::endpoint(boost_tcp_t::v4(), m_listenPort)));
+        m_acceptor = std::make_unique<boost_tcp_acceptor_t>(
+            m_ioService, boost_tcp_t::endpoint(boost_tcp_t::v4(), m_listenPort));
         AcceptConnection();
     }
 }

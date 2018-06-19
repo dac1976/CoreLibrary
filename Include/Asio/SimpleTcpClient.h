@@ -61,7 +61,7 @@ public:
      */
     SimpleTcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
                     const defs::default_message_dispatcher_t& messageDispatcher,
-                    const eSendOption                         sendOption = eSendOption::nagleOn);
+                    eSendOption                               sendOption = eSendOption::nagleOn);
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
@@ -75,13 +75,17 @@ public:
      */
     SimpleTcpClient(const defs::connection_t&                 server,
                     const defs::default_message_dispatcher_t& messageDispatcher,
-                    const eSendOption                         sendOption = eSendOption::nagleOn);
+                    eSendOption                               sendOption = eSendOption::nagleOn);
     /*! \brief Default destructor. */
     ~SimpleTcpClient() = default;
     /*! \brief Copy constructor - deleted. */
     SimpleTcpClient(const SimpleTcpClient&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     SimpleTcpClient& operator=(const SimpleTcpClient&) = delete;
+    /*! \brief Move constructor - deleted. */
+    SimpleTcpClient(SimpleTcpClient&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    SimpleTcpClient& operator=(SimpleTcpClient&&) = delete;
     /*!
      * \brief Retrieve server connection details.
      * \return - Connection object describing target server's address and port.
@@ -115,7 +119,7 @@ public:
      * the server.
      */
     void
-    SendMessageToServerAsync(const uint32_t            messageId,
+    SendMessageToServerAsync(int32_t                   messageId,
                              const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a header-only message to the server synchronously.
@@ -127,7 +131,7 @@ public:
      * This method only sends a simple core_lib::asio::defs::MessageHeader
      * object to the server.
      */
-    bool SendMessageToServerSync(const uint32_t            messageId,
+    bool SendMessageToServerSync(int32_t                   messageId,
                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a full message to the server asynchronously.
@@ -143,7 +147,7 @@ public:
      * uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    void SendMessageToServerAsync(const T& message, const uint32_t messageId,
+    void SendMessageToServerAsync(const T& message, int32_t messageId,
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         m_tcpTypedClient.SendMessageToServerAsync<T, A>(message, messageId, responseAddress);
@@ -160,7 +164,7 @@ public:
      * This method uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerSync(const T& message, const uint32_t messageId,
+    bool SendMessageToServerSync(const T& message, int32_t messageId,
                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         return m_tcpTypedClient.SendMessageToServerSync<T, A>(message, messageId, responseAddress);
@@ -170,9 +174,9 @@ private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */
     messages::MessageBuilder m_messageBuilder{};
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
-    messages::MessageHandler m_messageHandler;
+    messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed TCP client object. */
-    TcpTypedClient<messages::MessageBuilder> m_tcpTypedClient;
+    TcpTypedClient<messages::MessageBuilder> m_tcpTypedClient{};
 };
 
 } // namespace tcp

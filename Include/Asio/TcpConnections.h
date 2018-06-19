@@ -28,7 +28,6 @@
 #define TCPCONNECTIONS
 
 #include "AsioDefines.h"
-#include "Exceptions/DetailedException.h"
 #include <map>
 #include <mutex>
 
@@ -41,34 +40,6 @@ namespace asio
 /*! \brief The tcp namespace. */
 namespace tcp
 {
-
-/*!
- * \brief Unknown connection exception.
- *
- * This exception class is intended to be thrown when an unknown
- * connection is specified as an argument.
- */
-class CORE_LIBRARY_DLL_SHARED_API xUnknownConnectionError : public exceptions::DetailedException
-{
-public:
-    /*! \brief Default constructor. */
-    xUnknownConnectionError();
-    /*!
-     * \brief Initializing constructor.
-     * \param[in] message - A user specified message string.
-     */
-    explicit xUnknownConnectionError(const std::string& message);
-    /*! \brief Virtual destructor. */
-    ~xUnknownConnectionError() override = default;
-    /*! \brief Copy constructor. */
-    xUnknownConnectionError(const xUnknownConnectionError&) = default;
-    /*! \brief Copy assignment operator. */
-    xUnknownConnectionError& operator=(const xUnknownConnectionError&) = default;
-    /*! \brief Move constructor. */
-    xUnknownConnectionError(xUnknownConnectionError&&) = default;
-    /*! \brief Move assignment operator. */
-    xUnknownConnectionError& operator=(xUnknownConnectionError&&) = default;
-};
 
 /*! \brief Forward declaration of TCP connection class. */
 class TcpConnection;
@@ -89,16 +60,20 @@ public:
     TcpConnections(const TcpConnections&) = delete;
     /*! \brief Copy assignment operator - deleted. */
     TcpConnections& operator=(const TcpConnections&) = delete;
+    /*! \brief Move constructor - deleted. */
+    TcpConnections(TcpConnections&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
+    TcpConnections& operator=(TcpConnections&&) = delete;
     /*!
      * \brief Add a connection.
      * \param[in] connection - Shared pointer to connection object.
      */
-    void Add(defs::tcp_conn_ptr_t connection);
+    void Add(defs::tcp_conn_ptr_t const& connection);
     /*!
      * \brief Remove a connection.
      * \param[in] connection - Shared pointer to connection object.
      */
-    void Remove(defs::tcp_conn_ptr_t connection);
+    void Remove(defs::tcp_conn_ptr_t const& connection);
     /*!
      * \brief Get the number of connections.
      * \return Number of connections.
@@ -136,7 +111,7 @@ public:
      * \param[in] remoteEnd - Remote end's connection details.
      * \return Connection details for remote end.
      *
-     * Throws xUnknownConnectionError is remoteEnd is not valid.
+     * Throws std::invalid_argument if remoteEnd is not valid.
      */
     defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
 
@@ -144,9 +119,9 @@ private:
     /*! \brief Access mutex for thread safety. */
     mutable std::mutex m_mutex;
     /*! \brief Typedef to our connection map type. */
-    typedef std::map<defs::connection_t, defs::tcp_conn_ptr_t> tcp_conn_map;
+    using tcp_conn_map = std::map<defs::connection_t, defs::tcp_conn_ptr_t>;
     /*! \brief The connections map. */
-    tcp_conn_map m_connections;
+    tcp_conn_map m_connections{};
 };
 
 } // namespace tcp

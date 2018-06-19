@@ -28,41 +28,51 @@
 #include "Asio/SimpleTcpServer.h"
 
 /*! \brief The core_lib namespace. */
-namespace core_lib {
+namespace core_lib
+{
 /*! \brief The asio namespace. */
-namespace asio {
+namespace asio
+{
 /*! \brief The tcp namespace. */
-namespace tcp {
+namespace tcp
+{
 
 // ****************************************************************************
 // 'class SimpleTcpServer' definition
 // ****************************************************************************
-SimpleTcpServer::SimpleTcpServer(boost_ioservice_t& ioService
-                , const uint16_t listenPort
-                , const defs::default_message_dispatcher_t& messageDispatcher
-                , const eSendOption sendOption)
+SimpleTcpServer::SimpleTcpServer(boost_ioservice_t& ioService, uint16_t listenPort,
+                                 const defs::default_message_dispatcher_t& messageDispatcher,
+                                 eSendOption                               sendOption)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
-    , m_tcpTypedServer{ioService, listenPort, sizeof(defs::MessageHeader)
-                       , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
-                       , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                       , m_messageBuilder, sendOption}
-{
-
-}
-
-SimpleTcpServer::SimpleTcpServer(const uint16_t listenPort
-               , const defs::default_message_dispatcher_t& messageDispatcher
-               , const eSendOption sendOption)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
-    , m_tcpTypedServer{listenPort, sizeof(defs::MessageHeader)
-                       , std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler, std::placeholders::_1)
-                       , std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler, std::placeholders::_1)
-                       , m_messageBuilder, sendOption}
+    , m_tcpTypedServer{ioService,
+                       listenPort,
+                       sizeof(defs::MessageHeader),
+                       std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
+                                 std::placeholders::_1),
+                       std::bind(&messages::MessageHandler::MessageReceivedHandler,
+                                 &m_messageHandler, std::placeholders::_1),
+                       m_messageBuilder,
+                       sendOption}
 {
 }
 
-auto SimpleTcpServer::GetServerDetailsForClient(const defs::connection_t& client)
-    const -> defs::connection_t
+SimpleTcpServer::SimpleTcpServer(uint16_t                                  listenPort,
+                                 const defs::default_message_dispatcher_t& messageDispatcher,
+                                 eSendOption                               sendOption)
+    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
+    , m_tcpTypedServer{listenPort,
+                       sizeof(defs::MessageHeader),
+                       std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
+                                 std::placeholders::_1),
+                       std::bind(&messages::MessageHandler::MessageReceivedHandler,
+                                 &m_messageHandler, std::placeholders::_1),
+                       m_messageBuilder,
+                       sendOption}
+{
+}
+
+auto SimpleTcpServer::GetServerDetailsForClient(const defs::connection_t& client) const
+    -> defs::connection_t
 {
     return m_tcpTypedServer.GetServerDetailsForClient(client);
 }
@@ -87,20 +97,20 @@ void SimpleTcpServer::OpenAcceptor()
     m_tcpTypedServer.OpenAcceptor();
 }
 
-void SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t& client, const uint32_t messageId
-                                               , const defs::connection_t& responseAddress) const
+void SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t& client, int32_t messageId,
+                                               const defs::connection_t& responseAddress) const
 {
     m_tcpTypedServer.SendMessageToClientAsync(client, messageId, responseAddress);
 }
 
-bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t& client, const uint32_t messageId
-                                              , const defs::connection_t& responseAddress) const
+bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t& client, int32_t messageId,
+                                              const defs::connection_t& responseAddress) const
 {
     return m_tcpTypedServer.SendMessageToClientSync(client, messageId, responseAddress);
 }
 
-void SimpleTcpServer::SendMessageToAllClients(const uint32_t messageId
-                                              , const defs::connection_t& responseAddress) const
+void SimpleTcpServer::SendMessageToAllClients(int32_t                   messageId,
+                                              const defs::connection_t& responseAddress) const
 {
     m_tcpTypedServer.SendMessageToAllClients(messageId, responseAddress);
 }

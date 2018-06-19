@@ -67,7 +67,7 @@ public:
                             const defs::connection_t&                 multicastConnection,
                             const defs::default_message_dispatcher_t& messageDispatcher,
                             const std::string&                        interfaceAddress = "",
-                            const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                            size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address
@@ -84,10 +84,14 @@ public:
     SimpleMulticastReceiver(const defs::connection_t&                 multicastConnection,
                             const defs::default_message_dispatcher_t& messageDispatcher,
                             const std::string&                        interfaceAddress = "",
-                            const size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+                            size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     SimpleMulticastReceiver(const SimpleMulticastReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */
+    SimpleMulticastReceiver& operator=(SimpleMulticastReceiver&&) = delete;
+    /*! \brief Move constructor - deleted. */
+    SimpleMulticastReceiver(SimpleMulticastReceiver&&) = delete;
+    /*! \brief Move assignment operator - deleted. */
     SimpleMulticastReceiver& operator=(const SimpleMulticastReceiver&) = delete;
     /*! \brief Default destructor. */
     ~SimpleMulticastReceiver() = default;
@@ -104,9 +108,9 @@ public:
 
 private:
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
-    messages::MessageHandler m_messageHandler;
+    messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed multicast receiver object. */
-    MulticastReceiver m_mcastReceiver;
+    MulticastReceiver m_mcastReceiver{};
 };
 
 } // namespace udp
