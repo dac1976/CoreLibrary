@@ -167,7 +167,7 @@ private:
     /*! \brief Const reference to message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief Underlying UDP sender object. */
-    MulticastSender m_multicastSender{};
+    MulticastSender m_multicastSender;
 };
 
 } // namespace udp

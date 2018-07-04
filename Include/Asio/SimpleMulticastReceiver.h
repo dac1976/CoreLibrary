@@ -110,7 +110,7 @@ private:
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
     messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed multicast receiver object. */
-    MulticastReceiver m_mcastReceiver{};
+    MulticastReceiver m_mcastReceiver;
 };
 
 } // namespace udp

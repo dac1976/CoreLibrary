@@ -223,7 +223,7 @@ private:
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
     messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed TCP server object. */
-    TcpTypedServer<messages::MessageBuilder> m_tcpTypedServer{};
+    TcpTypedServer<messages::MessageBuilder> m_tcpTypedServer;
 };
 
 } // namespace tcp

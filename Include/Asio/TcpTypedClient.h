@@ -251,7 +251,7 @@ private:
     /*! \brief Referece to our message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief General purpose TCP client object. */
-    TcpClient m_tcpClient{};
+    TcpClient m_tcpClient;
 };
 
 } // namespace tcp

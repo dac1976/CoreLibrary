@@ -176,7 +176,7 @@ private:
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
     messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed TCP client object. */
-    TcpTypedClient<messages::MessageBuilder> m_tcpTypedClient{};
+    TcpTypedClient<messages::MessageBuilder> m_tcpTypedClient;
 };
 
 } // namespace tcp

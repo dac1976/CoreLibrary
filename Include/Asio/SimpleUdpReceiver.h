@@ -100,7 +100,7 @@ private:
     /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
     messages::MessageHandler m_messageHandler{};
     /*! \brief Our actual typed UDP receiver object. */
-    UdpReceiver m_udpReceiver{};
+    UdpReceiver m_udpReceiver;
 };
 
 } // namespace udp

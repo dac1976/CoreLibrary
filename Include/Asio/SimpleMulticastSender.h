@@ -135,7 +135,7 @@ private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */
     messages::MessageBuilder m_messageBuilder{};
     /*! \brief Our actual typed Multicast sender object. */
-    MulticastTypedSender<messages::MessageBuilder> m_multicastTypedSender{};
+    MulticastTypedSender<messages::MessageBuilder> m_multicastTypedSender;
 };
 
 } // namespace udp

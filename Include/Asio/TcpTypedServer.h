@@ -301,7 +301,7 @@ private:
     /*! \brief Referece to our message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief General purpose TCP server object. */
-    TcpServer m_tcpServer{};
+    TcpServer m_tcpServer;
 };
 
 } // namespace tcp
