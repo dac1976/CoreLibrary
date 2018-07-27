@@ -64,6 +64,8 @@ TcpClientList::~TcpClientList()
 auto TcpClientList::ServerConnection(defs::connection_t const& clientConn) const
     -> defs::connection_t
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     defs::connection_t server{defs::NULL_CONNECTION};
 
     for (auto& client : m_clientMap)
@@ -80,6 +82,8 @@ auto TcpClientList::ServerConnection(defs::connection_t const& clientConn) const
 
 bool TcpClientList::Connected(defs::connection_t const& server) const
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     bool connected = false;
     auto clientPtr = FindTcpClient(server);
 
@@ -94,6 +98,8 @@ bool TcpClientList::Connected(defs::connection_t const& server) const
 auto TcpClientList::GetClientDetailsForServer(defs::connection_t const& server) const
     -> defs::connection_t
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     defs::connection_t client{defs::NULL_CONNECTION};
     auto               clientPtr = FindTcpClient(server);
 
@@ -107,6 +113,8 @@ auto TcpClientList::GetClientDetailsForServer(defs::connection_t const& server) 
 
 void TcpClientList::CloseConnection(defs::connection_t const& server)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     auto clientPtr = FindTcpClient(server);
 
     if (clientPtr)
@@ -117,15 +125,26 @@ void TcpClientList::CloseConnection(defs::connection_t const& server)
 
 void TcpClientList::CloseConnections()
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     for (auto& client : m_clientMap)
     {
         client.second->CloseConnection();
     }
 }
 
+void TcpClientList::ClearConnections()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_clientMap.clear();
+}
+
 void TcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
                                              defs::char_buffer_t const& message)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     auto clientPtr = FindTcpClient(server);
 
     if (!clientPtr)
@@ -142,6 +161,8 @@ void TcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
 bool TcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
                                             defs::char_buffer_t const& message)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     bool success   = false;
     auto clientPtr = FindTcpClient(server);
 

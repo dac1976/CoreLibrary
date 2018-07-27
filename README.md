@@ -1,6 +1,6 @@
 # CoreLibrary #
 ## Introduction ##
-This library (CoreLibrary) is a collection of useful C++11/14 utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on. In other words a general collectio nof code that is very useful in many different C++ coding projects.
+This library (CoreLibrary) is a collection of useful C++1x utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on. In other words a general collectio nof code that is very useful in many different C++ coding projects.
 
 If you find any of this code useful and use it in your software or take parts of it to base your own work on then please give credit and respect the licence.
 
@@ -13,7 +13,7 @@ Copyright (C) 2014 onwards Duncan Crutchley.
 ## Requirements ##
 This library has been developed in Qt Creator for Windows and Linux. In Windows it is recommended to use the MSVC2015 or MSVC2017 tool chain from within Qt Creator to build and test the code. However, other compilers have been tested in Windows such as Clang 3.8+ and GCC (MinGW) 4.8.X+. In Linux the code has been tested with GCC 4.8.X+ and Clang 3.8+. I always try to use the newest stable version of any compiler that I build this code with. So as such I won't guarantee I'll maintain support for older compilers as I move my code on with improvements and new features.
 
-On Windows I am currently using MSVC 2017 64bit kit in Qt Creator 4.6.2/ Qt Framework 5.11. On Linux I am currently using GCC 8.1.1 and Clang 6.0.0 kits in Qt Creator 4.6.1/ Qt Framework 5.11.
+On Windows (Win10 64bit) I am currently using MSVC 2017 64bit kit in Qt Creator 4.7.0/ Qt Framework 5.11.11. On Linux (Manjaro) I am currently using GCC 8.1.1 and Clang 6.0.1 kits in Qt Creator 4.7.0 Qt Framework 5.11.1.
 
 The projects supplied for the library and unit tests are for Qt Creator and will work in Linux and Windows. To achieve this the projects rely on the custom mkspecs to be copied from the qt_custom_mkspecs folder into Qt's appropriate mkspec feature folder, e.g. <...>\Qt\5.8\msvc2015_64\mkspecs\features. Example mkspecs are provided for
 compatibility with MSVC2015/MSVC2017 32 bit and 64bit and Linux. These should be customized for the user's own system.

@@ -622,7 +622,7 @@ public:
     }
 
 private:
-    typedef std::shared_ptr<Message>                      message_t;
+    using message_t = std::shared_ptr<Message>;
     core_lib::threads::MessageQueueThread<int, message_t> m_mqt;
     std::map<int, size_t>                                 m_countMap;
 

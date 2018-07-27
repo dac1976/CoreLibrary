@@ -225,8 +225,8 @@ private:
     T             m_myMessage;
 };
 
-typedef TMessageDispatcher<MyMessage, core_lib::serialize::archives::in_port_bin_t>
-    MessageDispatcher;
+using MessageDispatcher =
+    TMessageDispatcher<MyMessage, core_lib::serialize::archives::in_port_bin_t>;
 
 #pragma pack(push, 1)
 struct MyPodMessage
@@ -248,8 +248,8 @@ MyPodMessage PodMessageFactory()
     return message;
 }
 
-typedef TMessageDispatcher<MyPodMessage, core_lib::serialize::archives::in_raw_t>
-    PodMessageDispatcher;
+using PodMessageDispatcher =
+    TMessageDispatcher<MyPodMessage, core_lib::serialize::archives::in_raw_t>;
 
 // ****************************************************************************
 // Asio tests

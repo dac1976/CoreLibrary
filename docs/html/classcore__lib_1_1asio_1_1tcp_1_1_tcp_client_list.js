@@ -1,13 +1,14 @@
 var classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list =
 [
-    [ "client_map_t", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#ab6aca355ecbfe652cde4c46855f5ccd7", null ],
-    [ "client_ptr_t", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a38df6bc56e7faedc53d467508b607ca5", null ],
+    [ "client_map_t", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a940b6cf3426badd05c87724d483d0ffd", null ],
+    [ "client_ptr_t", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#af0b149f3a993991db12fe827cda7ab9e", null ],
     [ "TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a741d3c9e0d2e0aeebafa10d12d499620", null ],
     [ "TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#ac586bf0af6a8a7a953518ff5f7d48442", null ],
     [ "TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#acd50895bbb00bdc6c95fbcd2e348f9b7", null ],
     [ "TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a7bf674e2b144810ad86616294b208a51", null ],
     [ "TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a2724426ea17ae1a50d4024f6db44091c", null ],
     [ "~TcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#aa1e7dcd6666ab26037e2a1a6245f9c81", null ],
+    [ "ClearConnections", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a118b46859b37a5301df01d74c0ff6beb", null ],
     [ "CloseConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#aa844216146b16fb44851e4367b6c8f47", null ],
     [ "CloseConnections", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#aed76281396fc673b983afd5731305562", null ],
     [ "Connected", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a0c934bbf7d3be47dc9701887c7590022", null ],
@@ -24,5 +25,6 @@ var classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list =
     [ "m_ioServicePtr", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#aa1b3b17d5835394cd8d794bd4d0fb4b1", null ],
     [ "m_messageReceivedHandler", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a5d07d56d46946556da91b914e2205a33", null ],
     [ "m_minAmountToRead", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#ae71b03498331edb80150bf3f19ac0e10", null ],
+    [ "m_mutex", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a82f880cd6b6089bed054a2ef34944c03", null ],
     [ "m_sendOption", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client_list.html#a78c6fb87f710bd66698063eea40936ca", null ]
 ];

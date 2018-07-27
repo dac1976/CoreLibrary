@@ -56,6 +56,8 @@ SimpleTcpClientList::~SimpleTcpClientList()
 auto SimpleTcpClientList::ServerConnection(defs::connection_t const& clientConn) const
     -> defs::connection_t
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     defs::connection_t server{defs::NULL_CONNECTION};
 
     for (auto& client : m_clientMap)
@@ -72,6 +74,8 @@ auto SimpleTcpClientList::ServerConnection(defs::connection_t const& clientConn)
 
 bool SimpleTcpClientList::Connected(defs::connection_t const& server) const
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     bool connected = false;
     auto clientPtr = FindTcpClient(server);
 
@@ -86,6 +90,8 @@ bool SimpleTcpClientList::Connected(defs::connection_t const& server) const
 auto SimpleTcpClientList::GetClientDetailsForServer(defs::connection_t const& server) const
     -> defs::connection_t
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     defs::connection_t client{defs::NULL_CONNECTION};
     auto               clientPtr = FindTcpClient(server);
 
@@ -99,6 +105,8 @@ auto SimpleTcpClientList::GetClientDetailsForServer(defs::connection_t const& se
 
 void SimpleTcpClientList::CloseConnection(defs::connection_t const& server)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     auto clientPtr = FindTcpClient(server);
 
     if (clientPtr)
@@ -109,16 +117,26 @@ void SimpleTcpClientList::CloseConnection(defs::connection_t const& server)
 
 void SimpleTcpClientList::CloseConnections()
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     for (auto& client : m_clientMap)
     {
         client.second->CloseConnection();
     }
 }
 
+void SimpleTcpClientList::ClearConnections()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_clientMap.clear();
+}
+
 void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
                                                    int32_t                   messageId,
                                                    defs::connection_t const& responseAddress)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     auto clientPtr = FindTcpClient(server);
 
     if (!clientPtr)
@@ -136,6 +154,8 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& serv
                                                   int32_t                   messageId,
                                                   defs::connection_t const& responseAddress)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     bool success   = false;
     auto clientPtr = FindTcpClient(server);
 

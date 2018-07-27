@@ -27,6 +27,7 @@
 #define TCPCLIENTLIST_H
 
 #include <map>
+#include <mutex>
 #include "AsioDefines.h"
 
 /*! \brief The core_lib namespace. */
@@ -45,8 +46,8 @@ class TcpClient;
 /*! \brief A class implementing a collection of bi-directional TCP clients. */
 class CORE_LIBRARY_DLL_SHARED_API TcpClientList final
 {
-    typedef std::shared_ptr<TcpClient>                 client_ptr_t;
-    typedef std::map<defs::connection_t, client_ptr_t> client_map_t;
+    using client_ptr_t = std::shared_ptr<TcpClient>;
+    using client_map_t = std::map<defs::connection_t, client_ptr_t>;
 
 public:
     /*! \brief Default constructor - deleted. */
@@ -134,6 +135,8 @@ public:
      * Note that this object uses RAII so will close all connections when destroyed.
      */
     void CloseConnections();
+    /*! \brief Destroy all TCP clients and clear map. */
+    void ClearConnections();
     /*!
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] server - Connection object describing server's address and port.
@@ -169,6 +172,8 @@ private:
     client_ptr_t FindTcpClient(defs::connection_t const& server) const;
 
 private:
+    /*! \brief Mutex to make access to map thread safe. */
+    mutable std::mutex m_mutex;
     /*! \brief External boost IO service to manage ASIO. */
     boost_ioservice_t* m_ioServicePtr{nullptr};
     /*! \brief Minimum amount of data to read on each receive, typical size of header block. */

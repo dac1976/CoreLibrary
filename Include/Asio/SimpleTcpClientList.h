@@ -27,6 +27,7 @@
 #define SIMPLETCPCLIENTLIST_H
 
 #include <map>
+#include <mutex>
 #include "Asio/SimpleTcpClient.h"
 
 /*! \brief The core_lib namespace. */
@@ -119,6 +120,8 @@ public:
      * Note that this object uses RAII so will close all connections when destroyed.
      */
     void CloseConnections();
+    /*! \brief Destroy all simple TCP clients and clear map. */
+    void ClearConnections();
     /*!
      * \brief Send a header-only message to the server asynchronously.
      * \param[in] server - Connection object describing server's address and port.
@@ -168,6 +171,8 @@ public:
                                   int32_t                   messageId,
                                   defs::connection_t const& responseAddress = defs::NULL_CONNECTION)
     {
+        std::lock_guard<std::mutex> lock(m_mutex);
+
         auto clientPtr = FindTcpClient(server);
 
         if (!clientPtr)
@@ -197,6 +202,8 @@ public:
                                  int32_t                   messageId,
                                  defs::connection_t const& responseAddress = defs::NULL_CONNECTION)
     {
+        std::lock_guard<std::mutex> lock(m_mutex);
+
         bool success   = false;
         auto clientPtr = FindTcpClient(server);
 
@@ -228,6 +235,8 @@ private:
     client_ptr_t FindTcpClient(defs::connection_t const& server) const;
 
 private:
+    /*! \brief Mutex to make access to map thread safe. */
+    mutable std::mutex m_mutex;
     /*! \brief External boost IO service to manage ASIO. */
     boost_ioservice_t* m_ioServicePtr{nullptr};
     /*! \brief Function object cpable of handling a received message and disptaching it accordingly.
