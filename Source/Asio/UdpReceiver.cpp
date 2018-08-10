@@ -46,10 +46,10 @@ UdpReceiver::UdpReceiver(boost_ioservice_t& ioService, uint16_t listenPort,
                          eUdpOption receiveOptions, size_t receiveBufferSize)
     : m_ioService(ioService)
     , m_listenPort{listenPort}
-    , m_socket{m_ioService}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
+    , m_socket{m_ioService}
 {
     CreateUdpSocket(receiveOptions, receiveBufferSize);
 }
@@ -62,10 +62,11 @@ UdpReceiver::UdpReceiver(uint16_t                                listenPort,
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
     , m_listenPort{listenPort}
-    , m_socket{m_ioService}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
+
+    , m_socket{m_ioService}
 {
     CreateUdpSocket(receiveOptions, receiveBufferSize);
 }
@@ -80,6 +81,9 @@ UdpReceiver::~UdpReceiver()
     SetClosing(true);
     m_ioService.post(boost::bind(&UdpReceiver::ProcessCloseSocket, this));
     m_closedEvent.Wait();
+
+    // To make sure we shutdown cleanly.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 }
 
 uint16_t UdpReceiver::ListenPort() const
@@ -109,6 +113,11 @@ void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBuffe
 
 void UdpReceiver::StartAsyncRead()
 {
+    if (IsClosing())
+    {
+        return;
+    }
+
     m_messageBuffer.clear();
     m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
                                 m_senderEndpoint,
@@ -129,7 +138,7 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
     try
     {
         std::copy(m_receiveBuffer.begin(),
-                  m_receiveBuffer.begin() + bytesReceived,
+                  m_receiveBuffer.begin() + static_cast<int32_t>(bytesReceived),
                   std::back_inserter(m_messageBuffer));
 
         const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
@@ -161,7 +170,16 @@ bool UdpReceiver::IsClosing() const
 
 void UdpReceiver::ProcessCloseSocket()
 {
-    m_socket.close();
+    try
+    {
+        m_socket.shutdown(m_socket.shutdown_both);
+        m_socket.close();
+    }
+    catch (...)
+    {
+        // Consume error...do nothing.
+    }
+
     m_closedEvent.Signal();
 }
 

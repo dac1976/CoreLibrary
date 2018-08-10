@@ -47,9 +47,10 @@ MulticastSender::MulticastSender(boost_ioservice_t&        ioService,
     : m_ioService(ioService)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-    , m_socket{ioService}
     , m_multicastEndpoint(boost_address_t::from_string(multicastConnection.first),
                           multicastConnection.second)
+
+    , m_socket{m_ioService}
 {
     CreateMulticastSocket(enableLoopback, ttl, sendBufferSize);
 }
@@ -62,9 +63,10 @@ MulticastSender::MulticastSender(const defs::connection_t& multicastConnection,
     , m_ioService(m_ioThreadGroup->IoService())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-    , m_socket{m_ioService}
     , m_multicastEndpoint(boost_address_t::from_string(multicastConnection.first),
                           multicastConnection.second)
+
+    , m_socket{m_ioService}
 {
     CreateMulticastSocket(enableLoopback, ttl, sendBufferSize);
 }

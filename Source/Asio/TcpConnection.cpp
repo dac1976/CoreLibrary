@@ -47,14 +47,14 @@ TcpConnection::TcpConnection(boost_ioservice_t& ioService, TcpConnections& conne
                              eSendOption                             sendOption)
     : m_closing{false}
     , m_ioService(ioService)
-    , m_strand{ioService}
-    , m_socket{ioService}
+    , m_strand{m_ioService}
     , m_connections(connections)
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
     , m_sendSuccess{false}
+    , m_socket{m_ioService}
 {
     m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
     m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
@@ -92,6 +92,9 @@ void TcpConnection::CloseConnection()
     SetClosing(true);
     m_ioService.post(boost::bind(&TcpConnection::ProcessCloseSocket, shared_from_this()));
     m_closedEvent.Wait();
+
+    // To make sure we shutdown cleanly.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 }
 
 void TcpConnection::SetClosing(bool closing)
@@ -108,7 +111,16 @@ bool TcpConnection::IsClosing() const
 
 void TcpConnection::ProcessCloseSocket()
 {
-    m_socket.close();
+    try
+    {
+        m_socket.shutdown(m_socket.shutdown_both);
+        m_socket.close();
+    }
+    catch (...)
+    {
+        // Consume error...do nothing.
+    }
+
     m_sendEvent.Signal();
     m_closedEvent.Signal();
 }

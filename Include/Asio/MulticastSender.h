@@ -138,10 +138,10 @@ private:
     defs::connection_t m_multicastConnection{};
     /*! \brief Interface IP address of outgoing network adaptor. */
     std::string m_interfaceAddress{};
-    /*! \brief Multicast socket. */
-    boost_udp_t::socket m_socket;
     /*! \brief Multicast receiver end-point. */
     boost_udp_t::endpoint m_multicastEndpoint{};
+    /*! \brief Multicast socket. */
+    boost_udp_t::socket m_socket;
 };
 
 } // namespace udp

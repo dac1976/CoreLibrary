@@ -171,8 +171,6 @@ private:
     boost_ioservice_t& m_ioService;
     /*! \brief I/O service strand. */
     boost_ioservice_t::strand m_strand;
-    /*! \brief TCP socket. */
-    boost_tcp_t::socket m_socket;
     /*! \brief Reference to TCP connections object. */
     TcpConnections& m_connections;
     /*! \brief Minimum amount to read from socket. */
@@ -189,6 +187,8 @@ private:
     defs::char_buffer_t m_messageBuffer{};
     /*! \brief Send message success flag. */
     bool m_sendSuccess{false};
+    /*! \brief TCP socket. */
+    boost_tcp_t::socket m_socket;
 };
 
 } // namespace tcp

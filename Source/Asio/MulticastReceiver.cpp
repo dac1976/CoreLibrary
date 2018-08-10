@@ -48,10 +48,10 @@ MulticastReceiver::MulticastReceiver(boost_ioservice_t&                      ioS
     : m_ioService(ioService)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-    , m_socket{m_ioService}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
+    , m_socket{m_ioService}
 {
     CreateMulticastSocket(receiveBufferSize);
 }
@@ -65,10 +65,10 @@ MulticastReceiver::MulticastReceiver(const defs::connection_t&               mul
     , m_ioService(m_ioThreadGroup->IoService())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-    , m_socket{m_ioService}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
+    , m_socket{m_ioService}
 {
     CreateMulticastSocket(receiveBufferSize);
 }
@@ -83,6 +83,9 @@ MulticastReceiver::~MulticastReceiver()
     SetClosing(true);
     m_ioService.post(boost::bind(&MulticastReceiver::ProcessCloseSocket, this));
     m_closedEvent.Wait();
+
+    // To make sure we shutdown cleanly.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 }
 
 defs::connection_t MulticastReceiver::MulticastConnection() const
@@ -126,6 +129,11 @@ void MulticastReceiver::CreateMulticastSocket(size_t receiveBufferSize)
 
 void MulticastReceiver::StartAsyncRead()
 {
+    if (IsClosing())
+    {
+        return;
+    }
+
     m_messageBuffer.clear();
 
     m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
@@ -147,7 +155,7 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
     try
     {
         std::copy(m_receiveBuffer.begin(),
-                  m_receiveBuffer.begin() + static_cast<int>(bytesReceived),
+                  m_receiveBuffer.begin() + static_cast<int32_t>(bytesReceived),
                   std::back_inserter(m_messageBuffer));
 
         const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
@@ -179,7 +187,16 @@ bool MulticastReceiver::IsClosing() const
 
 void MulticastReceiver::ProcessCloseSocket()
 {
-    m_socket.close();
+    try
+    {
+        m_socket.shutdown(m_socket.shutdown_both);
+        m_socket.close();
+    }
+    catch (...)
+    {
+        // Consume error...do nothing.
+    }
+
     m_closedEvent.Signal();
 }
 

@@ -121,10 +121,10 @@ private:
     boost_ioservice_t& m_ioService;
     /*! \brief Receiver connection details. */
     defs::connection_t m_receiver{};
-    /*! \brief UDP socket. */
-    boost_udp_t::socket m_socket;
     /*! \brief Recevier end-point. */
     boost_udp_t::endpoint m_receiverEndpoint{};
+    /*! \brief UDP socket. */
+    boost_udp_t::socket m_socket;
 };
 
 } // namespace udp

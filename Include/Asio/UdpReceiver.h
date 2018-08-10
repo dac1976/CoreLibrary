@@ -148,8 +148,6 @@ private:
     boost_ioservice_t& m_ioService;
     /*! \brief Receiver listen port. */
     uint16_t m_listenPort{0};
-    /*! \brief UDP socket. */
-    boost_udp_t::socket m_socket;
     /*! \brief Callback to check number of bytes left to read. */
     defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
     /*! \brief Callback to handle received message. */
@@ -160,6 +158,8 @@ private:
     defs::char_buffer_t m_messageBuffer{};
     /*! \brief Sender end-point. */
     boost_udp_t::endpoint m_senderEndpoint{};
+    /*! \brief UDP socket. */
+    boost_udp_t::socket m_socket;
 };
 
 } // namespace udp
