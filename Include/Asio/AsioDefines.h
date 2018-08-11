@@ -145,6 +145,8 @@ STATIC_CONSTEXPR_ uint32_t RESPONSE_ADDRESS_LEN{16};
 STATIC_CONSTEXPR_ uint32_t MAGIC_STRING_LEN{16};
 /*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
 STATIC_CONSTEXPR_ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+/*! \brief Constant defining time to wait at end of destructors when closing down sockets. */
+STATIC_CONSTEXPR_ uint32_t SOCKET_CLOSE_SLEEP_MS{100};
 
 /*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t
