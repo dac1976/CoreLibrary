@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['totallength',['totalLength',['../structcore__lib_1_1asio_1_1defs_1_1_message_header.html#abdac0b8b4fad6ced051b5e13e088e8b6',1,'core_lib::asio::defs::MessageHeader']]]
+  ['socket_5fclose_5fsleep_5fms',['SOCKET_CLOSE_SLEEP_MS',['../namespacecore__lib_1_1asio_1_1defs.html#a1352f3457b78a61eedb9a4a93757b2ed',1,'core_lib::asio::defs']]]
 ];

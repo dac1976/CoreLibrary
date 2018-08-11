@@ -45,5 +45,6 @@ var _asio_defines_8h =
     [ "DEFAULT_UDP_BUF_SIZE", "_asio_defines_8h.html#a025d9be9dbc62daaab1ea1ba7409f649", null ],
     [ "MAGIC_STRING_LEN", "_asio_defines_8h.html#aaa7d4254deea55dd105ce247a6794ab9", null ],
     [ "RESPONSE_ADDRESS_LEN", "_asio_defines_8h.html#adfaa61e5df41d9ba87ad6aaa349fd575", null ],
+    [ "SOCKET_CLOSE_SLEEP_MS", "_asio_defines_8h.html#a1352f3457b78a61eedb9a4a93757b2ed", null ],
     [ "UDP_DATAGRAM_MAX_SIZE", "_asio_defines_8h.html#a0aeb809f0edc168642171e692a48be29", null ]
 ];

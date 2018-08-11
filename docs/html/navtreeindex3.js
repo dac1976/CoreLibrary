@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a69c54579541a434755a5639ddbe34296":[2,0,0,0,3,7,14],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a8ad936489d5da03de43026578a44424f":[2,0,0,0,3,7,12],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a97a9c9600fee02758d92047ca3045a4a":[2,0,0,0,3,7,7],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a9afd92a11fee2ea2605c528d87f8d64c":[2,0,0,0,3,7,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a596c9cdee2c1a72181bfedb640cba86e":[2,0,0,3,0,3,4],
 "classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a652971a1c3211f2cf9aec4e0641ee37e":[2,0,0,3,0,3,2],
 "classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#a926127ac17ea827fed753438858502ef":[2,0,0,3,0,3,5],
-"classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#aa1312203fe040a796433082384a6a157":[2,0,0,3,0,3,1],
-"classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html":[2,0,0,3,0,4]
+"classcore__lib_1_1ini__file_1_1if__private_1_1_line.html#aa1312203fe040a796433082384a6a157":[2,0,0,3,0,3,1]
 };
