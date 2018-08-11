@@ -94,7 +94,7 @@ void TcpConnection::CloseConnection()
     m_closedEvent.Wait();
 
     // To make sure we shutdown cleanly.
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(defs::SOCKET_CLOSE_SLEEP_MS));
 }
 
 void TcpConnection::SetClosing(bool closing)
