@@ -11,5 +11,6 @@ var _message_utils_8h =
     [ "BuildMessage", "_message_utils_8h.html#a93d976dfdce5741b89f770d86b3266fc", null ],
     [ "BuildMessage", "_message_utils_8h.html#a820907854cfd23f6860f592ac3b52ba2", null ],
     [ "DeserializeMessage", "_message_utils_8h.html#a3c3300001093de7061f17f31197e4ef0", null ],
+    [ "DeserializeMessage", "_message_utils_8h.html#a983fb0e7fe6586288a9abc56edce67c6", null ],
     [ "FillHeader", "_message_utils_8h.html#a2600711d2d8cfea23a4ef6c6fad1410c", null ]
 ];

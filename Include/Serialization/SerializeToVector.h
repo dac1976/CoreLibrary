@@ -35,6 +35,7 @@
 #include <type_traits>
 #include <algorithm>
 #include <cereal/types/vector.hpp>
+#include <boost/throw_exception.hpp>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -130,15 +131,14 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
      */
     char_vector_t operator()(const T& object) const
     {
-        char_vector_t charVector;
-
         if (!std::is_pod<T>::value)
         {
-            return charVector;
+            BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
         }
 
-        auto begin = reinterpret_cast<char const*>(&object);
-        auto end   = std::next(begin, static_cast<int>(sizeof(T)));
+        char_vector_t charVector;
+        auto          begin = reinterpret_cast<char const*>(&object);
+        auto          end   = std::next(begin, static_cast<int>(sizeof(T)));
         std::copy(begin, end, std::back_inserter(charVector));
         return charVector;
     }
@@ -186,18 +186,22 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
      */
     T operator()(const char_vector_t& charVector) const
     {
-        T object{};
-
-        if (!std::is_pod<T>::value || (charVector.size() != sizeof(T)))
+        if (!std::is_pod<T>::value)
         {
-            return object;
+            BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
         }
 
+        if (charVector.size() != sizeof(T))
+        {
+            BOOST_THROW_EXCEPTION(std::invalid_argument("buffer to object size mismatch"));
+        }
+
+        T object{};
         memcpy(&object, charVector.data(), charVector.size());
         return object;
     }
 };
-}
+} // namespace impl
 
 /*!
  * \brief Serialize an object into a char vector.

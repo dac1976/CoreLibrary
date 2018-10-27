@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"_simple_tcp_server_8h_source.html":[3,0,0,0,10],
 "_simple_udp_receiver_8cpp.html":[3,0,1,0,10],
 "_simple_udp_receiver_8h.html":[3,0,0,0,11],
 "_simple_udp_receiver_8h_source.html":[3,0,0,0,11],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a28ec87bb98896a6ede2aa68ac4b2f5c0":[2,0,0,0,2,5,11],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a2d8fdff0ea2b61f7171a701d05a9ba71":[2,0,0,0,2,5,0],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a436da822a09a65138f6beefe6e903725":[2,0,0,0,2,5,25],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a464ee0ea7da8a1f5bf8b933faa4eb9a3":[2,0,0,0,2,5,33],
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a47e24bf1f2f18b287d6c4ed7e1df0937":[2,0,0,0,2,5,36]
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a464ee0ea7da8a1f5bf8b933faa4eb9a3":[2,0,0,0,2,5,33]
 };

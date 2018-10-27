@@ -354,7 +354,7 @@ BuildMessage(const T& message, int32_t messageId, const defs::connection_t& resp
 }
 
 /*!
- * \brief Templated message deserializer function.
+ * \brief Templated message deserializer function for non-POD data.
  * \param[in] messageBuffer - Message buffer to be deserialized.
  * \param[in] archiveType - Serialization archive type.
  * \return The deserialization object T.
@@ -369,7 +369,7 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
     case defs::eArchiveType::portableBinary:
         return serialize::ToObject<T, serialize::archives::in_port_bin_t>(messageBuffer);
     case defs::eArchiveType::raw:
-        return serialize::ToObject<T, serialize::archives::in_raw_t>(messageBuffer);
+        break;
     case defs::eArchiveType::json:
         return serialize::ToObject<T, serialize::archives::in_json_t>(messageBuffer);
     case defs::eArchiveType::xml:
@@ -377,6 +377,16 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
     }
 
     return {};
+}
+
+/*!
+ * \brief Templated message deserializer function for POD data.
+ * \param[in] messageBuffer - Message buffer to be deserialized.
+ * \return The deserialization object T.
+ */
+template <typename T> T DeserializeMessage(const defs::char_buffer_t& messageBuffer)
+{
+    return serialize::ToObject<T, serialize::archives::in_raw_t>(messageBuffer);
 }
 
 } // namespace messages
