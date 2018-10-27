@@ -13,5 +13,6 @@ var _debug_log_8h =
       [ "error", "_debug_log_8h.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcacb5e100e5a9a3e7f6d1fd97512215282", null ],
       [ "fatal", "_debug_log_8h.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcadf6402fd9ecc60f5a2159fdf45711cd4", null ]
     ] ],
-    [ "BYTES_IN_MEBIBYTE", "_debug_log_8h.html#acad73ab377350178aabf332cc265f258", null ]
+    [ "BYTES_IN_MEBIBYTE", "_debug_log_8h.html#acad73ab377350178aabf332cc265f258", null ],
+    [ "MESSAGE_ID", "_debug_log_8h.html#a950704be5d04a6163a2a14192481078a", null ]
 ];

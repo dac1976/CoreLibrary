@@ -149,6 +149,9 @@ STATIC_CONSTEXPR_ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
 namespace dl_private
 {
 
+/*! \brief Static constant defining message ID for log messages. */
+STATIC_CONSTEXPR_ int MESSAGE_ID{1};
+
 /*!
  * \brief Log Queue Message class.
  *
@@ -159,8 +162,6 @@ namespace dl_private
 class CORE_LIBRARY_DLL_SHARED_API LogQueueMessage
 {
 public:
-    /*! \brief Static message ID to register on message queue.*/
-    STATIC_CONSTEXPR_ int MESSAGE_ID{1};
     /*! \brief Default constructor.*/
     LogQueueMessage() = default;
     /*!
@@ -497,7 +498,7 @@ private:
     void RegisterLogQueueMessageId()
     {
         m_logMsgQueueThread->RegisterMessageHandler(
-            dl_private::LogQueueMessage::MESSAGE_ID,
+            dl_private::MESSAGE_ID,
             std::bind(&DebugLog<Formatter>::MessageHandler, this, std::placeholders::_1));
     }
     /*!
@@ -505,9 +506,9 @@ private:
      * \param[in] message - Message to decode.
      * \return Message ID.
      */
-    static int MessageDecoder(const dl_private::LogQueueMessage& message)
+    static int MessageDecoder(const dl_private::LogQueueMessage&)
     {
-        return message.MESSAGE_ID;
+        return dl_private::MESSAGE_ID;
     }
     /*!
      * \brief Method to process message.

@@ -104,6 +104,6 @@ var searchData=
   ['m_5fvalue',['m_value',['../classcore__lib_1_1csv__grid_1_1_cell.html#ab329bc0ea13f4c63726aee9f42fe680e',1,'core_lib::csv_grid::Cell::m_value()'],['../classcore__lib_1_1csv__grid_1_1_cell_double.html#ab7a2e2166b466dcca058567f38cdcee0',1,'core_lib::csv_grid::CellDouble::m_value()'],['../classcore__lib_1_1ini__file_1_1if__private_1_1_key_line.html#ad89c4bbe6abb811235a4ba8cd1a22149',1,'core_lib::ini_file::if_private::KeyLine::m_value()']]],
   ['magic_5fstring_5flen',['MAGIC_STRING_LEN',['../namespacecore__lib_1_1asio_1_1defs.html#aaa7d4254deea55dd105ce247a6794ab9',1,'core_lib::asio::defs']]],
   ['magicstring',['magicString',['../structcore__lib_1_1asio_1_1defs_1_1_message_header.html#a0e65aa8c5c0300c8ef377a882ae9acaa',1,'core_lib::asio::defs::MessageHeader']]],
-  ['message_5fid',['MESSAGE_ID',['../classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a9328cb328cbb8580bb6b13358695203b',1,'core_lib::log::dl_private::LogQueueMessage']]],
+  ['message_5fid',['MESSAGE_ID',['../_debug_log_8h.html#a950704be5d04a6163a2a14192481078a',1,'core_lib::log::dl_private']]],
   ['messageid',['messageId',['../structcore__lib_1_1asio_1_1defs_1_1_message_header.html#ac917ac7dd78cad4e63771f93487f06b7',1,'core_lib::asio::defs::MessageHeader']]]
 ];

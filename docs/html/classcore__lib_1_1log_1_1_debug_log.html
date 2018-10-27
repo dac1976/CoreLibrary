@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.5.3</span>
+   &#160;<span id="projectnumber">1.5.3.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -204,9 +204,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a0f457d6bb8e4f0936678da9218338530"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#a0f457d6bb8e4f0936678da9218338530">MessageDecoder</a> (const <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">dl_private::LogQueueMessage</a> &amp;message)</td></tr>
-<tr class="memdesc:a0f457d6bb8e4f0936678da9218338530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to decode message ID.  <a href="#a0f457d6bb8e4f0936678da9218338530">More...</a><br /></td></tr>
-<tr class="separator:a0f457d6bb8e4f0936678da9218338530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeea7f75c881d135c6fb580780a920877"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aeea7f75c881d135c6fb580780a920877">MessageDecoder</a> (const <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">dl_private::LogQueueMessage</a> &amp;)</td></tr>
+<tr class="memdesc:aeea7f75c881d135c6fb580780a920877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to decode message ID.  <a href="#aeea7f75c881d135c6fb580780a920877">More...</a><br /></td></tr>
+<tr class="separator:aeea7f75c881d135c6fb580780a920877"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -808,8 +808,8 @@ template&lt;class Formatter &gt; </div>
 
 </div>
 </div>
-<a id="a0f457d6bb8e4f0936678da9218338530"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f457d6bb8e4f0936678da9218338530">&#9670;&nbsp;</a></span>MessageDecoder()</h2>
+<a id="aeea7f75c881d135c6fb580780a920877"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeea7f75c881d135c6fb580780a920877">&#9670;&nbsp;</a></span>MessageDecoder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -823,7 +823,7 @@ template&lt;class Formatter &gt; </div>
           <td class="memname">static int <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html">core_lib::log::DebugLog</a>&lt; Formatter &gt;::MessageDecoder </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html">dl_private::LogQueueMessage</a> &amp;&#160;</td>
-          <td class="paramname"><em>message</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1050,7 +1050,7 @@ template&lt;class Formatter &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">        <span class="keyword">new</span> <a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#a65565a38e7d8a36d641c6a8d34bde9ba">log_msg_queue</a>(std::bind(&amp;<a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#a0f457d6bb8e4f0936678da9218338530">DebugLog&lt;Formatter&gt;::MessageDecoder</a>, std::placeholders::_1),</div><div class="line">                          <a class="code" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706a6384751382f97eb4a6fc8ee8bd31fc83">threads::eOnDestroyOptions::processRemainingItems</a>)}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">        <span class="keyword">new</span> <a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#a65565a38e7d8a36d641c6a8d34bde9ba">log_msg_queue</a>(std::bind(&amp;<a class="code" href="classcore__lib_1_1log_1_1_debug_log.html#aeea7f75c881d135c6fb580780a920877">DebugLog&lt;Formatter&gt;::MessageDecoder</a>, std::placeholders::_1),</div><div class="line">                          <a class="code" href="namespacecore__lib_1_1threads.html#a0fa4cd0059edae3a1590cd40d77ba706a6384751382f97eb4a6fc8ee8bd31fc83">threads::eOnDestroyOptions::processRemainingItems</a>)}</div></div><!-- fragment -->
 <p>Unique_ptr holding message queue thread. </p>
 
 </div>
@@ -1064,7 +1064,7 @@ template&lt;class Formatter &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1log.html">log</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1log_1_1_debug_log.html">DebugLog</a></li>
-    <li class="footer">Generated on Sat Oct 27 2018 12:07:15 for Core Library by
+    <li class="footer">Generated on Sat Oct 27 2018 15:28:54 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

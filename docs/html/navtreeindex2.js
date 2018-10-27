@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a464ee0ea7da8a1f5bf8b933faa4eb9a3":[2,0,0,0,2,5,33],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a47e24bf1f2f18b287d6c4ed7e1df0937":[2,0,0,0,2,5,36],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a4933b6ba8b9add384e8bc3dcde392694":[2,0,0,0,2,5,34],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a49de236c8b83dbc86f4ddbba3f6b01be":[2,0,0,0,2,5,35],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4c6b60082bc816cdc485d60c8ce4eda0":[2,0,0,0,3,7,18],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4e76545e106fa8bf953c2cf2ab1186c9":[2,0,0,0,3,7,20],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a53f016a757a61461e174935edaa82e89":[2,0,0,0,3,7,22],
-"classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a5c79df786e71ab80d468c9b33db5dd65":[2,0,0,0,3,7,23],
-"classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a5e34a8466adeee883ddb16270da83fa5":[2,0,0,0,3,7,17]
+"classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a5c79df786e71ab80d468c9b33db5dd65":[2,0,0,0,3,7,23]
 };

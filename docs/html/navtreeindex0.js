@@ -82,6 +82,7 @@ var NAVTREEINDEX0 =
 "_debug_log_8cpp.html":[3,0,1,2,0],
 "_debug_log_8h.html":[3,0,0,2,0],
 "_debug_log_8h.html#a1c13e1c5e5f8172c1cea7d5830431849":[3,0,0,2,0,4],
+"_debug_log_8h.html#a950704be5d04a6163a2a14192481078a":[3,0,0,2,0,7],
 "_debug_log_8h.html#acad73ab377350178aabf332cc265f258":[3,0,0,2,0,6],
 "_debug_log_8h.html#ad7ce2d6b07e2ed6ac17a19b27f8741bc":[3,0,0,2,0,5],
 "_debug_log_8h.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca308178bc9cbd979f6e2e056175b76aba":[3,0,0,2,0,5,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "_simple_tcp_client_list_8cpp.html":[3,0,1,0,8],
 "_simple_tcp_client_list_8h.html":[3,0,0,0,9],
 "_simple_tcp_client_list_8h_source.html":[3,0,0,0,9],
-"_simple_tcp_server_8cpp.html":[3,0,1,0,9],
-"_simple_tcp_server_8h.html":[3,0,0,0,10]
+"_simple_tcp_server_8cpp.html":[3,0,1,0,9]
 };
