@@ -24,10 +24,10 @@
  * \brief File containing declaration of DLL import/export control defines.
  */
 
-#include <boost/predef.h>
-
 #ifndef CORELIBRARYDLLGLOBALH
 #define CORELIBRARYDLLGLOBALH
+
+#include <boost/predef.h>
 
 #if BOOST_OS_WINDOWS
 #if defined(CORE_LIBRARY_DLL)
@@ -38,29 +38,23 @@
 #else
 #error Unsupported compiler! Please modify this header to add support.
 #endif
-#define CORE_LIBRARY_DLL_EXTERN
 #else
 #if defined(CORE_LIBRARY_LIB)
 #define CORE_LIBRARY_DLL_SHARED_API
-#define CORE_LIBRARY_DLL_EXTERN
 #else
 #if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
 #define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllimport))
 #else
 #define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
 #endif
-#define CORE_LIBRARY_DLL_EXTERN extern
 #endif
 #endif
-#define CORE_LIBRARY_DLL_PRIVATE_API
 #elif BOOST_OS_LINUX
 #if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
 #define CORE_LIBRARY_DLL_SHARED_API __attribute__((visibility("default")))
-#define CORE_LIBRARY_DLL_PRIVATE_API __attribute__((visibility("hidden")))
 #else
 #error Unsupported compiler! Please modify this header to add support.
 #endif
-#define CORE_LIBRARY_DLL_EXTERN
 #else
 #error Unsupported OS!
 #endif
