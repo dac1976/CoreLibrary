@@ -29,9 +29,6 @@
 
 #include <boost/predef.h>
 
-#undef USE_EXPLICIT_MOVE_
-#undef USE_DEFAULT_CONSTRUCTOR_
-
 #if defined(_MSC_VER)
 #if _MSC_VER < 1900
 /*! \brief NO_EXCEPT_ definition mapping to nothing*/

@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.5.3.1</span>
+   &#160;<span id="projectnumber">1.5.4.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -114,9 +114,9 @@ Inheritance diagram for core_lib::threads::EventThread:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab3b716efffa6684f6fc3bc160872a960"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#ab3b716efffa6684f6fc3bc160872a960">EventThread</a> (<a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a8f26de7c515fca0adfcf1951a76bbb32">event_callback_t</a> const &amp;eventCallback, unsigned int eventPeriodMillisecs)</td></tr>
-<tr class="memdesc:ab3b716efffa6684f6fc3bc160872a960"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html" title="Class defining an EventThread that ticks at a given rate and executes a registered callback...">EventThread</a> constructor.  <a href="#ab3b716efffa6684f6fc3bc160872a960">More...</a><br /></td></tr>
-<tr class="separator:ab3b716efffa6684f6fc3bc160872a960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e98f9212979b12809ce6f35198afb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#ae7e98f9212979b12809ce6f35198afb3">EventThread</a> (<a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a8f26de7c515fca0adfcf1951a76bbb32">event_callback_t</a> const &amp;eventCallback, unsigned int eventPeriodMillisecs, bool delayedStart=false)</td></tr>
+<tr class="memdesc:ae7e98f9212979b12809ce6f35198afb3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html" title="Class defining an EventThread that ticks at a given rate and executes a registered callback...">EventThread</a> constructor.  <a href="#ae7e98f9212979b12809ce6f35198afb3">More...</a><br /></td></tr>
+<tr class="separator:ae7e98f9212979b12809ce6f35198afb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cd6f704bf883d36b723b3b434a36947"><td class="memItemLeft" align="right" valign="top"><a id="a4cd6f704bf883d36b723b3b434a36947"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a4cd6f704bf883d36b723b3b434a36947">~EventThread</a> () override</td></tr>
 <tr class="memdesc:a4cd6f704bf883d36b723b3b434a36947"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html" title="Class defining an EventThread that ticks at a given rate and executes a registered callback...">EventThread</a> destructor. <br /></td></tr>
@@ -137,6 +137,12 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html">EventThread</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a46f275191f2d8f54cac5c1e3fbda9bb2">operator=</a> (<a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html">EventThread</a> &amp;&amp;)=delete</td></tr>
 <tr class="memdesc:a46f275191f2d8f54cac5c1e3fbda9bb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator deleted. <br /></td></tr>
 <tr class="separator:a46f275191f2d8f54cac5c1e3fbda9bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36463f97c4ebfb5a8c41f024cc6aa68c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a36463f97c4ebfb5a8c41f024cc6aa68c">EventPeriod</a> (unsigned int eventPeriodMillisecs)</td></tr>
+<tr class="memdesc:a36463f97c4ebfb5a8c41f024cc6aa68c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set even threads tick period.  <a href="#a36463f97c4ebfb5a8c41f024cc6aa68c">More...</a><br /></td></tr>
+<tr class="separator:a36463f97c4ebfb5a8c41f024cc6aa68c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e5670e9a81447a62f49b7d3d260e696"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a3e5670e9a81447a62f49b7d3d260e696">EventPeriod</a> () const</td></tr>
+<tr class="memdesc:a3e5670e9a81447a62f49b7d3d260e696"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set even threads tick period.  <a href="#a3e5670e9a81447a62f49b7d3d260e696">More...</a><br /></td></tr>
+<tr class="separator:a3e5670e9a81447a62f49b7d3d260e696"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcore__lib_1_1threads_1_1_thread_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">core_lib::threads::ThreadBase</a></td></tr>
 <tr class="memitem:aaa818892960ae729237c45ec289a66a0 inherit pub_methods_classcore__lib_1_1threads_1_1_thread_base"><td class="memItemLeft" align="right" valign="top"><a id="aaa818892960ae729237c45ec289a66a0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#aaa818892960ae729237c45ec289a66a0">ThreadBase</a> (const <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html">ThreadBase</a> &amp;)=delete</td></tr>
@@ -194,6 +200,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:a725ff2b67177b22aef510bde8d513523"><td class="memItemLeft" align="right" valign="top"><a id="a725ff2b67177b22aef510bde8d513523"></a>
+std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a725ff2b67177b22aef510bde8d513523">m_eventTickMutex</a></td></tr>
+<tr class="memdesc:a725ff2b67177b22aef510bde8d513523"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update event. <br /></td></tr>
+<tr class="separator:a725ff2b67177b22aef510bde8d513523"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4f31d4404cf8813ff3d20b590be9ad6"><td class="memItemLeft" align="right" valign="top"><a id="ae4f31d4404cf8813ff3d20b590be9ad6"></a>
 <a class="el" href="classcore__lib_1_1threads_1_1_sync_event.html">core_lib::threads::SyncEvent</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#ae4f31d4404cf8813ff3d20b590be9ad6">m_updateEvent</a> {}</td></tr>
 <tr class="memdesc:ae4f31d4404cf8813ff3d20b590be9ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update event. <br /></td></tr>
@@ -202,10 +212,10 @@ Private Attributes</h2></td></tr>
 <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a8f26de7c515fca0adfcf1951a76bbb32">event_callback_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a99dc461d8960f2a262c0de77091c700b">m_eventCallback</a> {}</td></tr>
 <tr class="memdesc:a99dc461d8960f2a262c0de77091c700b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback fires on event. <br /></td></tr>
 <tr class="separator:a99dc461d8960f2a262c0de77091c700b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385ae7c55dc598cf5118efc211c1ec53"><td class="memItemLeft" align="right" valign="top"><a id="a385ae7c55dc598cf5118efc211c1ec53"></a>
-unsigned int const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a385ae7c55dc598cf5118efc211c1ec53">m_eventPeriodMillisecs</a> {}</td></tr>
-<tr class="memdesc:a385ae7c55dc598cf5118efc211c1ec53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event tick period. <br /></td></tr>
-<tr class="separator:a385ae7c55dc598cf5118efc211c1ec53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a68dbf32cdd75192b9ddf8ff80738c0"><td class="memItemLeft" align="right" valign="top"><a id="a3a68dbf32cdd75192b9ddf8ff80738c0"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a3a68dbf32cdd75192b9ddf8ff80738c0">m_eventPeriodMillisecs</a> {0}</td></tr>
+<tr class="memdesc:a3a68dbf32cdd75192b9ddf8ff80738c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event tick period. <br /></td></tr>
+<tr class="separator:a3a68dbf32cdd75192b9ddf8ff80738c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -227,8 +237,8 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class defining an <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html" title="Class defining an EventThread that ticks at a given rate and executes a registered callback...">EventThread</a> that ticks at a given rate and executes a registered callback. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab3b716efffa6684f6fc3bc160872a960"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3b716efffa6684f6fc3bc160872a960">&#9670;&nbsp;</a></span>EventThread()</h2>
+<a id="ae7e98f9212979b12809ce6f35198afb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7e98f9212979b12809ce6f35198afb3">&#9670;&nbsp;</a></span>EventThread()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +253,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>eventPeriodMillisecs</em>&#160;</td>
+          <td class="paramname"><em>eventPeriodMillisecs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>delayedStart</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -257,16 +273,65 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">eventCallback</td><td>- Function object to be called when event ticks. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">eventPeriodMillisecs</td><td>- Period between event being triggered. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">eventPeriodMillisecs</td><td>- Period between signalling of the event. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">delayedStart</td><td>- (Optional) Delay startiong of the thread.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If delayedStart == true then user must call <a class="el" href="classcore__lib_1_1threads_1_1_thread_base.html#ac566251b68cf2dab8b6b26fe6a8d4c19" title="Start the thread. ">EventThread::Start()</a> themselves. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a36463f97c4ebfb5a8c41f024cc6aa68c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36463f97c4ebfb5a8c41f024cc6aa68c">&#9670;&nbsp;</a></span>EventPeriod() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_lib::threads::EventThread::EventPeriod </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>eventPeriodMillisecs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set even threads tick period. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">eventPeriodMillisecs</td><td>- Period between signalling of the event. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
+<a id="a3e5670e9a81447a62f49b7d3d260e696"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e5670e9a81447a62f49b7d3d260e696">&#9670;&nbsp;</a></span>EventPeriod() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int core_lib::threads::EventThread::EventPeriod </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set even threads tick period. </p>
+<dl class="section return"><dt>Returns</dt><dd>Event tick. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/run/media/duncanc/dc635e9e-d98f-45f8-96c6-fc6f6ae5c72e/projects/CoreLibrary/Include/Threads/<a class="el" href="_event_thread_8h_source.html">EventThread.h</a></li>
-<li>/run/media/duncanc/dc635e9e-d98f-45f8-96c6-fc6f6ae5c72e/projects/CoreLibrary/Source/Threads/<a class="el" href="_event_thread_8cpp.html">EventThread.cpp</a></li>
+<li>/mnt/Data/projects/CoreLibrary/Include/Threads/<a class="el" href="_event_thread_8h_source.html">EventThread.h</a></li>
+<li>/mnt/Data/projects/CoreLibrary/Source/Threads/<a class="el" href="_event_thread_8cpp.html">EventThread.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -274,7 +339,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></li><li class="navelem"><a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html">EventThread</a></li>
-    <li class="footer">Generated on Sat Oct 27 2018 15:28:54 for Core Library by
+    <li class="footer">Generated on Wed Nov 14 2018 10:40:19 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

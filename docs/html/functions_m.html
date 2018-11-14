@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.5.3.1</span>
+   &#160;<span id="projectnumber">1.5.4.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -152,7 +152,10 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a99dc461d8960f2a262c0de77091c700b">core_lib::threads::EventThread</a>
 </li>
 <li>m_eventPeriodMillisecs
-: <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a385ae7c55dc598cf5118efc211c1ec53">core_lib::threads::EventThread</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a3a68dbf32cdd75192b9ddf8ff80738c0">core_lib::threads::EventThread</a>
+</li>
+<li>m_eventTickMutex
+: <a class="el" href="classcore__lib_1_1threads_1_1_event_thread.html#a725ff2b67177b22aef510bde8d513523">core_lib::threads::EventThread</a>
 </li>
 <li>m_file
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#af377753762ac4999d196b89a8507112e">core_lib::log::dl_private::LogQueueMessage</a>
@@ -484,13 +487,13 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a2acae381e0e0f4613edeb37da9d3105c">core_lib::log::dl_private::LogQueueMessage</a>
 </li>
 <li>MessageBuilder()
-: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#af5ea66c44baeebadd5fc6df997854fa9">core_lib::asio::messages::MessageBuilder</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a0845dd7438cb3f98ff436b6cdc307329">core_lib::asio::messages::MessageBuilder</a>
 </li>
 <li>MessageDecoder()
 : <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aeea7f75c881d135c6fb580780a920877">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>MessageHandler()
-: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#af1476bd50087adf202f1edcfde42c9a1">core_lib::asio::messages::MessageHandler</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#a6322718659cd6bb5da7db36e8ef1eec3">core_lib::asio::messages::MessageHandler</a>
 , <a class="el" href="classcore__lib_1_1log_1_1_debug_log.html#aee61f19d079e310385c1ce3cc86c48f4">core_lib::log::DebugLog&lt; Formatter &gt;</a>
 </li>
 <li>MessageHeader()
@@ -500,7 +503,7 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html#ac917ac7dd78cad4e63771f93487f06b7">core_lib::asio::defs::MessageHeader</a>
 </li>
 <li>MessageQueueThread()
-: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#a8fefa54501ef310ab56062035911f746">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
+: <a class="el" href="classcore__lib_1_1threads_1_1_message_queue_thread.html#aa726d218b9bb6fcbcb0b103280dc553a">core_lib::threads::MessageQueueThread&lt; MessageId, MessageType &gt;</a>
 </li>
 <li>MessageReceivedHandler()
 : <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#af07537a32a2fd6037477d9d07f2647b9">core_lib::asio::messages::MessageHandler</a>
@@ -525,13 +528,13 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 , <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#a18a25f9dc57b3cbdb0b1b5e1ca10f5f9">core_lib::asio::udp::SimpleMulticastSender</a>
 </li>
 <li>MulticastReceiver()
-: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ae2b5f275d5a74251caad9605607e4444">core_lib::asio::udp::MulticastReceiver</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a23b2ebbadc62c314b999a59fa3df3f06">core_lib::asio::udp::MulticastReceiver</a>
 </li>
 <li>MulticastSender()
-: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#ac250802bc8e37ba31c941a0b4b8bfa87">core_lib::asio::udp::MulticastSender</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a9161f256ced7816cc43924c55f8f2a18">core_lib::asio::udp::MulticastSender</a>
 </li>
 <li>MulticastTypedSender()
-: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#ace819eaac1518bde33b623b9fe95af55">core_lib::asio::udp::MulticastTypedSender&lt; MsgBldr &gt;</a>
+: <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_multicast_typed_sender.html#aa11bc3474eccbdc88956c7ce78829f31">core_lib::asio::udp::MulticastTypedSender&lt; MsgBldr &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -539,7 +542,7 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Oct 27 2018 15:28:54 for Core Library by
+    <li class="footer">Generated on Wed Nov 14 2018 10:40:19 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -29,6 +29,9 @@
 #include <cassert>
 #include <cstdio>
 #include <stdexcept>
+#ifdef USE_EXPLICIT_MOVE_
+#include <utility>
+#endif
 #include <boost/throw_exception.hpp>
 
 /*! \brief The core_lib namespace. */
@@ -49,6 +52,20 @@ namespace messages
 MessageHandler::MessageHandler()
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
 {
+}
+#endif
+
+#ifdef USE_EXPLICIT_MOVE_
+MessageHandler::MessageHandler(MessageHandler&& mh)
+    : m_magicString(defs::DEFAULT_MAGIC_STRING)
+{
+    *this = std::move(mh);
+}
+
+MessageHandler& MessageHandler::operator=(MessageHandler&& mh)
+{
+    std::swap(m_messageDispatcher, mh.m_messageDispatcher);
+    m_magicString.swap(mh.m_magicString);
 }
 #endif
 
@@ -124,6 +141,11 @@ auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, 
     }
 
     defs::MessageHeader header;
+
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+    std::sprintf(static_cast<char*>(header.magicString), "%s", magicString.c_str());
+    std::sprintf(static_cast<char*>(header.responseAddress), "%s", responseAddress.first.c_str());
+#else
     std::snprintf(static_cast<char*>(header.magicString),
                   sizeof(header.magicString),
                   "%s",
@@ -132,6 +154,7 @@ auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, 
                   sizeof(header.responseAddress),
                   "%s",
                   responseAddress.first.c_str());
+#endif
     header.responsePort = responseAddress.second;
     header.messageId    = messageId;
     header.archiveType  = archiveType;
@@ -139,14 +162,27 @@ auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, 
     return header;
 }
 
-    // ****************************************************************************
-    // 'class MessageBuilder' definition
-    // ****************************************************************************
+// ****************************************************************************
+// 'class MessageBuilder' definition
+// ****************************************************************************
 
 #ifdef USE_DEFAULT_CONSTRUCTOR_
 MessageBuilder::MessageBuilder()
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
 {
+}
+#endif
+
+#ifdef USE_EXPLICIT_MOVE_
+MessageBuilder::MessageBuilder(MessageBuilder&& mb)
+    : m_magicString(defs::DEFAULT_MAGIC_STRING)
+{
+    *this = std::move(mb);
+}
+
+MessageBuilder& MessageBuilder::operator=(MessageBuilder&& mb)
+{
+    m_magicString.swap(mb.m_magicString);
 }
 #endif
 

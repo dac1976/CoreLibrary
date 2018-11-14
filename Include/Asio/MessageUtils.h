@@ -31,6 +31,7 @@
 #include <iterator>
 #include <algorithm>
 #include <cstring>
+#include <cassert>
 #include "AsioDefines.h"
 #include "Serialization/SerializeToVector.h"
 
@@ -70,14 +71,22 @@ public:
                    const std::string&                        magicString);
     /*! \brief Default destructor. */
     ~MessageHandler() = default;
-    /*! \brief Deleted copy constructor. */
-    MessageHandler(const MessageHandler&) = delete;
-    /*! \brief Deleted copy assignment operator. */
-    MessageHandler& operator=(const MessageHandler&) = delete;
-    /*! \brief Deleted move constructor. */
-    MessageHandler(MessageHandler&&) = delete;
-    /*! \brief Deleted move assignment operator. */
-    MessageHandler& operator=(MessageHandler&&) = delete;
+    /*! \brief Default copy constructor. */
+    MessageHandler(const MessageHandler&) = default;
+    /*! \brief Default copy assignment operator. */
+    MessageHandler& operator=(const MessageHandler&) = default;
+
+#ifdef USE_EXPLICIT_MOVE_
+    /*! \brief Default move constructor. */
+    MessageHandler(MessageHandler&& mh);
+    /*! \brief Default move assignment operator. */
+    MessageHandler& operator=(MessageHandler&& mh);
+#else
+    /*! \brief Default move constructor. */
+    MessageHandler(MessageHandler&&) = default;
+    /*! \brief Default move assignment operator. */
+    MessageHandler& operator=(MessageHandler&&) = default;
+#endif
     /*!
      * \brief Check bytes left to read method.
      * \param[in] message - A received message buffer.
@@ -232,14 +241,21 @@ public:
     explicit MessageBuilder(const std::string& magicString);
     /*! \brief Default destructor. */
     ~MessageBuilder() = default;
-    /*! \brief Deleted copy constructor. */
-    MessageBuilder(const MessageBuilder&) = delete;
-    /*! \brief Deleted copy assignment operator. */
-    MessageBuilder& operator=(const MessageBuilder&) = delete;
-    /*! \brief Deleted move constructor. */
-    MessageBuilder(MessageBuilder&&) = delete;
-    /*! \brief Deleted move assignment operator. */
-    MessageBuilder& operator=(MessageBuilder&&) = delete;
+    /*! \brief Default copy constructor. */
+    MessageBuilder(const MessageBuilder&) = default;
+    /*! \brief Default copy assignment operator. */
+    MessageBuilder& operator=(const MessageBuilder&) = default;
+#ifdef USE_EXPLICIT_MOVE_
+    /*! \brief Default move constructor. */
+    MessageBuilder(MessageBuilder&& mb);
+    /*! \brief Default move assignment operator. */
+    MessageBuilder& operator=(MessageBuilder&& mb);
+#else
+    /*! \brief Default move constructor. */
+    MessageBuilder(MessageBuilder&&) = default;
+    /*! \brief Default move assignment operator. */
+    MessageBuilder& operator=(MessageBuilder&&) = default;
+#endif
     /*!
      * \brief Build message method for header only messages.
      * \param[in] messageId - Unique ID for this message instance.
@@ -362,6 +378,8 @@ BuildMessage(const T& message, int32_t messageId, const defs::connection_t& resp
 template <typename T>
 T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveType archiveType)
 {
+    assert(archiveType != defs::eArchiveType::raw);
+
     switch (archiveType)
     {
     case defs::eArchiveType::binary:
@@ -369,6 +387,7 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
     case defs::eArchiveType::portableBinary:
         return serialize::ToObject<T, serialize::archives::in_port_bin_t>(messageBuffer);
     case defs::eArchiveType::raw:
+        // Do nothing.
         break;
     case defs::eArchiveType::json:
         return serialize::ToObject<T, serialize::archives::in_json_t>(messageBuffer);

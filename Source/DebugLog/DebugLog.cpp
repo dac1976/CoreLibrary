@@ -25,9 +25,6 @@
  */
 
 #include "DebugLog/DebugLog.h"
-#ifndef USE_EXPLICIT_MOVE_
-#include <utility>
-#endif
 #include <iomanip>
 
 namespace core_lib
@@ -45,14 +42,10 @@ void DefaultLogFormat::operator()(std::ostream& os, std::time_t timeStamp,
 {
     if (timeStamp != 0)
     {
-#if defined(_MSC_VER)
-#if _MSC_VER < 1900
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
         struct tm result;
         localtime_s(&result, &timeStamp);
         os << std::put_time(&result, "%F %T") << " | ";
-#else
-        os << std::put_time(std::localtime(&timeStamp), "%F %T") << " | ";
-#endif
 #else
         os << std::put_time(std::localtime(&timeStamp), "%F %T") << " | ";
 #endif

@@ -35,17 +35,33 @@ namespace threads
 // ****************************************************************************
 // 'class EventThread' definition
 // ****************************************************************************
-EventThread::EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs)
+EventThread::EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs,
+                         bool delayedStart)
     : core_lib::threads::ThreadBase()
     , m_eventCallback(eventCallback)
     , m_eventPeriodMillisecs(eventPeriodMillisecs)
 {
-    Start();
+    if (!delayedStart)
+    {
+        Start();
+    }
 }
 
 EventThread::~EventThread()
 {
     Stop();
+}
+
+void EventThread::EventPeriod(unsigned int eventPeriodMillisecs)
+{
+    std::lock_guard<std::mutex> lock(m_eventTickMutex);
+    m_eventPeriodMillisecs = eventPeriodMillisecs;
+}
+
+unsigned int EventThread::EventPeriod() const
+{
+    std::lock_guard<std::mutex> lock(m_eventTickMutex);
+    return m_eventPeriodMillisecs;
 }
 
 void EventThread::ThreadIteration() NO_EXCEPT_
@@ -55,7 +71,7 @@ void EventThread::ThreadIteration() NO_EXCEPT_
         m_eventCallback();
     }
 
-    if (m_updateEvent.WaitForTime(m_eventPeriodMillisecs))
+    if (m_updateEvent.WaitForTime(EventPeriod()))
     {
         return;
     }

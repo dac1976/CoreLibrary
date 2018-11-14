@@ -48,9 +48,13 @@ public:
     /*!
      * \brief EventThread constructor.
      * \param[in] eventCallback - Function object to be called when event ticks.
-     * \param[in] eventPeriodMillisecs - Period between event being triggered.
+     * \param[in] eventPeriodMillisecs - Period between signalling of the event.
+     * \param[in] delayedStart - (Optional) Delay startiong of the thread.
+     *
+     * If delayedStart == true then user must call EventThread::Start() themselves.
      */
-    EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs);
+    EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs,
+                bool delayedStart = false);
 
     /*! \brief EventThread destructor. */
     ~EventThread() override;
@@ -64,6 +68,17 @@ public:
     /*! \brief Move assignment operator deleted.*/
     EventThread& operator=(EventThread&&) = delete;
 
+    /*!
+     * \brief Set even threads tick period.
+     * \param[in] eventPeriodMillisecs - Period between signalling of the event.
+     */
+    void EventPeriod(unsigned int eventPeriodMillisecs);
+    /*!
+     * \brief Set even threads tick period.
+     * \return Event tick.
+     */
+    unsigned int EventPeriod() const;
+
 private:
     /*! \brief Thread iteration function.*/
     void ThreadIteration() NO_EXCEPT_ override;
@@ -72,11 +87,13 @@ private:
 
 private:
     /*! \brief Update event.*/
+    mutable std::mutex m_eventTickMutex;
+    /*! \brief Update event.*/
     core_lib::threads::SyncEvent m_updateEvent{};
     /*! \brief Callback fires on event.*/
     event_callback_t m_eventCallback{};
     /*! \brief Event tick period.*/
-    unsigned int const m_eventPeriodMillisecs{};
+    unsigned int m_eventPeriodMillisecs{0};
 };
 
 } // namespace threads
