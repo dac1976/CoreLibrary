@@ -26,7 +26,7 @@ This library requires some third-party open source libraries for it to compile a
 * Loki: http://loki-lib.sourceforge.net/
 * Google Test (tested with 1.7.0+, but newest recommended): https://github.com/google/googletest/graphs/contributors
 
-As with compilers I always keep my copies of the above thrid-party libraries up-to-date with their latest stable versions so I won't guarantee full support for older versoins of these libraries as I continue work on this project.
+As with compilers I always keep my copies of the above third-party libraries up-to-date with their latest stable versions so I won't guarantee full support for older versoins of these libraries as I continue work on this project.
 
 ## Notes ##
 This is largely a hobby project based on the knowledge I've gained in my many years of experience working in software development and academia since 1999. I started the development of this code in early 2014. This represents a collection of, hopefully, straightforward to use and useful classes for commonly occurring software development needs.
