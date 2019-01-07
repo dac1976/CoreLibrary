@@ -66,11 +66,19 @@ unsigned int EventThread::EventPeriod() const
 
 void EventThread::ThreadIteration() NO_EXCEPT_
 {
-    if (m_eventCallback)
-    {
-        m_eventCallback();
-    }
+	try
+	{
+		if (m_eventCallback)
+		{
+			m_eventCallback();
+		}
 
+	}
+	catch(...)
+	{
+		// Do nothing.
+	}
+	
     if (m_updateEvent.WaitForTime(EventPeriod()))
     {
         return;
