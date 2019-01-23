@@ -64,6 +64,11 @@ unsigned int EventThread::EventPeriod() const
     return m_eventPeriodMillisecs;
 }
 
+void EventThread::ForceTick()
+{
+	m_updateEvent.Signal();
+}
+
 void EventThread::ThreadIteration() NO_EXCEPT_
 {
 	try
@@ -79,10 +84,7 @@ void EventThread::ThreadIteration() NO_EXCEPT_
 		// Do nothing.
 	}
 	
-    if (m_updateEvent.WaitForTime(EventPeriod()))
-    {
-        return;
-    }
+    m_updateEvent.WaitForTime(EventPeriod());
 }
 
 void EventThread::ProcessTerminationConditions() NO_EXCEPT_

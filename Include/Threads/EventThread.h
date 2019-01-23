@@ -79,6 +79,9 @@ public:
      */
     unsigned int EventPeriod() const;
 
+	/*! \brief Forces the thread to tick. */
+	void ForceTick();
+
 private:
     /*! \brief Thread iteration function.*/
     void ThreadIteration() NO_EXCEPT_ override;
