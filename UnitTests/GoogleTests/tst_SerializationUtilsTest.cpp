@@ -1,6 +1,7 @@
 #ifndef DISABLE_SERIALIZATION_TESTS
 
 #include <string>
+#include <cmath>
 #include <boost/predef.h>
 #include "Serialization/SerializeToVector.h"
 #include <cereal/types/string.hpp>
@@ -26,28 +27,16 @@ public:
         }
     }
 
-    virtual ~MyObject() {}
-
-    float Fred() const
-    {
-        return fred;
-    }
     void Fred(float _fred)
     {
         fred = _fred;
     }
-    std::string Harry() const
-    {
-        return harry;
-    }
+
     void Harry(const std::string& _harry)
     {
         harry = _harry;
     }
-    auto George() -> std::vector<unsigned int> const
-    {
-        return george;
-    }
+
     void George(const std::vector<unsigned int>& _george)
     {
         george = _george;
@@ -55,8 +44,8 @@ public:
 
     bool operator==(const MyObject& obj) const
     {
-        return (this == &obj) ||
-               ((fred == obj.fred) && (harry == obj.harry) && (george == obj.george));
+        return (this == &obj) || ((std::abs(fred - obj.fred) < 1.e-6f) && (harry == obj.harry) &&
+                                  (george == obj.george));
     }
 
 private:
@@ -84,7 +73,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectPortBinArch)
     using namespace core_lib::serialize;
     MyObject objectIn{};
     MyObject objectOut{};
-    objectIn.Fred(10.0);
+    objectIn.Fred(10.0f);
     objectIn.Harry("jnkjn");
     std::vector<unsigned int> vec{1, 2, 3, 4, 5};
     objectIn.George(vec);
@@ -100,7 +89,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectBinArch)
     using namespace core_lib::serialize;
     MyObject objectIn{};
     MyObject objectOut{};
-    objectIn.Fred(10.0);
+    objectIn.Fred(10.0f);
     objectIn.Harry("jnkjn");
     std::vector<unsigned int> vec{1, 2, 3, 4, 5};
     objectIn.George(vec);
@@ -115,7 +104,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectJSONArch)
     using namespace core_lib::serialize;
     MyObject objectIn{};
     MyObject objectOut{};
-    objectIn.Fred(10.0);
+    objectIn.Fred(10.0f);
     objectIn.Harry("jnkjn");
     std::vector<unsigned int> vec{1, 2, 3, 4, 5};
     objectIn.George(vec);
@@ -131,7 +120,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectXmlArch)
     using namespace core_lib::serialize;
     MyObject objectIn{};
     MyObject objectOut{};
-    objectIn.Fred(10.0);
+    objectIn.Fred(10.0f);
     objectIn.Harry("jnkjn");
     std::vector<unsigned int> vec{1, 2, 3, 4, 5};
     objectIn.George(vec);
