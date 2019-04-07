@@ -1444,10 +1444,10 @@ TEST(QueueTest, testCase_ConcurrentQueue10)
 
 TEST(QueueStressTest, testCase_ConcurrentQueue11)
 {
-    int                          max_i         = 10000000;
-    int                          max_i_quarter = 2500000;
+    int                          max_i         = 1000000;
+    int                          max_i_quarter = 250000;
     core_lib::threads::SyncEvent readyEvent;
-    QueuedThread3                qt(readyEvent, max_i);
+    QueuedThread3                qt(readyEvent, static_cast<size_t>(max_i));
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     EXPECT_TRUE(qt.GetCounter() == 0);
 
@@ -1468,15 +1468,15 @@ TEST(QueueStressTest, testCase_ConcurrentQueue11)
         futures.push_back(std::async(std::launch::async, func, i));
     }
 
-    EXPECT_TRUE(readyEvent.WaitForTime(120000));
-    size_t count = qt.GetCounter();
-    EXPECT_TRUE(count == static_cast<size_t>(max_i));
-
     // Make sure our futures have all returned from the async calls.
     for (auto& f : futures)
     {
         f.get();
     }
+
+    EXPECT_TRUE(readyEvent.WaitForTime(120000));
+    size_t count = qt.GetCounter();
+    EXPECT_EQ(count, static_cast<size_t>(max_i));
 }
 
 // ****************************************************************************

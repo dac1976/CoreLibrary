@@ -1464,7 +1464,7 @@ TEST(AsioTest, testCase_TestSimpleMulticast_DefaultAdapter)
 TEST(AsioTest, testCase_TestMulticast_SpecificAdapter)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 160.50.100.76/255.255.0.0.
+    // with settings 10.34.6.1/255.255.0.0.
     char_buffer_t   message = BuildMessage();
     MessageReceiver receiver;
 
@@ -1472,9 +1472,9 @@ TEST(AsioTest, testCase_TestMulticast_SpecificAdapter)
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
         std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1),
-        "160.50.100.76");
+        "10.34.6.1");
 
-    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "160.50.100.76");
+    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "10.34.6.1");
 
     EXPECT_TRUE(mcSender.SendMessage(message) == true);
 
@@ -1488,7 +1488,7 @@ TEST(AsioTest, testCase_TestMulticast_SpecificAdapter)
 TEST(AsioTest, testCase_TestTypedMulticast_SpecificAdapter)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 160.50.100.76/255.255.0.0.
+    // with settings 10.34.6.1/255.255.0.0.
     MessageBuilder    messageBuilder;
     MessageDispatcher rcvrDispatcher;
     MessageHandler    rcvrMessageHandler(
@@ -1500,10 +1500,10 @@ TEST(AsioTest, testCase_TestTypedMulticast_SpecificAdapter)
             &MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1),
-        "160.50.100.76");
+        "10.34.6.1");
 
     MulticastTypedSender<MessageBuilder> mcSender(
-        std::make_pair("226.0.0.1", 19191), messageBuilder, "160.50.100.76");
+        std::make_pair("226.0.0.1", 19191), messageBuilder, "10.34.6.1");
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -1519,14 +1519,14 @@ TEST(AsioTest, testCase_TestTypedMulticast_SpecificAdapter)
 TEST(AsioTest, testCase_TestSimpleMulticast_SpecificAdapter)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 160.50.100.76/255.255.0.0.
+    // with settings 10.34.6.1/255.255.0.0.
     MessageDispatcher       rcvrDispatcher;
     SimpleMulticastReceiver mcReceiver(
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1),
-        "160.50.100.76");
+        "10.34.6.1");
 
-    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "160.50.100.76");
+    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "10.34.6.1");
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -1542,15 +1542,15 @@ TEST(AsioTest, testCase_TestSimpleMulticast_SpecificAdapter)
 TEST(AsioTest, testCase_TestSimpleMulticast_DifferentAdapters)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 160.50.100.76/255.255.0.0 and another
-    // adapter on IP address 160.51.100.76/255.255.0.0.
+    // with settings 10.34.6.1/255.255.0.0 and another
+    // adapter on IP address 10.35.6.1/255.255.0.0.
     MessageDispatcher       rcvrDispatcher;
     SimpleMulticastReceiver mcReceiver(
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1),
-        "160.50.100.76");
+        "10.34.6.1");
 
-    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "160.51.100.76");
+    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "10.35.6.1");
 
     MyMessage messageToSend;
     messageToSend.FillMessage();

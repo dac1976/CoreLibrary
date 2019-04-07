@@ -39,4 +39,4 @@ The code is commented using Doxygen style comments so check the documentation in
 
 For usage examples I recommend looking at the unit test code in the /UnitTests/GoogleTests folder.
 
-The networking unit tests require network connectivity and expects 2 adapters setup, one on 160.50.100.76/255.255.0.0 and another on 160.51.100.76/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
+The networking unit tests require network connectivity and expects 2 adapters setup, one on 10.34.6.1/255.255.0.0 and another on 10.35.6.1/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
