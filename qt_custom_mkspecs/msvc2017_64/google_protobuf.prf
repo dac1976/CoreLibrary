@@ -1,0 +1,7 @@
+INCLUDEPATH += $$(THIRD_PARTY_LIBS)/google_protobuf/include
+
+CONFIG(debug, debug|release) {
+  LIBS += $$(THIRD_PARTY_LIBS)/google_protobuf/x64/lib/dynamic_runtime/libprotobufd.lib             
+} else {
+  LIBS += $$(THIRD_PARTY_LIBS)/google_protobuf/x64/lib/dynamic_runtime/libprotobuf.lib                
+}

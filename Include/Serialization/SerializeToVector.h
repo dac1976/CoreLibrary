@@ -57,6 +57,16 @@ struct CORE_LIBRARY_DLL_SHARED_API raw_oarchive
 {
 };
 
+/*! \brief In archive placeholder struct for serializing Google protocol buffers. */
+struct CORE_LIBRARY_DLL_SHARED_API protobuf_iarchive
+{
+};
+
+/*! \brief Out archive placeholder struct for serializing  Google protocol buffers. */
+struct CORE_LIBRARY_DLL_SHARED_API protobuf_oarchive
+{
+};
+
 /*! \brief The archives namespace. */
 namespace archives
 {
@@ -71,6 +81,8 @@ using out_xml_t = cereal::XMLOutputArchive;
 using out_json_t = cereal::JSONOutputArchive;
 /*! \brief Typedef to output raw archive. */
 using out_raw_t = raw_oarchive;
+/*! \brief Typedef to output using Google protocol buffers. */
+using out_protobuf_t = protobuf_oarchive;
 /*! \brief Typedef to input portable binary archive. */
 using in_port_bin_t = cereal::PortableBinaryInputArchive;
 /*! \brief Typedef to input binary archive. */
@@ -81,6 +93,8 @@ using in_xml_t = cereal::XMLInputArchive;
 using in_json_t = cereal::JSONInputArchive;
 /*! \brief Typedef to input raw archive. */
 using in_raw_t = raw_iarchive;
+/*! \brief Typedef to input using Google protocol buffers. */
+using in_protobuf_t = protobuf_iarchive;
 
 } // namespace archives
 
@@ -144,6 +158,31 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
     }
 };
 
+/*! \brief Serialization to char vector implementation, specialization for Google protocol buffers.
+ */
+template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
+{
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialize
+     * \return Char vector containing serialized object
+     */
+    char_vector_t operator()(const T& object) const
+    {
+        std::stringstream os;
+
+        if (!object.SerializeToOstream(&os))
+        {
+            BOOST_THROW_EXCEPTION(std::runtime_error("failed to serialize protocol buffer"));
+        }
+
+        char_vector_t charVector;
+        charVector.reserve(os.str().size());
+        charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
+        return charVector;
+    }
+};
+
 /*!
  * \brief Deserialization to object implementation.
  *
@@ -201,6 +240,30 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
         return object;
     }
 };
+
+/*! \brief Deserialization to object implementation, specialization for Google protocol buffers. */
+template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
+{
+    /*!
+     * \brief Function operator
+     * \param[in] charVector - Char vector containing serialized object
+     * \return Deserialized object
+     */
+    T operator()(const char_vector_t& charVector) const
+    {
+        std::stringstream is;
+        std::copy(charVector.begin(), charVector.end(), std::ostream_iterator<char>(is));
+        T object;
+
+        if (!object.ParseFromIstream(&is))
+        {
+            BOOST_THROW_EXCEPTION(std::runtime_error("failed to deserialize to protocol buffer"));
+        }
+
+        return object;
+    }
+};
+
 } // namespace impl
 
 /*!

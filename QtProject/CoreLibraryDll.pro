@@ -62,7 +62,7 @@ else {
     QMAKE_CXXFLAGS += -std=c++14
 
     # Set version info for library.
-    VERSION = 1.5.4
+    VERSION = 1.5.5
 
     # Set binary's output folder.
     CONFIG(debug, debug|release) {
