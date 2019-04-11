@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.5.4.1</span>
+   &#160;<span id="projectnumber">1.5.5.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -106,6 +106,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__port__bin__t_01_4.html">ArchiveTypeToEnum&lt; serialize::archives::out_port_bin_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerator as a specialized template class for portable binary archives.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__port__bin__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__protobuf__t_01_4.html">ArchiveTypeToEnum&lt; serialize::archives::out_protobuf_t &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerator as a specialized template class for Google protocol buffer data.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__protobuf__t_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__raw__t_01_4.html">ArchiveTypeToEnum&lt; serialize::archives::out_raw_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerator as a specialized template class for raw data.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__raw__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +143,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a983fb0e7fe6586288a9abc56edce67c6"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a983fb0e7fe6586288a9abc56edce67c6">DeserializeMessage</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ac0d2cc51a1514979427f39f885bbd4c1">defs::char_buffer_t</a> &amp;messageBuffer)</td></tr>
 <tr class="memdesc:a983fb0e7fe6586288a9abc56edce67c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for POD data.  <a href="#a983fb0e7fe6586288a9abc56edce67c6">More...</a><br /></td></tr>
 <tr class="separator:a983fb0e7fe6586288a9abc56edce67c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19253ae9b3f47755c5838dc0613e3051"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a19253ae9b3f47755c5838dc0613e3051"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a19253ae9b3f47755c5838dc0613e3051">DeserializeProtobuf</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ac0d2cc51a1514979427f39f885bbd4c1">defs::char_buffer_t</a> &amp;messageBuffer)</td></tr>
+<tr class="memdesc:a19253ae9b3f47755c5838dc0613e3051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for Google protocol buffer data.  <a href="#a19253ae9b3f47755c5838dc0613e3051">More...</a><br /></td></tr>
+<tr class="separator:a19253ae9b3f47755c5838dc0613e3051"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The tcp namespace. </p>
@@ -330,6 +337,35 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a19253ae9b3f47755c5838dc0613e3051"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19253ae9b3f47755c5838dc0613e3051">&#9670;&nbsp;</a></span>DeserializeProtobuf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T core_lib::asio::messages::DeserializeProtobuf </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ac0d2cc51a1514979427f39f885bbd4c1">defs::char_buffer_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>messageBuffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Templated message deserializer function for Google protocol buffer data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageBuffer</td><td>- Message buffer to be deserialized. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The deserialization object T. </dd></dl>
+
+</div>
+</div>
 <a id="a2600711d2d8cfea23a4ef6c6fad1410c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2600711d2d8cfea23a4ef6c6fad1410c">&#9670;&nbsp;</a></span>FillHeader()</h2>
 
@@ -390,7 +426,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacecore__lib.html">core_lib</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio.html">asio</a></li><li class="navelem"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html">messages</a></li>
-    <li class="footer">Generated on Wed Jan 23 2019 16:27:36 for Core Library by
+    <li class="footer">Generated on Thu Apr 11 2019 22:51:15 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

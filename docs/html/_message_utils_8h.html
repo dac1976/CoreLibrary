@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Core Library: /home/duncan/Projects/Duncan/CoreLibrary/Include/Asio/MessageUtils.h File Reference</title>
+<title>Core Library: D:/Projects/CoreLibrary/Include/Asio/MessageUtils.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Core Library
-   &#160;<span id="projectnumber">1.5.4.1</span>
+   &#160;<span id="projectnumber">1.5.5.0</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -118,6 +118,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__raw__t_01_4.html">core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_raw_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerator as a specialized template class for raw data.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__raw__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__protobuf__t_01_4.html">core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_protobuf_t &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerator as a specialized template class for Google protocol buffer data.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__protobuf__t_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html">core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_json_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerator as a specialized template class for json archives.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,6 +164,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a983fb0e7fe6586288a9abc56edce67c6"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a983fb0e7fe6586288a9abc56edce67c6">core_lib::asio::messages::DeserializeMessage</a> (const defs::char_buffer_t &amp;messageBuffer)</td></tr>
 <tr class="memdesc:a983fb0e7fe6586288a9abc56edce67c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for POD data.  <a href="namespacecore__lib_1_1asio_1_1messages.html#a983fb0e7fe6586288a9abc56edce67c6">More...</a><br /></td></tr>
 <tr class="separator:a983fb0e7fe6586288a9abc56edce67c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19253ae9b3f47755c5838dc0613e3051"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a19253ae9b3f47755c5838dc0613e3051"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a19253ae9b3f47755c5838dc0613e3051">core_lib::asio::messages::DeserializeProtobuf</a> (const defs::char_buffer_t &amp;messageBuffer)</td></tr>
+<tr class="memdesc:a19253ae9b3f47755c5838dc0613e3051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for Google protocol buffer data.  <a href="namespacecore__lib_1_1asio_1_1messages.html#a19253ae9b3f47755c5838dc0613e3051">More...</a><br /></td></tr>
+<tr class="separator:a19253ae9b3f47755c5838dc0613e3051"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing message utils declaration. </p>
@@ -170,7 +177,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_856524284ebe840938865dc061f982fb.html">Include</a></li><li class="navelem"><a class="el" href="dir_cd8f788b2c3d76b815cf5350446e93a9.html">Asio</a></li><li class="navelem"><a class="el" href="_message_utils_8h.html">MessageUtils.h</a></li>
-    <li class="footer">Generated on Wed Jan 23 2019 16:27:36 for Core Library by
+    <li class="footer">Generated on Thu Apr 11 2019 22:51:15 for Core Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

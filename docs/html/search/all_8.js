@@ -4,6 +4,7 @@ var searchData=
   ['in_5fbin_5ft',['in_bin_t',['../namespacecore__lib_1_1serialize_1_1archives.html#a4b2568bbd14974947563ad620639a6e0',1,'core_lib::serialize::archives']]],
   ['in_5fjson_5ft',['in_json_t',['../namespacecore__lib_1_1serialize_1_1archives.html#aa4bea4ba6b5a9ceb2ca52fac1aac9d7f',1,'core_lib::serialize::archives']]],
   ['in_5fport_5fbin_5ft',['in_port_bin_t',['../namespacecore__lib_1_1serialize_1_1archives.html#a481a42c16cb8998ed3f58a0c9e61829a',1,'core_lib::serialize::archives']]],
+  ['in_5fprotobuf_5ft',['in_protobuf_t',['../namespacecore__lib_1_1serialize_1_1archives.html#a63215c179fadc280fdba211b0b61e884',1,'core_lib::serialize::archives']]],
   ['in_5fraw_5ft',['in_raw_t',['../namespacecore__lib_1_1serialize_1_1archives.html#a9897be2e5f426809537fa24fe928ad1d',1,'core_lib::serialize::archives']]],
   ['in_5fxml_5ft',['in_xml_t',['../namespacecore__lib_1_1serialize_1_1archives.html#a138bc5c4cf0865e22be5ba7d11d747b8',1,'core_lib::serialize::archives']]],
   ['info',['info',['../namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcacaf9b6b99962bf5c2264824231d7a40c',1,'core_lib::log']]],

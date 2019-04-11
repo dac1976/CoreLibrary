@@ -192,6 +192,20 @@ template <> struct ArchiveTypeToEnum<serialize::archives::out_raw_t>
     }
 };
 
+/*! \brief Archive type enumerator as a specialized template class for Google protocol buffer data.
+ */
+template <> struct ArchiveTypeToEnum<serialize::archives::out_protobuf_t>
+{
+    /*!
+     * \brief Enumerate method.
+     * \return The enumerated type.
+     */
+    static defs::eArchiveType Enumerate()
+    {
+        return defs::eArchiveType::protobuf;
+    }
+};
+
 /*! \brief Archive type enumerator as a specialized template class for json archives. */
 template <> struct ArchiveTypeToEnum<serialize::archives::out_json_t>
 {
@@ -378,7 +392,8 @@ BuildMessage(const T& message, int32_t messageId, const defs::connection_t& resp
 template <typename T>
 T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveType archiveType)
 {
-    assert(archiveType != defs::eArchiveType::raw);
+    assert((archiveType != defs::eArchiveType::raw) &&
+           (archiveType != defs::eArchiveType::protobuf));
 
     switch (archiveType)
     {
@@ -393,6 +408,9 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
         return serialize::ToObject<T, serialize::archives::in_json_t>(messageBuffer);
     case defs::eArchiveType::xml:
         return serialize::ToObject<T, serialize::archives::in_xml_t>(messageBuffer);
+    case defs::eArchiveType::protobuf:
+        // Do nothing;
+        break;
     }
 
     return {};
@@ -406,6 +424,16 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
 template <typename T> T DeserializeMessage(const defs::char_buffer_t& messageBuffer)
 {
     return serialize::ToObject<T, serialize::archives::in_raw_t>(messageBuffer);
+}
+
+/*!
+ * \brief Templated message deserializer function for Google protocol buffer data.
+ * \param[in] messageBuffer - Message buffer to be deserialized.
+ * \return The deserialization object T.
+ */
+template <typename T> T DeserializeProtobuf(const defs::char_buffer_t& messageBuffer)
+{
+    return serialize::ToObject<T, serialize::archives::in_protobuf_t>(messageBuffer);
 }
 
 } // namespace messages

@@ -21,7 +21,8 @@ var _asio_defines_8h =
       [ "binary", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a9d7183f16acce70658f686ae7f1a4d20", null ],
       [ "json", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a466deec76ecdf5fca6d38571f6324d54", null ],
       [ "xml", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a0f635d0e0f3874fff8b581c132e6c7a7", null ],
-      [ "raw", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb", null ]
+      [ "raw", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb", null ],
+      [ "protobuf", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2", null ]
     ] ],
     [ "eMulticastTTL", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694", [
       [ "sameHost", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694aa1119b276d7e6d35b2e6b01590d5224d", null ],

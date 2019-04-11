@@ -20,6 +20,7 @@ CONFIG += core_lib_dll
 # DEFINES += DISABLE_STRINGUTILS_TESTS
 # DEFINES += DISABLE_THREADS_TESTS
 # DEFINES += DISABLE_FILEUTILS_TESTS
+# DEFINES += DISABLE_GPROTOBUF_TESTS
 
 # On Windows we do this, assumes we'll be using MS VC 2015.
 win32 {
@@ -66,6 +67,9 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
+INCLUDEPATH += \
+    ../
+
 SOURCES +=  ../tst_SerializationUtilsTest.cpp \
     ../tst_GenericSortingTest.cpp             \
     ../tst_StringUtilsTest.cpp                \
@@ -74,10 +78,13 @@ SOURCES +=  ../tst_SerializationUtilsTest.cpp \
     ../tst_ThreadsTest.cpp                    \
     ../tst_DebugLogTest.cpp                   \
     ../tst_AsioTest.cpp                       \
-    ../tst_CsvGridTest.cpp
+    ../tst_CsvGridTest.cpp                    \
+    ../tst_GoogleProtobufTest.cpp             \
+    ../test.pb.cc
 
 HEADERS += \
-    ../../../Include/CoreLibraryDllGlobal.h
+    ../../../Include/CoreLibraryDllGlobal.h \
+    ../test.pb.h
 
 include(deployment.pri)
 qtcAddDeployment()

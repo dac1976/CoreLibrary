@@ -160,7 +160,9 @@ enum class eArchiveType : uint8_t
     /*! \brief XML archive, requires Cereal serialization. */
     xml,
     /*! \brief Raw data, only for POD objects. */
-    raw
+    raw,
+    /*! \brief Google protocol buffer. */
+    protobuf
 };
 
 // Push single byte alignment for the MessageHeader strcuture for maximum portability.

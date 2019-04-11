@@ -1,0 +1,8 @@
+syntax = "proto3";
+package core_lib_test;
+
+message TestMessage {
+  string name = 1;
+  uint64 counter = 2;
+  repeated double values = 3;
+}

@@ -38,7 +38,7 @@ PROJECT_NAME           = "Core Library"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.5.4.1
+PROJECT_NUMBER         = 1.5.5.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -2203,7 +2203,7 @@ HIDE_UNDOC_RELATIONS   = YES
 # http://www.graphviz.org/), a graph visualization toolkit from AT&T and Lucent
 # Bell Labs. The other options in this section have no effect if this option is
 # set to NO
-# The default value is: YES.
+# The default value is: NO.
 
 HAVE_DOT               = NO
 
@@ -2359,9 +2359,7 @@ DIRECTORY_GRAPH        = YES
 # Note: If you choose svg you need to set HTML_FILE_EXTENSION to xhtml in order
 # to make the SVG files visible in IE 9+ (other browsers do not have this
 # requirement).
-# Possible values are: png, png:cairo, png:cairo:cairo, png:cairo:gd, png:gd,
-# png:gd:gd, jpg, jpg:cairo, jpg:cairo:gd, jpg:gd, jpg:gd:gd, gif, gif:cairo,
-# gif:cairo:gd, gif:gd, gif:gd:gd, svg, png:gd, png:gd:gd, png:cairo,
+# Possible values are: png, jpg, gif, svg, png:gd, png:gd:gd, png:cairo,
 # png:cairo:gd, png:cairo:cairo, png:cairo:gdiplus, png:gdiplus and
 # png:gdiplus:gdiplus.
 # The default value is: png.
