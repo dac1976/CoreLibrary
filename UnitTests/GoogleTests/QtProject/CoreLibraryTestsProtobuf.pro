@@ -80,7 +80,8 @@ SOURCES +=  ../tst_SerializationUtilsTest.cpp \
     ../tst_AsioTest.cpp                       \
     ../tst_CsvGridTest.cpp                    \
     ../tst_GoogleProtobufTest.cpp             \
-    ../test.pb.cc
+    ../test.pb.cc \
+    ../tst_GoogleProtoBufTest.cpp
 
 HEADERS += \
     ../../../Include/CoreLibraryDllGlobal.h \
