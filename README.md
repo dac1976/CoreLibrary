@@ -1,6 +1,6 @@
 # CoreLibrary #
 ## News ##
-2019/04/11 - Added support for Google Protocol Buffers in serialization utilities. Hence support automtically achieved in all ASIO classes, such as TCP, UDP and multicast classes.
+2019/04/11 - Added support for Google Protocol Buffers in serialization utilities. Therefore support automatically achieved in all ASIO classes, such as TCP, UDP and multicast classes.
 
 ## Introduction ##
 This library (CoreLibrary) is a collection of useful C++1x utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on. In other words a general collection of code that is very useful in many different C++ coding projects.
