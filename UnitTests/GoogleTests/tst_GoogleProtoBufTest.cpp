@@ -11,7 +11,6 @@ using namespace core_lib::asio::tcp;
 using namespace core_lib::serialize;
 using namespace core_lib::threads;
 using namespace core_lib::asio::messages;
-using namespace core_lib_test;
 
 class ProtoBufMessageDispatcher
 {
@@ -26,7 +25,7 @@ public:
 
             if (!message->body.empty())
             {
-                m_myMessage = DeserializeProtobuf<TestMessage>(message->body);
+                m_myMessage = DeserializeProtobuf<core_lib_test::TestMessage>(message->body);
             }
         }
 
@@ -43,27 +42,27 @@ public:
         return m_header;
     }
 
-    const TestMessage& Message() const
+    const core_lib_test::TestMessage& Message() const
     {
         return m_myMessage;
     }
 
 private:
-    SyncEvent     m_messageEvent;
-    MessageHeader m_header;
-    TestMessage   m_myMessage;
+    SyncEvent                  m_messageEvent;
+    MessageHeader              m_header;
+    core_lib_test::TestMessage m_myMessage;
 };
 
 // Unit test cases.
 TEST(GoogleProtobuf, testCase_serialize)
 {
-    TestMessage m;
+    core_lib_test::TestMessage m;
     m.set_name("I am a test message");
     m.set_counter(666);
     m.mutable_values()->Resize(100, 666.666);
 
-    auto charVector = ToCharVector<TestMessage, archives::out_protobuf_t>(m);
-    auto mOut       = ToObject<TestMessage, archives::in_protobuf_t>(charVector);
+    auto charVector = ToCharVector<core_lib_test::TestMessage, archives::out_protobuf_t>(m);
+    auto mOut       = DeserializeProtobuf<core_lib_test::TestMessage>(charVector);
 
     EXPECT_EQ(m.name(), mOut.name());
     EXPECT_EQ(m.counter(), mOut.counter());
@@ -89,15 +88,15 @@ TEST(GoogleProtobuf, testCase_protobufOverTcp)
                                      &clientDispatcher,
                                      std::placeholders::_1));
 
-    TestMessage m;
+    core_lib_test::TestMessage m;
     m.set_name("I am a test message");
     m.set_counter(666);
     m.mutable_values()->Resize(100, 666.666);
 
-    client.SendMessageToServerAsync<TestMessage, archives::out_protobuf_t>(m, 666);
+    client.SendMessageToServerAsync<core_lib_test::TestMessage, archives::out_protobuf_t>(m, 666);
     serverDispatcher.WaitForMessage(3000);
 
-    TestMessage receivedMessage = serverDispatcher.Message();
+    core_lib_test::TestMessage receivedMessage = serverDispatcher.Message();
 
     EXPECT_EQ(m.name(), receivedMessage.name());
     EXPECT_EQ(m.counter(), receivedMessage.counter());

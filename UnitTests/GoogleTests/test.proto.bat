@@ -1,0 +1,1 @@
+protoc --proto_path=D:/Projects/ThirdParty/google_protobuf/include --proto_path=D:/Projects/CoreLibrary/UnitTests/GoogleTests/  --cpp_out=D:/Projects/CoreLibrary/UnitTests/GoogleTests/ D:/Projects/CoreLibrary/UnitTests/GoogleTests/test.proto
