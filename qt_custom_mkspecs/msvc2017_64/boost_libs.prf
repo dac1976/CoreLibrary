@@ -3,11 +3,13 @@ DEFINES += BOOST_THREAD_USE_LIB
 #LIBS += -lws2_32 -lmswsock
 
 CONFIG(debug, debug|release) {
-  LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64 \
-          -lboost_filesystem-vc141-mt-gd-x64-1_67          \
-          -lboost_system-vc141-mt-gd-x64-1_67              
+  LIBS += $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_filesystem-vc141-mt-gd-x64-1_69.lib \
+          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_system-vc141-mt-gd-x64-1_69.lib \
+          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_date_time-vc141-mt-gd-x64-1_69.lib \
+          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_regex-vc141-mt-gd-x64-1_69.lib		  
 } else {
-  LIBS += -L$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64 \
-          -lboost_filesystem-vc141-mt-x64-1_67             \
-          -lboost_system-vc141-mt-x64-1_67                 
+  LIBS += $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_filesystem-vc141-mt-x64-1_69.lib \
+          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_system-vc141-mt-x64-1_69.lib \  
+          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_date_time-vc141-mt-x64-1_69.lib \
+          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_regex-vc141-mt-x64-1_69.lib		  
 }

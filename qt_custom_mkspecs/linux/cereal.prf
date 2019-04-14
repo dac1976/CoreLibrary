@@ -1,1 +1,1 @@
-INCLUDEPATH += /home/duncan/projects/ThirdParty/cereal/include
+INCLUDEPATH += /usr/include

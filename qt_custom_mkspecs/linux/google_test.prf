@@ -1,14 +1,9 @@
 # Need to add in pthread as google test requires it.
 QMAKE_CXXFLAGS += -pthread
 
-INCLUDEPATH += /home/duncan/projects/ThirdParty/google_test/include
+INCLUDEPATH += /usr/include
 
 # The order of these libs is important and libpthread.so must go
 # after the libgtest_main.a's linkage.
-CONFIG(debug, debug|release) {
-  LIBS += -L/home/duncan/projects/ThirdParty/google_test/make -lgtest_main \
-	  -L/lib64 -lpthread
-} else {
-  LIBS += -L/home/duncan/projects/ThirdParty/google_test/make -lgtest_maind \
-	  -L/lib64 -lpthread
-}
+LIBS += -L/usr/lib -lgtest_main \
+	    -L/usr/lib -lpthread
