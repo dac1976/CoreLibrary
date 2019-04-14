@@ -111,8 +111,8 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Asio/MulticastTypedSender.h           \
     ../Include/Asio/SimpleMulticastSender.h          \
     ../Include/Asio/SimpleMulticastReceiver.h        \
-    ../Include/Threads/ThreadRunner.h \
-    ../Include/Exceptions/DetailedException.h \
+    ../Include/Threads/ThreadRunner.h                \
+    ../Include/Exceptions/DetailedException.h        \
     ../Include/Threads/EventThread.h
 
 SOURCES += ../Source/Asio/AsioDefines.cpp              \
@@ -145,7 +145,7 @@ SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/SimpleUdpReceiver.cpp               \
     ../Source/Asio/SimpleMulticastSender.cpp           \
     ../Source/Asio/SimpleMulticastReceiver.cpp         \
-    ../Source/Threads/ThreadRunner.cpp \
+    ../Source/Threads/ThreadRunner.cpp                 \
     ../Source/Threads/EventThread.cpp
 
 

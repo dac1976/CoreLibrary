@@ -6,4 +6,5 @@ INCLUDEPATH += /usr/include
 # The order of these libs is important and libpthread.so must go
 # after the libgtest_main.a's linkage.
 LIBS += -L/usr/lib -lgtest_main \
+        -L/usr/lib -lgtest \ 
 	    -L/usr/lib -lpthread

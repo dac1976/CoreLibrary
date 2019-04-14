@@ -1,0 +1,1 @@
+protoc --proto_path=/usr/include --proto_path=/mnt/Data/projects/CoreLibrary/UnitTests/GoogleTests/  --cpp_out=/mnt/Data/projects/CoreLibrary/UnitTests/GoogleTests/ /mnt/Data/projects/CoreLibrary/UnitTests/GoogleTests/test.proto
