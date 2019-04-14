@@ -2,7 +2,7 @@ CONFIG += core_lib_settings \
           boost_libs
 
 CONFIG(debug, debug|release) {
-  LIBS += /home/duncan/projects/CoreLibrary/QtProject/debug/CoreLibrary.a
+  LIBS += /home/duncan/projects/CoreLibrary/QtProject/debug/libCoreLibrary.a
 } else {
-  LIBS += /home/duncan/projects/CoreLibrary/QtProject/release/CoreLibrary.a
+  LIBS += /home/duncan/projects/CoreLibrary/QtProject/release/libCoreLibrary.a
 }
