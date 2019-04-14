@@ -13,7 +13,7 @@ var searchData=
   ['registerlogqueuemessageid',['RegisterLogQueueMessageId',['../classcore__lib_1_1log_1_1_debug_log.html#ac65fc28bb54534f8e95dff7499fedd7a',1,'core_lib::log::DebugLog']]],
   ['registermessagehandler',['RegisterMessageHandler',['../classcore__lib_1_1threads_1_1_message_queue_thread.html#a85acfe82d32878ea0e79d736f1be7060',1,'core_lib::threads::MessageQueueThread']]],
   ['remove',['Remove',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html#a5de46a1b12a958a6cf12051be28b7209',1,'core_lib::asio::tcp::TcpConnections']]],
-  ['removeillegalchars',['RemoveIllegalChars',['../namespacecore__lib_1_1string__utils.html#a3ba7ba8baee14121591a02f2af0425ca',1,'core_lib::string_utils']]],
+  ['removeillegalchars',['RemoveIllegalChars',['../namespacecore__lib_1_1string__utils.html#a5eadf3d175adfe700b0d95d3af8a31ce',1,'core_lib::string_utils']]],
   ['removelogmsglevelfilter',['RemoveLogMsgLevelFilter',['../classcore__lib_1_1log_1_1_debug_log.html#a9c0890110342c59124b5bd041d2f68b7',1,'core_lib::log::DebugLog']]],
   ['removethread',['RemoveThread',['../classcore__lib_1_1threads_1_1_thread_group.html#a9844891e52512a7e8e0317a065f6bc01',1,'core_lib::threads::ThreadGroup::RemoveThread(std::thread *threadPtr)'],['../classcore__lib_1_1threads_1_1_thread_group.html#a6cab50287cbb2ce7a2887c64770dbdb9',1,'core_lib::threads::ThreadGroup::RemoveThread(const std::thread::id &amp;id)']]],
   ['reset',['Reset',['../classcore__lib_1_1threads_1_1_sync_event.html#af08b2171ed3e3117a56bb5e90893300f',1,'core_lib::threads::SyncEvent']]],

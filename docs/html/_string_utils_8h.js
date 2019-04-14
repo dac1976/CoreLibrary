@@ -11,8 +11,8 @@ var _string_utils_8h =
     ] ],
     [ "FormatFloatString", "_string_utils_8h.html#a9af48f361142117fef94372b9a291b3d", null ],
     [ "PackStdString", "_string_utils_8h.html#a0016720d11e6e4fe751381d7cb121630", null ],
-    [ "RemoveIllegalChars", "_string_utils_8h.html#a3ba7ba8baee14121591a02f2af0425ca", null ],
-    [ "RemoveIllegalChars", "_string_utils_8h.html#a0ac0221ad48a0a5a1072a92359cbd2b2", null ],
+    [ "RemoveIllegalChars", "_string_utils_8h.html#a5eadf3d175adfe700b0d95d3af8a31ce", null ],
+    [ "RemoveIllegalChars", "_string_utils_8h.html#a0d1719ccd4d3940717842a60616b980d", null ],
     [ "SplitString", "_string_utils_8h.html#ac29af203fb8dd95cf24851ae3f8a2c17", null ],
     [ "StringToWString", "_string_utils_8h.html#ac7720660074f52f79604b91ff0f38126", null ],
     [ "WStringToString", "_string_utils_8h.html#ab656e115ee5d57fda92d6d4b2ab91f32", null ]
