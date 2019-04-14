@@ -26,7 +26,7 @@ public:
 
             if (!message->body.empty())
             {
-                m_myMessage = ToObject<TestMessage, archives::in_protobuf_t>(message->body);
+                m_myMessage = DeserializeProtobuf<TestMessage>(message->body);
             }
         }
 

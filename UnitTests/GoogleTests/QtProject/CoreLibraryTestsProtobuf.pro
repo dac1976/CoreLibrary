@@ -5,10 +5,10 @@ CONFIG += qt
 CONFIG += google_test
 CONFIG += google_protobuf
 # Use these 2 when building against static lib.
-#CONFIG += core_lib
-#DEFINES += CORE_LIBRARY_LIB
+CONFIG += core_lib
+DEFINES += CORE_LIBRARY_LIB
 # Use this when building against DLL.
-CONFIG += core_lib_dll
+# CONFIG += core_lib_dll
 
 # Use these to selectively disable certain unit tests.
 # DEFINES += DISABLE_ASIO_TESTS
