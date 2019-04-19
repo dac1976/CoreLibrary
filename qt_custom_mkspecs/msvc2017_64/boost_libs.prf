@@ -1,15 +1,92 @@
 DEFINES += BOOST_THREAD_USE_LIB
 
-#LIBS += -lws2_32 -lmswsock
-
 CONFIG(debug, debug|release) {
-  LIBS += $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_filesystem-vc141-mt-gd-x64-1_69.lib \
-          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_system-vc141-mt-gd-x64-1_69.lib \
-          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_date_time-vc141-mt-gd-x64-1_69.lib \
-          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_regex-vc141-mt-gd-x64-1_69.lib		  
+  LIBS += \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_atomic-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_bzip2-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_chrono-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_container-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_context-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_contract-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_coroutine-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_date_time-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_exception-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_fiber-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_filesystem-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_graph-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_iostreams-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_locale-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_log-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_log_setup-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_c99-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_c99f-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_c99l-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_tr1-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_tr1f-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_tr1l-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_prg_exec_monitor-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_program_options-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_python27-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_random-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_regex-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_serialization-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_signals-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_stacktrace_noop-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_stacktrace_windbg-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_stacktrace_windbg_cached-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_system-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_test_exec_monitor-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_thread-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_timer-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_type_erasure-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_unit_test_framework-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_wave-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_wserialization-vc141-mt-gd-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_zlib-vc141-mt-gd-x64-1_67.lib
+
+
 } else {
-  LIBS += $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_filesystem-vc141-mt-x64-1_69.lib \
-          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_system-vc141-mt-x64-1_69.lib \  
-          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_date_time-vc141-mt-x64-1_69.lib \
-          $$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_regex-vc141-mt-x64-1_69.lib		  
+  LIBS += \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_atomic-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_bzip2-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_chrono-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_container-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_context-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_contract-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_coroutine-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_date_time-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_exception-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_fiber-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_filesystem-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_graph-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_iostreams-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_locale-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_log-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_log_setup-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_c99-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_c99f-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_c99l-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_tr1-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_tr1f-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_math_tr1l-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_prg_exec_monitor-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_program_options-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_python27-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_random-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_regex-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_serialization-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_signals-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_stacktrace_noop-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_stacktrace_windbg-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_stacktrace_windbg_cached-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_system-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_test_exec_monitor-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_thread-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_timer-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_type_erasure-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_unit_test_framework-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_wave-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_wserialization-vc141-mt-x64-1_67.lib \
+		$$(THIRD_PARTY_LIBS)/boost/lib/lib-msvc-2017-64/libboost_zlib-vc141-mt-x64-1_67.lib
 }
+
