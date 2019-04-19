@@ -28,8 +28,7 @@ LIBS += \
     /usr/lib/libboost_mpi.a \
     /usr/lib/libboost_mpi_python27.a \
     /usr/lib/libboost_numpy27.a \
-    /usr/lib/libboost_numpy37.a \
-    /usr/lib/libboost_prg_exec_monitor.a \
+    /usr/lib/libboost_numpy37.a \    
     /usr/lib/libboost_program_options.a \
     /usr/lib/libboost_python27.a \
     /usr/lib/libboost_python37.a \
@@ -40,11 +39,9 @@ LIBS += \
     /usr/lib/libboost_stacktrace_basic.a \
     /usr/lib/libboost_stacktrace_noop.a \
     /usr/lib/libboost_system.a \
-    /usr/lib/libboost_test_exec_monitor.a \
     /usr/lib/libboost_thread.a \
     /usr/lib/libboost_timer.a \
     /usr/lib/libboost_type_erasure.a \
-    /usr/lib/libboost_unit_test_framework.a \
     /usr/lib/libboost_wave.a \
     /usr/lib/libboost_wserialization.a
 
