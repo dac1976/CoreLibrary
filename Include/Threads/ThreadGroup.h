@@ -88,10 +88,10 @@ public:
      * \param[in] threadfunction - Thread function to use with created thread.
      * \return Pointer to the created thread.
      */
-    template <typename F> std::thread* CreateThread(F threadfunction)
+    template <typename F> std::thread* CreateThread(F&& threadfunction)
     {
         std::lock_guard<std::mutex>  lock{m_mutex};
-        std::unique_ptr<std::thread> newThread{new std::thread(threadfunction)};
+        std::unique_ptr<std::thread> newThread{new std::thread(std::forward<F>(threadfunction))};
         m_threadGroup.push_back(newThread.get());
         return newThread.release();
     }
