@@ -69,7 +69,7 @@ public:
     EventThread& operator=(EventThread&&) = delete;
 
     /*!
-     * \brief Set even threads tick period.
+     * \brief Set even thread's tick period.
      * \param[in] eventPeriodMillisecs - Period between signalling of the event.
      */
     void EventPeriod(unsigned int eventPeriodMillisecs);
@@ -79,8 +79,8 @@ public:
      */
     unsigned int EventPeriod() const;
 
-	/*! \brief Forces the thread to tick. */
-	void ForceTick();
+    /*! \brief Forces the thread to tick. */
+    void ForceTick();
 
 private:
     /*! \brief Thread iteration function.*/
