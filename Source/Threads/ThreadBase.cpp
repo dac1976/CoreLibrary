@@ -139,6 +139,8 @@ void ThreadBase::SetTerminating(bool terminating)
 
 void ThreadBase::Run()
 {
+	SetStarted(true);
+	
     while (!IsTerminating())
     {
         ThreadIteration();
