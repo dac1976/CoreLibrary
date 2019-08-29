@@ -11,5 +11,6 @@ var searchData=
   ['addrow',['AddRow',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a287b2eb8a9f45518064bc5039a73ff96',1,'core_lib::csv_grid::TCsvGrid']]],
   ['addthread',['AddThread',['../classcore__lib_1_1threads_1_1_thread_group.html#a77e3d1b84cacabe4f9d9f4c943d8a764',1,'core_lib::threads::ThreadGroup']]],
   ['asyncreadfromsocket',['AsyncReadFromSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aeba56be7724b1c215869bc06eb820b6b',1,'core_lib::asio::tcp::TcpConnection']]],
-  ['asyncwritetosocket',['AsyncWriteToSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a1075efcd849927249b4dfdab171c7216',1,'core_lib::asio::tcp::TcpConnection']]]
+  ['asyncwritetosocket',['AsyncWriteToSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a1075efcd849927249b4dfdab171c7216',1,'core_lib::asio::tcp::TcpConnection']]],
+  ['autoformatfloatstring',['AutoFormatFloatString',['../namespacecore__lib_1_1string__utils.html#a13900456b463073ba94ead0bcf03b4e2',1,'core_lib::string_utils']]]
 ];

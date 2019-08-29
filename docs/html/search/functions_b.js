@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['makehexstring',['MakeHexString',['../namespacecore__lib_1_1string__utils.html#a3f9f4baa9309680c137e64f21da8ee46',1,'core_lib::string_utils']]],
   ['maxlogsize',['MaxLogSize',['../classcore__lib_1_1log_1_1_debug_log.html#aee7bbe5af3ef8e642a1c795d056f5cbf',1,'core_lib::log::DebugLog']]],
   ['message',['Message',['../classcore__lib_1_1log_1_1dl__private_1_1_log_queue_message.html#a2acae381e0e0f4613edeb37da9d3105c',1,'core_lib::log::dl_private::LogQueueMessage']]],
   ['messagebuilder',['MessageBuilder',['../classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#acbaba70e5110bedc096a92c26d018d8a',1,'core_lib::asio::messages::MessageBuilder::MessageBuilder()=default'],['../classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a5416ae25747b9eda684827e9db9d3e1f',1,'core_lib::asio::messages::MessageBuilder::MessageBuilder(const std::string &amp;magicString)'],['../classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a3022a6f453bcb38bfc7af1e5065360e9',1,'core_lib::asio::messages::MessageBuilder::MessageBuilder(const MessageBuilder &amp;)=default'],['../classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#a0845dd7438cb3f98ff436b6cdc307329',1,'core_lib::asio::messages::MessageBuilder::MessageBuilder(MessageBuilder &amp;&amp;)=default']]],

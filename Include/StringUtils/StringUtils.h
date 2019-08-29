@@ -140,10 +140,10 @@ std::string FormatFloatString(const T value, const int precision = 15,
 }
 
 /*!
- * \brief Convert a floating point value to a string representation using the most suitable formatting.
- * \param[in] value - Floating point value to convert to a string.
- * \param[in] decimalPlaces - Number of decimal places to present after the decimal point.
- * return Resultant string.
+ * \brief Convert a floating point value to a string representation using the most suitable
+ * formatting. \param[in] value - Floating point value to convert to a string. \param[in]
+ * decimalPlaces - Number of decimal places to present after the decimal point. return Resultant
+ * string.
  *
  * Convert a single or double precision floating point number to a
  * string representaion.
@@ -166,7 +166,7 @@ template <typename T> std::string AutoFormatFloatString(const T value, int decim
     }
     else if ((absVal < min) || (absVal >= T(100000))) // very small and very big values
     {
-        formattedValue = FormatFloatString(value, decimalPlaces, hgl::fsf_scientific);
+        formattedValue = FormatFloatString(value, decimalPlaces, eFloatStringFormat::scientific);
     }
     else // everything in between
     {
@@ -276,8 +276,9 @@ std::string MakeHexString(Iter first, Iter last, bool useUppercase, bool insertS
  * \param[in] keepEmptyTokens - keep empty tokens in result vector
  * \return Vector of string tokens.
  */
-std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(
-	std::string const& text, std::string const& separator, bool keepEmptyTokens = false);
+std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(std::string const& text,
+                                                                    std::string const& separator,
+                                                                    bool keepEmptyTokens = false);
 
 /*!
  * \brief Gieven a string containing tokens, replace tokens with specific string values.
@@ -286,8 +287,8 @@ std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(
  *                       'text' arg. \return Vector of string tokens.
  * \return Copy of text with tokens replaced.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API ReplaceTokens(
-	std::string const& text, std::map<std::string, std::string> const& tokenMap);
+std::string CORE_LIBRARY_DLL_SHARED_API
+            ReplaceTokens(std::string const& text, std::map<std::string, std::string> const& tokenMap);
 
 } // namespace string_utils
 } // namespace core_lib

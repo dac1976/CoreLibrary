@@ -25,5 +25,6 @@ var searchData=
   ['asiodefines_2ecpp',['AsioDefines.cpp',['../_asio_defines_8cpp.html',1,'']]],
   ['asiodefines_2eh',['AsioDefines.h',['../_asio_defines_8h.html',1,'']]],
   ['asyncreadfromsocket',['AsyncReadFromSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aeba56be7724b1c215869bc06eb820b6b',1,'core_lib::asio::tcp::TcpConnection']]],
-  ['asyncwritetosocket',['AsyncWriteToSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a1075efcd849927249b4dfdab171c7216',1,'core_lib::asio::tcp::TcpConnection']]]
+  ['asyncwritetosocket',['AsyncWriteToSocket',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a1075efcd849927249b4dfdab171c7216',1,'core_lib::asio::tcp::TcpConnection']]],
+  ['autoformatfloatstring',['AutoFormatFloatString',['../namespacecore__lib_1_1string__utils.html#a13900456b463073ba94ead0bcf03b4e2',1,'core_lib::string_utils']]]
 ];

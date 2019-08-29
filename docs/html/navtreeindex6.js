@@ -1,5 +1,15 @@
 var NAVTREEINDEX6 =
 {
+"structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__protobuf__t_01_4.html#ae21d02b60cc9daaffe1581b0b841f699":[2,0,0,5,0,4,0],
+"structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__raw__t_01_4.html":[2,0,0,5,0,5],
+"structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__raw__t_01_4.html#a9d5b19ce47ea4b5681bfe9d090f0ab15":[2,0,0,5,0,5,0],
+"structcore__lib_1_1serialize_1_1protobuf__iarchive.html":[2,0,0,5,1],
+"structcore__lib_1_1serialize_1_1protobuf__oarchive.html":[2,0,0,5,2],
+"structcore__lib_1_1serialize_1_1raw__iarchive.html":[2,0,0,5,3],
+"structcore__lib_1_1serialize_1_1raw__oarchive.html":[2,0,0,5,4],
+"structcore__lib_1_1string__utils_1_1deletable__facet.html":[2,0,0,7,0],
+"structcore__lib_1_1threads_1_1_array_deleter.html":[2,0,0,8,0],
+"structcore__lib_1_1threads_1_1_array_deleter.html#a5ba05ca48beb4612103910bbba4cda4a":[2,0,0,8,0,0],
 "structcore__lib_1_1threads_1_1_single_item_deleter.html":[2,0,0,8,7],
 "structcore__lib_1_1threads_1_1_single_item_deleter.html#a6678c7e3f1d5318cdf6ad02fcbe76243":[2,0,0,8,7,0],
 "structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html":[2,0,1,0],

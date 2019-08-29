@@ -1,5 +1,7 @@
 # CoreLibrary #
 ## News ##
+2019/08/29 - Added extra string utility functions.
+
 2019/04/11 - Added support for Google Protocol Buffers in serialization utilities. Therefore support automatically achieved in all ASIO classes, such as TCP, UDP and multicast classes.
 
 ## Introduction ##
@@ -16,7 +18,7 @@ Copyright (C) 2014 onwards Duncan Crutchley.
 ## Requirements ##
 This library has been developed in Qt Creator for Windows and Linux. In Windows it is recommended to use the MSVC2017 tool chain from within Qt Creator to build and test the code but it has been used with MSVC2013 and MSVC2015 successfully. Other compilers have been tested in Windows such as Clang 3.4+ and GCC (MinGW) 4.8.X+ and the code should work with these. In Linux the code has been tested with GCC 4.8.X+ and Clang 3.4+. I always try to use the newest stable version of any compiler that I build this code with. So, as such, I won't guarantee I'll maintain support for older compilers as I move my code on with improvements and new features.
 
-On Windows (Win10 64bit) I am currently using MSVC 2017 64bit kit in Qt Creator 4.8.2/ Qt Framework 5.12.2. On Linux (Manjaro) I am currently using GCC 8.2.1 and Clang 8.0.0 kits in Qt Creator 4.8.2 and Qt Framework 5.12.2.
+On Windows (Win10 64bit) I am currently using MSVC 2017 64bit kit in Qt Creator 4.9.2/ Qt Framework 5.13.0. On Linux (Manjaro) I am currently using GCC 8.2.1 and Clang 8.0.0 kits in Qt Creator 4.9.2 and Qt Framework 5.13.0.
 
 The projects supplied for the library and unit tests are for Qt Creator and will work in Linux and Windows. To achieve this the projects rely on the custom mkspecs to be copied from the qt_custom_mkspecs folder into Qt's appropriate mkspec feature folder. Example mkspecs are provided for compatibility with MSVC2017 64bit and Linux. These should be customized for the user's own system.
 

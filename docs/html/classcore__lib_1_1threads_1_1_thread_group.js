@@ -7,7 +7,7 @@ var classcore__lib_1_1threads_1_1_thread_group =
     [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html#af8c232343e7e8cc749d3b6479104a5f8", null ],
     [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html#ac3d8c16f82081d7d88b80bfebca6bbce", null ],
     [ "AddThread", "classcore__lib_1_1threads_1_1_thread_group.html#a77e3d1b84cacabe4f9d9f4c943d8a764", null ],
-    [ "CreateThread", "classcore__lib_1_1threads_1_1_thread_group.html#ad00e834d57483b4da7507aeb71c525ac", null ],
+    [ "CreateThread", "classcore__lib_1_1threads_1_1_thread_group.html#af0ba44334a8f427d8e9fb26c3418e773", null ],
     [ "DeleteThread", "classcore__lib_1_1threads_1_1_thread_group.html#ad7d5e15d7d90344a2a22ea16d9db1b90", null ],
     [ "Empty", "classcore__lib_1_1threads_1_1_thread_group.html#a14dc1d27a7d2b511bce89e6bf105b0e1", null ],
     [ "IsThisThreadIn", "classcore__lib_1_1threads_1_1_thread_group.html#a77533e7e64684b2bc4824ee8636849dc", null ],

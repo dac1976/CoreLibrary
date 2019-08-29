@@ -22,6 +22,7 @@ var searchData=
   ['tofloatdef',['ToFloatDef',['../classcore__lib_1_1csv__grid_1_1_cell.html#ac49f4925ae3b0c64782e5704d5310a34',1,'core_lib::csv_grid::Cell']]],
   ['toint32def',['ToInt32Def',['../classcore__lib_1_1csv__grid_1_1_cell.html#ada255c76cc6ec05dc12e871c376eab18',1,'core_lib::csv_grid::Cell']]],
   ['toint64def',['ToInt64Def',['../classcore__lib_1_1csv__grid_1_1_cell.html#a5fa71692261c4a557871868c154e6303',1,'core_lib::csv_grid::Cell']]],
+  ['tokenisestring',['TokeniseString',['../namespacecore__lib_1_1string__utils.html#a36d0d357a5ce98dc84a5030f869a01c7',1,'core_lib::string_utils']]],
   ['tokenizeline',['TokenizeLine',['../classcore__lib_1_1csv__grid_1_1_t_row.html#ae8831cb13a32d887207143c11068c49e',1,'core_lib::csv_grid::TRow']]],
   ['tokenizelinequoted',['TokenizeLineQuoted',['../classcore__lib_1_1csv__grid_1_1_t_row.html#a36ba3cab45787935eb8cee1e87a41c94',1,'core_lib::csv_grid::TRow']]],
   ['tolongdoubledef',['ToLongDoubleDef',['../classcore__lib_1_1csv__grid_1_1_cell.html#a55d670f4628bd49c747d2d7996051566',1,'core_lib::csv_grid::Cell']]],

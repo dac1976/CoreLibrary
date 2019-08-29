@@ -189,6 +189,24 @@ TEST(StringUtilsTest, FormatFloatString_rvalue)
     EXPECT_STREQ(result.substr(0, 8).c_str(), "1234.123");
 }
 
+TEST(StringUtilsTest, AutoFormatFloatString_1)
+{
+    std::string result = core_lib::string_utils::AutoFormatFloatString(1234.1234, 1);
+    EXPECT_EQ(result, "1234.1");
+}
+
+TEST(StringUtilsTest, AutoFormatFloatString_2)
+{
+    std::string result = core_lib::string_utils::AutoFormatFloatString(0.12341234, 4);
+    EXPECT_EQ(result, "0.1234");
+}
+
+TEST(StringUtilsTest, AutoFormatFloatString_3)
+{
+    std::string result = core_lib::string_utils::AutoFormatFloatString(12341234.1234, 3);
+    EXPECT_EQ(result, "1.234e+07");
+}
+
 TEST(StringUtilsTest, RemoveIllegalChars_Wide)
 {
     std::wstring source = L"+I\\contain| bad* chars\" that<need>: to be#removed% and{replaced} "
@@ -226,14 +244,14 @@ TEST(StringUtilsTest, Tokenise1)
     decltype(substrings) comp       = {"1", "2", "3", "4"};
     EXPECT_EQ(substrings, comp);
 
-    substrings = hgl::TokeniseString("1-2-3-4", "-", false);
+    substrings = core_lib::string_utils::TokeniseString("1-2-3-4", "-", false);
     EXPECT_EQ(substrings, comp);
 }
 
 TEST(StringUtilsTest, Tokenise2)
 {
-    auto                 substrings = core_lib::string_utils::TokeniseString("1 - 2 - 3 - 4", " - ", true);
-    decltype(substrings) comp       = {"1", "", "", "2", "", "", "3", "", "", "4"};
+    auto substrings = core_lib::string_utils::TokeniseString("1 - 2 - 3 - 4", " - ", true);
+    decltype(substrings) comp = {"1", "", "", "2", "", "", "3", "", "", "4"};
     EXPECT_EQ(substrings, comp);
 
     comp       = {"1", "2", "3", "4"};
