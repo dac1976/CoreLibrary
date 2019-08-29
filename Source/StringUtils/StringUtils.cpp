@@ -29,8 +29,11 @@
 #include <locale>
 #include <codecvt>
 #include <stdexcept>
+#include <regex>
+#include <algorithm>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/tokenizer.hpp>
 #include <boost/throw_exception.hpp>
 
 namespace core_lib
@@ -126,6 +129,58 @@ std::string WStringToString(const std::wstring& text)
 {
     std::wstring_convert<deletable_facet<std::codecvt<wchar_t, char, std::mbstate_t>>> conv;
     return conv.to_bytes(text);
+}
+
+// ****************************************************************************
+// IsAlphaNumeric definition
+// ****************************************************************************
+bool IsAlphaNumeric(const std::wstring& text)
+{
+    auto finder = [=](const wchar_t c) { return std::isalnum(static_cast<int>(c)) == 0; };
+    auto count  = std::count_if(text.begin(), text.end(), finder);
+    return count == 0;
+}
+
+bool IsAlphaNumeric(const std::string& text)
+{
+    auto finder = [=](const char c) { return std::isalnum(static_cast<int>(c)) == 0; };
+    auto count  = std::count_if(text.begin(), text.end(), finder);
+    return count == 0;
+}
+
+// ****************************************************************************
+// Token based string helper definitions.
+// ****************************************************************************
+std::vector<std::string> TokeniseString(std::string const& text, std::string const& separator,
+                                        bool keepEmptyTokens)
+{
+    using separator_t = boost::char_separator<char>;
+
+    if (keepEmptyTokens)
+    {
+        separator_t                   sep(separator.c_str(), nullptr, boost::keep_empty_tokens);
+        boost::tokenizer<separator_t> tokens(text, sep);
+        return {tokens.begin(), tokens.end()};
+    }
+    else
+    {
+        separator_t                   sep(separator.c_str());
+        boost::tokenizer<separator_t> tokens(text, sep);
+        return {tokens.begin(), tokens.end()};
+    }
+}
+
+std::string ReplaceTokens(std::string const&                        text,
+                          std::map<std::string, std::string> const& tokenMap)
+{
+    auto textCopy = text;
+
+    for (auto const& token : tokenMap)
+    {
+        textCopy = std::regex_replace(textCopy, std::regex(token.first), token.second);
+    }
+
+    return textCopy;
 }
 
 } // namespace string_utils

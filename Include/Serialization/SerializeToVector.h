@@ -158,8 +158,7 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
     }
 };
 
-/*! \brief Serialization to char vector implementation, specialization for Google protocol buffers.
- */
+/*! \brief Serialization to char vector implementation, specialization for Google protocol bufs. */
 template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
 {
     /*!

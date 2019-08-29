@@ -30,6 +30,10 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <map>
+#include <vector>
+#include <limits>
+#include <cmath>
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 
@@ -136,6 +140,66 @@ std::string FormatFloatString(const T value, const int precision = 15,
 }
 
 /*!
+ * \brief Convert a floating point value to a string representation using the most suitable formatting.
+ * \param[in] value - Floating point value to convert to a string.
+ * \param[in] decimalPlaces - Number of decimal places to present after the decimal point.
+ * return Resultant string.
+ *
+ * Convert a single or double precision floating point number to a
+ * string representaion.
+ */
+template <typename T> std::string AutoFormatFloatString(const T value, int decimalPlaces = 1)
+{
+    std::string formattedValue;
+
+    if (decimalPlaces < 0)
+    {
+        decimalPlaces = 0;
+    }
+
+    const T min    = std::pow(T(10), T(-1) * decimalPlaces);
+    const T absVal = std::fabs(value);
+
+    if (absVal < std::numeric_limits<T>::epsilon()) // 0.0 case
+    {
+        formattedValue = FormatFloatString(value, 1 + decimalPlaces);
+    }
+    else if ((absVal < min) || (absVal >= T(100000))) // very small and very big values
+    {
+        formattedValue = FormatFloatString(value, decimalPlaces, hgl::fsf_scientific);
+    }
+    else // everything in between
+    {
+        if (absVal < T(1))
+        {
+            formattedValue = FormatFloatString(value, decimalPlaces);
+        }
+        else if (absVal < T(10))
+        {
+            formattedValue = FormatFloatString(value, 1 + decimalPlaces);
+        }
+        else if (absVal < T(100))
+        {
+            formattedValue = FormatFloatString(value, 2 + decimalPlaces);
+        }
+        else if (absVal < T(1000))
+        {
+            formattedValue = FormatFloatString(value, 3 + decimalPlaces);
+        }
+        else if (absVal < T(10000))
+        {
+            formattedValue = FormatFloatString(value, 4 + decimalPlaces);
+        }
+        else
+        {
+            formattedValue = FormatFloatString(value, 5 + decimalPlaces);
+        }
+    }
+
+    return formattedValue;
+}
+
+/*!
  * \brief Return a string with any illegal chars replaced with replacement char.
  * \param[in] text - Source string potentially with illegal chars.
  * \param[in] illegalChars - String containing illegal chars to look for in text.
@@ -163,6 +227,67 @@ std::wstring CORE_LIBRARY_DLL_SHARED_API StringToWString(const std::string& text
  * \return Converted string.
  */
 std::string CORE_LIBRARY_DLL_SHARED_API WStringToString(const std::wstring& text);
+
+/*!
+ * \brief Return a flag to indicate whether string contains only alphanumeric chars.
+ * \param[in] text - Source string potentially with illegal chars.
+ * \return True if contains only alphanumeric chars, false otherwise.
+ */
+bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::wstring& text);
+
+bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::string& text);
+
+/*!
+ * \brief Convert a range of data that is convertible to ints to a string of hex values.
+ * \param[in] first - Iterator to first item in range
+ * \param[in] last - Iterator to end of range
+ * \param[in] useUppercase - Use uppercase letters for hex values
+ * \param[in] insertSpaces - Insert spaces between each byte value
+ * \return Hex string representing input range.
+ */
+template <typename Iter>
+std::string MakeHexString(Iter first, Iter last, bool useUppercase, bool insertSpaces)
+{
+    std::ostringstream ss;
+    ss << std::hex << std::setfill('0');
+
+    if (useUppercase)
+    {
+        ss << std::uppercase;
+    }
+
+    while (first != last)
+    {
+        ss << std::setw(2) << static_cast<int>(*first++);
+
+        if (insertSpaces && first != last)
+        {
+            ss << " ";
+        }
+    }
+
+    return ss.str();
+}
+
+/*!
+ * \brief Tokenise a string separated by a separator substring and split it into tokens.
+ * \param[in] text - string to tokenise
+ * \param[in] separator - separator string
+ * \param[in] keepEmptyTokens - keep empty tokens in result vector
+ * \return Vector of string tokens.
+ */
+std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(
+	std::string const& text, std::string const& separator, bool keepEmptyTokens = false);
+
+/*!
+ * \brief Gieven a string containing tokens, replace tokens with specific string values.
+ * \param[in] text - string to replace tokens in
+ * \param[in] tokenMap - map of token strings and the string values to replace the tokens with in
+ *                       'text' arg. \return Vector of string tokens.
+ * \return Copy of text with tokens replaced.
+ */
+std::string CORE_LIBRARY_DLL_SHARED_API ReplaceTokens(
+	std::string const& text, std::map<std::string, std::string> const& tokenMap);
 
 } // namespace string_utils
 } // namespace core_lib

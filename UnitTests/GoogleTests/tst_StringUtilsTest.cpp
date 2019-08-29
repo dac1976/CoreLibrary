@@ -220,4 +220,33 @@ TEST(StringUtilsTest, StringConversion)
     EXPECT_EQ(narrow, narrowResult);
 }
 
+TEST(StringUtilsTest, Tokenise1)
+{
+    auto                 substrings = core_lib::string_utils::TokeniseString("1-2-3-4", "-", true);
+    decltype(substrings) comp       = {"1", "2", "3", "4"};
+    EXPECT_EQ(substrings, comp);
+
+    substrings = hgl::TokeniseString("1-2-3-4", "-", false);
+    EXPECT_EQ(substrings, comp);
+}
+
+TEST(StringUtilsTest, Tokenise2)
+{
+    auto                 substrings = core_lib::string_utils::TokeniseString("1 - 2 - 3 - 4", " - ", true);
+    decltype(substrings) comp       = {"1", "", "", "2", "", "", "3", "", "", "4"};
+    EXPECT_EQ(substrings, comp);
+
+    comp       = {"1", "2", "3", "4"};
+    substrings = core_lib::string_utils::TokeniseString("1 - 2 - 3 - 4", " - ", false);
+    EXPECT_EQ(substrings, comp);
+}
+
+TEST(StringUtilsTest, ReplaceTokens)
+{
+    auto copyText = core_lib::string_utils::ReplaceTokens(
+        "%1 %2 %3 %4", {{"\\%1", "I"}, {"\\%2", "AM"}, {"\\%3", "THE"}, {"\\%4", "BOMB"}});
+
+    EXPECT_EQ(copyText, "I AM THE BOMB");
+}
+
 #endif // DISABLE_STRINGUTILS_TESTS
