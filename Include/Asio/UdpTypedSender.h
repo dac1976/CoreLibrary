@@ -27,6 +27,7 @@
 #ifndef UDPTYPEDSENDER
 #define UDPTYPEDSENDER
 
+#include <mutex>
 #include "UdpSender.h"
 #include "MessageUtils.h"
 
@@ -125,7 +126,23 @@ public:
     bool SendMessage(int32_t                   messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
+        std::lock_guard<std::mutex> lock(m_sendMutex);
         return m_udpSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
+    }
+    /*!
+     * \brief Send a header plus message buffer to the receiver.
+     * \param[in] message - The message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
+     * the response, the default value will mean the response address will point to this client
+     * socket.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessage(const defs::char_buffer_t& message, int32_t messageId,
+                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        std::lock_guard<std::mutex> lock(m_sendMutex);
+        return m_udpSender.SendMessage(m_messageBuilder.Build(message, messageId, responseAddress));
     }
     /*!
      * \brief Send a full message to the server.
@@ -141,11 +158,23 @@ public:
     bool SendMessage(const T& message, int32_t messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
+        std::lock_guard<std::mutex> lock(m_sendMutex);
         return m_udpSender.SendMessage(
             m_messageBuilder.template Build<T, A>(message, messageId, responseAddress));
     }
+    /*!
+     * \brief Send a message buffer to the receiver.
+     * \param[in] message - The message buffer.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessage(const defs::char_buffer_t& message)
+    {
+        return m_udpSender.SendMessage(message);
+    }
 
 private:
+    /*! \brief Send message mutex. */
+    mutable std::mutex m_sendMutex;
     /*! \brief Const reference to message builder object. */
     const MsgBldr& m_messageBuilder;
     /*! \brief Underlying UDP sender object. */

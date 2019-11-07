@@ -472,7 +472,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
     messageToSend.FillMessage();
 
     client.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(3000);
+    serverDispatcher.WaitForMessage(300000);
 
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);

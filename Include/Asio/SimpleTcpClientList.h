@@ -153,6 +153,40 @@ public:
     bool SendMessageToServerSync(defs::connection_t const& server, int32_t messageId,
                                  defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
     /*!
+     * \brief Send a header plus message buffer to the server asynchronously.
+     * \param[in] server - Connection object describing server's address and port.
+     * \param[in] message - Message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send
+     * the
+     * response, the default value will mean the response address will point to this client socket.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unless an exception is thrown. This
+     * method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::defs::MessageHeader object to
+     * the server.
+     */
+    void
+    SendMessageToServerAsync(defs::connection_t const& server, const defs::char_buffer_t& message,
+                             int32_t                   messageId,
+                             defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
+    /*!
+     * \brief Send a header plus message buffer to the server synchronously.
+     * \param[in] server - Connection object describing server's address and port.
+     * \param[in] message - Message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the
+     * response, the default value will mean the response address will point to this client socket.
+     * \return Returns the success state of the send as a boolean.
+     *
+     * This method only sends a simple core_lib::asio::defs::MessageHeader
+     * object to the server.
+     */
+    bool SendMessageToServerSync(defs::connection_t const&  server,
+                                 const defs::char_buffer_t& message, int32_t messageId,
+                                 defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
+    /*!
      * \brief Send a full message to the server asynchronously.
      * \param[in] server - Connection object describing server's address and port.
      * \param[in] message - The message of type T to send behind the header serialized to an
@@ -219,6 +253,25 @@ public:
 
         return success;
     }
+    /*!
+     * \brief Send a message buffer to the server asynchronously.
+     * \param[in] server - Connection object describing server's address and port.
+     * \param[in] message - Message buffer.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
+     */
+    void SendMessageToServerAsync(defs::connection_t const&  server,
+                                  const defs::char_buffer_t& message);
+    /*!
+     * \brief Send a message buffer to the server synchronously.
+     * \param[in] server - Connection object describing server's address and port.
+     * \param[in] message - Message buffer.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessageToServerSync(defs::connection_t const&  server,
+                                 const defs::char_buffer_t& message);
 
 private:
     /*!

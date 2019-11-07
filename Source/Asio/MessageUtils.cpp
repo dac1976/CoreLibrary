@@ -123,8 +123,9 @@ void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 // Utility functions
 // ****************************************************************************
 
-auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, int32_t messageId,
-                const defs::connection_t& responseAddress) -> defs::MessageHeader
+void FillHeader(const std::string& magicString, defs::eArchiveType archiveType, int32_t messageId,
+                const defs::connection_t& responseAddress, uint32_t messageLength,
+                defs::MessageHeader& header)
 {
     assert(magicString.size() < defs::MAGIC_STRING_LEN);
 
@@ -139,8 +140,6 @@ auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, 
     {
         BOOST_THROW_EXCEPTION(std::length_error("response address too long"));
     }
-
-    defs::MessageHeader header;
 
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
     std::sprintf(static_cast<char*>(header.magicString), "%s", magicString.c_str());
@@ -158,8 +157,7 @@ auto FillHeader(const std::string& magicString, defs::eArchiveType archiveType, 
     header.responsePort = responseAddress.second;
     header.messageId    = messageId;
     header.archiveType  = archiveType;
-
-    return header;
+    header.totalLength  = static_cast<uint32_t>(sizeof(defs::MessageHeader)) + messageLength;
 }
 
 // ****************************************************************************
@@ -192,17 +190,72 @@ MessageBuilder::MessageBuilder(const std::string& magicString)
 }
 
 auto MessageBuilder::Build(int32_t messageId, const defs::connection_t& responseAddress) const
-    -> defs::char_buffer_t
+    -> defs::char_buffer_t const&
 {
-    auto header = FillHeader(m_magicString, defs::eArchiveType::raw, messageId, responseAddress);
+    // Resize message buffer.
+    auto totalLength = sizeof(defs::MessageHeader);
+    m_messageBuffer.resize(totalLength);
 
-    defs::char_buffer_t messageBuffer;
-    messageBuffer.reserve(header.totalLength);
+    defs::MessageHeader* header = reinterpret_cast<defs::MessageHeader*>(m_messageBuffer.data());
+    FillHeader(m_magicString, defs::eArchiveType::raw, messageId, responseAddress, 0, *header);
 
-    auto headerCharBuf = reinterpret_cast<const char*>(&header);
-    std::copy(headerCharBuf, headerCharBuf + sizeof(header), std::back_inserter(messageBuffer));
+    return m_messageBuffer;
+}
 
-    return messageBuffer;
+auto MessageBuilder::Build(const defs::char_buffer_t& message, int32_t messageId,
+                           const defs::connection_t& responseAddress,
+                           defs::eArchiveType archiveType) const -> defs::char_buffer_t const&
+{
+    if (message.empty())
+    {
+        BOOST_THROW_EXCEPTION(std::runtime_error("message is empty"));
+    }
+
+    // Resize message buffer.
+    auto totalLength = sizeof(defs::MessageHeader) + message.size();
+    m_messageBuffer.resize(totalLength);
+
+    // Fill header.
+    defs::MessageHeader* header = reinterpret_cast<defs::MessageHeader*>(m_messageBuffer.data());
+    FillHeader(m_magicString,
+               archiveType,
+               messageId,
+               responseAddress,
+               static_cast<uint32_t>(message.size()),
+               *header);
+
+    auto writePosIter = std::next(m_messageBuffer.begin(), sizeof(defs::MessageHeader));
+    std::copy(message.begin(), message.end(), writePosIter);
+
+    return m_messageBuffer;
+}
+
+auto MessageBuilder::Build(const char* message, size_t messageLength, int32_t messageId,
+                           const defs::connection_t& responseAddress,
+                           defs::eArchiveType archiveType) const -> defs::char_buffer_t const&
+{
+    if ((0 == messageLength) || (message == nullptr))
+    {
+        BOOST_THROW_EXCEPTION(std::runtime_error("message pointer or length is invalid"));
+    }
+
+    // Resize message buffer.
+    auto totalLength = sizeof(defs::MessageHeader) + messageLength;
+    m_messageBuffer.resize(totalLength);
+
+    // Fill header.
+    defs::MessageHeader* header = reinterpret_cast<defs::MessageHeader*>(m_messageBuffer.data());
+    FillHeader(m_magicString,
+               archiveType,
+               messageId,
+               responseAddress,
+               static_cast<uint32_t>(messageLength),
+               *header);
+
+    auto writePosIter = std::next(m_messageBuffer.begin(), sizeof(defs::MessageHeader));
+    std::copy(message, message + messageLength, writePosIter);
+
+    return m_messageBuffer;
 }
 
 } // namespace messages

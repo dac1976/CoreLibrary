@@ -1,3 +1,3 @@
 DEFINES += LOKI_CLASS_LEVEL_THREADING
 
-INCLUDEPATH += /usr/include
+INCLUDEPATH += /home/duncan/Projects/loki-0.1.7/include/

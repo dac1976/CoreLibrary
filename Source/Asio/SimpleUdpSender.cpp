@@ -58,6 +58,17 @@ bool SimpleUdpSender::SendMessage(int32_t messageId, const defs::connection_t& r
     return m_udpTypedSender.SendMessage(messageId, responseAddress);
 }
 
+bool SimpleUdpSender::SendMessage(const defs::char_buffer_t& message, int32_t messageId,
+                                  const defs::connection_t& responseAddress)
+{
+    return m_udpTypedSender.SendMessage(message, messageId, responseAddress);
+}
+
+bool SimpleUdpSender::SendMessage(const defs::char_buffer_t& message)
+{
+    return m_udpTypedSender.SendMessage(message);
+}
+
 } // namespace udp
 } // namespace asio
 } // namespace core_lib

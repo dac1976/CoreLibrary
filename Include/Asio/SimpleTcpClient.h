@@ -134,6 +134,35 @@ public:
     bool SendMessageToServerSync(int32_t                   messageId,
                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
+     * \brief Send a header plus message buffer to the server asynchronously.
+     * \param[in] message - Message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the
+     * response, the default value will mean the response address will point to this client socket.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unless an exception is thrown. This
+     * method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::defs::MessageHeader object to
+     * the server.
+     */
+    void
+    SendMessageToServerAsync(const defs::char_buffer_t& message, int32_t messageId,
+                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    /*!
+     * \brief Send a header plus message buffer to the server synchronously.
+     * \param[in] message - Message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the server should send the
+     * response, the default value will mean the response address will point to this client socket.
+     * \return Returns the success state of the send as a boolean.
+     *
+     * This method only sends a simple core_lib::asio::defs::MessageHeader
+     * object to the server.
+     */
+    bool SendMessageToServerSync(const defs::char_buffer_t& message, int32_t messageId,
+                                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    /*!
      * \brief Send a full message to the server asynchronously.
      * \param[in] message - The message of type T to send behind the header serialized to an
      * boost::serialization-compatible archive of type A.
@@ -169,6 +198,21 @@ public:
     {
         return m_tcpTypedClient.SendMessageToServerSync<T, A>(message, messageId, responseAddress);
     }
+    /*!
+     * \brief Send a message buffer to the server asynchronously.
+     * \param[in] message - Message buffer.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
+     */
+    void SendMessageToServerAsync(const defs::char_buffer_t& message);
+    /*!
+     * \brief Send a message buffer to the server synchronously.
+     * \param[in] message - Message buffer.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessageToServerSync(const defs::char_buffer_t& message);
 
 private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */

@@ -80,6 +80,17 @@ bool SimpleMulticastSender::SendMessage(int32_t                   messageId,
     return m_multicastTypedSender.SendMessage(messageId, responseAddress);
 }
 
+bool SimpleMulticastSender::SendMessage(const defs::char_buffer_t& message, int32_t messageId,
+                                        const defs::connection_t& responseAddress)
+{
+    return m_multicastTypedSender.SendMessage(message, messageId, responseAddress);
+}
+
+bool SimpleMulticastSender::SendMessage(const defs::char_buffer_t& message)
+{
+    return m_multicastTypedSender.SendMessage(message);
+}
+
 } // namespace udp
 } // namespace asio
 } // namespace core_lib

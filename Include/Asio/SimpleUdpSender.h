@@ -101,6 +101,17 @@ public:
     bool SendMessage(int32_t                   messageId,
                      const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
+     * \brief Send a header plus message buffer to the receiver.
+     * \param[in] message - The message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
+     * the response, the default value will mean the response address will point to this client
+     * socket.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessage(const defs::char_buffer_t& message, int32_t messageId,
+                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    /*!
      * \brief Send a full message to the server.
      * \param[in] message - The message of type T to send behind the header serialized to an
      * boost::serialization-compatible archive of type A. \param[in] messageId - Unique message ID
@@ -116,6 +127,12 @@ public:
     {
         return m_udpTypedSender.SendMessage<T, A>(message, messageId, responseAddress);
     }
+    /*!
+     * \brief Send a message buffer to the receiver.
+     * \param[in] message - The message buffer.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessage(const defs::char_buffer_t& message);
 
 private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */

@@ -172,6 +172,88 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& serv
     return success;
 }
 
+void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
+                                                   const defs::char_buffer_t& message,
+                                                   int32_t                    messageId,
+                                                   defs::connection_t const&  responseAddress)
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    auto clientPtr = FindTcpClient(server);
+
+    if (!clientPtr)
+    {
+        clientPtr = CreateTcpClient(server);
+    }
+
+    if (clientPtr)
+    {
+        clientPtr->SendMessageToServerAsync(message, messageId, responseAddress);
+    }
+}
+
+bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
+                                                  const defs::char_buffer_t& message,
+                                                  int32_t                    messageId,
+                                                  defs::connection_t const&  responseAddress)
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    bool success   = false;
+    auto clientPtr = FindTcpClient(server);
+
+    if (!clientPtr)
+    {
+        clientPtr = CreateTcpClient(server);
+    }
+
+    if (clientPtr)
+    {
+        success = clientPtr->SendMessageToServerSync(message, messageId, responseAddress);
+    }
+
+    return success;
+}
+
+void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
+                                                   const defs::char_buffer_t& message)
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    auto clientPtr = FindTcpClient(server);
+
+    if (!clientPtr)
+    {
+        clientPtr = CreateTcpClient(server);
+    }
+
+    if (clientPtr)
+    {
+        clientPtr->SendMessageToServerAsync(message);
+    }
+}
+
+bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
+                                                  const defs::char_buffer_t& message)
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    bool success   = false;
+    auto clientPtr = FindTcpClient(server);
+
+    if (!clientPtr)
+    {
+        clientPtr = CreateTcpClient(server);
+    }
+
+    if (clientPtr)
+    {
+        success = clientPtr->SendMessageToServerSync(message);
+    }
+
+    return success;
+}
+
 auto SimpleTcpClientList::CreateTcpClient(defs::connection_t const& server) -> client_ptr_t
 {
     client_ptr_t clientPtr;

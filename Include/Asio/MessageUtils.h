@@ -122,6 +122,8 @@ private:
  * \param[in] messageId - The unique message ID.
  * \param[in] responseAddress - The response connection details describing sender's address and
  * port.
+ * \param[in] messageLength - The length of the message not including the header.
+ * \param[out] header - The message header to be filled out.
  * \return A filled message header.
  *
  * This is an example of a function used within the network clases to build the message header that
@@ -130,9 +132,10 @@ private:
  *
  * This function only works with headers of the type MessageHeader.
  */
-defs::MessageHeader CORE_LIBRARY_DLL_SHARED_API
-                    FillHeader(const std::string& magicString, defs::eArchiveType archiveType, int32_t messageId,
-                               const defs::connection_t& responseAddress);
+void CORE_LIBRARY_DLL_SHARED_API FillHeader(const std::string& magicString,
+                                            defs::eArchiveType archiveType, int32_t messageId,
+                                            const defs::connection_t& responseAddress,
+                                            uint32_t messageLength, defs::MessageHeader& header);
 
 /*!
  * \brief Archive type enumerator as a template class.
@@ -274,20 +277,46 @@ public:
      * \brief Build message method for header only messages.
      * \param[in] messageId - Unique ID for this message instance.
      * \param[in] responseAddress - Connection object describing sender's response address and port.
-     * \return A filled message buffer.
+     * \return A const reference to a filled message buffer.
      *
      * Sometimes network messages don't require a message body to be sent just some header
      * information such as a command to possibly request some data in response. In this case
      * we invoke this Build method.
      */
-    defs::char_buffer_t Build(int32_t messageId, const defs::connection_t& responseAddress) const;
+    defs::char_buffer_t const& Build(int32_t                   messageId,
+                                     const defs::connection_t& responseAddress) const;
+    /*!
+     * \brief Build message method for header plus buffer.
+     * \param[in] message - Message buffer created outside of the message builder.
+     * \param[in] messageId - Unique ID for this message instance.
+     * \param[in] responseAddress - Connection object describing sender's response address and port.
+     * \param[in] archiveType - Archive type used to when creating the messageBuffer.
+     * \return A const reference to a filled message buffer.
+     */
+    defs::char_buffer_t const&
+    Build(const defs::char_buffer_t& message, int32_t messageId,
+          const defs::connection_t& responseAddress,
+          defs::eArchiveType        archiveType = defs::eArchiveType::raw) const;
+    /*!
+     * \brief Build message method for header plus buffer.
+     * \param[in] message - Start of message buffer created outside of the message builder.
+     * \param[in] messageLength - Length of the message buffer in bytes.
+     * \param[in] messageId - Unique ID for this message instance.
+     * \param[in] responseAddress - Connection object describing sender's response address and port.
+     * \param[in] archiveType - Archive type used to when creating the messageBuffer.
+     * \return A const reference to a filled message buffer.
+     */
+    defs::char_buffer_t const&
+    Build(const char* message, size_t messageLength, int32_t messageId,
+          const defs::connection_t& responseAddress,
+          defs::eArchiveType        archiveType = defs::eArchiveType::raw) const;
     /*!
      * \brief Build message method for header + messaage body messages.
      * \param[in] message - Object to be sent as message body, to be serialized as chosen archive
      * type
      * \param[in] messageId - Unique ID for this message instance.
      * \param[in] responseAddress - Connection opject describing sender's response address and port.
-     * \return A filled message buffer.
+     * \return A const reference to a filled message buffer.
      *
      * The first template argument T defines the message object's type.
      * The second template argument A defines the archive type for serialization.
@@ -296,32 +325,36 @@ public:
      * be sent.
      */
     template <typename T, typename A>
-    defs::char_buffer_t Build(const T& message, int32_t messageId,
-                              const defs::connection_t& responseAddress) const
+    defs::char_buffer_t const& Build(const T& message, int32_t messageId,
+                                     const defs::connection_t& responseAddress) const
     {
-        const defs::eArchiveType archiveType = ArchiveTypeToEnum<A>().Enumerate();
+        // Serialise message.
+        m_serialisationBuffer = std::move(serialize::ToCharVector<T, A>(message));
 
-        auto header = FillHeader(m_magicString, archiveType, messageId, responseAddress);
-        serialize::char_vector_t body = serialize::ToCharVector<T, A>(message);
-
-        // cppcheck-suppress functionStatic
-        if (body.empty())
+        if (m_serialisationBuffer.empty())
         {
             BOOST_THROW_EXCEPTION(std::runtime_error("cannot serialize message"));
         }
 
-        header.totalLength += static_cast<uint32_t>(body.size());
+        // Resize message buffer.
+        auto totalLength = sizeof(defs::MessageHeader) + m_serialisationBuffer.size();
+        m_messageBuffer.resize(totalLength);
 
-        defs::char_buffer_t messageBuffer;
-        messageBuffer.reserve(header.totalLength);
+        // Fill header.
+        const defs::eArchiveType archiveType = ArchiveTypeToEnum<A>().Enumerate();
+        defs::MessageHeader*     header =
+            reinterpret_cast<defs::MessageHeader*>(m_messageBuffer.data());
+        FillHeader(m_magicString,
+                   archiveType,
+                   messageId,
+                   responseAddress,
+                   static_cast<uint32_t>(m_serialisationBuffer.size()),
+                   *header);
 
-        auto pHeaderCharBuf = reinterpret_cast<const char*>(&header);
-        std::copy(
-            pHeaderCharBuf, pHeaderCharBuf + sizeof(header), std::back_inserter(messageBuffer));
+        auto writePosIter = std::next(m_messageBuffer.begin(), sizeof(defs::MessageHeader));
+        std::copy(m_serialisationBuffer.begin(), m_serialisationBuffer.end(), writePosIter);
 
-        std::copy(body.begin(), body.end(), std::back_inserter(messageBuffer));
-
-        return messageBuffer;
+        return m_messageBuffer;
     }
 
 private:
@@ -332,6 +365,8 @@ private:
     /*! \brief Magic string. */
     std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
 #endif
+    mutable defs::char_buffer_t m_messageBuffer;
+    mutable defs::char_buffer_t m_serialisationBuffer;
 };
 
 /*!
@@ -342,20 +377,45 @@ private:
  * response if the main responseAddress is a NULL_CONNECTION.
  * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface
  * compatible with that of the class core_lib::asio::messages::MessageBuilder.
- * \return Returns a filled message buffer as a vector of bytes.
+ * \return Returns a const reference to a filled message buffer as a vector of bytes.
  *
  * This is the "header only" convenience function to build an outgoing network message in all the
  * network classes. It takes a templated arg to provide an actual message builder functor, such as
  * the MessageBuilder functor.
  */
 template <typename MsgBldr>
-defs::char_buffer_t BuildMessage(int32_t messageId, const defs::connection_t& responseAddress,
-                                 const defs::connection_t& fallbackResponseAddress,
-                                 const MsgBldr&            messageBuilder)
+defs::char_buffer_t const&
+BuildMessage(int32_t messageId, const defs::connection_t& responseAddress,
+             const defs::connection_t& fallbackResponseAddress, const MsgBldr& messageBuilder)
 {
     auto responseConn =
         (responseAddress == defs::NULL_CONNECTION) ? fallbackResponseAddress : responseAddress;
     return messageBuilder.Build(messageId, responseConn);
+}
+/*!
+ * \brief Message builder wrapper function for header plus message buffer.
+ * \param[in] message - Message buffer.
+ * \param[in] messageId - Unique message ID to insert into message header.
+ * \param[in] responseAddress - The address and port where the server should send the response.
+ * \param[in] fallbackResponseAddress - The address and port where the server should send the
+ * response if the main responseAddress is a NULL_CONNECTION.
+ * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface
+ * compatible with that of the class core_lib::asio::messages::MessageBuilder.
+ * \return Returns a const reference to a filled message buffer as a vector of bytes.
+ *
+ * This is the "header only" convenience function to build an outgoing network message in all the
+ * network classes. It takes a templated arg to provide an actual message builder functor, such as
+ * the MessageBuilder functor.
+ */
+template <typename MsgBldr>
+defs::char_buffer_t const& BuildMessage(defs::char_buffer_t const& message, int32_t messageId,
+                                        const defs::connection_t& responseAddress,
+                                        const defs::connection_t& fallbackResponseAddress,
+                                        const MsgBldr&            messageBuilder)
+{
+    auto responseConn =
+        (responseAddress == defs::NULL_CONNECTION) ? fallbackResponseAddress : responseAddress;
+    return messageBuilder.Build(message, messageId, responseConn);
 }
 /*!
  * \brief Message builder wrapper function for full messages with a header and a body.
@@ -367,14 +427,14 @@ defs::char_buffer_t BuildMessage(int32_t messageId, const defs::connection_t& re
  * response if the main responseAddress is a NULL_CONNECTION.
  * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface
  * compatible with that of the class core_lib::asio::messages::MessageBuilder.
- * \return Returns a filled message buffer as a vector of bytes.
+ * \return Returns a const reference to a  filled message buffer as a vector of bytes.
  *
  * This is the "header plus body" convenience function to build an outgoing network message in all
  * the network classes. It takes a templated arg to provide an actual message builder functor, such
  * as the MessageBuilder functor. This variant as stated is for header only messages.
  */
 template <typename T, typename A, typename MsgBldr>
-defs::char_buffer_t
+defs::char_buffer_t const&
 BuildMessage(const T& message, int32_t messageId, const defs::connection_t& responseAddress,
              const defs::connection_t& fallbackResponseAddress, const MsgBldr& messageBuilder)
 {

@@ -103,6 +103,30 @@ bool SimpleTcpClient::SendMessageToServerSync(int32_t                   messageI
     return m_tcpTypedClient.SendMessageToServerSync(messageId, responseAddress);
 }
 
+void SimpleTcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message,
+                                               int32_t                    messageId,
+
+                                               const defs::connection_t& responseAddress)
+{
+    m_tcpTypedClient.SendMessageToServerAsync(message, messageId, responseAddress);
+}
+
+bool SimpleTcpClient::SendMessageToServerSync(const defs::char_buffer_t& message, int32_t messageId,
+                                              const defs::connection_t& responseAddress)
+{
+    return m_tcpTypedClient.SendMessageToServerSync(message, messageId, responseAddress);
+}
+
+void SimpleTcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
+{
+    m_tcpTypedClient.SendMessageToServerAsync(message);
+}
+
+bool SimpleTcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
+{
+    return m_tcpTypedClient.SendMessageToServerSync(message);
+}
+
 } // namespace tcp
 } // namespace asio
 } // namespace core_lib

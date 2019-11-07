@@ -155,6 +155,54 @@ public:
     void SendMessageToAllClients(
         int32_t messageId, const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
+     * \brief Send a header plus message buffer to a client asynchronously.
+     * \param[in] client - Client connection details.
+     * \param[in] message - Message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     * response, the default value will mean the response address will point to this server socket.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unless an exception is thrown. This
+     * method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::defs::MessageHeader object to
+     * the client.
+     */
+    void SendMessageToClientAsync(
+        const defs::connection_t& client, const defs::char_buffer_t& message, int32_t messageId,
+        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
+    /*!
+     * \brief Send a header plus message buffer to a client synchronously.
+     * \param[in] client - Client connection details.
+     * \param[in] message - Message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     * response, the default value will mean the response address will point to this server socket.
+     * \return Returns the success state of the send as a boolean.
+     *
+     * This method only sends a simple core_lib::asio::defs::MessageHeader
+     * object to the client.
+     */
+    bool SendMessageToClientSync(
+        const defs::connection_t& client, const defs::char_buffer_t& message, int32_t messageId,
+        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
+    /*!
+     * \brief Send a header plus message buffer to all clients asynchronously.
+     * \param[in] message - Message buffer.
+     * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where a client should send a
+     * response, the default value will mean the response address will point to this server socket.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unless an exception is thrown. This
+     * method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::defs::MessageHeader object to
+     * the clients.
+     */
+    void SendMessageToAllClients(
+        const defs::char_buffer_t& message, int32_t messageId,
+        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
+    /*!
      * \brief Send a full message to a client asynchronously.
      * \param[in] message - The message of type T to send behind the header serialized to an
      * boost::serialization-compatible archive of type A.
@@ -216,6 +264,33 @@ public:
     {
         m_tcpTypedServer.SendMessageToAllClients<T, A>(message, messageId, responseAddress);
     }
+    /*!
+     * \brief Send a message buffer to a client asynchronously.
+     * \param[in] client - Client connection details.
+     * \param[in] message - Message buffer.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
+     */
+    void SendMessageToClientAsync(const defs::connection_t&  client,
+                                  const defs::char_buffer_t& message) const;
+    /*!
+     * \brief Send a message buffer to a client synchronously.
+     * \param[in] client - Client connection details.
+     * \param[in] message - Message buffer.
+     */
+    bool SendMessageToClientSync(const defs::connection_t&  client,
+                                 const defs::char_buffer_t& message) const;
+    /*!
+     * \brief Send a message buffer to all clients asynchronously.
+     * \param[in] message - Message buffer.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
+     */
+    void SendMessageToAllClients(const defs::char_buffer_t& message) const;
 
 private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */
