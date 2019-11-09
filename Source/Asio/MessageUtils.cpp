@@ -206,28 +206,7 @@ auto MessageBuilder::Build(const defs::char_buffer_t& message, int32_t messageId
                            const defs::connection_t& responseAddress,
                            defs::eArchiveType archiveType) const -> defs::char_buffer_t const&
 {
-    if (message.empty())
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error("message is empty"));
-    }
-
-    // Resize message buffer.
-    auto totalLength = sizeof(defs::MessageHeader) + message.size();
-    m_messageBuffer.resize(totalLength);
-
-    // Fill header.
-    defs::MessageHeader* header = reinterpret_cast<defs::MessageHeader*>(m_messageBuffer.data());
-    FillHeader(m_magicString,
-               archiveType,
-               messageId,
-               responseAddress,
-               static_cast<uint32_t>(message.size()),
-               *header);
-
-    auto writePosIter = std::next(m_messageBuffer.begin(), sizeof(defs::MessageHeader));
-    std::copy(message.begin(), message.end(), writePosIter);
-
-    return m_messageBuffer;
+    return Build(message.data(), message.size(), messageId, responseAddress, archiveType);
 }
 
 auto MessageBuilder::Build(const char* message, size_t messageLength, int32_t messageId,
