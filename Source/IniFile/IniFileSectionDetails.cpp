@@ -159,6 +159,11 @@ line_iter SectionDetails::LineIterator() const
     return m_sectIter;
 }
 
+size_t SectionDetails::NumKeys() const
+{
+	return m_keyIters.size();
+}
+
 } // namespace if_private
 } // namespace ini_file
 } // namespace core_lib

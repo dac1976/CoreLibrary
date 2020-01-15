@@ -110,6 +110,11 @@ public:
      * \return Line iterator.
      */
     line_iter LineIterator() const;
+	/*!
+	* \brief Get the number of keys in the section.
+	* \return  Number of keys.
+	*/
+	size_t NumKeys() const;
 
 private:
     /*! \brief Line iterator. */
