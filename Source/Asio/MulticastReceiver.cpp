@@ -63,6 +63,7 @@ MulticastReceiver::MulticastReceiver(const defs::connection_t&               mul
     : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
+	, m_strand(m_ioThreadGroup->IoService())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -75,6 +76,21 @@ MulticastReceiver::MulticastReceiver(const defs::connection_t&               mul
 
 MulticastReceiver::~MulticastReceiver()
 {
+	CloseSocket();
+}
+
+defs::connection_t MulticastReceiver::MulticastConnection() const
+{
+    return m_multicastConnection;
+}
+
+std::string MulticastReceiver::InterfaceAddress() const
+{
+    return m_interfaceAddress;
+}
+
+void MulticastReceiver::CloseSocket()
+{
     if (!m_socket.is_open())
     {
         return;
@@ -86,16 +102,6 @@ MulticastReceiver::~MulticastReceiver()
 
     // To make sure we shutdown cleanly.
     std::this_thread::sleep_for(std::chrono::milliseconds(defs::SOCKET_CLOSE_SLEEP_MS));
-}
-
-defs::connection_t MulticastReceiver::MulticastConnection() const
-{
-    return m_multicastConnection;
-}
-
-std::string MulticastReceiver::InterfaceAddress() const
-{
-    return m_interfaceAddress;
 }
 
 void MulticastReceiver::CreateMulticastSocket(size_t receiveBufferSize)
@@ -124,7 +130,7 @@ void MulticastReceiver::CreateMulticastSocket(size_t receiveBufferSize)
         m_socket.set_option(boost_mcast::join_group(mcastAddr));
     }
 
-    StartAsyncRead();
+    m_strand.post(boost::bind(&MulticastReceiver::StartAsyncRead, this));
 }
 
 void MulticastReceiver::StartAsyncRead()
@@ -138,10 +144,10 @@ void MulticastReceiver::StartAsyncRead()
 
     m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
                                 m_senderEndpoint,
-                                boost::bind(&MulticastReceiver::ReadComplete,
+                                m_strand.wrap(boost::bind(&MulticastReceiver::ReadComplete,
                                             this,
                                             boost_placeholders::error,
-                                            boost_placeholders::bytes_transferred));
+                                            boost_placeholders::bytes_transferred)));
 }
 
 void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
@@ -151,11 +157,13 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         // This will be because we are closing our socket.
         return;
     }
+	
+	bool clearMsgBuf = false;
 
     try
     {
         std::copy(m_receiveBuffer.begin(),
-                  m_receiveBuffer.begin() + static_cast<int32_t>(bytesReceived),
+                  std::next(m_receiveBuffer.begin(), static_cast<int32_t>(bytesReceived)),
                   std::back_inserter(m_messageBuffer));
 
         const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
@@ -163,14 +171,21 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         if (numBytesLeft == 0)
         {
             m_messageReceivedHandler(m_messageBuffer);
+			clearMsgBuf = true;
         }
     }
     catch (const std::exception& /*e*/)
     {
         // Nothing to do here for now.
+		clearMsgBuf = true;
+    }	
+	
+    if (clearMsgBuf)
+    {
+        m_messageBuffer.clear();
     }
 
-    StartAsyncRead();
+    m_strand.post(boost::bind(&MulticastReceiver::StartAsyncRead, this));
 }
 
 void MulticastReceiver::SetClosing(bool closing)

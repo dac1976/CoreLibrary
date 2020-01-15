@@ -114,6 +114,8 @@ public:
      * \return - Interface IP address.
      */
     std::string InterfaceAddress() const;
+	/*! \brief Close socket. */
+	void CloseSocket();
 
 private:
     /*!
@@ -153,6 +155,8 @@ private:
     std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
     boost_ioservice_t& m_ioService;
+	/*! \brief I/O service strand. */
+    boost_ioservice_t::strand m_strand;
     /*! \brief Multicast connection details. */
     defs::connection_t m_multicastConnection{};
     /*! \brief Interface IP address of outgoing network adaptor. */

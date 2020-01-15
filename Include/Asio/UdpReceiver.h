@@ -106,6 +106,8 @@ public:
      * \return The listen port.
      */
     uint16_t ListenPort() const;
+	/*! \brief Close the socket. */
+	void CloseSocket();
 
 private:
     /*!
@@ -146,6 +148,8 @@ private:
     std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
     boost_ioservice_t& m_ioService;
+	/*! \brief I/O service strand. */
+    boost_ioservice_t::strand m_strand;
     /*! \brief Receiver listen port. */
     uint16_t m_listenPort{0};
     /*! \brief Callback to check number of bytes left to read. */

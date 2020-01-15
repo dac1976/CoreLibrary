@@ -61,6 +61,7 @@ UdpReceiver::UdpReceiver(uint16_t                                listenPort,
     : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
+	, m_strand(m_ioThreadGroup->IoService())
     , m_listenPort{listenPort}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
@@ -73,6 +74,16 @@ UdpReceiver::UdpReceiver(uint16_t                                listenPort,
 
 UdpReceiver::~UdpReceiver()
 {
+    CloseSocket();
+}
+
+uint16_t UdpReceiver::ListenPort() const
+{
+    return m_listenPort;
+}
+
+void UdpReceiver::CloseSocket()
+{
     if (!m_socket.is_open())
     {
         return;
@@ -84,11 +95,6 @@ UdpReceiver::~UdpReceiver()
 
     // To make sure we shutdown cleanly.
     std::this_thread::sleep_for(std::chrono::milliseconds(defs::SOCKET_CLOSE_SLEEP_MS));
-}
-
-uint16_t UdpReceiver::ListenPort() const
-{
-    return m_listenPort;
 }
 
 void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBufferSize)
@@ -108,7 +114,7 @@ void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBuffe
 
     m_socket.bind(receiveEndpoint);
 
-    StartAsyncRead();
+    m_strand.post(boost::bind(&UdpReceiver::StartAsyncRead, this));
 }
 
 void UdpReceiver::StartAsyncRead()
@@ -121,10 +127,10 @@ void UdpReceiver::StartAsyncRead()
     m_messageBuffer.clear();
     m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
                                 m_senderEndpoint,
-                                boost::bind(&UdpReceiver::ReadComplete,
+                                m_strand.wrap(boost::bind(&UdpReceiver::ReadComplete,
                                             this,
                                             boost_placeholders::error,
-                                            boost_placeholders::bytes_transferred));
+                                            boost_placeholders::bytes_transferred)));
 }
 
 void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
@@ -134,11 +140,13 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
         // This will be because we are closing our socket.
         return;
     }
+	
+	bool clearMsgBuf = false;
 
     try
     {
         std::copy(m_receiveBuffer.begin(),
-                  m_receiveBuffer.begin() + static_cast<int32_t>(bytesReceived),
+                  std::next(m_receiveBuffer.begin(), static_cast<int32_t>(bytesReceived)),
                   std::back_inserter(m_messageBuffer));
 
         const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
@@ -146,14 +154,21 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
         if (numBytesLeft == 0)
         {
             m_messageReceivedHandler(m_messageBuffer);
+			clearMsgBuf = true;
         }
     }
     catch (const std::exception& /*e*/)
     {
         // Nothing to do here for now.
+		clearMsgBuf = true;
     }
 
-    StartAsyncRead();
+    if (clearMsgBuf)
+    {
+        m_messageBuffer.clear();
+    }
+
+    m_strand.post(boost::bind(&UdpReceiver::StartAsyncRead, this));
 }
 
 void UdpReceiver::SetClosing(bool closing)

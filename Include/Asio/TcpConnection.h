@@ -140,31 +140,14 @@ private:
     /*!
      * \brief Asynchrounously write to the socket.
      * \param[in] message - Message buffer to write.
-     * \param[in] setSuccessFlag - control setting of success flag.
      */
-    void AsyncWriteToSocket(defs::char_buffer_t message, bool setSuccessFlag);
-    /*!
-     * \brief Synchrounously write to the socket.
-     * \param[in] message - Message buffer to write.
-     * \param[in] setSuccessFlag - control setting of success flag.
-     */
-    void SyncWriteToSocket(const defs::char_buffer_t& message, bool setSuccessFlag);
-    /*!
-     * \brief Write completion handler.
-     * \param[in] error - Error flag if fault occurred.
-     * \param[in] bytesSent - Number of bytes sent.
-     * \param[in] setSuccessFlag - control setting of success flag.
-     */
-    void WriteComplete(const boost_sys::error_code& error, std::size_t bytesSent,
-                       bool setSuccessFlag);
+    void AsyncWriteToSocket(defs::char_buffer_t message);
 
 private:
     /*! \brief Access mutex for thread safety. */
     mutable std::mutex m_mutex;
     /*! \brief Connection close event. */
     threads::SyncEvent m_closedEvent{};
-    /*! \brief Connection send event. */
-    threads::SyncEvent m_sendEvent{};
     /*! \brief Closing connection flag. */
     bool m_closing{false};
     /*! \brief I/O serviceobject reference. */
@@ -185,8 +168,6 @@ private:
     defs::char_buffer_t m_receiveBuffer{};
     /*! \brief Message buffer. */
     defs::char_buffer_t m_messageBuffer{};
-    /*! \brief Send message success flag. */
-    bool m_sendSuccess{false};
     /*! \brief TCP socket. */
     boost_tcp_t::socket m_socket;
 };
