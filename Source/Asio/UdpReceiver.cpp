@@ -45,6 +45,7 @@ UdpReceiver::UdpReceiver(boost_ioservice_t& ioService, uint16_t listenPort,
                          const defs::message_received_handler_t& messageReceivedHandler,
                          eUdpOption receiveOptions, size_t receiveBufferSize)
     : m_ioService(ioService)
+    , m_strand(m_ioThreadGroup->IoService())
     , m_listenPort{listenPort}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
@@ -61,7 +62,7 @@ UdpReceiver::UdpReceiver(uint16_t                                listenPort,
     : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
-	, m_strand(m_ioThreadGroup->IoService())
+    , m_strand(m_ioThreadGroup->IoService())
     , m_listenPort{listenPort}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
@@ -128,9 +129,9 @@ void UdpReceiver::StartAsyncRead()
     m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
                                 m_senderEndpoint,
                                 m_strand.wrap(boost::bind(&UdpReceiver::ReadComplete,
-                                            this,
-                                            boost_placeholders::error,
-                                            boost_placeholders::bytes_transferred)));
+                                                          this,
+                                                          boost_placeholders::error,
+                                                          boost_placeholders::bytes_transferred)));
 }
 
 void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
@@ -140,8 +141,8 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
         // This will be because we are closing our socket.
         return;
     }
-	
-	bool clearMsgBuf = false;
+
+    bool clearMsgBuf = false;
 
     try
     {
@@ -154,13 +155,13 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
         if (numBytesLeft == 0)
         {
             m_messageReceivedHandler(m_messageBuffer);
-			clearMsgBuf = true;
+            clearMsgBuf = true;
         }
     }
     catch (const std::exception& /*e*/)
     {
         // Nothing to do here for now.
-		clearMsgBuf = true;
+        clearMsgBuf = true;
     }
 
     if (clearMsgBuf)

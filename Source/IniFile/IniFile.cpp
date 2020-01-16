@@ -135,9 +135,9 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 
     if (!iniFile.is_open() || !iniFile.good())
     {
-		// INI file doesn't exist but don't want to sto pus being able to 
-		// fill out one in memeory and create one on disk.
-		return;
+        // INI file doesn't exist but don't want to sto pus being able to
+        // fill out one in memeory and create one on disk.
+        return;
     }
 
     std::stringstream iniStream;
@@ -494,8 +494,8 @@ void IniFile::EraseSection(const std::string& section)
 
         do
         {
-            if (std::dynamic_pointer_cast<SectionLine>(*lineIter) ||
-                std::dynamic_pointer_cast<KeyLine>(*lineIter))
+            if (std::dynamic_pointer_cast<if_private::SectionLine>(*lineIter) ||
+                std::dynamic_pointer_cast<if_private::KeyLine>(*lineIter))
             {
                 lineIter      = m_lines.erase(lineIter);
                 m_changesMade = true;
@@ -504,17 +504,18 @@ void IniFile::EraseSection(const std::string& section)
             {
                 ++lineIter;
             }
-        } while ((lineIter != m_lines.end()) && !std::dynamic_pointer_cast<SectionLine>(*lineIter));
+        } while ((lineIter != m_lines.end()) &&
+                 !std::dynamic_pointer_cast<if_private::SectionLine>(*lineIter));
     }
 
-	if (m_sectionMap.empty())
-	{
-		if (!m_lines.empty())
-		{
-			m_lines.clear();
-			m_changesMade = true;
-		}
-	}
+    if (m_sectionMap.empty())
+    {
+        if (!m_lines.empty())
+        {
+            m_lines.clear();
+            m_changesMade = true;
+        }
+    }
 }
 
 void IniFile::EraseSections()
@@ -526,14 +527,14 @@ void IniFile::EraseSections()
         EraseSection(section);
     }
 
-	if (m_sectionMap.empty())
-	{
-		if (!m_lines.empty())
-		{
-			m_lines.clear();
-			m_changesMade = true;
-		}
-	}
+    if (m_sectionMap.empty())
+    {
+        if (!m_lines.empty())
+        {
+            m_lines.clear();
+            m_changesMade = true;
+        }
+    }
 }
 
 void IniFile::EraseKey(const std::string& section, const std::string& key)
@@ -550,20 +551,20 @@ void IniFile::EraseKey(const std::string& section, const std::string& key)
             m_changesMade = true;
         }
 
-		if (sectIt->second.NumKeys() == 0)
-		{
-			EraseSection(section);
-		}
+        if (sectIt->second.NumKeys() == 0)
+        {
+            EraseSection(section);
+        }
     }
 
-	if (m_sectionMap.empty())
-	{
-		if (!m_lines.empty())
-		{
-			m_lines.clear();
-			m_changesMade = true;
-		}
-	}
+    if (m_sectionMap.empty())
+    {
+        if (!m_lines.empty())
+        {
+            m_lines.clear();
+            m_changesMade = true;
+        }
+    }
 }
 
 void IniFile::EraseKeys(const std::string& section)
@@ -575,15 +576,15 @@ void IniFile::EraseKeys(const std::string& section)
         EraseKey(section, key.first);
     }
 
-	if (m_sectionMap.empty())
-	{
-		if (!m_lines.empty())
-		{
-			m_lines.clear();
-			m_changesMade = true;
-		}
-	}
+    if (m_sectionMap.empty())
+    {
+        if (!m_lines.empty())
+        {
+            m_lines.clear();
+            m_changesMade = true;
+        }
+    }
 }
 
-} // namespace core_lib
 } // namespace ini_file
+} // namespace core_lib

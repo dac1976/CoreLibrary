@@ -46,6 +46,7 @@ MulticastReceiver::MulticastReceiver(boost_ioservice_t&                      ioS
                                      const defs::message_received_handler_t& messageReceivedHandler,
                                      const std::string& interfaceAddress, size_t receiveBufferSize)
     : m_ioService(ioService)
+    , m_strand(m_ioThreadGroup->IoService())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -63,7 +64,7 @@ MulticastReceiver::MulticastReceiver(const defs::connection_t&               mul
     : m_ioThreadGroup{new IoServiceThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_ioService(m_ioThreadGroup->IoService())
-	, m_strand(m_ioThreadGroup->IoService())
+    , m_strand(m_ioThreadGroup->IoService())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -76,7 +77,7 @@ MulticastReceiver::MulticastReceiver(const defs::connection_t&               mul
 
 MulticastReceiver::~MulticastReceiver()
 {
-	CloseSocket();
+    CloseSocket();
 }
 
 defs::connection_t MulticastReceiver::MulticastConnection() const
@@ -145,9 +146,9 @@ void MulticastReceiver::StartAsyncRead()
     m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
                                 m_senderEndpoint,
                                 m_strand.wrap(boost::bind(&MulticastReceiver::ReadComplete,
-                                            this,
-                                            boost_placeholders::error,
-                                            boost_placeholders::bytes_transferred)));
+                                                          this,
+                                                          boost_placeholders::error,
+                                                          boost_placeholders::bytes_transferred)));
 }
 
 void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
@@ -157,8 +158,8 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         // This will be because we are closing our socket.
         return;
     }
-	
-	bool clearMsgBuf = false;
+
+    bool clearMsgBuf = false;
 
     try
     {
@@ -171,15 +172,15 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         if (numBytesLeft == 0)
         {
             m_messageReceivedHandler(m_messageBuffer);
-			clearMsgBuf = true;
+            clearMsgBuf = true;
         }
     }
     catch (const std::exception& /*e*/)
     {
         // Nothing to do here for now.
-		clearMsgBuf = true;
-    }	
-	
+        clearMsgBuf = true;
+    }
+
     if (clearMsgBuf)
     {
         m_messageBuffer.clear();
