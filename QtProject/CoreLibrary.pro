@@ -66,6 +66,7 @@ UI_DIR = $${DESTDIR}/ui
 
 HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Asio/IoServiceThreadGroup.h           \
+    ../Include/Asio/IoContextThreadGroup.h           \
     ../Include/Asio/MessageUtils.h                   \
     ../Include/Asio/SimpleTcpClient.h                \
     ../Include/Asio/SimpleTcpClientList.h            \
@@ -118,6 +119,7 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
 
 SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/IoServiceThreadGroup.cpp            \
+    ../Source/Asio/IoContextThreadGroup.cpp            \
     ../Source/Asio/MessageUtils.cpp                    \
     ../Source/Asio/SimpleTcpClient.cpp                 \
     ../Source/Asio/SimpleTcpClientList.cpp             \

@@ -20,11 +20,11 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /*!
- * \file IoServiceThreadGroup.cpp
- * \brief File containing definitions relating the IoServiceThreadGroup class.
+ * \file IoContextThreadGroup.cpp
+ * \brief File containing definitions relating the IoContextThreadGroup class.
  */
 
-#include "Asio/IoServiceThreadGroup.h"
+#include "Asio/IoContextThreadGroup.h"
 #include <algorithm>
 
 namespace core_lib
@@ -33,28 +33,28 @@ namespace asio
 {
 
 // ****************************************************************************
-// 'class IoServiceThreadGroup' definition
+// 'class IoContextThreadGroup' definition
 // ****************************************************************************
-IoServiceThreadGroup::IoServiceThreadGroup(unsigned int numThreads)
-    : m_ioWork(m_ioService)
+IoContextThreadGroup::IoContextThreadGroup(unsigned int numThreads)
+    : m_ioWorkGuard(boost::asio::make_work_guard(m_ioContext))
 {
     unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
 
     for (unsigned int t = 0; t < numThreadsToUse; ++t)
     {
-        m_threadGroup.CreateThread([this]() { m_ioService.run(); });
+        m_threadGroup.CreateThread([this]() { m_ioContext.run(); });
     }
 }
 
-IoServiceThreadGroup::~IoServiceThreadGroup()
+IoContextThreadGroup::~IoContextThreadGroup()
 {
-    m_ioService.stop();
+    m_ioContext.stop();
     m_threadGroup.JoinAll();
 }
 
-boost_ioservice_t& IoServiceThreadGroup::IoService()
+boost_iocontext_t& IoContextThreadGroup::IoContext()
 {
-    return m_ioService;
+    return m_ioContext;
 }
 
 } // namespace asio

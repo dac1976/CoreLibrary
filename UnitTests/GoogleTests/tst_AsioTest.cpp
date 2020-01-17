@@ -6,6 +6,7 @@
 
 #include "Serialization/SerializeToVector.h"
 #include "Asio/IoServiceThreadGroup.h"
+#include "Asio/IoContextThreadGroup.h"
 #include "Asio/TcpServer.h"
 #include "Asio/TcpClient.h"
 #include "Asio/TcpTypedServer.h"
@@ -284,6 +285,52 @@ TEST(AsioTest, testCase_IoThreadGroup2)
 
     {
         core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
+
+        for (uint64_t i = 1; i <= 10000; ++i)
+        {
+            ioThreadGroup.Post(std::bind(&Sum::Add, &sum1, i));
+            ioThreadGroup.Post(std::bind(&Sum::Add, &sum2, i));
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
+    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
+    EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
+    EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
+}
+
+TEST(AsioTest, testCase_IoThreadGroup3)
+{
+    Sum sum1{};
+    Sum sum2{};
+
+    {
+        core_lib::asio::IoContextThreadGroup ioThreadGroup{};
+
+        for (uint64_t i = 1; i <= 10000; ++i)
+        {
+            boost_asio::post(ioThreadGroup.IoContext(), std::bind(&Sum::Add, &sum1, i));
+            boost_asio::post(ioThreadGroup.IoContext(), std::bind(&Sum::Add, &sum2, i));
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
+    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
+    EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
+    EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
+}
+
+TEST(AsioTest, testCase_IoThreadGroup4)
+{
+    Sum sum1{};
+    Sum sum2{};
+
+    {
+        core_lib::asio::IoContextThreadGroup ioThreadGroup{};
 
         for (uint64_t i = 1; i <= 10000; ++i)
         {
