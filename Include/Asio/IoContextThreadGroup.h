@@ -75,9 +75,9 @@ public:
      * \brief Post a function object to be run by one of our threads.
      * \param[in] function - Function to be run by one of our threads.
      */
-    template <typename F> void Post(F function)
+    template <typename F> void Post(F&& function)
     {
-        boost_asio::post(m_ioContext, function);
+        boost_asio::post(m_ioContext, std::forward<F>(function));
     }
 
 private:

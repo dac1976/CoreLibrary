@@ -26,6 +26,7 @@
 
 #include "Asio/IoServiceThreadGroup.h"
 #include <algorithm>
+#include <functional>
 
 namespace core_lib
 {
@@ -42,7 +43,9 @@ IoServiceThreadGroup::IoServiceThreadGroup(unsigned int numThreads)
 
     for (unsigned int t = 0; t < numThreadsToUse; ++t)
     {
-        m_threadGroup.CreateThread([this]() { m_ioService.run(); });
+        m_threadGroup.CreateThread(
+            std::bind(static_cast<size_t (boost_ioservice_t::*)()>(&boost_ioservice_t::run),
+                      std::ref(m_ioService)));
     }
 }
 

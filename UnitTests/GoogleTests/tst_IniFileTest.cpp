@@ -180,18 +180,7 @@ TEST(IniFileTest, Case6_InvalidFile)
     try
     {
         core_lib::ini_file::IniFile iniFile(path_invalid);
-        correctException = false;
-    }
-    catch (std::runtime_error& e)
-    {
-        if (std::string(e.what()).compare("cannot create ifstream") == 0)
-        {
-            correctException = true;
-        }
-        else
-        {
-            correctException = false;
-        }
+        correctException = true;
     }
     catch (...)
     {

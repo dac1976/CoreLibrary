@@ -26,6 +26,7 @@
 
 #include "Asio/IoContextThreadGroup.h"
 #include <algorithm>
+#include <functional>
 
 namespace core_lib
 {
@@ -42,13 +43,15 @@ IoContextThreadGroup::IoContextThreadGroup(unsigned int numThreads)
 
     for (unsigned int t = 0; t < numThreadsToUse; ++t)
     {
-        m_threadGroup.CreateThread([this]() { m_ioContext.run(); });
+        m_threadGroup.CreateThread(
+            std::bind(static_cast<size_t (boost_iocontext_t::*)()>(&boost_iocontext_t::run),
+                      std::ref(m_ioContext)));
     }
 }
 
 IoContextThreadGroup::~IoContextThreadGroup()
 {
-    m_ioContext.stop();
+    m_ioWorkGuard.reset();
     m_threadGroup.JoinAll();
 }
 
