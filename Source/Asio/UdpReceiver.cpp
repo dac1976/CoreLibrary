@@ -94,9 +94,6 @@ void UdpReceiver::CloseSocket()
     boost_asio::post(m_strand, boost::bind(&UdpReceiver::ProcessCloseSocket, this));
 
     m_closedEvent.Wait();
-
-    // To make sure we shutdown cleanly.
-    std::this_thread::sleep_for(std::chrono::milliseconds(defs::SOCKET_CLOSE_SLEEP_MS));
 }
 
 void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBufferSize)

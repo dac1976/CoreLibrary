@@ -92,9 +92,6 @@ void TcpConnection::CloseConnection()
     SetClosing(true);
     boost_asio::post(m_strand, boost::bind(&TcpConnection::ProcessCloseSocket, shared_from_this()));
     m_closedEvent.Wait();
-
-    // To make sure we shutdown cleanly.
-    std::this_thread::sleep_for(std::chrono::milliseconds(defs::SOCKET_CLOSE_SLEEP_MS));
 }
 
 void TcpConnection::SetClosing(bool closing)

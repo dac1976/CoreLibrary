@@ -102,9 +102,6 @@ void MulticastReceiver::CloseSocket()
     boost_asio::post(m_strand, boost::bind(&MulticastReceiver::ProcessCloseSocket, this));
 
     m_closedEvent.Wait();
-
-    // To make sure we shutdown cleanly.
-    std::this_thread::sleep_for(std::chrono::milliseconds(defs::SOCKET_CLOSE_SLEEP_MS));
 }
 
 void MulticastReceiver::CreateMulticastSocket(size_t receiveBufferSize)
