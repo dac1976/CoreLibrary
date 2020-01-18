@@ -40,11 +40,11 @@ namespace tcp
 // ****************************************************************************
 // 'class SimpleTcpClient' definition
 // ****************************************************************************
-SimpleTcpClient::SimpleTcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
+SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
                                  eSendOption                               sendOption)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
-    , m_tcpTypedClient{ioService,
+    , m_tcpTypedClient{ioContext,
                        server,
                        sizeof(defs::MessageHeader),
                        std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,

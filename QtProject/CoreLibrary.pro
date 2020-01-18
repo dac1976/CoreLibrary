@@ -27,7 +27,7 @@ unix:!symbian {
 win32 {
     # disable incremental linking with debug builds
     QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
-	
+
     # Set binary's output folder.
     # This is for x86 builds.
     !contains(QMAKE_TARGET.arch, x86_64) {
@@ -65,7 +65,6 @@ RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
 HEADERS += ../Include/Asio/AsioDefines.h             \
-    ../Include/Asio/IoServiceThreadGroup.h           \
     ../Include/Asio/IoContextThreadGroup.h           \
     ../Include/Asio/MessageUtils.h                   \
     ../Include/Asio/SimpleTcpClient.h                \
@@ -118,7 +117,6 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Threads/EventThread.h
 
 SOURCES += ../Source/Asio/AsioDefines.cpp              \
-    ../Source/Asio/IoServiceThreadGroup.cpp            \
     ../Source/Asio/IoContextThreadGroup.cpp            \
     ../Source/Asio/MessageUtils.cpp                    \
     ../Source/Asio/SimpleTcpClient.cpp                 \

@@ -37,12 +37,12 @@ namespace tcp
 // ****************************************************************************
 // 'class TcpClient' definition
 // ****************************************************************************
-TcpClient::TcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
+TcpClient::TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
                      size_t                                  minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
                      eSendOption                             sendOption)
-    : m_ioService(ioService)
+    : m_ioContext(ioContext)
     , m_server{server}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -56,9 +56,9 @@ TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
                      eSendOption                             sendOption)
-    : m_ioThreadGroup{new IoServiceThreadGroup(2)}
+    : m_ioThreadGroup{new IoContextThreadGroup(2)}
     // 2 threads we can send/receive to/from the server
-    , m_ioService(m_ioThreadGroup->IoService())
+    , m_ioContext(m_ioThreadGroup->IoContext())
     , m_server{server}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -115,7 +115,7 @@ void TcpClient::CreateConnection()
 {
     try
     {
-        auto connection = std::make_shared<TcpConnection>(m_ioService,
+        auto connection = std::make_shared<TcpConnection>(m_ioContext,
                                                           m_serverConnection,
                                                           m_minAmountToRead,
                                                           m_checkBytesLeftToRead,

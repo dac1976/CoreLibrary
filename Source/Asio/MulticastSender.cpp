@@ -40,17 +40,17 @@ namespace udp
 // ****************************************************************************
 // 'class MulticastSender' definition
 // ****************************************************************************
-MulticastSender::MulticastSender(boost_ioservice_t&        ioService,
+MulticastSender::MulticastSender(boost_iocontext_t&        ioContext,
                                  const defs::connection_t& multicastConnection,
                                  const std::string& interfaceAddress, bool enableLoopback,
                                  eMulticastTTL ttl, size_t sendBufferSize)
-    : m_ioService(ioService)
+    : m_ioContext(ioContext)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_multicastEndpoint(boost_address_t::from_string(multicastConnection.first),
                           multicastConnection.second)
 
-    , m_socket{m_ioService}
+    , m_socket{ioContext}
 {
     CreateMulticastSocket(enableLoopback, ttl, sendBufferSize);
 }
@@ -58,15 +58,15 @@ MulticastSender::MulticastSender(boost_ioservice_t&        ioService,
 MulticastSender::MulticastSender(const defs::connection_t& multicastConnection,
                                  const std::string& interfaceAddress, bool enableLoopback,
                                  eMulticastTTL ttl, size_t sendBufferSize)
-    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
+    : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_ioService(m_ioThreadGroup->IoService())
+    , m_ioContext(m_ioThreadGroup->IoContext())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_multicastEndpoint(boost_address_t::from_string(multicastConnection.first),
                           multicastConnection.second)
 
-    , m_socket{m_ioService}
+    , m_socket{m_ioThreadGroup->IoContext()}
 {
     CreateMulticastSocket(enableLoopback, ttl, sendBufferSize);
 }

@@ -36,9 +36,9 @@ namespace asio
 namespace udp
 {
 
-SimpleUdpSender::SimpleUdpSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
+SimpleUdpSender::SimpleUdpSender(boost_iocontext_t& ioContext, const defs::connection_t& receiver,
                                  eUdpOption sendOption, size_t sendBufferSize)
-    : m_udpTypedSender{ioService, receiver, m_messageBuilder, sendOption, sendBufferSize}
+    : m_udpTypedSender{ioContext, receiver, m_messageBuilder, sendOption, sendBufferSize}
 {
 }
 

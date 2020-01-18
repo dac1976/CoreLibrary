@@ -36,12 +36,12 @@ namespace asio
 namespace udp
 {
 
-SimpleMulticastSender::SimpleMulticastSender(boost_ioservice_t&        ioService,
+SimpleMulticastSender::SimpleMulticastSender(boost_iocontext_t&        ioContext,
                                              const defs::connection_t& multicastConnection,
                                              const std::string&        interfaceAddress,
                                              bool enableLoopback, eMulticastTTL ttl,
                                              size_t sendBufferSize)
-    : m_multicastTypedSender{ioService,
+    : m_multicastTypedSender{ioContext,
                              multicastConnection,
                              m_messageBuilder,
                              interfaceAddress,

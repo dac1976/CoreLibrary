@@ -60,7 +60,7 @@ public:
     TcpTypedServer() = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
      * header block.
@@ -73,16 +73,16 @@ public:
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be exectued
-     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     * using this thread pool managed by a single IO context. This is the recommended constructor.
      */
-    TcpTypedServer(boost_ioservice_t& ioService, uint16_t listenPort, size_t minAmountToRead,
+    TcpTypedServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
                    const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn)
         : m_messageBuilder{messageBuilder}
-        , m_tcpServer{ioService,
+        , m_tcpServer{ioContext,
                       listenPort,
                       minAmountToRead,
                       checkBytesLeftToRead,
@@ -103,10 +103,10 @@ public:
      * type MsgBldr.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
-     * This constructor does not require an external IO service to run instead it creates
-     * its own IO service object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO context to run instead it creates
+     * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO service constructor is recommened.
+     * external IO context constructor is recommened.
      */
     TcpTypedServer(uint16_t listenPort, size_t minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,

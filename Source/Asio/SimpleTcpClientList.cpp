@@ -33,9 +33,9 @@ namespace tcp
 {
 
 SimpleTcpClientList::SimpleTcpClientList(
-    boost_ioservice_t& ioService, defs::default_message_dispatcher_t const& messageDispatcher,
+    boost_iocontext_t& ioContext, defs::default_message_dispatcher_t const& messageDispatcher,
     eSendOption sendOption)
-    : m_ioServicePtr(&ioService)
+    : m_ioContextPtr(&ioContext)
     , m_messageDispatcher(messageDispatcher)
     , m_sendOption(sendOption)
 {
@@ -258,10 +258,10 @@ auto SimpleTcpClientList::CreateTcpClient(defs::connection_t const& server) -> c
 {
     client_ptr_t clientPtr;
 
-    if (m_ioServicePtr)
+    if (m_ioContextPtr)
     {
         clientPtr = std::make_shared<SimpleTcpClient>(
-            *m_ioServicePtr, server, m_messageDispatcher, m_sendOption);
+            *m_ioContextPtr, server, m_messageDispatcher, m_sendOption);
     }
     else
     {

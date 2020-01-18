@@ -41,20 +41,20 @@ namespace tcp
 // ****************************************************************************
 // 'class TcpConnection' definition
 // ****************************************************************************
-TcpConnection::TcpConnection(boost_ioservice_t& ioService, TcpConnections& connections,
+TcpConnection::TcpConnection(boost_iocontext_t& ioContext, TcpConnections& connections,
                              size_t                                  minAmountToRead,
                              const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                              const defs::message_received_handler_t& messageReceivedHandler,
                              eSendOption                             sendOption)
     : m_closing{false}
-    , m_ioService(ioService)
-    , m_strand{m_ioService}
+    , m_ioContext(ioContext)
+    , m_strand{ioContext}
     , m_connections(connections)
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
-    , m_socket{m_ioService}
+    , m_socket{ioContext}
 {
     m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
     m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
@@ -90,7 +90,7 @@ void TcpConnection::CloseConnection()
     }
 
     SetClosing(true);
-    m_ioService.post(boost::bind(&TcpConnection::ProcessCloseSocket, shared_from_this()));
+    boost_asio::post(m_strand, boost::bind(&TcpConnection::ProcessCloseSocket, shared_from_this()));
     m_closedEvent.Wait();
 
     // To make sure we shutdown cleanly.
@@ -135,8 +135,9 @@ void TcpConnection::DestroySelf()
 void TcpConnection::StartAsyncRead()
 {
     m_connections.Add(shared_from_this());
-   
-    m_strand.post(
+
+    boost_asio::post(
+        m_strand,
         boost::bind(&TcpConnection::AsyncReadFromSocket, shared_from_this(), m_minAmountToRead));
 }
 
@@ -147,13 +148,15 @@ void TcpConnection::AsyncReadFromSocket(size_t amountToRead)
     // can only read serially from one, so for one connection
     // object it cannot be doing more than one async read
     // at a time in multiple threads.
-    boost_asio::async_read(m_socket,
-                           boost_asio::buffer(m_receiveBuffer),
-                           m_strand.wrap(boost::bind(&TcpConnection::ReadComplete,
-                                       shared_from_this(),
-                                       boost_placeholders::error,
-                                       boost_placeholders::bytes_transferred,
-                                       amountToRead)));
+    boost_asio::async_read(
+        m_socket,
+        boost_asio::buffer(m_receiveBuffer),
+        boost::asio::bind_executor(m_strand,
+                                   boost::bind(&TcpConnection::ReadComplete,
+                                               shared_from_this(),
+                                               boost_placeholders::error,
+                                               boost_placeholders::bytes_transferred,
+                                               amountToRead)));
 }
 
 void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived,
@@ -202,7 +205,8 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
 
     if (numBytes > 0)
     {
-        m_strand.post(
+        boost_asio::post(
+            m_strand,
             boost::bind(&TcpConnection::AsyncReadFromSocket, shared_from_this(), numBytes));
     }
 }
@@ -214,7 +218,8 @@ void TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
     // sending async in this case so we could get another
     // call to this method before the original async write
     // has completed.
-    m_strand.post(boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), message));
+    boost_asio::post(m_strand,
+                     boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), message));
 }
 
 bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)

@@ -24,8 +24,8 @@
  * \brief File containing declarations relating the IoContextThreadGroup class.
  */
 
-#ifndef IOCONTEXTTHREADGROUP_H
-#define IOCONTEXTTHREADGROUP_H
+#ifndef IoContextThreadGroup_H
+#define IoContextThreadGroup_H
 
 #include "Threads/ThreadGroup.h"
 #include "AsioDefines.h"
@@ -92,4 +92,4 @@ private:
 } // namespace asio
 } // namespace core_lib
 
-#endif // #define IOCONTEXTTHREADGROUP_H
+#endif // #define IoContextThreadGroup_H

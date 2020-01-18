@@ -37,11 +37,11 @@ namespace udp
 {
 
 SimpleMulticastReceiver::SimpleMulticastReceiver(
-    boost_ioservice_t& ioService, const defs::connection_t& multicastConnection,
+    boost_iocontext_t& ioContext, const defs::connection_t& multicastConnection,
     const defs::default_message_dispatcher_t& messageDispatcher,
     const std::string& interfaceAddress, size_t receiveBufferSize)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
-    , m_mcastReceiver{ioService,
+    , m_mcastReceiver{ioContext,
                       multicastConnection,
                       std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
                                 std::placeholders::_1),

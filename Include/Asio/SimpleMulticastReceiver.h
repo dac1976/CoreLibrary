@@ -51,7 +51,7 @@ public:
     SimpleMulticastReceiver() = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] multicastConnection - Connection object describing target multicast group address
      * and port.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
@@ -59,11 +59,11 @@ public:
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * core_lib::asio::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     * using this thread pool managed by a single IO context. This is the recommended constructor.
      */
-    SimpleMulticastReceiver(boost_ioservice_t&                        ioService,
+    SimpleMulticastReceiver(boost_iocontext_t&                        ioContext,
                             const defs::connection_t&                 multicastConnection,
                             const defs::default_message_dispatcher_t& messageDispatcher,
                             const std::string&                        interfaceAddress = "",
@@ -76,10 +76,10 @@ public:
      * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
      *
-     * This constructor does not require an external IO service to run instead it creates
-     * its own IO service object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO context to run instead it creates
+     * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO service constructor is recommended.
+     * external IO context constructor is recommended.
      */
     SimpleMulticastReceiver(const defs::connection_t&                 multicastConnection,
                             const defs::default_message_dispatcher_t& messageDispatcher,

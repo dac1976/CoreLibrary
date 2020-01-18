@@ -5,7 +5,6 @@
 #include <iterator>
 
 #include "Serialization/SerializeToVector.h"
-#include "Asio/IoServiceThreadGroup.h"
 #include "Asio/IoContextThreadGroup.h"
 #include "Asio/TcpServer.h"
 #include "Asio/TcpClient.h"
@@ -261,52 +260,6 @@ TEST(AsioTest, testCase_IoThreadGroup1)
     Sum sum2{};
 
     {
-        core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
-
-        for (uint64_t i = 1; i <= 10000; ++i)
-        {
-            ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum1, i));
-            ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum2, i));
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
-    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
-    EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
-}
-
-TEST(AsioTest, testCase_IoThreadGroup2)
-{
-    Sum sum1{};
-    Sum sum2{};
-
-    {
-        core_lib::asio::IoServiceThreadGroup ioThreadGroup{};
-
-        for (uint64_t i = 1; i <= 10000; ++i)
-        {
-            ioThreadGroup.Post(std::bind(&Sum::Add, &sum1, i));
-            ioThreadGroup.Post(std::bind(&Sum::Add, &sum2, i));
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
-    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
-    EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
-}
-
-TEST(AsioTest, testCase_IoThreadGroup3)
-{
-    Sum sum1{};
-    Sum sum2{};
-
-    {
         core_lib::asio::IoContextThreadGroup ioThreadGroup{};
 
         for (uint64_t i = 1; i <= 10000; ++i)
@@ -324,7 +277,7 @@ TEST(AsioTest, testCase_IoThreadGroup3)
     EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
 }
 
-TEST(AsioTest, testCase_IoThreadGroup4)
+TEST(AsioTest, testCase_IoThreadGroup2)
 {
     Sum sum1{};
     Sum sum2{};
@@ -413,14 +366,14 @@ TEST(AsioTest, testCase_TestSync)
     EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
-TEST(AsioTest, testCase_TestAsync_ExternalIoService)
+TEST(AsioTest, testCase_TestAsync_ExternalIocontext)
 {
-    IoServiceThreadGroup ioThreadGroup;
+    IoContextThreadGroup ioThreadGroup;
 
     char_buffer_t   message = BuildMessage();
     MessageReceiver svrReceiver;
     TcpServer       server(
-        ioThreadGroup.IoService(),
+        ioThreadGroup.IoContext(),
         22222,
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -428,7 +381,7 @@ TEST(AsioTest, testCase_TestAsync_ExternalIoService)
 
     MessageReceiver cltReceiver;
     TcpClient       client(
-        ioThreadGroup.IoService(),
+        ioThreadGroup.IoContext(),
         std::make_pair("127.0.0.1", 22222),
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -450,14 +403,14 @@ TEST(AsioTest, testCase_TestAsync_ExternalIoService)
     EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
-TEST(AsioTest, testCase_TestSync_ExternalIoService)
+TEST(AsioTest, testCase_TestSync_ExternalIocontext)
 {
-    IoServiceThreadGroup ioThreadGroup;
+    IoContextThreadGroup ioThreadGroup;
 
     char_buffer_t   message = BuildMessage();
     MessageReceiver svrReceiver;
     TcpServer       server(
-        ioThreadGroup.IoService(),
+        ioThreadGroup.IoContext(),
         22222,
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -465,7 +418,7 @@ TEST(AsioTest, testCase_TestSync_ExternalIoService)
 
     MessageReceiver cltReceiver;
     TcpClient       client(
-        ioThreadGroup.IoService(),
+        ioThreadGroup.IoContext(),
         std::make_pair("127.0.0.1", 22222),
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),

@@ -40,22 +40,22 @@ namespace udp
 // ****************************************************************************
 // 'class UdpSender' definition
 // ****************************************************************************
-UdpSender::UdpSender(boost_ioservice_t& ioService, const defs::connection_t& receiver,
+UdpSender::UdpSender(boost_iocontext_t& ioContext, const defs::connection_t& receiver,
                      eUdpOption sendOption, size_t sendBufferSize)
-    : m_ioService(ioService)
+    : m_ioContext(ioContext)
     , m_receiver{receiver}
-    , m_socket{ioService}
+    , m_socket{ioContext}
 {
     CreateUdpSocket(sendOption, sendBufferSize);
 }
 
 UdpSender::UdpSender(const defs::connection_t& receiver, eUdpOption sendOption,
                      size_t sendBufferSize)
-    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
+    : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_ioService(m_ioThreadGroup->IoService())
+    , m_ioContext(m_ioThreadGroup->IoContext())
     , m_receiver{receiver}
-    , m_socket{m_ioService}
+    , m_socket{m_ioThreadGroup->IoContext()}
 {
     CreateUdpSocket(sendOption, sendBufferSize);
 }
@@ -72,7 +72,7 @@ bool UdpSender::SendMessage(const defs::char_buffer_t& message)
 
 void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
 {
-    boost_udp_t::resolver        receiverResolver(m_ioService);
+    boost_udp_t::resolver        receiverResolver(m_ioContext);
     boost_udp_t::resolver::query resolverQuery(
         boost_udp_t::v4(), m_receiver.first, std::to_string(m_receiver.second));
     m_receiverEndpoint = *receiverResolver.resolve(resolverQuery);

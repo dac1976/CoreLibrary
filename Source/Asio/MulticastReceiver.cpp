@@ -40,19 +40,19 @@ namespace udp
 // ****************************************************************************
 // 'class MulticastReceiver' definition
 // ****************************************************************************
-MulticastReceiver::MulticastReceiver(boost_ioservice_t&                      ioService,
+MulticastReceiver::MulticastReceiver(boost_iocontext_t&                      ioContext,
                                      const defs::connection_t&               multicastConnection,
                                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                                      const defs::message_received_handler_t& messageReceivedHandler,
                                      const std::string& interfaceAddress, size_t receiveBufferSize)
-    : m_ioService(ioService)
-    , m_strand(m_ioThreadGroup->IoService())
+    : m_ioContext(ioContext)
+    , m_strand(ioContext)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
-    , m_socket{m_ioService}
+    , m_socket{ioContext}
 {
     CreateMulticastSocket(receiveBufferSize);
 }
@@ -61,16 +61,16 @@ MulticastReceiver::MulticastReceiver(const defs::connection_t&               mul
                                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                                      const defs::message_received_handler_t& messageReceivedHandler,
                                      const std::string& interfaceAddress, size_t receiveBufferSize)
-    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
+    : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_ioService(m_ioThreadGroup->IoService())
-    , m_strand(m_ioThreadGroup->IoService())
+    , m_ioContext(m_ioThreadGroup->IoContext())
+    , m_strand(m_ioThreadGroup->IoContext())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
-    , m_socket{m_ioService}
+    , m_socket{m_ioThreadGroup->IoContext()}
 {
     CreateMulticastSocket(receiveBufferSize);
 }
@@ -98,7 +98,9 @@ void MulticastReceiver::CloseSocket()
     }
 
     SetClosing(true);
-    m_ioService.post(boost::bind(&MulticastReceiver::ProcessCloseSocket, this));
+
+    boost_asio::post(m_strand, boost::bind(&MulticastReceiver::ProcessCloseSocket, this));
+
     m_closedEvent.Wait();
 
     // To make sure we shutdown cleanly.
@@ -131,7 +133,7 @@ void MulticastReceiver::CreateMulticastSocket(size_t receiveBufferSize)
         m_socket.set_option(boost_mcast::join_group(mcastAddr));
     }
 
-    m_strand.post(boost::bind(&MulticastReceiver::StartAsyncRead, this));
+    boost_asio::post(m_strand, boost::bind(&MulticastReceiver::StartAsyncRead, this));
 }
 
 void MulticastReceiver::StartAsyncRead()
@@ -143,12 +145,14 @@ void MulticastReceiver::StartAsyncRead()
 
     m_messageBuffer.clear();
 
-    m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
-                                m_senderEndpoint,
-                                m_strand.wrap(boost::bind(&MulticastReceiver::ReadComplete,
-                                                          this,
-                                                          boost_placeholders::error,
-                                                          boost_placeholders::bytes_transferred)));
+    m_socket.async_receive_from(
+        boost_asio::buffer(m_receiveBuffer),
+        m_senderEndpoint,
+        boost::asio::bind_executor(m_strand,
+                                   boost::bind(&MulticastReceiver::ReadComplete,
+                                               this,
+                                               boost_placeholders::error,
+                                               boost_placeholders::bytes_transferred)));
 }
 
 void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
@@ -186,7 +190,7 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         m_messageBuffer.clear();
     }
 
-    m_strand.post(boost::bind(&MulticastReceiver::StartAsyncRead, this));
+    boost_asio::post(m_strand, boost::bind(&MulticastReceiver::StartAsyncRead, this));
 }
 
 void MulticastReceiver::SetClosing(bool closing)

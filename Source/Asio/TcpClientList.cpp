@@ -33,11 +33,11 @@ namespace asio
 namespace tcp
 {
 
-TcpClientList::TcpClientList(boost_ioservice_t& ioService, size_t minAmountToRead,
+TcpClientList::TcpClientList(boost_iocontext_t& ioContext, size_t minAmountToRead,
                              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                              defs::message_received_handler_t const& messageReceivedHandler,
                              eSendOption                             sendOption)
-    : m_ioServicePtr(&ioService)
+    : m_ioContextPtr(&ioContext)
     , m_minAmountToRead(minAmountToRead)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
     , m_messageReceivedHandler(messageReceivedHandler)
@@ -183,9 +183,9 @@ auto TcpClientList::CreateTcpClient(defs::connection_t const& server) -> client_
 {
     client_ptr_t clientPtr;
 
-    if (m_ioServicePtr)
+    if (m_ioContextPtr)
     {
-        clientPtr = std::make_shared<TcpClient>(*m_ioServicePtr,
+        clientPtr = std::make_shared<TcpClient>(*m_ioContextPtr,
                                                 server,
                                                 m_minAmountToRead,
                                                 m_checkBytesLeftToRead,

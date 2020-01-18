@@ -57,14 +57,14 @@ public:
     TcpConnection() = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioService - Reference to I/O service.
+     * \param[in] ioContext - Reference to I/O context.
      * \param[in] connections - Reference to TCP connections object.
      * \param[in] minAmountToRead - Minimum amount to read.
      * \param[in] checkBytesLeftToRead - Check bytes left to read callback.
      * \param[in] messageReceivedHandler - Message received handler callback.
      * \param[in] sendOption - Socket send option.
      */
-    TcpConnection(boost_ioservice_t& ioService, TcpConnections& connections, size_t minAmountToRead,
+    TcpConnection(boost_iocontext_t& ioContext, TcpConnections& connections, size_t minAmountToRead,
                   const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                   const defs::message_received_handler_t& messageReceivedHandler,
                   eSendOption                             sendOption = eSendOption::nagleOn);
@@ -150,10 +150,10 @@ private:
     threads::SyncEvent m_closedEvent{};
     /*! \brief Closing connection flag. */
     bool m_closing{false};
-    /*! \brief I/O serviceobject reference. */
-    boost_ioservice_t& m_ioService;
-    /*! \brief I/O service strand. */
-    boost_ioservice_t::strand m_strand;
+    /*! \brief I/O context object reference. */
+    boost_iocontext_t& m_ioContext;
+    /*! \brief I/O context strand. */
+    boost_iocontext_t::strand m_strand;
     /*! \brief Reference to TCP connections object. */
     TcpConnections& m_connections;
     /*! \brief Minimum amount to read from socket. */

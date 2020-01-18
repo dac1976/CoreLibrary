@@ -78,7 +78,6 @@ RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
 HEADERS += ../Include/Asio/AsioDefines.h             \
-    ../Include/Asio/IoServiceThreadGroup.h           \
     ../Include/Asio/IoContextThreadGroup.h           \
     ../Include/Asio/MessageUtils.h                   \
     ../Include/Asio/SimpleTcpClient.h                \
@@ -131,7 +130,6 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Threads/ThreadRunner.h
 
 SOURCES +=  ../Source/Asio/AsioDefines.cpp             \
-    ../Source/Asio/IoServiceThreadGroup.cpp            \
     ../Source/Asio/IoContextThreadGroup.cpp            \
     ../Source/Asio/MessageUtils.cpp                    \
     ../Source/Asio/SimpleTcpClient.cpp                 \

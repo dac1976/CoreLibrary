@@ -39,11 +39,11 @@ namespace tcp
 // ****************************************************************************
 // 'class TcpServer' definition
 // ****************************************************************************
-TcpServer::TcpServer(boost_ioservice_t& ioService, uint16_t listenPort, size_t minAmountToRead,
+TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
                      eSendOption                             sendOption)
-    : m_ioService(ioService)
+    : m_ioContext(ioContext)
     , m_listenPort{listenPort}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -57,9 +57,9 @@ TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
                      eSendOption                             sendOption)
-    : m_ioThreadGroup{new IoServiceThreadGroup(std::thread::hardware_concurrency())}
+    : m_ioThreadGroup{new IoContextThreadGroup(std::thread::hardware_concurrency())}
     // Num logical cores threads as we can send/receive to/from multiple clients
-    , m_ioService(m_ioThreadGroup->IoService())
+    , m_ioContext(m_ioThreadGroup->IoContext())
     , m_listenPort{listenPort}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -95,7 +95,7 @@ void TcpServer::CloseAcceptor()
 {
     if (m_acceptor && m_acceptor->is_open())
     {
-        m_ioService.post(boost::bind(&TcpServer::ProcessCloseAcceptor, this));
+        m_ioContext.post(boost::bind(&TcpServer::ProcessCloseAcceptor, this));
         m_closedEvent.Wait();
     }
 
@@ -107,7 +107,7 @@ void TcpServer::OpenAcceptor()
     if (!m_acceptor || !m_acceptor->is_open())
     {
         m_acceptor = std::make_unique<boost_tcp_acceptor_t>(
-            m_ioService, boost_tcp_t::endpoint(boost_tcp_t::v4(), m_listenPort));
+            m_ioContext, boost_tcp_t::endpoint(boost_tcp_t::v4(), m_listenPort));
         AcceptConnection();
     }
 }
@@ -131,7 +131,7 @@ void TcpServer::SendMessageToAllClients(const defs::char_buffer_t& message) cons
 
 void TcpServer::AcceptConnection()
 {
-    auto connection = std::make_shared<TcpConnection>(m_ioService,
+    auto connection = std::make_shared<TcpConnection>(m_ioContext,
                                                       m_clientConnections,
                                                       m_minAmountToRead,
                                                       m_checkBytesLeftToRead,

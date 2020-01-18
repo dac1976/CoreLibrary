@@ -40,17 +40,17 @@ namespace udp
 // ****************************************************************************
 // 'class UdpReceiver' definition
 // ****************************************************************************
-UdpReceiver::UdpReceiver(boost_ioservice_t& ioService, uint16_t listenPort,
+UdpReceiver::UdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
                          const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                          const defs::message_received_handler_t& messageReceivedHandler,
                          eUdpOption receiveOptions, size_t receiveBufferSize)
-    : m_ioService(ioService)
-    , m_strand(m_ioThreadGroup->IoService())
+    : m_ioContext(ioContext)
+    , m_strand(ioContext)
     , m_listenPort{listenPort}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
-    , m_socket{m_ioService}
+    , m_socket{ioContext}
 {
     CreateUdpSocket(receiveOptions, receiveBufferSize);
 }
@@ -59,16 +59,15 @@ UdpReceiver::UdpReceiver(uint16_t                                listenPort,
                          const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                          const defs::message_received_handler_t& messageReceivedHandler,
                          eUdpOption receiveOptions, size_t receiveBufferSize)
-    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
+    : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_ioService(m_ioThreadGroup->IoService())
-    , m_strand(m_ioThreadGroup->IoService())
+    , m_ioContext(m_ioThreadGroup->IoContext())
+    , m_strand(m_ioThreadGroup->IoContext())
     , m_listenPort{listenPort}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
-
-    , m_socket{m_ioService}
+    , m_socket{m_ioThreadGroup->IoContext()}
 {
     CreateUdpSocket(receiveOptions, receiveBufferSize);
 }
@@ -91,7 +90,9 @@ void UdpReceiver::CloseSocket()
     }
 
     SetClosing(true);
-    m_ioService.post(boost::bind(&UdpReceiver::ProcessCloseSocket, this));
+
+    boost_asio::post(m_strand, boost::bind(&UdpReceiver::ProcessCloseSocket, this));
+
     m_closedEvent.Wait();
 
     // To make sure we shutdown cleanly.
@@ -115,7 +116,7 @@ void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBuffe
 
     m_socket.bind(receiveEndpoint);
 
-    m_strand.post(boost::bind(&UdpReceiver::StartAsyncRead, this));
+    boost_asio::post(m_strand, boost::bind(&UdpReceiver::StartAsyncRead, this));
 }
 
 void UdpReceiver::StartAsyncRead()
@@ -126,12 +127,15 @@ void UdpReceiver::StartAsyncRead()
     }
 
     m_messageBuffer.clear();
-    m_socket.async_receive_from(boost_asio::buffer(m_receiveBuffer),
-                                m_senderEndpoint,
-                                m_strand.wrap(boost::bind(&UdpReceiver::ReadComplete,
-                                                          this,
-                                                          boost_placeholders::error,
-                                                          boost_placeholders::bytes_transferred)));
+
+    m_socket.async_receive_from(
+        boost_asio::buffer(m_receiveBuffer),
+        m_senderEndpoint,
+        boost::asio::bind_executor(m_strand,
+                                   boost::bind(&UdpReceiver::ReadComplete,
+                                               this,
+                                               boost_placeholders::error,
+                                               boost_placeholders::bytes_transferred)));
 }
 
 void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
@@ -169,7 +173,7 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
         m_messageBuffer.clear();
     }
 
-    m_strand.post(boost::bind(&UdpReceiver::StartAsyncRead, this));
+    boost_asio::post(m_strand, boost::bind(&UdpReceiver::StartAsyncRead, this));
 }
 
 void UdpReceiver::SetClosing(bool closing)

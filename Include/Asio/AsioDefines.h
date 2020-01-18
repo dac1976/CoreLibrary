@@ -42,8 +42,6 @@ namespace boost_asio         = boost::asio;
 namespace boost_placeholders = boost::asio::placeholders;
 namespace boost_mcast        = boost::asio::ip::multicast;
 
-/*! \brief Boost IO service convenience typedef. */
-using boost_ioservice_t = boost_asio::io_service;
 /*! \brief Boost IO context convenience typedef. */
 using boost_iocontext_t = boost_asio::io_context;
 /*! \brief Boost tcp convenience typedef. */

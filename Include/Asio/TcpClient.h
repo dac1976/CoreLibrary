@@ -28,7 +28,7 @@
 #ifndef TCPCLIENT
 #define TCPCLIENT
 
-#include "IoServiceThreadGroup.h"
+#include "IoContextThreadGroup.h"
 #include "TcpConnections.h"
 
 /*! \brief The core_lib namespace. */
@@ -56,7 +56,7 @@ public:
     TcpClient() = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] server - Connection object describing target server's address and port.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
      * header block.
@@ -67,11 +67,11 @@ public:
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be exectued
-     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     * using this thread pool managed by a single IO context. This is the recommended constructor.
      */
-    TcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
+    TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
               size_t minAmountToRead, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
               const defs::message_received_handler_t& messageReceivedHandler,
               eSendOption                             sendOption = eSendOption::nagleOn);
@@ -86,10 +86,10 @@ public:
      * disptaching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
-     * This constructor does not require an external IO service to run instead it creates
-     * its own IO service object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO context to run instead it creates
+     * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO service constructor is recommened.
+     * external IO context constructor is recommened.
      */
     TcpClient(const defs::connection_t& server, size_t minAmountToRead,
               const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
@@ -153,10 +153,10 @@ private:
     void CreateConnection();
 
 private:
-    /*! \brief I/O service thread group. */
-    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
-    /*! \brief I/O service reference. */
-    boost_ioservice_t& m_ioService;
+    /*! \brief I/O context thread group. */
+    std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
+    /*! \brief I/O context reference. */
+    boost_iocontext_t& m_ioContext;
     /*! \brief Server connection details. */
     defs::connection_t m_server{};
     /*! \brief Minimum amount to read from socket. */

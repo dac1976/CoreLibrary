@@ -49,7 +49,7 @@ public:
     SimpleTcpClient() = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] server - Connection object describing target server's address and port.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
@@ -57,9 +57,9 @@ public:
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be exectued
-     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     * using this thread pool managed by a single IO context. This is the recommended constructor.
      */
-    SimpleTcpClient(boost_ioservice_t& ioService, const defs::connection_t& server,
+    SimpleTcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
                     const defs::default_message_dispatcher_t& messageDispatcher,
                     eSendOption                               sendOption = eSendOption::nagleOn);
     /*!
@@ -68,10 +68,10 @@ public:
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
-     * This constructor does not require an external IO service to run instead it creates
-     * its own IO service object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO context to run instead it creates
+     * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO service constructor is recommened.
+     * external IO context constructor is recommened.
      */
     SimpleTcpClient(const defs::connection_t&                 server,
                     const defs::default_message_dispatcher_t& messageDispatcher,

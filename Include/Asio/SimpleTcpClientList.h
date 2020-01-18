@@ -59,7 +59,7 @@ public:
     SimpleTcpClientList& operator=(SimpleTcpClientList&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] messageDispatcher - Function object capable of handling a received message and
      * disptaching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
@@ -67,9 +67,9 @@ public:
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be exectued
-     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     * using this thread pool managed by a single IO context. This is the recommended constructor.
      */
-    SimpleTcpClientList(boost_ioservice_t&                        ioService,
+    SimpleTcpClientList(boost_iocontext_t&                        ioContext,
                         defs::default_message_dispatcher_t const& messageDispatcher,
                         eSendOption sendOption = eSendOption::nagleOn);
     /*!
@@ -78,10 +78,10 @@ public:
      * disptaching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      *
-     * This constructor does not require an external IO service to run instead it creates
-     * its own IO service object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO context to run instead it creates
+     * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO service constructor is recommened.
+     * external IO context constructor is recommened.
      */
     SimpleTcpClientList(defs::default_message_dispatcher_t const& messageDispatcher,
                         eSendOption sendOption = eSendOption::nagleOn);
@@ -290,8 +290,8 @@ private:
 private:
     /*! \brief Mutex to make access to map thread safe. */
     mutable std::mutex m_mutex;
-    /*! \brief External boost IO service to manage ASIO. */
-    boost_ioservice_t* m_ioServicePtr{nullptr};
+    /*! \brief External boost IO context to manage ASIO. */
+    boost_iocontext_t* m_ioContextPtr{nullptr};
     /*! \brief Function object cpable of handling a received message and disptaching it accordingly.
      */
     defs::default_message_dispatcher_t m_messageDispatcher{};
