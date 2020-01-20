@@ -42,8 +42,8 @@ namespace udp
 // ****************************************************************************
 UdpSender::UdpSender(boost_iocontext_t& ioContext, const defs::connection_t& receiver,
                      eUdpOption sendOption, size_t sendBufferSize)
-    : m_ioContext(ioContext)
-    , m_receiver{receiver}
+    : m_receiver{receiver}
+    , m_receiverResolver{ioContext}
     , m_socket{ioContext}
 {
     CreateUdpSocket(sendOption, sendBufferSize);
@@ -53,8 +53,8 @@ UdpSender::UdpSender(const defs::connection_t& receiver, eUdpOption sendOption,
                      size_t sendBufferSize)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_ioContext(m_ioThreadGroup->IoContext())
     , m_receiver{receiver}
+    , m_receiverResolver{ioContext}
     , m_socket{m_ioThreadGroup->IoContext()}
 {
     CreateUdpSocket(sendOption, sendBufferSize);
@@ -72,11 +72,6 @@ bool UdpSender::SendMessage(const defs::char_buffer_t& message)
 
 void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
 {
-    boost_udp_t::resolver        receiverResolver(m_ioContext);
-    boost_udp_t::resolver::query resolverQuery(
-        boost_udp_t::v4(), m_receiver.first, std::to_string(m_receiver.second));
-    m_receiverEndpoint = *receiverResolver.resolve(resolverQuery);
-
     m_socket.open(boost_udp_t::v4());
 
     boost_asio::socket_base::broadcast broadcastOption(sendOption == eUdpOption::broadcast);
@@ -90,9 +85,15 @@ bool UdpSender::SyncSendTo(const defs::char_buffer_t& message)
 {
     try
     {
+        if (m_receiverEndpoint.port() != m_receiver.second)
+        {
+            m_receiverEndpoint = *receiverResolver.resolve(
+                boost_udp_t::v4(), m_receiver.first, std::to_string(m_receiver.second));
+        }
+
         return message.size() == m_socket.send_to(boost_asio::buffer(message), m_receiverEndpoint);
     }
-    catch (const boost::system::system_error& /*e*/)
+    catch (...)
     {
         return false;
     }

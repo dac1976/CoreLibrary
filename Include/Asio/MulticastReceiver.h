@@ -153,8 +153,6 @@ private:
     bool m_closing{false};
     /*! \brief I/O context thread group. */
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
-    /*! \brief I/O context reference. */
-    boost_iocontext_t& m_ioContext;
     /*! \brief I/O context strand. */
     boost_iocontext_t::strand m_strand;
     /*! \brief Multicast connection details. */

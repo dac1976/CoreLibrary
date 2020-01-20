@@ -132,8 +132,6 @@ private:
 private:
     /*! \brief I/O context thread group. */
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
-    /*! \brief I/O context reference. */
-    boost_iocontext_t& m_ioContext;
     /*! \brief Multicast connection details. */
     defs::connection_t m_multicastConnection{};
     /*! \brief Interface IP address of outgoing network adaptor. */

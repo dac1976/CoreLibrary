@@ -47,7 +47,6 @@ TcpConnection::TcpConnection(boost_iocontext_t& ioContext, TcpConnections& conne
                              const defs::message_received_handler_t& messageReceivedHandler,
                              eSendOption                             sendOption)
     : m_closing{false}
-    , m_ioContext(ioContext)
     , m_strand{ioContext}
     , m_connections(connections)
     , m_minAmountToRead{minAmountToRead}
@@ -188,7 +187,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
                 clearMsgBuf = true;
             }
         }
-        catch (const std::exception& /*e*/)
+        catch (...)
         {
             numBytes    = m_minAmountToRead;
             clearMsgBuf = true;

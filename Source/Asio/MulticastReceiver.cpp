@@ -45,8 +45,7 @@ MulticastReceiver::MulticastReceiver(boost_iocontext_t&                      ioC
                                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                                      const defs::message_received_handler_t& messageReceivedHandler,
                                      const std::string& interfaceAddress, size_t receiveBufferSize)
-    : m_ioContext(ioContext)
-    , m_strand(ioContext)
+    : m_strand(ioContext)
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -63,7 +62,6 @@ MulticastReceiver::MulticastReceiver(const defs::connection_t&               mul
                                      const std::string& interfaceAddress, size_t receiveBufferSize)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_ioContext(m_ioThreadGroup->IoContext())
     , m_strand(m_ioThreadGroup->IoContext())
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
@@ -176,7 +174,7 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
             clearMsgBuf = true;
         }
     }
-    catch (const std::exception& /*e*/)
+    catch (...)
     {
         // Nothing to do here for now.
         clearMsgBuf = true;

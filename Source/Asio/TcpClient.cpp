@@ -123,7 +123,7 @@ void TcpClient::CreateConnection()
                                                           m_sendOption);
         connection->Connect(m_server);
     }
-    catch (boost::system::system_error&)
+    catch (...)
     {
         // NOTE: We catch here because if this fails in constructor
         // we want our TcpClient to stay viable as calling

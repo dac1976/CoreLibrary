@@ -150,8 +150,6 @@ private:
     threads::SyncEvent m_closedEvent{};
     /*! \brief Closing connection flag. */
     bool m_closing{false};
-    /*! \brief I/O context object reference. */
-    boost_iocontext_t& m_ioContext;
     /*! \brief I/O context strand. */
     boost_iocontext_t::strand m_strand;
     /*! \brief Reference to TCP connections object. */

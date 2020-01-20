@@ -44,8 +44,7 @@ UdpReceiver::UdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
                          const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                          const defs::message_received_handler_t& messageReceivedHandler,
                          eUdpOption receiveOptions, size_t receiveBufferSize)
-    : m_ioContext(ioContext)
-    , m_strand(ioContext)
+    : m_strand(ioContext)
     , m_listenPort{listenPort}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
@@ -61,7 +60,6 @@ UdpReceiver::UdpReceiver(uint16_t                                listenPort,
                          eUdpOption receiveOptions, size_t receiveBufferSize)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_ioContext(m_ioThreadGroup->IoContext())
     , m_strand(m_ioThreadGroup->IoContext())
     , m_listenPort{listenPort}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -159,7 +157,7 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
             clearMsgBuf = true;
         }
     }
-    catch (const std::exception& /*e*/)
+    catch (...)
     {
         // Nothing to do here for now.
         clearMsgBuf = true;
