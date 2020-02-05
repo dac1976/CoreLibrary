@@ -178,6 +178,8 @@ private:
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O context reference. */
     boost_iocontext_t& m_ioContext;
+    /*! \brief I/O context strand. */
+    boost_iocontext_t::strand m_strand;
     /*! \brief The connection acceptor. */
     std::unique_ptr<boost_tcp_acceptor_t> m_acceptor{};
     /*! \brief Server listen port. */

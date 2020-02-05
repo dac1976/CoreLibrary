@@ -62,9 +62,9 @@ Section2_Key3=Section2_Value3
 \endverbatim
  *
  * Please note that the supported comment delimiter is ';'.
- * Also note that blank lines and comments are preserved
- * when loading an ini file. However, leading and trailing
- * whitespace in sections, key or value items are removed.
+ * Also note that comments are preserved when loading an ini file.
+ * However, unnecessary whitespace in sections, key or value items
+ * is removed.
  *
  * Only flat heirarchy INI files are supported; nested
  * sections are not supported.
@@ -241,35 +241,35 @@ public:
     /*!
      * \brief Erase a whole section.
      * \param[in] section - Section name.
-	 *
-	 * If calling this removes the last section then all comments and
-	 * blank lines will also be removed.
+     *
+     * If calling this removes the last section then all comments and
+     * blank lines will also be removed.
      */
     void EraseSection(const std::string& section);
     /*!
      * \brief Erase all the sections.
-	 *
-	 * This removes all comments and blank lines.
+     *
+     * This removes all comments and blank lines.
      */
     void EraseSections();
     /*!
      * \brief Erase a key within a section.
      * \param[in] section - Section name.
      * \param[in] key - Section name.
-	 * 
-	 * If section has no keys left after calling this functoin
-	 * the section will also be removed. If removing the section
-	 * removes the final section then all remaining comments
-	 * and blank lines are also removed.
+     *
+     * If section has no keys left after calling this functoin
+     * the section will also be removed. If removing the section
+     * removes the final section then all remaining comments
+     * and blank lines are also removed.
      */
     void EraseKey(const std::string& section, const std::string& key);
     /*!
      * \brief Erase all keys in a section.
      * \param[in] section - Section name.
-	 *
-	 * The section will also be removed. If removing the section
-	 * removes the final section then all remaining comments
-	 * and blank lines are also removed.
+     *
+     * The section will also be removed. If removing the section
+     * removes the final section then all remaining comments
+     * and blank lines are also removed.
      */
     void EraseKeys(const std::string& section);
 

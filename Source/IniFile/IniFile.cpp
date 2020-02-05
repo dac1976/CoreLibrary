@@ -158,7 +158,10 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 
         if (IsBlankLine(line))
         {
-            m_lines.insert(m_lines.end(), std::make_shared<if_private::BlankLine>());
+            // We'll filter out extraneous blank lines, but if we did want to track them we
+            // could do the following:
+            //
+            // m_lines.insert(m_lines.end(), std::make_shared<if_private::BlankLine>());
         }
         else if (IsCommentLine(line, str1))
         {
@@ -229,10 +232,22 @@ void IniFile::UpdateFile(const std::string& overridePath) const
     }
 
     std::stringstream iniStream;
-    size_t            count = m_lines.size();
+    size_t            count        = m_lines.size();
+    bool              firstSection = true;
 
     for (const auto& line : m_lines)
     {
+        if (std::dynamic_pointer_cast<if_private::SectionLine>(line))
+        {
+            if (!firstSection)
+            {
+                if_private::BlankLine blankLine;
+                blankLine.Print(iniStream);
+            }
+
+            firstSection = false;
+        }
+
         line->Print(iniStream, (--count) > 0);
     }
 
@@ -251,10 +266,10 @@ auto IniFile::GetSections() const -> std::list<std::string>
 {
     std::list<std::string> sections;
 
-    for (const auto& section : m_sectionMap)
-    {
-        sections.push_back(section.first);
-    }
+    std::transform(m_sectionMap.begin(),
+                   m_sectionMap.end(),
+                   std::back_inserter(sections),
+                   [](decltype(m_sectionMap)::value_type const& section) { return section.first; });
 
     return sections;
 }

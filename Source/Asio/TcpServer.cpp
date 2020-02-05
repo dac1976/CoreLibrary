@@ -44,6 +44,7 @@ TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t m
                      const defs::message_received_handler_t& messageReceivedHandler,
                      eSendOption                             sendOption)
     : m_ioContext(ioContext)
+    , m_strand{ioContext}
     , m_listenPort{listenPort}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -60,6 +61,7 @@ TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
     : m_ioThreadGroup{new IoContextThreadGroup(std::thread::hardware_concurrency())}
     // Num logical cores threads as we can send/receive to/from multiple clients
     , m_ioContext(m_ioThreadGroup->IoContext())
+    , m_strand{m_ioThreadGroup->IoContext()}
     , m_listenPort{listenPort}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
@@ -95,7 +97,7 @@ void TcpServer::CloseAcceptor()
 {
     if (m_acceptor && m_acceptor->is_open())
     {
-        m_ioContext.post(boost::bind(&TcpServer::ProcessCloseAcceptor, this));
+        boost_asio::post(m_strand, boost::bind(&TcpServer::ProcessCloseAcceptor, this));
         m_closedEvent.Wait();
     }
 
@@ -106,9 +108,11 @@ void TcpServer::OpenAcceptor()
 {
     if (!m_acceptor || !m_acceptor->is_open())
     {
+        m_acceptor.reset();
         m_acceptor = std::make_unique<boost_tcp_acceptor_t>(
             m_ioContext, boost_tcp_t::endpoint(boost_tcp_t::v4(), m_listenPort));
-        AcceptConnection();
+
+        boost_asio::post(m_strand, boost::bind(&TcpServer::AcceptConnection, this));
     }
 }
 
@@ -139,7 +143,9 @@ void TcpServer::AcceptConnection()
                                                       m_sendOption);
     m_acceptor->async_accept(
         connection->Socket(),
-        boost::bind(&TcpServer::AcceptHandler, this, connection, boost_placeholders::error));
+        boost::asio::bind_executor(
+            m_strand,
+            boost::bind(&TcpServer::AcceptHandler, this, connection, boost_placeholders::error)));
 }
 
 void TcpServer::AcceptHandler(defs::tcp_conn_ptr_t connection, const boost_sys::error_code& error)
@@ -151,7 +157,7 @@ void TcpServer::AcceptHandler(defs::tcp_conn_ptr_t connection, const boost_sys::
 
     if (error != boost_asio::error::operation_aborted)
     {
-        AcceptConnection();
+        boost_asio::post(m_strand, boost::bind(&TcpServer::AcceptConnection, this));
     }
 }
 

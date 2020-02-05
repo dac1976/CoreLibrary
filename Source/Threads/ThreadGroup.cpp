@@ -157,15 +157,9 @@ bool ThreadGroup::IsThisThreadInNoMutex() const
 
 bool ThreadGroup::IsThreadInNoMutex(const std::thread::id& id) const
 {
-    for (const auto threadPtr : m_threadGroup)
-    {
-        if (threadPtr->get_id() == id)
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(m_threadGroup.begin(),
+                       m_threadGroup.end(),
+                       [&](std::thread const* threadPtr) { return threadPtr->get_id() == id; });
 }
 
 void ThreadGroup::DeleteThread(std::thread* threadPtr)

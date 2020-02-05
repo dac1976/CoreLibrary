@@ -54,7 +54,7 @@ UdpSender::UdpSender(const defs::connection_t& receiver, eUdpOption sendOption,
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_receiver{receiver}
-    , m_receiverResolver{ioContext}
+    , m_receiverResolver{m_ioThreadGroup->IoContext()}
     , m_socket{m_ioThreadGroup->IoContext()}
 {
     CreateUdpSocket(sendOption, sendBufferSize);
@@ -87,7 +87,7 @@ bool UdpSender::SyncSendTo(const defs::char_buffer_t& message)
     {
         if (m_receiverEndpoint.port() != m_receiver.second)
         {
-            m_receiverEndpoint = *receiverResolver.resolve(
+            m_receiverEndpoint = *m_receiverResolver.resolve(
                 boost_udp_t::v4(), m_receiver.first, std::to_string(m_receiver.second));
         }
 

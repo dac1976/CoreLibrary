@@ -70,9 +70,9 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO context constructor is recommened.
      */
-    SimpleUdpSender(const defs::connection_t& receiver,
-                    eUdpOption                sendOption     = eUdpOption::broadcast,
-                    size_t                    sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    explicit SimpleUdpSender(const defs::connection_t& receiver,
+                             eUdpOption                sendOption     = eUdpOption::broadcast,
+                             size_t                    sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     SimpleUdpSender(const SimpleUdpSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */

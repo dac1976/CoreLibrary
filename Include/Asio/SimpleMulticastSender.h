@@ -80,10 +80,11 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO context. This is the recommended constructor.
      */
-    SimpleMulticastSender(const defs::connection_t& multicastConnection,
-                          const std::string& interfaceAddress = "", bool enableLoopback = true,
-                          eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
-                          size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    explicit SimpleMulticastSender(const defs::connection_t& multicastConnection,
+                                   const std::string&        interfaceAddress = "",
+                                   bool                      enableLoopback   = true,
+                                   eMulticastTTL             ttl = eMulticastTTL::sameSubnet,
+                                   size_t                    sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Copy constructor - deleted. */
     SimpleMulticastSender(const SimpleMulticastSender&) = delete;
     /*! \brief Copy assignment operator - deleted. */

@@ -128,13 +128,13 @@ public:
      *
      * Note that this object uses RAII so will close all connections when destroyed.
      */
-    void CloseConnection(defs::connection_t const& server);
+    void CloseConnection(defs::connection_t const& server) const;
     /*!
      * \brief Manually close the all client connections.
      *
      * Note that this object uses RAII so will close all connections when destroyed.
      */
-    void CloseConnections();
+    void CloseConnections() const;
     /*! \brief Destroy all TCP clients and clear map. */
     void ClearConnections();
     /*!

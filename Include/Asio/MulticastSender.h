@@ -82,10 +82,10 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO context constructor is recommended.
      */
-    MulticastSender(const defs::connection_t& multicastConnection,
-                    const std::string& interfaceAddress = "", bool enableLoopback = true,
-                    eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
-                    size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    explicit MulticastSender(const defs::connection_t& multicastConnection,
+                             const std::string& interfaceAddress = "", bool enableLoopback = true,
+                             eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
+                             size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
 
     /*! \brief Copy constructor - deleted. */
     MulticastSender(const MulticastSender&) = delete;

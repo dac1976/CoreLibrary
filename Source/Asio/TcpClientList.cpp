@@ -111,7 +111,7 @@ auto TcpClientList::GetClientDetailsForServer(defs::connection_t const& server) 
     return client;
 }
 
-void TcpClientList::CloseConnection(defs::connection_t const& server)
+void TcpClientList::CloseConnection(defs::connection_t const& server) const
 {
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -123,7 +123,7 @@ void TcpClientList::CloseConnection(defs::connection_t const& server)
     }
 }
 
-void TcpClientList::CloseConnections()
+void TcpClientList::CloseConnections() const
 {
     std::lock_guard<std::mutex> lock(m_mutex);
 
