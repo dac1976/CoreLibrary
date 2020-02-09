@@ -6,13 +6,17 @@
 
 QT       -= gui
 
-TARGET = CoreLibrary
+CONFIG(debug, debug|release) {
+  TARGET = CoreLibraryd
+} else {
+  TARGET = CoreLibrary
+}
+
 TEMPLATE = lib
 CONFIG += staticlib debug_and_release build_all
 CONFIG += core_lib_settings
 
 DEFINES += CORE_LIBRARY_LIB
-
 
 unix:!symbian {
     maemo5 {

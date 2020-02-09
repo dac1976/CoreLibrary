@@ -35,6 +35,10 @@ using namespace core_lib::serialize;
 using namespace core_lib::threads;
 using namespace core_lib::asio::messages;
 
+// TODO: Set these to match host PC's network setup, else certain tests will fail.
+static const std::string adapterIp  = "192.168.1.11";
+static const std::string adapterIp2 = "127.0.0.1";
+
 // ****************************************************************************
 // Helper classes/functions
 // ****************************************************************************
@@ -1472,9 +1476,9 @@ TEST(AsioTest, testCase_TestMulticast_SpecificAdapter)
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
         std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1),
-        "10.34.6.1");
+        adapterIp);
 
-    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "10.34.6.1");
+    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), adapterIp);
 
     EXPECT_TRUE(mcSender.SendMessage(message) == true);
 
@@ -1500,10 +1504,10 @@ TEST(AsioTest, testCase_TestTypedMulticast_SpecificAdapter)
             &MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1),
-        "10.34.6.1");
+        adapterIp);
 
     MulticastTypedSender<MessageBuilder> mcSender(
-        std::make_pair("226.0.0.1", 19191), messageBuilder, "10.34.6.1");
+        std::make_pair("226.0.0.1", 19191), messageBuilder, adapterIp);
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -1524,9 +1528,9 @@ TEST(AsioTest, testCase_TestSimpleMulticast_SpecificAdapter)
     SimpleMulticastReceiver mcReceiver(
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1),
-        "10.34.6.1");
+        adapterIp);
 
-    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "10.34.6.1");
+    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), adapterIp);
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -1548,9 +1552,9 @@ TEST(AsioTest, testCase_TestSimpleMulticast_DifferentAdapters)
     SimpleMulticastReceiver mcReceiver(
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1),
-        "10.34.6.1");
+        adapterIp);
 
-    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), "10.35.6.1");
+    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), adapterIp2);
 
     MyMessage messageToSend;
     messageToSend.FillMessage();

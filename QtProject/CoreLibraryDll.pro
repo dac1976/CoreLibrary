@@ -6,7 +6,12 @@
 
 QT       -= gui
 
-TARGET = CoreLibraryDll
+CONFIG(debug, debug|release) {
+  TARGET = CoreLibraryDlld
+} else {
+  TARGET = CoreLibraryDll
+}
+
 TEMPLATE = lib
 CONFIG += dll debug_and_release build_all
 CONFIG += core_lib_settings
