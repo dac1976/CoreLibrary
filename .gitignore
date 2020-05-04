@@ -41,6 +41,14 @@
 *.pro.user
 MakeFile
 MakeFile.*
+/QtProject/*.pro.user
+/QtProject/MakeFile
+/QtProject/MakeFile.*
+/UnitTests/GoogleTests/QtProject/*.pro.user
+/UnitTests/GoogleTests/QtProject/MakeFile
+/UnitTests/GoogleTests/QtProject/MakeFile.*
 
 # Qmake stash
 *.stash
+/QtProject/*.stash
+/UnitTests/GoogleTests/QtProject/*.stash
