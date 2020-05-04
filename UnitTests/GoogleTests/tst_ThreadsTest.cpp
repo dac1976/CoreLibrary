@@ -155,7 +155,7 @@ private:
 class ThreadRunnerWrapper final
 {
 public:
-    ThreadRunnerWrapper(bool& terminateCondition)
+    explicit ThreadRunnerWrapper(bool& terminateCondition)
         : m_threadRunner(std::bind(&ThreadRunnerWrapper::ThreadIteration, this),
                          std::bind(&ThreadRunnerWrapper::ProcessTerminationConditions, this))
         , m_counter(0)
