@@ -1,12 +1,12 @@
 var classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection =
 [
     [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a2d8fdff0ea2b61f7171a701d05a9ba71", null ],
-    [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a68d13d23f4580a2111b3733b26a920a0", null ],
+    [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a2d379754c7d631388c90c3ad953f15e5", null ],
     [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a779a49ffd4f797ca0ccb605bce13a8ad", null ],
     [ "TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a58619e3b7de61a57b261280ae575059d", null ],
     [ "~TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a8964df856f9cf7a74bcfc392c1bd52b0", null ],
     [ "AsyncReadFromSocket", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aeba56be7724b1c215869bc06eb820b6b", null ],
-    [ "AsyncWriteToSocket", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a1075efcd849927249b4dfdab171c7216", null ],
+    [ "AsyncWriteToSocket", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a047d3ded2253f43d9449b135c2f82315", null ],
     [ "CloseConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aa7cb46d0a1d2dae687a4fd9bb612280f", null ],
     [ "Connect", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#ac752b95df8295d53ca0a88200c3f564a", null ],
     [ "DestroySelf", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#abf7dfcea434f709dc8ad12670bf2640c", null ],
@@ -21,21 +21,16 @@ var classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection =
     [ "Socket", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a9df94cf7eebd3d245a0e956b7f294a91", null ],
     [ "Socket", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aab3401131dc225b7ca9953b582fc402c", null ],
     [ "StartAsyncRead", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a65fc6177274c9b82d1b39ef09076c20f", null ],
-    [ "SyncWriteToSocket", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a27e47ecb2c22b9c125faf609a71ecd3e", null ],
-    [ "WriteComplete", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a9984a70654bef06fd932aac525e12ee5", null ],
     [ "m_checkBytesLeftToRead", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a7e36ce46a7e62cffeb3cbb8339cd1866", null ],
     [ "m_closedEvent", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#abaef4b89a3abd8b1416df06a193a1b91", null ],
     [ "m_closing", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a436da822a09a65138f6beefe6e903725", null ],
     [ "m_connections", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a9e395deaeded2d44cf512ac858e17379", null ],
-    [ "m_ioService", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a08d030a05ee7f3156d6e7fc6838f716e", null ],
     [ "m_messageBuffer", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a934220c821f55d41403d39812a485b0f", null ],
     [ "m_messageReceivedHandler", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a755108788b03fd85e9254aa93fa9a4e6", null ],
     [ "m_minAmountToRead", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a12eed0f31ac5ed8b3612d493176e03d9", null ],
     [ "m_mutex", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a9afbc1bf1f30e8612ec001f6c1b87bb1", null ],
     [ "m_receiveBuffer", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#aebdaa91a449a104d6fa2b7d203a2ba5c", null ],
-    [ "m_sendEvent", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a464ee0ea7da8a1f5bf8b933faa4eb9a3", null ],
     [ "m_sendOption", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a4933b6ba8b9add384e8bc3dcde392694", null ],
-    [ "m_sendSuccess", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a49de236c8b83dbc86f4ddbba3f6b01be", null ],
     [ "m_socket", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a47e24bf1f2f18b287d6c4ed7e1df0937", null ],
-    [ "m_strand", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a093131f41b5b34a53c5fb5e8d4056661", null ]
+    [ "m_strand", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#acaf39161b9ea745fe83eef1a85f1bf63", null ]
 ];

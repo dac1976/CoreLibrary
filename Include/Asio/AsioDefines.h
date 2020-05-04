@@ -67,7 +67,10 @@ namespace tcp
 {
 
 /*! \brief Default internal receive buffer's initial reserved size in bytes. */
-STATIC_CONSTEXPR_ size_t DEFAULT_RESERVED_SIZE{512 * 1024};
+enum eDefReservedSize : size_t
+{
+    DEFAULT_RESERVED_SIZE = 512 * 1024
+};
 
 /*! \brief Enumeration to control nagle algorithm. */
 enum class eSendOption
@@ -101,14 +104,20 @@ enum class eUdpOption
  * as we have to allow 8 bytes for UDP header and 20 bytes
  * for the IP header.
  */
-STATIC_CONSTEXPR_ size_t UDP_DATAGRAM_MAX_SIZE{65507};
+enum eUdpDatagramMaxSize : size_t
+{
+    UDP_DATAGRAM_MAX_SIZE = 65507
+};
 
 /*! \brief UDP default buffer size.
  *
  * By default we use a size of 8KiB but this can be
  * changed by the user.
  */
-STATIC_CONSTEXPR_ size_t DEFAULT_UDP_BUF_SIZE{8192};
+enum eDefaultUdpSize : size_t
+{
+    DEFAULT_UDP_BUF_SIZE = 8192
+};
 
 /*! \brief The multicast TTL enumeration. */
 enum class eMulticastTTL
@@ -136,31 +145,36 @@ namespace defs
 /*! \brief Typedef describing a network connection as (address, port). */
 using connection_t = std::pair<std::string, uint16_t>;
 /*! \brief Constant defining a null network connection as ("0.0.0.0", 0). */
-static const connection_t NULL_CONNECTION("0.0.0.0", 0);
+extern const connection_t NULL_CONNECTION;
 /*! \brief Typedef describing shared_ptr to a TcpConnection object. */
 using tcp_conn_ptr_t = std::shared_ptr<tcp::TcpConnection>;
 /*! \brief Constant defining response IP address length in bytes. */
-STATIC_CONSTEXPR_ uint32_t RESPONSE_ADDRESS_LEN{16};
+enum eRespAddressLen : uint32_t
+{
+    RESPONSE_ADDRESS_LEN = 16
+};
 /*! \brief Constant defining message header magic string length in bytes. */
-STATIC_CONSTEXPR_ uint32_t MAGIC_STRING_LEN{16};
+enum eMagicStringLen : uint32_t
+{
+    MAGIC_STRING_LEN = 16
+};
 /*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
-STATIC_CONSTEXPR_ char DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+extern const char DEFAULT_MAGIC_STRING[];
 
 /*! \brief Message serialization archive type enumeration. */
 enum class eArchiveType : uint8_t
-{
-    /*! \brief Portable binary archive, requires Cereal serialization. */
-    portableBinary,
-    /*! \brief Binary archive, requires Cereal serialization. */
-    binary,
-    /*! \brief JSON archive, requires Cereal serialization. */
-    json,
-    /*! \brief XML archive, requires Cereal serialization. */
-    xml,
-    /*! \brief Raw data, only for POD objects. */
-    raw,
-    /*! \brief Google protocol buffer. */
-    protobuf
+{ /*! \brief Portable binary archive, requires Cereal serialization. */
+  portableBinary,
+  /*! \brief Binary archive, requires Cereal serialization. */
+  binary,
+  /*! \brief JSON archive, requires Cereal serialization. */
+  json,
+  /*! \brief XML archive, requires Cereal serialization. */
+  xml,
+  /*! \brief Raw data, only for POD objects. */
+  raw,
+  /*! \brief Google protocol buffer. */
+  protobuf
 };
 
 // Push single byte alignment for the MessageHeader strcuture for maximum portability.
@@ -168,8 +182,8 @@ enum class eArchiveType : uint8_t
 /*!
  * \brief Default message header structure that is also POD.
  *
- * This structure is used for all the network classes prepended with Simple, e.g. SimpleTcpClient,
- * SimpleTcpServer etc.
+ * This structure is used for all the network classes prepended with Simple, e.g.
+ * SimpleTcpClient, SimpleTcpServer etc.
  */
 struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 {

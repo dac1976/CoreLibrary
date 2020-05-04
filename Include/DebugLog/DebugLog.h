@@ -144,20 +144,26 @@ struct CORE_LIBRARY_DLL_SHARED_API DefaultLogFormat
 };
 
 /*! \brief Static constant defining number of bytes in a mebibyte. */
-STATIC_CONSTEXPR_ size_t BYTES_IN_MEBIBYTE{1024 * 1024};
+enum eDefLogSize : size_t
+{
+    BYTES_IN_MEBIBYTE = 1024 * 1024
+};
 
 namespace dl_private
 {
 
 /*! \brief Static constant defining message ID for log messages. */
-STATIC_CONSTEXPR_ int MESSAGE_ID{1};
+enum eMsgId : int
+{
+    MESSAGE_ID = 1
+};
 
 /*!
  * \brief Log Queue Message class.
  *
  * Message to be placed on message queue to process debug log entry to add to file. This is used
- * internally by the DebugLog class and so is in its own private namespace and is not needed to be
- * used externally to DebugLog.
+ * internally by the DebugLog class and so is in its own private namespace and is not needed to
+ * be used externally to DebugLog.
  */
 class CORE_LIBRARY_DLL_SHARED_API LogQueueMessage
 {
@@ -170,9 +176,9 @@ public:
      * \param[in] timeStamp - Date/Time stamp for message.
      * \param[in] file - Source file in which message AddLogMessage was called, e.g.
      * std::string(__FILE__).
-     * \param[in] function - Function insource file in which message AddLogMessage was called, e.g.
-     * BOOST_CURRENT_FUNCTION.
-     * \param[in] lineNo - Line number in the source file where AddLogMessage was called, e.g.
+     * \param[in] function - Function insource file in which message AddLogMessage was called,
+     * e.g. BOOST_CURRENT_FUNCTION. \param[in] lineNo - Line number in the source file where
+     * AddLogMessage was called, e.g.
      * __LINE__.
      * \param[in] threadID - Thread ID where message was added from.
      * \param[in] errorLevel - Message level.

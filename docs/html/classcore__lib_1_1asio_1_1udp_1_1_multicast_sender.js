@@ -1,7 +1,7 @@
 var classcore__lib_1_1asio_1_1udp_1_1_multicast_sender =
 [
     [ "MulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#ac250802bc8e37ba31c941a0b4b8bfa87", null ],
-    [ "MulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a9161f256ced7816cc43924c55f8f2a18", null ],
+    [ "MulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#ad1b3ee6a79ef411256217d65bb2a4fc4", null ],
     [ "MulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#afe797152c01b3ffd081904fbadd027be", null ],
     [ "MulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a9a7ba75683fc54311ca55da8bd532c67", null ],
     [ "MulticastSender", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a00bfd115fae8f93360de61d2a4e251a2", null ],
@@ -14,8 +14,7 @@ var classcore__lib_1_1asio_1_1udp_1_1_multicast_sender =
     [ "SendMessage", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a846bb7828e1c6af8a8cfa1d65a01bf50", null ],
     [ "SyncSendTo", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a0eca61d939f6ac172039413c61fddccc", null ],
     [ "m_interfaceAddress", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a1665b7efe09ac6fc5918ab0ddbccdc02", null ],
-    [ "m_ioService", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a38ded124575e2a5fe7a0a0475fcf5539", null ],
-    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a37d61ca959061ef5769f41c3d8c3a5f4", null ],
+    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a064dae56132088be98b790699055363c", null ],
     [ "m_multicastConnection", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a888237ba6b9509e5e41d95058ab22131", null ],
     [ "m_multicastEndpoint", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#ae68273bd9a56b07ae573837178823406", null ],
     [ "m_socket", "classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#ae8be3e667fd6b7fc2986d78ca07bd1ed", null ]

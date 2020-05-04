@@ -1,11 +1,12 @@
 var classcore__lib_1_1asio_1_1udp_1_1_udp_receiver =
 [
     [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a1d854b08e6468f98503e530b47deb590", null ],
-    [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a67671ade222926a074a88396049857f1", null ],
+    [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#abe20915efc902e032b45d028ae3cc8f5", null ],
     [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#ad36a5591ee96ff6c1161cb8436e22701", null ],
     [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#aedce0b0723bdc65bd371a1e44af0b7ac", null ],
     [ "UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#aee834718209e2d43ad6d01eb0d060617", null ],
     [ "~UdpReceiver", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#ad458661b4af72b9d28d171bc5175061e", null ],
+    [ "CloseSocket", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a3cd4de1e657046fb04620b4fed949041", null ],
     [ "CreateUdpSocket", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a9afd92a11fee2ea2605c528d87f8d64c", null ],
     [ "IsClosing", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a97a9c9600fee02758d92047ca3045a4a", null ],
     [ "ListenPort", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a1c7b3cac553d5e89764007bf1cdd5cb1", null ],
@@ -19,12 +20,12 @@ var classcore__lib_1_1asio_1_1udp_1_1_udp_receiver =
     [ "m_closedEvent", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#ae400baa46f2b00ec2a41d0740936653c", null ],
     [ "m_closing", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a5e34a8466adeee883ddb16270da83fa5", null ],
     [ "m_closingMutex", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4c6b60082bc816cdc485d60c8ce4eda0", null ],
-    [ "m_ioService", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#ae341d2cf1b4bf254ec3767df413bcef3", null ],
-    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4e76545e106fa8bf953c2cf2ab1186c9", null ],
+    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a2b5c822e11d246665be63813817f761c", null ],
     [ "m_listenPort", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a299ede970788bd31f9c98adb76f5fd34", null ],
     [ "m_messageBuffer", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a53f016a757a61461e174935edaa82e89", null ],
     [ "m_messageReceivedHandler", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a5c79df786e71ab80d468c9b33db5dd65", null ],
     [ "m_receiveBuffer", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a4860f22385709d8691933de9a1fe8f77", null ],
     [ "m_senderEndpoint", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a33777fe5de91683f2c6b3347db6dfcdc", null ],
-    [ "m_socket", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a3b211b6a1a197bb6d7e75119e5a50f0f", null ]
+    [ "m_socket", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a3b211b6a1a197bb6d7e75119e5a50f0f", null ],
+    [ "m_strand", "classcore__lib_1_1asio_1_1udp_1_1_udp_receiver.html#a0e660438954745311d9ebb8f2f5b9058", null ]
 ];

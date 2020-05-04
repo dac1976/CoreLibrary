@@ -1,5 +1,7 @@
 # CoreLibrary #
 ## News ##
+2020/05/04 - A bit of code tidying and refactoring and removal of warnings flagged by certain compilers. Over last few months I've moved to newer Boost due to updates to Boost ASIO code.
+
 2019/08/29 - Added extra string utility functions.
 
 2019/04/11 - Added support for Google Protocol Buffers in serialization utilities. Therefore support automatically achieved in all ASIO classes, such as TCP, UDP and multicast classes.
@@ -26,7 +28,7 @@ You may use this code within other development and build environments but it is 
 
 This library requires some third-party open source libraries for it to compile and function. These are as follows:
 
-* Boost (tested with 1.57+ but newest version recommended): http://www.boost.org/
+* Boost (tested with 1.70+ but newest version recommended): http://www.boost.org/
 * Cereal (tested with 1.2.1+ but newest version recommended): http://uscilab.github.io/cereal/
 * Loki: http://loki-lib.sourceforge.net/
 * Google Test (tested with 1.7.0+ but newest recommended): https://github.com/google/googletest/graphs/contributors

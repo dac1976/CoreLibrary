@@ -1,7 +1,7 @@
 var classcore__lib_1_1asio_1_1tcp_1_1_tcp_client =
 [
     [ "TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a2c8836f480214cf1951280c493b58a57", null ],
-    [ "TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a4c22810cbe3dabb0d9446e1c9e658de0", null ],
+    [ "TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#accb655b02329565dfbff516e9bf0ffe5", null ],
     [ "TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#afea0be49ad2f9a486cedde65f160aee2", null ],
     [ "~TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a21259e964d9a603406e7ccc7088250c7", null ],
     [ "TcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a790872f48c815d081c1831d166d3188e", null ],
@@ -17,8 +17,8 @@ var classcore__lib_1_1asio_1_1tcp_1_1_tcp_client =
     [ "SendMessageToServerSync", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a49e77f42a49543c033a5926573e2b230", null ],
     [ "ServerConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a37053b0958f281817ad8bde6bac48d08", null ],
     [ "m_checkBytesLeftToRead", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#abad3fc554eb0515801a63d3cc5da1ecc", null ],
-    [ "m_ioService", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a5c4333bf480be260dae2fff27fef0e79", null ],
-    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a84a11ab61cf4828729dbb38a75afbf07", null ],
+    [ "m_ioContext", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#acc0cacf1f506564dad5d2f0f857fb047", null ],
+    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#aa622402bd9aedcfdd9b8902af71abdbc", null ],
     [ "m_messageReceivedHandler", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#adf4616863f5c0d9767a9b8f54d030ae0", null ],
     [ "m_minAmountToRead", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#a0c37e9c9fbbc89dfddaded1149c79521", null ],
     [ "m_sendOption", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#ad5be83a490f5a87d9fb66e2aad799bec", null ],

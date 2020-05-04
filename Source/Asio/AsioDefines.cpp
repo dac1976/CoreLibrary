@@ -34,6 +34,9 @@ namespace asio
 namespace defs
 {
 
+const connection_t NULL_CONNECTION("0.0.0.0", 0);
+const char         DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
+
 MessageHeader::MessageHeader()
 {
     std::snprintf(static_cast<char*>(responseAddress), sizeof(responseAddress), "%s", "0.0.0.0");

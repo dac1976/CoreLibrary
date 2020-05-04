@@ -1,11 +1,12 @@
 var classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver =
 [
     [ "MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ab1dd9a7f08f7b038bb374c8cd3832ea7", null ],
-    [ "MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ae2b5f275d5a74251caad9605607e4444", null ],
+    [ "MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ae0fef7547745d63667fb5e7ed5ba815b", null ],
     [ "MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a23b2ebbadc62c314b999a59fa3df3f06", null ],
     [ "MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#afdc0f7d7348ec37eeca1868fe6257fef", null ],
     [ "MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ab827844012792f1026610f7d1cfde461", null ],
     [ "~MulticastReceiver", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ad7115f859944fc18d60fc6d0d64c356d", null ],
+    [ "CloseSocket", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ab2414aeacba41a72d27ccf3b64e36bba", null ],
     [ "CreateMulticastSocket", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a07c853edd876623c4fe7ef106ef887eb", null ],
     [ "InterfaceAddress", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ab41ebf596ee5838cb46d003ad59170c8", null ],
     [ "IsClosing", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a96c07212cbb4d243b693c72b6c4c353c", null ],
@@ -21,12 +22,12 @@ var classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver =
     [ "m_closing", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a2c23a478a173cb78ef3fe4679d5e625c", null ],
     [ "m_closingMutex", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#adce0772d6aef3020a656ef750cea8f49", null ],
     [ "m_interfaceAddress", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a83d09c961c1bbd7251b47ba78129f686", null ],
-    [ "m_ioService", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a9b7c893ea0d59cae109d150e6e6c94c6", null ],
-    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a8d27173b3250f310584755d0efc3223d", null ],
+    [ "m_ioThreadGroup", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a36023d8c546f7f973701761490d631cb", null ],
     [ "m_messageBuffer", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#ad023bcc9ca59e14ffb8450fe05e9dfca", null ],
     [ "m_messageReceivedHandler", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a6931bba905d4edb762a55c0ada8112c6", null ],
     [ "m_multicastConnection", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a64fe78898fd61f9f97a3c68a674fbd3f", null ],
     [ "m_receiveBuffer", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a98e2c6949a0668454210a19c11118a5a", null ],
     [ "m_senderEndpoint", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#abfb1630820b0c8c038d4f28648a66044", null ],
-    [ "m_socket", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a5e4cea680b8e1cd11632fd7ca61e967d", null ]
+    [ "m_socket", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a5e4cea680b8e1cd11632fd7ca61e967d", null ],
+    [ "m_strand", "classcore__lib_1_1asio_1_1udp_1_1_multicast_receiver.html#a422046b9e1dd64f37d5b477b2b7a15f2", null ]
 ];

@@ -16,6 +16,7 @@ var hierarchy =
     [ "core_lib::threads::ConcurrentQueue< T >", "classcore__lib_1_1threads_1_1_concurrent_queue.html", null ],
     [ "core_lib::threads::ConcurrentQueue< MessageType >", "classcore__lib_1_1threads_1_1_concurrent_queue.html", null ],
     [ "core_lib::csv_grid::reserver::ContainerReserver< C, T >", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html", null ],
+    [ "core_lib::csv_grid::reserver::ContainerReserver< C, Cell >", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver.html", null ],
     [ "core_lib::csv_grid::reserver::ContainerReserver< std::vector, T >", "classcore__lib_1_1csv__grid_1_1reserver_1_1_container_reserver_3_01std_1_1vector_00_01_t_01_4.html", null ],
     [ "core_lib::log::DebugLog< Formatter >", "classcore__lib_1_1log_1_1_debug_log.html", null ],
     [ "core_lib::log::DefaultLogFormat", "structcore__lib_1_1log_1_1_default_log_format.html", null ],
@@ -34,7 +35,7 @@ var hierarchy =
     [ "std::hash< core_lib::log::eLogMessageLevel >", "structstd_1_1hash_3_01core__lib_1_1log_1_1e_log_message_level_01_4.html", null ],
     [ "core_lib::ini_file::IniFile", "classcore__lib_1_1ini__file_1_1_ini_file.html", null ],
     [ "core_lib::sorting::Insertion< T, Pred >", "classcore__lib_1_1sorting_1_1_insertion.html", null ],
-    [ "core_lib::asio::IoServiceThreadGroup", "classcore__lib_1_1asio_1_1_io_service_thread_group.html", null ],
+    [ "core_lib::asio::IoContextThreadGroup", "classcore__lib_1_1asio_1_1_io_context_thread_group.html", null ],
     [ "core_lib::threads::JoinThreads< C >", "classcore__lib_1_1threads_1_1_join_threads.html", null ],
     [ "core_lib::threads::JoinThreadsP< C >", "classcore__lib_1_1threads_1_1_join_threads_p.html", null ],
     [ "core_lib::ini_file::if_private::Line", "classcore__lib_1_1ini__file_1_1if__private_1_1_line.html", [

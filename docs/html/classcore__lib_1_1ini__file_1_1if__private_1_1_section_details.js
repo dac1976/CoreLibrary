@@ -13,6 +13,7 @@ var classcore__lib_1_1ini__file_1_1if__private_1_1_section_details =
     [ "GetValue", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a5d20931b8dea79955caa8cf8d50fed6a", null ],
     [ "KeyExists", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#afb56645125534fd8fb84df38fb3d929f", null ],
     [ "LineIterator", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#ab63bbc2aea27543c6a7bd0c1279da96d", null ],
+    [ "NumKeys", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a7d02e9ea443336642e87aada79eda235", null ],
     [ "operator=", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a97fa2f64a135e6246527d9eaa1d0e708", null ],
     [ "operator=", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#a7ad1dc09d2a386b0648c1010fca699b7", null ],
     [ "Section", "classcore__lib_1_1ini__file_1_1if__private_1_1_section_details.html#afb9bc572e1729de3480ffae4ae7bc4d9", null ],

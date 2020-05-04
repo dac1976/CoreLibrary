@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['socket_5fclose_5fsleep_5fms_1391',['SOCKET_CLOSE_SLEEP_MS',['../namespacecore__lib_1_1asio_1_1defs.html#a1352f3457b78a61eedb9a4a93757b2ed',1,'core_lib::asio::defs']]]
+  ['responseaddress_1382',['responseAddress',['../structcore__lib_1_1asio_1_1defs_1_1_message_header.html#abbccdbaf4edb9aaac17ddd9d805da09b',1,'core_lib::asio::defs::MessageHeader']]],
+  ['responseport_1383',['responsePort',['../structcore__lib_1_1asio_1_1defs_1_1_message_header.html#add42f184c8e1c522d7869a0b342eaa27',1,'core_lib::asio::defs::MessageHeader']]]
 ];
