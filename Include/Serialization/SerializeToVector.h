@@ -115,6 +115,8 @@ template <typename T, typename A> struct ToCharVectorImpl
      * \brief Function operator
      * \param[in] object - Object to serialize
      * \return Char vector containing serialized object
+     *
+     * This overload creates new memory.
      */
     char_vector_t operator()(const T& object) const
     {
@@ -133,6 +135,30 @@ template <typename T, typename A> struct ToCharVectorImpl
         charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
         return charVector;
     }
+
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialize
+     * \param[out] result - Char vector containing serialized object
+     *
+     * This overload uses the memory passed in and resizes if necessary.
+     */
+    void operator()(const T& object, char_vector_t& result) const
+    {
+        std::stringstream os;
+        // Reduce scope of archive to make sure it has
+        // flushed its contents to the stream before
+        // we try and do anything with it.
+        {
+            A oa(os);
+            // CEREAL_NVP is required to fully support xml archives.
+            oa(CEREAL_NVP(object));
+        }
+
+        result.clear();
+        result.reserve(os.str().size());
+        result.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
+    }
 };
 
 /*! \brief Serialization to char vector implementation, specialization for POD. */
@@ -142,6 +168,8 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
      * \brief Function operator
      * \param[in] object - Object to serialize
      * \return Char vector containing serialized object
+     *
+     * This overload creates new memory.
      */
     char_vector_t operator()(const T& object) const
     {
@@ -150,11 +178,33 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
             BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
         }
 
-        char_vector_t charVector;
         auto          begin = reinterpret_cast<char const*>(&object);
         auto          end   = std::next(begin, static_cast<int>(sizeof(T)));
+        char_vector_t charVector;
         std::copy(begin, end, std::back_inserter(charVector));
         return charVector;
+    }
+
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialize
+     * \param[out] result - Char vector containing serialized object
+     *
+     * This overload uses the memory passed in and resizes if necessary.
+     */
+    void operator()(const T& object, char_vector_t& result) const
+    {
+        if (!std::is_pod<T>::value)
+        {
+            BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
+        }
+
+        auto len = sizeof(T);
+        result.clear();
+        result.reserve(len);
+        auto begin = reinterpret_cast<char const*>(&object);
+        auto end   = std::next(begin, static_cast<int>(len));
+        std::copy(begin, end, std::back_inserter(result));
     }
 };
 
@@ -165,6 +215,8 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
      * \brief Function operator
      * \param[in] object - Object to serialize
      * \return Char vector containing serialized object
+     *
+     * This overload creates new memory.
      */
     char_vector_t operator()(const T& object) const
     {
@@ -179,6 +231,27 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
         charVector.reserve(os.str().size());
         charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
         return charVector;
+    }
+
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialize
+     * \param[out] result - Char vector containing serialized object
+     *
+     * This overload uses the memory passed in and resizes if necessary.
+     */
+    void operator()(const T& object, char_vector_t& result) const
+    {
+        std::stringstream os;
+
+        if (!object.SerializeToOstream(&os))
+        {
+            BOOST_THROW_EXCEPTION(std::runtime_error("failed to serialize protocol buffer"));
+        }
+
+        result.clear();
+        result.reserve(os.str().size());
+        result.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
     }
 };
 
