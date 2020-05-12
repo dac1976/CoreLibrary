@@ -84,6 +84,22 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectPortBinArch)
     EXPECT_EQ(objectOut, objectIn);
 }
 
+TEST(SerializationUtilsTest, testCase_SerializeObjectPortBinArch_alt)
+{
+    using namespace core_lib::serialize;
+    MyObject objectIn{};
+    MyObject objectOut{};
+    objectIn.Fred(10.0f);
+    objectIn.Harry("jnkjn");
+    std::vector<unsigned int> vec{1, 2, 3, 4, 5};
+    objectIn.George(vec);
+    char_vector_t charVector;
+    ToCharVector(objectIn, charVector);
+    ToObject<MyObject>(charVector, objectOut);
+
+    EXPECT_EQ(objectOut, objectIn);
+}
+
 TEST(SerializationUtilsTest, testCase_SerializeObjectBinArch)
 {
     using namespace core_lib::serialize;
@@ -95,6 +111,22 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectBinArch)
     objectIn.George(vec);
     char_vector_t charVector = ToCharVector<MyObject, archives::out_bin_t>(objectIn);
     objectOut                = ToObject<MyObject, archives::in_bin_t>(charVector);
+
+    EXPECT_EQ(objectOut, objectIn);
+}
+
+TEST(SerializationUtilsTest, testCase_SerializeObjectBinArch_Alt)
+{
+    using namespace core_lib::serialize;
+    MyObject objectIn{};
+    MyObject objectOut{};
+    objectIn.Fred(10.0f);
+    objectIn.Harry("jnkjn");
+    std::vector<unsigned int> vec{1, 2, 3, 4, 5};
+    objectIn.George(vec);
+    char_vector_t charVector;
+    ToCharVector<MyObject, archives::out_bin_t>(objectIn, charVector);
+    ToObject<MyObject, archives::in_bin_t>(charVector, objectOut);
 
     EXPECT_EQ(objectOut, objectIn);
 }
@@ -115,6 +147,22 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectJSONArch)
     EXPECT_EQ(objectOut, objectIn);
 }
 
+TEST(SerializationUtilsTest, testCase_SerializeObjectJSONArch_Alt)
+{
+    using namespace core_lib::serialize;
+    MyObject objectIn{};
+    MyObject objectOut{};
+    objectIn.Fred(10.0f);
+    objectIn.Harry("jnkjn");
+    std::vector<unsigned int> vec{1, 2, 3, 4, 5};
+    objectIn.George(vec);
+    char_vector_t charVector;
+    ToCharVector<MyObject, archives::out_json_t>(objectIn, charVector);
+    ToObject<MyObject, archives::in_json_t>(charVector, objectOut);
+
+    EXPECT_EQ(objectOut, objectIn);
+}
+
 TEST(SerializationUtilsTest, testCase_SerializeObjectXmlArch)
 {
     using namespace core_lib::serialize;
@@ -127,6 +175,22 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectXmlArch)
     char_vector_t charVector;
     charVector = ToCharVector<MyObject, archives::out_xml_t>(objectIn);
     objectOut  = ToObject<MyObject, archives::in_xml_t>(charVector);
+
+    EXPECT_EQ(objectOut, objectIn);
+}
+
+TEST(SerializationUtilsTest, testCase_SerializeObjectXmlArch_Alt)
+{
+    using namespace core_lib::serialize;
+    MyObject objectIn{};
+    MyObject objectOut{};
+    objectIn.Fred(10.0f);
+    objectIn.Harry("jnkjn");
+    std::vector<unsigned int> vec{1, 2, 3, 4, 5};
+    objectIn.George(vec);
+    char_vector_t charVector;
+    ToCharVector<MyObject, archives::out_xml_t>(objectIn, charVector);
+    ToObject<MyObject, archives::in_xml_t>(charVector, objectOut);
 
     EXPECT_EQ(objectOut, objectIn);
 }
