@@ -435,7 +435,7 @@ char_vector_t ToCharVector(const T& object)
 template <typename T, typename OA = archives::out_port_bin_t>
 void ToCharVector(const T& object, char_vector_t& result)
 {
-    return impl::ToCharVectorImpl<T, OA>()(object, result);
+    impl::ToCharVectorImpl<T, OA>()(object, result);
 }
 
 /*!
@@ -467,7 +467,7 @@ T ToObject(const char_vector_t& charVector)
 template <typename T, typename IA = archives::in_port_bin_t>
 void ToObject(const char_vector_t& charVector, T& result)
 {
-    return impl::ToObjectImpl<T, IA>()(charVector, result);
+    impl::ToObjectImpl<T, IA>()(charVector, result);
 }
 
 } // namespace serialize

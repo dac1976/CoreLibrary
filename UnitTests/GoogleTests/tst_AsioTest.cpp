@@ -36,8 +36,8 @@ using namespace core_lib::threads;
 using namespace core_lib::asio::messages;
 
 // TODO: Set these to match host PC's network setup, else certain tests will fail.
-static const std::string adapterIp  = "10.34.6.1";
-static const std::string adapterIp2 = "10.35.6.1";
+static const std::string adapterIp  = "160.50.100.76";
+static const std::string adapterIp2 = "160.51.100.76";
 
 // ****************************************************************************
 // Helper classes/functions

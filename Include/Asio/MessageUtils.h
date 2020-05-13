@@ -475,7 +475,7 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
         break;
     }
 
-    return {};
+    return T();
 }
 
 /*!
