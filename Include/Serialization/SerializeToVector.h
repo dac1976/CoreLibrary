@@ -269,7 +269,7 @@ template <typename T, typename A> struct ToObjectImpl
      * \param[in] charVector - Char vector containing serialized object
      * \return Deserialized object
      *
-     * This overload creates new memory.
+     *  This overload creates new memory, i.e. the object of type T that is returned.
      */
     T operator()(const char_vector_t& charVector) const
     {
@@ -293,7 +293,7 @@ template <typename T, typename A> struct ToObjectImpl
      * \param[in] charVector - Char vector containing serialized object
      * \param[out] result - Deserialized object
      *
-     * This overload uses the memory passed in and resizes if necessary.
+     * This overload uses the memory passed in, i.e. the object of type T.
      */
     void operator()(const char_vector_t& charVector, T& result) const
     {
@@ -319,7 +319,7 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
      * \param[in] charVector - Byte vector containing serialized object
      * \return Deserialized object
      *
-     * This overload creates new memory.
+     *  This overload creates new memory, i.e. the object of type T that is returned.
      */
     T operator()(const char_vector_t& charVector) const
     {
@@ -343,7 +343,7 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
      * \param[in] charVector - Byte vector containing serialized object
      * \param[out] result - Deserialized object
      *
-     * This overload uses the memory passed in and resizes if necessary.
+     * This overload uses the memory passed in, i.e. the object of type T.
      */
     void operator()(const char_vector_t& charVector, T& result) const
     {
@@ -369,7 +369,7 @@ template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
      * \param[in] charVector - Char vector containing serialized object
      * \return Deserialized object
      *
-     * This overload creates new memory.
+     * This overload creates new memory, i.e. the object of type T that is returned.
      */
     T operator()(const char_vector_t& charVector) const
     {
@@ -390,7 +390,7 @@ template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
      * \param[in] charVector - Char vector containing serialized object
      * \param[out] result - Deserialized object
      *
-     * This overload uses the memory passed in and resizes if necessary.
+     * This overload uses the memory passed in, i.e. the object of type T.
      */
     void operator()(const char_vector_t& charVector, T& result) const
     {
@@ -446,7 +446,7 @@ void ToCharVector(const T& object, char_vector_t& result)
  * Convenience function to use for deserializing a char vector (containing serialized data created
  * using ToCharVector). Using this function is preferred to directly using ToObjectImpl functors.
  *
- * This overload creates new memory.
+ * This overload creates new memory, i.e. the object of type T that is returned.
  */
 template <typename T, typename IA = archives::in_port_bin_t>
 T ToObject(const char_vector_t& charVector)
@@ -462,7 +462,7 @@ T ToObject(const char_vector_t& charVector)
  * Convenience function to use for deserializing a char vector (containing serialized data created
  * using ToCharVector). Using this function is preferred to directly using ToObjectImpl functors.
  *
- * This overload uses the memory passed in and resizes if necessary.
+ * This overload uses the memory passed in, i.e. the object of type T.
  */
 template <typename T, typename IA = archives::in_port_bin_t>
 void ToObject(const char_vector_t& charVector, T& result)

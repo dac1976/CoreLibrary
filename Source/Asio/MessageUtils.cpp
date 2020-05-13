@@ -209,7 +209,7 @@ auto MessageBuilder::Build(const defs::char_buffer_t& message, int32_t messageId
     return Build(message.data(), message.size(), messageId, responseAddress, archiveType);
 }
 
-auto MessageBuilder::Build(const char* message, size_t messageLength, int32_t messageId,
+auto MessageBuilder::Build(const void* message, size_t messageLength, int32_t messageId,
                            const defs::connection_t& responseAddress,
                            defs::eArchiveType archiveType) const -> defs::char_buffer_t const&
 {
@@ -232,7 +232,8 @@ auto MessageBuilder::Build(const char* message, size_t messageLength, int32_t me
                *header);
 
     auto writePosIter = std::next(m_messageBuffer.begin(), sizeof(defs::MessageHeader));
-    std::copy(message, message + messageLength, writePosIter);
+    auto charMsgPtr   = reinterpret_cast<char const*>(message);
+    std::copy(charMsgPtr, charMsgPtr + messageLength, writePosIter);
 
     return m_messageBuffer;
 }

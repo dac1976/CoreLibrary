@@ -159,7 +159,7 @@ public:
 
         {
             char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
-            m_myMessage = DeserializeMessage<MyMessage>(body, eArchiveType::portableBinary);
+            DeserializeMessage<MyMessage>(body, eArchiveType::portableBinary, m_myMessage);
         }
 
         m_messageEvent.Signal();
