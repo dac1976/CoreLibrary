@@ -95,7 +95,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectPortBinArch_alt)
     objectIn.George(vec);
     char_vector_t charVector;
     ToCharVector(objectIn, charVector);
-    ToObject<MyObject>(charVector, objectOut);
+    objectOut = ToObject<MyObject>(charVector);
 
     EXPECT_EQ(objectOut, objectIn);
 }
@@ -126,7 +126,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectBinArch_Alt)
     objectIn.George(vec);
     char_vector_t charVector;
     ToCharVector<MyObject, archives::out_bin_t>(objectIn, charVector);
-    ToObject<MyObject, archives::in_bin_t>(charVector, objectOut);
+    objectOut = ToObject<MyObject, archives::in_bin_t>(charVector);
 
     EXPECT_EQ(objectOut, objectIn);
 }
@@ -158,7 +158,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectJSONArch_Alt)
     objectIn.George(vec);
     char_vector_t charVector;
     ToCharVector<MyObject, archives::out_json_t>(objectIn, charVector);
-    ToObject<MyObject, archives::in_json_t>(charVector, objectOut);
+    objectOut = ToObject<MyObject, archives::in_json_t>(charVector);
 
     EXPECT_EQ(objectOut, objectIn);
 }
@@ -190,7 +190,7 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectXmlArch_Alt)
     objectIn.George(vec);
     char_vector_t charVector;
     ToCharVector<MyObject, archives::out_xml_t>(objectIn, charVector);
-    ToObject<MyObject, archives::in_xml_t>(charVector, objectOut);
+    objectOut = ToObject<MyObject, archives::in_xml_t>(charVector);
 
     EXPECT_EQ(objectOut, objectIn);
 }

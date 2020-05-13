@@ -448,8 +448,6 @@ BuildMessage(const T& message, int32_t messageId, const defs::connection_t& resp
  * \param[in] messageBuffer - Message buffer to be deserialized.
  * \param[in] archiveType - Serialization archive type.
  * \return The deserialization object T.
- *
- * This overload creates new memory, i.e. the object of type T that is returned.
  */
 template <typename T>
 T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveType archiveType)
@@ -479,49 +477,9 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
 }
 
 /*!
- * \brief Templated message deserializer function for non-POD data.
- * \param[in] messageBuffer - Message buffer to be deserialized.
- * \param[in] archiveType - Serialization archive type.
- * \param[out] result - The deserialization object T.
- *
- * This overload uses the memory passed in, i.e. the object of type T.
- */
-template <typename T>
-void DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveType archiveType,
-                        T& result)
-{
-    assert((archiveType != defs::eArchiveType::raw) &&
-           (archiveType != defs::eArchiveType::protobuf));
-
-    switch (archiveType)
-    {
-    case defs::eArchiveType::binary:
-        serialize::ToObject<T, serialize::archives::in_bin_t>(messageBuffer, result);
-        break;
-    case defs::eArchiveType::portableBinary:
-        serialize::ToObject<T, serialize::archives::in_port_bin_t>(messageBuffer, result);
-        break;
-    case defs::eArchiveType::raw:
-        // Do nothing.
-        break;
-    case defs::eArchiveType::json:
-        serialize::ToObject<T, serialize::archives::in_json_t>(messageBuffer, result);
-        break;
-    case defs::eArchiveType::xml:
-        serialize::ToObject<T, serialize::archives::in_xml_t>(messageBuffer, result);
-        break;
-    case defs::eArchiveType::protobuf:
-        // Do nothing;
-        break;
-    }
-}
-
-/*!
  * \brief Templated message deserializer function for POD data.
  * \param[in] messageBuffer - Message buffer to be deserialized.
  * \return The deserialization object T.
- *
- * This overload creates new memory, i.e. the object of type T that is returned.
  */
 template <typename T> T DeserializeMessage(const defs::char_buffer_t& messageBuffer)
 {
@@ -529,39 +487,13 @@ template <typename T> T DeserializeMessage(const defs::char_buffer_t& messageBuf
 }
 
 /*!
- * \brief Templated message deserializer function for POD data.
- * \param[in] messageBuffer - Message buffer to be deserialized.
- * \param[out] result - The deserialization object T.
- *
- * This overload uses the memory passed in, i.e. the object of type T.
- */
-template <typename T> void DeserializeMessage(const defs::char_buffer_t& messageBuffer, T& result)
-{
-    serialize::ToObject<T, serialize::archives::in_raw_t>(messageBuffer, result);
-}
-
-/*!
  * \brief Templated message deserializer function for Google protocol buffer data.
  * \param[in] messageBuffer - Message buffer to be deserialized.
  * \return The deserialization object T.
- *
- * This overload creates new memory, i.e. the object of type T that is returned.
  */
 template <typename T> T DeserializeProtobuf(const defs::char_buffer_t& messageBuffer)
 {
     return serialize::ToObject<T, serialize::archives::in_protobuf_t>(messageBuffer);
-}
-
-/*!
- * \brief Templated message deserializer function for Google protocol buffer data.
- * \param[in] messageBuffer - Message buffer to be deserialized.
- * \param[out] result - The deserialization object T.
- *
- * This overload uses the memory passed in, i.e. the object of type T.
- */
-template <typename T> void DeserializeProtobuf(const defs::char_buffer_t& messageBuffer, T& result)
-{
-    serialize::ToObject<T, serialize::archives::in_protobuf_t>(messageBuffer, result);
 }
 
 } // namespace messages

@@ -30,6 +30,7 @@
 #include "CoreLibraryDllGlobal.h"
 #include "SerializationIncludes.h"
 #include <vector>
+#include <utility>
 #include <sstream>
 #include <iterator>
 #include <type_traits>
@@ -268,8 +269,6 @@ template <typename T, typename A> struct ToObjectImpl
      * \brief Function operator
      * \param[in] charVector - Char vector containing serialized object
      * \return Deserialized object
-     *
-     *  This overload creates new memory, i.e. the object of type T that is returned.
      */
     T operator()(const char_vector_t& charVector) const
     {
@@ -287,28 +286,6 @@ template <typename T, typename A> struct ToObjectImpl
 
         return object;
     }
-
-    /*!
-     * \brief Function operator
-     * \param[in] charVector - Char vector containing serialized object
-     * \param[out] result - Deserialized object
-     *
-     * This overload uses the memory passed in, i.e. the object of type T.
-     */
-    void operator()(const char_vector_t& charVector, T& result) const
-    {
-        std::stringstream is;
-        std::copy(charVector.begin(), charVector.end(), std::ostream_iterator<char>(is));
-
-        // Reduce scope of archive to make sure it has
-        // flushed its contents to the stream before
-        // we try and do anything with it.
-        {
-            A ia(is);
-            // CEREAL_NVP is required to fully support xml archives.
-            ia(CEREAL_NVP(result));
-        }
-    }
 };
 
 /*! \brief Deserialization to object implementation, specialization for POD. */
@@ -318,8 +295,6 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
      * \brief Function operator
      * \param[in] charVector - Byte vector containing serialized object
      * \return Deserialized object
-     *
-     *  This overload creates new memory, i.e. the object of type T that is returned.
      */
     T operator()(const char_vector_t& charVector) const
     {
@@ -337,28 +312,6 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
         memcpy(&object, charVector.data(), charVector.size());
         return object;
     }
-
-    /*!
-     * \brief Function operator
-     * \param[in] charVector - Byte vector containing serialized object
-     * \param[out] result - Deserialized object
-     *
-     * This overload uses the memory passed in, i.e. the object of type T.
-     */
-    void operator()(const char_vector_t& charVector, T& result) const
-    {
-        if (!std::is_pod<T>::value)
-        {
-            BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
-        }
-
-        if (charVector.size() != sizeof(T))
-        {
-            BOOST_THROW_EXCEPTION(std::invalid_argument("buffer to object size mismatch"));
-        }
-
-        memcpy(&result, charVector.data(), charVector.size());
-    }
 };
 
 /*! \brief Deserialization to object implementation, specialization for Google protocol buffers. */
@@ -368,8 +321,6 @@ template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
      * \brief Function operator
      * \param[in] charVector - Char vector containing serialized object
      * \return Deserialized object
-     *
-     * This overload creates new memory, i.e. the object of type T that is returned.
      */
     T operator()(const char_vector_t& charVector) const
     {
@@ -383,24 +334,6 @@ template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
         }
 
         return object;
-    }
-
-    /*!
-     * \brief Function operator
-     * \param[in] charVector - Char vector containing serialized object
-     * \param[out] result - Deserialized object
-     *
-     * This overload uses the memory passed in, i.e. the object of type T.
-     */
-    void operator()(const char_vector_t& charVector, T& result) const
-    {
-        std::stringstream is;
-        std::copy(charVector.begin(), charVector.end(), std::ostream_iterator<char>(is));
-
-        if (!result.ParseFromIstream(&is))
-        {
-            BOOST_THROW_EXCEPTION(std::runtime_error("failed to deserialize to protocol buffer"));
-        }
     }
 };
 
@@ -445,29 +378,11 @@ void ToCharVector(const T& object, char_vector_t& result)
  *
  * Convenience function to use for deserializing a char vector (containing serialized data created
  * using ToCharVector). Using this function is preferred to directly using ToObjectImpl functors.
- *
- * This overload creates new memory, i.e. the object of type T that is returned.
  */
 template <typename T, typename IA = archives::in_port_bin_t>
 T ToObject(const char_vector_t& charVector)
 {
     return impl::ToObjectImpl<T, IA>()(charVector);
-}
-
-/*!
- * \brief Deserialize a char vector into a corresponding object.
- * \param[in] charVector - A char vector containing a boost serialized object of type T.
- * \param[out] result - A serializable object of type T to receive deserialized vector.
- *
- * Convenience function to use for deserializing a char vector (containing serialized data created
- * using ToCharVector). Using this function is preferred to directly using ToObjectImpl functors.
- *
- * This overload uses the memory passed in, i.e. the object of type T.
- */
-template <typename T, typename IA = archives::in_port_bin_t>
-void ToObject(const char_vector_t& charVector, T& result)
-{
-    impl::ToObjectImpl<T, IA>()(charVector, result);
 }
 
 } // namespace serialize
