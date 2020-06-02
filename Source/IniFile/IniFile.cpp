@@ -77,18 +77,17 @@ static bool IsSectionLine(const std::string& line, std::string& section)
 
 static bool IsKeyLine(const std::string& line, std::string& key, std::string& value)
 {
-    bool isKeyLine{true};
+    auto pos = line.find_first_of("=");
 
-    try
+    if (std::string::npos == pos)
     {
-        string_utils::SplitString(key, value, line, "=", string_utils::eSplitStringResult::trimmed);
-    }
-    catch (...)
-    {
-        isKeyLine = false;
+        return false;
     }
 
-    return isKeyLine;
+    key   = line.substr(0, pos);
+    value = line.substr(pos + 1, std::string::npos);
+
+    return true;
 }
 
 } // namespace
