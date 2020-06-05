@@ -84,8 +84,8 @@ static bool IsKeyLine(const std::string& line, std::string& key, std::string& va
         return false;
     }
 
-    key   = line.substr(0, pos);
-    value = line.substr(pos + 1, std::string::npos);
+    key   = boost::trim_copy(line.substr(0, pos));
+    value = boost::trim_copy(line.substr(pos + 1, std::string::npos));
 
     return true;
 }
