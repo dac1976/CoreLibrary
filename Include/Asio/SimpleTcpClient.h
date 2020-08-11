@@ -111,6 +111,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unless an exception is thrown. This
@@ -118,7 +119,7 @@ public:
      * only sends a simple core_lib::asio::defs::MessageHeader object to
      * the server.
      */
-    void
+    bool
     SendMessageToServerAsync(int32_t                   messageId,
                              const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
@@ -139,6 +140,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unless an exception is thrown. This
@@ -146,7 +148,7 @@ public:
      * only sends a simple core_lib::asio::defs::MessageHeader object to
      * the server.
      */
-    void
+    bool
     SendMessageToServerAsync(const defs::char_buffer_t& message, int32_t messageId,
                              const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
@@ -169,6 +171,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unless an exception is thrown. This
@@ -176,10 +179,10 @@ public:
      * uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    void SendMessageToServerAsync(const T& message, int32_t messageId,
+    bool SendMessageToServerAsync(const T& message, int32_t messageId,
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
-        m_tcpTypedClient.SendMessageToServerAsync<T, A>(message, messageId, responseAddress);
+        return m_tcpTypedClient.SendMessageToServerAsync<T, A>(message, messageId, responseAddress);
     }
     /*!
      * \brief Send a full message to the server synchronously.
@@ -201,12 +204,13 @@ public:
     /*!
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] message - Message buffer.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void SendMessageToServerAsync(const defs::char_buffer_t& message);
+    bool SendMessageToServerAsync(const defs::char_buffer_t& message);
     /*!
      * \brief Send a message buffer to the server synchronously.
      * \param[in] message - Message buffer.

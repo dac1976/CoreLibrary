@@ -131,7 +131,7 @@ void SimpleTcpClientList::ClearConnections()
     m_clientMap.clear();
 }
 
-void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
+bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
                                                    int32_t                   messageId,
                                                    defs::connection_t const& responseAddress)
 {
@@ -146,8 +146,10 @@ void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& ser
 
     if (clientPtr)
     {
-        clientPtr->SendMessageToServerAsync(messageId, responseAddress);
+        return clientPtr->SendMessageToServerAsync(messageId, responseAddress);
     }
+	
+	return false;
 }
 
 bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& server,
@@ -172,7 +174,7 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& serv
     return success;
 }
 
-void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
+bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
                                                    const defs::char_buffer_t& message,
                                                    int32_t                    messageId,
                                                    defs::connection_t const&  responseAddress)
@@ -188,8 +190,10 @@ void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  se
 
     if (clientPtr)
     {
-        clientPtr->SendMessageToServerAsync(message, messageId, responseAddress);
+        return clientPtr->SendMessageToServerAsync(message, messageId, responseAddress);
     }
+	
+	return false;
 }
 
 bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
@@ -215,7 +219,7 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  ser
     return success;
 }
 
-void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
+bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
                                                    const defs::char_buffer_t& message)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -229,8 +233,10 @@ void SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  se
 
     if (clientPtr)
     {
-        clientPtr->SendMessageToServerAsync(message);
+        return clientPtr->SendMessageToServerAsync(message);
     }
+	
+	return false;
 }
 
 bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  server,

@@ -168,6 +168,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unless an exception is thrown. This
@@ -175,7 +176,7 @@ public:
      * only sends a simple core_lib::asio::defs::MessageHeader object to
      * the server.
      */
-    void SendMessageToServerAsync(int32_t                   messageId,
+    bool SendMessageToServerAsync(int32_t                   messageId,
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
@@ -186,10 +187,12 @@ public:
 				messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
 				
 			m_tcpClient.SendMessageToServerAsync(messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 		    // Do nothing.
+			return false;
 		}
     }
     /*!
@@ -221,6 +224,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unless an exception is thrown. This
@@ -228,7 +232,7 @@ public:
      * only sends a simple core_lib::asio::defs::MessageHeader object to
      * the server.
      */
-    void SendMessageToServerAsync(const defs::char_buffer_t& message, int32_t messageId,
+    bool SendMessageToServerAsync(const defs::char_buffer_t& message, int32_t messageId,
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
@@ -239,10 +243,12 @@ public:
 				message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
 			
 			m_tcpClient.SendMessageToServerAsync(messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 		    // Do nothing.
+			return false;
 		}
     }
     /*!
@@ -276,13 +282,14 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unless an exception is thrown. This
      * method gives best performance when sending.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    void SendMessageToServerAsync(const T& message, int32_t messageId,
+    bool SendMessageToServerAsync(const T& message, int32_t messageId,
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
@@ -293,10 +300,12 @@ public:
 				message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
 				
 			m_tcpClient.SendMessageToServerAsync(messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 		    // Do nothing.
+			return false;
 		}
     }
     /*!
@@ -328,20 +337,23 @@ public:
     /*!
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] message - Message buffer.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void SendMessageToServerAsync(const defs::char_buffer_t& message)
+    bool SendMessageToServerAsync(const defs::char_buffer_t& message)
     {
 		try
 		{
 			m_tcpClient.SendMessageToServerAsync(message);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!

@@ -175,12 +175,13 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void SendMessageToClientAsync(
+    bool SendMessageToClientAsync(
         const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -192,10 +193,12 @@ public:
 				messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
 				
 			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!
@@ -229,12 +232,13 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where a client should send a
      * response, the default value will mean the response address will point to this server socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void
+    bool
     SendMessageToAllClients(int32_t                   messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -249,10 +253,12 @@ public:
 									   m_messageBuilder);
 									   
 			m_tcpServer.SendMessageToAllClients(messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!
@@ -262,12 +268,13 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void SendMessageToClientAsync(
+    bool SendMessageToClientAsync(
         const defs::connection_t& client, const defs::char_buffer_t& message, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -282,10 +289,12 @@ public:
 															   m_messageBuilder);
 															   
 			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!
@@ -324,12 +333,13 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where a client should send a
      * response, the default value will mean the response address will point to this server socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
+     * success or failure reported, unless a an exception is thrown. This
      * method gives best performance when sending.
      */
-    void
+    bool
     SendMessageToAllClients(int32_t messageId, const defs::char_buffer_t& message,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -345,10 +355,12 @@ public:
 									   m_messageBuilder);
 									   
 			m_tcpServer.SendMessageToAllClients(messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!
@@ -359,12 +371,13 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    void SendMessageToClientAsync(
+    bool SendMessageToClientAsync(
         const T& message, const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -380,10 +393,12 @@ public:
 													  m_messageBuilder);
 													  
 			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!
@@ -426,12 +441,13 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the clients should send a
      * response, the default value will mean the response address will point to this server socket.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown.
+     * success or failure reported, unless an exception is thrown.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    void
+    bool
     SendMessageToAllClients(const T& message, int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -447,31 +463,36 @@ public:
 													  m_messageBuilder);
 													  
 			m_tcpServer.SendMessageToAllClients(messageBuffer);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!
      * \brief Send a message buffer to a client asynchronously.
      * \param[in] client - Client connection details.
      * \param[in] message - Message buffer.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void SendMessageToClientAsync(const defs::connection_t&  client,
+    bool SendMessageToClientAsync(const defs::connection_t&  client,
                                   const defs::char_buffer_t& message) const
     {
 		try
 		{
 			m_tcpServer.SendMessageToClientAsync(client, message);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
     /*!
@@ -494,20 +515,23 @@ public:
     /*!
      * \brief Send a message buffer to all clients asynchronously.
      * \param[in] message - Message buffer.
+	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void SendMessageToAllClients(const defs::char_buffer_t& message) const
+    bool SendMessageToAllClients(const defs::char_buffer_t& message) const
     {
 		try
 		{
 			m_tcpServer.SendMessageToAllClients(message);
+			return true;
 		}
 		catch(...)
 		{
 			// Do nothing.
+			return false;
 		}
     }
 

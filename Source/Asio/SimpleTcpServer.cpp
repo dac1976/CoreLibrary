@@ -97,10 +97,10 @@ void SimpleTcpServer::OpenAcceptor()
     m_tcpTypedServer.OpenAcceptor();
 }
 
-void SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t& client, int32_t messageId,
+bool SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t& client, int32_t messageId,
                                                const defs::connection_t& responseAddress) const
 {
-    m_tcpTypedServer.SendMessageToClientAsync(client, messageId, responseAddress);
+    return m_tcpTypedServer.SendMessageToClientAsync(client, messageId, responseAddress);
 }
 
 bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t& client, int32_t messageId,
@@ -109,18 +109,18 @@ bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t& client, 
     return m_tcpTypedServer.SendMessageToClientSync(client, messageId, responseAddress);
 }
 
-void SimpleTcpServer::SendMessageToAllClients(int32_t                   messageId,
+bool SimpleTcpServer::SendMessageToAllClients(int32_t                   messageId,
                                               const defs::connection_t& responseAddress) const
 {
-    m_tcpTypedServer.SendMessageToAllClients(messageId, responseAddress);
+    return m_tcpTypedServer.SendMessageToAllClients(messageId, responseAddress);
 }
 
-void SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t&  client,
+bool SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t&  client,
                                                const defs::char_buffer_t& message,
                                                int32_t                    messageId,
                                                const defs::connection_t&  responseAddress) const
 {
-    m_tcpTypedServer.SendMessageToClientAsync(client, message, messageId, responseAddress);
+    return m_tcpTypedServer.SendMessageToClientAsync(client, message, messageId, responseAddress);
 }
 
 bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t&  client,
@@ -130,16 +130,16 @@ bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t&  client,
     return m_tcpTypedServer.SendMessageToClientSync(client, message, messageId, responseAddress);
 }
 
-void SimpleTcpServer::SendMessageToAllClients(const defs::char_buffer_t& message, int32_t messageId,
+bool SimpleTcpServer::SendMessageToAllClients(const defs::char_buffer_t& message, int32_t messageId,
                                               const defs::connection_t& responseAddress) const
 {
-    m_tcpTypedServer.SendMessageToAllClients(message, messageId, responseAddress);
+    return m_tcpTypedServer.SendMessageToAllClients(message, messageId, responseAddress);
 }
 
-void SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t&  client,
+bool SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t&  client,
                                                const defs::char_buffer_t& message) const
 {
-    m_tcpTypedServer.SendMessageToClientAsync(client, message);
+    return m_tcpTypedServer.SendMessageToClientAsync(client, message);
 }
 
 bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t&  client,
@@ -148,9 +148,9 @@ bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t&  client,
     return m_tcpTypedServer.SendMessageToClientSync(client, message);
 }
 
-void SimpleTcpServer::SendMessageToAllClients(const defs::char_buffer_t& message) const
+bool SimpleTcpServer::SendMessageToAllClients(const defs::char_buffer_t& message) const
 {
-    m_tcpTypedServer.SendMessageToAllClients(message);
+    return m_tcpTypedServer.SendMessageToAllClients(message);
 }
 
 } // namespace tcp
