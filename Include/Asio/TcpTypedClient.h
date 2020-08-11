@@ -179,10 +179,18 @@ public:
                                   const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-
-        auto const& messageBuffer = messages::BuildMessage(
-            messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
-        m_tcpClient.SendMessageToServerAsync(messageBuffer);
+		
+		try
+		{
+			auto const& messageBuffer = messages::BuildMessage(
+				messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
+				
+			m_tcpClient.SendMessageToServerAsync(messageBuffer);
+		}
+		catch(...)
+		{
+		    // Do nothing.
+		}
     }
     /*!
      * \brief Send a header-only message to the server synchronously.
@@ -225,9 +233,17 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer = messages::BuildMessage(
-            message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
-        m_tcpClient.SendMessageToServerAsync(messageBuffer);
+		try
+		{
+			auto const& messageBuffer = messages::BuildMessage(
+				message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
+			
+			m_tcpClient.SendMessageToServerAsync(messageBuffer);
+		}
+		catch(...)
+		{
+		    // Do nothing.
+		}
     }
     /*!
      * \brief Send a header plus message buffer to the server synchronously.
@@ -271,9 +287,17 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
-            message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
-        m_tcpClient.SendMessageToServerAsync(messageBuffer);
+		try
+		{
+			auto const& messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
+				message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
+				
+			m_tcpClient.SendMessageToServerAsync(messageBuffer);
+		}
+		catch(...)
+		{
+		    // Do nothing.
+		}
     }
     /*!
      * \brief Send a full message to the server synchronously.
@@ -311,7 +335,14 @@ public:
      */
     void SendMessageToServerAsync(const defs::char_buffer_t& message)
     {
-        m_tcpClient.SendMessageToServerAsync(message);
+		try
+		{
+			m_tcpClient.SendMessageToServerAsync(message);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a message buffer to the server synchronously.
@@ -320,7 +351,14 @@ public:
      */
     bool SendMessageToServerSync(const defs::char_buffer_t& message)
     {
-        return m_tcpClient.SendMessageToServerSync(message);
+		try
+		{
+			return m_tcpClient.SendMessageToServerSync(message);
+		}
+		catch(...)
+		{
+		    return false;
+		}
     }
 
 private:

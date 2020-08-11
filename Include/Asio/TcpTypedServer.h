@@ -185,10 +185,18 @@ public:
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-
-        auto const& messageBuffer = messages::BuildMessage(
-            messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
-        m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+        
+		try
+		{
+			auto const& messageBuffer = messages::BuildMessage(
+				messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
+				
+			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a header-only message to a client synchronously.
@@ -203,10 +211,18 @@ public:
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-
-        auto const& messageBuffer = messages::BuildMessage(
-            messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
-        return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+		
+		try
+		{
+			auto const& messageBuffer = messages::BuildMessage(
+				messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
+				
+			return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+		}
+		catch(...)
+		{
+			return false;
+		}
     }
     /*!
      * \brief Send a header-only message to all clients asynchronously.
@@ -224,12 +240,20 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer =
-            messages::BuildMessage(messageId,
-                                   responseAddress,
-                                   GetServerDetailsForClient(defs::NULL_CONNECTION),
-                                   m_messageBuilder);
-        m_tcpServer.SendMessageToAllClients(messageBuffer);
+		try
+		{
+			auto const& messageBuffer =
+				messages::BuildMessage(messageId,
+									   responseAddress,
+									   GetServerDetailsForClient(defs::NULL_CONNECTION),
+									   m_messageBuilder);
+									   
+			m_tcpServer.SendMessageToAllClients(messageBuffer);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a header plus message buffer to a client asynchronously.
@@ -249,12 +273,20 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer = messages::BuildMessage(message,
-                                                           messageId,
-                                                           responseAddress,
-                                                           GetServerDetailsForClient(client),
-                                                           m_messageBuilder);
-        m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+		try
+		{
+			auto const& messageBuffer = messages::BuildMessage(message,
+															   messageId,
+															   responseAddress,
+															   GetServerDetailsForClient(client),
+															   m_messageBuilder);
+															   
+			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a header plus message buffer to a client synchronously.
@@ -272,12 +304,20 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer = messages::BuildMessage(message,
-                                                           messageId,
-                                                           responseAddress,
-                                                           GetServerDetailsForClient(client),
-                                                           m_messageBuilder);
-        return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+		try
+		{
+			auto const& messageBuffer = messages::BuildMessage(message,
+															   messageId,
+															   responseAddress,
+															   GetServerDetailsForClient(client),
+															   m_messageBuilder);
+															   
+			return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+		}
+		catch(...)
+		{
+			return false;
+		}
     }
     /*!
      * \brief Send a header plus message buffer to all clients asynchronously.
@@ -295,13 +335,21 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer =
-            messages::BuildMessage(message,
-                                   messageId,
-                                   responseAddress,
-                                   GetServerDetailsForClient(defs::NULL_CONNECTION),
-                                   m_messageBuilder);
-        m_tcpServer.SendMessageToAllClients(messageBuffer);
+		try
+		{
+			auto const& messageBuffer =
+				messages::BuildMessage(message,
+									   messageId,
+									   responseAddress,
+									   GetServerDetailsForClient(defs::NULL_CONNECTION),
+									   m_messageBuilder);
+									   
+			m_tcpServer.SendMessageToAllClients(messageBuffer);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a full message to a client asynchronously.
@@ -322,13 +370,21 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer =
-            messages::BuildMessage<T, A, MsgBldr>(message,
-                                                  messageId,
-                                                  responseAddress,
-                                                  GetServerDetailsForClient(client),
-                                                  m_messageBuilder);
-        m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+		try
+		{
+			auto const& messageBuffer =
+				messages::BuildMessage<T, A, MsgBldr>(message,
+													  messageId,
+													  responseAddress,
+													  GetServerDetailsForClient(client),
+													  m_messageBuilder);
+													  
+			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a full message to a client synchronously.
@@ -347,13 +403,21 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer =
-            messages::BuildMessage<T, A, MsgBldr>(message,
-                                                  messageId,
-                                                  responseAddress,
-                                                  GetServerDetailsForClient(client),
-                                                  m_messageBuilder);
-        return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+		try
+		{
+			auto const& messageBuffer =
+				messages::BuildMessage<T, A, MsgBldr>(message,
+													  messageId,
+													  responseAddress,
+													  GetServerDetailsForClient(client),
+													  m_messageBuilder);
+													  
+			return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+		}
+		catch(...)
+		{
+			return false;
+		}
     }
     /*!
      * \brief Send a full message to all clients asynchronously.
@@ -373,13 +437,21 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-        auto const& messageBuffer =
-            messages::BuildMessage<T, A, MsgBldr>(message,
-                                                  messageId,
-                                                  responseAddress,
-                                                  GetServerDetailsForClient(defs::NULL_CONNECTION),
-                                                  m_messageBuilder);
-        m_tcpServer.SendMessageToAllClients(messageBuffer);
+		try
+		{
+			auto const& messageBuffer =
+				messages::BuildMessage<T, A, MsgBldr>(message,
+													  messageId,
+													  responseAddress,
+													  GetServerDetailsForClient(defs::NULL_CONNECTION),
+													  m_messageBuilder);
+													  
+			m_tcpServer.SendMessageToAllClients(messageBuffer);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a message buffer to a client asynchronously.
@@ -393,7 +465,14 @@ public:
     void SendMessageToClientAsync(const defs::connection_t&  client,
                                   const defs::char_buffer_t& message) const
     {
-        m_tcpServer.SendMessageToClientAsync(client, message);
+		try
+		{
+			m_tcpServer.SendMessageToClientAsync(client, message);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
     /*!
      * \brief Send a message buffer to a client synchronously.
@@ -403,7 +482,14 @@ public:
     bool SendMessageToClientSync(const defs::connection_t&  client,
                                  const defs::char_buffer_t& message) const
     {
-        return m_tcpServer.SendMessageToClientSync(client, message);
+		try
+		{
+			return m_tcpServer.SendMessageToClientSync(client, message);
+		}
+		catch(...)
+		{
+			return false;
+		}
     }
     /*!
      * \brief Send a message buffer to all clients asynchronously.
@@ -415,7 +501,14 @@ public:
      */
     void SendMessageToAllClients(const defs::char_buffer_t& message) const
     {
-        m_tcpServer.SendMessageToAllClients(message);
+		try
+		{
+			m_tcpServer.SendMessageToAllClients(message);
+		}
+		catch(...)
+		{
+			// Do nothing.
+		}
     }
 
 private:
