@@ -78,7 +78,10 @@ MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& message
 
 size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) const
 {
-    CheckMessage(message);
+    if (!CheckMessage(message))
+    {
+        return sizeof(defs::MessageHeader) - message.size();
+    }
 
     auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
 
@@ -97,7 +100,10 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 
 void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) const
 {
-    CheckMessage(message);
+    if (!CheckMessage(message))
+    {
+        BOOST_THROW_EXCEPTION(std::length_error("incomplete message header"));
+    }
 
     auto pHeader            = reinterpret_cast<const defs::MessageHeader*>(&message.front());
     auto receivedMessage    = std::make_shared<defs::default_received_message_t>();
@@ -111,12 +117,9 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
     m_messageDispatcher(receivedMessage);
 }
 
-void MessageHandler::CheckMessage(const defs::char_buffer_t& message)
-{
-    if (message.size() < sizeof(defs::MessageHeader))
-    {
-        BOOST_THROW_EXCEPTION(std::length_error("message length error"));
-    }
+bool MessageHandler::CheckMessage(const defs::char_buffer_t& message)
+{	
+	return message.size() >= sizeof(defs::MessageHeader);
 }
 
 // ****************************************************************************

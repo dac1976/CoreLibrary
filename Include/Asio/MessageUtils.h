@@ -112,7 +112,7 @@ private:
      * \brief Check message method.
      * \param[in] message - A received message buffer.
      */
-    static void CheckMessage(const defs::char_buffer_t& message);
+    static bool CheckMessage(const defs::char_buffer_t& message);
 };
 
 /*!
