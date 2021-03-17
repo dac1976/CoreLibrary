@@ -223,6 +223,12 @@ struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
 // Pop single byte alignment.
 #pragma pack(pop)
 
+/*! \brief Constant defining message header magic string length in bytes. */
+enum eMessageHeaderLen : size_t
+{
+    MESSAGE_HEADER_LEN = sizeof(MessageHeader)
+};
+
 /*! \brief Typedef to generic char buffer based on s std::vector<char>. */
 using char_buffer_t = std::vector<char>;
 

@@ -52,6 +52,7 @@ namespace messages
 MessageHandler::MessageHandler()
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
 {
+	InitialiseMsgPool(0, 0);
 }
 #endif
 
@@ -59,6 +60,7 @@ MessageHandler::MessageHandler()
 MessageHandler::MessageHandler(MessageHandler&& mh)
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
 {
+	InitialiseMsgPool(0, 0);
     *this = std::move(mh);
 }
 
@@ -66,6 +68,8 @@ MessageHandler& MessageHandler::operator=(MessageHandler&& mh)
 {
     std::swap(m_messageDispatcher, mh.m_messageDispatcher);
     m_magicString.swap(mh.m_magicString);
+	std::swap(m_msgPoolIndex, mh.m_msgPoolIndex);
+    m_msgPool.swap(mh.m_msgPool);
 }
 #endif
 
@@ -74,6 +78,7 @@ MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& message
     : m_messageDispatcher(messageDispatcher)
     , m_magicString(magicString)
 {
+	InitialiseMsgPool(memPoolMsgCount, defaultMsgSize);
 }
 
 size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) const
@@ -106,12 +111,12 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
     }
 
     auto pHeader            = reinterpret_cast<const defs::MessageHeader*>(&message.front());
-    auto receivedMessage    = std::make_shared<defs::default_received_message_t>();
+    auto receivedMessage    = GetNewMessgeObject();
     receivedMessage->header = *pHeader;
 
-    if (pHeader->totalLength > sizeof(defs::MessageHeader))
+    if (pHeader->totalLength > MESSAGE_HEADER_LEN)
     {
-        receivedMessage->body.assign(message.begin() + sizeof(defs::MessageHeader), message.end());
+        receivedMessage->body.assign(message.begin() + MESSAGE_HEADER_LEN, message.end());
     }
 
     m_messageDispatcher(receivedMessage);
@@ -120,6 +125,52 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
 bool MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 {	
 	return message.size() >= sizeof(defs::MessageHeader);
+}
+
+void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize)
+{
+    if (0 == memPoolMsgCount)
+    {
+        m_msgPoolIndex = 0;
+        m_msgPool.clear();
+        return;
+    }
+
+    m_msgPool.resize(memPoolMsgCount);
+
+    auto generateMsg = [defaultMsgSize]() {
+        auto msg = std::make_shared<defs::default_received_message_t>();
+
+        if (defaultMsgSize > 0)
+        {
+            msg->body.reserve(defaultMsgSize);
+        }
+
+        return msg;
+    };
+
+    std::generate(m_msgPool.begin(), m_msgPool.end(), generateMsg);
+}
+
+defs::default_received_message_ptr_t MessageHandler::GetNewMessgeObject() const
+{
+    defs::default_received_message_ptr_t newMessage;
+
+    if (m_msgPool.empty())
+    {
+        newMessage = std::make_shared<defs::default_received_message_t>();
+    }
+    else
+    {
+        newMessage = m_msgPool[m_msgPoolIndex];
+
+        if (++m_msgPoolIndex >= m_msgPool.size())
+        {
+            m_msgPoolIndex = 0;
+        }
+    }
+
+    return newMessage;
 }
 
 // ****************************************************************************

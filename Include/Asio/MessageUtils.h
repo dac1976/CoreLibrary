@@ -66,9 +66,18 @@ public:
      * \brief Initialisation constructor.
      * \param[in] messageDispatcher - Function object defining the message dispatcher callback
      * \param[in] magicString - Magic string used to identify the start of valid messages.
+	 * \param[in] memPoolMsgCount - (Optional) Pool size as number of messages.
+     * \param[in] defaultMsgSize - (Optional) Initial size of a message in the pool.
+	 *
+	 *  If you want to use a memory pool rather that dynamic allocations
+     *  then set memPoolMsgCount > 0 and the pool will allow for the specified
+     *  number of messages. If memPollMsgCount == 0 then dynamic memory allocation
+     *  is used when handling each new message.
      */
     MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher,
-                   const std::string&                        magicString);
+                   const std::string&                        magicString, 
+				   size_t memPoolMsgCount = 0,
+                   size_t defaultMsgSize = udp::DEFAULT_UDP_BUF_SIZE);
     /*! \brief Default destructor. */
     ~MessageHandler() = default;
     /*! \brief Default copy constructor. */
@@ -97,6 +106,24 @@ public:
      * \param[in] message - A received message buffer.
      */
     void MessageReceivedHandler(const defs::char_buffer_t& message) const;
+	
+private:
+    /*!
+     * \brief Check message method.
+     * \param[in] message - A received message buffer.
+     */
+    static bool CheckMessage(const defs::char_buffer_t& message);
+    /*!
+     * \brief Initialise message pool.
+     * \param[in] memPoolMsgCount - Pool size as number of messages..
+     * \param[in] defaultMsgSize - Initial size of a message in the pool.
+     */
+    void InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize);
+    /*!
+     * \brief Initialise message pool.
+     * \return A new message object or a one from the pool.
+     */
+    defs::default_received_message_ptr_t GetNewMessgeObject() const;
 
 private:
     /*! \brief Message dispatcher function object. */
@@ -108,11 +135,8 @@ private:
     /*! \brief Magic string. */
     std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
 #endif
-    /*!
-     * \brief Check message method.
-     * \param[in] message - A received message buffer.
-     */
-    static bool CheckMessage(const defs::char_buffer_t& message);
+    mutable size_t                                    m_msgPoolIndex{0};
+    std::vector<defs::default_received_message_ptr_t> m_msgPool;
 };
 
 /*!
