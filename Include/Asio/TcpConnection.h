@@ -149,7 +149,7 @@ private:
      * \brief Asynchronously write to the socket.
      * \param[in] message - Message buffer to write.
      */
-    void AsyncWriteToSocket(defs::char_buffer_t message);
+    void AsyncWriteToSocket(defs::char_buffer_t const& message);
 	/*!
      * \brief Increment unsent async message counter.
      * \return Returns success flag based on whether we can increment.

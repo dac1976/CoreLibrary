@@ -37,6 +37,40 @@ namespace asio
 {
 namespace tcp
 {
+	
+// Special "lightweight" object to pass to IO service to remove any
+// unintended deep vector copies from occurring when sending async
+// messages.
+class AsyncSendCallableObj final
+{
+    using async_send_t = std::function<void(defs::char_buffer_t const&)>;
+
+public:
+    AsyncSendCallableObj()                            = default;
+    ~AsyncSendCallableObj()                           = default;
+    AsyncSendCallableObj(AsyncSendCallableObj const&) = default;
+    AsyncSendCallableObj(AsyncSendCallableObj&&)      = default;
+    AsyncSendCallableObj& operator=(AsyncSendCallableObj const&) = default;
+    AsyncSendCallableObj& operator=(AsyncSendCallableObj&&) = default;
+
+    AsyncSendCallableObj(defs::char_buffer_t const& message, async_send_t const& sendFn)
+        : messageBufPtr(std::make_shared<defs::char_buffer_t>(message))
+        , asyncSendFn(sendFn)
+    {
+    }
+
+    void operator()() const
+    {
+        if (asyncSendFn && messageBufPtr && !messageBufPtr->empty())
+        {
+            asyncSendFn(*messageBufPtr);
+        }
+    }
+
+private:
+    std::shared_ptr<defs::char_buffer_t> messageBufPtr;
+    async_send_t                         asyncSendFn;
+};
 
 // ****************************************************************************
 // 'class TcpConnection' definition
@@ -213,13 +247,15 @@ bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 {
 	if (IncrementUnsentAsyncCounter())
     {
-		// Wrap in a strand to make sure we don't get weird issues
-		// with the send event signalling and waiting. As we're
-		// sending async in this case so we could get another
-		// call to this method before the original async write
-		// has completed.
-		boost_asio::post(m_strand,
-						 boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), message));
+		 AsyncSendCallableObj callableObj(
+            message, boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), message));
+
+        // Wrap in a strand to make sure we don't get weird issues
+        // with the send event signalling and waiting. As we're
+        // sending async in this case so we could get another
+        // call to this method before the original async write
+        // has completed.
+        m_strand.post(callableObj);
 	    return true;
 	}
 	
@@ -255,7 +291,7 @@ size_t TcpConnection::NumberOfUnsentAsyncMessages() const
     return m_numUnsentAsyncMessages;
 }
 
-void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message)
+void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t const& message)
 {
     size_t bytesSent;
 
