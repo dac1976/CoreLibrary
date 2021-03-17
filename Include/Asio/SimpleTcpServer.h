@@ -52,29 +52,47 @@ public:
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
+     *                              defaults to 0, which implies no pool used.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be exectued
+     * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO context. This is the recommended constructor.
+	 *
+     * NOTE: When the message pool feature is used then all messages passed to the
+     * the registered dispatcher are managed by the internal pool. Care must be taken
+     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * doesn't fill and start overwriting older messages. If the messages need to be kept
+     * then it is the dispatchers job to make a suitable copy of the received message.
      */
     SimpleTcpServer(boost_iocontext_t& ioContext, uint16_t listenPort,
                     const defs::default_message_dispatcher_t& messageDispatcher,
-                    eSendOption                               sendOption = eSendOption::nagleOn);
+                    eSendOption                               sendOption = eSendOption::nagleOn,
+					size_t memPoolMsgCount = 0);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
+     *                              defaults to 0, which implies no pool used.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommened.
+     * external IO context constructor is recommend.
+	 *
+     * NOTE: When the message pool feature is used then all messages passed to the
+     * the registered dispatcher are managed by the internal pool. Care must be taken
+     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * doesn't fill and start overwriting older messages. If the messages need to be kept
+     * then it is the dispatchers job to make a suitable copy of the received message.
      */
     SimpleTcpServer(uint16_t                                  listenPort,
                     const defs::default_message_dispatcher_t& messageDispatcher,
-                    eSendOption                               sendOption = eSendOption::nagleOn);
+                    eSendOption                               sendOption = eSendOption::nagleOn,
+					size_t memPoolMsgCount = 0);
     /*! \brief Default destructor. */
     ~SimpleTcpServer() = default;
     /*! \brief Copy constructor - deleted. */

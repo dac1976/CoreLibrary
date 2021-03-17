@@ -38,8 +38,9 @@ namespace udp
 
 SimpleUdpReceiver::SimpleUdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
                                      const defs::default_message_dispatcher_t& messageDispatcher,
-                                     eUdpOption receiveOptions, size_t receiveBufferSize)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
+                                     eUdpOption receiveOptions, size_t receiveBufferSize,
+                                     size_t memPoolMsgCount)
+    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_udpReceiver{ioContext,
                     listenPort,
                     std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
@@ -53,8 +54,9 @@ SimpleUdpReceiver::SimpleUdpReceiver(boost_iocontext_t& ioContext, uint16_t list
 
 SimpleUdpReceiver::SimpleUdpReceiver(uint16_t                                  listenPort,
                                      const defs::default_message_dispatcher_t& messageDispatcher,
-                                     eUdpOption receiveOptions, size_t receiveBufferSize)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
+                                     eUdpOption receiveOptions, size_t receiveBufferSize,
+                                     size_t memPoolMsgCount)
+    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_udpReceiver{listenPort,
                     std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
                               std::placeholders::_1),

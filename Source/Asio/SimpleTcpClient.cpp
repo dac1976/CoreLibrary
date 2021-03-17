@@ -42,8 +42,9 @@ namespace tcp
 // ****************************************************************************
 SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption                               sendOption)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
+                                 eSendOption                               sendOption,
+								 size_t memPoolMsgCount)
+    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedClient{ioContext,
                        server,
                        sizeof(defs::MessageHeader),
@@ -58,8 +59,9 @@ SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::conne
 
 SimpleTcpClient::SimpleTcpClient(const defs::connection_t&                 server,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption                               sendOption)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
+                                 eSendOption                               sendOption,
+								 size_t memPoolMsgCount)
+    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedClient{server,
                        sizeof(defs::MessageHeader),
                        std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,

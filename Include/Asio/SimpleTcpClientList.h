@@ -61,30 +61,48 @@ public:
      * \brief Initialisation constructor.
      * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] messageDispatcher - Function object capable of handling a received message and
-     * disptaching it accordingly.
+     *                                dispatching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
+     *                              handling, defaults to 0, which implies no pool used.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be exectued
+     * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO context. This is the recommended constructor.
+	 *
+     * NOTE: When the message pool feature is used then all messages passed to the
+     * the registered dispatcher are managed by the internal pool. Care must be taken
+     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * doesn't fill and start overwriting older messages. If the messages need to be kept
+     * then it is the dispatchers job to make a suitable copy of the received message.
      */
     SimpleTcpClientList(boost_iocontext_t&                        ioContext,
                         defs::default_message_dispatcher_t const& messageDispatcher,
-                        eSendOption sendOption = eSendOption::nagleOn);
+                        eSendOption sendOption = eSendOption::nagleOn,
+						size_t memPoolMsgCount               = 0);
     /*!
      * \brief Initialisation constructor.
      * \param[in] messageDispatcher - Function object capable of handling a received message and
-     * disptaching it accordingly.
+     *                                dispatching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
+     *                              handling, defaults to 0, which implies no pool used.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommened.
+     * external IO context constructor is recommend.
+	 *
+     * NOTE: When the message pool feature is used then all messages passed to the
+     * the registered dispatcher are managed by the internal pool. Care must be taken
+     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * doesn't fill and start overwriting older messages. If the messages need to be kept
+     * then it is the dispatchers job to make a suitable copy of the received message.
      */
     SimpleTcpClientList(defs::default_message_dispatcher_t const& messageDispatcher,
-                        eSendOption sendOption = eSendOption::nagleOn);
+                        eSendOption sendOption = eSendOption::nagleOn,
+						size_t memPoolMsgCount               = 0);
     /*! \brief Default destructor. */
     ~SimpleTcpClientList();
     /*!
@@ -96,7 +114,7 @@ public:
     /*!
      * \brief Check if the client is connected to the server.
      * \param[in] server - Connection object describing server's address and port.
-     * \return True if conneced, false otherwise.
+     * \return True if connected, false otherwise.
      */
     bool Connected(defs::connection_t const& server) const;
     /*!
@@ -304,6 +322,8 @@ private:
     defs::default_message_dispatcher_t m_messageDispatcher{};
     /*! \brief Socket send option to control the use of the Nagle algorithm. */
     eSendOption m_sendOption{eSendOption::nagleOn};
+	/*! \brief Number of messages (per client) in pool for received message. */
+    size_t m_memPoolMsgCount{0};
     /*! \brief Map of simple TCP clients. */
     client_map_t m_clientMap{};
 };

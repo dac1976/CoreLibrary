@@ -42,8 +42,9 @@ namespace tcp
 // ****************************************************************************
 SimpleTcpServer::SimpleTcpServer(boost_iocontext_t& ioContext, uint16_t listenPort,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption                               sendOption)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
+                                 eSendOption                               sendOption,
+								 size_t memPoolMsgCount)
+    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedServer{ioContext,
                        listenPort,
                        sizeof(defs::MessageHeader),
@@ -58,8 +59,9 @@ SimpleTcpServer::SimpleTcpServer(boost_iocontext_t& ioContext, uint16_t listenPo
 
 SimpleTcpServer::SimpleTcpServer(uint16_t                                  listenPort,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption                               sendOption)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING}
+                                 eSendOption                               sendOption,
+								 size_t memPoolMsgCount)
+    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedServer{listenPort,
                        sizeof(defs::MessageHeader),
                        std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
