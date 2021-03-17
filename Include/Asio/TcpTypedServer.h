@@ -66,11 +66,12 @@ public:
      * header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
-     * disptaching it accordingly.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message and
+     * dispatching it accordingly.
      * \param[in] messageBuilder - A const reference to our persistent message builder object of
      * type MsgBldr.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
@@ -80,14 +81,16 @@ public:
     TcpTypedServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn)
+                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
+				   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
         : m_messageBuilder{messageBuilder}
         , m_tcpServer{ioContext,
                       listenPort,
                       minAmountToRead,
                       checkBytesLeftToRead,
                       messageReceivedHandler,
-                      sendOption}
+                      sendOption,
+					  maxAllowedUnsentAsyncMessages}
     {
     }
     /*!
@@ -97,24 +100,27 @@ public:
      * header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
-     * disptaching it accordingly.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message and
+     * dispatching it accordingly.
      * \param[in] messageBuilder - A const reference to our persistent message builder object of
      * type MsgBldr.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommened.
+     * external IO context constructor is recommended.
      */
     TcpTypedServer(uint16_t listenPort, size_t minAmountToRead,
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn)
+                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
+				   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
         : m_messageBuilder{messageBuilder}
         , m_tcpServer{
-              listenPort, minAmountToRead, checkBytesLeftToRead, messageReceivedHandler, sendOption}
+              listenPort, minAmountToRead, checkBytesLeftToRead, messageReceivedHandler, 
+			  sendOption, maxAllowedUnsentAsyncMessages}
     {
     }
     /*! \brief Default destructor. */
@@ -192,8 +198,7 @@ public:
 			auto const& messageBuffer = messages::BuildMessage(
 				messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
 				
-			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
-			return true;
+			return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
 		}
 		catch(...)
 		{
@@ -534,6 +539,26 @@ public:
 			return false;
 		}
     }
+	/*!
+     * \brief Get number of unsent async messages.
+     * \param[in] client - Target connection details.
+     * \return Number of unsent messages
+     */
+    size_t NumberOfUnsentAsyncMessages(const defs::connection_t& client) const
+    {
+        return m_tcpServer.NumberOfUnsentAsyncMessages(client);
+    }
+
+    /*!
+     * \brief Tells if a given client is currently connected to the server
+     * \param[in] target - Target connection details.
+     * \return true if connected, false if not
+     */
+    bool IsConnected(const defs::connection_t& client) const
+    {
+        return m_tcpServer.IsConnected(client);
+    }
+
 
 private:
     /*! \brief Send message mutex. */

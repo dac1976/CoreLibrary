@@ -34,19 +34,21 @@ namespace tcp
 
 SimpleTcpClientList::SimpleTcpClientList(
     boost_iocontext_t& ioContext, defs::default_message_dispatcher_t const& messageDispatcher,
-    eSendOption sendOption, size_t memPoolMsgCount)
+    eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,size_t memPoolMsgCount)
     : m_ioContextPtr(&ioContext)
     , m_messageDispatcher(messageDispatcher)
     , m_sendOption(sendOption)
+	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 	, m_memPoolMsgCount(memPoolMsgCount)
 {
 }
 
 SimpleTcpClientList::SimpleTcpClientList(
     defs::default_message_dispatcher_t const& messageDispatcher, eSendOption sendOption,
-	size_t memPoolMsgCount)
+	size_t maxAllowedUnsentAsyncMessages,size_t memPoolMsgCount)
     : m_messageDispatcher(messageDispatcher)
     , m_sendOption(sendOption)
+	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 	, m_memPoolMsgCount(memPoolMsgCount)
 {
 }
@@ -270,12 +272,13 @@ auto SimpleTcpClientList::CreateTcpClient(defs::connection_t const& server) -> c
     if (m_ioContextPtr)
     {
         clientPtr = std::make_shared<SimpleTcpClient>(
-            *m_ioContextPtr, server, m_messageDispatcher, m_sendOption, m_memPoolMsgCount);
+            *m_ioContextPtr, server, m_messageDispatcher, m_sendOption, m_maxAllowedUnsentAsyncMessages, 
+			m_memPoolMsgCount);
     }
     else
     {
         clientPtr = std::make_shared<SimpleTcpClient>(server, m_messageDispatcher, m_sendOption, 
-		                                              m_memPoolMsgCount);
+		                                              m_maxAllowedUnsentAsyncMessages, m_memPoolMsgCount);
     }
 
     m_clientMap[server] = clientPtr;
@@ -293,6 +296,41 @@ auto SimpleTcpClientList::FindTcpClient(defs::connection_t const& server) const 
     }
 
     return clientPtr;
+}
+
+void SimpleTcpClientList::ClearList()
+{
+    std::lock_guard<std::mutex> lock(m_mapMutex);
+
+    m_clientMap.clear();
+}
+
+auto SimpleTcpClientList::GetServerList() const -> std::vector<defs::connection_t>
+{
+    std::lock_guard<std::mutex> lock(m_mapMutex);
+    
+	std::vector<defs::connection_t> serverDetailsList;
+	
+	for (auto const& clientItr : m_clientMap)
+    {
+        serverDetailsList.emplace_back(clientItr.first);
+    }
+	
+	return serverDetailsList;
+}
+
+size_t SimpleTcpClientList::NumberOfUnsentAsyncMessages(const defs::connection_t& server) const
+{
+    std::lock_guard<std::mutex> lock(m_mapMutex);
+
+    auto clientPtr = FindTcpClient(server);
+
+    if (clientPtr)
+    {
+        return clientPtr->NumberOfUnsentAsyncMessages();
+    }
+
+    return 0;
 }
 
 } // namespace tcp

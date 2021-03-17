@@ -72,6 +72,12 @@ enum eDefReservedSize : size_t
     DEFAULT_RESERVED_SIZE = 512 * 1024
 };
 
+/*! \brief Maximum number of unsent async messages allowed on TCP socket IO Service queue */
+enum eDefUnsentAsyncCount : size_t
+{
+    MAX_UNSENT_ASYNC_MSG_COUNT = 1000
+};
+
 /*! \brief Enumeration to control nagle algorithm. */
 enum class eSendOption
 {

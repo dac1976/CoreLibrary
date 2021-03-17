@@ -43,6 +43,7 @@ namespace tcp
 SimpleTcpServer::SimpleTcpServer(boost_iocontext_t& ioContext, uint16_t listenPort,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
                                  eSendOption                               sendOption,
+								 size_t maxAllowedUnsentAsyncMessages,
 								 size_t memPoolMsgCount)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedServer{ioContext,
@@ -53,13 +54,15 @@ SimpleTcpServer::SimpleTcpServer(boost_iocontext_t& ioContext, uint16_t listenPo
                        std::bind(&messages::MessageHandler::MessageReceivedHandler,
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
-                       sendOption}
+                       sendOption,
+					   maxAllowedUnsentAsyncMessages}
 {
 }
 
 SimpleTcpServer::SimpleTcpServer(uint16_t                                  listenPort,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
                                  eSendOption                               sendOption,
+								 size_t maxAllowedUnsentAsyncMessages,
 								 size_t memPoolMsgCount)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedServer{listenPort,
@@ -69,7 +72,8 @@ SimpleTcpServer::SimpleTcpServer(uint16_t                                  liste
                        std::bind(&messages::MessageHandler::MessageReceivedHandler,
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
-                       sendOption}
+                       sendOption,
+					   maxAllowedUnsentAsyncMessages}
 {
 }
 
@@ -153,6 +157,16 @@ bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t&  client,
 bool SimpleTcpServer::SendMessageToAllClients(const defs::char_buffer_t& message) const
 {
     return m_tcpTypedServer.SendMessageToAllClients(message);
+}
+
+size_t SimpleTcpServer::NumberOfUnsentAsyncMessages(const defs::connection_t& client) const
+{
+    return m_tcpTypedServer.NumberOfUnsentAsyncMessages(client);
+}
+
+bool SimpleTcpServer::IsConnected(const defs::connection_t& client) const
+{
+    return m_tcpTypedServer.IsConnected(client);
 }
 
 } // namespace tcp

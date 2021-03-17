@@ -130,6 +130,20 @@ auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd
     return localEnd;
 }
 
+size_t TcpConnections::NumberOfUnsentAsyncMessages(const defs::connection_t& target) const
+{
+	std::lock_guard<std::mutex> lock{m_mutex};
+	auto                        connIt = m_connections.find(target);
+	return connIt == m_connections.end() ? 0 : connIt->second->NumberOfUnsentAsyncMessages();
+}
+
+bool TcpConnections::IsConnected(const defs::connection_t& client) const
+{
+    std::lock_guard<std::mutex> lock{m_mutex};
+	auto                        connIt = m_connections.find(client);
+	return (connIt != m_connections.end());
+}
+
 } // namespace tcp
 } // namespace asio
 } // namespace core_lib

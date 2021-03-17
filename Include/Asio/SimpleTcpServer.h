@@ -52,6 +52,7 @@ public:
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
 	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
      *                              defaults to 0, which implies no pool used.
      *
@@ -69,12 +70,14 @@ public:
     SimpleTcpServer(boost_iocontext_t& ioContext, uint16_t listenPort,
                     const defs::default_message_dispatcher_t& messageDispatcher,
                     eSendOption                               sendOption = eSendOption::nagleOn,
+					size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
 					size_t memPoolMsgCount = 0);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
 	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
      *                              defaults to 0, which implies no pool used.
      *
@@ -92,6 +95,7 @@ public:
     SimpleTcpServer(uint16_t                                  listenPort,
                     const defs::default_message_dispatcher_t& messageDispatcher,
                     eSendOption                               sendOption = eSendOption::nagleOn,
+					size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
 					size_t memPoolMsgCount = 0);
     /*! \brief Default destructor. */
     ~SimpleTcpServer() = default;
@@ -295,7 +299,7 @@ public:
 	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
+     * success or failure reported, unless a an exception is thrown. This
      * method gives best performance when sending.
      */
     bool SendMessageToClientAsync(const defs::connection_t&  client,
@@ -313,10 +317,23 @@ public:
 	 * \return Returns the success state of whether the message was posted to the send queue.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
+     * success or failure reported, unless a an exception is thrown. This
      * method gives best performance when sending.
      */
     bool SendMessageToAllClients(const defs::char_buffer_t& message) const;
+	/*!
+     * \brief Get number of unsent async messages.
+     * \param[in] client - Target connection details.
+     * \return Number of unsent messages
+     */
+    size_t NumberOfUnsentAsyncMessages(const defs::connection_t& client) const;
+
+    /*!
+     * \brief Tells if a given client is currently connected to the server
+     * \param[in] target - Target connection details.
+     * \return true if connected, false if not
+     */
+    bool IsConnected(const defs::connection_t& client) const;
 
 private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */

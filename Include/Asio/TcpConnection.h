@@ -63,11 +63,13 @@ public:
      * \param[in] checkBytesLeftToRead - Check bytes left to read callback.
      * \param[in] messageReceivedHandler - Message received handler callback.
      * \param[in] sendOption - Socket send option.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      */
     TcpConnection(boost_iocontext_t& ioContext, TcpConnections& connections, size_t minAmountToRead,
                   const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                   const defs::message_received_handler_t& messageReceivedHandler,
-                  eSendOption                             sendOption = eSendOption::nagleOn);
+                  eSendOption                             sendOption = eSendOption::nagleOn,
+				  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
     /*! \brief Copy constructor deleted. */
     TcpConnection(const TcpConnection&) = delete;
     /*! \brief Copy assignment operator - deleted. */
@@ -100,14 +102,20 @@ public:
     /*!
      * \brief Send an asynchronous message.
      * \param[in] message - Message buffer to send.
+	 * \return Returns true if posted async message, retruns false if failed to post message.
      */
-    void SendMessageAsync(const defs::char_buffer_t& message);
+    bool SendMessageAsync(const defs::char_buffer_t& message);
     /*!
      * \brief Send a synchronous message.
      * \param[in] message - Message buffer to send.
-     * \return True if sent successfuilly, false otherwise.
+     * \return True if sent successfully, false otherwise.
      */
     bool SendMessageSync(const defs::char_buffer_t& message);
+	/*!
+     * \brief Get number of unsent async messages.
+     * \return Number of pending queued async messages
+     */
+    size_t NumberOfUnsentAsyncMessages() const;
 
 private:
     /*!
@@ -125,7 +133,7 @@ private:
     /*! \brief Self destruct this object. */
     void DestroySelf();
     /*!
-     * \brief Asyncrhonously read an amount.
+     * \brief Asynchronously read an amount.
      * \param[in] amountToRead - Number of bytes to read from socket.
      */
     void AsyncReadFromSocket(size_t amountToRead);
@@ -138,10 +146,17 @@ private:
     void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived,
                       size_t bytesExpected);
     /*!
-     * \brief Asynchrounously write to the socket.
+     * \brief Asynchronously write to the socket.
      * \param[in] message - Message buffer to write.
      */
     void AsyncWriteToSocket(defs::char_buffer_t message);
+	/*!
+     * \brief Increment unsent async message counter.
+     * \return Returns success flag based on whether we can increment.
+     */
+    bool IncrementUnsentAsyncCounter();
+    /*! \brief Decrement unsent async message counter. */
+    void DecrementUnsentAsyncCounter();
 
 private:
     /*! \brief Access mutex for thread safety. */
@@ -166,6 +181,10 @@ private:
     defs::char_buffer_t m_receiveBuffer{};
     /*! \brief Message buffer. */
     defs::char_buffer_t m_messageBuffer{};
+	/*! \brief Max allowed unsent async message counter. */
+    size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
+    /*! \brief Unsent async message counter. */
+    size_t m_numUnsentAsyncMessages{0};
     /*! \brief TCP socket. */
     boost_tcp_t::socket m_socket;
 };

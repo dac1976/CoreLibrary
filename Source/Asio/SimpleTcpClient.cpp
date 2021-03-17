@@ -43,7 +43,7 @@ namespace tcp
 SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
                                  eSendOption                               sendOption,
-								 size_t memPoolMsgCount)
+								 size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedClient{ioContext,
                        server,
@@ -53,14 +53,15 @@ SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::conne
                        std::bind(&messages::MessageHandler::MessageReceivedHandler,
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
-                       sendOption}
+                       sendOption,
+					   maxAllowedUnsentAsyncMessages}
 {
 }
 
 SimpleTcpClient::SimpleTcpClient(const defs::connection_t&                 server,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
                                  eSendOption                               sendOption,
-								 size_t memPoolMsgCount)
+								 size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount)
     : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
     , m_tcpTypedClient{server,
                        sizeof(defs::MessageHeader),
@@ -69,7 +70,8 @@ SimpleTcpClient::SimpleTcpClient(const defs::connection_t&                 serve
                        std::bind(&messages::MessageHandler::MessageReceivedHandler,
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
-                       sendOption}
+                       sendOption,
+					   maxAllowedUnsentAsyncMessages}
 {
 }
 
@@ -127,6 +129,11 @@ bool SimpleTcpClient::SendMessageToServerAsync(const defs::char_buffer_t& messag
 bool SimpleTcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
 {
     return m_tcpTypedClient.SendMessageToServerSync(message);
+}
+
+size_t SimpleTcpClient::NumberOfUnsentAsyncMessages() const
+{
+    return m_tcpTypedClient.NumberOfUnsentAsyncMessages();
 }
 
 } // namespace tcp

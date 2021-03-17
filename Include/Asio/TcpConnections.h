@@ -114,6 +114,19 @@ public:
      * Throws std::invalid_argument if remoteEnd is not valid.
      */
     defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
+	/*!
+	 * \brief Get number of unsent async messages.
+	 * \param[in] target - Target connection details.
+	 * \return Number of unsent messages
+	 */
+	size_t NumberOfUnsentAsyncMessages(const defs::connection_t& target) const;
+
+	/*!
+	 * \brief Tells if a given client is currently connected ot the server
+	 * \param[in] target - Target connection details.
+	 * \return true if connected, false if not
+	 */
+	bool IsConnected(const defs::connection_t& client) const;
 
 private:
     /*! \brief Access mutex for thread safety. */

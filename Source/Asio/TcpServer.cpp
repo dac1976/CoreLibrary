@@ -42,7 +42,8 @@ namespace tcp
 TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption                             sendOption)
+                     eSendOption                             sendOption,
+					 size_t maxAllowedUnsentAsyncMessages)
     : m_ioContext(ioContext)
     , m_strand{ioContext}
     , m_listenPort{listenPort}
@@ -50,6 +51,7 @@ TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t m
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
+	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 {
     OpenAcceptor();
 }
@@ -57,7 +59,8 @@ TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t m
 TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption                             sendOption)
+                     eSendOption                             sendOption,
+					 size_t maxAllowedUnsentAsyncMessages)
     : m_ioThreadGroup{new IoContextThreadGroup(std::thread::hardware_concurrency())}
     // Num logical cores threads as we can send/receive to/from multiple clients
     , m_ioContext(m_ioThreadGroup->IoContext())
@@ -67,6 +70,7 @@ TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
+	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 {
     OpenAcceptor();
 }
@@ -133,6 +137,16 @@ void TcpServer::SendMessageToAllClients(const defs::char_buffer_t& message) cons
     m_clientConnections.SendMessageToAll(message);
 }
 
+size_t TcpServer::NumberOfUnsentAsyncMessages(const defs::connection_t& client) const
+{
+    return m_clientConnections.NumberOfUnsentAsyncMessages(client);
+}
+
+bool TcpServer::IsConnected(const defs::connection_t& client) const
+{
+    return m_clientConnections.IsConnected(client);
+}
+
 void TcpServer::AcceptConnection()
 {
     auto connection = std::make_shared<TcpConnection>(m_ioContext,
@@ -140,7 +154,8 @@ void TcpServer::AcceptConnection()
                                                       m_minAmountToRead,
                                                       m_checkBytesLeftToRead,
                                                       m_messageReceivedHandler,
-                                                      m_sendOption);
+                                                      m_sendOption,
+													  m_maxAllowedUnsentAsyncMessages);
     m_acceptor->async_accept(
         connection->Socket(),
         boost::asio::bind_executor(

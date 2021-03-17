@@ -45,7 +45,8 @@ TcpConnection::TcpConnection(boost_iocontext_t& ioContext, TcpConnections& conne
                              size_t                                  minAmountToRead,
                              const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                              const defs::message_received_handler_t& messageReceivedHandler,
-                             eSendOption                             sendOption)
+                             eSendOption                             sendOption, 
+							 size_t maxAllowedUnsentAsyncMessages)
     : m_closing{false}
     , m_strand{ioContext}
     , m_connections(connections)
@@ -53,6 +54,7 @@ TcpConnection::TcpConnection(boost_iocontext_t& ioContext, TcpConnections& conne
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
+	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
     , m_socket{ioContext}
 {
     m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
@@ -207,15 +209,21 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
     }
 }
 
-void TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
+bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 {
-    // Wrap in a strand to make sure we don't get weird issues
-    // with the send event signalling and waiting. As we're
-    // sending async in this case so we could get another
-    // call to this method before the original async write
-    // has completed.
-    boost_asio::post(m_strand,
-                     boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), message));
+	if (IncrementUnsentAsyncCounter())
+    {
+		// Wrap in a strand to make sure we don't get weird issues
+		// with the send event signalling and waiting. As we're
+		// sending async in this case so we could get another
+		// call to this method before the original async write
+		// has completed.
+		boost_asio::post(m_strand,
+						 boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), message));
+	    return true;
+	}
+	
+	return false;
 }
 
 bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
@@ -241,6 +249,12 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
     return success;
 }
 
+size_t TcpConnection::NumberOfUnsentAsyncMessages() const
+{
+    std::lock_guard<std::mutex> lock{m_mutex};
+    return m_numUnsentAsyncMessages;
+}
+
 void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message)
 {
     size_t bytesSent;
@@ -253,10 +267,35 @@ void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t message)
     {
         bytesSent = 0;
     }
+	
+	DecrementUnsentAsyncCounter();
 
     if (bytesSent != message.size())
     {
         DestroySelf();
+    }
+}
+
+bool TcpConnection::IncrementUnsentAsyncCounter()
+{
+    std::lock_guard<std::mutex> lock{m_mutex};
+
+    if (m_numUnsentAsyncMessages < m_maxAllowedUnsentAsyncMessages)
+    {
+        ++m_numUnsentAsyncMessages;
+        return true;
+    }
+
+    return false;
+}
+
+void TcpConnection::DecrementUnsentAsyncCounter()
+{
+    std::lock_guard<std::mutex> lock{m_mutex};
+
+    if (m_numUnsentAsyncMessages > 0)
+    {
+        --m_numUnsentAsyncMessages;
     }
 }
 

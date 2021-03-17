@@ -63,6 +63,8 @@ public:
      * \param[in] messageDispatcher - Function object capable of handling a received message and
      *                                dispatching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages
+     *                                            per client.
 	 * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
      *                              handling, defaults to 0, which implies no pool used.
      *
@@ -80,12 +82,15 @@ public:
     SimpleTcpClientList(boost_iocontext_t&                        ioContext,
                         defs::default_message_dispatcher_t const& messageDispatcher,
                         eSendOption sendOption = eSendOption::nagleOn,
+						size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
 						size_t memPoolMsgCount               = 0);
     /*!
      * \brief Initialisation constructor.
      * \param[in] messageDispatcher - Function object capable of handling a received message and
      *                                dispatching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages
+     *                                            per client.
 	 * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
      *                              handling, defaults to 0, which implies no pool used.
      *
@@ -102,6 +107,7 @@ public:
      */
     SimpleTcpClientList(defs::default_message_dispatcher_t const& messageDispatcher,
                         eSendOption sendOption = eSendOption::nagleOn,
+						size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
 						size_t memPoolMsgCount               = 0);
     /*! \brief Default destructor. */
     ~SimpleTcpClientList();
@@ -297,6 +303,19 @@ public:
      */
     bool SendMessageToServerSync(defs::connection_t const&  server,
                                  const defs::char_buffer_t& message);
+	/*! \brief Clear all TCP clients from list. */
+    void ClearList();
+    /*!
+     * \brief Get list of connections.
+     * \return - list of server connection details.
+     */
+    std::vector<defs::connection_t> GetServerList() const;
+    /*!
+     * \brief Get number of unsent async messages.
+     * \param[in] server - Target connection details.
+     * \return Number of unsent messages
+     */
+    size_t NumberOfUnsentAsyncMessages(const defs::connection_t& server) const;
 
 private:
     /*!
@@ -322,6 +341,8 @@ private:
     defs::default_message_dispatcher_t m_messageDispatcher{};
     /*! \brief Socket send option to control the use of the Nagle algorithm. */
     eSendOption m_sendOption{eSendOption::nagleOn};
+	/*! \brief Max allowed unsent async message counter per client. */
+    size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
 	/*! \brief Number of messages (per client) in pool for received message. */
     size_t m_memPoolMsgCount{0};
     /*! \brief Map of simple TCP clients. */

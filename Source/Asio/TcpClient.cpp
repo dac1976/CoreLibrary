@@ -41,13 +41,15 @@ TcpClient::TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& ser
                      size_t                                  minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption                             sendOption)
+                     eSendOption                             sendOption, 
+					 size_t maxAllowedUnsentAsyncMessages)
     : m_ioContext(ioContext)
     , m_server{server}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
+	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 {
     CreateConnection();
 }
@@ -55,7 +57,8 @@ TcpClient::TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& ser
 TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption                             sendOption)
+                     eSendOption                             sendOption, 
+					 size_t maxAllowedUnsentAsyncMessages)
     : m_ioThreadGroup{new IoContextThreadGroup(2)}
     // 2 threads we can send/receive to/from the server
     , m_ioContext(m_ioThreadGroup->IoContext())
@@ -64,6 +67,7 @@ TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
+	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 {
     CreateConnection();
 }
@@ -111,6 +115,11 @@ bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
     return false;
 }
 
+size_t TcpClient::NumberOfUnsentAsyncMessages() const
+{
+    return m_serverConnection.NumberOfUnsentAsyncMessages(m_server);
+}
+
 void TcpClient::CreateConnection()
 {
     try
@@ -120,7 +129,8 @@ void TcpClient::CreateConnection()
                                                           m_minAmountToRead,
                                                           m_checkBytesLeftToRead,
                                                           m_messageReceivedHandler,
-                                                          m_sendOption);
+                                                          m_sendOption,
+														  m_maxAllowedUnsentAsyncMessages);
         connection->Connect(m_server);
     }
     catch (...)
@@ -130,7 +140,7 @@ void TcpClient::CreateConnection()
         // TcpClient::SendMessageToServer* later will attempt
         // to reconnect. Only catch boost::system::system_error
         // exceptions as any other ones are a problem we should
-        // definitely still propogate.
+        // definitely still propagate.
     }
 }
 

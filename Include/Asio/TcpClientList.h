@@ -69,18 +69,20 @@ public:
      * computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
      * and
-     * disptaching it accordingly.
+     * dispatching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be exectued
+     * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO context. This is the recommended constructor.
      */
     TcpClientList(boost_iocontext_t& ioContext, size_t minAmountToRead,
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
-                  eSendOption                             sendOption = eSendOption::nagleOn);
+                  eSendOption                             sendOption = eSendOption::nagleOn,
+				  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
     /*!
      * \brief Initialisation constructor.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
@@ -88,18 +90,21 @@ public:
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     * and disptaching it accordingly. \param[in] sendOption - Socket send option to control the use
+     * and dispatching it accordingly. 
+	 * \param[in] sendOption - Socket send option to control the use
      * of the Nagle algorithm.
+	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommened.
+     * external IO context constructor is recommended.
      */
     TcpClientList(size_t                                  minAmountToRead,
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
-                  eSendOption                             sendOption = eSendOption::nagleOn);
+                  eSendOption                             sendOption = eSendOption::nagleOn,
+				  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
     /*! \brief Default destructor. */
     ~TcpClientList();
     /*!
@@ -111,7 +116,7 @@ public:
     /*!
      * \brief Check if the client is connected to the server.
      * \param[in] server - Connection object describing server's address and port.
-     * \return True if conneced, false otherwise.
+     * \return True if connected, false otherwise.
      */
     bool Connected(defs::connection_t const& server) const;
     /*!
@@ -156,6 +161,19 @@ public:
      */
     bool SendMessageToServerSync(defs::connection_t const&  server,
                                  defs::char_buffer_t const& message);
+	/*! \brief Clear all TCP clients from list. */
+    void ClearList();
+    /*!
+     * \brief Get list of connections.
+     * \return - list of server connection details.
+     */
+    std::vector<defs::connection_t> GetServerList() const;
+    /*!
+     * \brief Get number of unsent async messages.
+     * \param[in] server - Target connection details.
+     * \return Number of unsent messages
+     */
+    size_t NumberOfUnsentAsyncMessages(const defs::connection_t& server) const;
 
 private:
     /*!
@@ -186,6 +204,8 @@ private:
     defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket send option to control the use of the Nagle algorithm. */
     eSendOption m_sendOption{eSendOption::nagleOn};
+	/*! \brief Max allowed unsent async message counter. */
+    size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
     /*! \brief Map of TCP clients. */
     client_map_t m_clientMap{};
 };
