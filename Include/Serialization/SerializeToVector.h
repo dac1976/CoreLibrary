@@ -132,7 +132,6 @@ template <typename T, typename A> struct ToCharVectorImpl
         }
 
         char_vector_t charVector;
-        charVector.reserve(os.str().size());
         charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
         return charVector;
     }
@@ -156,8 +155,6 @@ template <typename T, typename A> struct ToCharVectorImpl
             oa(CEREAL_NVP(object));
         }
 
-        result.clear();
-        result.reserve(os.str().size());
         result.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
     }
 };
@@ -229,7 +226,6 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
         }
 
         char_vector_t charVector;
-        charVector.reserve(os.str().size());
         charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
         return charVector;
     }
@@ -250,8 +246,6 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
             BOOST_THROW_EXCEPTION(std::runtime_error("failed to serialize protocol buffer"));
         }
 
-        result.clear();
-        result.reserve(os.str().size());
         result.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
     }
 };
