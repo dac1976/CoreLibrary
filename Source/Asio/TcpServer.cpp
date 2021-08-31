@@ -61,8 +61,7 @@ TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
                      eSendOption                             sendOption,
 					 size_t maxAllowedUnsentAsyncMessages)
-    : m_ioThreadGroup{new IoContextThreadGroup(std::thread::hardware_concurrency())}
-    // Num logical cores threads as we can send/receive to/from multiple clients
+    : m_ioThreadGroup{new IoContextThreadGroup(2)}
     , m_ioContext(m_ioThreadGroup->IoContext())
     , m_strand{m_ioThreadGroup->IoContext()}
     , m_listenPort{listenPort}

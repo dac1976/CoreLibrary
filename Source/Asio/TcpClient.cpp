@@ -59,8 +59,7 @@ TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
                      eSendOption                             sendOption, 
 					 size_t maxAllowedUnsentAsyncMessages)
-    : m_ioThreadGroup{new IoContextThreadGroup(2)}
-    // 2 threads we can send/receive to/from the server
+    : m_ioThreadGroup{new IoContextThreadGroup(1)}
     , m_ioContext(m_ioThreadGroup->IoContext())
     , m_server{server}
     , m_minAmountToRead{minAmountToRead}
