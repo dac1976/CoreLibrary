@@ -52,7 +52,7 @@ namespace messages
 MessageHandler::MessageHandler()
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
 {
-	InitialiseMsgPool(0, 0);
+    InitialiseMsgPool(0, 0);
 }
 #endif
 
@@ -60,7 +60,7 @@ MessageHandler::MessageHandler()
 MessageHandler::MessageHandler(MessageHandler&& mh)
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
 {
-	InitialiseMsgPool(0, 0);
+    InitialiseMsgPool(0, 0);
     *this = std::move(mh);
 }
 
@@ -68,17 +68,18 @@ MessageHandler& MessageHandler::operator=(MessageHandler&& mh)
 {
     std::swap(m_messageDispatcher, mh.m_messageDispatcher);
     m_magicString.swap(mh.m_magicString);
-	std::swap(m_msgPoolIndex, mh.m_msgPoolIndex);
+    std::swap(m_msgPoolIndex, mh.m_msgPoolIndex);
     m_msgPool.swap(mh.m_msgPool);
 }
 #endif
 
 MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher,
-                               const std::string&                        magicString)
+                               const std::string& magicString, size_t memPoolMsgCount,
+                               size_t defaultMsgSize)
     : m_messageDispatcher(messageDispatcher)
     , m_magicString(magicString)
 {
-	InitialiseMsgPool(memPoolMsgCount, defaultMsgSize);
+    InitialiseMsgPool(memPoolMsgCount, defaultMsgSize);
 }
 
 size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) const
@@ -114,17 +115,17 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
     auto receivedMessage    = GetNewMessgeObject();
     receivedMessage->header = *pHeader;
 
-    if (pHeader->totalLength > MESSAGE_HEADER_LEN)
+    if (pHeader->totalLength > defs::MESSAGE_HEADER_LEN)
     {
-        receivedMessage->body.assign(message.begin() + MESSAGE_HEADER_LEN, message.end());
+        receivedMessage->body.assign(message.begin() + defs::MESSAGE_HEADER_LEN, message.end());
     }
 
     m_messageDispatcher(receivedMessage);
 }
 
 bool MessageHandler::CheckMessage(const defs::char_buffer_t& message)
-{	
-	return message.size() >= sizeof(defs::MessageHeader);
+{
+    return message.size() >= sizeof(defs::MessageHeader);
 }
 
 void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize)

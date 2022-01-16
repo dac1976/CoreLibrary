@@ -24,5 +24,6 @@ var _serialize_to_vector_8h =
     [ "out_raw_t", "_serialize_to_vector_8h.html#a95a32f60835d800d6e730aad31135a4f", null ],
     [ "out_xml_t", "_serialize_to_vector_8h.html#a39d88b1dec43f9dd870aedd58b253ff4", null ],
     [ "ToCharVector", "_serialize_to_vector_8h.html#ad4aa01ddc0b4571e7442b150cdd10ec8", null ],
+    [ "ToCharVector", "_serialize_to_vector_8h.html#afe773af159db747698f50213bcd4b94e", null ],
     [ "ToObject", "_serialize_to_vector_8h.html#a8316a47202c696fefd9e21c18b31e594", null ]
 ];

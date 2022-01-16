@@ -71,7 +71,7 @@ public:
      * and
      * dispatching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
@@ -82,7 +82,7 @@ public:
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
                   eSendOption                             sendOption = eSendOption::nagleOn,
-				  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
+                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
     /*!
      * \brief Initialisation constructor.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
@@ -90,10 +90,10 @@ public:
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     * and dispatching it accordingly. 
-	 * \param[in] sendOption - Socket send option to control the use
+     * and dispatching it accordingly.
+     * \param[in] sendOption - Socket send option to control the use
      * of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
@@ -104,7 +104,7 @@ public:
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
                   eSendOption                             sendOption = eSendOption::nagleOn,
-				  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
+                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
     /*! \brief Default destructor. */
     ~TcpClientList();
     /*!
@@ -146,12 +146,9 @@ public:
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] server - Connection object describing server's address and port.
      * \param[in] message - Message buffer.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending.
+     * \return True if sent successfully, false otherwise.
      */
-    void SendMessageToServerAsync(defs::connection_t const&  server,
+    bool SendMessageToServerAsync(defs::connection_t const&  server,
                                   defs::char_buffer_t const& message);
     /*!
      * \brief Send a message buffer to the server synchronously.
@@ -161,7 +158,7 @@ public:
      */
     bool SendMessageToServerSync(defs::connection_t const&  server,
                                  defs::char_buffer_t const& message);
-	/*! \brief Clear all TCP clients from list. */
+    /*! \brief Clear all TCP clients from list. */
     void ClearList();
     /*!
      * \brief Get list of connections.
@@ -204,7 +201,7 @@ private:
     defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket send option to control the use of the Nagle algorithm. */
     eSendOption m_sendOption{eSendOption::nagleOn};
-	/*! \brief Max allowed unsent async message counter. */
+    /*! \brief Max allowed unsent async message counter. */
     size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
     /*! \brief Map of TCP clients. */
     client_map_t m_clientMap{};

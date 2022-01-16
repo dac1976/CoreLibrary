@@ -1,5 +1,6 @@
 var namespacecore__lib_1_1asio_1_1tcp =
 [
+    [ "AsyncSendCallableObj", "classcore__lib_1_1asio_1_1tcp_1_1_async_send_callable_obj.html", "classcore__lib_1_1asio_1_1tcp_1_1_async_send_callable_obj" ],
     [ "SimpleTcpClient", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client.html", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client" ],
     [ "SimpleTcpClientList", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list.html", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_client_list" ],
     [ "SimpleTcpServer", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html", "classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server" ],

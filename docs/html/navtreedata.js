@@ -1,33 +1,9 @@
-/*
- @licstart  The following is the entire license notice for the JavaScript code in this file.
-
- The MIT License (MIT)
-
- Copyright (C) 1997-2020 by Dimitri van Heesch
-
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- and associated documentation files (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge, publish, distribute,
- sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in all copies or
- substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- @licend  The above is the entire license notice for the JavaScript code in this file
-*/
 var NAVTREE =
 [
   [ "Core Library", "index.html", [
     [ "CoreLibrary", "index.html", null ],
-    [ "Namespaces", "namespaces.html", [
-      [ "Namespace List", "namespaces.html", "namespaces_dup" ],
+    [ "Namespaces", null, [
+      [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
         [ "Functions", "namespacemembers_func.html", null ],
@@ -50,8 +26,8 @@ var NAVTREE =
         [ "Related Functions", "functions_rela.html", null ]
       ] ]
     ] ],
-    [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ],
+    [ "Files", null, [
+      [ "File List", "files.html", "files" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Variables", "globals_vars.html", null ],
@@ -65,12 +41,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"_simple_multicast_receiver_8h.html",
-"classcore__lib_1_1asio_1_1tcp_1_1_tcp_client.html#aeefad8c25cfa3f1b7f5bf7226ee6bdd9",
-"classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#a06d78c3a3657fbd3f5d2999f93cba3ce",
-"classcore__lib_1_1ini__file_1_1_ini_file.html#a830edd53b028e2dca0fdc8e18b3f9bd2",
-"classcore__lib_1_1threads_1_1_join_threads.html",
-"structcore__lib_1_1asio_1_1defs_1_1_message_header.html#a18df7815d49956d9c778916490b9a721"
+"_serialize_to_vector_8h.html#ae0a3bcd700977b4017ed00abeab5cbe9",
+"classcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_server.html#ad46f6d94e7c9957cd287f0a0d5767366",
+"classcore__lib_1_1asio_1_1udp_1_1_multicast_sender.html#a1665b7efe09ac6fc5918ab0ddbccdc02",
+"classcore__lib_1_1csv__grid_1_1_t_row.html#a9ae887086e1e94b54f912c11a318993c",
+"classcore__lib_1_1threads_1_1_concurrent_queue.html#a1146e87353baead8d86048cd3f6f2a7e",
+"index.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

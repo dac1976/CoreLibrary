@@ -30,8 +30,14 @@ var _asio_defines_8h =
     [ "eDefReservedSize", "_asio_defines_8h.html#a8a67b46dfe65b7b004e95a7c85084f29", [
       [ "DEFAULT_RESERVED_SIZE", "_asio_defines_8h.html#a8a67b46dfe65b7b004e95a7c85084f29ae06f2cd9e4c4bb0b5539df063f6ff910", null ]
     ] ],
+    [ "eDefUnsentAsyncCount", "_asio_defines_8h.html#a035033ba85e9078eef842610865b6b54", [
+      [ "MAX_UNSENT_ASYNC_MSG_COUNT", "_asio_defines_8h.html#a035033ba85e9078eef842610865b6b54afb1be1dac3e7b3892f50eb2640f98a71", null ]
+    ] ],
     [ "eMagicStringLen", "_asio_defines_8h.html#a76e32fe4d4afed2186ed9deb475724b3", [
       [ "MAGIC_STRING_LEN", "_asio_defines_8h.html#a76e32fe4d4afed2186ed9deb475724b3a4ff7bda3de11d6bb95d43ec132da27b8", null ]
+    ] ],
+    [ "eMessageHeaderLen", "_asio_defines_8h.html#a4d5013f81151c785df29aa24b69f9768", [
+      [ "MESSAGE_HEADER_LEN", "_asio_defines_8h.html#a4d5013f81151c785df29aa24b69f9768a7d88564f37bab0b750d1fcab858e5cc2", null ]
     ] ],
     [ "eMulticastTTL", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694", [
       [ "sameHost", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694aa1119b276d7e6d35b2e6b01590d5224d", null ],

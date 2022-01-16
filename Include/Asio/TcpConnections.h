@@ -90,8 +90,9 @@ public:
      * \brief Send an asynchronous message.
      * \param[in] target - Target connection details.
      * \param[in] message - Message buffer to send.
+     * \return True if sent successfully, false otherwise.
      */
-    void SendMessageAsync(const defs::connection_t&  target,
+    bool SendMessageAsync(const defs::connection_t&  target,
                           const defs::char_buffer_t& message) const;
     /*!
      * \brief Send a synchronous message.
@@ -104,8 +105,9 @@ public:
     /*!
      * \brief Send an asynchronous message to all connections.
      * \param[in] message - Message buffer to send.
+     * \return True if sent successfully, false otherwise.
      */
-    void SendMessageToAll(const defs::char_buffer_t& message) const;
+    bool SendMessageToAll(const defs::char_buffer_t& message) const;
     /*!
      * \brief Get the connection details for one of the remote connections.
      * \param[in] remoteEnd - Remote end's connection details.
@@ -114,19 +116,19 @@ public:
      * Throws std::invalid_argument if remoteEnd is not valid.
      */
     defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
-	/*!
-	 * \brief Get number of unsent async messages.
-	 * \param[in] target - Target connection details.
-	 * \return Number of unsent messages
-	 */
-	size_t NumberOfUnsentAsyncMessages(const defs::connection_t& target) const;
+    /*!
+     * \brief Get number of unsent async messages.
+     * \param[in] target - Target connection details.
+     * \return Number of unsent messages
+     */
+    size_t NumberOfUnsentAsyncMessages(const defs::connection_t& target) const;
 
-	/*!
-	 * \brief Tells if a given client is currently connected ot the server
-	 * \param[in] target - Target connection details.
-	 * \return true if connected, false if not
-	 */
-	bool IsConnected(const defs::connection_t& client) const;
+    /*!
+     * \brief Tells if a given client is currently connected ot the server
+     * \param[in] target - Target connection details.
+     * \return true if connected, false if not
+     */
+    bool IsConnected(const defs::connection_t& client) const;
 
 private:
     /*! \brief Access mutex for thread safety. */

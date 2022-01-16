@@ -53,15 +53,15 @@ public:
      * \param[in] server - Connection object describing target server's address and port.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
-	 * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
+     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
      *                              handling, defaults to 0, which implies no pool used.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO context. This is the recommended constructor.
-	 *
+     *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
      * in the dispatcher to process the messages as quickly as possibly so the pool
@@ -71,22 +71,22 @@ public:
     SimpleTcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
                     const defs::default_message_dispatcher_t& messageDispatcher,
                     eSendOption                               sendOption = eSendOption::nagleOn,
-					size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
-					size_t memPoolMsgCount   = 0);
+                    size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
+                    size_t memPoolMsgCount               = 0);
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
-	 * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
+     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
      *                              handling, defaults to 0, which implies no pool used.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
      * external IO context constructor is recommend.
-	 *
+     *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
      * in the dispatcher to process the messages as quickly as possibly so the pool
@@ -96,8 +96,8 @@ public:
     SimpleTcpClient(const defs::connection_t&                 server,
                     const defs::default_message_dispatcher_t& messageDispatcher,
                     eSendOption                               sendOption = eSendOption::nagleOn,
-					size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
-					size_t memPoolMsgCount   = 0);
+                    size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
+                    size_t memPoolMsgCount               = 0);
     /*! \brief Default destructor. */
     ~SimpleTcpClient() = default;
     /*! \brief Copy constructor - deleted. */
@@ -133,13 +133,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unless an exception is thrown. This
-     * method gives best performance when sending. Furthermore this method
-     * only sends a simple core_lib::asio::defs::MessageHeader object to
-     * the server.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool
     SendMessageToServerAsync(int32_t                   messageId,
@@ -150,9 +144,6 @@ public:
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
-     *
-     * This method only sends a simple core_lib::asio::defs::MessageHeader
-     * object to the server.
      */
     bool SendMessageToServerSync(int32_t                   messageId,
                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
@@ -162,13 +153,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unless an exception is thrown. This
-     * method gives best performance when sending. Furthermore this method
-     * only sends a simple core_lib::asio::defs::MessageHeader object to
-     * the server.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool
     SendMessageToServerAsync(const defs::char_buffer_t& message, int32_t messageId,
@@ -180,9 +165,6 @@ public:
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
-     *
-     * This method only sends a simple core_lib::asio::defs::MessageHeader
-     * object to the server.
      */
     bool SendMessageToServerSync(const defs::char_buffer_t& message, int32_t messageId,
                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
@@ -193,12 +175,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unless an exception is thrown. This
-     * method gives best performance when sending. Furthermore this method
-     * uses the a core_lib::asio::defs::MessageHeader object as the header.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessageToServerAsync(const T& message, int32_t messageId,
@@ -214,8 +191,6 @@ public:
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
-     *
-     * This method uses the a core_lib::asio::defs::MessageHeader object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessageToServerSync(const T& message, int32_t messageId,
@@ -226,11 +201,7 @@ public:
     /*!
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] message - Message buffer.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unless a an exception is thrown. This
-     * method gives best performance when sending.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool SendMessageToServerAsync(const defs::char_buffer_t& message);
     /*!
@@ -239,7 +210,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessageToServerSync(const defs::char_buffer_t& message);
-	/*!
+    /*!
      * \brief Get number of unsent async messages.
      * \return Number of unsent messages
      */

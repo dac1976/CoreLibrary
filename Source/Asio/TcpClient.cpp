@@ -41,15 +41,14 @@ TcpClient::TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& ser
                      size_t                                  minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption                             sendOption, 
-					 size_t maxAllowedUnsentAsyncMessages)
+                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages)
     : m_ioContext(ioContext)
     , m_server{server}
     , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
-	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
+    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 {
     CreateConnection();
 }
@@ -57,8 +56,7 @@ TcpClient::TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& ser
 TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption                             sendOption, 
-					 size_t maxAllowedUnsentAsyncMessages)
+                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     , m_ioContext(m_ioThreadGroup->IoContext())
     , m_server{server}
@@ -66,7 +64,7 @@ TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
-	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
+    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
 {
     CreateConnection();
 }
@@ -96,12 +94,14 @@ void TcpClient::CloseConnection()
     m_serverConnection.CloseConnections();
 }
 
-void TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
+bool TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
 {
     if (CheckAndCreateConnection())
     {
-        m_serverConnection.SendMessageAsync(m_server, message);
+        return m_serverConnection.SendMessageAsync(m_server, message);
     }
+
+    return false;
 }
 
 bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
@@ -129,7 +129,7 @@ void TcpClient::CreateConnection()
                                                           m_checkBytesLeftToRead,
                                                           m_messageReceivedHandler,
                                                           m_sendOption,
-														  m_maxAllowedUnsentAsyncMessages);
+                                                          m_maxAllowedUnsentAsyncMessages);
         connection->Connect(m_server);
     }
     catch (...)

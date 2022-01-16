@@ -14,7 +14,9 @@ var dir_f2ba29fa553ec4c13ad34d028846c42d =
     [ "SimpleUdpSender.cpp", "_simple_udp_sender_8cpp.html", null ],
     [ "TcpClient.cpp", "_tcp_client_8cpp.html", null ],
     [ "TcpClientList.cpp", "_tcp_client_list_8cpp.html", null ],
-    [ "TcpConnection.cpp", "_tcp_connection_8cpp.html", null ],
+    [ "TcpConnection.cpp", "_tcp_connection_8cpp.html", [
+      [ "AsyncSendCallableObj", "classcore__lib_1_1asio_1_1tcp_1_1_async_send_callable_obj.html", "classcore__lib_1_1asio_1_1tcp_1_1_async_send_callable_obj" ]
+    ] ],
     [ "TcpConnections.cpp", "_tcp_connections_8cpp.html", null ],
     [ "TcpServer.cpp", "_tcp_server_8cpp.html", null ],
     [ "UdpReceiver.cpp", "_udp_receiver_8cpp.html", null ],

@@ -62,10 +62,10 @@ public:
      * header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object capable of handling a received message and
-     * dispatching it accordingly.
-     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly. \param[in] sendOption - Socket send option to control the use
+     * of the Nagle algorithm. \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of
+     * unsent async messages.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
@@ -76,7 +76,7 @@ public:
               size_t minAmountToRead, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
               const defs::message_received_handler_t& messageReceivedHandler,
               eSendOption                             sendOption = eSendOption::nagleOn,
-			  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
+              size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
@@ -84,10 +84,10 @@ public:
      * header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object capable of handling a received message and
-     * dispatching it accordingly.
-     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly. \param[in] sendOption - Socket send option to control the use
+     * of the Nagle algorithm. \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of
+     * unsent async messages.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
@@ -97,8 +97,8 @@ public:
     TcpClient(const defs::connection_t& server, size_t minAmountToRead,
               const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
               const defs::message_received_handler_t& messageReceivedHandler,
-              eSendOption                             sendOption = eSendOption::nagleOn
-			  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
+              eSendOption                             sendOption = eSendOption::nagleOn,
+              size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
     /*! \brief Default destructor. */
     ~TcpClient();
     /*! \brief Copy constructor - deleted. */
@@ -139,19 +139,16 @@ public:
     /*!
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] message - Message buffer.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unless a an exception is thrown. This
-     * method gives best performance when sending.
+     * \return True if sent successfully, false otherwise.
      */
-    void SendMessageToServerAsync(const defs::char_buffer_t& message);
+    bool SendMessageToServerAsync(const defs::char_buffer_t& message);
     /*!
      * \brief Send a message buffer to the server synchronously.
      * \param[in] message - Message buffer.
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessageToServerSync(const defs::char_buffer_t& message);
-	/*!
+    /*!
      * \brief Get number of unsent async messages.
      * \return Number of pending queued async messages
      */
@@ -176,7 +173,7 @@ private:
     defs::message_received_handler_t m_messageReceivedHandler{};
     /*! \brief Socket send option. */
     eSendOption m_sendOption{eSendOption::nagleOn};
-	/*! \brief Max allowed unsent async message counter. */
+    /*! \brief Max allowed unsent async message counter. */
     size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
     /*! \brief TCP connections object. */
     TcpConnections m_serverConnection{};

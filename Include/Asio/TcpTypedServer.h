@@ -66,12 +66,11 @@ public:
      * header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object capable of handling a received message and
-     * dispatching it accordingly.
-     * \param[in] messageBuilder - A const reference to our persistent message builder object of
-     * type MsgBldr.
-     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly. \param[in] messageBuilder - A const reference to our
+     * persistent message builder object of type MsgBldr. \param[in] sendOption - Socket send option
+     * to control the use of the Nagle algorithm. \param[in] maxAllowedUnsentAsyncMessages - Maximum
+     * allowed number of unsent async messages.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
@@ -82,7 +81,7 @@ public:
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
                    const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
-				   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
+                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
         : m_messageBuilder{messageBuilder}
         , m_tcpServer{ioContext,
                       listenPort,
@@ -90,7 +89,7 @@ public:
                       checkBytesLeftToRead,
                       messageReceivedHandler,
                       sendOption,
-					  maxAllowedUnsentAsyncMessages}
+                      maxAllowedUnsentAsyncMessages}
     {
     }
     /*!
@@ -100,12 +99,11 @@ public:
      * header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object capable of handling a received message and
-     * dispatching it accordingly.
-     * \param[in] messageBuilder - A const reference to our persistent message builder object of
-     * type MsgBldr.
-     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly. \param[in] messageBuilder - A const reference to our
+     * persistent message builder object of type MsgBldr. \param[in] sendOption - Socket send option
+     * to control the use of the Nagle algorithm. \param[in] maxAllowedUnsentAsyncMessages - Maximum
+     * allowed number of unsent async messages.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
@@ -116,11 +114,14 @@ public:
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
                    const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
-				   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
+                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
         : m_messageBuilder{messageBuilder}
-        , m_tcpServer{
-              listenPort, minAmountToRead, checkBytesLeftToRead, messageReceivedHandler, 
-			  sendOption, maxAllowedUnsentAsyncMessages}
+        , m_tcpServer{listenPort,
+                      minAmountToRead,
+                      checkBytesLeftToRead,
+                      messageReceivedHandler,
+                      sendOption,
+                      maxAllowedUnsentAsyncMessages}
     {
     }
     /*! \brief Default destructor. */
@@ -181,30 +182,26 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool SendMessageToClientAsync(
         const defs::connection_t& client, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-        
-		try
-		{
-			auto const& messageBuffer = messages::BuildMessage(
-				messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
-				
-			return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+
+        try
+        {
+            auto const& messageBuffer = messages::BuildMessage(
+                messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
+
+            return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
     /*!
      * \brief Send a header-only message to a client synchronously.
@@ -219,29 +216,25 @@ public:
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-		
-		try
-		{
-			auto const& messageBuffer = messages::BuildMessage(
-				messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
-				
-			return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
-		}
-		catch(...)
-		{
-			return false;
-		}
+
+        try
+        {
+            auto const& messageBuffer = messages::BuildMessage(
+                messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
+
+            return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+        }
+        catch (...)
+        {
+            return false;
+        }
     }
     /*!
      * \brief Send a header-only message to all clients asynchronously.
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where a client should send a
      * response, the default value will mean the response address will point to this server socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool
     SendMessageToAllClients(int32_t                   messageId,
@@ -249,22 +242,21 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-		try
-		{
-			auto const& messageBuffer =
-				messages::BuildMessage(messageId,
-									   responseAddress,
-									   GetServerDetailsForClient(defs::NULL_CONNECTION),
-									   m_messageBuilder);
-									   
-			m_tcpServer.SendMessageToAllClients(messageBuffer);
-			return true;
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+        try
+        {
+            auto const& messageBuffer =
+                messages::BuildMessage(messageId,
+                                       responseAddress,
+                                       GetServerDetailsForClient(defs::NULL_CONNECTION),
+                                       m_messageBuilder);
+
+            return m_tcpServer.SendMessageToAllClients(messageBuffer);
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
     /*!
      * \brief Send a header plus message buffer to a client asynchronously.
@@ -273,11 +265,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool SendMessageToClientAsync(
         const defs::connection_t& client, const defs::char_buffer_t& message, int32_t messageId,
@@ -285,22 +273,21 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-		try
-		{
-			auto const& messageBuffer = messages::BuildMessage(message,
-															   messageId,
-															   responseAddress,
-															   GetServerDetailsForClient(client),
-															   m_messageBuilder);
-															   
-			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
-			return true;
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+        try
+        {
+            auto const& messageBuffer = messages::BuildMessage(message,
+                                                               messageId,
+                                                               responseAddress,
+                                                               GetServerDetailsForClient(client),
+                                                               m_messageBuilder);
+
+            return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
     /*!
      * \brief Send a header plus message buffer to a client synchronously.
@@ -318,31 +305,27 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-		try
-		{
-			auto const& messageBuffer = messages::BuildMessage(message,
-															   messageId,
-															   responseAddress,
-															   GetServerDetailsForClient(client),
-															   m_messageBuilder);
-															   
-			return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
-		}
-		catch(...)
-		{
-			return false;
-		}
+        try
+        {
+            auto const& messageBuffer = messages::BuildMessage(message,
+                                                               messageId,
+                                                               responseAddress,
+                                                               GetServerDetailsForClient(client),
+                                                               m_messageBuilder);
+
+            return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+        }
+        catch (...)
+        {
+            return false;
+        }
     }
     /*!
      * \brief Send a header plus message buffer to all clients asynchronously.
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where a client should send a
      * response, the default value will mean the response address will point to this server socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unless a an exception is thrown. This
-     * method gives best performance when sending.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool
     SendMessageToAllClients(int32_t messageId, const defs::char_buffer_t& message,
@@ -350,23 +333,22 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-		try
-		{
-			auto const& messageBuffer =
-				messages::BuildMessage(message,
-									   messageId,
-									   responseAddress,
-									   GetServerDetailsForClient(defs::NULL_CONNECTION),
-									   m_messageBuilder);
-									   
-			m_tcpServer.SendMessageToAllClients(messageBuffer);
-			return true;
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+        try
+        {
+            auto const& messageBuffer =
+                messages::BuildMessage(message,
+                                       messageId,
+                                       responseAddress,
+                                       GetServerDetailsForClient(defs::NULL_CONNECTION),
+                                       m_messageBuilder);
+
+            return m_tcpServer.SendMessageToAllClients(messageBuffer);
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
     /*!
      * \brief Send a full message to a client asynchronously.
@@ -376,10 +358,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessageToClientAsync(
@@ -388,23 +367,22 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-		try
-		{
-			auto const& messageBuffer =
-				messages::BuildMessage<T, A, MsgBldr>(message,
-													  messageId,
-													  responseAddress,
-													  GetServerDetailsForClient(client),
-													  m_messageBuilder);
-													  
-			m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
-			return true;
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+        try
+        {
+            auto const& messageBuffer =
+                messages::BuildMessage<T, A, MsgBldr>(message,
+                                                      messageId,
+                                                      responseAddress,
+                                                      GetServerDetailsForClient(client),
+                                                      m_messageBuilder);
+
+            return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
     /*!
      * \brief Send a full message to a client synchronously.
@@ -423,21 +401,21 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-		try
-		{
-			auto const& messageBuffer =
-				messages::BuildMessage<T, A, MsgBldr>(message,
-													  messageId,
-													  responseAddress,
-													  GetServerDetailsForClient(client),
-													  m_messageBuilder);
-													  
-			return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
-		}
-		catch(...)
-		{
-			return false;
-		}
+        try
+        {
+            auto const& messageBuffer =
+                messages::BuildMessage<T, A, MsgBldr>(message,
+                                                      messageId,
+                                                      responseAddress,
+                                                      GetServerDetailsForClient(client),
+                                                      m_messageBuilder);
+
+            return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
+        }
+        catch (...)
+        {
+            return false;
+        }
     }
     /*!
      * \brief Send a full message to all clients asynchronously.
@@ -446,10 +424,7 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the clients should send a
      * response, the default value will mean the response address will point to this server socket.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unless an exception is thrown.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool
@@ -458,88 +433,79 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
-		try
-		{
-			auto const& messageBuffer =
-				messages::BuildMessage<T, A, MsgBldr>(message,
-													  messageId,
-													  responseAddress,
-													  GetServerDetailsForClient(defs::NULL_CONNECTION),
-													  m_messageBuilder);
-													  
-			m_tcpServer.SendMessageToAllClients(messageBuffer);
-			return true;
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+        try
+        {
+            auto const& messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
+                message,
+                messageId,
+                responseAddress,
+                GetServerDetailsForClient(defs::NULL_CONNECTION),
+                m_messageBuilder);
+
+            return m_tcpServer.SendMessageToAllClients(messageBuffer);
+#
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
     /*!
      * \brief Send a message buffer to a client asynchronously.
      * \param[in] client - Client connection details.
      * \param[in] message - Message buffer.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool SendMessageToClientAsync(const defs::connection_t&  client,
                                   const defs::char_buffer_t& message) const
     {
-		try
-		{
-			m_tcpServer.SendMessageToClientAsync(client, message);
-			return true;
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+        try
+        {
+            return m_tcpServer.SendMessageToClientAsync(client, message);
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
     /*!
      * \brief Send a message buffer to a client synchronously.
      * \param[in] client - Client connection details.
      * \param[in] message - Message buffer.
+     * \return Returns the success state of the send as a boolean.
      */
     bool SendMessageToClientSync(const defs::connection_t&  client,
                                  const defs::char_buffer_t& message) const
     {
-		try
-		{
-			return m_tcpServer.SendMessageToClientSync(client, message);
-		}
-		catch(...)
-		{
-			return false;
-		}
+        try
+        {
+            return m_tcpServer.SendMessageToClientSync(client, message);
+        }
+        catch (...)
+        {
+            return false;
+        }
     }
     /*!
      * \brief Send a message buffer to all clients asynchronously.
      * \param[in] message - Message buffer.
-	 * \return Returns the success state of whether the message was posted to the send queue.
-     *
-     * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
-     * method gives best performance when sending.
+     * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool SendMessageToAllClients(const defs::char_buffer_t& message) const
     {
-		try
-		{
-			m_tcpServer.SendMessageToAllClients(message);
-			return true;
-		}
-		catch(...)
-		{
-			// Do nothing.
-			return false;
-		}
+        try
+        {
+            return m_tcpServer.SendMessageToAllClients(message);
+        }
+        catch (...)
+        {
+            // Do nothing.
+            return false;
+        }
     }
-	/*!
+    /*!
      * \brief Get number of unsent async messages.
      * \param[in] client - Target connection details.
      * \return Number of unsent messages
@@ -558,7 +524,6 @@ public:
     {
         return m_tcpServer.IsConnected(client);
     }
-
 
 private:
     /*! \brief Send message mutex. */

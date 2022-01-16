@@ -80,7 +80,7 @@ void TcpConnections::CloseConnections()
     m_connections.clear();
 }
 
-void TcpConnections::SendMessageAsync(const defs::connection_t&  target,
+bool TcpConnections::SendMessageAsync(const defs::connection_t&  target,
                                       const defs::char_buffer_t& message) const
 {
     std::lock_guard<std::mutex> lock{m_mutex};
@@ -88,8 +88,10 @@ void TcpConnections::SendMessageAsync(const defs::connection_t&  target,
 
     if (connIt != m_connections.end())
     {
-        connIt->second->SendMessageAsync(message);
+        return connIt->second->SendMessageAsync(message);
     }
+
+    return false;
 }
 
 bool TcpConnections::SendMessageSync(const defs::connection_t&  target,
@@ -100,14 +102,20 @@ bool TcpConnections::SendMessageSync(const defs::connection_t&  target,
     return connIt == m_connections.end() ? false : connIt->second->SendMessageSync(message);
 }
 
-void TcpConnections::SendMessageToAll(const defs::char_buffer_t& message) const
+bool TcpConnections::SendMessageToAll(const defs::char_buffer_t& message) const
 {
     std::lock_guard<std::mutex> lock{m_mutex};
+    bool                        result = true;
 
     for (auto& connection : m_connections)
     {
-        connection.second->SendMessageAsync(message);
+        if (!connection.second->SendMessageAsync(message))
+        {
+            result = false;
+        }
     }
+
+    return result;
 }
 
 auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const
@@ -132,16 +140,16 @@ auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd
 
 size_t TcpConnections::NumberOfUnsentAsyncMessages(const defs::connection_t& target) const
 {
-	std::lock_guard<std::mutex> lock{m_mutex};
-	auto                        connIt = m_connections.find(target);
-	return connIt == m_connections.end() ? 0 : connIt->second->NumberOfUnsentAsyncMessages();
+    std::lock_guard<std::mutex> lock{m_mutex};
+    auto                        connIt = m_connections.find(target);
+    return connIt == m_connections.end() ? 0 : connIt->second->NumberOfUnsentAsyncMessages();
 }
 
 bool TcpConnections::IsConnected(const defs::connection_t& client) const
 {
     std::lock_guard<std::mutex> lock{m_mutex};
-	auto                        connIt = m_connections.find(client);
-	return (connIt != m_connections.end());
+    auto                        connIt = m_connections.find(client);
+    return (connIt != m_connections.end());
 }
 
 } // namespace tcp
