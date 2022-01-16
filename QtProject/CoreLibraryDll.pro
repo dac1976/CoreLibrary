@@ -30,36 +30,62 @@ unix:!symbian {
 
 # On Windows we do this, assumes we'll be using MS VC 2015.
 win32 {
-    # disable incremental linking with debug builds
-    QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
+    win32-msvc{
+        # disable incremental linking with debug builds
+        QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
 
-    # Set version info of our dll.
-    RC_FILE=CoreLibraryDll_resource.rc
+        # Set version info of our dll.
+        RC_FILE=CoreLibraryDll_resource.rc
 
-    # Due to exporting from DLL we might get suprious warnings of
-    # type 4251, 4275 and 4100 so disable them.
-    QMAKE_CXXFLAGS += /wd4251 /wd4275 /wd4100
-    DEFINES += _CRT_SECURE_NO_WARNINGS=1
+        # Due to exporting from DLL we might get suprious warnings of
+        # type 4251, 4275 and 4100 so disable them.
+        QMAKE_CXXFLAGS += /wd4251 /wd4275 /wd4100
+        DEFINES += _CRT_SECURE_NO_WARNINGS=1
 
-    # Set binary's output folder.
-    # This is for x86 builds.
-    !contains(QMAKE_HOST.arch, x86_64) {
-        CONFIG(debug, debug|release) {
-          DESTDIR = debug/x86
-        } else {
-          DESTDIR = release/x86
+        # Set binary's output folder.
+        # This is for x86 builds.
+        !contains(QMAKE_HOST.arch, x86_64) {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x86
+            } else {
+              DESTDIR = release/x86
+            }
+        }
+        # This is for x64 builds.
+        else {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x64
+            } else {
+              DESTDIR = release/x64
+            }
+        }
+
+        DISTFILES += CoreLibraryDll_resource.rc
+    } else{
+        # Make sure we enable C++14 support.
+        QMAKE_CXXFLAGS += -std=c++14
+
+        # Set version info for library.
+        VERSION = 1.7.0
+
+        # Set binary's output folder.
+        # This is for x86 builds.
+        !contains(QMAKE_HOST.arch, x86_64) {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x86
+            } else {
+              DESTDIR = release/x86
+            }
+        }
+        # This is for x64 builds.
+        else {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x64
+            } else {
+              DESTDIR = release/x64
+            }
         }
     }
-    # This is for x64 builds.
-    else {
-        CONFIG(debug, debug|release) {
-          DESTDIR = debug/x64
-        } else {
-          DESTDIR = release/x64
-        }
-    }
-
-    DISTFILES += CoreLibraryDll_resource.rc
 }
 # On non-windows, assumed to be Linux, we do this.
 else {

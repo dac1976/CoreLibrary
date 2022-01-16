@@ -1,39 +1,38 @@
-# if defined(UNDER_CE)
-#  include <winbase.h>
-# else
-#  include <windows.h>
-# endif
+#include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION 1,7,0,0
-    PRODUCTVERSION 1,7,0,0
-    FILEFLAGSMASK 0x3fL
+	FILEVERSION 1,7,0,0
+	PRODUCTVERSION 1,7,0,0
+	FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
-    FILEFLAGS VS_FF_DEBUG
+	FILEFLAGS VS_FF_DEBUG
 #else
-    FILEFLAGS 0x0L
+	FILEFLAGS 0x0L
 #endif
-    FILEOS VOS__WINDOWS32
-    FILETYPE VFT_DLL
-    FILESUBTYPE 0x0L
-    BEGIN
-        BLOCK "StringFileInfo"
-        BEGIN
-            BLOCK "040904b0"
-            BEGIN
-                VALUE "CompanyName", "Duncan Crutchley\0"
-                VALUE "FileDescription", "Core Utilities Library\0"
-                VALUE "FileVersion", "1.7.0.0\0"
-                VALUE "LegalCopyright", "Copyright © 2014 (to present) Duncan Crutchley\0"
-                VALUE "OriginalFilename", "CoreLibraryDll.dll\0"
-                VALUE "ProductName", "Core Library Dll\0"
-                VALUE "ProductVersion", "1.7.0.0\0"
-            END
-        END
-        BLOCK "VarFileInfo"
-        BEGIN
-            VALUE "Translation", 0x0809, 1200
-        END
-    END
+	FILEOS VOS_NT_WINDOWS32
+	FILETYPE VFT_DLL
+	FILESUBTYPE VFT2_UNKNOWN
+	BEGIN
+		BLOCK "StringFileInfo"
+		BEGIN
+			BLOCK "040904b0"
+			BEGIN
+				VALUE "CompanyName", "\0"
+				VALUE "FileDescription", "\0"
+				VALUE "FileVersion", "1.7.0.0\0"
+				VALUE "LegalCopyright", "\0"
+				VALUE "OriginalFilename", "CoreLibraryDll1.dll\0"
+				VALUE "ProductName", "CoreLibraryDll\0"
+				VALUE "ProductVersion", "1.7.0.0\0"
+				VALUE "InternalName", "\0"
+				VALUE "Comments", "\0"
+				VALUE "LegalTrademarks", "\0"
+			END
+		END
+		BLOCK "VarFileInfo"
+		BEGIN
+			VALUE "Translation", 0x0409, 1200
+		END
+	END
 /* End of Version info */
 

@@ -29,24 +29,47 @@ unix:!symbian {
 
 # On Windows we do this, assumes we'll be using MS VC 2017.
 win32 {
-    # disable incremental linking with debug builds
-    QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
+    win32-msvc{
+        # disable incremental linking with debug builds
+        QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
 
-    # Set binary's output folder.
-    # This is for x86 builds.
-    !contains(QMAKE_TARGET.arch, x86_64) {
-        CONFIG(debug, debug|release) {
-          DESTDIR = debug/x86
-        } else {
-          DESTDIR = release/x86
+        # Set binary's output folder.
+        # This is for x86 builds.
+        !contains(QMAKE_TARGET.arch, x86_64) {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x86
+            } else {
+              DESTDIR = release/x86
+            }
         }
-    }
-    # This is for x64 builds.
-    else {
-        CONFIG(debug, debug|release) {
-          DESTDIR = debug/x64
-        } else {
-          DESTDIR = release/x64
+        # This is for x64 builds.
+        else {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x64
+            } else {
+              DESTDIR = release/x64
+            }
+        }
+    } else {
+        # Make sure we enable C++14 support.
+        QMAKE_CXXFLAGS += -std=c++14
+
+        # Set binary's output folder.
+        # This is for x86 builds.
+        !contains(QMAKE_HOST.arch, x86_64) {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x86
+            } else {
+              DESTDIR = release/x86
+            }
+        }
+        # This is for x64 builds.
+        else {
+            CONFIG(debug, debug|release) {
+              DESTDIR = debug/x64
+            } else {
+              DESTDIR = release/x64
+            }
         }
     }
 }
