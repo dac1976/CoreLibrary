@@ -35,11 +35,11 @@ namespace threads
 // ****************************************************************************
 // 'class EventThread' definition
 // ****************************************************************************
-EventThread::EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs,
-                         bool delayedStart)
-    : core_lib::threads::ThreadBase()
-    , m_eventCallback(eventCallback)
-    , m_eventPeriodMillisecs(eventPeriodMillisecs)
+EventThread::EventThread(event_callback_t const& eventCallback, unsigned int eventPeriod,
+                         bool delayedStart, eWaitTimeUnit timeUnit)
+    : m_eventCallback(eventCallback)
+    , m_eventPeriod(eventPeriod)
+    , m_timeUnit(timeUnit)
 {
     if (!delayedStart)
     {
@@ -52,16 +52,23 @@ EventThread::~EventThread()
     Stop();
 }
 
-void EventThread::EventPeriod(unsigned int eventPeriodMillisecs)
+void EventThread::EventPeriod(unsigned int eventPeriod, eWaitTimeUnit timeUnit)
 {
-    std::lock_guard<std::mutex> lock(m_eventTickMutex);
-    m_eventPeriodMillisecs = eventPeriodMillisecs;
+    std::lock_guard<std::mutex> lock(m_eventPeriodMutex);
+    m_eventPeriod = eventPeriod;
+    m_timeUnit    = timeUnit;
 }
 
-unsigned int EventThread::EventPeriod() const
+unsigned int EventThread::EventPeriod(eWaitTimeUnit* timeUnit) const
 {
-    std::lock_guard<std::mutex> lock(m_eventTickMutex);
-    return m_eventPeriodMillisecs;
+    std::lock_guard<std::mutex> lock(m_eventPeriodMutex);
+
+    if (nullptr != timeUnit)
+    {
+        *timeUnit = m_timeUnit;
+    }
+
+    return m_eventPeriod;
 }
 
 void EventThread::ForceTick()
@@ -84,7 +91,9 @@ void EventThread::ThreadIteration() NO_EXCEPT_
 		// Do nothing.
 	}
 	
-    m_updateEvent.WaitForTime(EventPeriod());
+    eWaitTimeUnit timeUnit;
+    auto          period = EventPeriod(&timeUnit);
+    m_updateEvent.WaitForTime(period, timeUnit);
 }
 
 void EventThread::ProcessTerminationConditions() NO_EXCEPT_
