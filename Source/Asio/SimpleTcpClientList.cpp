@@ -34,22 +34,28 @@ namespace tcp
 
 SimpleTcpClientList::SimpleTcpClientList(
     boost_iocontext_t& ioContext, defs::default_message_dispatcher_t const& messageDispatcher,
-    eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount)
+    eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount,
+    size_t sendPoolMsgSize, size_t recvPoolMsgSize)
     : m_ioContextPtr(&ioContext)
     , m_messageDispatcher(messageDispatcher)
     , m_sendOption(sendOption)
     , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
     , m_memPoolMsgCount(memPoolMsgCount)
+    , m_sendPoolMsgSize(sendPoolMsgSize)
+    , m_recvPoolMsgSize(recvPoolMsgSize)
 {
 }
 
 SimpleTcpClientList::SimpleTcpClientList(
     defs::default_message_dispatcher_t const& messageDispatcher, eSendOption sendOption,
-    size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount)
+    size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount, size_t sendPoolMsgSize,
+    size_t recvPoolMsgSize)
     : m_messageDispatcher(messageDispatcher)
     , m_sendOption(sendOption)
     , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
     , m_memPoolMsgCount(memPoolMsgCount)
+    , m_sendPoolMsgSize(sendPoolMsgSize)
+    , m_recvPoolMsgSize(recvPoolMsgSize)
 {
 }
 
@@ -276,7 +282,9 @@ auto SimpleTcpClientList::CreateTcpClient(defs::connection_t const& server) -> c
                                                       m_messageDispatcher,
                                                       m_sendOption,
                                                       m_maxAllowedUnsentAsyncMessages,
-                                                      m_memPoolMsgCount);
+                                                      m_memPoolMsgCount,
+                                                      m_sendPoolMsgSize,
+                                                      m_recvPoolMsgSize);
     }
     else
     {
@@ -284,7 +292,9 @@ auto SimpleTcpClientList::CreateTcpClient(defs::connection_t const& server) -> c
                                                       m_messageDispatcher,
                                                       m_sendOption,
                                                       m_maxAllowedUnsentAsyncMessages,
-                                                      m_memPoolMsgCount);
+                                                      m_memPoolMsgCount,
+                                                      m_sendPoolMsgSize,
+                                                      m_recvPoolMsgSize);
     }
 
     m_clientMap[server] = clientPtr;

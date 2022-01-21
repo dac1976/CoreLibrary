@@ -42,7 +42,8 @@ namespace tcp
 TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages)
+                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
+                     size_t sendPoolMsgSize)
     : m_ioContext(ioContext)
     , m_strand{ioContext}
     , m_listenPort{listenPort}
@@ -51,6 +52,7 @@ TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t m
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
     , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
+    , m_sendPoolMsgSize(sendPoolMsgSize)
 {
     OpenAcceptor();
 }
@@ -58,7 +60,8 @@ TcpServer::TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t m
 TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
                      const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                      const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages)
+                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
+                     size_t sendPoolMsgSize)
     : m_ioThreadGroup{new IoContextThreadGroup(2)}
     , m_ioContext(m_ioThreadGroup->IoContext())
     , m_strand{m_ioThreadGroup->IoContext()}
@@ -68,6 +71,7 @@ TcpServer::TcpServer(uint16_t listenPort, size_t minAmountToRead,
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
     , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
+    , m_sendPoolMsgSize(sendPoolMsgSize)
 {
     OpenAcceptor();
 }
@@ -152,7 +156,8 @@ void TcpServer::AcceptConnection()
                                                       m_checkBytesLeftToRead,
                                                       m_messageReceivedHandler,
                                                       m_sendOption,
-                                                      m_maxAllowedUnsentAsyncMessages);
+                                                      m_maxAllowedUnsentAsyncMessages,
+                                                      m_sendPoolMsgSize);
     m_acceptor->async_accept(
         connection->Socket(),
         boost::asio::bind_executor(

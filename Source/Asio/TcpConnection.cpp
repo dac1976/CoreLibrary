@@ -37,50 +37,16 @@ namespace asio
 {
 namespace tcp
 {
-	
-// Special "lightweight" object to pass to IO service to remove any
-// unintended deep vector copies from occurring when sending async
-// messages.
-class AsyncSendCallableObj final
-{
-    using async_send_t = std::function<void(defs::char_buffer_t const&)>;
-
-public:
-    AsyncSendCallableObj()                            = default;
-    ~AsyncSendCallableObj()                           = default;
-    AsyncSendCallableObj(AsyncSendCallableObj const&) = default;
-    AsyncSendCallableObj(AsyncSendCallableObj&&)      = default;
-    AsyncSendCallableObj& operator=(AsyncSendCallableObj const&) = default;
-    AsyncSendCallableObj& operator=(AsyncSendCallableObj&&) = default;
-
-    AsyncSendCallableObj(defs::char_buffer_t const& message, async_send_t const& sendFn)
-        : messageBufPtr(std::make_shared<defs::char_buffer_t>(message))
-        , asyncSendFn(sendFn)
-    {
-    }
-
-    void operator()() const
-    {
-        if (asyncSendFn && messageBufPtr && !messageBufPtr->empty())
-        {
-            asyncSendFn(*messageBufPtr);
-        }
-    }
-
-private:
-    std::shared_ptr<defs::char_buffer_t> messageBufPtr;
-    async_send_t                         asyncSendFn;
-};
 
 // ****************************************************************************
 // 'class TcpConnection' definition
 // ****************************************************************************
 TcpConnection::TcpConnection(boost_iocontext_t& ioContext, TcpConnections& connections,
                              size_t                                  minAmountToRead,
-                             const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                             const defs::message_received_handler_t& messageReceivedHandler,
-                             eSendOption                             sendOption, 
-							 size_t maxAllowedUnsentAsyncMessages)
+                             defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+                             defs::message_received_handler_t const& messageReceivedHandler,
+                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
+                             size_t sendPoolMsgSize)
     : m_closing{false}
     , m_strand{ioContext}
     , m_connections(connections)
@@ -88,9 +54,11 @@ TcpConnection::TcpConnection(boost_iocontext_t& ioContext, TcpConnections& conne
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_sendOption{sendOption}
-	, m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
+    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
     , m_socket{ioContext}
 {
+    InitialiseMsgPool(maxAllowedUnsentAsyncMessages, sendPoolMsgSize);
+
     m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
     m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
 }
@@ -245,21 +213,33 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
 
 bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 {
-	if (IncrementUnsentAsyncCounter())
+    try
     {
-		 AsyncSendCallableObj callableObj(
-            message, boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), message));
+        std::pair<msg_ptr_t, size_t> msgItem;
 
-        // Wrap in a strand to make sure we don't get weird issues
-        // with the send event signalling and waiting. As we're
-        // sending async in this case so we could get another
-        // call to this method before the original async write
-        // has completed.
-        m_strand.post(callableObj);
-	    return true;
-	}
-	
-	return false;
+        if (GetNewMessgeObject(msgItem, message))
+        {
+            // Send message asynchronously. Note that we pass
+            // a copy of the std::pair<msg_ptr_t, size_t> to the
+            // completion handler so that the message pointer
+            // stays in scope until the write completes.
+            boost_asio::async_write(m_socket,
+                                    boost_asio::buffer(*msgItem.first),
+                                    m_strand.wrap(boost::bind(&TcpConnection::AyncWriteComplete,
+                                                              shared_from_this(),
+                                                              boost_placeholders::error,
+                                                              boost_placeholders::bytes_transferred,
+                                                              message.size(),
+                                                              msgItem)));
+            return true;
+        }
+    }
+    catch (...)
+    {
+        // Consume error...do nothing.
+    }
+
+    return false;
 }
 
 bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
@@ -287,52 +267,130 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
 
 size_t TcpConnection::NumberOfUnsentAsyncMessages() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
     return m_numUnsentAsyncMessages;
 }
 
-void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t const& message)
+void TcpConnection::AyncWriteComplete(const boost_sys::error_code& error, size_t bytesSent,
+                                      size_t                       bytesExpected,
+                                      std::pair<msg_ptr_t, size_t> msgBufDetails)
 {
-    size_t bytesSent;
+    bool destroySelf = false;
 
-    try
+    if (error)
     {
-        bytesSent = boost_asio::write(m_socket, boost_asio::buffer(message));
+        destroySelf = true;
     }
-    catch (...)
+    else if (bytesSent != bytesExpected)
     {
-        bytesSent = 0;
+        destroySelf = true;
     }
-	
-	DecrementUnsentAsyncCounter();
 
-    if (bytesSent != message.size())
+    DecrementUnsentAsyncCounter(msgBufDetails.second);
+
+    if (destroySelf)
     {
         DestroySelf();
     }
 }
 
-bool TcpConnection::IncrementUnsentAsyncCounter()
+void TcpConnection::DecrementUnsentAsyncCounter(size_t messagePoolIndex)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-
-    if (m_numUnsentAsyncMessages < m_maxAllowedUnsentAsyncMessages)
-    {
-        ++m_numUnsentAsyncMessages;
-        return true;
-    }
-
-    return false;
-}
-
-void TcpConnection::DecrementUnsentAsyncCounter()
-{
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
 
     if (m_numUnsentAsyncMessages > 0)
     {
         --m_numUnsentAsyncMessages;
     }
+
+    // If we are using a message pool
+    // put this index back onto the queue
+    // of available pool indices.
+    if (!m_msgPool.empty())
+    {
+        m_availablePoolIndices.push_back(messagePoolIndex);
+    }
+}
+
+void TcpConnection::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize)
+{
+    m_availablePoolIndices.clear();
+
+    if ((0 == memPoolMsgCount) || (0 == defaultMsgSize))
+    {
+        m_msgPool.clear();
+        return;
+    }
+
+    m_msgPool.resize(memPoolMsgCount);
+    size_t index = 0;
+
+    auto generateMsg = [defaultMsgSize, &index, this]() {
+        auto msg = std::make_shared<defs::char_buffer_t>();
+
+        if (defaultMsgSize > 0)
+        {
+            msg->reserve(defaultMsgSize);
+        }
+
+        m_availablePoolIndices.push_back(index++);
+
+        return msg;
+    };
+
+    std::generate(m_msgPool.begin(), m_msgPool.end(), generateMsg);
+}
+
+bool TcpConnection::GetNewMessgeObject(std::pair<msg_ptr_t, size_t>& msgItem,
+                                       defs::char_buffer_t const&    sourceMsg)
+{
+    if (m_msgPool.empty())
+    {
+        // Reduce mutex scope.
+        {
+            std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
+
+            if (m_numUnsentAsyncMessages == m_maxAllowedUnsentAsyncMessages)
+            {
+                return false;
+            }
+
+            ++m_numUnsentAsyncMessages;
+        }
+
+        // Create new dynamic message and initialise it with the source message.
+        msgItem.second = 0;
+        msgItem.first  = std::make_shared<defs::char_buffer_t>(sourceMsg);
+    }
+    else
+    {
+        // Reduce mutex scope.
+        {
+            std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
+
+            if (m_availablePoolIndices.empty())
+            {
+                // No message pool slots available at the moment.
+                return false;
+            }
+
+            ++m_numUnsentAsyncMessages;
+
+            // Get message index to use.
+            msgItem.second = m_availablePoolIndices.front();
+
+            // Remove index from queue of usable pool indices.
+            m_availablePoolIndices.pop_front();
+
+            // Get pointer to usable message buffer.
+            msgItem.first = m_msgPool[msgItem.second];
+        }
+
+        // Initialise pool message with copy of source message.
+        msgItem.first->assign(sourceMsg.begin(), sourceMsg.end());
+    }
+
+    return true;
 }
 
 } // namespace tcp

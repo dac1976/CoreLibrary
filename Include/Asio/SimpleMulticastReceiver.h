@@ -57,14 +57,16 @@ public:
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
-	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
+     * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
      *                              defaults to 0, which implies no pool used.
+     * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
+     *                              when memPoolMsgCount > 0.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO context. This is the recommended constructor.
-	 *
+     *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
      * in the dispatcher to process the messages as quickly as possibly so the pool
@@ -76,7 +78,8 @@ public:
                             const defs::default_message_dispatcher_t& messageDispatcher,
                             const std::string&                        interfaceAddress = "",
                             size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-                            size_t memPoolMsgCount   = 0);
+                            size_t memPoolMsgCount   = 0,
+                            size_t recvPoolMsgSize   = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address
@@ -84,14 +87,16 @@ public:
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] interfaceAddress - Optional interface IP address for incoming network messages.
      * \param[in] receiveBufferSize - Optional socket receive option to control receive buffer size.
-	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
+     * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
      *                              defaults to 0, which implies no pool used.
+     * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
+     *                              when memPoolMsgCount > 0.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
      * external IO context constructor is recommended.
-	 *
+     *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
      * in the dispatcher to process the messages as quickly as possibly so the pool
@@ -102,7 +107,8 @@ public:
                             const defs::default_message_dispatcher_t& messageDispatcher,
                             const std::string&                        interfaceAddress = "",
                             size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-                            size_t memPoolMsgCount   = 0);
+                            size_t memPoolMsgCount   = 0,
+                            size_t recvPoolMsgSize   = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*! \brief Copy constructor - deleted. */
     SimpleMulticastReceiver(const SimpleMulticastReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */

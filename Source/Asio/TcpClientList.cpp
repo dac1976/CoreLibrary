@@ -36,25 +36,29 @@ namespace tcp
 TcpClientList::TcpClientList(boost_iocontext_t& ioContext, size_t minAmountToRead,
                              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                              defs::message_received_handler_t const& messageReceivedHandler,
-                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages)
+                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
+                             size_t sendPoolMsgSize)
     : m_ioContextPtr(&ioContext)
     , m_minAmountToRead(minAmountToRead)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
     , m_messageReceivedHandler(messageReceivedHandler)
     , m_sendOption(sendOption)
     , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
+    , m_sendPoolMsgSize(sendPoolMsgSize)
 {
 }
 
 TcpClientList::TcpClientList(size_t                                  minAmountToRead,
                              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                              defs::message_received_handler_t const& messageReceivedHandler,
-                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages)
+                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
+                             size_t sendPoolMsgSize)
     : m_minAmountToRead(minAmountToRead)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
     , m_messageReceivedHandler(messageReceivedHandler)
     , m_sendOption(sendOption)
     , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
+    , m_sendPoolMsgSize(sendPoolMsgSize)
 {
 }
 
@@ -195,7 +199,8 @@ auto TcpClientList::CreateTcpClient(defs::connection_t const& server) -> client_
                                                 m_checkBytesLeftToRead,
                                                 m_messageReceivedHandler,
                                                 m_sendOption,
-                                                m_maxAllowedUnsentAsyncMessages);
+                                                m_maxAllowedUnsentAsyncMessages,
+                                                m_sendPoolMsgSize);
     }
     else
     {
@@ -204,7 +209,8 @@ auto TcpClientList::CreateTcpClient(defs::connection_t const& server) -> client_
                                                 m_checkBytesLeftToRead,
                                                 m_messageReceivedHandler,
                                                 m_sendOption,
-                                                m_maxAllowedUnsentAsyncMessages);
+                                                m_maxAllowedUnsentAsyncMessages,
+                                                m_sendPoolMsgSize);
     }
 
     m_clientMap[server] = clientPtr;

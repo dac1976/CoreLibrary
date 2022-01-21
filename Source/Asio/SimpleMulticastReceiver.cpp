@@ -39,9 +39,12 @@ namespace udp
 SimpleMulticastReceiver::SimpleMulticastReceiver(
     boost_iocontext_t& ioContext, const defs::connection_t& multicastConnection,
     const defs::default_message_dispatcher_t& messageDispatcher,
-    const std::string& interfaceAddress, size_t receiveBufferSize,
-                            size_t memPoolMsgCount)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
+    const std::string& interfaceAddress, size_t receiveBufferSize, size_t memPoolMsgCount,
+    size_t recvPoolMsgSize)
+    : m_messageHandler{messageDispatcher,
+                       defs::DEFAULT_MAGIC_STRING,
+                       memPoolMsgCount,
+                       recvPoolMsgSize}
     , m_mcastReceiver{ioContext,
                       multicastConnection,
                       std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
@@ -56,9 +59,12 @@ SimpleMulticastReceiver::SimpleMulticastReceiver(
 SimpleMulticastReceiver::SimpleMulticastReceiver(
     const defs::connection_t&                 multicastConnection,
     const defs::default_message_dispatcher_t& messageDispatcher,
-    const std::string& interfaceAddress, size_t receiveBufferSize,
-                            size_t memPoolMsgCount)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
+    const std::string& interfaceAddress, size_t receiveBufferSize, size_t memPoolMsgCount,
+    size_t recvPoolMsgSize)
+    : m_messageHandler{messageDispatcher,
+                       defs::DEFAULT_MAGIC_STRING,
+                       memPoolMsgCount,
+                       recvPoolMsgSize}
     , m_mcastReceiver{multicastConnection,
                       std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
                                 std::placeholders::_1),

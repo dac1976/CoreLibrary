@@ -148,6 +148,13 @@ enum class eMulticastTTL
 namespace defs
 {
 
+/*! \brief This is the default/initial reserved message size for each message on the recevie mesasge
+ *         pool (if pool is used) */
+enum eDefRecvPoolMsgSize : size_t
+{
+    RECV_POOL_DEFAULT_MSG_SIZE = 8192
+};
+
 /*! \brief Typedef describing a network connection as (address, port). */
 using connection_t = std::pair<std::string, uint16_t>;
 /*! \brief Constant defining a null network connection as ("0.0.0.0", 0). */

@@ -56,6 +56,10 @@ public:
      * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
      *                              handling, defaults to 0, which implies no pool used.
+     * \param[in] sendPoolMsgSize - Default size of message in async send pool. Set to 0 to not
+     *                              use the pool and instead use dynamic allocation.
+     * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
+     *                              when memPoolMsgCount > 0.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asioIoServoceThreadGroup in your application to manage a pool of std::threads.
@@ -72,7 +76,8 @@ public:
                     const defs::default_message_dispatcher_t& messageDispatcher,
                     eSendOption                               sendOption = eSendOption::nagleOn,
                     size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
-                    size_t memPoolMsgCount               = 0);
+                    size_t memPoolMsgCount = 0, size_t sendPoolMsgSize = 0,
+                    size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
@@ -81,6 +86,10 @@ public:
      * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
      * \param[in] memPoolMsgCount - Number of messages (per client) in pool for received message
      *                              handling, defaults to 0, which implies no pool used.
+     * \param[in] sendPoolMsgSize - Default size of message in async send pool. Set to 0 to not
+     *                              use the pool and instead use dynamic allocation.
+     * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
+     *                              when memPoolMsgCount > 0.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
@@ -97,7 +106,8 @@ public:
                     const defs::default_message_dispatcher_t& messageDispatcher,
                     eSendOption                               sendOption = eSendOption::nagleOn,
                     size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
-                    size_t memPoolMsgCount               = 0);
+                    size_t memPoolMsgCount = 0, size_t sendPoolMsgSize = 0,
+                    size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*! \brief Default destructor. */
     ~SimpleTcpClient() = default;
     /*! \brief Copy constructor - deleted. */
@@ -131,8 +141,9 @@ public:
     /*!
      * \brief Send a header-only message to the server asynchronously.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the
-     * response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     *                              response, the default value will mean the response address
+     *                               will point to this server socket.
      * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool
@@ -141,8 +152,9 @@ public:
     /*!
      * \brief Send a header-only message to the server synchronously.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the
-     * response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     *                              response, the default value will mean the response address
+     *                               will point to this server socket.
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessageToServerSync(int32_t                   messageId,
@@ -151,8 +163,9 @@ public:
      * \brief Send a header plus message buffer to the server asynchronously.
      * \param[in] message - Message buffer.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the
-     * response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     *                              response, the default value will mean the response address
+     *                               will point to this server socket.
      * \return Returns the success state of whether the message was posted to the send queue.
      */
     bool
@@ -162,8 +175,9 @@ public:
      * \brief Send a header plus message buffer to the server synchronously.
      * \param[in] message - Message buffer.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the
-     * response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     *                              response, the default value will mean the response address
+     *                               will point to this server socket.
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessageToServerSync(const defs::char_buffer_t& message, int32_t messageId,
@@ -171,10 +185,11 @@ public:
     /*!
      * \brief Send a full message to the server asynchronously.
      * \param[in] message - The message of type T to send behind the header serialized to an
-     * boost::serialization-compatible archive of type A.
+     *            boost::serialization-compatible archive of type A.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the
-     * response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     *                              response, the default value will mean the response address
+     *                               will point to this server socket.
      * \return Returns the success state of whether the message was posted to the send queue.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
@@ -186,10 +201,11 @@ public:
     /*!
      * \brief Send a full message to the server synchronously.
      * \param[in] message - The message of type T to send behind the header serialized to an
-     * boost::serialization-compatible archive of type A.
+     *            boost::serialization-compatible archive of type A.
      * \param[in] messageId - Unique message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the server should send the
-     * response, the default value will mean the response address will point to this client socket.
+     * \param[in] responseAddress - (Optional) The address and port where the client should send a
+     *                              response, the default value will mean the response address
+     *                               will point to this server socket.
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>

@@ -29,7 +29,10 @@
 
 #include "AsioDefines.h"
 #include "Threads/SyncEvent.h"
+#include <memory>
 #include <mutex>
+#include <deque>
+#include <utility>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -52,24 +55,30 @@ class TcpConnections;
 class CORE_LIBRARY_DLL_SHARED_API TcpConnection final
     : public std::enable_shared_from_this<TcpConnection>
 {
+    using msg_ptr_t  = std::shared_ptr<defs::char_buffer_t>;
+    using msg_pool_t = std::vector<msg_ptr_t>;
+
 public:
     /*! \brief Default constructor - deleted. */
     TcpConnection() = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - Reference to I/O context.
+     * \param[in] ioService - Reference to I/O service.
      * \param[in] connections - Reference to TCP connections object.
      * \param[in] minAmountToRead - Minimum amount to read.
      * \param[in] checkBytesLeftToRead - Check bytes left to read callback.
      * \param[in] messageReceivedHandler - Message received handler callback.
      * \param[in] sendOption - Socket send option.
-	 * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
+     * and instead use dynamic allocation.
      */
     TcpConnection(boost_iocontext_t& ioContext, TcpConnections& connections, size_t minAmountToRead,
-                  const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                  const defs::message_received_handler_t& messageReceivedHandler,
+                  defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+                  defs::message_received_handler_t const& messageReceivedHandler,
                   eSendOption                             sendOption = eSendOption::nagleOn,
-				  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
+                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
+                  size_t sendPoolMsgSize                             = 0);
     /*! \brief Copy constructor deleted. */
     TcpConnection(const TcpConnection&) = delete;
     /*! \brief Copy assignment operator - deleted. */
@@ -102,7 +111,7 @@ public:
     /*!
      * \brief Send an asynchronous message.
      * \param[in] message - Message buffer to send.
-	 * \return Returns true if posted async message, retruns false if failed to post message.
+     * \return Returns true if posted async message, retruns false if failed to post message.
      */
     bool SendMessageAsync(const defs::char_buffer_t& message);
     /*!
@@ -111,7 +120,7 @@ public:
      * \return True if sent successfully, false otherwise.
      */
     bool SendMessageSync(const defs::char_buffer_t& message);
-	/*!
+    /*!
      * \brief Get number of unsent async messages.
      * \return Number of pending queued async messages
      */
@@ -146,21 +155,42 @@ private:
     void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived,
                       size_t bytesExpected);
     /*!
-     * \brief Asynchronously write to the socket.
-     * \param[in] message - Message buffer to write.
+     * \brief Async write completion handler.
+     * \param[in] error - Error flag if fault occurred.
+     * \param[in] bytesSent - Number of bytes sent.
+     * \param[in] bytesExpected - Number of bytes expected.
+     * \param[in] msgBufDetails - A reference counted copy of the
+     *                        sent message buffer to make it
+     *                        stay in scope until the async
+     *                        send completes.
      */
-    void AsyncWriteToSocket(defs::char_buffer_t const& message);
-	/*!
-     * \brief Increment unsent async message counter.
-     * \return Returns success flag based on whether we can increment.
+    void AyncWriteComplete(const boost_sys::error_code& error, size_t bytesSent,
+                           size_t bytesExpected, std::pair<msg_ptr_t, size_t> msgBufDetails);
+    /*!
+     *  \brief Decrement unsent async message counter.
+     *  \param[in] messagePoolIndex - The message pool index that can now be reused.
      */
-    bool IncrementUnsentAsyncCounter();
-    /*! \brief Decrement unsent async message counter. */
-    void DecrementUnsentAsyncCounter();
+    void DecrementUnsentAsyncCounter(size_t messagePoolIndex);
+    /*!
+     * \brief Initialise message pool.
+     * \param[in] memPoolMsgCount - Pool size as number of messages.
+     * \param[in] defaultMsgSize - Initial size of a message in the pool.
+     */
+    void InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize);
+    /*!
+     * \brief Get next message to use from pool
+     * \param[in] msgItem - Pointer to message item and its pool index if using a pool.
+     * \param[in] sourceMsg - Reference to source message to copy into message item.
+     * \return Could a valid message item could be obtained?
+     */
+    bool GetNewMessgeObject(std::pair<msg_ptr_t, size_t>& msgItem,
+                            defs::char_buffer_t const&    sourceMsg);
 
 private:
     /*! \brief Access mutex for thread safety. */
     mutable std::mutex m_mutex;
+    /*! \brief Access mutex for thread safety. */
+    mutable std::mutex m_asyncPoolMutex;
     /*! \brief Connection close event. */
     threads::SyncEvent m_closedEvent{};
     /*! \brief Closing connection flag. */
@@ -181,10 +211,14 @@ private:
     defs::char_buffer_t m_receiveBuffer{};
     /*! \brief Message buffer. */
     defs::char_buffer_t m_messageBuffer{};
-	/*! \brief Max allowed unsent async message counter. */
+    /*! \brief Max allowed unsent async message counter. */
     size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
     /*! \brief Unsent async message counter. */
     size_t m_numUnsentAsyncMessages{0};
+    /*! \brief Positions in message pool. */
+    std::deque<size_t> m_availablePoolIndices;
+    /*! \brief Async message pool. */
+    msg_pool_t m_msgPool;
     /*! \brief TCP socket. */
     boost_tcp_t::socket m_socket;
 };

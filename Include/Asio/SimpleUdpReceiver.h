@@ -49,44 +49,48 @@ public:
     SimpleUdpReceiver() = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] receiveOptions - Socket receive option to control the use of broadcasts/unicast.
      * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
-	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
+     * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
      *                              defaults to 0, which implies no pool used.
+     * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
+     *                              when memPoolMsgCount > 0.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
-	 *
+     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be exectued
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
-     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * in the dispatcher to use process the messages as quickly as possibly so the pool
      * doesn't fill and start overwriting older messages. If the messages need to be kept
      * then it is the dispatchers job to make a suitable copy of the received message.
      */
     SimpleUdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
                       const defs::default_message_dispatcher_t& messageDispatcher,
-                      eUdpOption receiveOptions    = eUdpOption::broadcast,
-                      size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-                      size_t memPoolMsgCount   = 0);
+                      eUdpOption receiveOptions = eUdpOption::broadcast,
+                      size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, size_t memPoolMsgCount = 0,
+                      size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
      * \param[in] receiveOptions - Socket receive option to control the use of broadcasts/unicast.
      * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
-	 * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
+     * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
      *                              defaults to 0, which implies no pool used.
+     * \param[in] recvPoolMsgSize - Default size of message in received
+     *                              message pool. Only used when memPoolMsgCount > 0.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
      * external IO context constructor is recommend.
-	 *
+     *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
      * in the dispatcher to process the messages as quickly as possibly so the pool
@@ -95,9 +99,9 @@ public:
      */
     SimpleUdpReceiver(uint16_t                                  listenPort,
                       const defs::default_message_dispatcher_t& messageDispatcher,
-                      eUdpOption receiveOptions    = eUdpOption::broadcast,
-                      size_t     receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-                      size_t memPoolMsgCount   = 0);
+                      eUdpOption receiveOptions = eUdpOption::broadcast,
+                      size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, size_t memPoolMsgCount = 0,
+                      size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*! \brief Copy constructor - deleted. */
     SimpleUdpReceiver(const SimpleUdpReceiver&) = delete;
     /*! \brief Copy assignment operator - deleted. */

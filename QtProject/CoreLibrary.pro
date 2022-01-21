@@ -93,6 +93,7 @@ UI_DIR = $${DESTDIR}/ui
 
 HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Asio/IoContextThreadGroup.h           \
+    ../Include/Asio/MemoryUtils.h \
     ../Include/Asio/MessageUtils.h                   \
     ../Include/Asio/SimpleTcpClient.h                \
     ../Include/Asio/SimpleTcpClientList.h            \

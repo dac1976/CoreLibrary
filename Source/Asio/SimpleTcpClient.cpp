@@ -42,9 +42,13 @@ namespace tcp
 // ****************************************************************************
 SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption                               sendOption,
-								 size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
+                                 eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
+                                 size_t memPoolMsgCount, size_t sendPoolMsgSize,
+                                 size_t recvPoolMsgSize)
+    : m_messageHandler{messageDispatcher,
+                       defs::DEFAULT_MAGIC_STRING,
+                       memPoolMsgCount,
+                       recvPoolMsgSize}
     , m_tcpTypedClient{ioContext,
                        server,
                        sizeof(defs::MessageHeader),
@@ -54,15 +58,20 @@ SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::conne
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
                        sendOption,
-					   maxAllowedUnsentAsyncMessages}
+                       maxAllowedUnsentAsyncMessages,
+                       sendPoolMsgSize}
 {
 }
 
 SimpleTcpClient::SimpleTcpClient(const defs::connection_t&                 server,
                                  const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption                               sendOption,
-								 size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount)
-    : m_messageHandler{messageDispatcher, defs::DEFAULT_MAGIC_STRING, memPoolMsgCount}
+                                 eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
+                                 size_t memPoolMsgCount, size_t sendPoolMsgSize,
+                                 size_t recvPoolMsgSize)
+    : m_messageHandler{messageDispatcher,
+                       defs::DEFAULT_MAGIC_STRING,
+                       memPoolMsgCount,
+                       recvPoolMsgSize}
     , m_tcpTypedClient{server,
                        sizeof(defs::MessageHeader),
                        std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
@@ -71,7 +80,8 @@ SimpleTcpClient::SimpleTcpClient(const defs::connection_t&                 serve
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
                        sendOption,
-					   maxAllowedUnsentAsyncMessages}
+                       maxAllowedUnsentAsyncMessages,
+                       sendPoolMsgSize}
 {
 }
 

@@ -64,15 +64,17 @@ public:
      * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] server - Connection object describing target server's address and port.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     * header block.
+     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
-     * computing how many bytes are left until a complete message.
+     *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
-     * dispatching it accordingly.
+     *            dispatching it accordingly.
      * \param[in] messageBuilder - A const reference to our persistent message builder object of
-     * type MsgBldr.
+     *            type MsgBldr.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
+     *            and instead use dynamic allocation.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
@@ -84,7 +86,8 @@ public:
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
                    const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
-                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
+                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
+                   size_t sendPoolMsgSize               = 0)
         : m_messageBuilder{messageBuilder}
         , m_tcpClient{ioContext,
                       server,
@@ -92,21 +95,27 @@ public:
                       checkBytesLeftToRead,
                       messageReceivedHandler,
                       sendOption,
-                      maxAllowedUnsentAsyncMessages}
+                      maxAllowedUnsentAsyncMessages,
+                      sendPoolMsgSize}
     {
     }
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     * header block.
+     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
-     * computing how many bytes are left until a complete message.
+     *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     * and dispatching it accordingly. \param[in] messageBuilder - A message builder object of type
-     * MsgBldr. \param[in] sendOption - Socket send option to control the use of the Nagle
-     * algorithm. \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async
-     * messages.
+     *            and dispatching it accordingly.
+     * \param[in] messageBuilder - A message builder object of type
+     *            MsgBldr.
+     * \param[in] sendOption - Socket send option to control the use of the Nagle
+     *            algorithm.
+     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async
+     *            messages.
+     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
+     *            and instead use dynamic allocation.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
@@ -117,14 +126,16 @@ public:
                    const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                    const defs::message_received_handler_t& messageReceivedHandler,
                    const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
-                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT)
+                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
+                   size_t sendPoolMsgSize               = 0)
         : m_messageBuilder{messageBuilder}
         , m_tcpClient{server,
                       minAmountToRead,
                       checkBytesLeftToRead,
                       messageReceivedHandler,
                       sendOption,
-                      maxAllowedUnsentAsyncMessages}
+                      maxAllowedUnsentAsyncMessages,
+                      sendPoolMsgSize}
     {
     }
     /*! \brief Default destructor. */

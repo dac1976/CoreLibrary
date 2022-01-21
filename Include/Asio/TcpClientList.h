@@ -64,14 +64,15 @@ public:
      * \brief Initialisation constructor.
      * \param[in] ioContext - External boost IO context to manage ASIO.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     * header block.
+     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
-     * computing how many bytes are left until a complete message.
+     *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     * and
-     * dispatching it accordingly.
+     *            and dispatching it accordingly.
      * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
+     *            and instead use dynamic allocation.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
      * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
@@ -82,18 +83,20 @@ public:
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
                   eSendOption                             sendOption = eSendOption::nagleOn,
-                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
+                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
+                  size_t sendPoolMsgSize                             = 0);
     /*!
      * \brief Initialisation constructor.
      * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     * header block.
+     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
-     * computing how many bytes are left until a complete message.
+     *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     * and dispatching it accordingly.
-     * \param[in] sendOption - Socket send option to control the use
-     * of the Nagle algorithm.
+     *            and dispatching it accordingly.
+     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
      * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
+     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
+     *            and instead use dynamic allocation.
      *
      * This constructor does not require an external IO context to run instead it creates
      * its own IO context object along with its own thread. For very simple cases this
@@ -104,7 +107,8 @@ public:
                   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                   defs::message_received_handler_t const& messageReceivedHandler,
                   eSendOption                             sendOption = eSendOption::nagleOn,
-                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT);
+                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
+                  size_t sendPoolMsgSize                             = 0);
     /*! \brief Default destructor. */
     ~TcpClientList();
     /*!
@@ -203,6 +207,8 @@ private:
     eSendOption m_sendOption{eSendOption::nagleOn};
     /*! \brief Max allowed unsent async message counter. */
     size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
+    /*! \brief Default message size if async send pool used. */
+    size_t m_sendPoolMsgSize{0};
     /*! \brief Map of TCP clients. */
     client_map_t m_clientMap{};
 };
