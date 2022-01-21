@@ -54,15 +54,35 @@ void SyncEvent::Wait()
     }
 }
 
-bool SyncEvent::WaitForTime(size_t milliseconds)
+bool SyncEvent::WaitForTime(unsigned int period, eWaitTimeUnit timeUnit)
 {
-    std::unique_lock<std::mutex> lock{m_signalMutex};
-    bool                         result = m_signalCondVar.wait_for(
-        lock, std::chrono::milliseconds(milliseconds), [this] { return m_signalFlag; });
+    std::unique_lock<std::mutex> lock(m_signalMutex);
+    bool                         result;
 
-    if (m_autoReset && m_signalFlag)
+    switch (timeUnit)
     {
-        m_signalFlag = false;
+    case eWaitTimeUnit::seconds:
+        result = m_signalCondVar.wait_for(
+            lock, std::chrono::seconds(period), [this] { return m_getCondition(); });
+        break;
+    case eWaitTimeUnit::microseconds:
+        result = m_signalCondVar.wait_for(
+            lock, std::chrono::microseconds(period), [this] { return m_getCondition(); });
+        break;
+    case eWaitTimeUnit::nanoseconds:
+        result = m_signalCondVar.wait_for(
+            lock, std::chrono::nanoseconds(period), [this] { return m_getCondition(); });
+        break;
+    case eWaitTimeUnit::milliseconds:
+    default:
+        result = m_signalCondVar.wait_for(
+            lock, std::chrono::milliseconds(period), [this] { return m_getCondition(); });
+        break;
+    }
+
+    if (m_autoReset && m_getCondition())
+    {
+        m_setCondition(false);
     }
 
     return result;

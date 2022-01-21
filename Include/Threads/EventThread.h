@@ -48,13 +48,12 @@ public:
     /*!
      * \brief EventThread constructor.
      * \param[in] eventCallback - Function object to be called when event ticks.
-     * \param[in] eventPeriodMillisecs - Period between signalling of the event.
-     * \param[in] delayedStart - (Optional) Delay startiong of the thread.
-     *
-     * If delayedStart == true then user must call EventThread::Start() themselves.
+     * \param[in] eventPeriod - Period between event being triggered.
+     * \param[in] delayedStart - When true user must called Start() manually.
+     * \param[in] timeUnit - The unit of time associated with the period.
      */
-    EventThread(event_callback_t const& eventCallback, unsigned int eventPeriodMillisecs,
-                bool delayedStart = false);
+    EventThread(event_callback_t const& eventCallback, unsigned int eventPeriod, bool delayedStart,
+                eWaitTimeUnit timeUnit = eWaitTimeUnit::milliseconds);
 
     /*! \brief EventThread destructor. */
     ~EventThread() override;
@@ -69,15 +68,17 @@ public:
     EventThread& operator=(EventThread&&) = delete;
 
     /*!
-     * \brief Set even thread's tick period.
-     * \param[in] eventPeriodMillisecs - Period between signalling of the event.
+     * \brief Set the time period between ticks of the event.
+     * \param[in] eventPeriod - Period between event being triggered.
+     * \param[in] timeUnit - The unit of time associated with the period.
      */
-    void EventPeriod(unsigned int eventPeriodMillisecs);
+    void EventPeriod(unsigned int  eventPeriod,
+                     eWaitTimeUnit timeUnit = eWaitTimeUnit::milliseconds);
     /*!
-     * \brief Set even threads tick period.
-     * \return Event tick.
+     * \brief Set the time period between ticks of the event.
+     * \return Period between event being triggered, in milliseconds.
      */
-    unsigned int EventPeriod() const;
+    unsigned int EventPeriod(eWaitTimeUnit* timeUnit = nullptr) const;
 
     /*! \brief Forces the thread to tick. */
     void ForceTick();
@@ -96,7 +97,9 @@ private:
     /*! \brief Callback fires on event.*/
     event_callback_t m_eventCallback{};
     /*! \brief Event tick period.*/
-    unsigned int m_eventPeriodMillisecs{0};
+    unsigned int m_eventPeriod{0};
+    /*! \brief Unit of time for tick period.*/
+    eWaitTimeUnit m_timeUnit{eWaitTimeUnit::milliseconds};
 };
 
 } // namespace threads

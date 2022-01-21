@@ -59,6 +59,16 @@ enum class eIntialCondition
     signalled
 };
 
+/*! \brief Enumeration defining units of time for the wait period. */
+enum class eWaitTimeUnit
+{
+    seconds,
+    milliseconds,
+    microseconds,
+    nanoseconds
+};
+
+
 /*!
  * \brief Class defining a thread synchronisation event.
  *
@@ -117,15 +127,20 @@ public:
     void Wait();
     /*!
      * \brief Wait for event for a period of time.
-     * \param[in] milliseconds - Number of milliseconds to wait.
+     * \param[in] period - Number of time units to wait.
+     * \param[in] timeUnit - The unit of time associated with the period.
      * \return true if signalled, false if timed out.
      *
      * Blocking function that waits until underlying condition
      * variable is signalled at which point this function returns
      * or if not signalled this function returns after a defined
      * number of milliseconds.
+     *
+     * If an external condition argument was specified in the
+     * constructor then the getter for that condition is used
+     * else we use the internally tracked condition.
      */
-    bool WaitForTime(size_t milliseconds);
+    bool WaitForTime(unsigned int period, eWaitTimeUnit timeUnit = eWaitTimeUnit::milliseconds);
     /*!
      * \brief Signal event.
      *
