@@ -275,20 +275,9 @@ void TcpConnection::AyncWriteComplete(const boost_sys::error_code& error, size_t
                                       size_t                       bytesExpected,
                                       std::pair<msg_ptr_t, size_t> msgBufDetails)
 {
-    bool destroySelf = false;
-
-    if (error)
-    {
-        destroySelf = true;
-    }
-    else if (bytesSent != bytesExpected)
-    {
-        destroySelf = true;
-    }
-
     DecrementUnsentAsyncCounter(msgBufDetails.second);
 
-    if (destroySelf)
+    if (error || (bytesSent != bytesExpected))
     {
         DestroySelf();
     }
