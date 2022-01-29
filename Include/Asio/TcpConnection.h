@@ -155,17 +155,11 @@ private:
     void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived,
                       size_t bytesExpected);
     /*!
-     * \brief Async write completion handler.
-     * \param[in] error - Error flag if fault occurred.
-     * \param[in] bytesSent - Number of bytes sent.
-     * \param[in] bytesExpected - Number of bytes expected.
-     * \param[in] msgBufDetails - A reference counted copy of the
-     *                        sent message buffer to make it
-     *                        stay in scope until the async
-     *                        send completes.
+     * \brief Asynchronously write to the socket.
+     * \param[in] message - Message buffer to write.
+     * \param[in] poolIndex - Message pool index.
      */
-    void AyncWriteComplete(const boost_sys::error_code& error, size_t bytesSent,
-                           size_t bytesExpected, std::pair<msg_ptr_t, size_t> msgBufDetails);
+    void AsyncWriteToSocket(defs::char_buffer_t const& message, size_t poolIndex);
     /*!
      *  \brief Decrement unsent async message counter.
      *  \param[in] messagePoolIndex - The message pool index that can now be reused.

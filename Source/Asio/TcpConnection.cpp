@@ -37,6 +37,45 @@ namespace asio
 {
 namespace tcp
 {
+	
+// Special "lightweight" object to pass to IO service to remove any
+// unintended deep vector copies from occurring when sending async
+// messages.
+class AsyncSendCallableObj final
+{
+    using async_send_t = std::function<void(defs::char_buffer_t const&, size_t)>;
+
+public:
+    AsyncSendCallableObj()                            = default;
+    ~AsyncSendCallableObj()                           = default;
+    AsyncSendCallableObj(AsyncSendCallableObj const&) = default;
+    AsyncSendCallableObj(AsyncSendCallableObj&&)      = default;
+    AsyncSendCallableObj& operator=(AsyncSendCallableObj const&) = default;
+    AsyncSendCallableObj& operator=(AsyncSendCallableObj&&) = default;
+
+    AsyncSendCallableObj(std::shared_ptr<defs::char_buffer_t> const& messageBufPtr, 
+	                     size_t poolIndex, 
+						 async_send_t const& sendFn)
+        : m_messageBufPtr(messageBufPtr)
+		, m_poolIndex(poolIndex)
+        , m_asyncSendFn(sendFn)
+    {
+    }
+
+    void operator()() const
+    {
+        if (m_asyncSendFn && m_messageBufPtr && !m_messageBufPtr->empty())
+        {
+            m_asyncSendFn(*m_messageBufPtr, m_poolIndex);
+        }
+    }
+
+private:
+    std::shared_ptr<defs::char_buffer_t> m_ messageBufPtr;
+	size_t m_poolIndex{0};
+    async_send_t                         m_asyncSendFn;
+};
+
 
 // ****************************************************************************
 // 'class TcpConnection' definition
@@ -219,18 +258,13 @@ bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 
         if (GetNewMessgeObject(msgItem, message))
         {
-            // Send message asynchronously. Note that we pass
-            // a copy of the std::pair<msg_ptr_t, size_t> to the
-            // completion handler so that the message pointer
-            // stays in scope until the write completes.
-            boost_asio::async_write(m_socket,
-                                    boost_asio::buffer(*msgItem.first),
-                                    m_strand.wrap(boost::bind(&TcpConnection::AyncWriteComplete,
-                                                              shared_from_this(),
-                                                              boost_placeholders::error,
-                                                              boost_placeholders::bytes_transferred,
-                                                              message.size(),
-                                                              msgItem)));
+			AsyncSendCallableObj callableObj(
+                msgItem.first, msgItem.second, 
+				boost::bind(&TcpConnection::AsyncWriteToSocket, 
+				            shared_from_this(), _1, _2));
+
+
+			m_strand.post(callableObj);
             return true;
         }
     }
@@ -269,6 +303,27 @@ size_t TcpConnection::NumberOfUnsentAsyncMessages() const
 {
     std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
     return m_numUnsentAsyncMessages;
+}
+
+void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t const& message, size_t poolIndex)
+{
+    size_t bytesSent;
+
+    try
+    {
+        bytesSent = boost_asio::write(m_socket, boost_asio::buffer(message));
+    }
+    catch (...)
+    {
+        bytesSent = 0;
+    }
+	
+	DecrementUnsentAsyncCounter(poolIndex);
+
+    if (bytesSent != message.size())
+    {
+        DestroySelf();
+    }
 }
 
 void TcpConnection::AyncWriteComplete(const boost_sys::error_code& error, size_t bytesSent,
