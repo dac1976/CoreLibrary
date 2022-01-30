@@ -37,7 +37,7 @@ namespace asio
 {
 namespace tcp
 {
-	
+
 // Special "lightweight" object to pass to IO service to remove any
 // unintended deep vector copies from occurring when sending async
 // messages.
@@ -53,11 +53,10 @@ public:
     AsyncSendCallableObj& operator=(AsyncSendCallableObj const&) = default;
     AsyncSendCallableObj& operator=(AsyncSendCallableObj&&) = default;
 
-    AsyncSendCallableObj(std::shared_ptr<defs::char_buffer_t> const& messageBufPtr, 
-	                     size_t poolIndex, 
-						 async_send_t const& sendFn)
+    AsyncSendCallableObj(std::shared_ptr<defs::char_buffer_t> const& messageBufPtr,
+                         size_t poolIndex, async_send_t const& sendFn)
         : m_messageBufPtr(messageBufPtr)
-		, m_poolIndex(poolIndex)
+        , m_poolIndex(poolIndex)
         , m_asyncSendFn(sendFn)
     {
     }
@@ -71,11 +70,10 @@ public:
     }
 
 private:
-    std::shared_ptr<defs::char_buffer_t> m_ messageBufPtr;
-	size_t m_poolIndex{0};
+    std::shared_ptr<defs::char_buffer_t> m_messageBufPtr;
+    size_t                               m_poolIndex{0};
     async_send_t                         m_asyncSendFn;
 };
-
 
 // ****************************************************************************
 // 'class TcpConnection' definition
@@ -258,13 +256,12 @@ bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 
         if (GetNewMessgeObject(msgItem, message))
         {
-			AsyncSendCallableObj callableObj(
-                msgItem.first, msgItem.second, 
-				boost::bind(&TcpConnection::AsyncWriteToSocket, 
-				            shared_from_this(), _1, _2));
+            AsyncSendCallableObj callableObj(
+                msgItem.first,
+                msgItem.second,
+                boost::bind(&TcpConnection::AsyncWriteToSocket, shared_from_this(), _1, _2));
 
-
-			m_strand.post(callableObj);
+            m_strand.post(callableObj);
             return true;
         }
     }
@@ -317,22 +314,10 @@ void TcpConnection::AsyncWriteToSocket(defs::char_buffer_t const& message, size_
     {
         bytesSent = 0;
     }
-	
-	DecrementUnsentAsyncCounter(poolIndex);
+
+    DecrementUnsentAsyncCounter(poolIndex);
 
     if (bytesSent != message.size())
-    {
-        DestroySelf();
-    }
-}
-
-void TcpConnection::AyncWriteComplete(const boost_sys::error_code& error, size_t bytesSent,
-                                      size_t                       bytesExpected,
-                                      std::pair<msg_ptr_t, size_t> msgBufDetails)
-{
-    DecrementUnsentAsyncCounter(msgBufDetails.second);
-
-    if (error || (bytesSent != bytesExpected))
     {
         DestroySelf();
     }
