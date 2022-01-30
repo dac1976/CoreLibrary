@@ -36,21 +36,26 @@ namespace threads
 // 'class SyncEvent' definition
 // ****************************************************************************
 SyncEvent::SyncEvent(eNotifyType notifyCondition, eResetCondition resetCondition,
-                     eIntialCondition initialCondition)
-    : m_signalAllThreads{notifyCondition == eNotifyType::signalAllThreads}
-    , m_autoReset{m_signalAllThreads ? false : resetCondition == eResetCondition::autoReset}
-    , m_signalFlag{initialCondition == eIntialCondition::signalled}
+                     eIntialCondition initialCondition, Condition* condition)
+    : m_signalAllThreads(notifyCondition == eNotifyType::signalAllThreads)
+    , m_autoReset(m_signalAllThreads ? false : resetCondition == eResetCondition::autoReset)
+    , m_getCondition(nullptr == condition ? std::bind(&SyncEvent::SignalFlag, this)
+                                          : condition->getCondition)
+    , m_setCondition(nullptr == condition
+                         ? std::bind(&SyncEvent::SetSignalFlag, this, std::placeholders::_1)
+                         : condition->setCondition)
 {
+    m_setCondition(initialCondition == eIntialCondition::signalled);
 }
 
 void SyncEvent::Wait()
 {
-    std::unique_lock<std::mutex> lock{m_signalMutex};
-    m_signalCondVar.wait(lock, [this] { return m_signalFlag; });
+    std::unique_lock<std::mutex> lock(m_signalMutex);
+    m_signalCondVar.wait(lock, [this] { return m_getCondition(); });
 
-    if (m_autoReset && m_signalFlag)
+    if (m_autoReset && m_getCondition())
     {
-        m_signalFlag = false;
+        m_setCondition(false);
     }
 }
 
@@ -91,8 +96,8 @@ bool SyncEvent::WaitForTime(unsigned int period, eWaitTimeUnit timeUnit)
 void SyncEvent::Signal()
 {
     {
-        std::lock_guard<std::mutex> lock{m_signalMutex};
-        m_signalFlag = true;
+        std::lock_guard<std::mutex> lock(m_signalMutex);
+        m_setCondition(true);
     }
 
     if (m_signalAllThreads)
@@ -107,12 +112,22 @@ void SyncEvent::Signal()
 
 void SyncEvent::Reset()
 {
-    std::lock_guard<std::mutex> lock{m_signalMutex};
+    std::lock_guard<std::mutex> lock(m_signalMutex);
 
     if (!m_autoReset)
     {
-        m_signalFlag = false;
+        m_setCondition(false);
     }
+}
+
+bool SyncEvent::SignalFlag() const
+{
+    return m_signalFlag;
+}
+
+void SyncEvent::SetSignalFlag(bool signalFlag)
+{
+    m_signalFlag = signalFlag;
 }
 
 } // namespace threads

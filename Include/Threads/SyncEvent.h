@@ -29,6 +29,7 @@
 
 #include "CoreLibraryDllGlobal.h"
 #include <mutex>
+#include <functional>
 #include <condition_variable>
 
 /*! \brief The core_lib namespace. */
@@ -79,35 +80,39 @@ enum class eWaitTimeUnit
  */
 class CORE_LIBRARY_DLL_SHARED_API SyncEvent final
 {
+    using get_condition_t = std::function<bool()>;
+    using set_condition_t = std::function<void(bool)>;
+
 public:
+    struct Condition
+    {
+        get_condition_t getCondition;
+        set_condition_t setCondition;
+    };
     /*!
-     * \brief Default constructor.
-     *
-     * Create the SyncEvent in auto-reset mode, signaling
-     * one thread at a time and initially in a not signalled
-     * state.
-     */
-    SyncEvent() = default;
-    /*!
-     * \brief Intialising constructor.
+     * \brief Initialising constructor.
      * \param[in] notifyCondition - Notify type.
      * \param[in] resetCondition - Reset condition.
      * \param[in] initialCondition - Initial condition.
+     * \param[in] condition - (Optional) Pointer to a struct
+     *                        with a setter and getter for
+     *                        an external condition variable
+     *                        state. If set to nullptr an
+     *                        internal bool is used.
      *
      * Create the SyncEvent setting whether auto-
      * or manual reset is to be used. Also setting
      * whether when signalled it notifies all waiting
-     * threads or just one of them. Can also set the
-     * initial condition as signalled or not signalled.
+     * threads or just one. Can also set the initial
+     * condition as signalled or not signalled.
      *
      * If notifyCondition == eNotifyType::signalAllThreads
      * then eResetCondition == eResetCondition::manualReset.
-     * This is because before you resue the event for signalling
-     * you must make sure all the signalled threads have finished
-     * their task(s) before the SyncEvent object is reset manually.
      */
-    SyncEvent(eNotifyType notifyCondition, eResetCondition resetCondition,
-              eIntialCondition initialCondition);
+    explicit SyncEvent(eNotifyType      notifyCondition  = eNotifyType::signalOneThread,
+                       eResetCondition  resetCondition   = eResetCondition::autoReset,
+                       eIntialCondition initialCondition = eIntialCondition::notSignalled,
+                       Condition*       condition        = nullptr);
     /*! \brief Destructor. */
     ~SyncEvent() = default;
     /*! \brief Copy constructor - disabled. */
@@ -123,6 +128,10 @@ public:
      *
      * Blocking function that waits until underlying condition
      * variable is signalled at which point this function returns.
+     *
+     * If an external condition argument was specified in the
+     * constructor then the getter for that condition is used
+     * else we use the internally tracked condition.
      */
     void Wait();
     /*!
@@ -147,31 +156,40 @@ public:
      * Call this function to signal the underlying condition variable.
      * If a thread is blocked on a call to Wait or WaitForTime then
      * the waiting function will unblock and return.
+     *
+     * If an external condition argument was specified in the
+     * constructor then the setter for that condition is used
+     * else we use the internally tracked condition.
      */
     void Signal();
     /*!
      * \brief Reset event.reset_condition
      *
-     * Use this function when SYncEvent created in maunal reset mode.
+     * Use this function when SyncEvent created in manual reset mode.
      * Call to reset the signalled state of the event. This should
-     * not be called while athread is blocked on a call to Wait or
+     * not be called while a thread is blocked on a call to Wait or
      * WaitForTime. This should be called after the event has been
      * signalled and Wait or WaitFor Time has returned and before
      * calling Wait or WaitForTime again.
+     *
+     * If an external condition argument was specified in the
+     * constructor then the setter for that condition is used
+     * else we use the internally tracked condition.
      */
     void Reset();
 
 private:
-    /*! \brief Mutex to lock access to members. */
-    mutable std::mutex m_signalMutex;
-    /*! \brief Condition vairable to perform the waiting and signalling. */
+    bool SignalFlag() const;
+    void SetSignalFlag(bool signalFlag);
+
+private:
+    mutable std::mutex      m_signalMutex;
     std::condition_variable m_signalCondVar;
-    /*! \brief Signal type flag. */
-    bool m_signalAllThreads{false};
-    /*! \brief Auto-reset flag. */
-    bool m_autoReset{true};
-    /*! \brief Signal flag. */
-    bool m_signalFlag{false};
+    bool                    m_signalAllThreads{false};
+    bool                    m_autoReset{true};
+    bool                    m_signalFlag{false};
+    get_condition_t         m_getCondition;
+    set_condition_t         m_setCondition;
 };
 
 } // namespace threads
