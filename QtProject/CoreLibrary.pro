@@ -128,6 +128,10 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Threads/SyncEvent.h                   \
     ../Include/Threads/ThreadBase.h                  \
     ../Include/Threads/ThreadGroup.h                 \
+	../Include/Threads/ThreadPriority.h              \
+	../Include/Threads/ThreadGroup.h                 \
+	../Include/Threads/DeadlineTimer.h               \
+	../Include/Threads/EventThread.h                 \
     ../Include/Asio/UdpSender.h                      \
     ../Include/Asio/UdpReceiver.h                    \
     ../Include/Asio/MulticastReceiver.h              \
@@ -141,8 +145,7 @@ HEADERS += ../Include/Asio/AsioDefines.h             \
     ../Include/Asio/SimpleMulticastSender.h          \
     ../Include/Asio/SimpleMulticastReceiver.h        \
     ../Include/Threads/ThreadRunner.h                \
-    ../Include/Exceptions/DetailedException.h        \
-    ../Include/Threads/EventThread.h
+    ../Include/Exceptions/DetailedException.h       
 
 SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/IoContextThreadGroup.cpp            \
@@ -166,6 +169,10 @@ SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Threads/SyncEvent.cpp                    \
     ../Source/Threads/ThreadBase.cpp                   \
     ../Source/Threads/ThreadGroup.cpp                  \
+	../Source/Threads/ThreadPriority.cpp               \
+	../Source/Threads/ThreadRunner.cpp                 \
+    ../Source/Threads/EventThread.cpp                  \
+	../Source/Threads/DeadlineTimer.cpp                \
     ../Source/Asio/UdpSender.cpp                       \
     ../Source/Asio/UdpReceiver.cpp                     \
     ../Source/Asio/MulticastReceiver.cpp               \
@@ -173,9 +180,7 @@ SOURCES += ../Source/Asio/AsioDefines.cpp              \
     ../Source/Asio/SimpleUdpSender.cpp                 \
     ../Source/Asio/SimpleUdpReceiver.cpp               \
     ../Source/Asio/SimpleMulticastSender.cpp           \
-    ../Source/Asio/SimpleMulticastReceiver.cpp         \
-    ../Source/Threads/ThreadRunner.cpp                 \
-    ../Source/Threads/EventThread.cpp
+    ../Source/Asio/SimpleMulticastReceiver.cpp        
 
 
 

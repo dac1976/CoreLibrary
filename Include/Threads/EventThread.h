@@ -91,7 +91,7 @@ private:
 
 private:
     /*! \brief Update event.*/
-    mutable std::mutex m_eventTickMutex;
+    mutable std::mutex m_eventPeriodMutex;
     /*! \brief Update event.*/
     core_lib::threads::SyncEvent m_updateEvent{};
     /*! \brief Callback fires on event.*/
