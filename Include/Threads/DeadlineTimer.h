@@ -31,7 +31,8 @@
 #include <functional>
 #include <thread>
 #include "SyncEvent.h"
-#include "features/PlatformFeatures.h"
+#include "CoreLibraryDllGlobal.h"
+#include "Platform/PlatformDefines.h"
 
 namespace hgl
 {

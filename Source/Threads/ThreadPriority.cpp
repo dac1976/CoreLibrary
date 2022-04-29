@@ -23,7 +23,7 @@
  * \file ThreadPriority.cpp
  * \brief File containing definition of ThreadPriority functions.
  */
-#include "ThreadPriority.h"
+#include "Threads/ThreadPriority.h"
 #if BOOST_OS_LINUX
 #include <pthread.h>
 #else

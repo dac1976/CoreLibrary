@@ -24,7 +24,7 @@
  * \brief File containing definition of DeadlineTimer class.
  */
  
-#include "DeadlineTimer.h"
+#include "Threads/DeadlineTimer.h"
 #include <stdexcept>
 
 namespace hgl
