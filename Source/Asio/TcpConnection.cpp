@@ -110,16 +110,45 @@ const boost_tcp_t::socket& TcpConnection::Socket() const
     return m_socket;
 }
 
-void TcpConnection::Connect(const defs::connection_t& endPoint)
+bool TcpConnection::Connect(const defs::connection_t& endPoint)
 {
-    boost_tcp_t::endpoint tcpEndPoint(boost_address_t::from_string(endPoint.first),
-                                      endPoint.second);
+    try
+    {
+        boost_tcp_t::endpoint tcpEndPoint(boost_address_t::from_string(endPoint.first),
+                                          endPoint.second);
 
-    m_socket.connect(tcpEndPoint);
-    boost_tcp_t::no_delay option(m_sendOption == eSendOption::nagleOff);
-    m_socket.set_option(option);
+        SyncEvent connectEvent;
+        boost::system::error_code connectError;
+        m_socket.async_connect(tcpEndPoint,
+                               boost::bind(&TcpConnection::ConnectHandler, shared_from_this(), _1, connectError));
 
-    StartAsyncRead();
+        // Async connect event signalled within time limit.
+        if (m_connectEvent.WaitForTime(MAX_TCP_CONNECT_TIMEOUT))
+        {
+            if (connectError)
+            {
+                m_socket.close();
+                return false;
+            }
+        }
+        // Async connect timed out.
+        else
+        {
+            m_socket.close();
+            return false;
+        }
+
+        boost_tcp_t::no_delay option(m_sendOption == eSendOption::nagleOff);
+        m_socket.set_option(option);
+
+        StartAsyncRead();
+    }
+    catch(...)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void TcpConnection::CloseConnection()
@@ -421,6 +450,14 @@ bool TcpConnection::GetNewMessgeObject(std::pair<msg_ptr_t, size_t>& msgItem,
 
     return true;
 }
+
+void TcpConnection::ConnectHandler(boost::system::error_code const& error,
+                                   boost::system::error_code& errCodeOut)
+{
+    errCodeOut = error;
+    m_connectEvent.Signal();
+}
+
 
 } // namespace tcp
 } // namespace asio

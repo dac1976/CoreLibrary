@@ -370,6 +370,56 @@ TEST(AsioTest, testCase_TestSync)
     EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
+TEST(AsioTest, testCase_TestBadConnect_InvalidTarget)
+{
+    char_buffer_t   message = BuildMessage();
+
+    MessageReceiver cltReceiver;
+    TcpClient       client(
+        std::make_pair("191.169.0.1", 22222),
+        sizeof(MyHeader),
+        std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+        std::bind(&MessageReceiver::MessageReceivedHandler, &cltReceiver, std::placeholders::_1));
+
+    EXPECT_FALSE(client.Connected());
+}
+
+TEST(AsioTest, testCase_TestBadConnect_LateTarget)
+{
+    char_buffer_t   message = BuildMessage();
+
+    MessageReceiver cltReceiver;
+    TcpClient       client(
+        std::make_pair("127.0.0.1", 22222),
+        sizeof(MyHeader),
+        std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+        std::bind(&MessageReceiver::MessageReceivedHandler, &cltReceiver, std::placeholders::_1));
+
+    EXPECT_FALSE(client.Connected());
+
+    MessageReceiver svrReceiver;
+    TcpServer       server(
+        22222,
+        sizeof(MyHeader),
+        std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+        std::bind(&MessageReceiver::MessageReceivedHandler, &svrReceiver, std::placeholders::_1));
+
+    EXPECT_TRUE(client.SendMessageToServerSync(message) == true);
+
+    svrReceiver.WaitForMessage(3000);
+    MyMessage expectedMessage;
+    expectedMessage.FillMessage();
+    MyMessage receivedMessage = svrReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+
+    auto clientConn = client.GetClientDetailsForServer();
+    EXPECT_TRUE(server.SendMessageToClientSync(clientConn, message) == true);
+
+    cltReceiver.WaitForMessage(3000);
+    receivedMessage = cltReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+}
+
 TEST(AsioTest, testCase_TestAsync_ExternalIocontext)
 {
     IoContextThreadGroup ioThreadGroup;

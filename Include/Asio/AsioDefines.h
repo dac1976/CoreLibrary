@@ -87,6 +87,12 @@ enum class eSendOption
     nagleOn
 };
 
+/*! \brief Maximum time to wait for TCP socket to connect in milliseconds. */
+enum eDefTcpConnectTimeout : uint32_t
+{
+    MAX_TCP_CONNECT_TIMEOUT = 3000
+};
+
 class TcpConnection;
 } // namespace tcp
 

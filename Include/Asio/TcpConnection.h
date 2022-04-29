@@ -102,8 +102,9 @@ public:
     /*!
      * \brief Connect to an endpoint.
      * \param[in] endPoint - Connection details of some endpoint.
+     * \return True if connection successful, false otherwise.
      */
-    void Connect(const defs::connection_t& endPoint);
+    bool Connect(const defs::connection_t& endPoint);
     /*! \brief Close this connection. */
     void CloseConnection();
     /*! \brief Start aysnchronously reading data when available. */
@@ -179,6 +180,13 @@ private:
      */
     bool GetNewMessgeObject(std::pair<msg_ptr_t, size_t>& msgItem,
                             defs::char_buffer_t const&    sourceMsg);
+    /*!
+     * \brief Handler async connect callback.
+     * \param[in] errorIn - Error code received from async_connect.
+     * \param[out] errorOut - Error code reported out.
+     */
+    void ConnectHandler(boost::system::error_code const& errorIn,
+                        boost::system::error_code& errorOut);
 
 private:
     /*! \brief Access mutex for thread safety. */
