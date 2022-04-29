@@ -30,7 +30,11 @@
 #include <Windows.h>
 #endif
 
-namespace hgl
+/*! \brief The core_lib namespace. */
+namespace core_lib
+{
+/*! \brief The threads namespace. */
+namespace threads
 {
 
 #if BOOST_OS_LINUX
@@ -58,4 +62,5 @@ bool SetThreadPriority(std::thread::native_handle_type const& threadId, eHglThre
 }
 #endif
 
-} // namespace hgl
+} // namespace threads
+} // namespace core_lib

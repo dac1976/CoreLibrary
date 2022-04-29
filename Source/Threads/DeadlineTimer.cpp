@@ -23,17 +23,21 @@
  * \file DeadlineTimer.cpp
  * \brief File containing definition of DeadlineTimer class.
  */
- 
+
 #include "Threads/DeadlineTimer.h"
 #include <stdexcept>
 
-namespace hgl
+/*! \brief The core_lib namespace. */
+namespace core_lib
+{
+/*! \brief The threads namespace. */
+namespace threads
 {
 
 DeadlineTimer::DeadlineTimer()
     : m_timeoutMillisecs(0)
-    , m_timeoutEvent(hgl::eNotifyType::signalOneThread, hgl::eResetCondition::manualReset,
-                     hgl::eIntialCondition::notSignalled)
+    , m_timeoutEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
+                     eIntialCondition::notSignalled)
 {
 }
 
@@ -85,4 +89,5 @@ void DeadlineTimer::TimeoutThread()
     }
 }
 
-} // namespace hgl
+} // namespace threads
+} // namespace core_lib

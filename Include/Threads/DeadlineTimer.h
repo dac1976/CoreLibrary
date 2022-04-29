@@ -23,7 +23,7 @@
  * \file DeadlineTimer.h
  * \brief File containing declaration of DeadlineTimer class.
  */
- 
+
 #ifndef DEADLINETIMER_H
 #define DEADLINETIMER_H
 
@@ -34,10 +34,14 @@
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 
-namespace hgl
+/*! \brief The core_lib namespace. */
+namespace core_lib
+{
+/*! \brief The threads namespace. */
+namespace threads
 {
 
-class DeadlineTimer FINAL_
+class DeadlineTimer final
 {
     using callback_t = std::function<void()>;
 
@@ -52,12 +56,13 @@ private:
     void TimeoutThread();
 
 private:
-    uint32_t       m_timeoutMillisecs;
-    callback_t     m_onTimedOut;
-    hgl::SyncEvent m_timeoutEvent;
-    std::thread    m_timeoutThread;
+    uint32_t    m_timeoutMillisecs;
+    callback_t  m_onTimedOut;
+    SyncEvent   m_timeoutEvent;
+    std::thread m_timeoutThread;
 };
 
-} // namespace hgl
+} // namespace threads
+} // namespace core_lib
 
 #endif // DEADLINETIMER_H

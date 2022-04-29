@@ -23,14 +23,18 @@
  * \file ThreadPriority.h
  * \brief File containing declaration of SyncEvent class.
  */
- 
+
 #ifndef THREADPRIORITY_H
 #define THREADPRIORITY_H
 
 #include <thread>
 #include <boost/predef.h>
 
-namespace hgl
+/*! \brief The core_lib namespace. */
+namespace core_lib
+{
+/*! \brief The threads namespace. */
+namespace threads
 {
 #if BOOST_OS_LINUX
 enum class eHglThreadSchedAlgo
@@ -82,6 +86,7 @@ bool SetThreadPriority(std::thread::native_handle_type const& threadId,
                        eHglThreadPriority                     priority);
 #endif
 
-} // namespace hgl
+} // namespace threads
+} // namespace core_lib
 
 #endif // THREADPRIORITY_H
