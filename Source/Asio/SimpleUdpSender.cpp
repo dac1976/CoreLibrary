@@ -69,6 +69,11 @@ bool SimpleUdpSender::SendMessage(const defs::char_buffer_t& message)
     return m_udpTypedSender.SendMessage(message);
 }
 
+bool SimpleUdpSender::SendMessage(const char* message, size_t length)
+{
+    return m_udpTypedSender.SendMessage(message, length);
+}
+
 } // namespace udp
 } // namespace asio
 } // namespace core_lib

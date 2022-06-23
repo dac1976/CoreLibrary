@@ -117,10 +117,10 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
         boost_tcp_t::endpoint tcpEndPoint(boost_address_t::from_string(endPoint.first),
                                           endPoint.second);
 
-        SyncEvent connectEvent;
         boost::system::error_code connectError;
-        m_socket.async_connect(tcpEndPoint,
-                               boost::bind(&TcpConnection::ConnectHandler, shared_from_this(), _1, connectError));
+        m_socket.async_connect(
+            tcpEndPoint,
+            boost::bind(&TcpConnection::ConnectHandler, shared_from_this(), _1, connectError));
 
         // Async connect event signalled within time limit.
         if (m_connectEvent.WaitForTime(MAX_TCP_CONNECT_TIMEOUT))
@@ -143,7 +143,7 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
 
         StartAsyncRead();
     }
-    catch(...)
+    catch (...)
     {
         return false;
     }
@@ -452,12 +452,11 @@ bool TcpConnection::GetNewMessgeObject(std::pair<msg_ptr_t, size_t>& msgItem,
 }
 
 void TcpConnection::ConnectHandler(boost::system::error_code const& error,
-                                   boost::system::error_code& errCodeOut)
+                                   boost::system::error_code&       errCodeOut)
 {
     errCodeOut = error;
     m_connectEvent.Signal();
 }
-
 
 } // namespace tcp
 } // namespace asio

@@ -81,7 +81,12 @@ auto MulticastSender::InterfaceAddress() const -> std::string
 
 bool MulticastSender::SendMessage(const defs::char_buffer_t& message)
 {
-    return SyncSendTo(message);
+    return SyncSendTo(message.data(), message.size());
+}
+
+bool MulticastSender::SendMessage(const char* message, size_t length)
+{
+    return SyncSendTo(message, length);
 }
 
 void MulticastSender::CreateMulticastSocket(bool enableLoopback, eMulticastTTL ttl,
@@ -107,11 +112,11 @@ void MulticastSender::CreateMulticastSocket(bool enableLoopback, eMulticastTTL t
     }
 }
 
-bool MulticastSender::SyncSendTo(const defs::char_buffer_t& message)
+bool MulticastSender::SyncSendTo(const char* message, size_t length)
 {
     try
     {
-        return message.size() == m_socket.send_to(boost_asio::buffer(message), m_multicastEndpoint);
+        return length == m_socket.send_to(boost_asio::buffer(message, length), m_multicastEndpoint);
     }
     catch (...)
     {

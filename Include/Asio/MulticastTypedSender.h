@@ -190,6 +190,16 @@ public:
     {
         return m_multicastSender.SendMessage(message);
     }
+    /*!
+     * \brief Send a raw message buffer to the receiver.
+     * \param[in] message - The message buffer pointer.
+     * \param[in] message - The message buffer size in bytes.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessage(const char* message, size_t length)
+    {
+        return m_multicastSender.SendMessage(message, length);
+    }
 
 private:
     /*! \brief Send message mutex. */

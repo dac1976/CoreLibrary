@@ -91,6 +91,11 @@ bool SimpleMulticastSender::SendMessage(const defs::char_buffer_t& message)
     return m_multicastTypedSender.SendMessage(message);
 }
 
+bool SimpleMulticastSender::SendMessage(const char* message, size_t length)
+{
+    return m_multicastTypedSender.SendMessage(message, length);
+}
+
 } // namespace udp
 } // namespace asio
 } // namespace core_lib

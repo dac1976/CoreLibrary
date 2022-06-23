@@ -148,6 +148,13 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessage(const defs::char_buffer_t& message);
+    /*!
+     * \brief Send a message buffer to the receiver.
+     * \param[in] message - The message buffer pointer.
+     * \param[in] message - The message buffer size in bytes.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessage(const char* message, size_t length);
 
 private:
     /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */

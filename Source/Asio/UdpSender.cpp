@@ -67,7 +67,12 @@ auto UdpSender::ReceiverConnection() const -> defs::connection_t
 
 bool UdpSender::SendMessage(const defs::char_buffer_t& message)
 {
-    return SyncSendTo(message);
+    return SyncSendTo(message.data(), message.size());
+}
+
+bool UdpSender::SendMessage(const char* message, size_t length)
+{
+    return SyncSendTo(message, length);
 }
 
 void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
@@ -81,7 +86,7 @@ void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
     m_socket.set_option(sendBufOption);
 }
 
-bool UdpSender::SyncSendTo(const defs::char_buffer_t& message)
+bool UdpSender::SyncSendTo(const char* message, size_t length)
 {
     try
     {
@@ -91,7 +96,7 @@ bool UdpSender::SyncSendTo(const defs::char_buffer_t& message)
                 boost_udp_t::v4(), m_receiver.first, std::to_string(m_receiver.second));
         }
 
-        return message.size() == m_socket.send_to(boost_asio::buffer(message), m_receiverEndpoint);
+        return length == m_socket.send_to(boost_asio::buffer(message, length), m_receiverEndpoint);
     }
     catch (...)
     {

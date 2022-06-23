@@ -186,7 +186,7 @@ private:
      * \param[out] errorOut - Error code reported out.
      */
     void ConnectHandler(boost::system::error_code const& errorIn,
-                        boost::system::error_code& errorOut);
+                        boost::system::error_code&       errorOut);
 
 private:
     /*! \brief Access mutex for thread safety. */
@@ -195,6 +195,8 @@ private:
     mutable std::mutex m_asyncPoolMutex;
     /*! \brief Connection close event. */
     threads::SyncEvent m_closedEvent{};
+    /*! \brief Connection succeeded event. */
+    threads::SyncEvent m_connectEvent;
     /*! \brief Closing connection flag. */
     bool m_closing{false};
     /*! \brief I/O context strand. */

@@ -163,13 +163,23 @@ public:
             m_messageBuilder.template Build<T, A>(message, messageId, responseAddress));
     }
     /*!
-     * \brief Send a message buffer to the receiver.
+     * \brief Send a raw message buffer to the receiver.
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessage(const defs::char_buffer_t& message)
     {
         return m_udpSender.SendMessage(message);
+    }
+    /*!
+     * \brief Send a raw message buffer to the receiver.
+     * \param[in] message - The message buffer pointer.
+     * \param[in] message - The message buffer size in bytes.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMessage(const char* message, size_t length)
+    {
+        return m_udpSender.SendMessage(message, length);
     }
 
 private:
