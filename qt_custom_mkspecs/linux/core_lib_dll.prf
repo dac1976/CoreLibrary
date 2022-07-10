@@ -1,4 +1,6 @@
-CONFIG += core_lib_settings \
+CONFIG += loki \
+          ceral \
+		  boost \
           boost_libs
 
 CONFIG(debug, debug|release) {

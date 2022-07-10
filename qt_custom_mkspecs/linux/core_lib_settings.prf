@@ -1,5 +1,0 @@
-CONFIG += boost \
-          loki  \
-          cereal
-
-INCLUDEPATH += /home/duncan/Projects/CoreLibrary/Include/

@@ -14,8 +14,9 @@ CONFIG(debug, debug|release) {
 
 TEMPLATE = lib
 CONFIG += staticlib debug_and_release build_all
-CONFIG += core_lib_settings
-
+CONFIG += boost \
+          loki  \
+          cereal
 DEFINES += CORE_LIBRARY_LIB
 
 unix:!symbian {
@@ -51,8 +52,8 @@ win32 {
             }
         }
     } else {
-        # Make sure we enable C++14 support.
-        QMAKE_CXXFLAGS += -std=c++14
+        # Make sure we enable C++17 support.
+        QMAKE_CXXFLAGS += -std=c++17
 
         # Set binary's output folder.
         # This is for x86 builds.
@@ -73,10 +74,10 @@ win32 {
         }
     }
 }
-# On non-windows, assumed to beLinux, we do ths.
+# On non-windows, assumed to be Linux, we do ths.
 else {
-    # Make sure we enable C++14 support.
-    QMAKE_CXXFLAGS += -std=c++14
+    # Make sure we enable C++17 support.
+    QMAKE_CXXFLAGS += -std=c++17
 
     # Set binary's output folder.
     CONFIG(debug, debug|release) {
@@ -91,96 +92,102 @@ MOC_DIR = $${DESTDIR}/moc
 RCC_DIR = $${DESTDIR}/rcc
 UI_DIR = $${DESTDIR}/ui
 
-HEADERS += ../Include/Asio/AsioDefines.h             \
-    ../Include/Asio/IoContextThreadGroup.h           \
-    ../Include/Asio/MemoryUtils.h \
-    ../Include/Asio/MessageUtils.h                   \
-    ../Include/Asio/SimpleTcpClient.h                \
-    ../Include/Asio/SimpleTcpClientList.h            \
-    ../Include/Asio/SimpleTcpServer.h                \
-    ../Include/Asio/TcpClient.h                      \
-    ../Include/Asio/TcpClientList.h                  \
-    ../Include/Asio/TcpConnection.h                  \
-    ../Include/Asio/TcpConnections.h                 \
-    ../Include/Asio/TcpServer.h                      \
-    ../Include/Asio/TcpTypedClient.h                 \
-    ../Include/Asio/TcpTypedServer.h                 \
-    ../Include/CsvGrid/CsvGridCell.h                 \
-    ../Include/CsvGrid/CsvGridCellDouble.h           \
-    ../Include/CsvGrid/CsvGridRow.h                  \
-    ../Include/CsvGrid/CsvGridMain.h                 \
-    ../Include/CsvGrid/CsvGrid.h                     \
-    ../Include/DebugLog/DebugLog.h                   \
-    ../Include/DebugLog/DebugLogSingleton.h          \
-    ../Include/DebugLog/DebugLogging.h               \
-    ../Include/FileUtils/FileUtils.h                 \
-    ../Include/IniFile/IniFileLines.h                \
-    ../Include/IniFile/IniFileSectionDetails.h       \
-    ../Include/IniFile/IniFile.h                     \
-    ../Include/Serialization/SerializationIncludes.h \
-    ../Include/Serialization/SerializeToVector.h     \
-    ../Include/Sorting/GenericSorting.h              \
-    ../Include/StringUtils/StringUtils.h             \
-    ../Include/Threads/BoundedBuffer.h               \
-    ../Include/Threads/ConcurrentQueue.h             \
-    ../Include/Threads/JoinThreads.h                 \
-    ../Include/Threads/MessageQueueThread.h          \
-    ../Include/Threads/SyncEvent.h                   \
-    ../Include/Threads/ThreadBase.h                  \
-    ../Include/Threads/ThreadGroup.h                 \
-	../Include/Threads/ThreadPriority.h              \
-	../Include/Threads/ThreadGroup.h                 \
-	../Include/Threads/DeadlineTimer.h               \
-	../Include/Threads/EventThread.h                 \
-    ../Include/Asio/UdpSender.h                      \
-    ../Include/Asio/UdpReceiver.h                    \
-    ../Include/Asio/MulticastReceiver.h              \
-    ../Include/Asio/MulticastSender.h                \
-    ../Include/Asio/UdpTypedSender.h                 \
-    ../Include/Asio/SimpleUdpSender.h                \
-    ../Include/Asio/SimpleUdpReceiver.h              \
-    ../Include/Platform/PlatformDefines.h            \
-    ../Include/CoreLibraryDllGlobal.h                \
-    ../Include/Asio/MulticastTypedSender.h           \
-    ../Include/Asio/SimpleMulticastSender.h          \
-    ../Include/Asio/SimpleMulticastReceiver.h        \
-    ../Include/Threads/ThreadRunner.h                \
-    ../Include/Exceptions/DetailedException.h       
+INCLUDEPATH += \
+    $$(CORE_LIBRARY) \
+    $$(CORE_LIBRARY)/Include
 
-SOURCES += ../Source/Asio/AsioDefines.cpp              \
-    ../Source/Asio/IoContextThreadGroup.cpp            \
-    ../Source/Asio/MessageUtils.cpp                    \
-    ../Source/Asio/SimpleTcpClient.cpp                 \
-    ../Source/Asio/SimpleTcpClientList.cpp             \
-    ../Source/Asio/SimpleTcpServer.cpp                 \
-    ../Source/Asio/TcpClient.cpp                       \
-    ../Source/Asio/TcpClientList.cpp                   \
-    ../Source/Asio/TcpConnection.cpp                   \
-    ../Source/Asio/TcpConnections.cpp                  \
-    ../Source/Asio/TcpServer.cpp                       \
-    ../Source/CsvGrid/CsvGridCell.cpp                  \
-    ../Source/CsvGrid/CsvGridCellDouble.cpp            \
-    ../Source/DebugLog/DebugLog.cpp                    \
-    ../Source/FileUtils/FileUtils.cpp                  \
-    ../Source/IniFile/IniFileLines.cpp                 \
-    ../Source/IniFile/IniFileSectionDetails.cpp        \
-    ../Source/IniFile/IniFile.cpp                      \
-    ../Source/StringUtils/StringUtils.cpp              \
-    ../Source/Threads/SyncEvent.cpp                    \
-    ../Source/Threads/ThreadBase.cpp                   \
-    ../Source/Threads/ThreadGroup.cpp                  \
-	../Source/Threads/ThreadPriority.cpp               \
-	../Source/Threads/ThreadRunner.cpp                 \
-    ../Source/Threads/EventThread.cpp                  \
-	../Source/Threads/DeadlineTimer.cpp                \
-    ../Source/Asio/UdpSender.cpp                       \
-    ../Source/Asio/UdpReceiver.cpp                     \
-    ../Source/Asio/MulticastReceiver.cpp               \
-    ../Source/Asio/MulticastSender.cpp                 \
-    ../Source/Asio/SimpleUdpSender.cpp                 \
-    ../Source/Asio/SimpleUdpReceiver.cpp               \
-    ../Source/Asio/SimpleMulticastSender.cpp           \
-    ../Source/Asio/SimpleMulticastReceiver.cpp        
+HEADERS += \
+    $$(CORE_LIBRARY)/Include/Asio/AsioDefines.h                    \
+    $$(CORE_LIBRARY)/Include/Asio/IoContextThreadGroup.h           \
+    $$(CORE_LIBRARY)/Include/Asio/MemoryUtils.h \
+    $$(CORE_LIBRARY)/Include/Asio/MessageUtils.h                   \
+    $$(CORE_LIBRARY)/Include/Asio/SimpleTcpClient.h                \
+    $$(CORE_LIBRARY)/Include/Asio/SimpleTcpClientList.h            \
+    $$(CORE_LIBRARY)/Include/Asio/SimpleTcpServer.h                \
+    $$(CORE_LIBRARY)/Include/Asio/TcpClient.h                      \
+    $$(CORE_LIBRARY)/Include/Asio/TcpClientList.h                  \
+    $$(CORE_LIBRARY)/Include/Asio/TcpConnection.h                  \
+    $$(CORE_LIBRARY)/Include/Asio/TcpConnections.h                 \
+    $$(CORE_LIBRARY)/Include/Asio/TcpServer.h                      \
+    $$(CORE_LIBRARY)/Include/Asio/TcpTypedClient.h                 \
+    $$(CORE_LIBRARY)/Include/Asio/TcpTypedServer.h                 \
+    $$(CORE_LIBRARY)/Include/CsvGrid/CsvGridCell.h                 \
+    $$(CORE_LIBRARY)/Include/CsvGrid/CsvGridCellDouble.h           \
+    $$(CORE_LIBRARY)/Include/CsvGrid/CsvGridRow.h                  \
+    $$(CORE_LIBRARY)/Include/CsvGrid/CsvGridMain.h                 \
+    $$(CORE_LIBRARY)/Include/CsvGrid/CsvGrid.h                     \
+    $$(CORE_LIBRARY)/Include/DebugLog/DebugLog.h                   \
+    $$(CORE_LIBRARY)/Include/DebugLog/DebugLogSingleton.h          \
+    $$(CORE_LIBRARY)/Include/DebugLog/DebugLogging.h               \
+    $$(CORE_LIBRARY)/Include/FileUtils/FileUtils.h                 \
+    $$(CORE_LIBRARY)/Include/IniFile/IniFileLines.h                \
+    $$(CORE_LIBRARY)/Include/IniFile/IniFileSectionDetails.h       \
+    $$(CORE_LIBRARY)/Include/IniFile/IniFile.h                     \
+    $$(CORE_LIBRARY)/Include/Serialization/SerializationIncludes.h \
+    $$(CORE_LIBRARY)/Include/Serialization/SerializeToVector.h     \
+    $$(CORE_LIBRARY)/Include/Sorting/GenericSorting.h              \
+    $$(CORE_LIBRARY)/Include/StringUtils/StringUtils.h             \
+    $$(CORE_LIBRARY)/Include/Threads/BoundedBuffer.h               \
+    $$(CORE_LIBRARY)/Include/Threads/ConcurrentQueue.h             \
+    $$(CORE_LIBRARY)/Include/Threads/JoinThreads.h                 \
+    $$(CORE_LIBRARY)/Include/Threads/MessageQueueThread.h          \
+    $$(CORE_LIBRARY)/Include/Threads/SyncEvent.h                   \
+    $$(CORE_LIBRARY)/Include/Threads/ThreadBase.h                  \
+    $$(CORE_LIBRARY)/Include/Threads/ThreadGroup.h                 \
+    $$(CORE_LIBRARY)/Include/Threads/ThreadPriority.h              \
+    $$(CORE_LIBRARY)/Include/Threads/ThreadGroup.h                 \
+    $$(CORE_LIBRARY)/Include/Threads/DeadlineTimer.h               \
+    $$(CORE_LIBRARY)/Include/Threads/EventThread.h                 \
+    $$(CORE_LIBRARY)/Include/Asio/UdpSender.h                      \
+    $$(CORE_LIBRARY)/Include/Asio/UdpReceiver.h                    \
+    $$(CORE_LIBRARY)/Include/Asio/MulticastReceiver.h              \
+    $$(CORE_LIBRARY)/Include/Asio/MulticastSender.h                \
+    $$(CORE_LIBRARY)/Include/Asio/UdpTypedSender.h                 \
+    $$(CORE_LIBRARY)/Include/Asio/SimpleUdpSender.h                \
+    $$(CORE_LIBRARY)/Include/Asio/SimpleUdpReceiver.h              \
+    $$(CORE_LIBRARY)/Include/Platform/PlatformDefines.h            \
+    $$(CORE_LIBRARY)/Include/CoreLibraryDllGlobal.h                \
+    $$(CORE_LIBRARY)/Include/Asio/MulticastTypedSender.h           \
+    $$(CORE_LIBRARY)/Include/Asio/SimpleMulticastSender.h          \
+    $$(CORE_LIBRARY)/Include/Asio/SimpleMulticastReceiver.h        \
+    $$(CORE_LIBRARY)/Include/Threads/ThreadRunner.h                \
+    $$(CORE_LIBRARY)/Include/Exceptions/DetailedException.h
+
+SOURCES += \
+    $$(CORE_LIBRARY)/Source/Asio/AsioDefines.cpp                     \
+    $$(CORE_LIBRARY)/Source/Asio/IoContextThreadGroup.cpp            \
+    $$(CORE_LIBRARY)/Source/Asio/MessageUtils.cpp                    \
+    $$(CORE_LIBRARY)/Source/Asio/SimpleTcpClient.cpp                 \
+    $$(CORE_LIBRARY)/Source/Asio/SimpleTcpClientList.cpp             \
+    $$(CORE_LIBRARY)/Source/Asio/SimpleTcpServer.cpp                 \
+    $$(CORE_LIBRARY)/Source/Asio/TcpClient.cpp                       \
+    $$(CORE_LIBRARY)/Source/Asio/TcpClientList.cpp                   \
+    $$(CORE_LIBRARY)/Source/Asio/TcpConnection.cpp                   \
+    $$(CORE_LIBRARY)/Source/Asio/TcpConnections.cpp                  \
+    $$(CORE_LIBRARY)/Source/Asio/TcpServer.cpp                       \
+    $$(CORE_LIBRARY)/Source/CsvGrid/CsvGridCell.cpp                  \
+    $$(CORE_LIBRARY)/Source/CsvGrid/CsvGridCellDouble.cpp            \
+    $$(CORE_LIBRARY)/Source/DebugLog/DebugLog.cpp                    \
+    $$(CORE_LIBRARY)/Source/FileUtils/FileUtils.cpp                  \
+    $$(CORE_LIBRARY)/Source/IniFile/IniFileLines.cpp                 \
+    $$(CORE_LIBRARY)/Source/IniFile/IniFileSectionDetails.cpp        \
+    $$(CORE_LIBRARY)/Source/IniFile/IniFile.cpp                      \
+    $$(CORE_LIBRARY)/Source/StringUtils/StringUtils.cpp              \
+    $$(CORE_LIBRARY)/Source/Threads/SyncEvent.cpp                    \
+    $$(CORE_LIBRARY)/Source/Threads/ThreadBase.cpp                   \
+    $$(CORE_LIBRARY)/Source/Threads/ThreadGroup.cpp                  \
+    $$(CORE_LIBRARY)/Source/Threads/ThreadPriority.cpp               \
+    $$(CORE_LIBRARY)/Source/Threads/ThreadRunner.cpp                 \
+    $$(CORE_LIBRARY)/Source/Threads/EventThread.cpp                  \
+    $$(CORE_LIBRARY)/Source/Threads/DeadlineTimer.cpp                \
+    $$(CORE_LIBRARY)/Source/Asio/UdpSender.cpp                       \
+    $$(CORE_LIBRARY)/Source/Asio/UdpReceiver.cpp                     \
+    $$(CORE_LIBRARY)/Source/Asio/MulticastReceiver.cpp               \
+    $$(CORE_LIBRARY)/Source/Asio/MulticastSender.cpp                 \
+    $$(CORE_LIBRARY)/Source/Asio/SimpleUdpSender.cpp                 \
+    $$(CORE_LIBRARY)/Source/Asio/SimpleUdpReceiver.cpp               \
+    $$(CORE_LIBRARY)/Source/Asio/SimpleMulticastSender.cpp           \
+    $$(CORE_LIBRARY)/Source/Asio/SimpleMulticastReceiver.cpp
 
 
 

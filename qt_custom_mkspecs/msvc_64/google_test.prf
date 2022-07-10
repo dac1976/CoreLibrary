@@ -1,0 +1,7 @@
+INCLUDEPATH += $$(THIRD_PARTY_LIBS)/google_test/include
+			   
+CONFIG(debug, debug|release) {
+  LIBS += $$(THIRD_PARTY_LIBS)/google_test/qt_msvc2017_64/debug/gtest_main.lib
+} else {
+  LIBS += $$(THIRD_PARTY_LIBS)/google_test/qt_msvc2017_64/release/gtest_main.lib
+}
