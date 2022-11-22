@@ -41,7 +41,7 @@ namespace threads
 
 ThreadGroup::~ThreadGroup()
 {
-    std::for_each(m_threadGroup.begin(), m_threadGroup.end(), DeleteThread);
+	Clear();
 }
 
 bool ThreadGroup::IsThisThreadIn() const
@@ -148,6 +148,12 @@ bool ThreadGroup::Empty() const
 {
     std::lock_guard<std::mutex> lock{m_mutex};
     return m_threadGroup.empty();
+}
+
+void ThreadGroup::Clear()
+{
+    std::for_each(m_threadGroup.begin(), m_threadGroup.end(), DeleteThread);
+	m_threadGroup.clear();
 }
 
 bool ThreadGroup::IsThisThreadInNoMutex() const

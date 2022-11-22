@@ -131,6 +131,9 @@ public:
      *  \return True if no threads registered, false otherwise.
      */
     bool Empty() const;
+	/*! \brief Delete all threads and clear list.
+     */
+    void Clear();
 
 private:
     /*! \brief Access mutex for private data. */
