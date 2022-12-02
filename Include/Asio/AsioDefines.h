@@ -93,6 +93,121 @@ enum eDefTcpConnectTimeout : uint32_t
     MAX_TCP_CONNECT_TIMEOUT = 3000
 };
 
+/*! \brief TCP connection settings structure. */
+struct TcpConnSettings
+{
+    /*! \brief Minimum amount of data to read on each receive, typical size of header block. */
+    size_t minAmountToRead{sizeof(HGL_MSG_HDR)};
+    /*! \brief Socket send option. */
+    eSendOption sendOption{eSendOption::nagleOn};
+    /*! \brief Maximum allowed number of unsent async messages. */
+    size_t maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
+    /*! \brief  Default size of message in pool. Set to 0 to not use the pool and instead use
+     *          dynamic allocation. */
+    size_t sendPoolMsgSize{0};
+    /*! \brief Maximum time allowed when waiting for TCP socket to connect to target. */
+    uint32_t maxTcpConnectTimeout{MAX_TCP_CONNECT_TIMEOUT};
+    /*! \brief Size to set for send buffer within socket in bytes. 0 - implies use default. */
+    size_t sendBufferSize{0};
+    /*! \brief Size to set for receive buffer within socket in bytes. 0 - implies use default. */
+    size_t recvBufferSize{0};
+
+    TcpConnSettings()
+    {
+    }
+
+    TcpConnSettings(size_t minAmountToRead_, eSendOption sendOption_,
+                    size_t maxAllowedUnsentAsyncMessages_, size_t sendPoolMsgSize_,
+                    uint32_t maxTcpConnectTimeout_, size_t sendBufferSize_ = 0,
+                    size_t recvBufferSize_ = 0)
+        : minAmountToRead(minAmountToRead_)
+        , sendOption(sendOption_)
+        , maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages_)
+        , sendPoolMsgSize(sendPoolMsgSize_)
+        , maxTcpConnectTimeout(maxTcpConnectTimeout_)
+        , sendBufferSize(sendBufferSize_)
+        , recvBufferSize(recvBufferSize_)
+    {
+    }
+
+    ~TcpConnSettings()                                 = default;
+    TcpConnSettings(const TcpConnSettings&)            = default;
+    TcpConnSettings& operator=(const TcpConnSettings&) = default;
+#ifdef USE_EXPLICIT_MOVE_
+    /*! \brief Default move constructor. */
+    TcpConnSettings(TcpConnSettings&& settings)
+    {
+        *this = std::move(settings);
+    }
+    /*! \brief Default move assignment operator. */
+    TcpConnSettings& operator=(TcpConnSettings&& settings)
+    {
+        std::swap(minAmountToRead, settings.minAmountToRead);
+        std::swap(sendOption, settings.sendOption);
+        std::swap(maxAllowedUnsentAsyncMessages, settings.maxAllowedUnsentAsyncMessages);
+        std::swap(sendPoolMsgSize, settings.sendPoolMsgSize);
+        std::swap(maxTcpConnectTimeout, settings.maxTcpConnectTimeout);
+        std::swap(sendBufferSize, settings.sendBufferSize);
+        std::swap(recvBufferSize, settings.recvBufferSize);
+        return *this;
+    }
+#else
+    TcpConnSettings(TcpConnSettings&&)                = default;
+    TcpConnSettings& operator=(TcpConnSettings&&)     = default;
+#endif
+};
+
+/*! \brief Simple TCP client/server settings structure. */
+struct SimpleTcpSettings
+{
+    /*! \brief TCP connection settings. */
+    TcpConnSettings connSettings{};
+    /*! \brief Number of messages in pool for received message handling, defaults to 0, which
+     *         implies no pool used. This is also per client connection. */
+    size_t memPoolMsgCount{0};
+    /*! \brief Default size of message in received message pool. Only used when
+     *         memPoolMsgCount > 0. */
+    size_t recvPoolMsgSize{defs::RECV_POOL_DEFAULT_MSG_SIZE};
+
+    SimpleTcpSettings()
+    {
+    }
+
+    SimpleTcpSettings(size_t minAmountToRead_, eSendOption sendOption_,
+                      size_t maxAllowedUnsentAsyncMessages_, size_t sendPoolMsgSize_,
+                      uint32_t maxTcpConnectTimeout_, size_t memPoolMsgCount_,
+                      size_t recvPoolMsgSize_, size_t sendBufferSize_ = 0,
+                      size_t recvBufferSize_ = 0)
+        : connSettings(minAmountToRead_, sendOption_, maxAllowedUnsentAsyncMessages_,
+                       sendPoolMsgSize_, maxTcpConnectTimeout_, sendBufferSize_, recvBufferSize_)
+        , memPoolMsgCount(memPoolMsgCount_)
+        , recvPoolMsgSize(recvPoolMsgSize_)
+    {
+    }
+
+    ~SimpleTcpSettings()                                   = default;
+    SimpleTcpSettings(const SimpleTcpSettings&)            = default;
+    SimpleTcpSettings& operator=(const SimpleTcpSettings&) = default;
+#ifdef USE_EXPLICIT_MOVE_
+    /*! \brief Default move constructor. */
+    SimpleTcpSettings(SimpleTcpSettings&& settings)
+    {
+        *this = std::move(settings);
+    }
+    /*! \brief Default move assignment operator. */
+    SimpleTcpSettings& operator=(SimpleTcpSettings&& settings)
+    {
+        std::swap(connSettings, settings.connSettings);
+        std::swap(memPoolMsgCount, settings.memPoolMsgCount);
+        std::swap(recvPoolMsgSize, settings.recvPoolMsgSize);
+        return *this;
+    }
+#else
+    SimpleTcpSettings(SimpleTcpSettings&&)            = default;
+    SimpleTcpSettings& operator=(SimpleTcpSettings&&) = default;
+#endif
+};
+
 class TcpConnection;
 } // namespace tcp
 
@@ -296,7 +411,7 @@ using default_received_message_t = ReceivedMessage<MessageHeader>;
 /*! \brief Typedef to default version of received message shared pointer. */
 using default_received_message_ptr_t = std::shared_ptr<default_received_message_t>;
 /*! \brief Typedef to default message dispatcher function object. */
-using default_message_dispatcher_t = std::function<void(default_received_message_ptr_t)>;
+using default_message_dispatcher_t = std::function<void(default_received_message_ptr_t const&)>;
 /*! \brief Typedef to bytes left to reading checking utility function object. */
 using check_bytes_left_to_read_t = std::function<size_t(const char_buffer_t&)>;
 /*! \brief Typedef to message received handler function object. */
