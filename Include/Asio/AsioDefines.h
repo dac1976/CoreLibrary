@@ -33,17 +33,15 @@
 #include <utility>
 #include <string>
 #include <cstdint>
-#include <boost/asio.hpp>
-#include "CoreLibraryDllGlobal.h"
-#include "Platform/PlatformDefines.h"
+#include "../CoreLibraryDllGlobal.h"
+#include "AsioCompatibility.hpp"
+#include "features/PlatformFeatures.h"
 
 namespace boost_sys          = boost::system;
 namespace boost_asio         = boost::asio;
 namespace boost_placeholders = boost::asio::placeholders;
 namespace boost_mcast        = boost::asio::ip::multicast;
 
-/*! \brief Boost IO context convenience typedef. */
-using boost_iocontext_t = boost_asio::io_context;
 /*! \brief Boost tcp convenience typedef. */
 using boost_tcp_t = boost_asio::ip::tcp;
 /*! \brief Boost tcp acceptor convenience typedef. */
@@ -62,6 +60,19 @@ namespace core_lib
 namespace asio
 {
 
+/*! \brief The asio_defs namespace. */
+namespace defs
+{
+
+/*! \brief Thi is the default/initial reserved message size for each message on the recevie mesasge
+ *         pool (if pool is used) */
+enum eDefRecvPoolMsgSize : size_t
+{
+    RECV_POOL_DEFAULT_MSG_SIZE = 8192
+};
+
+} // namespace defs
+
 /*! \brief The tcp namespace. */
 namespace tcp
 {
@@ -75,7 +86,7 @@ enum eDefReservedSize : size_t
 /*! \brief Maximum number of unsent async messages allowed on TCP socket IO Service queue */
 enum eDefUnsentAsyncCount : size_t
 {
-    MAX_UNSENT_ASYNC_MSG_COUNT = 1000
+    MAX_UNSENT_ASYNC_MSG_COUNT = 100
 };
 
 /*! \brief Enumeration to control nagle algorithm. */
@@ -87,6 +98,15 @@ enum class eSendOption
     nagleOn
 };
 
+/*! \brief Enumeration to control keep alive behaviour of the connection. */
+enum class eKeepAliveOption
+{
+    /*! \brief off - keep alive not active. */
+    off,
+    /*! \brief on - keep alive active. */
+    on
+};
+
 /*! \brief Maximum time to wait for TCP socket to connect in milliseconds. */
 enum eDefTcpConnectTimeout : uint32_t
 {
@@ -94,13 +114,13 @@ enum eDefTcpConnectTimeout : uint32_t
 };
 
 /*! \brief TCP connection settings structure. */
-struct TcpConnSettings
+struct CORE_LIBRARY_DLL_SHARED_API TcpConnSettings
 {
     /*! \brief Minimum amount of data to read on each receive, typical size of header block. */
-    size_t minAmountToRead{sizeof(HGL_MSG_HDR)};
+    size_t minAmountToRead{sizeof(MessageHeader)};
     /*! \brief Socket send option. */
     eSendOption sendOption{eSendOption::nagleOn};
-    /*! \brief Maximum allowed number of unsent async messages. */
+    /*! \brief Maximum allowed number of unsent async messages.*/
     size_t maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
     /*! \brief  Default size of message in pool. Set to 0 to not use the pool and instead use
      *          dynamic allocation. */
@@ -111,6 +131,8 @@ struct TcpConnSettings
     size_t sendBufferSize{0};
     /*! \brief Size to set for receive buffer within socket in bytes. 0 - implies use default. */
     size_t recvBufferSize{0};
+    /*! \brief Keep alive option. */
+    eKeepAliveOption keepAliveOption{eKeepAliveOption::off};
 
     TcpConnSettings()
     {
@@ -119,7 +141,8 @@ struct TcpConnSettings
     TcpConnSettings(size_t minAmountToRead_, eSendOption sendOption_,
                     size_t maxAllowedUnsentAsyncMessages_, size_t sendPoolMsgSize_,
                     uint32_t maxTcpConnectTimeout_, size_t sendBufferSize_ = 0,
-                    size_t recvBufferSize_ = 0)
+                    size_t           recvBufferSize_  = 0,
+                    eKeepAliveOption keepAliveOption_ = eKeepAliveOption::off)
         : minAmountToRead(minAmountToRead_)
         , sendOption(sendOption_)
         , maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages_)
@@ -127,6 +150,7 @@ struct TcpConnSettings
         , maxTcpConnectTimeout(maxTcpConnectTimeout_)
         , sendBufferSize(sendBufferSize_)
         , recvBufferSize(recvBufferSize_)
+        , keepAliveOption(keepAliveOption_)
     {
     }
 
@@ -149,16 +173,21 @@ struct TcpConnSettings
         std::swap(maxTcpConnectTimeout, settings.maxTcpConnectTimeout);
         std::swap(sendBufferSize, settings.sendBufferSize);
         std::swap(recvBufferSize, settings.recvBufferSize);
+        std::swap(keepAliveOption, settings.keepAliveOption);
         return *this;
     }
+// If noexcept is supported as a functiont type, not a dynamic exception specification since C++17.
+#elif __cpp_noexcept_function_type
+    TcpConnSettings(TcpConnSettings&&) NO_EXCEPT_                  = default;
+    TcpConnSettings& operator=(TcpConnSettings&&) NO_EXCEPT_       = default;
 #else
-    TcpConnSettings(TcpConnSettings&&)                = default;
-    TcpConnSettings& operator=(TcpConnSettings&&)     = default;
+    TcpConnSettings(TcpConnSettings&&)                  = default;
+    TcpConnSettings& operator=(TcpConnSettings&&)       = default;
 #endif
 };
 
 /*! \brief Simple TCP client/server settings structure. */
-struct SimpleTcpSettings
+struct CORE_LIBRARY_DLL_SHARED_API SimpleTcpSettings
 {
     /*! \brief TCP connection settings. */
     TcpConnSettings connSettings{};
@@ -177,9 +206,11 @@ struct SimpleTcpSettings
                       size_t maxAllowedUnsentAsyncMessages_, size_t sendPoolMsgSize_,
                       uint32_t maxTcpConnectTimeout_, size_t memPoolMsgCount_,
                       size_t recvPoolMsgSize_, size_t sendBufferSize_ = 0,
-                      size_t recvBufferSize_ = 0)
+                      size_t           recvBufferSize_  = 0,
+                      eKeepAliveOption keepAliveOption_ = eKeepAliveOption::off)
         : connSettings(minAmountToRead_, sendOption_, maxAllowedUnsentAsyncMessages_,
-                       sendPoolMsgSize_, maxTcpConnectTimeout_, sendBufferSize_, recvBufferSize_)
+                       sendPoolMsgSize_, maxTcpConnectTimeout_, sendBufferSize_, recvBufferSize_,
+                       keepAliveOption_)
         , memPoolMsgCount(memPoolMsgCount_)
         , recvPoolMsgSize(recvPoolMsgSize_)
     {
@@ -202,13 +233,18 @@ struct SimpleTcpSettings
         std::swap(recvPoolMsgSize, settings.recvPoolMsgSize);
         return *this;
     }
+// If noexcept is supported as a functiont type, not a dynamic exception specification since C++17.
+#elif __cpp_noexcept_function_type
+    SimpleTcpSettings(SimpleTcpSettings&&) NO_EXCEPT_              = default;
+    SimpleTcpSettings& operator=(SimpleTcpSettings&&) NO_EXCEPT_   = default;
 #else
-    SimpleTcpSettings(SimpleTcpSettings&&)            = default;
-    SimpleTcpSettings& operator=(SimpleTcpSettings&&) = default;
+    SimpleTcpSettings(SimpleTcpSettings&&)              = default;
+    SimpleTcpSettings& operator=(SimpleTcpSettings&&)   = default;
 #endif
 };
 
 class TcpConnection;
+
 } // namespace tcp
 
 /*! \brief The udp namespace. */
@@ -265,16 +301,98 @@ enum class eMulticastTTL
 
 } // namespace udp
 
+/*! \brief The serial namespace. */
+namespace serial
+{
+
+/*! \brief Default baud rate in bps.*/
+enum eSerialBaudRate : uint32_t
+{
+    DEFAULT_SERIAL_BAUD_RATE = 115200
+};
+
+/*! \brief Default character size in bits.*/
+enum eSerialCharSize : uint32_t
+{
+    DEFAULT_SERIAL_CHAR_SIZE = 8
+};
+
+/*! \brief Default internal receive buffer's initial reserved size in bytes. */
+enum eSerialMessageBufSize : size_t
+{
+    DEFAULT_RECV_BUF_LEN = 65536,
+    DEFAULT_MSG_BUF_LEN  = 1024 * 1024
+};
+
+/*! \brief The serial port settings. */
+struct CORE_LIBRARY_DLL_SHARED_API SerialPortSettings
+{
+    size_t                                     minAmountToRead{DEFAULT_RECV_BUF_LEN};
+    size_t                                     recvBufLengthLength{DEFAULT_RECV_BUF_LEN};
+    size_t                                     msgBufLength{DEFAULT_MSG_BUF_LEN};
+    uint32_t                                   baudRate{DEFAULT_SERIAL_BAUD_RATE};
+    boost_asio::serial_port_base::flow_control flowControl{
+        boost_asio::serial_port_base::flow_control::none};
+    boost_asio::serial_port_base::parity    parity{boost_asio::serial_port_base::parity::none};
+    boost_asio::serial_port_base::stop_bits stopBits{boost_asio::serial_port_base::stop_bits::one};
+    uint32_t                                characterSize{DEFAULT_SERIAL_CHAR_SIZE};
+
+    SerialPortSettings()
+    {
+    }
+
+    SerialPortSettings(size_t minAmountToRead_, size_t recvBufLengthLength_, size_t msgBufLength_,
+                       uint32_t baudRate_, boost_asio::serial_port_base::flow_control flowControl_,
+                       boost_asio::serial_port_base::parity    parity_,
+                       boost_asio::serial_port_base::stop_bits stopBits_, uint32_t characterSize_)
+        : minAmountToRead(minAmountToRead_)
+        , recvBufLengthLength(recvBufLengthLength_)
+        , msgBufLength(msgBufLength_)
+        , baudRate(baudRate_)
+        , flowControl(flowControl_)
+        , parity(parity_)
+        , stopBits(stopBits_)
+        , characterSize(characterSize_)
+    {
+    }
+
+    ~SerialPortSettings()                                    = default;
+    SerialPortSettings(const SerialPortSettings&)            = default;
+    SerialPortSettings& operator=(const SerialPortSettings&) = default;
+#ifdef USE_EXPLICIT_MOVE_
+    /*! \brief Default move constructor. */
+    SerialPortSettings(SerialPortSettings&& settings)
+    {
+        *this = std::move(settings);
+    }
+    /*! \brief Default move assignment operator. */
+    SerialPortSettings& operator=(SerialPortSettings&& settings)
+    {
+        std::swap(minAmountToRead, settings.minAmountToRead);
+        std::swap(recvBufLengthLength, settings.recvBufLengthLength);
+        std::swap(msgBufLength, settings.msgBufLength);
+        std::swap(baudRate, settings.baudRate);
+        std::swap(flowControl, settings.flowControl);
+        std::swap(parity, settings.parity);
+        std::swap(stopBits, settings.stopBits);
+        std::swap(characterSize, settings.characterSize);
+        return *this;
+    }
+// If noexcept is supported as a functiont type, not a dynamic exception specification since C++17.
+#elif __cpp_noexcept_function_type
+    SerialPortSettings(SerialPortSettings&&) NO_EXCEPT_            = default;
+    SerialPortSettings& operator=(SerialPortSettings&&) NO_EXCEPT_ = default;
+#else
+    SerialPortSettings(SerialPortSettings&&)            = default;
+    SerialPortSettings& operator=(SerialPortSettings&&) = default;
+#endif
+};
+
+} // namespace serial
+
 /*! \brief The asio_defs namespace. */
 namespace defs
 {
-
-/*! \brief This is the default/initial reserved message size for each message on the recevie mesasge
- *         pool (if pool is used) */
-enum eDefRecvPoolMsgSize : size_t
-{
-    RECV_POOL_DEFAULT_MSG_SIZE = 8192
-};
 
 /*! \brief Typedef describing a network connection as (address, port). */
 using connection_t = std::pair<std::string, uint16_t>;
@@ -292,23 +410,24 @@ enum eMagicStringLen : uint32_t
 {
     MAGIC_STRING_LEN = 16
 };
-/*! \brief Constant defining default magc string as "_BEGIN_MESSAGE_". */
+/*! \brief Constant defining default magic string as "_BEGIN_MESSAGE_". */
 extern const char DEFAULT_MAGIC_STRING[];
 
-/*! \brief Message serialization archive type enumeration. */
+/*! \brief Message serialization archive type enumeration. See SerializeToVector.h.*/
 enum class eArchiveType : uint8_t
-{ /*! \brief Portable binary archive, requires Cereal serialization. */
-  portableBinary,
-  /*! \brief Binary archive, requires Cereal serialization. */
-  binary,
-  /*! \brief JSON archive, requires Cereal serialization. */
-  json,
-  /*! \brief XML archive, requires Cereal serialization. */
-  xml,
-  /*! \brief Raw data, only for POD objects. */
-  raw,
-  /*! \brief Google protocol buffer. */
-  protobuf
+{
+	 /*! \brief Portable binary archive, requires Cereal serialization. */
+	portableBinary,
+	/*! \brief Binary archive, requires Cereal serialization. */
+	binary,
+	/*! \brief JSON archive, requires Cereal serialization. */
+	json,
+	/*! \brief XML archive, requires Cereal serialization. */
+	xml,
+	/*! \brief Raw data, only for POD objects. */
+	raw,
+	/*! \brief Google protocol buffer. */
+	protobuf
 };
 
 // Push single byte alignment for the MessageHeader strcuture for maximum portability.
@@ -375,7 +494,7 @@ template <typename Header> struct ReceivedMessage
     /*! \brief Message header. */
     header_t header;
     /*! \brief Message body as a char buffer as all data received form socket is fundamentally an
-     * array pf chars. */
+     * array of chars. */
     char_buffer_t body;
     /*! \brief Default constructor. */
     ReceivedMessage() = default;
@@ -398,6 +517,12 @@ template <typename Header> struct ReceivedMessage
         body.swap(message.body);
         return *this;
     }
+// If noexcept is supported as a functiont type, not a dynamic exception specification since C++17.
+#elif __cpp_noexcept_function_type
+    /*! \brief Default move constructor. */
+    ReceivedMessage(ReceivedMessage&&) NO_EXCEPT_ = default;
+    /*! \brief Default move assignment operator. */
+    ReceivedMessage& operator=(ReceivedMessage&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Default move constructor. */
     ReceivedMessage(ReceivedMessage&&) = default;
@@ -412,13 +537,27 @@ using default_received_message_t = ReceivedMessage<MessageHeader>;
 using default_received_message_ptr_t = std::shared_ptr<default_received_message_t>;
 /*! \brief Typedef to default message dispatcher function object. */
 using default_message_dispatcher_t = std::function<void(default_received_message_ptr_t const&)>;
-/*! \brief Typedef to bytes left to reading checking utility function object. */
+/*! \brief Typedef to bytes left to reading checking utility function object.
+           If there is a problem with the message size this should return
+           std::numeric_limits<size_t>::max().*/
 using check_bytes_left_to_read_t = std::function<size_t(const char_buffer_t&)>;
+/*! \brief Typedef to bytes left to reading checking utility function object.
+           If there is a problem with the message size this should return
+           std::numeric_limits<size_t>::max().*/
+using check_bytes_left_to_read_ex_t =
+    std::function<size_t(const char_buffer_t&, std::string const&, uint16_t)>;
 /*! \brief Typedef to message received handler function object. */
 using message_received_handler_t = std::function<void(const char_buffer_t&)>;
+/*! \brief Typedef to extended message received handler function object. */
+using message_received_handler_ex_t =
+    std::function<void(const char_buffer_t&, std::string const&, uint16_t)>;
+/*! \brief Typedef for a TCP connection OnClose callback. */
+using on_close_t = std::function<void(const connection_t&)>;
 
 } // namespace defs
+
 } // namespace asio
 } // namespace core_lib
 
 #endif // ASIODEFINES
+
