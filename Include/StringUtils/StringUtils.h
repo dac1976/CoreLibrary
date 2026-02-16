@@ -19,23 +19,30 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-/*!
- * \file StringUtils.h
- * \brief File containing declarations relating various string utilities.
- */
-
-#ifndef STRINGUTILS
-#define STRINGUTILS
+#ifndef STRINGUTILS_H
+#define STRINGUTILS_H
 
 #include <string>
+#include <vector>
 #include <sstream>
 #include <iomanip>
+#include <iterator>
+#include <algorithm>
+#include <type_traits>
+#include <stdexcept>
+#include <utility>
 #include <map>
-#include <vector>
-#include <limits>
-#include <cmath>
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
+#if defined(IS_CPP17) && !defined(NO_FROM_CHARS)
+#include <charconv>
+#include <system_error>
+#endif
+#if defined(IS_CPP17)
+#include <string_view>
+#include <type_traits>
+#include <numeric>
+#endif
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -43,48 +50,6 @@ namespace core_lib
 /*! \brief The string_utils namespace. */
 namespace string_utils
 {
-
-/*!
- * \brief Tidy a string obtained from getline function.
- * \param[in,out] line - A string obtained using getline.
- *
- * Safely convert string into sensible form due to bug in some implementations
- * of std::getline() (looking at you Embarcadero C++ Builder) where size is
- * greater than pos of null char.
- */
-void CORE_LIBRARY_DLL_SHARED_API PackStdString(std::string& line);
-
-/*!
- * \brief Split string options enumeration.
- *
- * This enum controls how the results are formatted ater splitting the input
- * string.
- */
-enum class eSplitStringResult
-{
-    /*! \brief Trim the results, removing pre/pro-ceeding spaces. */
-    trimmed,
-    /*! \brief Do not trim the results. */
-    notTrimmed
-};
-
-/*!
- * \brief Split a string into two parts given delimiters.
- * \param[out] subStr1 - First output substring.
- * \param[out] subStr2 - Second output substring.
- * \param[in] toSplit - Input string to be split into two.
- * \param[in] delim - Delimiters to look for to split around.
- * \param[in] option - Options to formt resultant substrings.
- *
- * Given an input string and a string containing delimiters the input
- * string is split into two parts either side of the deilimiter string.
- * If none of the delimiters can be found then a std::invalid_argument
- * exception is thrown. If the string will be split into more than two
- * substrings then a std::runtime_error exception is thrown.
- */
-void CORE_LIBRARY_DLL_SHARED_API SplitString(std::string& subStr1, std::string& subStr2,
-                                             const std::string& toSplit, const std::string& delim,
-                                             eSplitStringResult option);
 
 /*!
  * \brief Format float options enumeration.
@@ -204,16 +169,61 @@ template <typename T> std::string AutoFormatFloatString(const T value, int decim
  * \param[in] text - Source string potentially with illegal chars.
  * \param[in] illegalChars - String containing illegal chars to look for in text.
  * \param[in] replacementChar - String containing replacement.
- * \return Copy of text with ilegal chars replaced.
+ * \return Copy of text with illegal chars replaced.
  */
-std::wstring CORE_LIBRARY_DLL_SHARED_API RemoveIllegalChars(
-    const std::wstring& text, const std::wstring& illegalChars = L"~#%&*{}\\:<>?/+|\"",
-    wchar_t replacementChar = L'_');
+#if defined(IS_CPP17)
+std::string CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(std::string_view text,
+                                std::string_view illegalChars    = "~#%&*{}\\:<>?/+|\"",
+                                char             replacementChar = '_');
 
-std::string CORE_LIBRARY_DLL_SHARED_API
-            RemoveIllegalChars(const std::string& text, const std::string& illegalChars = "~#%&*{}\\:<>?/+|\"",
-                               char replacementChar = '_');
+std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(std::wstring_view text,
+                                 std::wstring_view illegalChars    = L"~#%&*{}\\:<>?/+|\"",
+                                 wchar_t           replacementChar = L'_');
+#else
+std::string CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(const std::string& text,
+                                const std::string& illegalChars    = "~#%&*{}\\:<>?/+|\"",
+                                char               replacementChar = '_');
 
+std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(const std::wstring& text,
+                                 const std::wstring& illegalChars    = L"~#%&*{}\\:<>?/+|\"",
+                                 wchar_t             replacementChar = L'_');
+#endif
+
+/*!
+ * \brief Return a flag to indicate whether string contains illegal chars.
+ * \param[in] text - Source string potentially with illegal chars.
+ * \param[in] illegalChars - String containing illegal chars to look for in text.
+ * \return True if contains illegal chars, false otherwise.
+ */
+#if defined(IS_CPP17)
+bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(std::string_view text,
+                          std::string_view illegalChars = "~#%&*{}\\:<>?/+|\"");
+
+bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(std::wstring_view text,
+                          std::wstring_view illegalChars = L"~#%&*{}\\:<>?/+|\"");
+#else
+bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(const std::string& text,
+                                  const std::string& illegalChars = "~#%&*{}\\:<>?/+|\"");
+
+bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(const std::wstring& text,
+                          const std::wstring& illegalChars = L"~#%&*{}\\:<>?/+|\"");
+#endif
+
+/*!
+ * \brief Return a flag to indicate whether string contains only alphanumeric chars.
+ * \param[in] text - Source string potentially with illegal chars.
+ * \return True if contains only alphanumeric chars, false otherwise.
+ */
+#if defined(IS_CPP17)
+bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(std::string_view text);
+bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(std::wstring_view text);
+#else
+bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::string& text);
+bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::wstring& text);
+#endif
+
+#if defined(NOT_USING_BOOST_LOCALE)
+#if (_MSC_VER >= 1800) || defined(__clang__) || defined(__GNUC__)
 /*!
  * \brief Convert a std::string to std::wstring.
  * \param[in] text - Source string.
@@ -227,44 +237,113 @@ std::wstring CORE_LIBRARY_DLL_SHARED_API StringToWString(const std::string& text
  * \return Converted string.
  */
 std::string CORE_LIBRARY_DLL_SHARED_API WStringToString(const std::wstring& text);
+#endif
+#else
+/*!
+ * \brief Convert a std::string to std::wstring.
+ * \param[in] text - Source string.
+ * \param[in] encoding - Source string encoding, e.g. "ISO-8859-1", "Latin1" etc.
+ * \return Converted string.
+ */
+std::wstring CORE_LIBRARY_DLL_SHARED_API StringToWString(const std::string& text, const std::string& encoding = "ISO-8859-1");
 
 /*!
- * \brief Return a flag to indicate whether string contains only alphanumeric chars.
- * \param[in] text - Source string potentially with illegal chars.
- * \return True if contains only alphanumeric chars, false otherwise.
+ * \brief Convert a std::wstring to std::string.
+ * \param[in] text - Source string
+ * \param[in] encoding - Result string encoding, e.g. "ISO-8859-1", "Latin1" etc.
+ * \return Converted string.
  */
-bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::wstring& text);
-
-bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::string& text);
+std::string CORE_LIBRARY_DLL_SHARED_API WStringToString(const std::wstring& text, const std::string& encoding = "ISO-8859-1");
+#endif
 
 /*!
  * \brief Convert a range of data that is convertible to ints to a string of hex values.
  * \param[in] first - Iterator to first item in range
  * \param[in] last - Iterator to end of range
  * \param[in] useUppercase - Use uppercase letters for hex values
- * \param[in] insertSpaces - Insert spaces between each byte value
+ * \param[in] insertSeparator - Insert separator char between each byte value
+ * \param[in] separator - Separator char to use, defaults to a space.
  * \return Hex string representing input range.
  */
 template <typename Iter>
-std::string MakeHexString(Iter first, Iter last, bool useUppercase, bool insertSpaces)
+void MakeHexStream(std::ostream& os, Iter first, Iter last, bool useUppercase, bool insertSeparator,
+                   char separator = ' ')
 {
-    std::ostringstream ss;
-    ss << std::hex << std::setfill('0');
+    os << std::hex << std::setfill('0');
 
     if (useUppercase)
     {
-        ss << std::uppercase;
+        os << std::uppercase;
     }
 
     while (first != last)
     {
-        ss << std::setw(2) << static_cast<int>(*first++);
+        os << std::setw(2) << static_cast<int>(*first++);
 
-        if (insertSpaces && first != last)
+        if (insertSeparator && first != last)
         {
-            ss << " ";
+            os << separator;
         }
     }
+}
+
+template <typename Iter>
+std::string MakeHexString(Iter first, Iter last, bool useUppercase, bool insertSeparator,
+                          char separator = ' ')
+{
+    std::ostringstream ss;
+
+    MakeHexStream(ss, first, last, useUppercase, insertSeparator, separator);
+
+    return ss.str();
+}
+
+/*!
+ * \brief Convert a single unsigned integral value to a hex string.
+ * \param[in] value - Unsigned integer value
+ * \param[in] useUppercase - Use uppercase letters for hex values
+ * \param[in] insertLeadingSymbol - Insert leading "0x".
+ * \param[in] minNumHexDigits - how many hex digits to include, default is to use as many as
+ *                              required for integral type T.
+ * \return Hex string representing input range.
+ */
+template <typename T>
+void MakeHexStream(std::ostream& os, T value, bool useUppercase = true,
+                   bool insertLeadingSymbol = true, size_t minNumHexDigits = 0)
+{
+    static_assert(std::is_unsigned<T>::value, "T must be an unsigned integral type");
+
+    os << std::hex << std::setfill('0');
+
+    if (insertLeadingSymbol)
+    {
+        os << "0x";
+    }
+
+    if (useUppercase)
+    {
+        os << std::uppercase;
+    }
+
+    if (0 == minNumHexDigits)
+    {
+        os << std::setw(sizeof(value) * 2);
+    }
+    else
+    {
+        os << std::setw(minNumHexDigits);
+    }
+
+    os << value;
+}
+
+template <typename T>
+std::string MakeHexString(T value, bool useUppercase = true, bool insertLeadingSymbol = true,
+                          size_t minNumHexDigits = 0)
+{
+    std::ostringstream ss;
+
+    MakeHexStream(ss, value, useUppercase, insertLeadingSymbol, minNumHexDigits);
 
     return ss.str();
 }
@@ -274,23 +353,394 @@ std::string MakeHexString(Iter first, Iter last, bool useUppercase, bool insertS
  * \param[in] text - string to tokenise
  * \param[in] separator - separator string
  * \param[in] keepEmptyTokens - keep empty tokens in result vector
- * \return Vector of string tokens.
+ * \return Vector of string tokens, trimmed to remove leading/trailing spaces.
+ * The following is supported (when separator = ","):
+ *    Field 1,Field 2,Field 3
  */
-std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(std::string const& text,
-                                                                    std::string const& separator,
-                                                                    bool keepEmptyTokens = false);
+std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(std::string const& text, std::string const& separator,
+                                        bool keepEmptyTokens = false);
 
 /*!
- * \brief Gieven a string containing tokens, replace tokens with specific string values.
+ * \brief Tokenise a string separated by a separator substring and split it into tokens,
+ *        where the tokens can be escaped.
+ * \param[in] text - string to tokenise
+ * \param[in] separator - separator string
+ * \param[in] keepEmptyTokens - keep empty tokens in result vector
+ * \return Vector of string tokens, trimmed to remove leading/trailing spaces.
+ *
+ * The escape char is '\\' and the quote character is '\"'. This fits the CSV definition.
+ * The following are supported (when separator = ","):
+ *    Field 1,Field 2,Field 3
+ *    Field 1,"Field 2, with comma",Field 3
+ *    Field 1,Field 2 with \"embedded quote\",Field 3
+ *    Field 1, Field 2 with \n new line,Field 3
+ *    Field 1, Field 2 with embedded \\ ,Field 3
+ */
+std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseEscapedString(std::string const& text,
+                                               std::string const& separator,
+                                               bool               keepEmptyTokens = false);
+
+/*!
+ * \brief Given a string containing tokens, replace tokens with specific string values.
  * \param[in] text - string to replace tokens in
  * \param[in] tokenMap - map of token strings and the string values to replace the tokens with in
  *                       'text' arg. \return Vector of string tokens.
  * \return Copy of text with tokens replaced.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API
-            ReplaceTokens(std::string const& text, std::map<std::string, std::string> const& tokenMap);
+std::string CORE_LIBRARY_DLL_SHARED_API ReplaceTokens(std::string const&                        text,
+                           std::map<std::string, std::string> const& tokenMap);
+std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceTokens(std::wstring const&                         text,
+                           std::map<std::wstring, std::wstring> const& tokenMap);
+
+/*!
+ * \brief Given a string remove surrounding quotes, either ' or ".
+ * \param[in] text - string to remove quotes from.
+ * \return Copy of text with quotes removed.
+ */
+std::string CORE_LIBRARY_DLL_SHARED_API RemoveSurroundingQuotes(std::string const& text);
+
+/*!
+ * \brief Given a char array that may or may not have a null terminator convert to std::string.
+ * \param[in] text - char array to convert safely
+ * \param[in] length - length in bytes of text not inc null char
+ * \return String as a std::string
+ *
+ * Function throws if text is null.
+ */
+std::string CORE_LIBRARY_DLL_SHARED_API SafeConvertCharArrayToStdString(const char* text, size_t length);
+
+/*!
+ * \brief Given a char array that may or may not have a null terminator convert to std::string.
+ * \param[in] text - char array to convert safely
+ * \return String as a std::string
+ */
+template <size_t length> std::string SafeConvertCharArrayToStdString(const char (&text)[length])
+{
+    return SafeConvertCharArrayToStdString(text, length);
+}
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator compare them safely.
+ * \param[in] text1 - char array A
+ * \param[in] length1 - length in bytes of text1 not inc null char
+ * \param[in] text2 - char array B
+ * \param[in] length1 - length in bytes of text2 not inc null char
+ * \return true if match, false otherwise
+ *
+ * Function throws if either text1, text2 or both is null.
+ */
+bool CORE_LIBRARY_DLL_SHARED_API SafeCompareCharArrays(const char* text1, size_t length1, const char* text2, size_t length2);
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator compare them safely.
+ * \param[in] text1 - char array A
+ * \param[in] text2 - char array B
+ * \return true if match, false otherwise
+ */
+template <size_t length1, size_t length2>
+bool SafeCompareCharArrays(const char (&text1)[length1], const char (&text2)[length2])
+{
+    return SafeCompareCharArrays(text1, length1, text2, length2);
+}
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator copy
+ * one to the other safely.
+ * \param[in] dest - destination char array
+ * \param[in] destLen - total length in bytes of dest
+ * \param[in] src - source char array
+ * \param[in] srcLen - length in bytes of src not including null char
+ * \param[in] forceNull - force a null to be set in last char may cause truncation
+ *
+ * This function can result in dest not being null terminated and that is
+ * correct behaviour and is an intended side-effect of this function.
+ * The dest string will be null terminated if destLen < srcLen or forceNull == true.
+ *
+ * Function throws if dest is null.
+ */
+void CORE_LIBRARY_DLL_SHARED_API SafeCopyCharArray(char* dest, size_t destLen, char const* src, size_t srcLen,
+                       bool forceNull = false);
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator copy
+ * one to the other safely.
+ * \param[in] dest - destination char array
+ * \param[in] src - source char array
+ * \param[in] forceNull - force a null to be set in last char may cause truncation
+ *
+ * This function can result in dest not being null terminated and that is
+ * correct behaviour and is an intended side-effect of this function.
+ * The dest string will be null terminated if destLen < srcLen or forceNull == true.
+ */
+template <size_t destLen, size_t srcLen>
+void SafeCopyCharArray(char (&dest)[destLen], const char (&src)[srcLen], bool forceNull = false)
+{
+    SafeCopyCharArray(dest, destLen, src, srcLen, forceNull);
+}
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator copy
+ * one to the other safely.
+ * \param[in] dest - destination char array as a char pointer
+ * \param[in] destLen - total length in bytes of dest
+ * \param[in] src - source char array
+ * \param[in] forceNull - force a null to be set in last char may cause truncation
+ *
+ * This function can result in dest not being null terminated and that is
+ * correct behaviour and is an intended side-effect of this function.
+ * The dest string will be null terminated if destLen < srcLen or forceNull == true.
+ *
+ * Function throws if dest is null.
+ */
+template <size_t srcLen>
+void SafeCopyCharArray(char* dest, size_t destLen, const char (&src)[srcLen],
+                       bool forceNull = false)
+{
+    SafeCopyCharArray(dest, destLen, src, srcLen, forceNull);
+}
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator copy
+ * one to the other safely.
+ * \param[in] dest - destination char array
+ * \param[in] src - source char array
+ * \param[in] srcLen - length in bytes of src not including null char
+ * \param[in] forceNull - force a null to be set in last char may cause truncation
+ *
+ * This function can result in dest not being null terminated and that is
+ * correct behaviour and is an intended side-effect of this function.
+ * The dest string will be null terminated if destLen < srcLen or forceNull == true.
+ */
+template <size_t destLen>
+void SafeCopyCharArray(char (&dest)[destLen], char const* src, size_t srcLen,
+                       bool forceNull = false)
+{
+    SafeCopyCharArray(dest, destLen, src, srcLen, forceNull);
+}
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator copy
+ * one to the other safely.
+ * \param[in] dest - destination char array
+ * \param[in] src - source string
+ * \param[in] forceNull - force a null to be set in last char may cause truncation
+ *
+ * This function can result in dest not being null terminated and that is
+ * correct behaviour and is an intended side-effect of this function.
+ * The dest string will be null terminated if destLen < srcLen or forceNull == true.
+ */
+template <size_t destLen>
+#if defined(IS_CPP17)
+void SafeCopyCharArray(char (&dest)[destLen], std::string_view src, bool forceNull = false)
+#else
+void SafeCopyCharArray(char (&dest)[destLen], std::string const& src, bool forceNull = false)
+#endif
+{
+    SafeCopyCharArray(dest, destLen, src.data(), src.size(), forceNull);
+}
+
+/*!
+ * \brief Given 2 strings that may or may not have a null terminator copy
+ * one to the other safely.
+ * \param[in] dest - destination char array as a char pointer
+ * \param[in] destLen - total length in bytes of dest
+ * \param[in] src - source string
+ * \param[in] forceNull - force a null to be set in last char may cause truncation
+ *
+ * This function can result in dest not being null terminated and that is
+ * correct behaviour and is an intended side-effect of this function.
+ * The dest string will be null terminated if destLen < srcLen or forceNull == true.
+ *
+ * Function throws if dest is null.
+ */
+#if defined(IS_CPP17)
+void CORE_LIBRARY_DLL_SHARED_API SafeCopyCharArray(char* dest, size_t destLen, std::string_view src, bool forceNull = false);
+#else
+void CORE_LIBRARY_DLL_SHARED_API SafeCopyCharArray(char* dest, size_t destLen, std::string const& src, bool forceNull = false);
+#endif
+
+/*!
+ * \brief Convert a character array to an integer safely.
+ * \param[in] src - source text containing numerical value
+ * \param[in] length - total length in bytes of src
+ * \return A pair containing the numerical value plus a boolean indicating success.
+ */
+template <typename TInt>
+std::pair<TInt, bool> SafeConvertCharArrayToInt(const char* text, size_t length)
+{
+    static_assert(std::is_integral<TInt>::value, "TInt must be an integral type");
+
+    std::pair<TInt, bool> result(0, false);
+
+    if ((nullptr == text) || (0 == length))
+    {
+        return result;
+    }
+
+#if defined(IS_CPP17) && !defined(NO_FROM_CHARS)
+    auto [ptr, res] = std::from_chars(text, text + length, result.first);
+    result.second   = res == std::errc();
+#else
+    try
+    {
+        // We'll furst try to convert to a signed long long int (i.e.in64_t)
+        // then we'll static case to the proper type from there.
+        result.first  = static_cast<TInt>(std::stoll(std::string(text, length)));
+        result.second = true;
+    }
+    catch (...)
+    {
+        // Do nothing.
+    }
+#endif
+
+    return result;
+}
+
+#if defined(IS_CPP17)
+/*!
+ * \brief Functor to help with std containers when trying to compare std::string_view with
+ * std::string. Such as std::map<std::string, T>::find(XXX).
+ * Use like: std::map<std::string, T, StringViewComparator>.
+ */
+struct CORE_LIBRARY_DLL_SHARED_API StringViewComparator
+{
+    // Enables heterogeneous lookup.
+    using is_transparent = void;
+
+    bool operator()(const std::string& lhs, const std::string& rhs) const
+    {
+        return lhs < rhs;
+    }
+
+    bool operator()(const std::string& lhs, std::string_view rhs) const
+    {
+        return lhs < rhs;
+    }
+
+    bool operator()(std::string_view lhs, const std::string& rhs) const
+    {
+        return lhs < rhs;
+    }
+
+    bool operator()(std::string_view lhs, std::string_view rhs) const
+    {
+        return lhs < rhs;
+    }
+};
+
+/*!
+ * \brief Functor to help with std containers when trying to compare std::string_view with
+ * std::string for equality. Such as std::unordered_map<std::string, T>::find(XXX).
+ * Use like: std::unordered_map<std::string, T, std::hash<std::string>, StringViewEquality>.
+ */
+struct CORE_LIBRARY_DLL_SHARED_API StringViewEquality
+{
+    // Enables heterogeneous lookup.
+    using is_transparent = void;
+
+    bool operator()(const std::string& lhs, const std::string& rhs) const
+    {
+        return lhs == rhs;
+    }
+
+    bool operator()(const std::string& lhs, std::string_view rhs) const
+    {
+        return lhs == rhs;
+    }
+
+    bool operator()(std::string_view lhs, const std::string& rhs) const
+    {
+        return lhs == rhs;
+    }
+
+    bool operator()(std::string_view lhs, std::string_view rhs) const
+    {
+        return lhs == rhs;
+    }
+};
+
+/*!
+ * \brief Fast concatenation of strings, faster than std::stringstream and other methods.
+ * \param[in] args - variable number of std::string_view args
+ * \return A std::string containing the concatenation of the inputs.
+ */
+template <typename... Args>
+std::enable_if_t<(std::is_same_v<std::string_view, Args> && ...), std::string>
+FastConcatenateStrings(Args... args)
+{
+    // Calculate the total length of all substrings
+    size_t totalLength = (args.size() + ... + 0);
+
+    // Reserve the correct amount of bytes
+    std::string result;
+    result.reserve(totalLength);
+
+    // Append all substrings
+    (result += ... += args);
+
+    return result;
+}
+
+/*!
+ * \brief Fast concatenation of strings, faster than std::stringstream and other methods.
+ * \param[in] workspace - string to use as workspace
+ * \param[in] args - variable number of std::string_view args
+ * \return A std::string const& containing the concatenation of the inputs contained in workspace.
+ */
+template <typename... Args>
+std::enable_if_t<(std::is_same_v<std::string_view, Args> && ...), std::string const&>
+FastConcatenateStrings(std::string& workspace, Args... args)
+{
+    // Calculate the total length of all substrings
+    size_t totalLength = (args.size() + ... + 0);
+
+    // Reserve the correct amount of bytes
+    workspace.clear();
+    workspace.reserve(totalLength);
+
+    // Append all substrings
+    (workspace += ... += args);
+
+    return workspace;
+}
+
+/*!
+ * \brief Concatenation of strings, faster than std::stringstream and other methods.
+ * \param[in] args - std::vector of std::string_views to concatenate
+ * \return A std::string containing the concatenation of the inputs.
+ */
+std::string CORE_LIBRARY_DLL_SHARED_API ConcatenateStrings(std::vector<std::string_view> const& args);
+
+/*!
+ * \brief Concatenation of strings, faster than std::stringstream and other methods.
+ * \param[in] workspace - string to use as workspace
+ * \param[in] args - std::vector of std::string_views to concatenate
+ * \return A std::string const& containing the concatenation of the inputs contained in workspace.
+ */
+std::string const& CORE_LIBRARY_DLL_SHARED_API ConcatenateStrings(std::string&                         workspace,
+                                      std::vector<std::string_view> const& args);
+
+// ****************************************************************************
+// String vectors
+// ****************************************************************************
+
+/*!
+ * \brief Quick way to compare vectors of strings reducing memory copying.
+ * \param[in] v1 - first vector of strings
+ * \param[in] v2 - second vector of strings
+ * \return true if vectors contain the same strings regardless of order.
+ *
+ * Internally uses string_view to avoid needing to copy strings.
+ *
+ * Vectors are equal if they are the same size and contain the same
+ * strings regardless of their order.
+ */
+bool CORE_LIBRARY_DLL_SHARED_API CompareUnorderedVectors(std::vector<std::string> const& v1,
+                             std::vector<std::string> const& v2);
+#endif
 
 } // namespace string_utils
 } // namespace core_lib
 
-#endif // STRINGUTILS
+#endif // STRINGUTILS_H
