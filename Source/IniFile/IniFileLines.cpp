@@ -70,8 +70,8 @@ CommentLine::CommentLine(CommentLine&& line)
 
 CommentLine& CommentLine::operator=(CommentLine&& line)
 {
-    Line::operator=(std::move(line));
     std::swap(m_comment, line.m_comment);
+	Line::operator=(std::move(line));
     return *this;
 }
 #endif

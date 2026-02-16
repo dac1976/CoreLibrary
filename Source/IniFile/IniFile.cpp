@@ -36,8 +36,17 @@
 
 namespace core_lib
 {
-namespace ini_file
+
+void PackStdString(std::string& line)
 {
+    size_t pos = line.find_first_of('\0');
+
+    if (pos < std::string::npos)
+    {
+        std::string correctedLine{line.begin(), line.begin() + static_cast<int>(pos)};
+        line.swap(correctedLine);
+    }
+}
 
 // ****************************************************************************
 // 'class IniFile' definition
@@ -47,7 +56,7 @@ namespace
 
 static bool IsBlankLine(const std::string& line)
 {
-    return line == "";
+    return line.empty() || (line == "");
 }
 
 static bool IsCommentLine(const std::string& line, std::string& comment)
@@ -77,7 +86,7 @@ static bool IsSectionLine(const std::string& line, std::string& section)
 
 static bool IsKeyLine(const std::string& line, std::string& key, std::string& value)
 {
-    auto pos = line.find_first_of("=");
+    auto pos = line.find_first_of('=');
 
     if (std::string::npos == pos)
     {
@@ -151,16 +160,17 @@ void IniFile::LoadFile(const std::string& iniFilePath)
     {
         std::string line;
         std::getline(iniStream, line);
-        string_utils::PackStdString(line);
+        PackStdString(line);
         boost::trim(line);
         std::string str1, str2;
 
         if (IsBlankLine(line))
         {
-            // We'll filter out extraneous blank lines, but if we did want to track them we
-            // could do the following:
+            // Remove blank lines on load. We'll put them back between sections
+            // upon writing back to disk.
             //
-            // m_lines.insert(m_lines.end(), std::make_shared<if_private::BlankLine>());
+            // If we wanted to keep blank lines we could do:
+            // m_lines.insert(m_lines.end(), std::make_shared<BlankLine>());
         }
         else if (IsCommentLine(line, str1))
         {
@@ -186,7 +196,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
         }
         else if (IsKeyLine(line, str1, str2))
         {
-            if ((str1 == "") || (sectIt == m_sectionMap.end()))
+            if (str1.empty() || (str1 == "") || (sectIt == m_sectionMap.end()))
             {
                 BOOST_THROW_EXCEPTION(std::runtime_error("file contains invalid key"));
             }

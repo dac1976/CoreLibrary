@@ -58,6 +58,15 @@ public:
     SectionDetails(SectionDetails&& section);
     /*! \brief Move assignment operator. */
     SectionDetails& operator=(SectionDetails&& section);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    #if ((defined(_MSVC_LANG) && _MSVC_LANG >= 202002L) || __cplusplus >= 202002L)
+    SectionDetails(SectionDetails&&) NO_EXCEPT_ = default;
+    #else
+    SectionDetails(SectionDetails&&) = default;
+    #endif
+    /*! \brief Move assignment operator. */
+    SectionDetails& operator=(SectionDetails&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     SectionDetails(SectionDetails&&) = default;

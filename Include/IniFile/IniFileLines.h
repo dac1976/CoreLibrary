@@ -67,7 +67,7 @@ public:
 };
 
 /*! \brief Class to manage a blank line in an INI file. */
-class CORE_LIBRARY_DLL_SHARED_API BlankLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API BlankLine final : public Line
 {
 public:
     /*! \brief Default constructor. */
@@ -83,6 +83,11 @@ public:
     BlankLine(BlankLine&& line);
     /*! \brief Move assignment operator. */
     BlankLine& operator=(BlankLine&& line);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    BlankLine(BlankLine&&) NO_EXCEPT_ = default;
+    /*! \brief Move assignment operator. */
+    BlankLine& operator=(BlankLine&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     BlankLine(BlankLine&&) = default;
@@ -98,7 +103,7 @@ public:
 };
 
 /*! \brief Class to manage a comment line in an INI file. */
-class CORE_LIBRARY_DLL_SHARED_API CommentLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API CommentLine final : public Line
 {
 public:
     /*! \brief Default constructor. */
@@ -116,6 +121,11 @@ public:
     CommentLine(CommentLine&& line);
     /*! \brief Move assignment operator. */
     CommentLine& operator=(CommentLine&& line);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    CommentLine(CommentLine&&) NO_EXCEPT_ = default;
+    /*! \brief Move assignment operator. */
+    CommentLine& operator=(CommentLine&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     CommentLine(CommentLine&&) = default;
@@ -140,7 +150,7 @@ private:
 };
 
 /*! \brief Class to manage a section header line in an INI file. */
-class CORE_LIBRARY_DLL_SHARED_API SectionLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API SectionLine final : public Line
 {
 public:
     /*! \brief Default constructor. */
@@ -158,6 +168,11 @@ public:
     SectionLine(SectionLine&& line);
     /*! \brief Move assignment operator. */
     SectionLine& operator=(SectionLine&& line);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    SectionLine(SectionLine&&) NO_EXCEPT_ = default;
+    /*! \brief Move assignment operator. */
+    SectionLine& operator=(SectionLine&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     SectionLine(SectionLine&&) = default;
@@ -182,7 +197,7 @@ private:
 };
 
 /*! \brief Class to manage a section key line in an INI file. */
-class CORE_LIBRARY_DLL_SHARED_API KeyLine : public Line
+class CORE_LIBRARY_DLL_SHARED_API KeyLine final : public Line
 {
 public:
     /*! \brief Default constructor. */
@@ -200,6 +215,11 @@ public:
     KeyLine(KeyLine&& line);
     /*! \brief Move assignment operator. */
     KeyLine& operator=(KeyLine&& line);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    KeyLine(KeyLine&&) NO_EXCEPT_ = default;
+    /*! \brief Move assignment operator. */
+    KeyLine& operator=(KeyLine&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     KeyLine(KeyLine&&) = default;

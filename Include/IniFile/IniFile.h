@@ -97,6 +97,15 @@ public:
     IniFile(IniFile&& ini);
     /*! \brief Move assignment operator. */
     IniFile& operator=(IniFile&& ini);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    #if ((defined(_MSVC_LANG) && _MSVC_LANG >= 202002L) || __cplusplus >= 202002L)
+	IniFile(IniFile&&) NO_EXCEPT_ = default;
+	#else
+	IniFile(IniFile&&) = default;
+	#endif
+	/*! \brief Move assignment operator. */
+    IniFile& operator=(IniFile&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     IniFile(IniFile&&) = default;
