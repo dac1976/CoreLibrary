@@ -1,8 +1,8 @@
 #ifndef DISABLE_DEBUGLOG_TESTS
 
 #include <ostream>
+#include "DebugLogging.h"
 #include <boost/filesystem.hpp>
-#include "DebugLog/DebugLogging.h"
 
 #include "gtest/gtest.h"
 
@@ -30,10 +30,10 @@ protected:
 // DebugLog tests
 // ****************************************************************************
 
-TEST_F(DebugLogTest, testCase_DebugLog1)
+TEST_F(DebugLogTest, testCase_DebugLog1a)
 {
     core_lib::log::DefaultLogFormat dlf;
-    std::stringstream               ss;
+    std::stringstream          ss;
     using std::chrono::system_clock;
     time_t messageTime = system_clock::to_time_t(system_clock::now());
     int    lineNo      = __LINE__;
@@ -44,16 +44,78 @@ TEST_F(DebugLogTest, testCase_DebugLog1)
         __FILE__,
         BOOST_CURRENT_FUNCTION,
         lineNo,
-        std::this_thread::get_id());
+        std::this_thread::get_id(),
+        false,
+        false);
 
     std::stringstream time;
-    time << std::put_time(std::localtime(&messageTime), "%F %T");
+    time << std::put_time(std::localtime(&messageTime), "%Y %b %d %H:%M:%S");
 
     std::stringstream test;
     test << time.str() << " | Info"
-         << " | I am a test message"
-         << " | " << __FILE__ << " | " << BOOST_CURRENT_FUNCTION << " | Line = " << lineNo
-         << " | Thread ID = " << std::this_thread::get_id() << std::endl;
+         << " | \"I am a test message\""
+         << " | File = " << __FILE__ << " | Function = " << BOOST_CURRENT_FUNCTION
+         << " | Line = " << lineNo << " | Thread ID = " << std::this_thread::get_id() << std::endl;
+
+    EXPECT_TRUE(ss.str() == test.str());
+}
+
+TEST_F(DebugLogTest, testCase_DebugLog1b)
+{
+    core_lib::log::DefaultLogFormat dlf;
+    std::stringstream          ss;
+    using std::chrono::system_clock;
+    time_t messageTime = system_clock::to_time_t(system_clock::now());
+    int    lineNo      = __LINE__;
+    dlf(ss,
+        messageTime,
+        "I am a test message",
+        "Info",
+        __FILE__,
+        BOOST_CURRENT_FUNCTION,
+        lineNo,
+        std::this_thread::get_id(),
+        false,
+        true);
+
+    std::stringstream time;
+    time << std::put_time(std::localtime(&messageTime), "%Y %b %d %H:%M:%S%z");
+
+    std::stringstream test;
+    test << time.str() << " | Info"
+         << " | \"I am a test message\""
+         << " | File = " << __FILE__ << " | Function = " << BOOST_CURRENT_FUNCTION
+         << " | Line = " << lineNo << " | Thread ID = " << std::this_thread::get_id() << std::endl;
+
+    EXPECT_TRUE(ss.str() == test.str());
+}
+
+TEST_F(DebugLogTest, testCase_DebugLog1c)
+{
+    core_lib::log::DefaultLogFormat dlf;
+    std::stringstream          ss;
+    using std::chrono::system_clock;
+    time_t messageTime = system_clock::to_time_t(system_clock::now());
+    int    lineNo      = __LINE__;
+    dlf(ss,
+        messageTime,
+        "I am a test message",
+        "Info",
+        __FILE__,
+        BOOST_CURRENT_FUNCTION,
+        lineNo,
+        std::this_thread::get_id(),
+        true,
+        false);
+
+    std::stringstream time;
+    time << std::put_time(std::gmtime(&messageTime), "%Y %b %d %H:%M:%S");
+
+    std::stringstream test;
+    test << time.str() << " | Info"
+         << " | \"I am a test message\""
+         << " | File = " << __FILE__ << " | Function = " << BOOST_CURRENT_FUNCTION
+         << " | Line = " << lineNo << " | Thread ID = " << std::this_thread::get_id() << std::endl;
 
     EXPECT_TRUE(ss.str() == test.str());
 }
@@ -76,16 +138,16 @@ TEST_F(DebugLogTest, testCase_DebugLog2)
         switch (++lineCount)
         {
         case 1:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
             break;
         case 2:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
             break;
         case 4:
-            EXPECT_TRUE(line == "");
+            EXPECT_TRUE(line.compare("") == 0);
             break;
         default:
             FAIL() << "Too many lines";
@@ -102,7 +164,7 @@ TEST_F(DebugLogTest, testCase_DebugLog2)
     bfs::remove("test_log.txt");
 }
 
-TEST_F(DebugLogTest, testCase_DebugLog3)
+TEST_F(DebugLogTest, testCase_DebugLog3a)
 {
     {
         core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log");
@@ -135,25 +197,158 @@ TEST_F(DebugLogTest, testCase_DebugLog3)
         switch (++lineCount)
         {
         case 1:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
             break;
         case 2:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(27, 13) == "| Message 1 |");
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 1\" |");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(27, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 2\" |");
             break;
         case 5:
-            EXPECT_TRUE(line.substr(27, 13) == "| Message 3 |");
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 3\" |");
             break;
         case 6:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
             break;
         case 7:
-            EXPECT_TRUE(line == "");
+            EXPECT_TRUE(line.compare("") == 0);
+            break;
+        default:
+            FAIL() << "Too many lines";
+        }
+    }
+
+    ifs.close();
+
+    if (lineCount < 7)
+    {
+        FAIL() << "Too many lines";
+    }
+
+    bfs::remove("test_log.txt");
+}
+
+TEST_F(DebugLogTest, testCase_DebugLog3b)
+{
+    {
+        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log");
+        dl.AddLogMessage("Message 1",
+                         __FILE__,
+                         BOOST_CURRENT_FUNCTION,
+                         __LINE__,
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::console);
+        dl.AddLogMessage("Message 2",
+                         __FILE__,
+                         BOOST_CURRENT_FUNCTION,
+                         __LINE__,
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::console);
+        dl.AddLogMessage("Message 3",
+                         __FILE__,
+                         BOOST_CURRENT_FUNCTION,
+                         __LINE__,
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::console);
+    }
+
+    std::ifstream ifs("test_log.txt");
+    EXPECT_TRUE(ifs.is_open());
+    std::string line;
+    size_t      lineCount = 0;
+
+    while (!ifs.eof())
+    {
+        std::getline(ifs, line);
+
+        switch (++lineCount)
+        {
+        case 1:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
+            break;
+        case 2:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
+            break;
+        case 3:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
+            break;
+        case 4:
+            EXPECT_TRUE(line.compare("") == 0);
+            break;
+        default:
+            FAIL() << "Too many lines";
+        }
+    }
+
+    ifs.close();
+
+    if (lineCount < 4)
+    {
+        FAIL() << "Too many lines";
+    }
+
+    bfs::remove("test_log.txt");
+}
+
+TEST_F(DebugLogTest, testCase_DebugLog3c)
+{
+    {
+        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log");
+        dl.AddLogMessage("Message 1",
+                         __FILE__,
+                         BOOST_CURRENT_FUNCTION,
+                         __LINE__,
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::both);
+        dl.AddLogMessage("Message 2",
+                         __FILE__,
+                         BOOST_CURRENT_FUNCTION,
+                         __LINE__,
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::both);
+        dl.AddLogMessage("Message 3",
+                         __FILE__,
+                         BOOST_CURRENT_FUNCTION,
+                         __LINE__,
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::both);
+    }
+
+    std::ifstream ifs("test_log.txt");
+    EXPECT_TRUE(ifs.is_open());
+    std::string line;
+    size_t      lineCount = 0;
+
+    while (!ifs.eof())
+    {
+        std::getline(ifs, line);
+
+        switch (++lineCount)
+        {
+        case 1:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
+            break;
+        case 2:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
+            break;
+        case 3:
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 1\" |");
+            break;
+        case 4:
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 2\" |");
+            break;
+        case 5:
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 3\" |");
+            break;
+        case 6:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
+            break;
+        case 7:
+            EXPECT_TRUE(line.compare("") == 0);
             break;
         default:
             FAIL() << "Too many lines";
@@ -173,58 +368,67 @@ TEST_F(DebugLogTest, testCase_DebugLog3)
 TEST_F(DebugLogTest, testCase_DebugLog4)
 {
     {
-        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl(
-            "1.0.0.0", "", "test_log", 1024);
+        core_lib::log::DebugLog<core_lib::log::DefaultLogFormat> dl("1.0.0.0", "", "test_log", 1024);
         dl.AddLogMessage("Message 1",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::warning);
+                         core_lib::log::eLogMessageLevel::debug,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 2",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::info);
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 3",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::warning);
+                         core_lib::log::eLogMessageLevel::warning,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 4",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::info);
+                         core_lib::log::eLogMessageLevel::error,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 5",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::warning);
+                         core_lib::log::eLogMessageLevel::fatal,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 6",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::info);
+                         core_lib::log::eLogMessageLevel::debug,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 7",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::warning);
+                         core_lib::log::eLogMessageLevel::info,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 8",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::info);
+                         core_lib::log::eLogMessageLevel::warning,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 9",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::warning);
+                         core_lib::log::eLogMessageLevel::error,
+                         core_lib::log::eMsgTarget::both);
         dl.AddLogMessage("Message 10",
                          __FILE__,
                          BOOST_CURRENT_FUNCTION,
                          __LINE__,
-                         core_lib::log::eLogMessageLevel::info);
+                         core_lib::log::eLogMessageLevel::fatal,
+                         core_lib::log::eMsgTarget::both);
     }
 
     bool filesExist = bfs::exists("test_log.txt") && bfs::exists("test_log_old.txt");
@@ -269,19 +473,19 @@ TEST_F(DebugLogTest, testCase_DebugLog5)
         switch (++lineCount)
         {
         case 1:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
             break;
         case 2:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(27, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 2\" |");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
             break;
         case 5:
-            EXPECT_TRUE(line == "");
+            EXPECT_TRUE(line.compare("") == 0);
             break;
         default:
             FAIL() << "Too many lines";
@@ -319,25 +523,25 @@ TEST_F(DebugLogTest, testCase_DebugLog6)
         switch (++lineCount)
         {
         case 1:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
             break;
         case 2:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(27, 13) == "| Message 1 |");
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 1\" |");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(27, 13) == "| Message 2 |");
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 2\" |");
             break;
         case 5:
-            EXPECT_TRUE(line.substr(27, 13) == "| Message 3 |");
+            EXPECT_TRUE(line.substr(28, 15) == "| \"Message 3\" |");
             break;
         case 6:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
             break;
         case 7:
-            EXPECT_TRUE(line == "");
+            EXPECT_TRUE(line.compare("") == 0);
             break;
         default:
             FAIL() << "Too many lines";
@@ -375,25 +579,25 @@ TEST_F(DebugLogTest, testCase_DebugLog7)
         switch (++lineCount)
         {
         case 1:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
             break;
         case 2:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(20, 11) == "| Message 1");
+            EXPECT_TRUE(line.substr(21, 13) == "| \"Message 1\"");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(20, 11) == "| Message 2");
+            EXPECT_TRUE(line.substr(21, 13) == "| \"Message 2\"");
             break;
         case 5:
-            EXPECT_TRUE(line.substr(20, 11) == "| Message 3");
+            EXPECT_TRUE(line.substr(21, 13) == "| \"Message 3\"");
             break;
         case 6:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
             break;
         case 7:
-            EXPECT_TRUE(line == "");
+            EXPECT_TRUE(line.compare("") == 0);
             break;
         default:
             FAIL() << "Too many lines";
@@ -410,10 +614,14 @@ TEST_F(DebugLogTest, testCase_DebugLog7)
     bfs::remove("test_log.txt");
 }
 
-TEST_F(DebugLogTest, testCase_DebugLog)
+TEST_F(DebugLogTest, testCase_DebugLog8)
 {
     DEBUG_MESSAGE_INSTANTIATE("1.0.0.0", "", "test_log");
+#if defined(HGL_NO_LOKI)
+    DebugLogGracefulDelete();
+#else
     Loki::DeletableSingleton<core_lib::log::default_log_t>::GracefulDelete();
+#endif
 
     std::ifstream ifs("test_log.txt");
     EXPECT_TRUE(ifs.is_open());
@@ -427,16 +635,16 @@ TEST_F(DebugLogTest, testCase_DebugLog)
         switch (++lineCount)
         {
         case 1:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
             break;
         case 2:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
             break;
         case 4:
-            EXPECT_TRUE(line == "");
+            EXPECT_TRUE(line.compare("") == 0);
             break;
         default:
             FAIL() << "Too many lines";
@@ -473,25 +681,25 @@ TEST_F(DebugLogTest, testCase_DebugLog9)
         switch (++lineCount)
         {
         case 1:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STARTED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
             break;
         case 2:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| Software Version 1.0.0.0");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
             break;
         case 3:
-            EXPECT_TRUE(line.substr(27, 11) == "| Message 1");
+            EXPECT_TRUE(line.substr(28, 13) == "| \"Message 1\"");
             break;
         case 4:
-            EXPECT_TRUE(line.substr(27, 11) == "| Message 2");
+            EXPECT_TRUE(line.substr(28, 13) == "| \"Message 2\"");
             break;
         case 5:
-            EXPECT_TRUE(line.substr(27, 11) == "| Message 3");
+            EXPECT_TRUE(line.substr(28, 13) == "| \"Message 3\"");
             break;
         case 6:
-            EXPECT_TRUE(line.substr(20, line.size() - 20) == "| DEBUG LOG STOPPED");
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
             break;
         case 7:
-            EXPECT_TRUE(line == "");
+            EXPECT_TRUE(line.compare("") == 0);
             break;
         default:
             FAIL() << "Too many lines";
@@ -501,6 +709,69 @@ TEST_F(DebugLogTest, testCase_DebugLog9)
     ifs.close();
 
     if (lineCount < 7)
+    {
+        FAIL() << "Too many lines";
+    }
+
+    bfs::remove("test_log.txt");
+}
+
+TEST_F(DebugLogTest, testCase_DebugLog10)
+{
+    DEBUG_MESSAGE_INSTANTIATE("1.0.0.0", "", "test_log");
+    DEBUG_MESSAGE_BOTH_EX_DEBUG("Message 1");
+    DEBUG_MESSAGE_BOTH_EX_INFO("Message 2");
+    DEBUG_MESSAGE_BOTH_EX_WARNING("Message 3");
+    DEBUG_MESSAGE_BOTH_EX_ERROR("Message 4");
+    DEBUG_MESSAGE_BOTH_EX_FATAL("Message 5");
+    DEBUG_MESSAGE_DELETE_SINGLETON();
+
+    std::ifstream ifs("test_log.txt");
+    EXPECT_TRUE(ifs.is_open());
+    std::string line;
+    size_t      lineCount = 0;
+
+    while (!ifs.eof())
+    {
+        std::getline(ifs, line);
+
+        switch (++lineCount)
+        {
+        case 1:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STARTED\"");
+            break;
+        case 2:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"Software Version 1.0.0.0\"");
+            break;
+        case 3:
+            EXPECT_TRUE(line.substr(29, 13) == "| \"Message 1\"");
+            break;
+        case 4:
+            EXPECT_TRUE(line.substr(28, 13) == "| \"Message 2\"");
+            break;
+        case 5:
+            EXPECT_TRUE(line.substr(31, 13) == "| \"Message 3\"");
+            break;
+        case 6:
+            EXPECT_TRUE(line.substr(29, 13) == "| \"Message 4\"");
+            break;
+        case 7:
+            EXPECT_TRUE(line.substr(29, 13) == "| \"Message 5\"");
+            break;
+        case 8:
+            EXPECT_TRUE(line.substr(21, line.size() - 21) == "| \"DEBUG LOG STOPPED\"");
+            break;
+        case 9:
+            EXPECT_TRUE(line.compare("") == 0);
+            break;
+        default:
+            FAIL() << "Too many lines";
+        }
+    }
+
+    ifs.close();
+
+    if (lineCount < 9)
     {
         FAIL() << "Too many lines";
     }
