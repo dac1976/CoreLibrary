@@ -28,38 +28,49 @@
 #define DEBUGLOGSINGLETON
 
 #include "DebugLog.h"
-#include <loki/Singleton.h>
 
-/*! \brief The core_lib namespace. */
-namespace core_lib
-{
-/*! \brief The log namespace. */
-namespace log
-{
-
-/*! \brief Typedef defining our default log's type. */
-using default_log_t = DebugLog<DefaultLogFormat>;
+#if !defined(CORE_LIB_NO_LOKI)
+#include "LokiPatch/LokiSingleton.hpp"
 
 using debug_singelton_t =
-    Loki::SingletonHolder<default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton>;
+    Loki::SingletonHolder<core_lib::log::default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton>;
 
-using debug_singelton_deleter_t = Loki::DeletableSingleton<default_log_t>;
+using debug_singelton_deleter_t = Loki::DeletableSingleton<core_lib::log::default_log_t>;
+#endif // CORE_LIB_NO_LOKI
 
-} // namespace log
-} // namespace core_lib
+core_lib::log::default_log_t& DebugLogInstance();
 
-inline core_lib::log::default_log_t& DebugLogInstance()
-{
-    return core_lib::log::debug_singelton_t::Instance();
-}
+bool DebugLogExists();
 
-inline void DebugLogGracefulDelete()
-{
-    core_lib::log::debug_singelton_deleter_t::GracefulDelete();
-}
+void DebugLogGracefulDelete();
 
 /*! \brief Macro defining our actual log's singelton. */
 #define DEBUG_LOG_SINGLETON DebugLogInstance()
+
+/*! \brief Macro tetsing existence of log's singelton. */
+#define DEBUG_LOG_SINGLETON_EXISTS DebugLogExists()
+
+/*! \brief Macro to help instantiate singleton. */
+#define DEBUG_LOG_SINGLETON_INSTANTIATE(v, p, f) DEBUG_LOG_SINGLETON.Instantiate(v, p, f)
+
+/*! \brief Macro to help instantiate singleton (extended version 1). */
+#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX(v, p, f, s) DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s)
+
+/*! \brief Macro to help instantiate singleton (extended version 2). */
+#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX2(v, p, f, s, e)                                         \
+    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e)
+
+/*! \brief Macro to help instantiate singleton (extended version 3). */
+#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX3(v, p, f, e)                                            \
+    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, 5 * core_lib::log::BYTES_IN_MEBIBYTE, e)
+
+/*! \brief Macro to help instantiate singleton (extended version 4). */
+#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX4(v, p, f, s, e, u, z)                                   \
+    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e, u, z)
+
+/*! \brief Macro to help instantiate singleton (extended version 5). */
+#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX5(v, p, f, s, e, u, z, m)                                \
+    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e, u, z, m)
 
 /*! \brief Macro defining a singleton deleter. */
 #define DEBUG_LOG_SINGLETON_DELETER DebugLogGracefulDelete()

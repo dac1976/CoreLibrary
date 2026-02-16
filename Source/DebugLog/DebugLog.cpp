@@ -23,8 +23,10 @@
  * \file DebugLog.cpp
  * \brief File containing definition of DebugLog class.
  */
-
-#include "DebugLog/DebugLog.h"
+#include "DebugLog.h"
+#if defined(_MSC_VER) && (_MSC_VER < 1920)
+#include "Asio/MemoryUtils.hpp"
+#endif
 #include <iomanip>
 
 namespace core_lib
@@ -33,21 +35,75 @@ namespace log
 {
 
 // ****************************************************************************
+// General constant definitions
+// ****************************************************************************
+// ANSI Escape Codes
+const char ANSI_RESET[]{"\x1b[0m"};
+
+// Bright Foreground Colors (often denoted by 90-97)
+const char ANSI_DEFAULT[]{"\x1b[0m"};
+const char ANSI_RED[]{"\x1b[91m"};
+const char ANSI_YELLOW[]{"\x1b[93m"};
+const char ANSI_MAGENTA[]{"\x1b[95m"};
+const char ANSI_CYAN[]{"\x1b[96m"};
+const char ANSI_WHITE[]{"\x1b[97m"};
+
+// ****************************************************************************
 // 'struct DefaultLogFormat' definition
 // ****************************************************************************
+CONSTEXPR_ char DEFAULT_FMTR_DIVIDER[]{" | "};
+CONSTEXPR_ char DEFAULT_FMTR_DT[]{"%Y %b %d %H:%M:%S"};
+CONSTEXPR_ char DEFAULT_FMTR_DT_TZ[]{"%Y %b %d %H:%M:%S%z"};
+CONSTEXPR_ char DEFAULT_FMTR_FILE[]{" | File = "};
+CONSTEXPR_ char DEFAULT_FMTR_FUNC[]{" | Function = "};
+CONSTEXPR_ char DEFAULT_FMTR_LINE[]{" | Line = "};
+CONSTEXPR_ char DEFAULT_FMTR_THREAD[]{" | Thread ID = "};
+
 void DefaultLogFormat::operator()(std::ostream& os, std::time_t timeStamp,
                                   const std::string& message, const std::string& logMsgLevel,
                                   const std::string& file, const std::string& function, int lineNo,
-                                  const std::thread::id& threadID) const
+                                  const std::thread::id& threadID, bool utcTimeStamps,
+                                  bool tzOffset) const
 {
+    if (!os.good())
+    {
+        return;
+    }
+
     if (timeStamp != 0)
     {
-#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#if defined(_MSC_VER) && (_MSC_VER < 1920)
         struct tm result;
-        localtime_s(&result, &timeStamp);
-        os << std::put_time(&result, "%F %T") << " | ";
+        ZeroPodObject(result);
+
+        if (utcTimeStamps)
+        {
+            gmtime_s(&result, &timeStamp);
+
+            // When UTC time we do not ever add the offsets to the string
+            // that is only for local time.
+            tzOffset = false;
+        }
+        else
+        {
+            localtime_s(&result, &timeStamp);
+        }
+
+        os << std::put_time(&result, tzOffset ? DEFAULT_FMTR_DT_TZ : DEFAULT_FMTR_DT)
+           << DEFAULT_FMTR_DIVIDER;
 #else
-        os << std::put_time(std::localtime(&timeStamp), "%F %T") << " | ";
+        if (utcTimeStamps)
+        {
+            // When UTC time we do not ever add the offsets to the string
+            // that is only for local time.
+            os << std::put_time(std::gmtime(&timeStamp), DEFAULT_FMTR_DT) << DEFAULT_FMTR_DIVIDER;
+        }
+        else
+        {
+            os << std::put_time(std::localtime(&timeStamp),
+                                tzOffset ? DEFAULT_FMTR_DT_TZ : DEFAULT_FMTR_DT)
+               << DEFAULT_FMTR_DIVIDER;
+        }
 #endif
 
         // Legacy alternative...
@@ -58,46 +114,121 @@ void DefaultLogFormat::operator()(std::ostream& os, std::time_t timeStamp,
         // os << time.c_str() << " | " ;
     }
 
-    if (logMsgLevel != "")
+    if (logMsgLevel.compare("") != 0)
     {
-        os << logMsgLevel << " | ";
+        os << logMsgLevel << DEFAULT_FMTR_DIVIDER;
     }
 
-    os << message;
+    os << "\"" << message << "\"";
 
-    if (file != "")
+    if (file.compare("") != 0)
     {
-        os << " | " << file;
+        os << DEFAULT_FMTR_FILE << file;
     }
 
-    if (function != "")
+    if (function.compare("") != 0)
     {
-        os << " | " << function;
+        os << DEFAULT_FMTR_FUNC << function;
     }
 
     if (lineNo >= 0)
     {
-        os << " | Line = " << lineNo;
+        os << DEFAULT_FMTR_LINE << lineNo;
     }
 
     std::thread::id noThread;
 
     if (threadID != noThread)
     {
-        os << " | Thread ID = " << threadID;
+        os << DEFAULT_FMTR_THREAD << threadID;
     }
 
     os << std::endl;
 }
 
+void DefaultLogFormat::operator()(std::ostream& os, std::time_t timeStamp,
+                                  const std::string& message, const std::string& logMsgLevel,
+                                  bool utcTimeStamps, bool tzOffset, const char* colourCode) const
+{
+    if (!os.good())
+    {
+        return;
+    }
+
+    if (nullptr != colourCode)
+    {
+        os << colourCode;
+    }
+
+    if (timeStamp != 0)
+    {
+#if defined(_MSC_VER) && (_MSC_VER < 1920)
+        struct tm result;
+        ZeroPodObject(result);
+
+        if (utcTimeStamps)
+        {
+            gmtime_s(&result, &timeStamp);
+
+            // When UTC time we do not ever add the offsets to the string
+            // that is only for local time.
+            tzOffset = false;
+        }
+        else
+        {
+            localtime_s(&result, &timeStamp);
+        }
+
+        os << std::put_time(&result, tzOffset ? DEFAULT_FMTR_DT_TZ : DEFAULT_FMTR_DT)
+           << DEFAULT_FMTR_DIVIDER;
+#else
+        if (utcTimeStamps)
+        {
+            // When UTC time we do not ever add the offsets to the string
+            // that is only for local time.
+            os << std::put_time(std::gmtime(&timeStamp), DEFAULT_FMTR_DT) << DEFAULT_FMTR_DIVIDER;
+        }
+        else
+        {
+            os << std::put_time(std::localtime(&timeStamp),
+                                tzOffset ? DEFAULT_FMTR_DT_TZ : DEFAULT_FMTR_DT)
+               << DEFAULT_FMTR_DIVIDER;
+        }
+#endif
+
+        // Legacy alternative...
+        //
+        // std::string time = ctime(&timeStamp);
+        // std::replace_if(time.begin(), time.end(),
+        //                 [](char c) { return (c == '\n') || (c == '\r'); }, 0);
+        // os << time.c_str() << " | " ;
+    }
+
+    if (logMsgLevel.compare("") != 0)
+    {
+        os << logMsgLevel << DEFAULT_FMTR_DIVIDER;
+    }
+
+    os << "\"" << message << "\"";
+
+    if (nullptr != colourCode)
+    {
+        os << ANSI_RESET;
+    }
+
+    os << std::endl;
+}
+
+namespace dl_private
+{
 // ****************************************************************************
 // 'class LogQueueMessage' definition
 // ****************************************************************************
-namespace dl_private
-{
-LogQueueMessage::LogQueueMessage(const std::string& message, time_t timeStamp,
-                                 const std::string& file, const std::string& function, int lineNo,
-                                 const std::thread::id& threadID, eLogMessageLevel errorLevel)
+
+LogQueueMessage::LogQueueMessage(std::string const& message, time_t timeStamp,
+                                 std::string const& file, std::string const& function, int lineNo,
+                                 const std::thread::id& threadID, eLogMessageLevel errorLevel,
+                                 eMsgTarget msgTarget)
     : m_message(message)
     , m_timeStamp(timeStamp)
     , m_file(file)
@@ -105,6 +236,7 @@ LogQueueMessage::LogQueueMessage(const std::string& message, time_t timeStamp,
     , m_lineNo(lineNo)
     , m_threadID(threadID)
     , m_errorLevel(errorLevel)
+    , m_msgTarget(msgTarget)
 {
 }
 
@@ -123,6 +255,7 @@ LogQueueMessage& LogQueueMessage::operator=(LogQueueMessage&& msg)
     std::swap(m_lineNo, msg.m_lineNo);
     std::swap(m_threadID, msg.m_threadID);
     std::swap(m_errorLevel, msg.m_errorLevel);
+    std::swap(m_msgTarget, msg.m_msgTarget);
     return *this;
 }
 #endif
@@ -160,6 +293,11 @@ const std::thread::id& LogQueueMessage::ThreadID() const
 eLogMessageLevel LogQueueMessage::ErrorLevel() const
 {
     return m_errorLevel;
+}
+
+auto LogQueueMessage::MsgTarget() const -> eMsgTarget
+{
+    return m_msgTarget;
 }
 
 } // namespace dl_private

@@ -45,7 +45,7 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
     core_lib::log::eLogMessageLevel::fatal};
 
 /*!
- * \brief Simple macro to simplify logging.
+ * \brief Simple macro to simplify logging, to file only.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
@@ -55,11 +55,11 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
     {                                                                                              \
         std::ostringstream os;                                                                     \
         os << m;                                                                                   \
-        x.AddLogMessage(os.str());                                                                 \
+        x.AddLogMessage(os.str(), core_lib::log::eMsgTarget::file);                                     \
     } while (false)
 
 /*!
- * \brief Macro to simplify logging adding message and level.
+ * \brief Macro to simplify logging adding message and level, to file only.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
@@ -70,11 +70,84 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
     {                                                                                              \
         std::ostringstream os;                                                                     \
         os << m;                                                                                   \
-        x.AddLogMessage(os.str(), std::string(__FILE__), BOOST_CURRENT_FUNCTION, __LINE__, l);     \
+        x.AddLogMessage(os.str(),                                                                  \
+                        std::string(__FILE__),                                                     \
+                        BOOST_CURRENT_FUNCTION,                                                    \
+                        __LINE__,                                                                  \
+                        l,                                                                         \
+                        core_lib::log::eMsgTarget::file);                                               \
     } while (false)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level debug.
+ * \brief Simple macro to simplify logging, to console only.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_CON(x, m)                                                                        \
+    do                                                                                             \
+    {                                                                                              \
+        std::ostringstream os;                                                                     \
+        os << m;                                                                                   \
+        x.AddLogMessage(os.str(), core_lib::log::eMsgTarget::console);                                  \
+    } while (false)
+
+/*!
+ * \brief Macro to simplify logging adding message and level, to console only.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ * \param[in] l - Log message level from enum eLogMessageLevel.
+ */
+#define DEBUG_LOG_CON_EX(x, m, l)                                                                  \
+    do                                                                                             \
+    {                                                                                              \
+        std::ostringstream os;                                                                     \
+        os << m;                                                                                   \
+        x.AddLogMessage(os.str(),                                                                  \
+                        std::string(__FILE__),                                                     \
+                        BOOST_CURRENT_FUNCTION,                                                    \
+                        __LINE__,                                                                  \
+                        l,                                                                         \
+                        core_lib::log::eMsgTarget::console);                                            \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging, to file and console.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_BOTH(x, m)                                                                       \
+    do                                                                                             \
+    {                                                                                              \
+        std::ostringstream os;                                                                     \
+        os << m;                                                                                   \
+        x.AddLogMessage(os.str(), core_lib::log::eMsgTarget::both);                                     \
+    } while (false)
+
+/*!
+ * \brief Macro to simplify logging adding message and level, to file and console.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ * \param[in] l - Log message level from enum eLogMessageLevel.
+ */
+#define DEBUG_LOG_BOTH_EX(x, m, l)                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        std::ostringstream os;                                                                     \
+        os << m;                                                                                   \
+        x.AddLogMessage(os.str(),                                                                  \
+                        std::string(__FILE__),                                                     \
+                        BOOST_CURRENT_FUNCTION,                                                    \
+                        __LINE__,                                                                  \
+                        l,                                                                         \
+                        core_lib::log::eMsgTarget::both);                                               \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level debug, to file only.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
@@ -82,7 +155,7 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
 #define DEBUG_LOG_EX_DEBUG(x, m) DEBUG_LOG_EX(x, m, LOG_LEVEL_DEBUG)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level info.
+ * \brief Simple macro to simplify logging generating message with level info, to file only.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
@@ -90,7 +163,7 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
 #define DEBUG_LOG_EX_INFO(x, m) DEBUG_LOG_EX(x, m, LOG_LEVEL_INFO)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level warning.
+ * \brief Simple macro to simplify logging generating message with level warning, to file only.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
@@ -98,7 +171,7 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
 #define DEBUG_LOG_EX_WARNING(x, m) DEBUG_LOG_EX(x, m, LOG_LEVEL_WARNING)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level error.
+ * \brief Simple macro to simplify logging generating message with level error, to file only.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
@@ -106,12 +179,93 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
 #define DEBUG_LOG_EX_ERROR(x, m) DEBUG_LOG_EX(x, m, LOG_LEVEL_ERROR)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level fatal.
+ * \brief Simple macro to simplify logging generating message with level fatal, to file only.
  * \param[in] x - DebugLog object.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  */
 #define DEBUG_LOG_EX_FATAL(x, m) DEBUG_LOG_EX(x, m, LOG_LEVEL_FATAL)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level debug, to console only.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_CON_EX_DEBUG(x, m) DEBUG_LOG_CON_EX(x, m, LOG_LEVEL_DEBUG)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level info, to console only.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_CON_EX_INFO(x, m) DEBUG_LOG_CON_EX(x, m, LOG_LEVEL_INFO)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level warning, to console only.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_CON_EX_WARNING(x, m) DEBUG_LOG_CON_EX(x, m, LOG_LEVEL_WARNING)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level error, to console only.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_CON_EX_ERROR(x, m) DEBUG_CON_LOG_EX(x, m, LOG_LEVEL_ERROR)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level fatal, to console only.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_CON_EX_FATAL(x, m) DEBUG_LOG_CON_EX(x, m, LOG_LEVEL_FATAL)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level debug, to file and console.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_BOTH_EX_DEBUG(x, m) DEBUG_LOG_BOTH_EX(x, m, LOG_LEVEL_DEBUG)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level info, to file and console.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_BOTH_EX_INFO(x, m) DEBUG_LOG_BOTH_EX(x, m, LOG_LEVEL_INFO)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level warning, to file and
+ * console.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_BOTH_EX_WARNING(x, m) DEBUG_LOG_BOTH_EX(x, m, LOG_LEVEL_WARNING)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level error, to file and console.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_BOTH_EX_ERROR(x, m) DEBUG_LOG_BOTH_EX(x, m, LOG_LEVEL_ERROR)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level fatal, to file and console.
+ * \param[in] x - DebugLog object.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ */
+#define DEBUG_LOG_BOTH_EX_FATAL(x, m) DEBUG_LOG_BOTH_EX(x, m, LOG_LEVEL_FATAL)
 
 /*!
  * \brief Macro to add message level to filter set.
@@ -196,25 +350,85 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
 /*!
  * \brief Macro to simplify instantiation of debug log.
  * \param[in] v - Software version string must be convertible to std::string.
- * \param[in] p - Log file path string with trailing backslash must be convertible to std::string.
+ * \param[in] p - Log folder path string with trailing backslash must be convertible to std::string.
  * \param[in] f - Log file name string without file extension with trailing backslash must be
  * convertible to std::string.
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_INSTANTIATE(v, p, f) DEBUG_LOG_SINGLETON.Instantiate(v, p, f)
+#define DEBUG_MESSAGE_INSTANTIATE(v, p, f) DEBUG_LOG_SINGLETON_INSTANTIATE(v, p, f)
 
 /*!
  * \brief Macro to simplify instantiation of debug log.
  * \param[in] v - Software version string must be convertible to std::string.
- * \param[in] p - Log file path string with trailing backslash must be convertible to std::string.
+ * \param[in] p - Log folder path string with trailing backslash must be convertible to std::string.
  * \param[in] f - Log file name string without file extension with trailing backslash must be
  * convertible to std::string.
  * \param[in] s - The maximum size for the log file.
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_INSTANTIATE_EX(v, p, f, s) DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s)
+#define DEBUG_MESSAGE_INSTANTIATE_EX(v, p, f, s) DEBUG_LOG_SINGLETON_INSTANTIATE_EX(v, p, f, s)
+
+/*!
+ * \brief Macro to simplify instantiation of debug log.
+ * \param[in] v - Software version string must be convertible to std::string.
+ * \param[in] p - Log folder path string with trailing backslash must be convertible to std::string.
+ * \param[in] f - Log file name string without file extension with trailing backslash must be
+ * convertible to std::string.
+ * \param[in] s - The maximum size for the log file.
+ * \param[in] e - Log file extension including '.', e.g. ".log", ".txt" etc.
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_INSTANTIATE_EX2(v, p, f, s, e)                                               \
+    DEBUG_LOG_SINGLETON_INSTANTIATE_EX2(v, p, f, s, e)
+
+/*!
+ * \brief Macro to simplify instantiation of debug log.
+ * \param[in] v - Software version string must be convertible to std::string.
+ * \param[in] p - Log folder path string with trailing backslash must be convertible to std::string.
+ * \param[in] f - Log file name string without file extension with trailing backslash must be
+ * convertible to std::string.
+ * \param[in] e - Log file extension including '.', e.g. ".log", ".txt" etc.
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_INSTANTIATE_EX3(v, p, f, e) DEBUG_LOG_SINGLETON_INSTANTIATE_EX3(v, p, f, e)
+
+/*!
+ * \brief Macro to simplify instantiation of debug log.
+ * \param[in] v - Software version string must be convertible to std::string.
+ * \param[in] p - Log folder path string with trailing backslash must be convertible to std::string.
+ * \param[in] f - Log file name string without file extension with trailing backslash must be
+ * convertible to std::string.
+ * \param[in] s - The maximum size for the log file.
+ * \param[in] e - Log file extension including '.', e.g. ".log", ".txt" etc.
+ * \param[in] u - Enable/disable utc timestamps in log messages.
+ * \param[in] z - Enable/disable timezzone offset in timestamp string in log messages.
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_INSTANTIATE_EX4(v, p, f, s, e, u, z)                                         \
+    DEBUG_LOG_SINGLETON_INSTANTIATE_EX4(v, p, f, s, e, u, z)
+
+/*!
+ * \brief Macro to simplify instantiation of debug log.
+ * \param[in] v - Software version string must be convertible to std::string.
+ * \param[in] p - Log folder path string with trailing backslash must be convertible to std::string.
+ * \param[in] f - Log file name string without file extension with trailing backslash must be
+ * convertible to std::string.
+ * \param[in] s - The maximum size for the log file.
+ * \param[in] e - Log file extension including '.', e.g. ".log", ".txt" etc.
+ * \param[in] u - Enable/disable utc timestamps in log messages.
+ * \param[in] z - Enable/disable timezzone offset in timestamp string in log messages.
+ * \param[in] m - Mirror/backup/duplicate log folder path string with trailing backslash must
+ *                be convertible to std::string.
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_INSTANTIATE_EX5(v, p, f, s, e, u, z, m)                                      \
+    DEBUG_LOG_SINGLETON_INSTANTIATE_EX5(v, p, f, s, e, u, z, m)
 
 /*!
  * \brief Macro to gracefully delete the debug singleton.
@@ -226,68 +440,356 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
 #define DEBUG_MESSAGE_DELETE_SINGLETON() DEBUG_LOG_SINGLETON_DELETER
 
 /*!
- * \brief Simple macro to simplify logging.
+ * \brief Simple macro to simplify logging, file only.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE(m) DEBUG_LOG(DEBUG_LOG_SINGLETON, m)
+#define DEBUG_MESSAGE(m)                                                                           \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_EX_INFO(DEBUG_LOG_SINGLETON, m);                                             \
+        }                                                                                          \
+    } while (false)
 
 /*!
- * \brief Macro to simplify logging adding message and level.
+ * \brief Macro to simplify logging adding message and level, file only.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  * \param[in] l - Log message level from enum eLogMessageLevel.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_EX(m, l) DEBUG_LOG_EX(DEBUG_LOG_SINGLETON, m, l)
+#define DEBUG_MESSAGE_EX(m, l)                                                                     \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_EX(DEBUG_LOG_SINGLETON, m, l);                                               \
+        }                                                                                          \
+    } while (false)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level debug.
+ * \brief Simple macro to simplify logging generating message with level debug, file only.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_EX_DEBUG(m) DEBUG_LOG_EX_DEBUG(DEBUG_LOG_SINGLETON, m)
+#define DEBUG_MESSAGE_EX_DEBUG(m)                                                                  \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_EX_DEBUG(DEBUG_LOG_SINGLETON, m);                                            \
+        }                                                                                          \
+    } while (false)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level info.
+ * \brief Simple macro to simplify logging generating message with level info, file only.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_EX_INFO(m) DEBUG_LOG_EX_INFO(DEBUG_LOG_SINGLETON, m)
+#define DEBUG_MESSAGE_EX_INFO(m)                                                                   \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_EX_INFO(DEBUG_LOG_SINGLETON, m);                                             \
+        }                                                                                          \
+    } while (false)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level warning.
+ * \brief Simple macro to simplify logging generating message with level warning, file only.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_EX_WARNING(m) DEBUG_LOG_EX_WARNING(DEBUG_LOG_SINGLETON, m)
+#define DEBUG_MESSAGE_EX_WARNING(m)                                                                \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_EX_WARNING(DEBUG_LOG_SINGLETON, m);                                          \
+        }                                                                                          \
+    } while (false)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level error.
+ * \brief Simple macro to simplify logging generating message with level error, file only.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_EX_ERROR(m) DEBUG_LOG_EX_ERROR(DEBUG_LOG_SINGLETON, m)
+#define DEBUG_MESSAGE_EX_ERROR(m)                                                                  \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_EX_ERROR(DEBUG_LOG_SINGLETON, m);                                            \
+        }                                                                                          \
+    } while (false)
 
 /*!
- * \brief Simple macro to simplify logging generating message with level fatal.
+ * \brief Simple macro to simplify logging generating message with level fatal, file only.
  * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
  * std::ostringstream).
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_EX_FATAL(m) DEBUG_LOG_EX_FATAL(DEBUG_LOG_SINGLETON, m)
+#define DEBUG_MESSAGE_EX_FATAL(m)                                                                  \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_EX_FATAL(DEBUG_LOG_SINGLETON, m);                                            \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging, console only.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CON(m)                                                                       \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CON_EX_INFO(DEBUG_LOG_SINGLETON, m);                                         \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Macro to simplify logging adding message and level, console only.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ * \param[in] l - Log message level from enum eLogMessageLevel.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CON_EX(m, l)                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CON_EX(DEBUG_LOG_SINGLETON, m, l);                                           \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level debug, console only.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CON_EX_DEBUG(m)                                                              \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CON_EX_DEBUG(DEBUG_LOG_SINGLETON, m);                                        \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level info, console only.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CON_EX_INFO(m)                                                               \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CON_EX_INFO(DEBUG_LOG_SINGLETON, m);                                         \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level warning, console only.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CON_EX_WARNING(m)                                                            \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CON_EX_WARNING(DEBUG_LOG_SINGLETON, m);                                      \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level error, console only.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CON_EX_ERROR(m)                                                              \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CON_EX_ERROR(DEBUG_LOG_SINGLETON, m);                                        \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level fatal, console only.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_CON_EX_FATAL(m)                                                              \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CON_EX_FATAL(DEBUG_LOG_SINGLETON, m);                                        \
+        }                                                                                          \
+    } while (false)
+
+//******************
+/*!
+ * \brief Simple macro to simplify logging, file and console.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_BOTH(m)                                                                      \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_BOTH_EX_INFO(DEBUG_LOG_SINGLETON, m);                                        \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Macro to simplify logging adding message and level, file and console.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ * \param[in] l - Log message level from enum eLogMessageLevel.
+ *
+ *  This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_BOTH_EX(m, l)                                                                \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_BOTH_EX(DEBUG_LOG_SINGLETON, m, l);                                          \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level debug, file and console.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_BOTH_EX_DEBUG(m)                                                             \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_BOTH_EX_DEBUG(DEBUG_LOG_SINGLETON, m);                                       \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level info, file and console.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_BOTH_EX_INFO(m)                                                              \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_BOTH_EX_INFO(DEBUG_LOG_SINGLETON, m);                                        \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level warning, file and console.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_BOTH_EX_WARNING(m)                                                           \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_BOTH_EX_WARNING(DEBUG_LOG_SINGLETON, m);                                     \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level error, file and console.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_BOTH_EX_ERROR(m)                                                             \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_BOTH_EX_ERROR(DEBUG_LOG_SINGLETON, m);                                       \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Simple macro to simplify logging generating message with level fatal, file and console.
+ * \param[in] m - Object to be used as message in DebugLog (must be convertible to string via
+ * std::ostringstream).
+ *
+ * This version uses a singleton to maintain a global log object.
+ */
+#define DEBUG_MESSAGE_BOTH_EX_FATAL(m)                                                             \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_BOTH_EX_FATAL(DEBUG_LOG_SINGLETON, m);                                       \
+        }                                                                                          \
+    } while (false)
+
+/*!
+ * \brief Some macro aliases for backwards compatibility.
+ */
+#if defined(ENABLE_DEBUG_MACRO_ALIASING)
+#define DEBUG_MESSAGE_DEBUG(m) DEBUG_MESSAGE_EX_DEBUG(m)
+#define DEBUG_MESSAGE_INFO(m) DEBUG_MESSAGE_EX_INFO(m)
+#define DEBUG_MESSAGE_WARNING(m) DEBUG_MESSAGE_EX_WARNING(m)
+#define DEBUG_MESSAGE_ERROR(m) DEBUG_MESSAGE_EX_ERROR(m)
+#define DEBUG_MESSAGE_FATAL(m) DEBUG_MESSAGE_EX_FATAL(m)
+#define DEBUG_MESSAGE_TRACE(m) DEBUG_MESSAGE_EX_DEBUG(m)
+#endif
 
 /*!
  * \brief Macro to add message level to filter set.
@@ -295,42 +797,84 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_ADD_FILTER(l) DEBUG_LOG_ADD_FILTER(DEBUG_LOG_SINGLETON, l)
+#define DEBUG_MESSAGE_ADD_FILTER(l)                                                                \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_ADD_FILTER(DEBUG_LOG_SINGLETON, l);                                          \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to add message level debug to filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_ADD_FILTER_DEBUG() DEBUG_LOG_ADD_FILTER_DEBUG(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_ADD_FILTER_DEBUG()                                                           \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_ADD_FILTER_DEBUG(DEBUG_LOG_SINGLETON);                                       \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to add message level info to filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_ADD_FILTER_INFO() DEBUG_LOG_ADD_FILTER_INFO(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_ADD_FILTER_INFO()                                                            \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_ADD_FILTER_INFO(DEBUG_LOG_SINGLETON);                                        \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to add message level warning to filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_ADD_FILTER_WARNING() DEBUG_LOG_ADD_FILTER_WARNING(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_ADD_FILTER_WARNING()                                                         \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_ADD_FILTER_WARNING(DEBUG_LOG_SINGLETON);                                     \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to add message level error to filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_ADD_FILTER_ERROR() DEBUG_LOG_ADD_FILTER_ERROR(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_ADD_FILTER_ERROR()                                                           \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_ADD_FILTER_ERROR(DEBUG_LOG_SINGLETON);                                       \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to add message level fatal to filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_ADD_FILTER_FATAL() DEBUG_LOG_ADD_FILTER_FATAL(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_ADD_FILTER_FATAL()                                                           \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_ADD_FILTER_FATAL(DEBUG_LOG_SINGLETON);                                       \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to remove message level from filter set.
@@ -338,48 +882,97 @@ static constexpr core_lib::log::eLogMessageLevel LOG_LEVEL_FATAL{
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_REMOVE_FILTER(l) DEBUG_LOG_ADD_FILTER(DEBUG_LOG_SINGLETON, l)
+#define DEBUG_MESSAGE_REMOVE_FILTER(l)                                                             \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_REMOVE_FILTER(DEBUG_LOG_SINGLETON, l);                                       \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to remove message level debug from filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_REMOVE_FILTER_DEBUG() DEBUG_LOG_ADD_FILTER_DEBUG(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_REMOVE_FILTER_DEBUG()                                                        \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_REMOVE_FILTER_DEBUG(DEBUG_LOG_SINGLETON);                                    \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to remove message level info from filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_REMOVE_FILTER_INFO() DEBUG_LOG_ADD_FILTER_INFO(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_REMOVE_FILTER_INFO()                                                         \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_REMOVE_FILTER_INFO(DEBUG_LOG_SINGLETON);                                     \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to remove message level warning from filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_REMOVE_FILTER_WARNING() DEBUG_LOG_ADD_FILTER_WARNING(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_REMOVE_FILTER_WARNING()                                                      \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_REMOVE_FILTER_WARNING(DEBUG_LOG_SINGLETON);                                  \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to remove message level error from filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_REMOVE_FILTER_ERROR() DEBUG_LOG_ADD_FILTER_ERROR(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_REMOVE_FILTER_ERROR()                                                        \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_REMOVE_FILTER_ERROR(DEBUG_LOG_SINGLETON);                                    \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to remove message level fatal from filter set.
  *
  *  This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_REMOVE_FILTER_FATAL() DEBUG_LOG_ADD_FILTER_FATAL(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_REMOVE_FILTER_FATAL()                                                        \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_REMOVE_FILTER_FATAL(DEBUG_LOG_SINGLETON);                                    \
+        }                                                                                          \
+    } while (false)
 
 /*!
  * \brief Macro to clear filter set.
  *
  * This version uses a singleton to maintain a global log object.
  */
-#define DEBUG_MESSAGE_CLEAR_FILTERS() DEBUG_LOG_CLEAR_FILTERS(DEBUG_LOG_SINGLETON)
+#define DEBUG_MESSAGE_CLEAR_FILTERS()                                                              \
+    do                                                                                             \
+    {                                                                                              \
+        if (DEBUG_LOG_SINGLETON_EXISTS)                                                            \
+        {                                                                                          \
+            DEBUG_LOG_CLEAR_FILTERS(DEBUG_LOG_SINGLETON);                                          \
+        }                                                                                          \
+    } while (false)
 
 #endif // DEBUGLOGGING
