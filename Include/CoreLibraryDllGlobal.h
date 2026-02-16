@@ -29,34 +29,72 @@
 
 #include <boost/predef.h>
 
-#if BOOST_OS_WINDOWS
-#if defined(CORE_LIBRARY_DLL)
-#if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
-#define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllexport))
-#elif defined(_MSC_VER)
-#define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
-#else
-#error Unsupported compiler! Please modify this header to add support.
+#ifdef CORE_LIBRARY_DLL_SHARED_API
+	#undef CORE_LIBRARY_DLL_SHARED_API
+	#undef USE_CDECL
 #endif
-#else
+
 #if defined(CORE_LIBRARY_LIB)
-#define CORE_LIBRARY_DLL_SHARED_API
+    #pragma message("building CoreLibrary as static lib")
+    #define CORE_LIBRARY_DLL_SHARED_API
+    #define USE_CDECL
 #else
-#if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
-#define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllimport))
-#else
-#define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
-#endif
-#endif
-#endif
-#elif BOOST_OS_LINUX
-#if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
-#define CORE_LIBRARY_DLL_SHARED_API __attribute__((visibility("default")))
-#else
-#error Unsupported compiler! Please modify this header to add support.
-#endif
-#else
-#error Unsupported OS!
+	// Windows
+	#if BOOST_OS_WINDOWS
+		// Windows - Export
+		#if defined(CORE_LIBRARY_DLL)
+			#if (BOOST_COMP_MSVC || BOOST_COMP_BORLAND)
+				#pragma message("CoreLibrary API exporting symbols with __declspec(dllexport)")
+				#define CORE_LIBRARY_DLL_SHARED_API __declspec(dllexport)
+			#elif (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
+				#pragma message("CoreLibrary API exporting symbols with __attribute__((dllexport))")
+				#define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllexport))
+			#else
+				#error Unsupported compiler! Please modify this header to add support.
+			#endif
+		// Windows - Import
+		#else
+			#if (BOOST_COMP_MSVC || BOOST_COMP_BORLAND)
+				#pragma message("CoreLibrary API importing symbols with __declspec(dllimport)")
+				#define CORE_LIBRARY_DLL_SHARED_API __declspec(dllimport)
+			#elif (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
+				#pragma message("CoreLibrary API importing symbols with __attribute__((dllimport))")
+				#define CORE_LIBRARY_DLL_SHARED_API __attribute__((dllimport))
+			#else
+				#error Unsupported compiler! Please modify this header to add support.
+			#endif
+		#endif
+		// Windows - set __cdecl (or not)
+		#ifdef CORE_LIBRARY_DLL_SHARED_API_DO_NOT_USE_CDECL
+			#pragma message("CoreLibrary API not using __cdecl")
+			#define USE_CDECL
+		#else
+			#pragma message("CoreLibrary API using __cdecl")
+			#define USE_CDECL __cdecl
+		#endif
+	// Linux
+	#elif BOOST_OS_LINUX
+		#if (BOOST_COMP_GNUC || BOOST_COMP_CLANG)
+			// Linux - Export
+			#if defined(CORE_LIBRARY_DLL)
+				#pragma message("CoreLibrary API exporting symbols with __attribute__((visibility(\"default\")))")
+				#define CORE_LIBRARY_DLL_SHARED_API __attribute__((visibility("default")))
+			// Linux - Import
+			#else
+				#pragma message("CoreLibrary API importing symbols")
+				#define CORE_LIBRARY_DLL_SHARED_API
+			#endif
+		#else
+			#error Unsupported compiler! Please modify this header to add support.
+		#endif
+		// Linux - __cdecl not supported or required
+		#define USE_CDECL
+	// Unsupported OS
+	#else
+		#error Unsupported OS!
+	#endif
 #endif
 
 #endif // CORELIBRARYDLLGLOBALH
+
+
