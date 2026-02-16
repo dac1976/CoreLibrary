@@ -35,7 +35,7 @@
 #include <cstdint>
 #include "../CoreLibraryDllGlobal.h"
 #include "AsioCompatibility.hpp"
-#include "features/PlatformFeatures.h"
+#include "Platform/PlatformDefines.h"
 
 namespace boost_sys          = boost::system;
 namespace boost_asio         = boost::asio;
