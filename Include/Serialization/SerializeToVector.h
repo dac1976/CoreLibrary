@@ -30,13 +30,15 @@
 #include "CoreLibraryDllGlobal.h"
 #include "SerializationIncludes.h"
 #include <vector>
-#include <utility>
 #include <sstream>
 #include <iterator>
 #include <type_traits>
 #include <algorithm>
-#include <cereal/types/vector.hpp>
 #include <boost/throw_exception.hpp>
+#include <cereal/types/vector.hpp>
+
+#define SERIALIZE_TO_STREAM_ARCHIVE(osa, o) osa(CEREAL_NVP(o))
+#define DESERIALIZE_FROM_STREAM_ARCHIVE(isa, o) isa(CEREAL_NVP(o))
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -58,12 +60,12 @@ struct CORE_LIBRARY_DLL_SHARED_API raw_oarchive
 {
 };
 
-/*! \brief In archive placeholder struct for serializing Google protocol buffers. */
+/*! \brief In archive placeholder struct for serializing Google protobufs. */
 struct CORE_LIBRARY_DLL_SHARED_API protobuf_iarchive
 {
 };
 
-/*! \brief Out archive placeholder struct for serializing  Google protocol buffers. */
+/*! \brief Out archive placeholder struct for serializing Google protobufs. */
 struct CORE_LIBRARY_DLL_SHARED_API protobuf_oarchive
 {
 };
@@ -71,7 +73,6 @@ struct CORE_LIBRARY_DLL_SHARED_API protobuf_oarchive
 /*! \brief The archives namespace. */
 namespace archives
 {
-
 /*! \brief Typedef to output portable binary archive. */
 using out_port_bin_t = cereal::PortableBinaryOutputArchive;
 /*! \brief Typedef to output binary archive. */
@@ -127,12 +128,12 @@ template <typename T, typename A> struct ToCharVectorImpl
         // we try and do anything with it.
         {
             A oa(os);
-            // CEREAL_NVP is required to fully support xml archives.
-            oa(CEREAL_NVP(object));
+            // CEREAL_NVP / BOOST_SERIALIZATION_NVP is required to fully support xml archives.
+            SERIALIZE_TO_STREAM_ARCHIVE(oa, object);
         }
 
-        char_vector_t charVector;
-        charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
+        char_vector_t charVector{std::istreambuf_iterator<char>(os),
+                                 std::istreambuf_iterator<char>()};
         return charVector;
     }
 
@@ -151,8 +152,8 @@ template <typename T, typename A> struct ToCharVectorImpl
         // we try and do anything with it.
         {
             A oa(os);
-            // CEREAL_NVP is required to fully support xml archives.
-            oa(CEREAL_NVP(object));
+            // CEREAL_NVP / BOOST_SERIALIZATION_NVP is required to fully support xml archives.
+            SERIALIZE_TO_STREAM_ARCHIVE(oa, object);
         }
 
         result.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
@@ -171,15 +172,11 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
      */
     char_vector_t operator()(const T& object) const
     {
-        if (!std::is_pod<T>::value)
-        {
-            BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
-        }
+        static_assert(std::is_trivially_copyable<T>::value, "object should be POD");
 
         auto          begin = reinterpret_cast<char const*>(&object);
         auto          end   = std::next(begin, static_cast<int>(sizeof(T)));
-        char_vector_t charVector;
-        std::copy(begin, end, std::back_inserter(charVector));
+        char_vector_t charVector(begin, end);
         return charVector;
     }
 
@@ -192,17 +189,12 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
      */
     void operator()(const T& object, char_vector_t& result) const
     {
-        if (!std::is_pod<T>::value)
-        {
-            BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
-        }
+        static_assert(std::is_trivially_copyable<T>::value, "object should be POD");
 
         auto len = sizeof(T);
-        result.clear();
-        result.reserve(len);
         auto begin = reinterpret_cast<char const*>(&object);
         auto end   = std::next(begin, static_cast<int>(len));
-        std::copy(begin, end, std::back_inserter(result));
+        result.assign(begin, end);
     }
 };
 
@@ -225,8 +217,8 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
             BOOST_THROW_EXCEPTION(std::runtime_error("failed to serialize protocol buffer"));
         }
 
-        char_vector_t charVector;
-        charVector.assign(std::istreambuf_iterator<char>(os), std::istreambuf_iterator<char>());
+        char_vector_t charVector{std::istreambuf_iterator<char>(os),
+                                 std::istreambuf_iterator<char>()};
         return charVector;
     }
 
@@ -274,8 +266,8 @@ template <typename T, typename A> struct ToObjectImpl
         // we try and do anything with it.
         {
             A ia(is);
-            // CEREAL_NVP is required to fully support xml archives.
-            ia(CEREAL_NVP(object));
+            // CEREAL_NVP / BOOST_SERIALIZATION_NVP is required to fully support xml archives.
+            DESERIALIZE_FROM_STREAM_ARCHIVE(ia, object);
         }
 
         return object;
@@ -292,10 +284,7 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
      */
     T operator()(const char_vector_t& charVector) const
     {
-        if (!std::is_pod<T>::value)
-        {
-            BOOST_THROW_EXCEPTION(std::invalid_argument("object is not POD"));
-        }
+        static_assert(std::is_trivially_copyable<T>::value, "object should be POD");
 
         if (charVector.size() != sizeof(T))
         {
