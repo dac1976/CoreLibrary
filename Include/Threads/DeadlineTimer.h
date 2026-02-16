@@ -41,7 +41,7 @@ namespace core_lib
 namespace threads
 {
 
-class DeadlineTimer final
+class CORE_LIBRARY_DLL_SHARED_API DeadlineTimer final
 {
     using callback_t = std::function<void()>;
 

@@ -92,7 +92,20 @@ template <typename P> struct ArrayDeleter
  */
 template <typename T> class ConcurrentQueue final
 {
+	/*! \brief Enumeration controlling end of queue to pop from. */
+    enum class eQueueEnd
+    {
+        /*! \brief Pop front of the queue. */
+        front,
+        /*! \brief Pop back of the queue. */
+        back
+    };
+	
 public:
+    /*! \brief Typedef for container type. */
+    using container_type = std::deque<T>;
+    /*! \brief Typedef for paramteter type. */
+    using value_type = T;
     /*!
      * \brief Default constructor.
      */
@@ -352,7 +365,7 @@ public:
      * will not find anything to pop and will either throw or return
      * false to indicate that nothing was popped off the queue.
      */
-    template <typename F> void Clear(F deleter)
+    template <typename F> void Clear(F&& deleter)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -363,8 +376,6 @@ public:
 
         m_queue.clear();
     }
-    /*! \brief Typedef for container type. */
-    using container_type = std::deque<T>;
     /*!
      * \brief Take all items from the queue and return them, thus clearing down the internal queue.
      *
@@ -389,14 +400,6 @@ public:
     }
 
 private:
-    /*! \brief Enumeration controlling end of queue to pop from. */
-    enum class eQueueEnd
-    {
-        /*! \brief Pop front of the queue. */
-        front,
-        /*! \brief Pop back of the queue. */
-        back
-    };
     /*!
      * \brief Pop an item off the queue.
      * \param[out] item - Item popped off queue.

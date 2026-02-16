@@ -76,24 +76,31 @@ void EventThread::ForceTick()
 	m_updateEvent.Signal();
 }
 
-void EventThread::ThreadIteration() NO_EXCEPT_
+void EventThread::ThreadFunction() NO_EXCEPT_
 {
-	try
-	{
-		if (m_eventCallback)
-		{
-			m_eventCallback();
-		}
+    try
+    {
+        if (m_eventCallback)
+        {
+            m_eventCallback();
+        }
+    }
+    catch (...)
+    {
+        // Do nothing.
+    }
 
-	}
-	catch(...)
-	{
-		// Do nothing.
-	}
-	
     eWaitTimeUnit timeUnit;
     auto          period = EventPeriod(&timeUnit);
-    m_updateEvent.WaitForTime(period, timeUnit);
+
+    if (period > 0)
+    {
+        m_updateEvent.WaitForTime(period, timeUnit);
+    }
+    else
+    {
+        m_updateEvent.Wait();
+    }
 }
 
 void EventThread::ProcessTerminationConditions() NO_EXCEPT_

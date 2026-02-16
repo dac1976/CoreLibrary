@@ -64,8 +64,9 @@ enum class eHglThreadPriority
 };
 
 // The arg priority only applies when schedAlgo != eHglThreadSchedAlgo::other
-bool SetThreadPriority(std::thread::native_handle_type const& threadId,
-                       eHglThreadSchedAlgo schedAlgo, eHglThreadPriority priority);
+bool CORE_LIBRARY_DLL_SHARED_API SetThreadPriority(std::thread::native_handle_type const& threadId,
+                                                   eHglThreadSchedAlgo schedAlgo, 
+												   eHglThreadPriority priority);
 #else
 // Values set to match priority constant values from Windows API.
 // Except we have included 2 extra ones (veryLow and veryHigh).
@@ -82,8 +83,8 @@ enum class eHglThreadPriority
     timeCritical = 15
 };
 
-bool SetThreadPriority(std::thread::native_handle_type const& threadId,
-                       eHglThreadPriority                     priority);
+bool CORE_LIBRARY_DLL_SHARED_API SetThreadPriority(std::thread::native_handle_type const& threadId,
+                                                   eHglThreadPriority priority);
 #endif
 
 } // namespace threads

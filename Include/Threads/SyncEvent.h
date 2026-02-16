@@ -84,6 +84,7 @@ class CORE_LIBRARY_DLL_SHARED_API SyncEvent final
     using set_condition_t = std::function<void(bool)>;
 
 public:
+	/*! \brief Struct to pass in get and set callbacks. */
     struct Condition
     {
         get_condition_t getCondition;

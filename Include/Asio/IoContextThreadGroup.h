@@ -27,7 +27,7 @@
 #ifndef IoContextThreadGroup_H
 #define IoContextThreadGroup_H
 
-#include "Threads/ThreadGroup.h"
+#include "asio/AsioCompatibility.hpp"
 #include "AsioDefines.h"
 
 /*! \brief The core_lib namespace. */
@@ -70,21 +70,33 @@ public:
      * \brief Get the I/O context.
      * \return A reference to the I/O context.
      */
-    boost_iocontext_t& IoContext();
+    asio_compat::io_context_t& IoContext();
     /*!
      * \brief Post a function object to be run by one of our threads.
      * \param[in] function - Function to be run by one of our threads.
      */
     template <typename F> void Post(F&& function)
     {
-        boost_asio::post(m_ioContext, std::forward<F>(function));
+        asio_compat::post(m_ioService, std::forward<F>(function));
     }
+	/*!
+     * \brief Dispatch a function object to be run by one of our threads.
+     * \param[in] function - Function to be run by one of our threads.
+     */
+    template <typename F> void Dispatch(F&& function)
+    {
+        asio_compat::dispatch(m_ioService, std::forward<F>(function));
+    }
+	/*!
+     * \brief Stop function optional to call, as called in destructor anyway.
+     */
+    void Stop();
 
 private:
     /*! \brief Boost ASIO I/O context.*/
-    boost_iocontext_t m_ioContext;
+    asio_compat::io_context_t m_ioContext;
     /*! \brief Boost ASIO I/O context work guard object.*/
-    boost::asio::executor_work_guard<boost::asio::io_context::executor_type> m_ioWorkGuard;
+    asio_compat::work_guard_t m_ioWork;
     /*! \brief Our thread group.*/
     threads::ThreadGroup m_threadGroup;
 };

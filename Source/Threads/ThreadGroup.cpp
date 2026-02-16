@@ -28,7 +28,6 @@
 #include <algorithm>
 #include <stdexcept>
 #include <boost/throw_exception.hpp>
-#include "Threads/JoinThreads.h"
 
 namespace core_lib
 {
@@ -41,7 +40,8 @@ namespace threads
 
 ThreadGroup::~ThreadGroup()
 {
-	Clear();
+    (void)JoinAll();
+    Clear();
 }
 
 bool ThreadGroup::IsThisThreadIn() const
@@ -55,15 +55,13 @@ bool ThreadGroup::IsThreadIn(std::thread* threadPtr) const
     {
         return false;
     }
-    else
-    {
-        return IsThreadIn(threadPtr->get_id());
-    }
+
+    return IsThreadIn(threadPtr->get_id());
 }
 
 bool ThreadGroup::IsThreadIn(const std::thread::id& id) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock(m_mutex);
     return IsThreadInNoMutex(id);
 }
 
@@ -74,7 +72,7 @@ void ThreadGroup::AddThread(std::thread* threadPtr)
         return;
     }
 
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock(m_mutex);
 
     if (IsThreadInNoMutex(threadPtr->get_id()))
     {
@@ -91,7 +89,7 @@ void ThreadGroup::RemoveThread(std::thread* threadPtr)
         return;
     }
 
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock(m_mutex);
 
     if (!IsThreadInNoMutex(threadPtr->get_id()))
     {
@@ -108,7 +106,7 @@ void ThreadGroup::RemoveThread(std::thread* threadPtr)
 
 std::thread* ThreadGroup::RemoveThread(const std::thread::id& id)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock(m_mutex);
     std::thread*                t{};
 
     for (auto tIt = m_threadGroup.begin(); tIt != m_threadGroup.end(); ++tIt)
@@ -126,34 +124,99 @@ std::thread* ThreadGroup::RemoveThread(const std::thread::id& id)
 
 bool ThreadGroup::JoinAll()
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+    thread_list temp;
 
-    if (IsThisThreadInNoMutex())
+    // Reduce scope of lock.
     {
-        // Thread cannot join itself.
-        return false;
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        if (IsThisThreadInNoMutex())
+        {
+            return false;
+        }
+
+        temp.swap(m_threadGroup);
     }
 
-    JoinThreadsP<std::list> joiner(m_threadGroup);
-    return true;
+    // Join the threads we can.
+    bool all_joined = true;
+
+    for (auto* t : temp)
+    {
+        if (!t)
+        {
+            continue;
+        }
+
+        try
+        {
+            if (t->joinable())
+            {
+                t->join();
+            }
+        }
+        catch (...)
+        {
+            all_joined = false;
+        }
+    }
+
+    // Cleanup without terminate, detatching any threads left in a
+    // joinable state that failed earlier.
+    for (auto* t : temp)
+    {
+        if (!t)
+        {
+            continue;
+        }
+
+        if (t->joinable())
+        {
+            t->detach();
+        }
+
+        delete t;
+    }
+
+    return all_joined;
 }
 
 size_t ThreadGroup::Size() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock(m_mutex);
     return m_threadGroup.size();
 }
 
 bool ThreadGroup::Empty() const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::lock_guard<std::mutex> lock(m_mutex);
     return m_threadGroup.empty();
 }
 
 void ThreadGroup::Clear()
 {
-    std::for_each(m_threadGroup.begin(), m_threadGroup.end(), DeleteThread);
-	m_threadGroup.clear();
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // As we should JoinAll if we want proper Join and delete tidyup in here we simply detach and
+    // delete.
+    std::for_each(m_threadGroup.begin(),
+                  m_threadGroup.end(),
+                  [](std::thread* t)
+                  {
+                      if (nullptr == t)
+                      {
+                          return;
+                      }
+
+                      if (t->joinable())
+                      {
+                          t->detach(); // prevent std::terminate
+                      }
+
+                      delete t;
+                  });
+
+    m_threadGroup.clear();
 }
 
 bool ThreadGroup::IsThisThreadInNoMutex() const
@@ -166,11 +229,6 @@ bool ThreadGroup::IsThreadInNoMutex(const std::thread::id& id) const
     return std::any_of(m_threadGroup.begin(),
                        m_threadGroup.end(),
                        [&](std::thread const* threadPtr) { return threadPtr->get_id() == id; });
-}
-
-void ThreadGroup::DeleteThread(std::thread* threadPtr)
-{
-    delete threadPtr;
 }
 
 } // namespace threads

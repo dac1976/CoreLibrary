@@ -31,6 +31,7 @@
 #include <mutex>
 #include <list>
 #include <vector>
+#include <utility>
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 
@@ -85,16 +86,17 @@ public:
     bool IsThreadIn(const std::thread::id& id) const;
     /*!
      * \brief Create and add thread to group.
-     * \param[in] threadfunction - Thread function to use with created thread.
+     * \param[in] threadFunction - Thread function to use with created thread.
      * \return Pointer to the created thread.
      */
-    template <typename F> std::thread* CreateThread(F&& threadfunction)
+    template <typename F> std::thread* CreateThread(F&& threadFunction)
     {
-        std::lock_guard<std::mutex>  lock{m_mutex};
-        std::unique_ptr<std::thread> newThread{new std::thread(std::forward<F>(threadfunction))};
-        m_threadGroup.push_back(newThread.get());
-        return newThread.release();
+        std::lock_guard<std::mutex> lock{m_mutex};
+        auto*                       t = new std::thread(std::forward<F>(threadFunction));
+        m_threadGroup.push_back(t);
+        return t;
     }
+
     /*!
      * \brief Add thread to group.
      * \param[in] threadPtr - Pointer to thread.
@@ -118,8 +120,7 @@ public:
      * for this ID has not been joined else the ID will be invalid.
      */
     std::thread* RemoveThread(const std::thread::id& id);
-    /*!
-     * \brief Call join on all registered threads.
+    /*! \brief Call join on all registered threads safely deleting threads after join.
      * \return True if join successful, false otherwise.
      */
     bool JoinAll();
@@ -131,19 +132,12 @@ public:
      *  \return True if no threads registered, false otherwise.
      */
     bool Empty() const;
-	/*! \brief Delete all threads and clear list.
-     */
+    /*! \brief Delete all threads managed by the group detaching joinable threads
+               first, giving up ownership. If you want to join first then call
+               JoinAll instead. */
     void Clear();
 
 private:
-    /*! \brief Access mutex for private data. */
-    mutable std::mutex m_mutex;
-    /*! \brief Typedef for thread list type. */
-    using thread_list = std::list<std::thread*>;
-    /*! \brief Typedef for thread list iterator type. */
-    using thread_list_iter = thread_list::iterator;
-    /*! \brief List containing threads. */
-    thread_list m_threadGroup;
     /*!
      * \brief Is current thread in group (no mutex).
      * \return True if in group, false otherwise.
@@ -155,11 +149,14 @@ private:
      * \return True if in group, false otherwise.
      */
     bool IsThreadInNoMutex(const std::thread::id& id) const;
-    /*!
-     * \brief Delete thread object.
-     * \param[in] threadPtr - Pointer to thread.
-     */
-    static void DeleteThread(std::thread* threadPtr);
+	
+private:
+    /*! \brief Access mutex for private data. */
+    mutable std::mutex m_mutex;
+    /*! \brief Typedef for thread list type. */
+    using thread_list = std::list<std::thread*>;
+    /*! \brief List containing threads. */
+    thread_list m_threadGroup;	
 };
 
 } // namespace threads

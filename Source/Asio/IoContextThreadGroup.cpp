@@ -37,27 +37,45 @@ namespace asio
 // 'class IoContextThreadGroup' definition
 // ****************************************************************************
 IoContextThreadGroup::IoContextThreadGroup(unsigned int numThreads)
-    : m_ioWorkGuard(boost::asio::make_work_guard(m_ioContext))
+    : m_ioWork(asio_compat::make_work_guard(m_ioService))
 {
-    unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
+    const unsigned int numThreadsToUse = std::max(static_cast<unsigned int>(1), numThreads);
 
     for (unsigned int t = 0; t < numThreadsToUse; ++t)
     {
-        m_threadGroup.CreateThread(
-            std::bind(static_cast<size_t (boost_iocontext_t::*)()>(&boost_iocontext_t::run),
-                      std::ref(m_ioContext)));
+        auto* svc = &m_ioService;
+
+        m_threadGroup.CreateThread([svc]()
+        {
+            (void)svc->run();
+        });
     }
 }
 
 IoContextThreadGroup::~IoContextThreadGroup()
 {
-    m_ioWorkGuard.reset();
-    m_threadGroup.JoinAll();
+    Stop();
 }
 
-boost_iocontext_t& IoContextThreadGroup::IoContext()
+asio_compat::io_context_t& IoContextThreadGroup::IoContext()
 {
     return m_ioContext;
+}
+
+void IoContextThreadGroup::Stop()
+{
+#if (BOOST_VERSION >= 106600)
+    // Let run() exit cleanly once queued work drains (optional, but correct).
+    // Then stop() to force unblock if needed.
+    m_ioWork.reset();
+#endif
+
+    if (!m_ioService.stopped())
+	{
+        m_ioService.stop();
+	}
+
+    m_threadGroup.JoinAll();
 }
 
 } // namespace asio

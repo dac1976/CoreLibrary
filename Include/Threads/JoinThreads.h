@@ -67,13 +67,20 @@ public:
     /*! \brief Move assignment operator deleted.*/
     JoinThreads& operator=(JoinThreads&&) = delete;
     /*! \brief Destructor- joins the threads.*/
-    ~JoinThreads()
+    ~JoinThreads() noexcept
     {
         for (auto& t : m_threads)
         {
-            if (t.joinable())
+            try
             {
-                t.join();
+                if (t.joinable())
+                {
+                    t.join();
+                }
+            }
+            catch (...)
+            {
+                // Do nothing
             }
         }
     }
@@ -114,13 +121,20 @@ public:
     /*! \brief Move assignment operator deleted.*/
     JoinThreadsP& operator=(JoinThreadsP&&) = delete;
     /*! \brief Destructor- joins the threads.*/
-    ~JoinThreadsP()
+    ~JoinThreadsP() noexcept
     {
         for (auto& t : m_threads)
         {
-            if (t && t->joinable())
+            try
             {
-                t->join();
+                if (t && t->joinable())
+                {
+                    t->join();
+                }
+            }
+            catch (...)
+            {
+                // Do nothing
             }
         }
     }
