@@ -152,6 +152,9 @@ public:
     {
         *this = std::move(row);
     }
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    TRow(TRow&&) noexcept = default;
 #else
     /*! \brief Move constructor. */
     TRow(TRow&&) = default;
@@ -200,6 +203,9 @@ public:
         std::swap(m_cells, row.m_cells);
         return *this;
     }
+#elif __cpp_noexcept_function_type
+    /*! \brief Move assignment operator. */
+    TRow& operator=(TRow&&) noexcept = default;
 #else
     /*! \brief Move assignment operator. */
     TRow& operator=(TRow&&) = default;
@@ -301,9 +307,7 @@ public:
      * The column count is increased by one and the new cell is initialised
      * with the given string.
      *
-     * \note
-     * If the index is out of bounds a std::out_of_range
-     * exception is thrown.
+     * If col is out of range then a std::out_of_range exception is thrown.
      */
     template <typename V> void InsertColumn(size_t col, V value)
     {
@@ -321,9 +325,7 @@ public:
      * The column count is increased by one and the new cell is initialised
      * with the default cell constructor.
      *
-     * \note
-     * If the index is out of bounds a std::out_of_range
-     * exception is thrown.
+     * If col is out of range a std::out_of_range exception is thrown.
      */
     void InsertColumn(size_t col)
     {
@@ -356,6 +358,8 @@ public:
     }
 
 private:
+    /*!  \brief The row's cells. */
+    container_type m_cells{};
     /*!
      * \brief Load a row from a line in a CSV file.
      * \param[in] line - The line from the CSV file.
@@ -402,8 +406,8 @@ private:
                 pos = cell.find('"', pos + 2);
             }
 
-            // if cell contains ',', '\n' or '\r' wrap it in quotes...
-            if (cell.find_first_of(",\r\n") != std::string::npos)
+            // if cell contains '"', ',', '\n' or '\r' wrap it in quotes...
+            if (cell.find_first_of("\",\r\n") != std::string::npos)
             {
                 std::string temp = "\"";
                 temp.append(cell);
@@ -421,6 +425,7 @@ private:
             }
         }
     }
+
     /*!
      * \brief Tokenize a row with double quoted cells.
      * \param[in] line - A CSV file's line of text.
@@ -430,13 +435,13 @@ private:
      */
     void TokenizeLineQuoted(const std::string& line)
     {
-        using Tokenizer = boost::tokenizer<boost::escaped_list_separator<char>>;
-        Tokenizer                 tokzr{line};
-        Tokenizer::const_iterator tokIter{tokzr.begin()};
+        using TokenType = boost::escaped_list_separator<char>;
+        using Tokenizer = boost::tokenizer<TokenType>;
+        Tokenizer tokzr(line);
+        auto      tokIter = tokzr.begin();
 
         while (tokIter != tokzr.end())
         {
-            // cppcheck-suppress eraseDereference
             std::string tok{*tokIter++};
             boost::trim(tok);
             m_cells.emplace_back(tok);
@@ -457,17 +462,11 @@ private:
 
         while (std::getline(line_ss, tok, ','))
         {
-            string_utils::PackStdString(tok);
+            tok.shrink_to_fit();
             boost::trim(tok);
             m_cells.emplace_back(tok);
         }
     }
-
-private:
-    /*!  \brief The reservation function to use when initialising the container. */
-    reserver::ContainerReserver<C, T> m_reserve{};
-    /*!  \brief The row's cells. */
-    container_type m_cells{};
 };
 
 } // namespace csv_grid

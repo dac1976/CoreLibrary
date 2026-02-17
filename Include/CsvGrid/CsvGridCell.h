@@ -56,6 +56,9 @@ public:
 #ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     Cell(Cell&& cell);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    Cell(Cell&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     Cell(Cell&&) = default;
@@ -109,6 +112,9 @@ public:
 #ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move assignment operator. */
     Cell& operator=(Cell&& cell);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move assignment operator. */
+    Cell& operator=(Cell&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move assignment operator. */
     Cell& operator=(Cell&&) = default;

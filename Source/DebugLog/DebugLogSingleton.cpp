@@ -1,4 +1,4 @@
-#include "DebugLogSingleton.h"
+#include "DebugLog/DebugLogSingleton.h"
 
 #if defined(CORE_LIB_NO_LOKI)
 

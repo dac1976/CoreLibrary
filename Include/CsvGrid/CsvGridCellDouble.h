@@ -56,6 +56,9 @@ public:
 #ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move constructor. */
     CellDouble(CellDouble&& cell);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    CellDouble(CellDouble&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move constructor. */
     CellDouble(CellDouble&&) = default;
@@ -81,6 +84,9 @@ public:
 #ifdef USE_EXPLICIT_MOVE_
     /*! \brief Move assignment operator. */
     CellDouble& operator=(CellDouble&& cell);
+#elif __cpp_noexcept_function_type
+    /*! \brief Move assignment operator. */
+    CellDouble& operator=(CellDouble&&) NO_EXCEPT_ = default;
 #else
     /*! \brief Move assignment operator. */
     CellDouble& operator=(CellDouble&&) = default;

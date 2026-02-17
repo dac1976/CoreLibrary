@@ -23,7 +23,7 @@
  * \file DebugLog.cpp
  * \brief File containing definition of DebugLog class.
  */
-#include "DebugLog.h"
+#include "DebugLog/DebugLog.h"
 #if defined(_MSC_VER) && (_MSC_VER < 1920)
 #include "Asio/MemoryUtils.hpp"
 #endif

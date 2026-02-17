@@ -95,6 +95,9 @@ public:
     {
         *this = std::move(csvGrid);
     }
+#elif __cpp_noexcept_function_type
+    /*! \brief Move constructor. */
+    TCsvGrid(TCsvGrid&&) noexcept = default;
 #else
     /*! \brief Move constructor. */
     TCsvGrid(TCsvGrid&&) = default;
@@ -105,14 +108,14 @@ public:
      * \param[in] cols - The number of columns.
      *
      * Create the rectangular grid object with a non-zero number of rows and
-     * columns. If rows or columns are 0 then std::out_of_range exception
+     * columns. If rows or columns are 0 then a std::invalid_argument exception
      * is thrown.
      */
     TCsvGrid(size_t rows, size_t cols)
     {
         if ((rows == 0) || (cols == 0))
         {
-            BOOST_THROW_EXCEPTION(std::out_of_range("rows or cols is 0"));
+            BOOST_THROW_EXCEPTION(std::invalid_argument("rows or cols is 0"));
         }
 
         m_grid.resize(rows, row_type(cols));
@@ -153,6 +156,9 @@ public:
         std::swap(m_grid, csvGrid.m_grid);
         return *this;
     }
+#elif __cpp_noexcept_function_type
+    /*! \brief Move assignment operator. */
+    TCsvGrid& operator=(TCsvGrid&&) noexcept = default;
 #else
     /*! \brief Move assignment operator. */
     TCsvGrid& operator=(TCsvGrid&&) = default;
@@ -229,6 +235,24 @@ public:
         return n->GetSize();
     }
     /*!
+     * \brief Get the max number of columns for any row.
+     * \return The max number of columns.
+     */
+    size_t GetMaxColCount() const
+    {
+        size_t colCount = 0;
+
+        for (auto const& row : m_grid)
+        {
+            if (row.GetSize() > colCount)
+            {
+                colCount = row.GetSize();
+            }
+        }
+
+        return colCount;
+    }
+    /*!
      * \brief Resize the grid.
      * \param[in] rows - The number of rows.
      * \param[in] defaultCols - The number of columns for newly created rows.
@@ -254,7 +278,6 @@ public:
      *
      * Resize the grid, adding a new column to each row.
      */
-    // cppcheck-suppress functionConst
     void AddColumnToAllRows()
     {
         for (auto& row : m_grid)
@@ -286,7 +309,6 @@ public:
      * The column is only inserted if the column index is within range of
      * the row in the grid otherwise a column is not added to the row.
      */
-    // cppcheck-suppress functionConst
     void InsertColumnInAllRows(size_t col)
     {
         for (auto& row : m_grid)
@@ -303,7 +325,6 @@ public:
      * The contents of each cell in the grid is cleared but the row and
      * column counts remain unchanged.
      */
-    // cppcheck-suppress functionConst
     void ClearCells()
     {
         for (auto& row : m_grid)
@@ -340,9 +361,8 @@ public:
 
         if (!csvfile.is_open())
         {
-            std::string err("failed to create file stream for loading: ");
+            std::string err("failed to create ifstream: ");
             err.append(filename);
-
             BOOST_THROW_EXCEPTION(std::runtime_error(err));
         }
 
@@ -355,7 +375,7 @@ public:
         {
             std::string line;
             std::getline(csvfile, line);
-            string_utils::PackStdString(line);
+            line.shrink_to_fit();
 
             if ((csvfile.tellg() == csvfile.gcount()) || csvfile.eof())
             {
@@ -421,9 +441,8 @@ public:
 
         if (!csvfile.is_open())
         {
-            std::string err("failed to create file stream for saving: ");
+            std::string err("failed to create ofstream: ");
             err.append(filename);
-
             BOOST_THROW_EXCEPTION(std::runtime_error(err));
         }
 

@@ -503,7 +503,7 @@ TEST(CsvGridTest, CsvGrid_InitializingConstructor_2)
         CsvGrid grid(0, 0);
         exceptionThrown = false;
     }
-    catch (std::out_of_range& e)
+    catch (std::invalid_argument& e)
     {
         (void)e;
         exceptionThrown = true;
@@ -1192,6 +1192,38 @@ TEST(CsvGridTest, CsvGridD_SaveLoad)
     EXPECT_DOUBLE_EQ(grid[2][2], gridIn[2][2]);
 
     bfs::remove("testSave.csv");
+}
+
+//-----------------------------------------------------------------------------
+#include "StringUtils.h"
+
+TEST(StringUtils, Tokenise1)
+{
+    auto                 substrings = core_lib::TokeniseString("1-2-3-4", "-", true);
+    decltype(substrings) comp       = {"1", "2", "3", "4"};
+    EXPECT_EQ(substrings, comp);
+
+    substrings = core_lib::TokeniseString("1-2-3-4", "-", false);
+    EXPECT_EQ(substrings, comp);
+}
+
+TEST(StringUtils, Tokenise2)
+{
+    auto                 substrings = core_lib::TokeniseString("1 - 2 - 3 - 4", " - ", true);
+    decltype(substrings) comp       = {"1", "", "", "2", "", "", "3", "", "", "4"};
+    EXPECT_EQ(substrings, comp);
+
+    comp       = {"1", "2", "3", "4"};
+    substrings = core_lib::TokeniseString("1 - 2 - 3 - 4", " - ", false);
+    EXPECT_EQ(substrings, comp);
+}
+
+TEST(StringUtils, ReplaceTokens)
+{
+    auto copyText = core_lib::ReplaceTokens(
+        "%1 %2 %3 %4", {{"\\%1", "I"}, {"\\%2", "AM"}, {"\\%3", "THE"}, {"\\%4", "BOMB"}});
+
+    EXPECT_EQ(copyText, "I AM THE BOMB");
 }
 
 #endif // DISABLE_CSVGRID_TESTS

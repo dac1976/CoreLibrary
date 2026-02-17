@@ -24,7 +24,7 @@
  * \brief File containing definitions relating various file utilities.
  */
 
-#include "FileUtils.h"
+#include "FileUtils/FileUtils.h"
 #include <algorithm>
 #include <iterator>
 #include <regex>

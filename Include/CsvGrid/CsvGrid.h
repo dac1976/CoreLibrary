@@ -51,22 +51,22 @@ using RowL = CsvGridL::row_type;
 /*! \brief Typedef our default general use grid object to CSVGridL. */
 using CsvGrid = CsvGridL;
 /*! \brief Typedef to Row object using CSVGrid::row_type. */
-using Row = CsvGrid::row_type;
+using Row = RowL;
 
 /*! \brief Typedef to CsvGrid object using std::vector as underlying container type. More efficient
  * when grid has a fixed size and only contains numerical data (stored as double type).*/
 using CsvGridVD = TCsvGrid<std::vector, CellDouble>;
 /*! \brief Typedef to RowV object using CSVGridV::row_type. */
-using RowV = CsvGridV::row_type;
+using RowVD = CsvGridVD::row_type;
 /*! \brief Typedef to CsvGrid object using std::list as underlying container type. More efficient
  * when grid will be dynamically resized and only contains numerical data (stored as double type).*/
 using CsvGridLD = TCsvGrid<std::list, CellDouble>;
 /*! \brief Typedef to RowL object using CSVGridL::row_type. */
-using RowL = CsvGridL::row_type;
+using RowLD = CsvGridLD::row_type;
 /*! \brief Typedef for grid when cells only contain double precision data. */
 using CsvGridD = CsvGridLD;
 /*! \brief Typedef to Row object using CSVGrid::row_type. */
-using RowD = CsvGridD::row_type;
+using RowD = RowLD;
 
 } // namespace csv_grid
 } // namespace core_lib
