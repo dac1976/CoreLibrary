@@ -1,3 +1,0 @@
-INCLUDEPATH += /usr/include
-
-LIBS += -L/usr/lib -lprotobuf
