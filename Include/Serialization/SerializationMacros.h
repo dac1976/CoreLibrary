@@ -31,7 +31,7 @@
 
 #define FRIEND_PRIVATE_ACCESS friend class cereal::access;
 
-#define HGL_CLASS_VERSION(o, v) CEREAL_CLASS_VERSION(o, v)
+#define CLASS_VERSION(o, v) CEREAL_CLASS_VERSION(o, v)
 
 #define SERIALIZATION_SPLIT_MEMBER
 
@@ -47,7 +47,7 @@
 // https://uscilab.github.io/cereal/polymorphism.html
 #define SERIALIZE_BASE_OBJECT(ar, o, t) ar(cereal::make_nvp(#t, cereal::base_class<t>(&o)))
 
-#define HGL_REGISTER_DERIVED_TYPE(t) CEREAL_REGISTER_TYPE(t)
+#define REGISTER_DERIVED_TYPE(t) CEREAL_REGISTER_TYPE(t)
 //-----------------------------------------------------------------------------
 /*
  *
