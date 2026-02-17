@@ -36,8 +36,6 @@ Use the following CMake options to control the build:
 
 -DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log.
 
-Note that CMake will cache the environment variables so if you need to change them make sure you clear the CMake cache before rebuilding. 
-
 The first time you configure CMake to build this library you must first define the following environment variables:
 
 CORELIB_BOOST_ROOT -> Path that is parent to the /boost include directory.
@@ -47,6 +45,8 @@ CORELIB_BOOST_LIB -> Path to the correct Boost lib folder for your compiler and 
 CORELIB_CEREAL_ROOT -> Path (inclusive) for the Cereal /include directory.
 
 CORELIB_LOKI_ROOT -> Path (inclusive) for the Loki /include directory.
+
+Note that CMake will cache the environment variables so if you need to change them make sure you clear the CMake cache before rebuilding.
 
 This library requires some third-party open source libraries for it to compile and function. These are as follows:
 
@@ -70,6 +70,7 @@ For usage examples I recommend looking at the unit test code in the /UnitTests/G
 The networking unit tests require network connectivity and expects 2 adapters setup, one on 10.34.6.1/255.255.0.0 and another on 10.35.6.1/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
 
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
+
 
 
 
