@@ -28,9 +28,9 @@ Use the following CMake options to control the build:
 
 -DBUILD_SHARED_LIBS=OFF -> STATIC (.lib, .a)
 
--DCORELIB_USE_STD_FILESYSTEM=ON  -> (Default) use <filesystem>
+-DCORELIB_USE_STD_FILESYSTEM=ON  -> (Default) use std::filesystem
 
--DCORELIB_USE_STD_FILESYSTEM=OFF -> use <boost/filesystem.hpp>
+-DCORELIB_USE_STD_FILESYSTEM=OFF -> use boost::filesystem
 
 -DCORELIB_SOCKET_DEBUG=ON  -> Extra debug to log file.
 
@@ -65,6 +65,7 @@ For usage examples I recommend looking at the unit test code in the /UnitTests/G
 The networking unit tests require network connectivity and expects 2 adapters setup, one on 10.34.6.1/255.255.0.0 and another on 10.35.6.1/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
 
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
+
 
 
 
