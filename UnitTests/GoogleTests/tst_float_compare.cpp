@@ -1,7 +1,7 @@
 #ifndef DISABLE_FLOAT_COMPARE_TESTS
 
 #include <vector>
-#include "FloatCompare.hpp"
+#include "Comparison/FloatCompare.hpp"
 
 #include "gtest/gtest.h"
 #include "gtest/gtest_cout.h"
