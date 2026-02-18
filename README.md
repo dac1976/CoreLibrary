@@ -20,7 +20,7 @@ The code is the work of me (Duncan Crutchley) (<dac1976github@outlook.com>).
 Copyright (C) 2014 onwards Duncan Crutchley.
 
 ## Requirements ##
-This library's code is compatible with modern compilers on Windows and Linux. It has also been used on x86 and ARM architectures. The latest versions of the code require C++20 compatible compilers. On Windows it is tested against MSVC 2022 Build Tools and for Linux it is tested against G++ 11 and greater. It has also been tested more recently with Clang 15 and Clang 20. The recommended way to build the library is with CMake 3.16 or greater.
+This library's code is compatible with modern compilers on Windows and Linux. It has also been used on x86 and ARM architectures. The latest versions of the code requires at least a C++17 compatible compiler but to get the full feature set a C++20 compatible compiler is strongly recommended. On Windows it is tested against MSVC 2022 Build Tools and for Linux it is tested against G++ 11 and greater. It has also been tested more recently with Clang 15 and Clang 20. The recommended way to build the library is with CMake 3.16 or greater.
 
 Use the following CMake options to control the build:
 

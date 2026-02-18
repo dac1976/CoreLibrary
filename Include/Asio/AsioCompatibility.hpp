@@ -19,6 +19,12 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
+/*!
+ * \file AsioCompatibility.hpp
+ * \brief File containing useful ASIO definitions.
+ */
+
+
 #ifndef ASIO_COMPATIBILITY_HPP
 #define ASIO_COMPATIBILITY_HPP
 
