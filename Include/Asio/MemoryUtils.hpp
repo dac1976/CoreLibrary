@@ -49,11 +49,11 @@ T BitCast(const F& src) noexcept
 {
     return std::bit_cast<T>(src);
 }
-#elif defined(IS_CPP17)
-// Works in C++17 whereas to use std::bit_cast you need full C++20 support
+#else
 template <class T, class F>
-typename std::enable_if_t<
-    sizeof(T) == sizeof(F) && std::is_trivially_copyable_v<T> && std::is_trivially_copyable_v<F>, T>
+typename std::enable_if<sizeof(T) == sizeof(F) && std::is_trivially_copyable<T>::value &&
+                            std::is_trivially_copyable<F>::value,
+                        T>::type
 BitCast(const F& src) noexcept
 {
     T dst;
@@ -66,53 +66,44 @@ BitCast(const F& src) noexcept
 // The following is safer and better practice for converting a buffer, say received from a
 // socket into the underlying structs it represents.
 //
-// If message is MyHeader + MyPodStruct but stored in a std::vector<char> buffer, then
-// it is technically safer and more correct to do:
+// If message is MyHeader + MyPodStruct but stored in a std::vector<char> buffer (or
+// std::array<char, N> or {char const*, size_t}), then it is technically safer and
+// more correct to do:
 //
-// auto bytes = std::span<const std::byte>(reinterpret_cast<const std::byte*>(buffer.data()),
-//                                         buffer.size());
-// auto hdr = TryConvertToPod<MyHeader>(bytes);
-// auto payload = TryConvertToPod<MyPodStruct>(bytes, sizeof(MyHeader));
+// auto hdrOpt = TryConvertToPod<MyHeader>(buffer);
+// auto payloadOpt = TryConvertToPod<MyPodStruct>(buffer, sizeof(MyHeader));
 //
-// So the above is better and safer than:
+// Rather than what we often do, which is:
+//
 // auto hdr = *reinterpret_cast<MyHeader const*>(buffer.data());
 // auto payload = *reinterpret_cast<MyPodStruct const*>(buffer.data() + sizeof(MyHeader));
-template<class T>
-std::optional<T> TryConvertToPod(std::span<const std::byte> buffer, std::size_t offset = 0)
+template <typename T>
+std::optional<T> TryConvertToPod(char_cspan_t buffer, size_t offset = 0) noexcept
 {
-    static_assert(std::is_trivially_copyable_v<T>, "T must be trivially copyable");
-	
-    if (offset + sizeof(T) > buffer.size()) 
-	{
-		return std::nullopt;
-	}
+    static_assert(std::is_trivially_copyable<T>::value, "T must be trivially copyable");
+
+    if (offset + sizeof(T) > buffer.size())
+    {
+        return std::nullopt;
+    }
 
     T out;
     std::memcpy(&out, buffer.data() + offset, sizeof(T));
     return out;
 }
 
-// Overload for passing in anything like: {char const*, size_t},  std::array<char, N> or
-// std::vector<char>. So useful in networking code to have less visible casting in app code.
-//
-// If message is MyHeader + MyPodStruct but stored in a std::vector<char> buffer, then
-// it is technically safer and more correcxt to do:
-//
-// auto hdr = TryConvertToPod<HGL_MSG_HDR>(buffer);
-// auto payload = TryConvertToPod<MyPodStruct>(buffer, sizeof(MyHeader));
-//
-// So the above is better and safer than:
-// auto hdr = *reinterpret_cast<MyHeader const*>(buffer.data());
-// auto payload = *reinterpret_cast<MyPodStruct const*>(buffer.data() + sizeof(MyHeader));
-template<class T>
-std::optional<T> TryConvertToPod(std::span<const char> buffer, std::size_t offset = 0)
+// This version avoids needing an extra copy outside of this call.
+template <typename T> bool TryConvertToPod(T& out, char_cspan_t buffer, size_t offset = 0) noexcept
 {
-    // Reinterpret the char buffer as a byte buffer view (no copy)
-    auto bytes = std::span<const std::byte>(
-        reinterpret_cast<const std::byte*>(buffer.data()),
-        buffer.size());
+    static_assert(std::is_trivially_copyable<T>::value, "T must be trivially copyable");
 
-    return TryConvertToPod<T>(bytes, offset);
+    if (offset + sizeof(T) > buffer.size())
+    {
+        return false;
+    }
+
+    std::memcpy(&out, buffer.data() + offset, sizeof(T));
+    return true;
 }
 #endif
 
