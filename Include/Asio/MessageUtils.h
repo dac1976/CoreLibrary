@@ -77,7 +77,7 @@ public:
     MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher,
                    const std::string&                        magicString, 
 				   size_t memPoolMsgCount = 0,
-                   size_t defaultMsgSize = udp::DEFAULT_UDP_BUF_SIZE);
+                   size_t defaultMsgSize = udp::RECV_POOL_DEFAULT_MSG_SIZE);
     /*! \brief Default destructor. */
     ~MessageHandler() = default;
     /*! \brief Default copy constructor. */
@@ -138,6 +138,20 @@ private:
     mutable size_t                                    m_msgPoolIndex{0};
     std::vector<defs::default_received_message_ptr_t> m_msgPool;
 };
+
+/*!
+ * \brief Stringify archive type.
+ * \param[in] archiveType - Type of archive used.
+ * \return The human readable name of the archive type.
+ */
+std::string ArchiveTypeToString(defs::eArchiveType archiveType);
+
+/*!
+ * \brief Unstringify archive type.
+ * \param[in] archiveName - Type of archive used as a string.
+ * \return The archive type.
+ */
+defs::eArchiveType StringToArchiveType(std::string const& archiveName);
 
 /*!
  * \brief Header filler function.

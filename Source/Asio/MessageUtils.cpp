@@ -33,6 +33,10 @@
 #include <utility>
 #endif
 #include <boost/throw_exception.hpp>
+#include "DebugLog/DebugLogging.h"
+#include "StringConversion/StringUtils.h"
+
+#include "MemoryUtils.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -43,6 +47,8 @@ namespace asio
 /*! \brief The tcp namespace. */
 namespace messages
 {
+	
+constexpr size_t MESSAGE_LENGTH_OFFSET = sizeof(defs::MessageHeader) - sizeof(uint32_t);
 
 // ****************************************************************************
 // 'class MessageHandler' definition
@@ -86,39 +92,77 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 {
     if (!CheckMessage(message))
     {
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_WARNING("CheckBytesLeftToRead has not found complete header, "
+                                 << sizeof(defs::MessageHeader) - message.size()
+                                 << " bytes left to read for full header");
+#endif
         return sizeof(defs::MessageHeader) - message.size();
     }
 
-    auto pHeader = reinterpret_cast<const defs::MessageHeader*>(&message.front());
-
-    if (m_magicString.compare(pHeader->magicString) != 0)
+    if (std::strncmp(m_magicString.c_str(), message.data(), defs::MAGIC_STRING_LEN) != 0)
     {
-        BOOST_THROW_EXCEPTION(std::runtime_error("incorrect magic string"));
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR(
+            "Magic string error, received: "
+            << string_utils::SafeConvertCharArrayToStdString(message.data(), defs::MAGIC_STRING_LEN)
+            << ", expected: " << m_magicString);
+#endif
+        return std::numeric_limits<size_t>::max();
+    }
+	
+	auto totalLengthRes = string_utils::SafeConvertCharArrayToInt<uint32_t>(
+        static_cast<char const*>(message.data() + MESSAGE_LENGTH_OFFSET),
+        sizeof(uint32_t));
+		
+    if (!totalLengthRes.second)
+    {
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("Failed to convert MessageLength field to size_t.");
+#endif
+        return std::numeric_limits<size_t>::max();
+    }		
+
+    if (totalLengthRes.first < message.size())
+    {
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("Message length error, header length field ("
+                               << totalLength << ") < physical message size (" << message.size()
+                               << ")");
+#endif
+        return std::numeric_limits<size_t>::max();
     }
 
-    if (pHeader->totalLength < message.size())
-    {
-        BOOST_THROW_EXCEPTION(std::length_error("message length error"));
-    }
-
-    return pHeader->totalLength - message.size();
+    return totalLengthRes.first - message.size();
 }
 
 void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) const
 {
     if (!CheckMessage(message))
     {
-        BOOST_THROW_EXCEPTION(std::length_error("incomplete message header"));
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("Incomplete message header");
+#endif
     }
 
-    auto pHeader            = reinterpret_cast<const defs::MessageHeader*>(&message.front());
-    auto receivedMessage    = GetNewMessgeObject();
-    receivedMessage->header = *pHeader;
+    auto receivedMessage = GetNewMessgeObject();
 
-    if (pHeader->totalLength > defs::MESSAGE_HEADER_LEN)
+    if (!TryConvertToPod<defs::MessageHeader>(receivedMessage->header, message))
+    {
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("Failed to convert first 80 bytes of buffer to HGL_MSG_HDR");
+#endif
+        return;
+    }
+
+    if (receivedMessage->header.totalLength > defs::MESSAGE_HEADER_LEN)
     {
         receivedMessage->body.assign(message.begin() + defs::MESSAGE_HEADER_LEN, message.end());
     }
+	else
+	{
+		receivedMessage->body.clear();
+	}
 
     m_messageDispatcher(receivedMessage);
 }
@@ -130,16 +174,27 @@ bool MessageHandler::CheckMessage(const defs::char_buffer_t& message)
 
 void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize)
 {
+    m_msgPoolIndex = 0;
+
     if (0 == memPoolMsgCount)
     {
-        m_msgPoolIndex = 0;
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_DEBUG("Receive message pool NOT being used because memPoolMsgCount = "
+                               << memPoolMsgCount << " and defaultMsgSize = " << defaultMsgSize);
+#endif
         m_msgPool.clear();
         return;
     }
 
+#if defined(CORELIB_SOCKET_DEBUG)
+    DEBUG_MESSAGE_EX_DEBUG("Receive message pool will be used with memPoolMsgCount = "
+                           << memPoolMsgCount << " and defaultMsgSize = " << defaultMsgSize);
+#endif
+
     m_msgPool.resize(memPoolMsgCount);
 
-    auto generateMsg = [defaultMsgSize]() {
+    auto generateMsg = [defaultMsgSize]()
+    {
         auto msg = std::make_shared<defs::default_received_message_t>();
 
         if (defaultMsgSize > 0)
@@ -163,6 +218,8 @@ defs::default_received_message_ptr_t MessageHandler::GetNewMessgeObject() const
     }
     else
     {
+        std::lock_guard<std::mutex> lock(m_mutex);
+
         newMessage = m_msgPool[m_msgPoolIndex];
 
         if (++m_msgPoolIndex >= m_msgPool.size())
@@ -177,6 +234,71 @@ defs::default_received_message_ptr_t MessageHandler::GetNewMessgeObject() const
 // ****************************************************************************
 // Utility functions
 // ****************************************************************************
+
+std::string ArchiveTypeToString(defs::eArchiveType archiveType)
+{
+    std::string archiveName;
+
+    switch (archiveType)
+    {
+    case defs::eArchiveType::bin:
+        archiveName = "bin";
+        break;
+    case defs::eArchiveType::portBin:
+        archiveName = "portBin";
+        break;
+    case defs::eArchiveType::raw:
+        archiveName = "raw";
+        break;
+    case defs::eArchiveType::json:
+        archiveName = "json";
+        break;
+    case defs::eArchiveType::xml:
+        archiveName = "xml";
+        break;
+    case defs::eArchiveType::protobuf:
+        archiveName = "protobuf";
+        break;
+    }
+
+    return archiveName;
+}
+
+defs::eArchiveType StringToArchiveType(std::string const& archiveName)
+{
+    defs::eArchiveType archiveType;
+
+    if (archiveName.compare("bin") == 0)
+    {
+        archiveType = defs::eArchiveType::bin;
+    }
+    else if (archiveName.compare("portBin") == 0)
+    {
+        archiveType = defs::eArchiveType::portBin;
+    }
+    else if (archiveName.compare("raw") == 0)
+    {
+        archiveType = defs::eArchiveType::raw;
+    }
+    else if (archiveName.compare("json") == 0)
+    {
+        archiveType = defs::eArchiveType::json;
+    }
+    else if (archiveName.compare("xml") == 0)
+    {
+        archiveType = defs::eArchiveType::xml;
+    }
+    else if (archiveName.compare("protobuf") == 0)
+    {
+        archiveType = defs::eArchiveType::protobuf;
+    }
+    else
+    {
+        archiveType = defs::eArchiveType::raw;
+    }
+
+    return archiveType;
+}
 
 void FillHeader(const std::string& magicString, defs::eArchiveType archiveType, int32_t messageId,
                 const defs::connection_t& responseAddress, uint32_t messageLength,
@@ -268,7 +390,8 @@ auto MessageBuilder::Build(const void* message, size_t messageLength, int32_t me
                            const defs::connection_t& responseAddress,
                            defs::eArchiveType archiveType) const -> defs::char_buffer_t const&
 {
-    if ((0 == messageLength) || (message == nullptr))
+    if (((messageLength > 0) && (message == nullptr)) ||
+        ((0 == messageLength) && (message != nullptr)))
     {
         BOOST_THROW_EXCEPTION(std::runtime_error("message pointer or length is invalid"));
     }
