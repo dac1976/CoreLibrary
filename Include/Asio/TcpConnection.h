@@ -56,8 +56,39 @@ class TcpConnections;
 class CORE_LIBRARY_DLL_SHARED_API TcpConnection final
     : public std::enable_shared_from_this<TcpConnection>
 {
-    using msg_ptr_t  = std::shared_ptr<defs::char_buffer_t>;
-    using msg_pool_t = std::vector<msg_ptr_t>;
+    using msg_ptr_t  = std::shared_ptr<defs::char_buffer_t>; // dynamic-only
+    using msg_pool_t = std::vector<defs::char_buffer_t>;     // pool blocks (fixed-size)
+
+    struct PendingWrite
+    {
+        enum class eKind : uint8_t
+        {
+            pool,
+            dynamic
+        };
+
+        eKind     kind{eKind::dynamic};
+        size_t    len{0};
+        size_t    poolIndex{0};
+        msg_ptr_t dyn; // valid only when kind==dynamic
+    };
+
+    struct EnqueuePreparedSendHandler
+    {
+        std::shared_ptr<TcpConnection> self;
+        TcpConnection::PendingWrite write;
+
+        EnqueuePreparedSendHandler(std::shared_ptr<TcpConnection> s, PendingWrite&& w)
+            : self(std::move(s))
+            , write(std::move(w))
+        {
+        }
+
+        void operator()()
+        {
+            self->EnqueuePreparedSendOnStrand(std::move(write));
+        }
+    };
 
 public:
     /*! \brief Default constructor - deleted. */
@@ -85,31 +116,12 @@ public:
      * details.
      */
     TcpConnection(asio_compat::io_service_t&                 ioService,
-                  std::shared_ptr<TcpConnections> const&     connections,
-                  defs::check_bytes_left_to_read_t const&    checkBytesLeftToRead,
-                  defs::message_received_handler_t const&    messageReceivedHandler,
-                  TcpConnSettings const&                     settings                 = {},
-                  defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
-                  defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx   = {});
-    /*!
-     * \brief [Deprecated] Initialisation constructor.
-     * \param[in] ioService - Reference to I/O service.
-     * \param[in] connections - Reference to TCP connections object.
-     * \param[in] minAmountToRead - Minimum amount to read.
-     * \param[in] checkBytesLeftToRead - Check bytes left to read callback.
-     * \param[in] messageReceivedHandler - Message received handler callback.
-     * \param[in] sendOption - Socket send option.
-     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
-     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
-     * and instead use dynamic allocation.
-     */
-    TcpConnection(asio_compat::io_service_t&             ioService,
-                  std::shared_ptr<TcpConnections> const& connections, size_t minAmountToRead,
-                  defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
-                  defs::message_received_handler_t const& messageReceivedHandler,
-                  eSendOption                             sendOption = eSendOption::nagleOn,
-                  size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
-                  size_t sendPoolMsgSize                             = 0);
+                std::shared_ptr<TcpConnections> const&     connections,
+                defs::check_bytes_left_to_read_t const&    checkBytesLeftToRead,
+                defs::message_received_handler_t const&    messageReceivedHandler,
+                TcpConnSettings const&                     settings                 = {},
+                defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+                defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx   = {});
     /*! \brief Default virtual destructor. */
     ~TcpConnection() = default;
     /*!
@@ -178,27 +190,45 @@ private:
      */
     void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived,
                       size_t bytesExpected);
-    /*!
-     *  \brief Decrement unsent async message counter.
-     *  \param[in] messagePoolIndex - The message pool index that can now be reused.
-     */
-    void DecrementUnsentAsyncCounter(size_t messagePoolIndex);
-    /*!
-     *  \brief Decrement unsent async message counter callback.
-     *  \param[in] messagePoolIndex - The message pool index that can now be reused.
-     *  \param[in] destroySelf - Used if the async write failed and we need to self destruct.
-     */
-    void DecrementUnsentAsyncCounterCallback(size_t messagePoolIndex, bool destroySelf);
+    /*! \brief Decrement unsent async message counter (strand-only). */
+    void DecrementUnsentAsyncCounterOnStrand();
     /*! \brief Initialise message pool. */
     void InitialiseMsgPool();
-    /*!
-     * \brief Get next message to use from pool
-     * \param[in] msgItem - Pointer to message item and its pool index if using a pool.
-     * \param[in] sourceMsg - Reference to source message to copy into message item.
-     * \return Could a valid message item could be obtained?
+    /*
+     * NOTE:
+     * We intentionally prepare pool/dynamic buffers *before* posting to the strand
+     * (to avoid per-send allocations when the pool is enabled). That means the pool
+     * free-list can be accessed from arbitrary caller threads as well as the strand,
+     * so it must be protected with a mutex.
      */
-    bool GetNewMessgeObject(std::pair<msg_ptr_t, size_t>& msgItem,
-                            defs::char_buffer_t const&    sourceMsg) const;
+    /*!
+     * \brief Enqueue a prepared send on the strand.
+     * \param[in] w - Prepared pending write.
+     */
+    void EnqueuePreparedSendOnStrand(PendingWrite w);
+
+    /*! \brief Acquire a pool index (thread-safe). Returns true on success. */
+    bool TryAcquirePoolIndex(size_t& idx);
+    /*! \brief Release a pool index back to the free-list (thread-safe). */
+    void ReleasePoolIndex(size_t idx);
+    /*! \brief Start next write on strand */
+    void StartNextWriteOnStrand();  
+    /*!
+     * \brief Do async write on strand.
+     * \param[in] w - The pending write object.
+     */
+    void DoAsyncWriteOnStrand(PendingWrite const& w);
+    /*!
+     * \brief Write completion handler.
+     * \param[in] error - Error state code.
+    * \param[in] bytesTransferred - Number of bytes sent.
+     */
+    void WriteCompleteOnStrand(const boost_sys::error_code& error, size_t bytesTransferred);
+    /*!
+     * \brief Release the pending write object
+     * \param[in] w - The pending write object.
+     */
+    void ReleasePendingWriteOnStrand(PendingWrite const& w);
     /*!
      * \brief Handler async connect callback.
      * \param[in] errorIn - Error code received from async_connect.
@@ -223,17 +253,14 @@ private:
      */
     size_t CurrentConnectionId() const NO_EXCEPT_;
     /*!
-     * \brief Helper function to perform async wrute safely..
-     * \param[in] msgPtr - Pointer to message to send.
-     * \param[out] poolIndex - Message pool index.
+     * \brief Acquire the next pending write object for async send
+     * \param[in] message - Message to send.
      */
-    void DoAsyncWrite(msg_ptr_t const& msgPtr, size_t poolIndex);
+    bool AcquirePendingWrite(const defs::char_buffer_t& message, PendingWrite& w);
 
 private:
     /*! \brief Access mutex for thread safety. */
     mutable std::mutex m_mutex;
-    /*! \brief Access mutex for thread safety. */
-    mutable std::mutex m_asyncPoolMutex;
     /*! \brief Connection close event. */
     threads::SyncEvent m_closedEvent;
     /*! \brief Event to control connection request. */
@@ -258,12 +285,18 @@ private:
     defs::char_buffer_t m_receiveBuffer;
     /*! \brief Message buffer. */
     defs::char_buffer_t m_messageBuffer;
-    /*! \brief Unsent async message counter. */
-    mutable size_t m_numUnsentAsyncMessages{0};
-    /*! \brief Positions in message pool. */
-    mutable std::deque<size_t> m_availablePoolIndices;
-    /*! \brief Async message pool. */
+    /*! \brief Unsent async message reservation counter (thread-safe). */
+    std::atomic_size_t m_numUnsentAsyncMessages{0};
+    /*! \brief Positions in message pool (LIFO). Protected by m_poolMutex. */
+    std::vector<size_t> m_availablePoolIndices;
+    /*! \brief Mutex protecting pool free-list (m_availablePoolIndices). */
+    mutable std::mutex m_poolMutex;
+    /*! \brief Async message pool blocks (fixed-size, size==sendPoolMsgSize). */
     msg_pool_t m_msgPool;
+    /*! \brief Pending async writes (strand-only). */
+    std::deque<PendingWrite> m_pendingWrites;
+    /*! \brief True if an async_write is currently in flight (strand-only). */
+    bool m_writeInProgress{false};
     /*! \brief Next Connection counter. */
     size_t m_nextConnectionId{0};
     /*! \brief Current  Connection counter */

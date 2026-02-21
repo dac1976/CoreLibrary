@@ -26,16 +26,12 @@
 
 #include "TcpConnection.h"
 #include "TcpConnections.h"
-// #include <iterator>
 #include <algorithm>
 #include <limits>
-// #include <stdexcept>
 #include <boost/bind.hpp>
 #if defined(CORELIB_SOCKET_DEBUG)
 #include <boost/exception/all.hpp>
 #include "DebugLogging.h"
-#else
-#include <boost/throw_exception.hpp>
 #endif
 
 namespace core_lib
@@ -45,89 +41,16 @@ namespace asio
 namespace tcp
 {
 
-// Special "lightweight" object to pass to IO service to remove any
-// unintended deep vector copies from occurring when sending async
-// messages.
-class AsyncSendCallableObj final
-{
-    using free_pool_msg_t = std::function<void(size_t, bool)>;
-
-public:
-#if defined(USE_DEFAULT_CONSTRUCTOR_)
-    AsyncSendCallableObj(){};
-#else
-    AsyncSendCallableObj()                                  = default;
-#endif
-    ~AsyncSendCallableObj()                                      = default;
-    AsyncSendCallableObj(AsyncSendCallableObj const&)            = default;
-    AsyncSendCallableObj& operator=(AsyncSendCallableObj const&) = default;
-#if defined(USE_EXPLICIT_MOVE_)
-    AsyncSendCallableObj(AsyncSendCallableObj&& x)
-    {
-        *this = std::move(x);
-    }
-
-    AsyncSendCallableObj& operator=(AsyncSendCallableObj&& x)
-    {
-        std::swap(m_messageBufPtr, x.m_messageBufPtr);
-        std::swap(m_poolIndex, x.m_poolIndex);
-        std::swap(m_freePoolMsg, x.m_freePoolMsg);
-        return *this;
-    }
-#else
-    AsyncSendCallableObj(AsyncSendCallableObj&&)            = default;
-    AsyncSendCallableObj& operator=(AsyncSendCallableObj&&) = default;
-#endif
-
-    AsyncSendCallableObj(std::shared_ptr<defs::char_buffer_t> const& msgPtr, size_t poolIndex,
-                         free_pool_msg_t const& freePoolMsg)
-        : m_messageBufPtr(msgPtr)
-        , m_poolIndex(poolIndex)
-        , m_freePoolMsg(freePoolMsg)
-    {
-    }
-
-    void operator()(const boost::system::error_code& error,
-                    CORELIB_ARG_MAYBE_UNUSED std::size_t bytes_transferred) const
-    {
-        bool destroySelf = false;
-
-        if (error)
-        {
-#if defined(CORELIB_SOCKET_DEBUG)
-            DEBUG_MESSAGE_EX_ERROR("Error detected in async_write completion handler, error: "
-                                   << error.message()
-                                   << ", bytes transferred = " << bytes_transferred
-                                   << ", size of message sent = " << m_messageBufPtr->size()
-                                   << ", will safely destroy self.");
-#else
-            CORELIB_UNUSED_ARG(bytes_transferred)
-#endif
-            destroySelf = true;
-        }
-
-        if (m_freePoolMsg)
-        {
-            m_freePoolMsg(m_poolIndex, destroySelf);
-        }
-    }
-
-private:
-    std::shared_ptr<defs::char_buffer_t> m_messageBufPtr;
-    size_t                               m_poolIndex{0};
-    free_pool_msg_t                      m_freePoolMsg;
-};
-
 // ****************************************************************************
 // 'class TcpConnection' definition
 // ****************************************************************************
-TcpConnection::TcpConnection(asio_compat::io_service_t&                 ioService,
-                             std::shared_ptr<TcpConnections> const&     connections,
-                             defs::check_bytes_left_to_read_t const&    checkBytesLeftToRead,
-                             defs::message_received_handler_t const&    messageReceivedHandler,
-                             TcpConnSettings const&                     settings,
-                             defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
-                             defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
+TcpConnection::TcpConnection(asio_compat::io_service_t&                    ioService,
+                             const std::shared_ptr<TcpConnections>&     connections,
+                             const defs::check_bytes_left_to_read_t&    checkBytesLeftToRead,
+                             const defs::message_received_handler_t&    messageReceivedHandler,
+                             const TcpConnSettings&                  settings,
+                             const defs::message_received_handler_ex_t& messageReceivedHandlerEx,
+                             const defs::check_bytes_left_to_read_ex_t& checkBytesLeftToReadEx)
     : m_closing{false}
     , m_strand(asio_compat::make_strand(ioService))
     , m_connections{connections}
@@ -140,39 +63,6 @@ TcpConnection::TcpConnection(asio_compat::io_service_t&                 ioServic
                      eIntialCondition::notSignalled)
     , m_socket{ioService}
 {
-    InitialiseMsgPool();
-
-#if defined(CORELIB_SOCKET_DEBUG)
-    DEBUG_MESSAGE_EX_DEBUG(
-        "Reserving memory for receive and send buffers as: " << DEFAULT_RESERVED_SIZE << " bytes");
-#endif
-
-    m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
-    m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
-}
-
-// [DEPRECATED]
-TcpConnection::TcpConnection(asio_compat::io_service_t&              ioService,
-                             std::shared_ptr<TcpConnections> const&  connections,
-                             size_t                                  minAmountToRead,
-                             defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
-                             defs::message_received_handler_t const& messageReceivedHandler,
-                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
-                             size_t sendPoolMsgSize)
-    : m_closing{false}
-    , m_strand{asio_compat::make_strand(ioService)}
-    , m_connections{connections}
-    , m_checkBytesLeftToRead{checkBytesLeftToRead}
-    , m_messageReceivedHandler{messageReceivedHandler}
-    , m_connectEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                     eIntialCondition::notSignalled)
-    , m_socket{ioService}
-{
-    m_settings.minAmountToRead               = minAmountToRead;
-    m_settings.sendOption                    = sendOption;
-    m_settings.maxAllowedUnsentAsyncMessages = maxAllowedUnsentAsyncMessages;
-    m_settings.sendPoolMsgSize               = sendPoolMsgSize;
-
     InitialiseMsgPool();
 
 #if defined(CORELIB_SOCKET_DEBUG)
@@ -384,7 +274,7 @@ void TcpConnection::DestroySelfOnStrand()
     connections->Remove(shared_from_this());
 }
 
-void TcpConnection::StartAsyncRead(defs::connection_t const& endPoint)
+void TcpConnection::StartAsyncRead(const defs::connection_t& endPoint)
 {
     // Reduce scope of mutex to store endpoint
     {
@@ -468,8 +358,8 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
             {
                 numBytes =
                     m_checkBytesLeftToReadEx(m_messageBuffer,
-                                             m_socket.remote_endpoint().address().to_string(),
-                                             m_socket.remote_endpoint().port());
+										 m_socket.remote_endpoint().address().to_string(),
+										 m_socket.remote_endpoint().port());
             }
             else
             {
@@ -487,8 +377,8 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
                 if (m_messageReceivedHandlerEx)
                 {
                     m_messageReceivedHandlerEx(m_messageBuffer,
-                                               m_socket.remote_endpoint().address().to_string(),
-                                               m_socket.remote_endpoint().port());
+										   m_socket.remote_endpoint().address().to_string(),
+										   m_socket.remote_endpoint().port());
                 }
                 else
                 {
@@ -538,50 +428,56 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
     }
 }
 
-void TcpConnection::DoAsyncWrite(msg_ptr_t const& msgPtr, size_t poolIndex)
-{
-    AsyncSendCallableObj callableObj(
-        msgPtr,
-        poolIndex,
-        boost::bind(
-            &TcpConnection::DecrementUnsentAsyncCounterCallback, shared_from_this(), _1, _2));
-
-    boost_asio::async_write(
-        m_socket, boost_asio::buffer(*msgPtr), asio_compat::wrap(m_strand, callableObj));
-}
-
 bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 {
+    // Copying overload: accepts if we can reserve a slot.
+    // We *prepare* the pool/dynamic backing store before posting to the strand to avoid
+    // per-send allocations when the pool is enabled.
+    // "true" means accepted/queued for sending by this connection (not that it reached the wire).
+    if (IsClosing())
+    {
+        return false;
+    }
+	
+	PendingWrite w;
+	
+	if (!AcquirePendingWrite(message, w))
+	{
+		return false;
+	}
+
     try
     {
-        std::pair<msg_ptr_t, size_t> msgItem;
-
-        if (!GetNewMessgeObject(msgItem, message))
-        {
-            return false;
-        }
-
-        asio_compat::post(
-            m_strand,
-            boost::bind(
-                &TcpConnection::DoAsyncWrite, shared_from_this(), msgItem.first, msgItem.second));
+        asio_compat::post(m_strand, EnqueuePreparedSendHandler(shared_from_this(), std::move(w)));
 
         return true;
     }
     catch (...)
     {
+        // Extremely rare (post throwing), but keep reservation accurate.
+        if (w.kind == PendingWrite::eKind::pool)
+        {
+            ReleasePoolIndex(w.poolIndex);
+        }
+		
+        m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
+		
 #if defined(CORELIB_SOCKET_DEBUG)
-        DEBUG_MESSAGE_EX_ERROR("Error in SendMessageAsync, error: "
+        DEBUG_MESSAGE_EX_ERROR("Error in SendMessageAsync(post), error: "
                                << boost::current_exception_diagnostic_information()
                                << ", for: " << m_endPoint.first << ":" << m_endPoint.second);
 #endif
+        return false;
     }
-
-    return false;
 }
 
 bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
 {
+	if (IsClosing())
+    {
+        return false;
+    }
+	
     size_t bytesSent;
 
     try
@@ -608,38 +504,150 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
     return success;
 }
 
+// -----------------------------------------------------------------------------
+// High-performance async write pipeline (strand-only)
+// -----------------------------------------------------------------------------
+
+bool TcpConnection::TryAcquirePoolIndex(size_t& idx)
+{
+    std::lock_guard<std::mutex> lock{m_poolMutex};
+	
+    if (m_availablePoolIndices.empty())
+    {
+        return false;
+    }
+
+    idx = m_availablePoolIndices.back();
+    m_availablePoolIndices.pop_back();
+    return true;
+}
+
+void TcpConnection::ReleasePoolIndex(size_t idx)
+{
+    std::lock_guard<std::mutex> lock{m_poolMutex};
+    m_availablePoolIndices.push_back(idx);
+}
+
+// Uses move semantics hence pass by value
+void TcpConnection::EnqueuePreparedSendOnStrand(PendingWrite w)
+{
+    if (IsClosing())
+    {
+        // If we already took a pool slot, return it.
+        if (w.kind == PendingWrite::eKind::pool)
+        {
+            ReleasePoolIndex(w.poolIndex);
+        }
+        DecrementUnsentAsyncCounterOnStrand();
+        return;
+    }
+
+    m_pendingWrites.push_back(std::move(w));
+    StartNextWriteOnStrand();
+}
+
+void TcpConnection::StartNextWriteOnStrand()
+{
+    if (m_writeInProgress)
+    {
+        return;
+    }
+
+    if (m_pendingWrites.empty())
+    {
+        return;
+    }
+
+    m_writeInProgress = true;
+    DoAsyncWriteOnStrand(m_pendingWrites.front());
+}
+
+void TcpConnection::DoAsyncWriteOnStrand(const PendingWrite& w)
+{
+    if (w.kind == PendingWrite::eKind::pool)
+    {
+        auto& block = m_msgPool[w.poolIndex];
+        boost_asio::async_write(
+            m_socket,
+            boost_asio::buffer(block.data(), w.len),
+            asio_compat::wrap(
+                m_strand,
+                boost::bind(&TcpConnection::WriteCompleteOnStrand,
+                            shared_from_this(),
+                            _1,
+                            _2)));
+    }
+    else
+    {
+        boost_asio::async_write(
+            m_socket,
+            boost_asio::buffer(w.dyn->data(), w.len),
+            asio_compat::wrap(
+                m_strand,
+                boost::bind(&TcpConnection::WriteCompleteOnStrand, shared_from_this(), _1, _2)));
+    }
+}
+
+void TcpConnection::WriteCompleteOnStrand(const boost_sys::error_code& error,
+                                          CORELIB_ARG_MAYBE_UNUSED size_t  bytesTransferred)
+{
+    CORELIB_UNUSED_ARG(bytesTransferred)
+
+    if (m_pendingWrites.empty())
+    {
+        // Should not happen, but keep state consistent.
+        m_writeInProgress = false;
+        return;
+    }
+
+    // Release resources for the completed write.
+    ReleasePendingWriteOnStrand(m_pendingWrites.front());
+    m_pendingWrites.pop_front();
+
+    m_writeInProgress = false;
+
+    if (error)
+    {
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("Error detected in async_write completion handler, error: "
+                               << error.message() << ", will safely destroy self, for: "
+                               << m_endPoint.first << ":" << m_endPoint.second);
+#endif
+        // Drain anything still queued so counters/pool slots don't leak.
+        while (!m_pendingWrites.empty())
+        {
+            ReleasePendingWriteOnStrand(m_pendingWrites.front());
+            m_pendingWrites.pop_front();
+        }
+
+        DestroySelf();
+        return;
+    }
+
+    StartNextWriteOnStrand();
+}
+
+void TcpConnection::ReleasePendingWriteOnStrand(const PendingWrite& w)
+{
+    // Return pool index if pool-backed.
+    if (w.kind == PendingWrite::eKind::pool)
+    {
+        ReleasePoolIndex(w.poolIndex);
+    }
+
+    DecrementUnsentAsyncCounterOnStrand();
+}
+
 size_t TcpConnection::NumberOfUnsentAsyncMessages() const
 {
-    std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
-    return m_numUnsentAsyncMessages;
+    return m_numUnsentAsyncMessages.load(std::memory_order_acquire);
 }
 
-void TcpConnection::DecrementUnsentAsyncCounter(size_t messagePoolIndex)
+void TcpConnection::DecrementUnsentAsyncCounterOnStrand()
 {
-    std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
-
-    if (m_numUnsentAsyncMessages > 0)
-    {
-        --m_numUnsentAsyncMessages;
-    }
-
-    // If we are using a message pool
-    // put this index back onto the queue
-    // of available pool indices.
-    if (!m_msgPool.empty())
-    {
-        m_availablePoolIndices.push_back(messagePoolIndex);
-    }
-}
-
-void TcpConnection::DecrementUnsentAsyncCounterCallback(size_t messagePoolIndex, bool destroySelf)
-{
-    DecrementUnsentAsyncCounter(messagePoolIndex);
-
-    if (destroySelf)
-    {
-        DestroySelf();
-    }
+    // Strand-only decrement paired with the reservation in SendMessageAsync.
+    // Use fetch_sub to remain safe even if mis-called.
+    m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
 }
 
 void TcpConnection::InitialiseMsgPool()
@@ -665,101 +673,38 @@ void TcpConnection::InitialiseMsgPool()
                            << ", for: " << m_endPoint.first << ":" << m_endPoint.second);
 #endif
 
-    // If we get here then we have a non-zero value if maxAllowedUnsentAsyncMessages
-    // but we do not create a message pool if the message size for the pool messages
-    // is set to 0. In this case we use dynamic allocations for messages and monitor
-    // how may unsent/pending async messages we have against maxAllowedUnsentAsyncMessages
-    // using a counter.
-    if (m_settings.sendPoolMsgSize > 0)
+    // If sendPoolMsgSize == 0 then we disable pool buffers and fall back to dynamic allocations.
+    // If sendPoolMsgSize > 0 we create fixed-size pool blocks (size == sendPoolMsgSize) so they
+    // never resize during sends. Messages larger than sendPoolMsgSize will automatically fall back
+    // to dynamic sends.
+
+    m_msgPool.clear();
+    m_availablePoolIndices.clear();
+
+    if (m_settings.sendPoolMsgSize == 0)
     {
-        m_msgPool.resize(m_settings.maxAllowedUnsentAsyncMessages);
-        size_t index = 0;
-
-        auto generateMsg = [&index, this]()
-        {
-            auto msg = std::make_shared<defs::char_buffer_t>();
-
-            msg->reserve(m_settings.sendPoolMsgSize);
-
-            m_availablePoolIndices.push_back(index++);
-
-            return msg;
-        };
-
-        std::generate(m_msgPool.begin(), m_msgPool.end(), generateMsg);
+        return;
     }
-    else
+
+    const size_t poolCount = m_settings.maxAllowedUnsentAsyncMessages;
+    const size_t poolSize  = m_settings.sendPoolMsgSize;
+
+    m_msgPool.resize(poolCount);
+
+    for (auto& b : m_msgPool)
     {
-        m_msgPool.clear();
+        b.resize(poolSize);
+    }
+
+    m_availablePoolIndices.reserve(poolCount);
+
+    for (size_t i = 0; i < poolCount; ++i)
+    {
+        m_availablePoolIndices.push_back(i);
     }
 }
 
-bool TcpConnection::GetNewMessgeObject(std::pair<msg_ptr_t, size_t>& msgItem,
-                                       defs::char_buffer_t const&    sourceMsg) const
-{
-    // Using dynamic messages.
-    if (m_msgPool.empty())
-    {
-        // Reduce mutex scope.
-        {
-            std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
-
-            if (m_numUnsentAsyncMessages == m_settings.maxAllowedUnsentAsyncMessages)
-            {
-#if defined(CORELIB_SOCKET_DEBUG)
-                DEBUG_MESSAGE_EX_WARNING(
-                    "Cannot send async dynamic message, currently at unsent async "
-                    "message count limit, for: "
-                    << m_endPoint.first << ":" << m_endPoint.second);
-#endif
-                return false;
-            }
-
-            ++m_numUnsentAsyncMessages;
-        }
-
-        // Create new dynamic message and initialise it with the source message.
-        msgItem.second = 0;
-        msgItem.first  = std::make_shared<defs::char_buffer_t>(sourceMsg);
-    }
-    // Using pool messages.
-    else
-    {
-        // Reduce mutex scope.
-        {
-            std::lock_guard<std::mutex> lock{m_asyncPoolMutex};
-
-            if (m_availablePoolIndices.empty())
-            {
-#if defined(CORELIB_SOCKET_DEBUG)
-                DEBUG_MESSAGE_EX_WARNING(
-                    "Cannot send async pool message, no pool messages currently available, for: "
-                    << m_endPoint.first << ":" << m_endPoint.second);
-#endif
-                // No message pool slots available at the moment.
-                return false;
-            }
-
-            ++m_numUnsentAsyncMessages;
-
-            // Get message index to use.
-            msgItem.second = m_availablePoolIndices.front();
-
-            // Remove index from queue of usable pool indices.
-            m_availablePoolIndices.pop_front();
-
-            // Get pointer to usable message buffer.
-            msgItem.first = m_msgPool[msgItem.second];
-        }
-
-        // Initialise pool message with copy of source message.
-        msgItem.first->assign(sourceMsg.begin(), sourceMsg.end());
-    }
-
-    return true;
-}
-
-void TcpConnection::ConnectHandler(boost::system::error_code const&                  errorIn,
+void TcpConnection::ConnectHandler(const boost::system::error_code&                  errorIn,
                                    std::shared_ptr<boost::system::error_code> const& errorOut,
                                    size_t connectionCounter) NO_EXCEPT_
 {
@@ -791,6 +736,90 @@ size_t TcpConnection::CurrentConnectionId() const NO_EXCEPT_
 {
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_currentConnectionId;
+}
+
+bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, PendingWrite& w)
+{
+	 const size_t maxAllowed = m_settings.maxAllowedUnsentAsyncMessages;
+	
+    if (0 == maxAllowed)
+    {
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_DEBUG("Cannot send async message, max allowed unsent async messages is 0, for: "
+                                 << m_endPoint.first << ":" << m_endPoint.second);
+#endif		
+        return false;
+    }
+
+    const size_t prev = m_numUnsentAsyncMessages.fetch_add(1, std::memory_order_acq_rel);
+	
+    if (prev >= maxAllowed)
+    {
+        m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
+		
+#if defined(CORELIB_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_WARNING("Cannot send async message, currently at unsent async "
+                                 "message count limit, for: "
+                                 << m_endPoint.first << ":" << m_endPoint.second);
+#endif
+        return false;
+    }
+
+    w.kind = PendingWrite::eKind::dynamic;
+
+    // Prefer pool when enabled AND message fits.
+    const bool   poolEnabled = !m_msgPool.empty();
+    const size_t poolCap     = m_settings.sendPoolMsgSize;
+
+    if (poolEnabled && (poolCap > 0) && (message.size() <= poolCap))
+    {
+        size_t idx = 0;
+        
+		if (TryAcquirePoolIndex(idx))
+        {
+            // We exclusively own this pool slot now; safe to write off-strand.
+            auto& block = m_msgPool[idx];
+
+            // Pool blocks are fixed-size (size == poolCap). Do NOT resize.
+            if (block.size() < poolCap)
+            {
+                // Defensive: should not happen after InitialiseMsgPool().
+                block.resize(poolCap);
+            }
+
+            if (!message.empty())
+            {
+                std::memcpy(block.data(), message.data(), message.size());
+            }
+
+            w.kind      = PendingWrite::eKind::pool;
+            w.poolIndex = idx;
+            w.len       = message.size();
+        }
+    }
+
+    if (w.kind == PendingWrite::eKind::dynamic)
+    {
+        try
+        {
+            w.dyn = std::make_shared<defs::char_buffer_t>(message); // copy
+            w.len = w.dyn->size();
+        }
+        catch (...)
+        {
+            // Allocation failure: keep reservation accurate.
+            m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
+			
+#if defined(CORELIB_SOCKET_DEBUG)
+            DEBUG_MESSAGE_EX_ERROR("Error allocating dynamic async send buffer, error: "
+                                   << boost::current_exception_diagnostic_information()
+                                   << ", for: " << m_endPoint.first << ":" << m_endPoint.second);
+#endif
+            return false;
+        }
+    }
+	
+	return true;
 }
 
 } // namespace tcp
