@@ -67,11 +67,11 @@
 #endif
 
 #if __cplusplus >= 201703L
-#define CORE_LIB_ARG_MAYBE_UNUSED [[maybe_unused]]
-#define CORE_LIB_UNUSED_ARG(x)
+#define CORELIB_ARG_MAYBE_UNUSED [[maybe_unused]]
+#define CORELIB_UNUSED_ARG(x)
 #else
-#define CORE_LIB_ARG_MAYBE_UNUSED
-#define CORE_LIB_UNUSED_ARG(x) (void)(x);
+#define CORELIB_ARG_MAYBE_UNUSED
+#define CORELIB_UNUSED_ARG(x) (void)(x);
 #endif
 
 #if defined(_MSC_VER)
