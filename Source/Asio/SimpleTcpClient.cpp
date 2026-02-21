@@ -40,48 +40,43 @@ namespace tcp
 // ****************************************************************************
 // 'class SimpleTcpClient' definition
 // ****************************************************************************
-SimpleTcpClient::SimpleTcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
-                                 const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
-                                 size_t memPoolMsgCount, size_t sendPoolMsgSize,
-                                 size_t recvPoolMsgSize)
+SimpleTcpClient::SimpleTcpClient(asio_compat::io_service_t& ioService,
+                           const defs::connection_t& server,
+                           const defs::default_message_dispatcher_t& messageDispatcher,
+                           SimpleTcpSettings const& settings)
     : m_messageHandler{messageDispatcher,
                        defs::DEFAULT_MAGIC_STRING,
-                       memPoolMsgCount,
-                       recvPoolMsgSize}
-    , m_tcpTypedClient{ioContext,
+                       settings.memPoolMsgCount,
+                       settings.recvPoolMsgSize}
+    , m_tcpTypedClient{ioService,
                        server,
-                       sizeof(defs::MessageHeader),
                        std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
                                  std::placeholders::_1),
                        std::bind(&messages::MessageHandler::MessageReceivedHandler,
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
-                       sendOption,
-                       maxAllowedUnsentAsyncMessages,
-                       sendPoolMsgSize}
+                       settings.connSettings,
+                       defs::message_received_handler_ex_t(),
+                       defs::check_bytes_left_to_read_ex_t()}
 {
 }
 
-SimpleTcpClient::SimpleTcpClient(const defs::connection_t&                 server,
-                                 const defs::default_message_dispatcher_t& messageDispatcher,
-                                 eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
-                                 size_t memPoolMsgCount, size_t sendPoolMsgSize,
-                                 size_t recvPoolMsgSize)
+SimpleTcpClient::SimpleTcpClient(const defs::connection_t& server,
+                           onst defs::default_message_dispatcher_t& messageDispatcher,
+                           SimpleTcpSettings const& settings)
     : m_messageHandler{messageDispatcher,
                        defs::DEFAULT_MAGIC_STRING,
-                       memPoolMsgCount,
-                       recvPoolMsgSize}
+                       settings.memPoolMsgCount,
+                       settings.recvPoolMsgSize}
     , m_tcpTypedClient{server,
-                       sizeof(defs::MessageHeader),
                        std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
                                  std::placeholders::_1),
                        std::bind(&messages::MessageHandler::MessageReceivedHandler,
                                  &m_messageHandler, std::placeholders::_1),
                        m_messageBuilder,
-                       sendOption,
-                       maxAllowedUnsentAsyncMessages,
-                       sendPoolMsgSize}
+                       settings.connSettings,
+                       defs::message_received_handler_ex_t(),
+                       defs::check_bytes_left_to_read_ex_t()}
 {
 }
 
@@ -105,28 +100,33 @@ void SimpleTcpClient::CloseConnection()
     m_tcpTypedClient.CloseConnection();
 }
 
-bool SimpleTcpClient::SendMessageToServerAsync(int32_t                   messageId,
-                                               const defs::connection_t& responseAddress)
+void SimpleTcpClient::Reconnect(defs::connection_t const& server, TcpConnSettings const& settings)
+{
+    m_tcpTypedClient.Reconnect(server, settings);
+}
+
+bool SimpleTcpClient::SendMessageToServerAsync(int32_t messageId,
+                                       const defs::connection_t& responseAddress)
 {
     return m_tcpTypedClient.SendMessageToServerAsync(messageId, responseAddress);
 }
 
-bool SimpleTcpClient::SendMessageToServerSync(int32_t                   messageId,
-                                              const defs::connection_t& responseAddress)
+bool SimpleTcpClient::SendMessageToServerSync(int32_t messageId,
+                                      const defs::connection_t& responseAddress)
 {
     return m_tcpTypedClient.SendMessageToServerSync(messageId, responseAddress);
 }
 
 bool SimpleTcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message,
-                                               int32_t                    messageId,
-
-                                               const defs::connection_t& responseAddress)
+                                       int32_t messageId,
+                                       const defs::connection_t& responseAddress)
 {
     return m_tcpTypedClient.SendMessageToServerAsync(message, messageId, responseAddress);
 }
 
-bool SimpleTcpClient::SendMessageToServerSync(const defs::char_buffer_t& message, int32_t messageId,
-                                              const defs::connection_t& responseAddress)
+bool SimpleTcpClient::SendMessageToServerSync(const defs::char_buffer_t& message, 
+                                      int32_t messageId,
+                                      const defs::connection_t& responseAddress)
 {
     return m_tcpTypedClient.SendMessageToServerSync(message, messageId, responseAddress);
 }
