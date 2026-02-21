@@ -55,67 +55,82 @@ class CORE_LIBRARY_DLL_SHARED_API TcpServer final
 public:
     /*! \brief Default constructor - deleted. */
     TcpServer() = delete;
+    /*! \brief Deleted copy constructor. */
+    TcpServer(const TcpServer&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    TcpServer& operator=(const TcpServer&) = delete;
+    /*! \brief Deleted move constructor. */
+    TcpServer(TcpServer&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    TcpServer& operator=(TcpServer&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] listenPort - Our listen port for all detected networks.
-     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     *            and dispatching it accordingly.
-     * \param[in] sendOption - Socket send option to control the use
-     *            of the Nagle algorithm.
-     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
-     *            and instead use dynamic allocation.
+     * and dispatching it accordingly.
+     * \param[in] settings - structure containing connection options
+     * and behavioural settings.
+     * \param[in] messageReceivedHandlerEx - Special callback for when
+     * socket is used for special use cases where the message handler needs the endpoint details
+     * passed to it. If this is defined then you ideally would set messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
+     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    TcpServer(boost_iocontext_t& ioContext, uint16_t listenPort, size_t minAmountToRead,
-              const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-              const defs::message_received_handler_t& messageReceivedHandler,
-              eSendOption                             sendOption = eSendOption::nagleOn,
-              size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
-              size_t sendPoolMsgSize                             = 0);
+    TcpServer(asio_compat::io_service_t& ioService, 
+	        uint16_t listenPort,
+            defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+            defs::message_received_handler_t const& messageReceivedHandler,
+            TcpConnSettings const& settings = {},
+            defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+            defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx   = {});
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
-     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     *            and dispatching it accordingly.
-     * \param[in] sendOption - Socket send option to control the use
-     *            of the Nagle algorithm.
-     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
-     *            and instead use dynamic allocation.
+     * and dispatching it accordingly.
+     * \param[in] settings - structure containing connection options
+     * and behavioural settings.
+     * \param[in] messageReceivedHandler - Function object capable of
+     * handling a received message and dispatching it accordingly.
+     * \param[in] settings - structure
+     * containing connection options and behavioural settings.
+     * \param[in] messageReceivedHandlerEx -
+     * Special callback for when socket is used for special use cases where the message handler
+     * needs the endpoint details passed to it. If this is defined then you ideally would set
+     * messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
      *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own 2 threads. For simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommended.
+     * external IO service constructor is recommended.
      */
-    TcpServer(uint16_t listenPort, size_t minAmountToRead,
-              const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-              const defs::message_received_handler_t& messageReceivedHandler,
-              eSendOption                             sendOption = eSendOption::nagleOn,
-              size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
-              size_t sendPoolMsgSize                             = 0);
+    TcpServer(uint16_t listenPort, 
+	        defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+            defs::message_received_handler_t const& messageReceivedHandler,
+            TcpConnSettings const& settings = {},
+            defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+            defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
     /*! \brief Default destructor. */
     ~TcpServer();
-    /*! \brief Copy constructor - deleted. */
-    TcpServer(const TcpServer&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    TcpServer& operator=(const TcpServer&) = delete;
-    /*! \brief Move constructor - deleted. */
-    TcpServer(TcpServer&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    TcpServer& operator=(TcpServer&&) = delete;
+    /*!
+     * \brief Optional function to set a callback to fire when a connection is closed.
+     * \param[in] callback - The callback function
+     */
+    void SetOnCloseCallback(defs::on_close_t const& onClose);
     /*!
      * \brief Retrieve this server's connection details for a given client.
      * \param[in] client - A client's connection details.
@@ -123,7 +138,7 @@ public:
      *
      * If no such client is known to the server then it returns { "0.0.0.0", listenPort}.
      *
-     * Throws std::invalid_argument is remoteEnd is not valid.
+     * Throws xUnknownConnectionError is remoteEnd is not valid.
      */
     defs::connection_t GetServerDetailsForClient(const defs::connection_t& client) const;
     /*!
@@ -147,7 +162,11 @@ public:
      * \brief Send a message buffer to a client asynchronously.
      * \param[in] client - Client connection details.
      * \param[in] message - Message buffer.
-     * \return True if sent successfully, false otherwise.
+     * \return Returns true if posted async message, retruns false if failed to post message.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
      */
     bool SendMessageToClientAsync(const defs::connection_t&  client,
                                   const defs::char_buffer_t& message) const;
@@ -155,16 +174,18 @@ public:
      * \brief Send a message buffer to a client synchronously.
      * \param[in] client - Client connection details.
      * \param[in] message - Message buffer.
-     * \return True if sent successfully, false otherwise.
      */
     bool SendMessageToClientSync(const defs::connection_t&  client,
                                  const defs::char_buffer_t& message) const;
     /*!
      * \brief Send a message buffer to all clients asynchronously.
      * \param[in] message - Message buffer.
-     * \return True if sent successfully, false otherwise.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
      */
-    bool SendMessageToAllClients(const defs::char_buffer_t& message) const;
+    void SendMessageToAllClients(const defs::char_buffer_t& message) const;
     /*!
      * \brief Get number of unsent async messages.
      * \param[in] client - Target connection details.
@@ -187,37 +208,35 @@ private:
      * \param[in] connection - Client connection.
      * \param[in] error - An error code if fault occurred.
      */
-    void AcceptHandler(defs::tcp_conn_ptr_t connection, const boost_sys::error_code& error);
+    void AcceptHandler(const defs::tcp_conn_ptr_t& connection, const boost_sys::error_code& error);
     /*! \brief Process closing the acceptor. */
     void ProcessCloseAcceptor();
 
 private:
-    /*! \brief I/O context thread group. */
-    std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
-    /*! \brief I/O context reference. */
-    boost_iocontext_t& m_ioContext;
-    /*! \brief I/O context strand. */
-    boost_iocontext_t::strand m_strand;
+    /*! \brief I/O service thread group. */
+    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+    /*! \brief I/O service reference. */
+    asio_compat::io_service_t& m_ioService;
+    /*! \brief I/O service strand. */
+    asio_compat::strand_t m_strand;
     /*! \brief The connection acceptor. */
-    std::unique_ptr<boost_tcp_acceptor_t> m_acceptor{};
+    std::unique_ptr<boost_tcp_acceptor_t> m_acceptor;
     /*! \brief Server listen port. */
     uint16_t m_listenPort{0};
-    /*! \brief Minimum amount to read from socket. */
-    size_t m_minAmountToRead{0};
     /*! \brief Callback to check number of bytes left to read. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    /*! \brief Callback to check number of bytes left to read. */
+    defs::check_bytes_left_to_read_ex_t m_checkBytesLeftToReadEx;
     /*! \brief Callback to handle received message. */
-    defs::message_received_handler_t m_messageReceivedHandler{};
-    /*! \brief Socket receive option. */
-    eSendOption m_sendOption{eSendOption::nagleOn};
-    /*! \brief Max allowed unsent async message counter. */
-    size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
-    /*! \brief Default message size if async send pool used. */
-    size_t m_sendPoolMsgSize{0};
+    defs::message_received_handler_t m_messageReceivedHandler;
+    /*! \brief Message received handler extended callback. */
+    defs::message_received_handler_ex_t m_messageReceivedHandlerEx;
+    /*! \brief Structure holding socket connection options and behavioural settings. */
+    TcpConnSettings m_settings;
     /*! \brief TCP connections object. */
-    TcpConnections m_clientConnections{};
+    std::shared_ptr<TcpConnections> m_clientConnections;
     /*! \brief Close event. */
-    threads::SyncEvent m_closedEvent{};
+    SyncEvent m_closedEvent;
 };
 
 } // namespace tcp
