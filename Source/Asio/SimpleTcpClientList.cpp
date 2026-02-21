@@ -33,29 +33,20 @@ namespace tcp
 {
 
 SimpleTcpClientList::SimpleTcpClientList(
-    boost_iocontext_t& ioContext, defs::default_message_dispatcher_t const& messageDispatcher,
-    eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount,
-    size_t sendPoolMsgSize, size_t recvPoolMsgSize)
-    : m_ioContextPtr(&ioContext)
+    asio_compat::io_service_t& ioService,
+    defs::default_message_dispatcher_t const& messageDispatcher, 
+	SimpleTcpSettings const& settings)
+    : m_ioServicePtr(&ioService)
     , m_messageDispatcher(messageDispatcher)
-    , m_sendOption(sendOption)
-    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
-    , m_memPoolMsgCount(memPoolMsgCount)
-    , m_sendPoolMsgSize(sendPoolMsgSize)
-    , m_recvPoolMsgSize(recvPoolMsgSize)
+    , m_settings(settings)
 {
 }
 
 SimpleTcpClientList::SimpleTcpClientList(
-    defs::default_message_dispatcher_t const& messageDispatcher, eSendOption sendOption,
-    size_t maxAllowedUnsentAsyncMessages, size_t memPoolMsgCount, size_t sendPoolMsgSize,
-    size_t recvPoolMsgSize)
+    defs::default_message_dispatcher_t const& messageDispatcher, 
+	SimpleTcpSettings const& settings)
     : m_messageDispatcher(messageDispatcher)
-    , m_sendOption(sendOption)
-    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
-    , m_memPoolMsgCount(memPoolMsgCount)
-    , m_sendPoolMsgSize(sendPoolMsgSize)
-    , m_recvPoolMsgSize(recvPoolMsgSize)
+    , m_settings(settings)
 {
 }
 
@@ -67,7 +58,7 @@ SimpleTcpClientList::~SimpleTcpClientList()
 auto SimpleTcpClientList::ServerConnection(defs::connection_t const& clientConn) const
     -> defs::connection_t
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     defs::connection_t server{defs::NULL_CONNECTION};
 
@@ -85,12 +76,10 @@ auto SimpleTcpClientList::ServerConnection(defs::connection_t const& clientConn)
 
 bool SimpleTcpClientList::Connected(defs::connection_t const& server) const
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
-
     bool connected = false;
     auto clientPtr = FindTcpClient(server);
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         connected = clientPtr->Connected();
     }
@@ -101,12 +90,12 @@ bool SimpleTcpClientList::Connected(defs::connection_t const& server) const
 auto SimpleTcpClientList::GetClientDetailsForServer(defs::connection_t const& server) const
     -> defs::connection_t
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     defs::connection_t client{defs::NULL_CONNECTION};
     auto               clientPtr = FindTcpClient(server);
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         client = clientPtr->GetClientDetailsForServer();
     }
@@ -114,39 +103,51 @@ auto SimpleTcpClientList::GetClientDetailsForServer(defs::connection_t const& se
     return client;
 }
 
-void SimpleTcpClientList::CloseConnection(defs::connection_t const& server) const
+void SimpleTcpClientList::CloseConnection(defs::connection_t const& server)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         clientPtr->CloseConnection();
+
+        m_clientMap.erase(server);
     }
 }
 
-void SimpleTcpClientList::CloseConnections() const
+void SimpleTcpClientList::CloseConnections()
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     for (auto& client : m_clientMap)
     {
         client.second->CloseConnection();
     }
-}
 
-void SimpleTcpClientList::ClearConnections()
-{
-    std::lock_guard<std::mutex> lock(m_mutex);
     m_clientMap.clear();
 }
 
-bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
-                                                   int32_t                   messageId,
-                                                   defs::connection_t const& responseAddress)
+bool SimpleTcpClientList::CreateConnectionToServer(defs::connection_t const& server)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
+
+    auto clientPtr = FindTcpClient(server);
+
+    if (!clientPtr)
+    {
+        clientPtr = CreateTcpClient(server);
+    }
+
+    return static_cast<bool>(clientPtr);
+}
+
+bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
+                                          int32_t messageId,
+                                          defs::connection_t const& responseAddress)
+{
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
@@ -159,15 +160,14 @@ bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& ser
     {
         return clientPtr->SendMessageToServerAsync(messageId, responseAddress);
     }
-
     return false;
 }
 
 bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& server,
-                                                  int32_t                   messageId,
-                                                  defs::connection_t const& responseAddress)
+                                         int32_t messageId,
+                                         defs::connection_t const& responseAddress)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     bool success   = false;
     auto clientPtr = FindTcpClient(server);
@@ -185,12 +185,12 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& serv
     return success;
 }
 
-bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
-                                                   const defs::char_buffer_t& message,
-                                                   int32_t                    messageId,
-                                                   defs::connection_t const&  responseAddress)
+bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
+                                          const defs::char_buffer_t& message,
+                                          int32_t messageId,
+                                          defs::connection_t const& responseAddress)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
@@ -203,16 +203,15 @@ bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  se
     {
         return clientPtr->SendMessageToServerAsync(message, messageId, responseAddress);
     }
-
     return false;
 }
 
-bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
-                                                  const defs::char_buffer_t& message,
-                                                  int32_t                    messageId,
-                                                  defs::connection_t const&  responseAddress)
+bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& server,
+                                         const defs::char_buffer_t& message,
+                                         int32_t messageId,
+                                         defs::connection_t const& responseAddress)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     bool success   = false;
     auto clientPtr = FindTcpClient(server);
@@ -230,10 +229,10 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  ser
     return success;
 }
 
-bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
-                                                   const defs::char_buffer_t& message)
+bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
+                                          const defs::char_buffer_t& message)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
@@ -250,10 +249,10 @@ bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const&  se
     return false;
 }
 
-bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
-                                                  const defs::char_buffer_t& message)
+bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& server,
+                                         const defs::char_buffer_t& message)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     bool success   = false;
     auto clientPtr = FindTcpClient(server);
@@ -275,26 +274,14 @@ auto SimpleTcpClientList::CreateTcpClient(defs::connection_t const& server) -> c
 {
     client_ptr_t clientPtr;
 
-    if (m_ioContextPtr)
+    if (m_ioServicePtr != nullptr)
     {
-        clientPtr = std::make_shared<SimpleTcpClient>(*m_ioContextPtr,
-                                                      server,
-                                                      m_messageDispatcher,
-                                                      m_sendOption,
-                                                      m_maxAllowedUnsentAsyncMessages,
-                                                      m_memPoolMsgCount,
-                                                      m_sendPoolMsgSize,
-                                                      m_recvPoolMsgSize);
+        clientPtr = std::make_shared<SimpleTcpClient>(
+            *m_ioServicePtr, server, m_messageDispatcher, m_settings);
     }
     else
     {
-        clientPtr = std::make_shared<SimpleTcpClient>(server,
-                                                      m_messageDispatcher,
-                                                      m_sendOption,
-                                                      m_maxAllowedUnsentAsyncMessages,
-                                                      m_memPoolMsgCount,
-                                                      m_sendPoolMsgSize,
-                                                      m_recvPoolMsgSize);
+        clientPtr = std::make_shared<SimpleTcpClient>(server, m_messageDispatcher, m_settings);
     }
 
     m_clientMap[server] = clientPtr;
@@ -316,14 +303,26 @@ auto SimpleTcpClientList::FindTcpClient(defs::connection_t const& server) const 
 
 void SimpleTcpClientList::ClearList()
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     m_clientMap.clear();
 }
 
+void SimpleTcpClientList::GetServerList(std::list<defs::connection_t>& serverDetailsList) const
+{
+    serverDetailsList.clear();
+
+    std::lock_guard<std::mutex> lock(m_mapMutex);
+
+    for (auto const& clientItr : m_clientMap)
+    {
+        serverDetailsList.push_back(clientItr.first);
+    }
+}
+
 auto SimpleTcpClientList::GetServerList() const -> std::vector<defs::connection_t>
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     std::vector<defs::connection_t> serverDetailsList;
 
@@ -337,7 +336,7 @@ auto SimpleTcpClientList::GetServerList() const -> std::vector<defs::connection_
 
 size_t SimpleTcpClientList::NumberOfUnsentAsyncMessages(const defs::connection_t& server) const
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
