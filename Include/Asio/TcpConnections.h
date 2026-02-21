@@ -65,15 +65,21 @@ public:
     /*! \brief Move assignment operator - deleted. */
     TcpConnections& operator=(TcpConnections&&) = delete;
     /*!
+     * \brief Optional function to set a callback to fire when a connection is closed.
+     * \param[in] callback - The callback function
+     */
+    void SetOnCloseCallback(defs::on_close_t const& onClose);
+    /*!
      * \brief Add a connection.
+     * \param[in] endpoint - Endpoint associated with the connection object.
      * \param[in] connection - Shared pointer to connection object.
      */
-    void Add(defs::tcp_conn_ptr_t const& connection);
+    void Add(defs::connection_t const& endpoint, const defs::tcp_conn_ptr_t& connection);
     /*!
      * \brief Remove a connection.
      * \param[in] connection - Shared pointer to connection object.
      */
-    void Remove(defs::tcp_conn_ptr_t const& connection);
+    void Remove(const defs::tcp_conn_ptr_t& connection);
     /*!
      * \brief Get the number of connections.
      * \return Number of connections.
@@ -90,7 +96,7 @@ public:
      * \brief Send an asynchronous message.
      * \param[in] target - Target connection details.
      * \param[in] message - Message buffer to send.
-     * \return True if sent successfully, false otherwise.
+     * \return Returns true if posted async message, retruns false if failed to post message.
      */
     bool SendMessageAsync(const defs::connection_t&  target,
                           const defs::char_buffer_t& message) const;
@@ -105,15 +111,14 @@ public:
     /*!
      * \brief Send an asynchronous message to all connections.
      * \param[in] message - Message buffer to send.
-     * \return True if sent successfully, false otherwise.
      */
-    bool SendMessageToAll(const defs::char_buffer_t& message) const;
+    void SendMessageToAll(const defs::char_buffer_t& message) const;
     /*!
      * \brief Get the connection details for one of the remote connections.
      * \param[in] remoteEnd - Remote end's connection details.
      * \return Connection details for remote end.
      *
-     * Throws std::invalid_argument if remoteEnd is not valid.
+     * Throws xUnknownConnectionError is remoteEnd is not valid.
      */
     defs::connection_t GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const;
     /*!
@@ -136,7 +141,9 @@ private:
     /*! \brief Typedef to our connection map type. */
     using tcp_conn_map = std::map<defs::connection_t, defs::tcp_conn_ptr_t>;
     /*! \brief The connections map. */
-    tcp_conn_map m_connections{};
+    tcp_conn_map m_connections;
+    /*! \brief On close callback. */
+    defs::on_close_t m_onClose;
 };
 
 } // namespace tcp

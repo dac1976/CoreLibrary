@@ -24,9 +24,10 @@
  * \brief File containing TCP connections class definition.
  */
 
+
 #include "Asio/TcpConnections.h"
-#include <stdexcept>
-#include <boost/throw_exception.hpp>
+#include <sstream>
+#include <boost/exception/all.hpp>
 #include "Asio/TcpConnection.h"
 
 namespace core_lib
@@ -40,20 +41,55 @@ namespace tcp
 // 'class TcpConnections' definition
 // ****************************************************************************
 
-void TcpConnections::Add(defs::tcp_conn_ptr_t const& connection)
+void TcpConnections::SetOnCloseCallback(defs::on_close_t const& onClose)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
-    m_connections.emplace(
-        std::make_pair(connection->Socket().remote_endpoint().address().to_string(),
-                       connection->Socket().remote_endpoint().port()),
-        connection);
+    m_onClose = onClose;
 }
 
-void TcpConnections::Remove(defs::tcp_conn_ptr_t const& connection)
+void TcpConnections::Add(defs::connection_t const& endpoint, const defs::tcp_conn_ptr_t& connection)
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    m_connections.erase(std::make_pair(connection->Socket().remote_endpoint().address().to_string(),
-                                       connection->Socket().remote_endpoint().port()));
+    if (connection)
+    {
+        std::lock_guard<std::mutex> lock{m_mutex};
+        m_connections[endpoint] = connection;
+    }
+}
+
+void TcpConnections::Remove(const defs::tcp_conn_ptr_t& connection)
+{
+    if (!connection)
+    {
+        return;
+    }
+
+    defs::on_close_t   onClose;
+    defs::connection_t key = defs::NULL_CONNECTION;
+
+    {
+        std::lock_guard<std::mutex> lock{m_mutex};
+
+        // Compare raw pointer identity to avoid any shared_ptr aliasing surprises
+        TcpConnection* const c = connection.get();
+
+        // Builder 10.1-safe: no std::find_if, no generic lambda
+        for (auto it = m_connections.begin(); it != m_connections.end(); ++it)
+        {
+            if (it->second.get() == c)
+            {
+                key = it->first;         // copy key *before* erase
+                m_connections.erase(it); // erase invalidates only 'it'
+                onClose = m_onClose;     // copy callback under lock
+                break;
+            }
+        }
+    }
+
+    // Invoke callback without holding the mutex
+    if (onClose && (key != defs::NULL_CONNECTION))
+    {
+        onClose(key);
+    }
 }
 
 size_t TcpConnections::Size() const
@@ -70,79 +106,134 @@ bool TcpConnections::Empty() const
 
 void TcpConnections::CloseConnections()
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
+    std::vector<defs::tcp_conn_ptr_t> snapshot;
 
-    for (auto& connection : m_connections)
     {
-        connection.second->CloseConnection();
+        std::lock_guard<std::mutex> lock{m_mutex};
+        snapshot.reserve(m_connections.size());
+        for (auto const& kv : m_connections)
+        {
+            snapshot.push_back(kv.second);
+        }
     }
 
-    m_connections.clear();
+    // Close outside the mutex. Each connection should call Remove() once.
+    for (auto const& c : snapshot)
+    {
+        c->CloseConnection(); // blocking
+    }
 }
 
 bool TcpConnections::SendMessageAsync(const defs::connection_t&  target,
                                       const defs::char_buffer_t& message) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    auto                        connIt = m_connections.find(target);
+    defs::tcp_conn_ptr_t conn;
 
-    if (connIt != m_connections.end())
+    // Reduce mutex scope: find and copy the shared_ptr, then unlock.
     {
-        return connIt->second->SendMessageAsync(message);
+        std::lock_guard<std::mutex> lock{m_mutex};
+        auto                        it = m_connections.find(target);
+
+        if (it == m_connections.end())
+        {
+            return false;
+        }
+
+        conn = it->second;
     }
 
-    return false;
+    return conn->SendMessageAsync(message);
 }
 
 bool TcpConnections::SendMessageSync(const defs::connection_t&  target,
                                      const defs::char_buffer_t& message) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    auto                        connIt = m_connections.find(target);
-    return connIt == m_connections.end() ? false : connIt->second->SendMessageSync(message);
+    defs::tcp_conn_ptr_t conn;
+
+    // Reduce mutex scope: find and copy the shared_ptr, then unlock.
+    {
+        std::lock_guard<std::mutex> lock{m_mutex};
+        auto                        it = m_connections.find(target);
+
+        if (it == m_connections.end())
+        {
+            return false;
+        }
+
+        conn = it->second;
+    }
+
+    return conn->SendMessageSync(message);
 }
 
-bool TcpConnections::SendMessageToAll(const defs::char_buffer_t& message) const
+void TcpConnections::SendMessageToAll(const defs::char_buffer_t& message) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    bool                        result = true;
+    std::vector<defs::tcp_conn_ptr_t> snapshot;
 
-    for (auto& connection : m_connections)
+    // Reduce mutex scope.
     {
-        if (!connection.second->SendMessageAsync(message))
+        std::lock_guard<std::mutex> lock{m_mutex};
+        snapshot.reserve(m_connections.size());
+
+        for (auto const& kv : m_connections)
         {
-            result = false;
+            snapshot.push_back(kv.second);
         }
     }
 
-    return result;
+    for (auto const& c : snapshot)
+    {
+        c->SendMessageAsync(message);
+    }
 }
 
 auto TcpConnections::GetLocalEndForRemoteEnd(const defs::connection_t& remoteEnd) const
     -> defs::connection_t
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    defs::connection_t          localEnd;
-    auto                        connIt = m_connections.find(remoteEnd);
+    defs::tcp_conn_ptr_t conn;
 
-    if (connIt == m_connections.end())
+    // Reduce mutex scope: grab the connection pointer then release lock.
     {
-        BOOST_THROW_EXCEPTION(std::invalid_argument("unknown connection"));
-    }
-    else
-    {
-        localEnd = std::make_pair(connIt->second->Socket().local_endpoint().address().to_string(),
-                                  connIt->second->Socket().local_endpoint().port());
+        std::lock_guard<std::mutex> lock{m_mutex};
+        auto                        it = m_connections.find(remoteEnd);
+
+        if (it == m_connections.end())
+        {
+            BOOST_THROW_EXCEPTION(std::runtime_error("unknown connection"));
+        }
+
+        conn = it->second;
     }
 
-    return localEnd;
+    boost_sys::error_code ec;
+    auto                  lep = conn->Socket().local_endpoint(ec);
+
+    if (ec)
+    {
+        std::ostringstream ssErr;
+        ssErr << "local_endpoint failed: " << ec.message();
+        BOOST_THROW_EXCEPTION(std::runtime_error(ssErr.str()));
+    }
+
+    return std::make_pair(lep.address().to_string(), lep.port());
 }
 
 size_t TcpConnections::NumberOfUnsentAsyncMessages(const defs::connection_t& target) const
 {
-    std::lock_guard<std::mutex> lock{m_mutex};
-    auto                        connIt = m_connections.find(target);
-    return connIt == m_connections.end() ? 0 : connIt->second->NumberOfUnsentAsyncMessages();
+    defs::tcp_conn_ptr_t conn;
+
+    // Reduce mutex scope
+    {
+        std::lock_guard<std::mutex> lock{m_mutex};
+        auto                        it = m_connections.find(target);
+        if (it == m_connections.end())
+        {
+            return 0;
+        }
+        conn = it->second;
+    }
+
+    return conn->NumberOfUnsentAsyncMessages();
 }
 
 bool TcpConnections::IsConnected(const defs::connection_t& client) const
