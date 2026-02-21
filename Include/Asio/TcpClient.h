@@ -54,71 +54,82 @@ class CORE_LIBRARY_DLL_SHARED_API TcpClient final
 public:
     /*! \brief Default constructor - deleted. */
     TcpClient() = delete;
+    /*! \brief Deleted copy constructor. */
+    TcpClient(const TcpClient&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    TcpClient& operator=(const TcpClient&) = delete;
+    /*! \brief Deleted move constructor. */
+    TcpClient(TcpClient&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    TcpClient& operator=(TcpClient&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] server - Connection object describing target server's address and port.
-     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     *            and dispatching it accordingly.
-     * \param[in] sendOption - Socket send option to control the use
-     *            of the Nagle algorithm.
-     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of
-     *            unsent async messages.
-     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
-     *            and instead use dynamic allocation.
+     * and dispatching it accordingly.
+     * \param[in] settings - structure containing connection options
+     * and behavioural settings.
+     * \param[in] messageReceivedHandler - Function object capable of
+     * handling a received message and dispatching it accordingly.
+     * \param[in] settings - structure
+     * containing connection options and behavioural settings.
+     * \param[in] messageReceivedHandlerEx -
+     * Special callback for when socket is used for special use cases where the message handler
+     * needs the endpoint details passed to it. If this is defined then you ideally would set
+     * messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
+     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
-              size_t minAmountToRead, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-              const defs::message_received_handler_t& messageReceivedHandler,
-              eSendOption                             sendOption = eSendOption::nagleOn,
-              size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
-              size_t sendPoolMsgSize                             = 0);
+    TcpClient(asio_compat::io_service_t& ioService, 
+	        defs::connection_t const& server,
+            defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+            defs::message_received_handler_t const& messageReceivedHandler,
+            TcpConnSettings const& settings = {},
+            defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+            defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
     /*!
      * \brief Initialisation constructor.
      * \param[in] server - Connection object describing target server's address and port.
-     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     *            header block.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      *            computing how many bytes are left until a complete message.
      * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     *            and dispatching it accordingly.
-     * \param[in] sendOption - Socket send option to control the use
-     *            of the Nagle algorithm.
-     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of
-     *            unsent async messages.
-     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
-     *            and instead use dynamic allocation.
+     * and dispatching it accordingly.
+     * \param[in] settings - structure containing connection options
+     * and behavioural settings.
+     * \param[in] messageReceivedHandler - Function object capable of
+     * handling a received message and dispatching it accordingly.
+     * \param[in] settings - structure
+     * containing connection options and behavioural settings.
+     * \param[in] messageReceivedHandlerEx -
+     * Special callback for when socket is used for special use cases where the message handler
+     * needs the endpoint details passed to it. If this is defined then you ideally would set
+     * messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
      *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommend.
+     * external IO service constructor is recommended.
      */
-    TcpClient(const defs::connection_t& server, size_t minAmountToRead,
-              const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-              const defs::message_received_handler_t& messageReceivedHandler,
-              eSendOption                             sendOption = eSendOption::nagleOn,
-              size_t maxAllowedUnsentAsyncMessages               = MAX_UNSENT_ASYNC_MSG_COUNT,
-              size_t sendPoolMsgSize                             = 0);
+    TcpClient(defs::connection_t const& server,
+            defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+            defs::message_received_handler_t const& messageReceivedHandler,
+            TcpConnSettings const& settings = {},
+            defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+            defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
     /*! \brief Default destructor. */
     ~TcpClient();
-    /*! \brief Copy constructor - deleted. */
-    TcpClient(const TcpClient&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    TcpClient& operator=(const TcpClient&) = delete;
-    /*! \brief Move constructor - deleted. */
-    TcpClient(TcpClient&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    TcpClient& operator=(TcpClient&&) = delete;
     /*!
      * \brief Retrieve server connection details.
      * \return - Connection object describing target server's address and port.
@@ -126,7 +137,7 @@ public:
     defs::connection_t ServerConnection() const;
     /*!
      * \brief Check if the client is connected to the server.
-     * \return True if connected, false otherwise.
+     * \return True if conneced, false otherwise.
      */
     bool Connected() const;
     /*!
@@ -147,9 +158,19 @@ public:
      */
     void CloseConnection();
     /*!
+     * \brief Reconnect the socket to a particular server target connection.
+     * \param[in] server - Connection object describing target server's address and port.
+     * \param[in] settings - structure containing connection options and behavioural settings.
+     */
+    void Reconnect(defs::connection_t const& server, TcpConnSettings const& settings = {});
+    /*!
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] message - Message buffer.
-     * \return True if sent successfully, false otherwise.
+     * \return Returns true if posted async message, retruns false if failed to post message.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
      */
     bool SendMessageToServerAsync(const defs::char_buffer_t& message);
     /*!
@@ -160,35 +181,33 @@ public:
     bool SendMessageToServerSync(const defs::char_buffer_t& message);
     /*!
      * \brief Get number of unsent async messages.
-     * \return Number of pending queued async messages
+     * \return Number of nsent messages
      */
     size_t NumberOfUnsentAsyncMessages() const;
 
 private:
-    /*! \brief Create connection to server. */
+    /*! \brief Create conenction to server. */
     void CreateConnection();
 
 private:
-    /*! \brief I/O context thread group. */
-    std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
-    /*! \brief I/O context reference. */
-    boost_iocontext_t& m_ioContext;
+    /*! \brief I/O service thread group. */
+    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+    /*! \brief I/O service reference. */
+    asio_compat::io_service_t& m_ioService;
     /*! \brief Server connection details. */
-    defs::connection_t m_server{};
-    /*! \brief Minimum amount to read from socket. */
-    size_t m_minAmountToRead{0};
+    defs::connection_t m_server;
     /*! \brief Callback to check number of bytes left to read. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    /*! \brief Callback to check number of bytes left to read. */
+    defs::check_bytes_left_to_read_ex_t m_checkBytesLeftToReadEx;
     /*! \brief Callback to handle received message. */
-    defs::message_received_handler_t m_messageReceivedHandler{};
-    /*! \brief Socket send option. */
-    eSendOption m_sendOption{eSendOption::nagleOn};
-    /*! \brief Max allowed unsent async message counter. */
-    size_t m_maxAllowedUnsentAsyncMessages{MAX_UNSENT_ASYNC_MSG_COUNT};
-    /*! \brief Default message size if async send pool used. */
-    size_t m_sendPoolMsgSize{0};
+    defs::message_received_handler_t m_messageReceivedHandler;
+    /*! \brief Message received handler extended callback. */
+    defs::message_received_handler_ex_t m_messageReceivedHandlerEx;
+    /*! \brief Structure holding socket connection options and behavioural settings. */
+    TcpConnSettings m_settings;
     /*! \brief TCP connections object. */
-    TcpConnections m_serverConnection{};
+    std::shared_ptr<TcpConnections> m_serverConnection;
 };
 
 } // namespace tcp

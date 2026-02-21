@@ -37,38 +37,42 @@ namespace tcp
 // ****************************************************************************
 // 'class TcpClient' definition
 // ****************************************************************************
-TcpClient::TcpClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
-                     size_t                                  minAmountToRead,
-                     const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                     const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
-                     size_t sendPoolMsgSize)
-    : m_ioContext(ioContext)
+TcpClient::TcpClient(asio_compat::io_service_t& ioService, defs::connection_t const& server,
+                     defs::check_bytes_left_to_read_t const&    checkBytesLeftToRead,
+                     defs::message_received_handler_t const&    messageReceivedHandler,
+                     TcpConnSettings const&                     settings,
+                     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
+                     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
+    : m_ioService(ioService)
     , m_server{server}
-    , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_checkBytesLeftToReadEx{checkBytesLeftToReadEx}
     , m_messageReceivedHandler{messageReceivedHandler}
-    , m_sendOption{sendOption}
-    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
-    , m_sendPoolMsgSize(sendPoolMsgSize)
+    , m_messageReceivedHandlerEx{messageReceivedHandlerEx}
+    , m_settings{settings}
+    , m_serverConnection(std::make_shared<TcpConnections>())
 {
     CreateConnection();
 }
 
-TcpClient::TcpClient(const defs::connection_t& server, size_t minAmountToRead,
-                     const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                     const defs::message_received_handler_t& messageReceivedHandler,
-                     eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
-                     size_t sendPoolMsgSize)
-    : m_ioThreadGroup{new IoContextThreadGroup(1)}
-    , m_ioContext(m_ioThreadGroup->IoContext())
+// When using an internal IO service we'll only use 1 thread, which for regular usage
+// of the socket will be good enough for sending and receiving. For better threading
+// control use an external IO service thread group.
+TcpClient::TcpClient(defs::connection_t const&                  server,
+                     defs::check_bytes_left_to_read_t const&    checkBytesLeftToRead,
+                     defs::message_received_handler_t const&    messageReceivedHandler,
+                     TcpConnSettings const&                     settings,
+                     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
+                     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
+    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
+    , m_ioService(m_ioThreadGroup->IoService())
     , m_server{server}
-    , m_minAmountToRead{minAmountToRead}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_checkBytesLeftToReadEx{checkBytesLeftToReadEx}
     , m_messageReceivedHandler{messageReceivedHandler}
-    , m_sendOption{sendOption}
-    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
-    , m_sendPoolMsgSize(sendPoolMsgSize)
+    , m_messageReceivedHandlerEx{messageReceivedHandlerEx}
+    , m_settings{settings}
+    , m_serverConnection(std::make_shared<TcpConnections>())
 {
     CreateConnection();
 }
@@ -85,24 +89,34 @@ auto TcpClient::ServerConnection() const -> defs::connection_t
 
 bool TcpClient::Connected() const
 {
-    return !m_serverConnection.Empty();
+    return !m_serverConnection->Empty();
 }
 
 auto TcpClient::GetClientDetailsForServer() const -> defs::connection_t
 {
-    return m_serverConnection.GetLocalEndForRemoteEnd(m_server);
+    return m_serverConnection->GetLocalEndForRemoteEnd(m_server);
 }
 
 void TcpClient::CloseConnection()
 {
-    m_serverConnection.CloseConnections();
+    m_serverConnection->CloseConnections();
+}
+
+void TcpClient::Reconnect(defs::connection_t const& server, TcpConnSettings const& settings)
+{
+    CloseConnection();
+
+    m_server   = server;
+    m_settings = settings;
+
+    CreateConnection();
 }
 
 bool TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
 {
     if (CheckAndCreateConnection())
     {
-        return m_serverConnection.SendMessageAsync(m_server, message);
+        return m_serverConnection->SendMessageAsync(m_server, message);
     }
 
     return false;
@@ -112,7 +126,7 @@ bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
 {
     if (CheckAndCreateConnection())
     {
-        return m_serverConnection.SendMessageSync(m_server, message);
+        return m_serverConnection->SendMessageSync(m_server, message);
     }
 
     return false;
@@ -120,21 +134,20 @@ bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
 
 size_t TcpClient::NumberOfUnsentAsyncMessages() const
 {
-    return m_serverConnection.NumberOfUnsentAsyncMessages(m_server);
+    return m_serverConnection->NumberOfUnsentAsyncMessages(m_server);
 }
 
 void TcpClient::CreateConnection()
 {
     try
     {
-        auto connection = std::make_shared<TcpConnection>(m_ioContext,
-                                                          m_serverConnection,
-                                                          m_minAmountToRead,
-                                                          m_checkBytesLeftToRead,
-                                                          m_messageReceivedHandler,
-                                                          m_sendOption,
-                                                          m_maxAllowedUnsentAsyncMessages,
-                                                          m_sendPoolMsgSize);
+        auto connection = std::make_shared<TcpConnection>(m_ioService,
+												  m_serverConnection,
+												  m_checkBytesLeftToRead,
+												  m_messageReceivedHandler,
+												  m_settings,
+												  m_messageReceivedHandlerEx,
+												  m_checkBytesLeftToReadEx);
         connection->Connect(m_server);
     }
     catch (...)
@@ -150,12 +163,12 @@ void TcpClient::CreateConnection()
 
 bool TcpClient::CheckAndCreateConnection()
 {
-    if (m_serverConnection.Empty())
+    if (m_serverConnection->Empty())
     {
         CreateConnection();
     }
 
-    return !m_serverConnection.Empty();
+    return !m_serverConnection->Empty();
 }
 
 } // namespace tcp

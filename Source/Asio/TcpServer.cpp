@@ -24,7 +24,6 @@
  * \brief File containing TCP server class definition.
  */
 #include "Asio/TcpServer.h"
-#include "Asio/TcpConnections.h"
 #include "Asio/TcpConnection.h"
 #if defined(CORELIB_SOCKET_DEBUG)
 #include "DebugLogging.h"
