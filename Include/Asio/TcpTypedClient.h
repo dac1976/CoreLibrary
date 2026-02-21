@@ -47,7 +47,7 @@ namespace tcp
  *
  * The template argument defines a message builder object that
  * must have an interface compatible with that of the class
- * core_lib::asio::messages::MessageBuilder.
+ * hgl::asio::messages::MessageBuilder.
  *
  * This class forms the underpinnings of the SimpleTcpClient class.
  *
@@ -59,87 +59,6 @@ template <typename MsgBldr> class TcpTypedClient final
 public:
     /*! \brief Default constructor - deleted. */
     TcpTypedClient() = delete;
-    /*!
-     * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
-     * \param[in] server - Connection object describing target server's address and port.
-     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     *            header block.
-     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
-     *            computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
-     *            dispatching it accordingly.
-     * \param[in] messageBuilder - A const reference to our persistent message builder object of
-     *            type MsgBldr.
-     * \param[in] sendOption - Socket send option to control the use of the Nagle algorithm.
-     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async messages.
-     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
-     *            and instead use dynamic allocation.
-     *
-     * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
-     */
-    TcpTypedClient(boost_iocontext_t& ioContext, const defs::connection_t& server,
-                   size_t                                  minAmountToRead,
-                   const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                   const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
-                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
-                   size_t sendPoolMsgSize               = 0)
-        : m_messageBuilder{messageBuilder}
-        , m_tcpClient{ioContext,
-                      server,
-                      minAmountToRead,
-                      checkBytesLeftToRead,
-                      messageReceivedHandler,
-                      sendOption,
-                      maxAllowedUnsentAsyncMessages,
-                      sendPoolMsgSize}
-    {
-    }
-    /*!
-     * \brief Initialisation constructor.
-     * \param[in] server - Connection object describing target server's address and port.
-     * \param[in] minAmountToRead - Minimum amount of data to read on each receive, typical size of
-     *            header block.
-     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
-     *            computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object capable of handling a received message
-     *            and dispatching it accordingly.
-     * \param[in] messageBuilder - A message builder object of type
-     *            MsgBldr.
-     * \param[in] sendOption - Socket send option to control the use of the Nagle
-     *            algorithm.
-     * \param[in] maxAllowedUnsentAsyncMessages - Maximum allowed number of unsent async
-     *            messages.
-     * \param[in] sendPoolMsgSize - Default size of message in pool. Set to 0 to not use the pool
-     *            and instead use dynamic allocation.
-     *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
-     * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommended.
-     */
-    TcpTypedClient(const defs::connection_t& server, size_t minAmountToRead,
-                   const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                   const defs::message_received_handler_t& messageReceivedHandler,
-                   const MsgBldr& messageBuilder, eSendOption sendOption = eSendOption::nagleOn,
-                   size_t maxAllowedUnsentAsyncMessages = MAX_UNSENT_ASYNC_MSG_COUNT,
-                   size_t sendPoolMsgSize               = 0)
-        : m_messageBuilder{messageBuilder}
-        , m_tcpClient{server,
-                      minAmountToRead,
-                      checkBytesLeftToRead,
-                      messageReceivedHandler,
-                      sendOption,
-                      maxAllowedUnsentAsyncMessages,
-                      sendPoolMsgSize}
-    {
-    }
-    /*! \brief Default destructor. */
-    ~TcpTypedClient() = default;
     /*! \brief Copy constructor - deleted. */
     TcpTypedClient(const TcpTypedClient&) = delete;
     /*! \brief Copy assignment operator - deleted. */
@@ -148,6 +67,91 @@ public:
     TcpTypedClient(TcpTypedClient&&) = delete;
     /*! \brief Move assignment operator - deleted. */
     TcpTypedClient& operator=(TcpTypedClient&&) = delete;
+    /*!
+     * \brief Initialisation constructor.
+     * \param[in] ioService - External boost IO service to manage ASIO.
+     * \param[in] server - Connection object describing target server's address and port.
+     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
+     *            computing how many bytes are left until a complete message.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly.
+     * \param[in] messageBuilder - A const reference to our
+     * persistent message builder object of type MsgBldr.
+     * \param[in] settings - structure containing
+     * connection options and behavioural settings.
+     * \param[in] messageReceivedHandlerEx - Special
+     * callback for when socket is used for special use cases where the message handler needs the
+     * endpoint details passed to it. If this is defined then you ideally would set
+     * messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
+     *
+     * Typically use this constructor when managing a bool of threads using an instance of
+     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be executed
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
+     */
+    TcpTypedClient(asio_compat::io_service_t& ioService, 
+	            const defs::connection_t& server,
+                const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                const defs::message_received_handler_t& messageReceivedHandler,
+                const MsgBldr& messageBuilder, 
+				TcpConnSettings const& settings = {},
+                defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+                defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx   = {})
+        : m_messageBuilder{messageBuilder}
+        , m_tcpClient{ioService,
+                      server,
+                      checkBytesLeftToRead,
+                      messageReceivedHandler,
+                      settings,
+                      messageReceivedHandlerEx,
+                      checkBytesLeftToReadEx}
+    {
+    }
+    /*!
+     * \brief Initialisation constructor.
+     * \param[in] server - Connection object describing target server's address and port.
+     * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
+     *            computing how many bytes are left until a complete message.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly.
+     * \param[in] messageBuilder - A const reference to our
+     * persistent message builder object of type MsgBldr.
+     * \param[in] settings - structure containing
+     * connection options and behavioural settings.
+     * \param[in] messageReceivedHandlerEx - Special
+     * callback for when socket is used for special use cases where the message handler needs the
+     * endpoint details passed to it. If this is defined then you ideally would set
+     * messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
+     *
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
+     * version will be fine but in more performance and resource critical situations the
+     * external IO service constructor is recommended.
+     */
+    TcpTypedClient(const defs::connection_t& server,
+                const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
+                const defs::message_received_handler_t& messageReceivedHandler,
+                const MsgBldr& messageBuilder, 
+				TcpConnSettings const& settings = {},
+                defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+                defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx   = {})
+        : m_messageBuilder{messageBuilder}
+        , m_tcpClient{server,
+                      checkBytesLeftToRead,
+                      messageReceivedHandler,
+                      settings,
+                      messageReceivedHandlerEx,
+                      checkBytesLeftToReadEx}
+    {
+    }
+    /*! \brief Default destructor. */
+    ~TcpTypedClient() = default;
     /*!
      * \brief Retrieve server connection details.
      * \return - Connection object describing target server's address and port.
@@ -184,14 +188,32 @@ public:
         m_tcpClient.CloseConnection();
     }
     /*!
+     * \brief Reconnect the socket to a particular server target connection.
+     * \param[in] server - Connection object describing target server's address and port.
+     * \param[in] settings - structure containing connection options and behavioural settings.
+     */
+    void Reconnect(defs::connection_t const& server, TcpConnSettings const& settings = {})
+    {
+        m_tcpClient.Reconnect(server, settings);
+    }
+    /*!
      * \brief Send a header-only message to the server asynchronously.
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
-     * \return Returns the success state of whether the message was posted to the send queue.
+     * \return Returns true if posted async message, retruns false if failed to post message.
+     *
+     * This function is asynchronous so will return immediately.
+     * return
+     *	false indicates failure
+     * 	true  means the message has been passed in to the io service to be sent out later,
+     * 	      but does not indicate that the message has been sent out successfully.
+     * This method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::HGL_MSG_HDR object to
+     * the server.
      */
-    bool SendMessageToServerAsync(int32_t                   messageId,
-                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMessageToServerAsync(int32_t messageId,
+                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
@@ -199,12 +221,10 @@ public:
         {
             auto const& messageBuffer = messages::BuildMessage(
                 messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
-
             return m_tcpClient.SendMessageToServerAsync(messageBuffer);
         }
         catch (...)
         {
-            // Do nothing.
             return false;
         }
     }
@@ -215,8 +235,8 @@ public:
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(int32_t                   messageId,
-                                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMessageToServerSync(int32_t messageId,
+                            const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
@@ -237,10 +257,20 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
-     * \return Returns the success state of whether the message was posted to the send queue.
+     * \return Returns true if posted async message, retruns false if failed to post message.
+     *
+     * This function is asynchronous so will return immediately.
+     * return
+     *	false indicates failure
+     * 	true  means the message has been passed in to the io service to be sent out later,
+     * 	      but does not indicate that the message has been sent out successfully.
+     * This method gives best performance when sending. Furthermore this method
+     * only sends a simple core_lib::asio::HGL_MSG_HDR object to
+     * the server.
      */
-    bool SendMessageToServerAsync(const defs::char_buffer_t& message, int32_t messageId,
-                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMessageToServerAsync(const defs::char_buffer_t& message, 
+	                        int32_t messageId,
+                            const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
@@ -248,15 +278,14 @@ public:
         {
             auto const& messageBuffer = messages::BuildMessage(
                 message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
-
             return m_tcpClient.SendMessageToServerAsync(messageBuffer);
         }
         catch (...)
         {
-            // Do nothing.
             return false;
         }
     }
+
     /*!
      * \brief Send a header plus message buffer to the server synchronously.
      * \param[in] message - Message buffer.
@@ -265,8 +294,9 @@ public:
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(const defs::char_buffer_t& message, int32_t messageId,
-                                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMessageToServerSync(const defs::char_buffer_t& message, 
+	                        int32_t messageId,
+                            const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
@@ -288,11 +318,19 @@ public:
      * \param[in] messageId - Unique message ID to insert into message header.
      * \param[in] responseAddress - (Optional) The address and port where the server should send the
      * response, the default value will mean the response address will point to this client socket.
-     * \return Returns the success state of whether the message was posted to the send queue.
+     * \return Returns true if posted async message, retruns false if failed to post message.
+     *
+     * This function is asynchronous so will return immediately
+     * return
+     *	false indicates failure
+     * 	true  means the message has been passed in to the io service to be sent out later,
+     * 	      but does not indicate that the message has been sent out successfully.
+     * This method gives best performance when sending.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerAsync(const T& message, int32_t messageId,
-                                  const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMessageToServerAsync(const T& message, 
+	                        int32_t messageId,
+                            const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
@@ -300,12 +338,10 @@ public:
         {
             auto const& messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
                 message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
-
             return m_tcpClient.SendMessageToServerAsync(messageBuffer);
         }
         catch (...)
         {
-            // Do nothing.
             return false;
         }
     }
@@ -319,8 +355,9 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerSync(const T& message, int32_t messageId,
-                                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMessageToServerSync(const T& message, 
+	                        int32_t messageId,
+                            const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
@@ -338,17 +375,21 @@ public:
     /*!
      * \brief Send a message buffer to the server asynchronously.
      * \param[in] message - Message buffer.
-     * \return Returns the success state of whether the message was posted to the send queue.
+     * \return Returns true if posted async message, retruns false if failed to post message.
+     *
+     * This function is asynchronous so will return immediately, with no
+     * success or failure reported, unlessa an exception is thrown. This
+     * method gives best performance when sending.
      */
     bool SendMessageToServerAsync(const defs::char_buffer_t& message)
     {
         try
         {
+            // Do not need mutex here as we're not using the m_messageBuilder.
             return m_tcpClient.SendMessageToServerAsync(message);
         }
         catch (...)
         {
-            // Do nothing.
             return false;
         }
     }
@@ -361,6 +402,7 @@ public:
     {
         try
         {
+            // Do not need mutex here as we're not using the m_messageBuilder.
             return m_tcpClient.SendMessageToServerSync(message);
         }
         catch (...)
@@ -370,7 +412,7 @@ public:
     }
     /*!
      * \brief Get number of unsent async messages.
-     * \return Number of pending queued async messages
+     * \return Number of unsent messages
      */
     size_t NumberOfUnsentAsyncMessages() const
     {
