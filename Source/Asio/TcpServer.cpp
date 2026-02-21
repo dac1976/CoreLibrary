@@ -25,7 +25,7 @@
  */
 #include "Asio/TcpServer.h"
 #include "Asio/TcpConnection.h"
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
 #include "DebugLogging.h"
 #endif
 #include <boost/bind.hpp>
@@ -195,7 +195,7 @@ void TcpServer::AcceptHandler(const defs::tcp_conn_ptr_t&  connection,
         }
         else
         {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
             DEBUG_MESSAGE_EX_ERROR("Failed to get remote endpoint in AccepHandler.");
 #endif
             return;

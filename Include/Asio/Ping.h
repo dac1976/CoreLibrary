@@ -46,7 +46,7 @@ namespace asio
 namespace icmp
 {
 
-class Ping
+class CORE_LIBRARY_DLL_SHARED_API Ping
 {
 public:
     enum class eResult

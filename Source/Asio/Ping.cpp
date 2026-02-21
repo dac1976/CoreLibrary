@@ -31,9 +31,9 @@
 #include <boost/bind.hpp>
 #if defined(USE_SOCKET_DEBUG)
 #include <boost/exception/all.hpp>
-#include "DebugLog/DebugLogging.h" // $(HGLPRJ)/Common/Utils/Platform
+#include "DebugLog/DebugLogging.h"
 #endif
-#include "Concurrency/cpp11/MutexHelpers.hpp"
+#include "Threads/MutexHelpers.hpp"
 #include "icmp_hdr.hpp"
 #include "ipv4_hdr.hpp"
 
@@ -54,7 +54,8 @@ constexpr uint32_t    CLOSE_WAIT_MS = 1000;
 constexpr size_t      REPLY_BUF_SIZE = 65536;
 constexpr const char* GREETING_MSG{"CoreLibrary - ICMP Echo Request"};
 
-Ping::Ping(std::string_view destination, ping_response_t const& pingResponseCallback)
+Ping::Ping(std::string_view destination, 
+         ping_response_t const& pingResponseCallback)
     : m_ioThreadGroup(std::make_unique<IoContextThreadGroup>(1))
     , m_ioServiceRef(m_ioThreadGroup->IoService())
     , m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
@@ -67,8 +68,9 @@ Ping::Ping(std::string_view destination, ping_response_t const& pingResponseCall
     m_destination = *resolver.resolve(boost_ip::icmp::v4(), destination, "").begin();
 }
 
-Ping::Ping(asio_compat::io_service_t& ioService, std::string_view destination,
-           ping_response_t const& pingResponseCallback)
+Ping::Ping(asio_compat::io_service_t& ioService, 
+         std::string_view destination,
+         ping_response_t const& pingResponseCallback)
     : m_ioServiceRef(ioService)
     , m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
                    eIntialCondition::notSignalled)

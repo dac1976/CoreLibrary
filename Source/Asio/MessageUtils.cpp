@@ -92,7 +92,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 {
     if (!CheckMessage(message))
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_WARNING("CheckBytesLeftToRead has not found complete header, "
                                  << sizeof(defs::MessageHeader) - message.size()
                                  << " bytes left to read for full header");
@@ -102,7 +102,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 
     if (std::strncmp(m_magicString.c_str(), message.data(), defs::MAGIC_STRING_LEN) != 0)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR(
             "Magic string error, received: "
             << string_utils::SafeConvertCharArrayToStdString(message.data(), defs::MAGIC_STRING_LEN)
@@ -117,7 +117,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 		
     if (!totalLengthRes.second)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Failed to convert MessageLength field to size_t.");
 #endif
         return std::numeric_limits<size_t>::max();
@@ -125,7 +125,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 
     if (totalLengthRes.first < message.size())
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Message length error, header length field ("
                                << totalLength << ") < physical message size (" << message.size()
                                << ")");
@@ -140,7 +140,7 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
 {
     if (!CheckMessage(message))
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Incomplete message header");
 #endif
     }
@@ -149,7 +149,7 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
 
     if (!TryConvertToPod<defs::MessageHeader>(receivedMessage->header, message))
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Failed to convert first 80 bytes of buffer to HGL_MSG_HDR");
 #endif
         return;
@@ -178,7 +178,7 @@ void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsg
 
     if (0 == memPoolMsgCount)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_DEBUG("Receive message pool NOT being used because memPoolMsgCount = "
                                << memPoolMsgCount << " and defaultMsgSize = " << defaultMsgSize);
 #endif
@@ -186,7 +186,7 @@ void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsg
         return;
     }
 
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
     DEBUG_MESSAGE_EX_DEBUG("Receive message pool will be used with memPoolMsgCount = "
                            << memPoolMsgCount << " and defaultMsgSize = " << defaultMsgSize);
 #endif

@@ -144,14 +144,14 @@ private:
  * \param[in] archiveType - Type of archive used.
  * \return The human readable name of the archive type.
  */
-std::string ArchiveTypeToString(defs::eArchiveType archiveType);
+std::string CORE_LIBRARY_DLL_SHARED_API ArchiveTypeToString(defs::eArchiveType archiveType);
 
 /*!
  * \brief Unstringify archive type.
  * \param[in] archiveName - Type of archive used as a string.
  * \return The archive type.
  */
-defs::eArchiveType StringToArchiveType(std::string const& archiveName);
+defs::eArchiveType CORE_LIBRARY_DLL_SHARED_API StringToArchiveType(std::string const& archiveName);
 
 /*!
  * \brief Header filler function.

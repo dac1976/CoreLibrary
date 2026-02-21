@@ -28,7 +28,6 @@
 #define SERIALPORT_H
 
 #include "AsioDefines.h"
-#include "IoContextThreadGroup.h" 
 #include "Threads/SyncEvent.h" 
 
 /*! \brief The core_lib namespace. */
@@ -46,7 +45,7 @@ namespace serial
  *
  * This gives access to serial ports for both Windows and Linux via Boost ASIO.
  */
-class SerialPort
+class CORE_LIBRARY_DLL_SHARED_API SerialPort
 {
 public:
     /*! \brief Default constructor - deleted. */
@@ -71,10 +70,11 @@ public:
      * \param[in] settings - structure containing connection options and behavioural
      * settings.
      */
-    SerialPort(asio_compat::io_service_t& ioService, std::string const& comPort,
-               defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
-               defs::message_received_handler_t const& messageReceivedHandler,
-               SerialPortSettings const&               settings = {});
+    SerialPort(asio_compat::io_service_t& ioService, 
+	         std::string const& comPort,
+             defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+             defs::message_received_handler_t const& messageReceivedHandler,
+             SerialPortSettings const& settings = {});
     /*!
      * \brief Initialisation constructor.
      * \param[in] comPort - name of serial port to use in OS, e.g. "COM1" on Windows, "TTYUSB1" on
@@ -89,10 +89,11 @@ public:
      *
      * This constructor creates an internal IO service with N threads associated with it.
      */
-    SerialPort(std::string const&                      comPort,
-               defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
-               defs::message_received_handler_t const& messageReceivedHandler,
-               SerialPortSettings const& settings = {}, uint32_t numIoSvcThreads = 1);
+    SerialPort(std::string const& comPort,
+             defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+             defs::message_received_handler_t const& messageReceivedHandler,
+             SerialPortSettings const& settings = {}, 
+			 uint32_t numIoSvcThreads = 1);
 
     /*! \brief Default destructor. */
     ~SerialPort();

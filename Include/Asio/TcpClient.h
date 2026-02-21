@@ -28,7 +28,6 @@
 #ifndef TCPCLIENT
 #define TCPCLIENT
 
-#include "IoContextThreadGroup.h"
 #include "TcpConnections.h"
 
 /*! \brief The core_lib namespace. */

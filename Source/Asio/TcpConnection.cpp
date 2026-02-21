@@ -29,7 +29,7 @@
 #include <algorithm>
 #include <limits>
 #include <boost/bind.hpp>
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
 #include <boost/exception/all.hpp>
 #include "DebugLogging.h"
 #endif
@@ -65,7 +65,7 @@ TcpConnection::TcpConnection(asio_compat::io_service_t&                    ioSer
 {
     InitialiseMsgPool();
 
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
     DEBUG_MESSAGE_EX_DEBUG(
         "Reserving memory for receive and send buffers as: " << DEFAULT_RESERVED_SIZE << " bytes");
 #endif
@@ -88,7 +88,7 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
 {
     try
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_INFO("Connecting TCP socket endpoint to: " << endPoint.first << ":"
                                                                     << endPoint.second);
 #endif
@@ -119,7 +119,7 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
         {
             if (*connectError)
             {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
                 DEBUG_MESSAGE_EX_ERROR("Async connect reported an error: "
                                        << connectError->message() << ", for: " << endPoint.first
                                        << ":" << endPoint.second);
@@ -133,7 +133,7 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
         // Async connect timed out.
         else
         {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
             DEBUG_MESSAGE_EX_ERROR("Async connect timeout, for: " << endPoint.first << ":"
                                                                   << endPoint.second);
 #endif
@@ -166,7 +166,7 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
             m_socket.set_option(sendBufOption);
         }
 
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_INFO("Calling StartAsyncRead for first time after connection for: "
                               << endPoint.first << ":" << endPoint.second);
 #endif
@@ -175,7 +175,7 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
     }
     catch (...)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Exception caught while connecting socket: "
                                << boost::current_exception_diagnostic_information()
                                << ", for: " << endPoint.first << ":" << endPoint.second);
@@ -188,7 +188,7 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
 
 void TcpConnection::CloseConnection()
 {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
     DEBUG_MESSAGE_EX_INFO("Calling CloseConnection for: " << m_endPoint.first << ":"
                                                           << m_endPoint.second);
 #endif
@@ -322,7 +322,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
 
     if (error)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Error in ReadComplete, error: "
                                << error.message() << ", will safely self-destruct, for: "
                                << m_endPoint.first << ":" << m_endPoint.second);
@@ -333,7 +333,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
 
     if (bytesReceived != bytesExpected)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_WARNING("Warning in ReadComplete, bytesReceived != bytesExpected, will "
                                  "reset read buffers and try to read again, for: "
                                  << m_endPoint.first << ":" << m_endPoint.second);
@@ -399,7 +399,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
         }
         catch (...)
         {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
             DEBUG_MESSAGE_EX_ERROR("Error in ReadComplete, error: "
                                    << boost::current_exception_diagnostic_information()
                                    << ", for: " << m_endPoint.first << ":" << m_endPoint.second);
@@ -462,7 +462,7 @@ bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
 		
         m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
 		
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Error in SendMessageAsync(post), error: "
                                << boost::current_exception_diagnostic_information()
                                << ", for: " << m_endPoint.first << ":" << m_endPoint.second);
@@ -493,7 +493,7 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
 
     if (!success)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Error in SendMessageSync, bytesSent != message.size(), will safely "
                                "self-destruct, for: "
                                << m_endPoint.first << ":" << m_endPoint.second);
@@ -608,7 +608,7 @@ void TcpConnection::WriteCompleteOnStrand(const boost_sys::error_code& error,
 
     if (error)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Error detected in async_write completion handler, error: "
                                << error.message() << ", will safely destroy self, for: "
                                << m_endPoint.first << ":" << m_endPoint.second);
@@ -656,7 +656,7 @@ void TcpConnection::InitialiseMsgPool()
 
     if (0 == m_settings.maxAllowedUnsentAsyncMessages)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_DEBUG(
             "Async sending message pool NOT being used because memPoolMsgCount = "
             << m_settings.maxAllowedUnsentAsyncMessages << ", for: " << m_endPoint.first << ":"
@@ -666,7 +666,7 @@ void TcpConnection::InitialiseMsgPool()
         return;
     }
 
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
     DEBUG_MESSAGE_EX_DEBUG("Async sending message pool will be used with memPoolMsgCount = "
                            << m_settings.maxAllowedUnsentAsyncMessages
                            << " and defaultMsgSize = " << m_settings.sendPoolMsgSize
@@ -744,7 +744,7 @@ bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, Pend
 	
     if (0 == maxAllowed)
     {
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_DEBUG("Cannot send async message, max allowed unsent async messages is 0, for: "
                                  << m_endPoint.first << ":" << m_endPoint.second);
 #endif		
@@ -757,7 +757,7 @@ bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, Pend
     {
         m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
 		
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_WARNING("Cannot send async message, currently at unsent async "
                                  "message count limit, for: "
                                  << m_endPoint.first << ":" << m_endPoint.second);
@@ -810,7 +810,7 @@ bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, Pend
             // Allocation failure: keep reservation accurate.
             m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
 			
-#if defined(CORELIB_SOCKET_DEBUG)
+#if defined(USE_SOCKET_DEBUG)
             DEBUG_MESSAGE_EX_ERROR("Error allocating dynamic async send buffer, error: "
                                    << boost::current_exception_diagnostic_information()
                                    << ", for: " << m_endPoint.first << ":" << m_endPoint.second);
