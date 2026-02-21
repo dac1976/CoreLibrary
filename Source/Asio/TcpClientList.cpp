@@ -33,32 +33,31 @@ namespace asio
 namespace tcp
 {
 
-TcpClientList::TcpClientList(boost_iocontext_t& ioContext, size_t minAmountToRead,
-                             defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
-                             defs::message_received_handler_t const& messageReceivedHandler,
-                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
-                             size_t sendPoolMsgSize)
-    : m_ioContextPtr(&ioContext)
-    , m_minAmountToRead(minAmountToRead)
+TcpClientList::TcpClientList(asio_compat::io_service_t& ioService,
+                        defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+                        defs::message_received_handler_t const& messageReceivedHandler,
+                        TcpConnSettings const& settings,
+                        defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
+                        defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
+    : m_ioServicePtr(&ioService)
+    , m_settings(settings)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
+    , m_checkBytesLeftToReadEx(checkBytesLeftToReadEx)
     , m_messageReceivedHandler(messageReceivedHandler)
-    , m_sendOption(sendOption)
-    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
-    , m_sendPoolMsgSize(sendPoolMsgSize)
+    , m_messageReceivedHandlerEx(messageReceivedHandlerEx)
 {
 }
 
-TcpClientList::TcpClientList(size_t                                  minAmountToRead,
-                             defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
-                             defs::message_received_handler_t const& messageReceivedHandler,
-                             eSendOption sendOption, size_t maxAllowedUnsentAsyncMessages,
-                             size_t sendPoolMsgSize)
-    : m_minAmountToRead(minAmountToRead)
+TcpClientList::TcpClientList(defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+					    defs::message_received_handler_t const& messageReceivedHandler,
+					    TcpConnSettings const& settings,
+					    defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
+					    defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
+    : m_settings(settings)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
+    , m_checkBytesLeftToReadEx(checkBytesLeftToReadEx)
     , m_messageReceivedHandler(messageReceivedHandler)
-    , m_sendOption(sendOption)
-    , m_maxAllowedUnsentAsyncMessages(maxAllowedUnsentAsyncMessages)
-    , m_sendPoolMsgSize(sendPoolMsgSize)
+    , m_messageReceivedHandlerEx(messageReceivedHandlerEx)
 {
 }
 
@@ -70,7 +69,7 @@ TcpClientList::~TcpClientList()
 auto TcpClientList::ServerConnection(defs::connection_t const& clientConn) const
     -> defs::connection_t
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     defs::connection_t server{defs::NULL_CONNECTION};
 
@@ -88,12 +87,12 @@ auto TcpClientList::ServerConnection(defs::connection_t const& clientConn) const
 
 bool TcpClientList::Connected(defs::connection_t const& server) const
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     bool connected = false;
     auto clientPtr = FindTcpClient(server);
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         connected = clientPtr->Connected();
     }
@@ -104,12 +103,12 @@ bool TcpClientList::Connected(defs::connection_t const& server) const
 auto TcpClientList::GetClientDetailsForServer(defs::connection_t const& server) const
     -> defs::connection_t
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     defs::connection_t client{defs::NULL_CONNECTION};
     auto               clientPtr = FindTcpClient(server);
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         client = clientPtr->GetClientDetailsForServer();
     }
@@ -117,48 +116,59 @@ auto TcpClientList::GetClientDetailsForServer(defs::connection_t const& server) 
     return client;
 }
 
-void TcpClientList::CloseConnection(defs::connection_t const& server) const
+void TcpClientList::CloseConnection(defs::connection_t const& server)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         clientPtr->CloseConnection();
+
+        m_clientMap.erase(server);
     }
 }
 
-void TcpClientList::CloseConnections() const
+void TcpClientList::CloseConnections()
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     for (auto& client : m_clientMap)
     {
         client.second->CloseConnection();
     }
-}
-
-void TcpClientList::ClearConnections()
-{
-    std::lock_guard<std::mutex> lock(m_mutex);
 
     m_clientMap.clear();
+}
+
+bool TcpClientList::CreateConnectionToServer(defs::connection_t const& server)
+{
+    std::lock_guard<std::mutex> lock(m_mapMutex);
+
+    auto clientPtr = FindTcpClient(server);
+
+    if (clientPtr == nullptr)
+    {
+        clientPtr = CreateTcpClient(server);
+    }
+
+    return static_cast<bool>(clientPtr);
 }
 
 bool TcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
                                              defs::char_buffer_t const& message)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
-    if (!clientPtr)
+    if (clientPtr == nullptr)
     {
         clientPtr = CreateTcpClient(server);
     }
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         return clientPtr->SendMessageToServerAsync(message);
     }
@@ -169,17 +179,17 @@ bool TcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
 bool TcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
                                             defs::char_buffer_t const& message)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     bool success   = false;
     auto clientPtr = FindTcpClient(server);
 
-    if (!clientPtr)
+    if (clientPtr == nullptr)
     {
         clientPtr = CreateTcpClient(server);
     }
 
-    if (clientPtr)
+    if (clientPtr != nullptr)
     {
         success = clientPtr->SendMessageToServerSync(message);
     }
@@ -191,26 +201,24 @@ auto TcpClientList::CreateTcpClient(defs::connection_t const& server) -> client_
 {
     client_ptr_t clientPtr;
 
-    if (m_ioContextPtr)
+    if (m_ioServicePtr != nullptr)
     {
-        clientPtr = std::make_shared<TcpClient>(*m_ioContextPtr,
+        clientPtr = std::make_shared<TcpClient>(*m_ioServicePtr,
                                                 server,
-                                                m_minAmountToRead,
                                                 m_checkBytesLeftToRead,
                                                 m_messageReceivedHandler,
-                                                m_sendOption,
-                                                m_maxAllowedUnsentAsyncMessages,
-                                                m_sendPoolMsgSize);
+                                                m_settings,
+                                                m_messageReceivedHandlerEx,
+                                                m_checkBytesLeftToReadEx);
     }
     else
     {
         clientPtr = std::make_shared<TcpClient>(server,
-                                                m_minAmountToRead,
                                                 m_checkBytesLeftToRead,
                                                 m_messageReceivedHandler,
-                                                m_sendOption,
-                                                m_maxAllowedUnsentAsyncMessages,
-                                                m_sendPoolMsgSize);
+                                                m_settings,
+                                                m_messageReceivedHandlerEx,
+                                                m_checkBytesLeftToReadEx);
     }
 
     m_clientMap[server] = clientPtr;
@@ -232,14 +240,26 @@ auto TcpClientList::FindTcpClient(defs::connection_t const& server) const -> cli
 
 void TcpClientList::ClearList()
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     m_clientMap.clear();
 }
 
+void TcpClientList::GetServerList(std::list<defs::connection_t>& serverDetailsList) const
+{
+    serverDetailsList.clear();
+
+    std::lock_guard<std::mutex> lock(m_mapMutex);
+
+    for (auto const& clientItr : m_clientMap)
+    {
+        serverDetailsList.push_back(clientItr.first);
+    }
+}
+
 auto TcpClientList::GetServerList() const -> std::vector<defs::connection_t>
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     std::vector<defs::connection_t> serverDetailsList;
 
@@ -253,7 +273,7 @@ auto TcpClientList::GetServerList() const -> std::vector<defs::connection_t>
 
 size_t TcpClientList::NumberOfUnsentAsyncMessages(const defs::connection_t& server) const
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mapMutex);
 
     auto clientPtr = FindTcpClient(server);
 
