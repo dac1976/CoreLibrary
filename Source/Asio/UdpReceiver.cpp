@@ -24,7 +24,7 @@
  * \brief File containing UDP receiver class definition.
  */
 
-#include "UdpReceiver.h"
+#include "Asio/UdpReceiver.h"
 #include <boost/bind.hpp>
 #if defined(USE_SOCKET_DEBUG)
 #include <boost/exception/all.hpp>
@@ -54,8 +54,8 @@ UdpReceiver::UdpReceiver(asio_compat::io_service_t& ioService,
 					std::string const& listenAddress,
 					defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
 					defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
-    : m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                   eIntialCondition::notSignalled)
+    : m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
+                 threads::eIntialCondition::notSignalled)
     , m_strand(asio_compat::make_strand(ioService))
     , m_listenPort{listenPort}
     , m_listenAddress{listenAddress}
@@ -76,8 +76,8 @@ UdpReceiver::UdpReceiver(uint16_t listenPort,
                     std::string const& listenAddress,
                     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
                     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
-    : m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                   eIntialCondition::notSignalled)
+    : m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
+                 threads::eIntialCondition::notSignalled)
     , m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_strand(asio_compat::make_strand(m_ioThreadGroup->IoService()))

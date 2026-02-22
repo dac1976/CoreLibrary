@@ -236,7 +236,7 @@ private:
     /*! \brief TCP connections object. */
     std::shared_ptr<TcpConnections> m_clientConnections;
     /*! \brief Close event. */
-    SyncEvent m_closedEvent;
+    threads::SyncEvent m_closedEvent;
 };
 
 } // namespace tcp

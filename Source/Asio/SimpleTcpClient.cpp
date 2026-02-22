@@ -62,7 +62,7 @@ SimpleTcpClient::SimpleTcpClient(asio_compat::io_service_t& ioService,
 }
 
 SimpleTcpClient::SimpleTcpClient(const defs::connection_t& server,
-                           onst defs::default_message_dispatcher_t& messageDispatcher,
+                           const defs::default_message_dispatcher_t& messageDispatcher,
                            SimpleTcpSettings const& settings)
     : m_messageHandler{messageDispatcher,
                        defs::DEFAULT_MAGIC_STRING,

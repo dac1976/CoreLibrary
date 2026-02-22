@@ -23,7 +23,7 @@
  * \file Ping.cpp
  * \brief File containing useful definitions.
  */
-#include "Ping.h"
+#include "Asio/Ping.h"
 #include <iostream>
 #include <random>
 #include <limits>
@@ -34,8 +34,8 @@
 #include "DebugLog/DebugLogging.h"
 #endif
 #include "Threads/MutexHelpers.hpp"
-#include "icmp_hdr.hpp"
-#include "ipv4_hdr.hpp"
+#include "Asio/support/icmp_hdr.hpp"
+#include "Asio/support/ipv4_hdr.hpp"
 
 namespace boost_ip    = boost::asio::ip;
 namespace posix_time  = boost::posix_time;
@@ -58,8 +58,8 @@ Ping::Ping(std::string_view destination,
          ping_response_t const& pingResponseCallback)
     : m_ioThreadGroup(std::make_unique<IoContextThreadGroup>(1))
     , m_ioServiceRef(m_ioThreadGroup->IoService())
-    , m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                   eIntialCondition::notSignalled)
+    , m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
+                threads::eIntialCondition::notSignalled)
     , m_socket(m_ioServiceRef)
     , m_pingResponseCallback(pingResponseCallback)
     , m_identifier(GetIdentifier())
@@ -72,8 +72,8 @@ Ping::Ping(asio_compat::io_service_t& ioService,
          std::string_view destination,
          ping_response_t const& pingResponseCallback)
     : m_ioServiceRef(ioService)
-    , m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                   eIntialCondition::notSignalled)
+    , m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
+                 threads::eIntialCondition::notSignalled)
     , m_socket(m_ioServiceRef)
     , m_pingResponseCallback(pingResponseCallback)
     , m_identifier(GetIdentifier())

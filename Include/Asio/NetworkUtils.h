@@ -31,6 +31,7 @@
 #include <cstdint>
 #include <utility>
 #include <boost/predef.h>
+#include "CoreLibraryDllGlobal.h"
 
 namespace core_lib
 {

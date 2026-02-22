@@ -7,7 +7,7 @@
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// (at your opthreads::tion) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -172,7 +172,7 @@ private:
     /*! \brief Flag to show were are closing socket. */
     bool m_closing{false};
     /*! \brief Close event. */
-    SyncEvent m_closeEvent;
+    threads::SyncEvent m_closeEvent;
     /*! \brief I/O service thread group. */
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service strand. */

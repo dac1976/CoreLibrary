@@ -42,7 +42,7 @@ namespace serial
 SerialPort::SerialPort(asio_compat::io_service_t& ioService, std::string const& comPort,
 				   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 				   defs::message_received_handler_t const& messageReceivedHandler,
-				   SerialPortSettings const&               settings)
+				   SerialPortSettings const& settings)
     : m_strand(asio_compat::make_strand(ioService))
     , m_comPort(comPort)
     , m_checkBytesLeftToRead(checkBytesLeftToRead)
@@ -55,9 +55,9 @@ SerialPort::SerialPort(asio_compat::io_service_t& ioService, std::string const& 
 }
 
 SerialPort::SerialPort(std::string const&                      comPort,
-                       defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
-                       defs::message_received_handler_t const& messageReceivedHandler,
-                       SerialPortSettings const& settings, uint32_t numIoSvcThreads)
+				   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+				   defs::message_received_handler_t const& messageReceivedHandler,
+				   SerialPortSettings const& settings, uint32_t numIoSvcThreads)
     : m_ioThreadGroup(std::make_unique<IoContextThreadGroup>(numIoSvcThreads))
     , m_strand(asio_compat::make_strand(m_ioThreadGroup->IoService()))
     , m_comPort(comPort)

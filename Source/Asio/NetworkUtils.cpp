@@ -1,4 +1,4 @@
-#include "NetworkUtils.h"
+#include "Asio/NetworkUtils.h"
 #include <sstream>
 #include <cstdint>
 #include <cstdio>
@@ -35,21 +35,12 @@
 #include <ws2tcpip.h>  // For calls in GetIpAddressAndNetmask
 #endif
 #include "StringUtils/StringUtils.h"
-
 #if BOOST_OS_LINUX
 namespace bp = boost::process;
 #else
-// If using MinGW on Windows, say in Qt, then
-// you must add the following to your project:
-// LIBS += -liphlpapi
-// Else the line below (#pragma) should link the
-// library.
-#if !defined(BOOST_COMP_GNUC)
-#pragma comment(lib, "IPHLPAPI.lib")
-#endif
+// Windows needs the library: iphlpapi, linking to the build
 #define MY_MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
 #define MY_FREE(x) HeapFree(GetProcessHeap(), 0, (x))
-#endif
 #endif
 
 namespace core_lib
@@ -336,7 +327,7 @@ std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& ad
 
     while (nullptr != pCurrAddresses)
     {
-        if (adapterName == WStringToString(pCurrAddresses->FriendlyName))
+        if (adapterName == string_utils::WStringToString(pCurrAddresses->FriendlyName))
         {
             char  temp[64];
             DWORD len = 64;

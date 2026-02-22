@@ -163,7 +163,7 @@ private:
     /*! \brief Flag to show were are closing socket. */
     bool m_closing{false};
     /*! \brief Close event. */
-    SyncEvent m_closeEvent;
+    threads::SyncEvent m_closeEvent;
     /*! \brief I/O service thread group. */
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service strand. */

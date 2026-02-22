@@ -21,7 +21,6 @@ option(CORELIB_USE_STD_FILESYSTEM "Use <filesystem> instead of <boost/filesystem
 #   -DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log/
 option(CORELIB_SOCKET_DEBUG "Use extra debug output from Asio classes" OFF)
 
-
 # Local env vars for this CMakelists file, must be set before calling CMake configure
 # and as these are cached will be rememebr until the CMake cache is cleared.
 #
@@ -150,17 +149,17 @@ target_link_libraries(CoreLibrary PUBLIC
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_program_options.a>
   $<${_CORELIB_LINUX}:Threads::Threads>
 
+  # Windows
+  $<$<PLATFORM_ID:Windows>:iphlpapi>
   # Windows Release-ish
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_system-vc143-mt-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-x64-1_90.lib>
 
   # Windows Debug
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_system-vc143-mt-gd-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-gd-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-gd-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-gd-x64-1_85.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-gd-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-gd-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-gd-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-gd-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-gd-x64-1_90.lib>
 )

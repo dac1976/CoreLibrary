@@ -57,8 +57,8 @@ MulticastReceiver::MulticastReceiver(
 	size_t receiveBufferSize,
     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
-    : m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                 eIntialCondition::notSignalled)
+    : m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
+                 threads::eIntialCondition::notSignalled)
     , m_strand(asio_compat::make_strand(ioService))
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
@@ -80,8 +80,8 @@ MulticastReceiver::MulticastReceiver(
 	size_t receiveBufferSize,
     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
-    : m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                 eIntialCondition::notSignalled)
+    : m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
+                 threads::eIntialCondition::notSignalled)
     , m_ioThreadGroup(new IoContextThreadGroup(1))
     // 1 thread is sufficient only receive one message at a time
     , m_strand(asio_compat::make_strand(m_ioThreadGroup->IoService()))

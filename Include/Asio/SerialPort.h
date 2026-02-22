@@ -147,7 +147,7 @@ private:
     /*! \brief Mutex to protect shutdown of receiver. */
     mutable std::mutex m_closingMutex;
     /*! \brief Event to synchronise shutdown of receiver. */
-    SyncEvent m_closedEvent;
+    threads::SyncEvent m_closedEvent;
     /*! \brief Flag to show were are closing socket. */
     bool m_closing{false};
     /*! \brief I/O service thread group. */

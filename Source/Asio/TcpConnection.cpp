@@ -24,14 +24,14 @@
  * \brief File containing TCP connection class definition.
  */
 
-#include "TcpConnection.h"
-#include "TcpConnections.h"
+#include "Asio/TcpConnection.h"
+#include "Asio/TcpConnections.h"
 #include <algorithm>
 #include <limits>
 #include <boost/bind.hpp>
 #if defined(USE_SOCKET_DEBUG)
 #include <boost/exception/all.hpp>
-#include "DebugLogging.h"
+#include "DebugLog/DebugLogging.h"
 #endif
 
 namespace core_lib
@@ -59,8 +59,8 @@ TcpConnection::TcpConnection(asio_compat::io_service_t&                    ioSer
     , m_messageReceivedHandler{messageReceivedHandler}
     , m_messageReceivedHandlerEx{messageReceivedHandlerEx}
     , m_settings{settings}
-    , m_connectEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                     eIntialCondition::notSignalled)
+    , m_connectEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
+                  threads::eIntialCondition::notSignalled)
     , m_socket{ioService}
 {
     InitialiseMsgPool();

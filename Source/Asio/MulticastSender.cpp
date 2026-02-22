@@ -24,11 +24,11 @@
  * \brief File containing multicast sender class definition.
  */
 
-#include "MulticastSender.h"
+#include "Asio/MulticastSender.h"
 #include <boost/bind.hpp>
 #if defined(USE_SOCKET_DEBUG)
 #include <boost/exception/all.hpp>
-#include "DebugLogging.h"
+#include "DebugLog/DebugLogging.h"
 #endif
 
 /*! \brief The core_lib namespace. */
@@ -46,9 +46,11 @@ namespace udp
 // ****************************************************************************
 // cppcheck-suppress constParameter
 MulticastSender::MulticastSender(asio_compat::io_service_t& ioService,
-                                 defs::connection_t const&  multicastConnection,
-                                 std::string const& interfaceAddress, bool enableLoopback,
-                                 int32_t ttl, size_t sendBufferSize)
+						   defs::connection_t const&  multicastConnection,
+						   std::string const& interfaceAddress, 
+						   bool enableLoopback,
+						   int32_t ttl, 
+						   size_t sendBufferSize)
     : m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
     , m_multicastEndpoint(asio_compat::make_address(m_multicastConnection.first),
@@ -59,8 +61,8 @@ MulticastSender::MulticastSender(asio_compat::io_service_t& ioService,
 }
 
 MulticastSender::MulticastSender(defs::connection_t const& multicastConnection,
-                                 std::string const& interfaceAddress, bool enableLoopback,
-                                 int32_t ttl, size_t sendBufferSize)
+							std::string const& interfaceAddress, bool enableLoopback,
+							int32_t ttl, size_t sendBufferSize)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_multicastConnection(multicastConnection)

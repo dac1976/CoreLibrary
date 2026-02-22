@@ -100,12 +100,12 @@ private:
                                   size_t bytesTransferred);
 
 private:
-    mutable std::mutex                m_closingMutex;
-    mutable std::mutex                m_pendingMutex;
+    mutable std::mutex                 m_closingMutex;
+    mutable std::mutex                 m_pendingMutex;
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
     asio_compat::io_service_t&          m_ioServiceRef;
-    SyncEvent                        m_closeEvent;
-    SyncEvent                        m_replyEvent;
+    threads::SyncEvent                m_closeEvent;
+    threads::SyncEvent                m_replyEvent;
     boost::asio::ip::icmp::socket       m_socket;
     boost::asio::ip::icmp::endpoint      m_destination;
     ping_response_t                   m_pingResponseCallback;
