@@ -62,7 +62,7 @@ public:
      * \param[in] settings - structure containing connection options and behavioural settings.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      *
@@ -72,7 +72,7 @@ public:
      * doesn't fill and start overwriting older messages. If the messages need to be kept
      * then it is the dispatchers job to make a suitable copy of the received message.
      */
-    SimpleTcpServer(asio_compat::io_service_t& ioService, 
+    SimpleTcpServer(asio_compat::io_service_t& ioService,
 	             uint16_t listenPort,
                  const defs::default_message_dispatcher_t& messageDispatcher,
                  SimpleTcpSettings const& settings = {});
@@ -148,7 +148,7 @@ public:
      * the client.
      */
     bool SendMessageToClientAsync(
-        const defs::connection_t& client, 
+        const defs::connection_t& client,
 		int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
@@ -163,7 +163,7 @@ public:
      * object to the client.
      */
     bool SendMessageToClientSync(
-        const defs::connection_t& client, 
+        const defs::connection_t& client,
 		int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
@@ -180,7 +180,7 @@ public:
      * the clients.
      */
     bool SendMessageToAllClients(
-        int32_t messageId, 
+        int32_t messageId,
 		const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
      * \brief Send a header plus message buffer to a client asynchronously.
@@ -201,7 +201,7 @@ public:
      * the client.
      */
     bool SendMessageToClientAsync(
-        const defs::connection_t& client, 
+        const defs::connection_t& client,
 		const defs::char_buffer_t& message, int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
@@ -217,8 +217,8 @@ public:
      * object to the client.
      */
     bool SendMessageToClientSync(
-        const defs::connection_t& client, 
-		const defs::char_buffer_t& message, 
+        const defs::connection_t& client,
+		const defs::char_buffer_t& message,
 		int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
@@ -236,7 +236,7 @@ public:
      * the clients.
      */
     bool SendMessageToAllClients(
-        const defs::char_buffer_t& message, 
+        const defs::char_buffer_t& message,
 		int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
     /*!
@@ -259,8 +259,8 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool SendMessageToClientAsync(
-        const T& message, 
-		const defs::connection_t& client, 
+        const T& message,
+		const defs::connection_t& client,
 		int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -281,8 +281,8 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool
-    SendMessageToClientSync(const T& message, 
-	                   const defs::connection_t& client, 
+    SendMessageToClientSync(const T& message,
+	                   const defs::connection_t& client,
 					   int32_t messageId,
                        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -305,7 +305,7 @@ public:
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
     bool
-    SendMessageToAllClients(const T& message, 
+    SendMessageToAllClients(const T& message,
 	                    int32_t messageId,
                         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -359,9 +359,9 @@ public:
     bool IsConnected(const defs::connection_t& client) const;
 
 private:
-    /*! \brief Default message builder object of type hgl::asio::messages::MessageBuilder. */
+    /*! \brief Default message builder object of type asio::messages::MessageBuilder. */
     messages::MessageBuilder m_messageBuilder{};
-    /*! \brief Default message handler object of type hgl::asio::messages::MessageHandler. */
+    /*! \brief Default message handler object of type asio::messages::MessageHandler. */
     messages::MessageHandler m_messageHandler;
     /*! \brief Our actual typed TCP server object. */
     TcpTypedServer<messages::MessageBuilder> m_tcpTypedServer;

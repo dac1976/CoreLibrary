@@ -60,7 +60,7 @@ public:
      *                              when memPoolMsgCount > 0.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * hgl::IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be exectued
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      *

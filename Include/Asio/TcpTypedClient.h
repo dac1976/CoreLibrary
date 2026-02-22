@@ -47,7 +47,7 @@ namespace tcp
  *
  * The template argument defines a message builder object that
  * must have an interface compatible with that of the class
- * hgl::asio::messages::MessageBuilder.
+ * asio::messages::MessageBuilder.
  *
  * This class forms the underpinnings of the SimpleTcpClient class.
  *
@@ -88,15 +88,15 @@ public:
      * details.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    TcpTypedClient(asio_compat::io_service_t& ioService, 
+    TcpTypedClient(asio_compat::io_service_t& ioService,
 	            const defs::connection_t& server,
                 const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                 const defs::message_received_handler_t& messageReceivedHandler,
-                const MsgBldr& messageBuilder, 
+                const MsgBldr& messageBuilder,
 				TcpConnSettings const& settings = {},
                 defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
                 defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx   = {})
@@ -137,7 +137,7 @@ public:
     TcpTypedClient(const defs::connection_t& server,
                 const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
                 const defs::message_received_handler_t& messageReceivedHandler,
-                const MsgBldr& messageBuilder, 
+                const MsgBldr& messageBuilder,
 				TcpConnSettings const& settings = {},
                 defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
                 defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx   = {})
@@ -268,7 +268,7 @@ public:
      * only sends a simple core_lib::asio::HGL_MSG_HDR object to
      * the server.
      */
-    bool SendMessageToServerAsync(const defs::char_buffer_t& message, 
+    bool SendMessageToServerAsync(const defs::char_buffer_t& message,
 	                        int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -294,7 +294,7 @@ public:
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(const defs::char_buffer_t& message, 
+    bool SendMessageToServerSync(const defs::char_buffer_t& message,
 	                        int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -328,7 +328,7 @@ public:
      * This method gives best performance when sending.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerAsync(const T& message, 
+    bool SendMessageToServerAsync(const T& message,
 	                        int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -355,7 +355,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerSync(const T& message, 
+    bool SendMessageToServerSync(const T& message,
 	                        int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {

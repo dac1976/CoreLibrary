@@ -23,12 +23,13 @@
  * \file SerialPort.h
  * \brief File containing useful definitions.
  */
- 
+
 #ifndef SERIALPORT_H
 #define SERIALPORT_H
 
 #include "AsioDefines.h"
-#include "Threads/SyncEvent.h" 
+#include "IoContextThreadGroup.h"
+#include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -70,7 +71,7 @@ public:
      * \param[in] settings - structure containing connection options and behavioural
      * settings.
      */
-    SerialPort(asio_compat::io_service_t& ioService, 
+    SerialPort(asio_compat::io_service_t& ioService,
 	         std::string const& comPort,
              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
              defs::message_received_handler_t const& messageReceivedHandler,
@@ -92,7 +93,7 @@ public:
     SerialPort(std::string const& comPort,
              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
              defs::message_received_handler_t const& messageReceivedHandler,
-             SerialPortSettings const& settings = {}, 
+             SerialPortSettings const& settings = {},
 			 uint32_t numIoSvcThreads = 1);
 
     /*! \brief Default destructor. */

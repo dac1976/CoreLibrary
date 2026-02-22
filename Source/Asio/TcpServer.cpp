@@ -69,7 +69,7 @@ TcpServer::TcpServer(uint16_t listenPort,
                  TcpConnSettings const& settings,
                  defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
                  defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
-    : m_ioThreadGroup{new IoServiceThreadGroup(2)}
+    : m_ioThreadGroup{new IoContextThreadGroup(2)}
     , m_ioService(m_ioThreadGroup->IoService())
     , m_strand{asio_compat::make_strand(m_ioThreadGroup->IoService())}
     , m_listenPort{listenPort}

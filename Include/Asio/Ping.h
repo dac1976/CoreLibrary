@@ -33,8 +33,8 @@
 #include <memory>
 #include <boost/asio.hpp>
 #include <functional>
-#include "Threads/SyncEvent.h" 
-#include "IoContextThreadGroup.h" 
+#include "Threads/SyncEvent.h"
+#include "IoContextThreadGroup.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -97,9 +97,9 @@ private:
     void            CloseAndWait();
     void            Receive();
     void            HandleReceive(boost::system::error_code error,
-                                  size_t bytesTransferred);    
-    
-private: 
+                                  size_t bytesTransferred);
+
+private:
     mutable std::mutex                m_closingMutex;
     mutable std::mutex                m_pendingMutex;
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};

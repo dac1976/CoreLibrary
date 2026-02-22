@@ -66,7 +66,7 @@ public:
      * \param[in] settings - structure containing connection options and behavioural settings.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * core_lib::IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      *
@@ -161,7 +161,7 @@ public:
      * the server.
      */
     bool
-    SendMessageToServerAsync(defs::connection_t const& server, 
+    SendMessageToServerAsync(defs::connection_t const& server,
 	                     int32_t messageId,
                          defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
     /*!
@@ -175,7 +175,7 @@ public:
      * This method only sends a simple core_lib::asio::HGL_MSG_HDR
      * object to the server.
      */
-    bool SendMessageToServerSync(defs::connection_t const& server, 
+    bool SendMessageToServerSync(defs::connection_t const& server,
 	                        int32_t messageId,
                             defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
     /*!
@@ -197,7 +197,7 @@ public:
      * the server.
      */
     bool
-    SendMessageToServerAsync(defs::connection_t const& server, 
+    SendMessageToServerAsync(defs::connection_t const& server,
 	                    const defs::char_buffer_t& message,
                         int32_t messageId,
                         defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
@@ -214,7 +214,7 @@ public:
      * object to the server.
      */
     bool SendMessageToServerSync(defs::connection_t const& server,
-                            const defs::char_buffer_t& message, 
+                            const defs::char_buffer_t& message,
 							int32_t messageId,
                             defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
 
@@ -236,7 +236,7 @@ public:
      * uses the a core_lib::asio::HGL_MSG_HDR object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerAsync(defs::connection_t const& server, 
+    bool SendMessageToServerAsync(defs::connection_t const& server,
 	                         T const& message,
                              int32_t messageId,
                              defs::connection_t const& responseAddress = defs::NULL_CONNECTION)
@@ -269,7 +269,7 @@ public:
      * This method uses the a core_lib::asio::HGL_MSG_HDR object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMessageToServerSync(defs::connection_t const& server, 
+    bool SendMessageToServerSync(defs::connection_t const& server,
 	                        T const& message,
                             int32_t messageId,
                             defs::connection_t const& responseAddress = defs::NULL_CONNECTION)

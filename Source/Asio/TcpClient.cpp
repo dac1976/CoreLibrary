@@ -64,7 +64,7 @@ TcpClient::TcpClient(defs::connection_t const&                  server,
                      TcpConnSettings const&                     settings,
                      defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
                      defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
-    : m_ioThreadGroup{new IoServiceThreadGroup(1)}
+    : m_ioThreadGroup{new IoContextThreadGroup(1)}
     , m_ioService(m_ioThreadGroup->IoService())
     , m_server{server}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}

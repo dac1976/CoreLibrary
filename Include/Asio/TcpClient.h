@@ -29,6 +29,7 @@
 #define TCPCLIENT
 
 #include "TcpConnections.h"
+#include "IoContextThreadGroup.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -84,11 +85,11 @@ public:
      * details.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    TcpClient(asio_compat::io_service_t& ioService, 
+    TcpClient(asio_compat::io_service_t& ioService,
 	        defs::connection_t const& server,
             defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
             defs::message_received_handler_t const& messageReceivedHandler,
@@ -190,7 +191,7 @@ private:
 
 private:
     /*! \brief I/O service thread group. */
-    std::unique_ptr<IoServiceThreadGroup> m_ioThreadGroup{};
+    std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
     /*! \brief I/O service reference. */
     asio_compat::io_service_t& m_ioService;
     /*! \brief Server connection details. */

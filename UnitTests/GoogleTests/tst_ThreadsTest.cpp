@@ -17,7 +17,7 @@
 #include "Threads/ConcurrentQueue.h"
 #include "Threads/MessageQueueThread.h"
 #include "Threads/BoundedBuffer.h"
-#include "Asio/IoServiceThreadGroup.h"
+#include "Asio/IoContextThreadGroup.h"
 
 #include "gtest/gtest.h"
 
@@ -1482,7 +1482,7 @@ TEST(AsioTest, testCase_IoThreadGroup1)
     Sum sum2{};
 
     {
-        core_lib::asio::IoServiceThreadGroup ioThreadGroup(8);
+        core_lib::asio::IoContextThreadGroup ioThreadGroup(8);
 
         for (uint64_t i = 1; i <= 1000000; ++i)
         {
@@ -1505,7 +1505,7 @@ TEST(AsioTest, testCase_IoThreadGroup2)
     Sum sum2{};
 
     {
-        core_lib::asio::IoServiceThreadGroup ioThreadGroup(8);
+        core_lib::asio::IoContextThreadGroup ioThreadGroup(8);
 
         for (uint64_t i = 1; i <= 1000000; ++i)
         {
