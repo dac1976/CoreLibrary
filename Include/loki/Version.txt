@@ -1,0 +1,21 @@
+Version 0.1.7
+
+There were bugs \include\loki\Threads.h in a couple of places. I have found and
+fixed them as follows. 
+
+       1. In the Windows case where the atomic functions are defined it was
+          missing the following at the start of the function definitions:
+
+       private:                                   \
+           static CRITICAL_SECTION atomic_mutex_; \
+       public:                                    \
+
+       2. In the non-Windows (posix) case the 2 versions of the function
+          AtomicAssign should return nothing (void) but were both returning
+          lval. 
+          
+These corrections firstly make it compile correctly using Windows compilers
+such as MinGW, MSVC++ and C++ Builder and secondly make it compile without
+warnings/errors when using gcc/clang on Linux.
+ 
+ - Duncan Crutchley June 30th 2014

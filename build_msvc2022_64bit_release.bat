@@ -5,8 +5,6 @@ setlocal enabledelayedexpansion
 SET "CORELIB_ROOT=%~dp0"
 SET "CORELIB_BOOST_ROOT=%CORELIB_ROOT%../ThirdParty/boost_1_90_0"
 SET "CORELIB_BOOST_LIB=%CORELIB_ROOT%../ThirdParty/boost_1_90_0/lib64-msvc-14.3"
-SET "CORELIB_CEREAL_ROOT=%CORELIB_ROOT%../ThirdParty/cereal/include"
-SET "CORELIB_LOKI_ROOT=%CORELIB_ROOT%../ThirdParty/loki/include"
 SET "CORELIB_BOOST_LIB_NAME_STUB=vc143-mt-x64-1_90"
 SET "CORELIB_BOOST_LIB_NAME_STUB_D=vc143-mt-gd-x64-1_90"
 

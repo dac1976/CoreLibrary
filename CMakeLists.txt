@@ -28,17 +28,13 @@ option(CORELIB_SOCKET_DEBUG "Use extra debug output from Asio classes" OFF)
 set(CORELIB_BOOST_ROOT $ENV{CORELIB_BOOST_ROOT} CACHE PATH "Boost root")
 # Path to the correct Boost lib folder for your compiler and platform.
 set(CORELIB_BOOST_LIB $ENV{CORELIB_BOOST_LIB} CACHE PATH "Boost libs")
-# Path (inclusive) for the Cereal /include directory.
-set(CORELIB_CEREAL_ROOT $ENV{CORELIB_CEREAL_ROOT} CACHE PATH "Cereal root")
-# Path (inclusive) for the Loki /include directory.
-set(CORELIB_LOKI_ROOT $ENV{CORELIB_LOKI_ROOT} CACHE PATH "Loki root")
 # Name modifier for boost libs.
 set (CORELIB_BOOST_LIB_NAME_STUB $ENV{CORELIB_BOOST_LIB_NAME_STUB} CACHE PATH "Boost lib name stub")
 # Name modifier for boost libs in debug mode.
 set (CORELIB_BOOST_LIB_NAME_STUB_D $ENV{CORELIB_BOOST_LIB_NAME_STUB_D} CACHE PATH "Boost lib name stub (debug)")
 
 # Check required paths are configured and exist on disk.
-foreach(v CORELIB_BOOST_ROOT CORELIB_BOOST_LIB CORELIB_CEREAL_ROOT CORELIB_LOKI_ROOT)
+foreach(v CORELIB_BOOST_ROOT CORELIB_BOOST_LIB)
   if(NOT DEFINED ${v} OR "${${v}}" STREQUAL "")
     message(FATAL_ERROR "${v} is not set. Set env var ${v} or pass -D${v}=...")
   endif()
@@ -132,8 +128,6 @@ endif()
 # Include Paths
 target_include_directories(CoreLibrary PUBLIC
   "${CORELIB_BOOST_ROOT}"
-  "${CORELIB_LOKI_ROOT}"
-  "${CORELIB_CEREAL_ROOT}"
   Include
 )
 
