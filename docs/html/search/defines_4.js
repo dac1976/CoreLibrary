@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['typename_5fdecl_5f',['TYPENAME_DECL_',['../_platform_defines_8h.html#aab8ce52d305ed9aac07efb498766b5fb',1,'PlatformDefines.h']]]
+  ['no_5fexcept_5f_0',['NO_EXCEPT_',['../_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea',1,'PlatformDefines.h']]]
 ];

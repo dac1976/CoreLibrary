@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['samecontinent',['sameContinent',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aaf912756ce627b4ed5ae8a47a30fa965',1,'core_lib::asio::udp']]],
-  ['samehost',['sameHost',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aa1119b276d7e6d35b2e6b01590d5224d',1,'core_lib::asio::udp']]],
-  ['sameregion',['sameRegion',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afcbe0e1669da06dbae91a8521ac7f580',1,'core_lib::asio::udp']]],
-  ['samesite',['sameSite',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afb73801180f7ddc76f4bed0c7cfd8ded',1,'core_lib::asio::udp']]],
-  ['samesubnet',['sameSubnet',['../namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694a2377b5114c5f04e534f74eaaece0bac8',1,'core_lib::asio::udp']]],
-  ['scientific',['scientific',['../namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5a55a95650a66b53ecbb960b53d985b964',1,'core_lib::string_utils']]],
-  ['simplecells',['simpleCells',['../namespacecore__lib_1_1csv__grid.html#a0026f6a31705901d85aa70d58865720ea09ff6861a227c1d20c44a38a8be994b3',1,'core_lib::csv_grid']]]
+  ['nagleoff_0',['nagleOff',['../namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49aefa03b8faae7086af167105af50c3b67',1,'core_lib::asio::tcp']]],
+  ['nagleon_1',['nagleOn',['../namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b',1,'core_lib::asio::tcp']]],
+  ['noproblem_2',['NoProblem',['../class_loki_1_1_mutex_errors.html#acd0eb6065ca303083d2e0229d7bff590ae009e53bdca8c073b62350b8ba168bfd',1,'Loki::MutexErrors']]],
+  ['normal_3',['normal',['../namespacecore__lib_1_1string__utils.html#a97dbeadd3d77b8db0a9c7545cdc25fb5afea087517c26fadd409bd4b9dc642555',1,'core_lib::string_utils']]],
+  ['not_5fdefined_4',['not_defined',['../namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bca308178bc9cbd979f6e2e056175b76aba',1,'core_lib::log']]],
+  ['notinitialized_5',['NotInitialized',['../class_loki_1_1_mutex_errors.html#acd0eb6065ca303083d2e0229d7bff590a7786fe0c8d9915f431dd1e0996bdd8d6',1,'Loki::MutexErrors']]],
+  ['notlockedbythread_6',['NotLockedByThread',['../class_loki_1_1_mutex_errors.html#acd0eb6065ca303083d2e0229d7bff590a9c207e243d348ceb0b2fa0ae35d6ef4c',1,'Loki::MutexErrors']]],
+  ['notrecentlock_7',['NotRecentLock',['../class_loki_1_1_mutex_errors.html#acd0eb6065ca303083d2e0229d7bff590adec28907878d31a0a677006641ca4daa',1,'Loki::MutexErrors']]],
+  ['nullmutexpointer_8',['NullMutexPointer',['../class_loki_1_1_mutex_errors.html#acd0eb6065ca303083d2e0229d7bff590a2d63f5de1938a7708a3299ea25b186a3',1,'Loki::MutexErrors']]]
 ];

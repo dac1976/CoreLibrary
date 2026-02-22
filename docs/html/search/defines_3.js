@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['static_5fconstexpr_5f',['STATIC_CONSTEXPR_',['../_platform_defines_8h.html#a05d8f96bb92db37f4f27ee4c15c48c24',1,'PlatformDefines.h']]]
+  ['loki_5fthread_5flocal_0',['LOKI_THREAD_LOCAL',['../_level_mutex_8h.html#a8235533deec74e2a08322dd48eab5ab2',1,'LevelMutex.h']]]
 ];

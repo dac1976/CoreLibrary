@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['log_5flevel_5fdebug',['LOG_LEVEL_DEBUG',['../_debug_logging_8h.html#ab78f259a98092790c2c3280610b7838f',1,'DebugLogging.h']]]
+  ['emptystring_0',['emptyString',['../struct_generic_string_ref.html#a2f3946432e8f94608519ef910902dbca',1,'GenericStringRef']]],
+  ['end_5f_1',['end_',['../struct_memory_stream.html#a55fb302ba0492419757e3ba318c8c654',1,'MemoryStream']]]
 ];

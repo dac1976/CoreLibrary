@@ -1,8 +1,8 @@
 var namespacecore__lib_1_1sorting =
 [
     [ "Bubble", "classcore__lib_1_1sorting_1_1_bubble.html", "classcore__lib_1_1sorting_1_1_bubble" ],
-    [ "Bucket", "classcore__lib_1_1sorting_1_1_bucket.html", "classcore__lib_1_1sorting_1_1_bucket" ],
+    [ "Selection", "classcore__lib_1_1sorting_1_1_selection.html", "classcore__lib_1_1sorting_1_1_selection" ],
     [ "Insertion", "classcore__lib_1_1sorting_1_1_insertion.html", "classcore__lib_1_1sorting_1_1_insertion" ],
     [ "Quick", "classcore__lib_1_1sorting_1_1_quick.html", "classcore__lib_1_1sorting_1_1_quick" ],
-    [ "Selection", "classcore__lib_1_1sorting_1_1_selection.html", "classcore__lib_1_1sorting_1_1_selection" ]
+    [ "Bucket", "classcore__lib_1_1sorting_1_1_bucket.html", "classcore__lib_1_1sorting_1_1_bucket" ]
 ];

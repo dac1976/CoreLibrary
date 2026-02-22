@@ -1,0 +1,25 @@
+var polymorphic__impl_8hpp =
+[
+    [ "cereal::detail::PolymorphicCaster", "structcereal_1_1detail_1_1_polymorphic_caster.html", "structcereal_1_1detail_1_1_polymorphic_caster" ],
+    [ "cereal::detail::PolymorphicCasters", "structcereal_1_1detail_1_1_polymorphic_casters.html", "structcereal_1_1detail_1_1_polymorphic_casters" ],
+    [ "cereal::detail::PolymorphicVirtualCaster&lt; Base, Derived &gt;", "structcereal_1_1detail_1_1_polymorphic_virtual_caster.html", "structcereal_1_1detail_1_1_polymorphic_virtual_caster" ],
+    [ "cereal::detail::RegisterPolymorphicCaster&lt; Base, Derived &gt;", "structcereal_1_1detail_1_1_register_polymorphic_caster.html", "structcereal_1_1detail_1_1_register_polymorphic_caster" ],
+    [ "cereal::detail::binding_name&lt; T &gt;", "structcereal_1_1detail_1_1binding__name.html", null ],
+    [ "cereal::detail::OutputBindingMap&lt; Archive &gt;", "structcereal_1_1detail_1_1_output_binding_map.html", "structcereal_1_1detail_1_1_output_binding_map" ],
+    [ "cereal::detail::OutputBindingMap&lt; Archive &gt;::Serializers", "structcereal_1_1detail_1_1_output_binding_map_1_1_serializers.html", "structcereal_1_1detail_1_1_output_binding_map_1_1_serializers" ],
+    [ "cereal::detail::EmptyDeleter&lt; T &gt;", "structcereal_1_1detail_1_1_empty_deleter.html", null ],
+    [ "cereal::detail::InputBindingMap&lt; Archive &gt;", "structcereal_1_1detail_1_1_input_binding_map.html", "structcereal_1_1detail_1_1_input_binding_map" ],
+    [ "cereal::detail::InputBindingMap&lt; Archive &gt;::Serializers", "structcereal_1_1detail_1_1_input_binding_map_1_1_serializers.html", "structcereal_1_1detail_1_1_input_binding_map_1_1_serializers" ],
+    [ "cereal::detail::InputBindingCreator&lt; Archive, T &gt;", "structcereal_1_1detail_1_1_input_binding_creator.html", "structcereal_1_1detail_1_1_input_binding_creator" ],
+    [ "cereal::detail::OutputBindingCreator&lt; Archive, T &gt;", "structcereal_1_1detail_1_1_output_binding_creator.html", "structcereal_1_1detail_1_1_output_binding_creator" ],
+    [ "cereal::detail::OutputBindingCreator&lt; Archive, T &gt;::PolymorphicSharedPointerWrapper", "classcereal_1_1detail_1_1_output_binding_creator_1_1_polymorphic_shared_pointer_wrapper.html", "classcereal_1_1detail_1_1_output_binding_creator_1_1_polymorphic_shared_pointer_wrapper" ],
+    [ "cereal::detail::adl_tag", "structcereal_1_1detail_1_1adl__tag.html", null ],
+    [ "cereal::detail::create_bindings&lt; Archive, T &gt;", "structcereal_1_1detail_1_1create__bindings.html", null ],
+    [ "cereal::detail::instantiate_function&lt;&gt;", "structcereal_1_1detail_1_1instantiate__function.html", null ],
+    [ "cereal::detail::polymorphic_serialization_support&lt; Archive, T &gt;", "structcereal_1_1detail_1_1polymorphic__serialization__support.html", "structcereal_1_1detail_1_1polymorphic__serialization__support" ],
+    [ "cereal::detail::bind_to_archives&lt; T, Tag &gt;", "structcereal_1_1detail_1_1bind__to__archives.html", "structcereal_1_1detail_1_1bind__to__archives" ],
+    [ "CEREAL_BIND_TO_ARCHIVES", "polymorphic__impl_8hpp.html#a1287e4a45e8a9ce5d50d65c122d49d5f", null ],
+    [ "CEREAL_BIND_TO_ARCHIVES_UNUSED_FUNCTION", "polymorphic__impl_8hpp.html#a447a2becefa10fee587b8cd1d04c7dfc", null ],
+    [ "UNREGISTERED_POLYMORPHIC_CAST_EXCEPTION", "polymorphic__impl_8hpp.html#aebe09f7b847560c8d63b9224008001df", null ],
+    [ "cereal::detail::instantiate_polymorphic_binding", "polymorphic__impl_8hpp.html#a9c34d32da6bee20cb6609e78efc69174", null ]
+];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['trimmed',['trimmed',['../namespacecore__lib_1_1string__utils.html#a0fb4c4b3499c1255a675da40148c833ba853600aa75baac4ae4d3b794b574ecec',1,'core_lib::string_utils']]],
-  ['truncate',['truncate',['../namespacecore__lib_1_1csv__grid.html#aa271aa5490710bb67ad11d1776143edaa244f58cf07c35fd48d7524b289551e5c',1,'core_lib::csv_grid']]],
-  ['truncate_5ffile',['truncate_file',['../classcore__lib_1_1log_1_1_debug_log.html#a51affdd46da3c324ae68a39aeb6bd8b3a62c0624c153cd096a8ed03b95ff1c01c',1,'core_lib::log::DebugLog']]]
+  ['off_0',['off',['../namespacecore__lib_1_1asio_1_1tcp.html#aec579f12e1b17447f39393019020e1e9a3262d48df5d75e3452f0f16b313b7808',1,'core_lib::asio::tcp']]],
+  ['on_1',['on',['../namespacecore__lib_1_1asio_1_1tcp.html#aec579f12e1b17447f39393019020e1e9aed2b5c0139cec8ad2873829dc1117d50',1,'core_lib::asio::tcp']]],
+  ['othererror_2',['OtherError',['../class_loki_1_1_mutex_errors.html#acd0eb6065ca303083d2e0229d7bff590a7160943d5a3247df7515bd4005ce2d62',1,'Loki::MutexErrors']]]
 ];

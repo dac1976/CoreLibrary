@@ -1,66 +1,66 @@
 var _asio_defines_8h =
 [
-    [ "MessageHeader", "structcore__lib_1_1asio_1_1defs_1_1_message_header.html", "structcore__lib_1_1asio_1_1defs_1_1_message_header" ],
-    [ "ReceivedMessage", "structcore__lib_1_1asio_1_1defs_1_1_received_message.html", "structcore__lib_1_1asio_1_1defs_1_1_received_message" ],
+    [ "core_lib::asio::defs::MessageHeader", "structcore__lib_1_1asio_1_1defs_1_1_message_header.html", "structcore__lib_1_1asio_1_1defs_1_1_message_header" ],
+    [ "core_lib::asio::tcp::TcpConnSettings", "structcore__lib_1_1asio_1_1tcp_1_1_tcp_conn_settings.html", "structcore__lib_1_1asio_1_1tcp_1_1_tcp_conn_settings" ],
+    [ "core_lib::asio::tcp::SimpleTcpSettings", "structcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_settings.html", "structcore__lib_1_1asio_1_1tcp_1_1_simple_tcp_settings" ],
+    [ "core_lib::asio::serial::SerialPortSettings", "structcore__lib_1_1asio_1_1serial_1_1_serial_port_settings.html", null ],
+    [ "core_lib::asio::defs::ReceivedMessage&lt; Header &gt;", "structcore__lib_1_1asio_1_1defs_1_1_received_message.html", "structcore__lib_1_1asio_1_1defs_1_1_received_message" ],
     [ "boost_address_t", "_asio_defines_8h.html#a6634923ddaf710fc0fb61b4abedf2b08", null ],
     [ "boost_address_v4_t", "_asio_defines_8h.html#a982a3eac8458a893a8eb945e6a806f6d", null ],
-    [ "boost_iocontext_t", "_asio_defines_8h.html#a6ef00b5947c9d3b17d87177732a5f0da", null ],
     [ "boost_tcp_acceptor_t", "_asio_defines_8h.html#acecbffc83cf98042c0a8265a572528c1", null ],
     [ "boost_tcp_t", "_asio_defines_8h.html#a799e7bb3608a19bfc9869535331a641a", null ],
     [ "boost_udp_t", "_asio_defines_8h.html#a300d575a11a6b1d5ca130c32bc74fb70", null ],
-    [ "char_buffer_t", "_asio_defines_8h.html#ac0d2cc51a1514979427f39f885bbd4c1", null ],
-    [ "check_bytes_left_to_read_t", "_asio_defines_8h.html#a7b4d7caf2aca6aec1358aaefeb92d7e2", null ],
-    [ "connection_t", "_asio_defines_8h.html#a698ca0ae4f5699e35dbb9f4e0ed891d6", null ],
-    [ "default_message_dispatcher_t", "_asio_defines_8h.html#a3c16d0d1451e101c2c6d6d1f45761498", null ],
-    [ "default_received_message_ptr_t", "_asio_defines_8h.html#ac86e244471822fbceb1efb9e76024877", null ],
-    [ "default_received_message_t", "_asio_defines_8h.html#a3508b4ed831de019d93e07811fdf4093", null ],
-    [ "message_received_handler_t", "_asio_defines_8h.html#a08be01070c44a580bafb08424df14d28", null ],
-    [ "tcp_conn_ptr_t", "_asio_defines_8h.html#a76d404caf6e7b18437455f14d06ac6cb", null ],
-    [ "eArchiveType", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313", [
-      [ "portableBinary", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313ae6372e7369f0a79dff977a56d7b2ce2f", null ],
-      [ "binary", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a9d7183f16acce70658f686ae7f1a4d20", null ],
-      [ "json", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a466deec76ecdf5fca6d38571f6324d54", null ],
-      [ "xml", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a0f635d0e0f3874fff8b581c132e6c7a7", null ],
-      [ "raw", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb", null ],
-      [ "protobuf", "_asio_defines_8h.html#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2", null ]
+    [ "core_lib::asio::defs::char_buffer_t", "namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d", null ],
+    [ "core_lib::asio::defs::check_bytes_left_to_read_ex_t", "namespacecore__lib_1_1asio_1_1defs.html#ae6e1a7832a2869af738a2666d281527f", null ],
+    [ "core_lib::asio::defs::check_bytes_left_to_read_t", "namespacecore__lib_1_1asio_1_1defs.html#a662db48499822ec2c68c4e9c57eb595a", null ],
+    [ "core_lib::asio::defs::connection_t", "namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1", null ],
+    [ "core_lib::asio::defs::default_message_dispatcher_t", "namespacecore__lib_1_1asio_1_1defs.html#ab46e95fed38568fcdbc76e29fcffff05", null ],
+    [ "core_lib::asio::defs::default_received_message_ptr_t", "namespacecore__lib_1_1asio_1_1defs.html#a259becc59aa2ea5cf30eca9630d62c2e", null ],
+    [ "core_lib::asio::defs::default_received_message_t", "namespacecore__lib_1_1asio_1_1defs.html#a39c4a530d837ced946bf72498fbf31e4", null ],
+    [ "core_lib::asio::defs::message_received_handler_ex_t", "namespacecore__lib_1_1asio_1_1defs.html#a8612516d77529e6f89668a740f46b43e", null ],
+    [ "core_lib::asio::defs::message_received_handler_t", "namespacecore__lib_1_1asio_1_1defs.html#ac6372a5709c23c77100f258b5363a861", null ],
+    [ "core_lib::asio::defs::on_close_t", "namespacecore__lib_1_1asio_1_1defs.html#a108dd385a881ca2bfcd9226fa188731f", null ],
+    [ "core_lib::asio::defs::tcp_conn_ptr_t", "namespacecore__lib_1_1asio_1_1defs.html#ab83f61643ad5746e61b6b6b75bc9d3e4", null ],
+    [ "core_lib::asio::defs::eArchiveType", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313", [
+      [ "core_lib::asio::defs::eArchiveType::portableBinary", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313ae6372e7369f0a79dff977a56d7b2ce2f", null ],
+      [ "core_lib::asio::defs::eArchiveType::binary", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a9d7183f16acce70658f686ae7f1a4d20", null ],
+      [ "core_lib::asio::defs::eArchiveType::json", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a466deec76ecdf5fca6d38571f6324d54", null ],
+      [ "core_lib::asio::defs::eArchiveType::xml", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a0f635d0e0f3874fff8b581c132e6c7a7", null ],
+      [ "core_lib::asio::defs::eArchiveType::raw", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb", null ],
+      [ "core_lib::asio::defs::eArchiveType::protobuf", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2", null ]
     ] ],
-    [ "eDefaultUdpSize", "_asio_defines_8h.html#aeebf42fbff9d8aee0bc7460ad8dfdd6c", [
-      [ "DEFAULT_UDP_BUF_SIZE", "_asio_defines_8h.html#aeebf42fbff9d8aee0bc7460ad8dfdd6ca57fab38dd2cc825a1bf4cac1e99c0511", null ]
+    [ "core_lib::asio::udp::eDefaultUdpSize", "namespacecore__lib_1_1asio_1_1udp.html#aeebf42fbff9d8aee0bc7460ad8dfdd6c", null ],
+    [ "core_lib::asio::defs::eDefRecvPoolMsgSize", "namespacecore__lib_1_1asio_1_1defs.html#a6e53384104650800684b383a9db99099", null ],
+    [ "core_lib::asio::tcp::eDefReservedSize", "namespacecore__lib_1_1asio_1_1tcp.html#a8a67b46dfe65b7b004e95a7c85084f29", null ],
+    [ "core_lib::asio::tcp::eDefTcpConnectTimeout", "namespacecore__lib_1_1asio_1_1tcp.html#a2dab2fc13d1cc3015665d46d808e7e26", null ],
+    [ "core_lib::asio::tcp::eDefUnsentAsyncCount", "namespacecore__lib_1_1asio_1_1tcp.html#a035033ba85e9078eef842610865b6b54", null ],
+    [ "core_lib::asio::tcp::eKeepAliveOption", "namespacecore__lib_1_1asio_1_1tcp.html#aec579f12e1b17447f39393019020e1e9", [
+      [ "core_lib::asio::tcp::eKeepAliveOption::off", "namespacecore__lib_1_1asio_1_1tcp.html#aec579f12e1b17447f39393019020e1e9a3262d48df5d75e3452f0f16b313b7808", null ],
+      [ "core_lib::asio::tcp::eKeepAliveOption::on", "namespacecore__lib_1_1asio_1_1tcp.html#aec579f12e1b17447f39393019020e1e9aed2b5c0139cec8ad2873829dc1117d50", null ]
     ] ],
-    [ "eDefReservedSize", "_asio_defines_8h.html#a8a67b46dfe65b7b004e95a7c85084f29", [
-      [ "DEFAULT_RESERVED_SIZE", "_asio_defines_8h.html#a8a67b46dfe65b7b004e95a7c85084f29ae06f2cd9e4c4bb0b5539df063f6ff910", null ]
+    [ "core_lib::asio::defs::eMagicStringLen", "namespacecore__lib_1_1asio_1_1defs.html#a76e32fe4d4afed2186ed9deb475724b3", null ],
+    [ "core_lib::asio::defs::eMessageHeaderLen", "namespacecore__lib_1_1asio_1_1defs.html#a4d5013f81151c785df29aa24b69f9768", null ],
+    [ "core_lib::asio::udp::eMulticastTTL", "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694", [
+      [ "core_lib::asio::udp::eMulticastTTL::sameHost", "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aa1119b276d7e6d35b2e6b01590d5224d", null ],
+      [ "core_lib::asio::udp::eMulticastTTL::sameSubnet", "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694a2377b5114c5f04e534f74eaaece0bac8", null ],
+      [ "core_lib::asio::udp::eMulticastTTL::sameSite", "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afb73801180f7ddc76f4bed0c7cfd8ded", null ],
+      [ "core_lib::asio::udp::eMulticastTTL::sameRegion", "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afcbe0e1669da06dbae91a8521ac7f580", null ],
+      [ "core_lib::asio::udp::eMulticastTTL::sameContinent", "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aaf912756ce627b4ed5ae8a47a30fa965", null ],
+      [ "core_lib::asio::udp::eMulticastTTL::unrestricted", "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694a46d65a50d77f12b530d95db1e8b0e547", null ]
     ] ],
-    [ "eDefUnsentAsyncCount", "_asio_defines_8h.html#a035033ba85e9078eef842610865b6b54", [
-      [ "MAX_UNSENT_ASYNC_MSG_COUNT", "_asio_defines_8h.html#a035033ba85e9078eef842610865b6b54afb1be1dac3e7b3892f50eb2640f98a71", null ]
+    [ "core_lib::asio::defs::eRespAddressLen", "namespacecore__lib_1_1asio_1_1defs.html#accb28eaf579a18c8f12b7cacbee9e132", null ],
+    [ "core_lib::asio::tcp::eSendOption", "namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49", [
+      [ "core_lib::asio::tcp::eSendOption::nagleOff", "namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49aefa03b8faae7086af167105af50c3b67", null ],
+      [ "core_lib::asio::tcp::eSendOption::nagleOn", "namespacecore__lib_1_1asio_1_1tcp.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b", null ]
     ] ],
-    [ "eMagicStringLen", "_asio_defines_8h.html#a76e32fe4d4afed2186ed9deb475724b3", [
-      [ "MAGIC_STRING_LEN", "_asio_defines_8h.html#a76e32fe4d4afed2186ed9deb475724b3a4ff7bda3de11d6bb95d43ec132da27b8", null ]
+    [ "core_lib::asio::serial::eSerialBaudRate", "namespacecore__lib_1_1asio_1_1serial.html#ab0a40851c70f720f263f249b6fdd6631", null ],
+    [ "core_lib::asio::serial::eSerialCharSize", "namespacecore__lib_1_1asio_1_1serial.html#aa7c0df881526cf1156b7954c7f7a4d83", null ],
+    [ "core_lib::asio::serial::eSerialMessageBufSize", "namespacecore__lib_1_1asio_1_1serial.html#a24f33e446e59610b3f7e26935f5f1ee2", null ],
+    [ "core_lib::asio::udp::eUdpDatagramMaxSize", "namespacecore__lib_1_1asio_1_1udp.html#aa6c390d5802ea6b88e448abda9f63f3e", null ],
+    [ "core_lib::asio::udp::eUdpOption", "namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7", [
+      [ "core_lib::asio::udp::eUdpOption::broadcast", "namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37", null ],
+      [ "core_lib::asio::udp::eUdpOption::unicast", "namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7aeebe0851cda7f85aeef4229567441a2d", null ]
     ] ],
-    [ "eMessageHeaderLen", "_asio_defines_8h.html#a4d5013f81151c785df29aa24b69f9768", [
-      [ "MESSAGE_HEADER_LEN", "_asio_defines_8h.html#a4d5013f81151c785df29aa24b69f9768a7d88564f37bab0b750d1fcab858e5cc2", null ]
-    ] ],
-    [ "eMulticastTTL", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694", [
-      [ "sameHost", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694aa1119b276d7e6d35b2e6b01590d5224d", null ],
-      [ "sameSubnet", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694a2377b5114c5f04e534f74eaaece0bac8", null ],
-      [ "sameSite", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694afb73801180f7ddc76f4bed0c7cfd8ded", null ],
-      [ "sameRegion", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694afcbe0e1669da06dbae91a8521ac7f580", null ],
-      [ "sameContinent", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694aaf912756ce627b4ed5ae8a47a30fa965", null ],
-      [ "unrestricted", "_asio_defines_8h.html#a5b9232b21696edda8f20507150e5c694a46d65a50d77f12b530d95db1e8b0e547", null ]
-    ] ],
-    [ "eRespAddressLen", "_asio_defines_8h.html#accb28eaf579a18c8f12b7cacbee9e132", [
-      [ "RESPONSE_ADDRESS_LEN", "_asio_defines_8h.html#accb28eaf579a18c8f12b7cacbee9e132a4211b31a6549e187d1ecb33f7c46979c", null ]
-    ] ],
-    [ "eSendOption", "_asio_defines_8h.html#abde0c9ddb16aef41d4babcd4a3b33a49", [
-      [ "nagleOff", "_asio_defines_8h.html#abde0c9ddb16aef41d4babcd4a3b33a49aefa03b8faae7086af167105af50c3b67", null ],
-      [ "nagleOn", "_asio_defines_8h.html#abde0c9ddb16aef41d4babcd4a3b33a49a1cd8976fe8f55be26f4ffe456f101d0b", null ]
-    ] ],
-    [ "eUdpDatagramMaxSize", "_asio_defines_8h.html#aa6c390d5802ea6b88e448abda9f63f3e", [
-      [ "UDP_DATAGRAM_MAX_SIZE", "_asio_defines_8h.html#aa6c390d5802ea6b88e448abda9f63f3ea6c14a2792449afbdcfe81f18bb970fe1", null ]
-    ] ],
-    [ "eUdpOption", "_asio_defines_8h.html#a9a7c6b341a0c58d700d5dff54c9a5af7", [
-      [ "broadcast", "_asio_defines_8h.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37", null ],
-      [ "unicast", "_asio_defines_8h.html#a9a7c6b341a0c58d700d5dff54c9a5af7aeebe0851cda7f85aeef4229567441a2d", null ]
-    ] ],
-    [ "DEFAULT_MAGIC_STRING", "_asio_defines_8h.html#a8c8a1638bc2fd93ff3310beac91241d5", null ],
-    [ "NULL_CONNECTION", "_asio_defines_8h.html#af7512945de1835baa4dd56f3f268e922", null ]
+    [ "core_lib::asio::defs::DEFAULT_MAGIC_STRING", "namespacecore__lib_1_1asio_1_1defs.html#a8c8a1638bc2fd93ff3310beac91241d5", null ],
+    [ "core_lib::asio::defs::NULL_CONNECTION", "namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922", null ]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['header_5ft',['header_t',['../structcore__lib_1_1asio_1_1defs_1_1_received_message.html#a173bfb47e0d2514900c2452141f40fb2',1,'core_lib::asio::defs::ReceivedMessage']]]
+  ['field_5ft_0',['field_t',['../class_loki_1_1_safe_bit_const.html#afc37803aa81f3704a2cef0ece9e8948c',1,'Loki::SafeBitConst']]],
+  ['functortype_1',['FunctorType',['../class_loki_1_1_function_storage.html#ae72e07ed847e973c97f8ab1e035f827a',1,'Loki::FunctionStorage']]]
 ];

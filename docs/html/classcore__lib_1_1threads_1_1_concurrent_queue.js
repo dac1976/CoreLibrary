@@ -1,6 +1,7 @@
 var classcore__lib_1_1threads_1_1_concurrent_queue =
 [
     [ "container_type", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a1146e87353baead8d86048cd3f6f2a7e", null ],
+    [ "value_type", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a60f6f55c29a48c94fe8ab818789847a7", null ],
     [ "eQueueEnd", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66", [
       [ "front", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66ae6ec529ba185279aa0adcf93e645c7cd", null ],
       [ "back", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a2cdf8c31f8359021a9fdbf3a10d46c66a469bba0a564235dfceede42db14f17b0", null ]
@@ -13,16 +14,16 @@ var classcore__lib_1_1threads_1_1_concurrent_queue =
     [ "Clear", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a3dad5b5d8a631dbe9151432494144e90", null ],
     [ "Clear", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a76c957659057cc6adcaa6e4c6aeb433b", null ],
     [ "Empty", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a03344656e7e1eedeea32a16d2695990c", null ],
-    [ "operator=", "classcore__lib_1_1threads_1_1_concurrent_queue.html#acb24f09bc37cc42ba84391d7a57d6d52", null ],
-    [ "operator=", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a2661fda65eae9fb59b4e09db03b6490b", null ],
-    [ "Peek", "classcore__lib_1_1threads_1_1_concurrent_queue.html#ad050498c1ce8652fed6c70bc607c17b0", null ],
+    [ "operator=", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a746dc753b5b19d44070a5629b3680b21", null ],
+    [ "operator=", "classcore__lib_1_1threads_1_1_concurrent_queue.html#abf092b79ea664d0240f12c3b4456bdb3", null ],
+    [ "Peek", "classcore__lib_1_1threads_1_1_concurrent_queue.html#af01b8dd5060cc5b9df83aa13526b80bd", null ],
     [ "Pop", "classcore__lib_1_1threads_1_1_concurrent_queue.html#ab0739eb098119d7db6a3e78eb35c2cf2", null ],
     [ "PopBack", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a69a808f24042f3f48be0fd94b67ca5e4", null ],
     [ "PopFront", "classcore__lib_1_1threads_1_1_concurrent_queue.html#ac30195c516adef0e3d84759b051bf5bd", null ],
     [ "PopNow", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a283c60060231a49bc3a7c8e6afcb06f6", null ],
     [ "PopThrow", "classcore__lib_1_1threads_1_1_concurrent_queue.html#aa005fa06cdf70eca7c2f2187811b2a84", null ],
-    [ "Push", "classcore__lib_1_1threads_1_1_concurrent_queue.html#afc992f1ab10e46088b4190437a5e36b6", null ],
-    [ "Push", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a9b6e58f6cf7a554eb7838875c74e59c9", null ],
+    [ "Push", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a1975dc74437943d6e5e36e3672dd4b89", null ],
+    [ "Push", "classcore__lib_1_1threads_1_1_concurrent_queue.html#af863b4ea1d4a6cc882c59c9ff3bd2621", null ],
     [ "Size", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a71a86f55f3471566151aef7e9eee5ccd", null ],
     [ "TakeAll", "classcore__lib_1_1threads_1_1_concurrent_queue.html#af860cec5b94be5c143d4df77a7caa39f", null ],
     [ "TimedPop", "classcore__lib_1_1threads_1_1_concurrent_queue.html#a2e80977a24adce8baf939a395a975f19", null ],

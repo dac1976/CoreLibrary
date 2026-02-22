@@ -1,0 +1,27 @@
+var classcereal_1_1rapidxml_1_1xml__node =
+[
+    [ "xml_node", "classcereal_1_1rapidxml_1_1xml__node.html#a25ae04fcedb7389538e5d89e88e10626", null ],
+    [ "append_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#a05bf89007b74958dae21a0d61cfa7211", null ],
+    [ "append_node", "classcereal_1_1rapidxml_1_1xml__node.html#a91205d7450ff44bdcfce8ce0b2a3dd1c", null ],
+    [ "document", "classcereal_1_1rapidxml_1_1xml__node.html#a841667d0791c1ac96e0ffd2cb2349405", null ],
+    [ "first_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#a577d34c59794147d57bb68187a7bd78a", null ],
+    [ "first_node", "classcereal_1_1rapidxml_1_1xml__node.html#aeb38e338fd97ce5ebddb9117e23eb005", null ],
+    [ "insert_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#a122107fb5923b8150865be5baef3abf8", null ],
+    [ "insert_node", "classcereal_1_1rapidxml_1_1xml__node.html#a08e5564d5f78cdda53c556c6c5e1cb25", null ],
+    [ "last_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#a32fa9b00c18feba3af04727e84a52ec3", null ],
+    [ "last_node", "classcereal_1_1rapidxml_1_1xml__node.html#a12e12202a4f2f04c93652c3ec4cb34da", null ],
+    [ "next_sibling", "classcereal_1_1rapidxml_1_1xml__node.html#ac4753f534d63ec6c959ff856c4df63a3", null ],
+    [ "prepend_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#adf9aa7b49b993da98ae67e92bd1fa8be", null ],
+    [ "prepend_node", "classcereal_1_1rapidxml_1_1xml__node.html#aec84137f1ba54d56a6640fb6ca9c1981", null ],
+    [ "previous_sibling", "classcereal_1_1rapidxml_1_1xml__node.html#aa325d439feb7906f45b0446a5905e03f", null ],
+    [ "remove_all_attributes", "classcereal_1_1rapidxml_1_1xml__node.html#ac4c5a2c3e84209078745615bca9477f6", null ],
+    [ "remove_all_nodes", "classcereal_1_1rapidxml_1_1xml__node.html#a69ba605ddd4a61eb1ce2e939697744e8", null ],
+    [ "remove_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#af0dfb4af1f261cbd1ebdae0162e4d811", null ],
+    [ "remove_first_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#acc3cc45d6da22e758e8615c73f744e40", null ],
+    [ "remove_first_node", "classcereal_1_1rapidxml_1_1xml__node.html#a829e892bf99eda845a8ad26dcaecfcff", null ],
+    [ "remove_last_attribute", "classcereal_1_1rapidxml_1_1xml__node.html#ab6c543c835847a4d8ef481990812dbde", null ],
+    [ "remove_last_node", "classcereal_1_1rapidxml_1_1xml__node.html#acf0106c2226cf70cc3ce1fdcd5d55a54", null ],
+    [ "remove_node", "classcereal_1_1rapidxml_1_1xml__node.html#a4352645d438680c382afd76dad177e45", null ],
+    [ "type", "classcereal_1_1rapidxml_1_1xml__node.html#ab5ace349c6e769a0e5c8b27b7896ae53", null ],
+    [ "type", "classcereal_1_1rapidxml_1_1xml__node.html#ac3ef17c2becb52dc1b53d00900f64854", null ]
+];
