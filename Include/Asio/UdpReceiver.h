@@ -51,54 +51,82 @@ class CORE_LIBRARY_DLL_SHARED_API UdpReceiver final
 public:
     /*! \brief Default constructor - deleted. */
     UdpReceiver() = delete;
+    /*! \brief Deleted copy constructor. */
+    UdpReceiver(const UdpReceiver&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    UdpReceiver& operator=(const UdpReceiver&) = delete;
+    /*! \brief Deleted move constructor. */
+    UdpReceiver(UdpReceiver&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    UdpReceiver& operator=(UdpReceiver&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
-     * disptaching it accordingly.
-     * \param[in] receiveOptions - Socket receive option to control the use of broadcasts/unicast.
-     * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly.
+     * \param[in] receiveOptions - Socket receive option to control
+     * the use of broadcasts/unicast.
+     * \param[in] receiveBufferSize - Socket receive option to
+     * control receive buffer size.
+     * \param[in] listenAddress - Specific NIC IP address to bind the socket to,
+     * empty string will bind to all NICs
+     * \param[in] messageReceivedHandlerEx - Special callback for when socket is used for special
+     * use cases where the message handler needs the endpoint details passed to it. If this is
+     * defined then you ideally would set messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be exectued
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be executed
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    UdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
-                const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                const defs::message_received_handler_t& messageReceivedHandler,
-                eUdpOption                              receiveOptions    = eUdpOption::broadcast,
-                size_t                                  receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
+    UdpReceiver(asio_compat::io_service_t& ioService, 
+	         uint16_t listenPort,
+			 defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+			 defs::message_received_handler_t const& messageReceivedHandler,
+			 eUdpOption receiveOptions = eUdpOption::broadcast,
+			 size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
+			 std::string const& listenAddress     = "",
+			 defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+			 defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
      * \param[in] checkBytesLeftToRead - Function object capable of decoding the message and
      * computing how many bytes are left until a complete message.
-     * \param[in] messageReceivedHandler - Function object cpable of handling a received message and
-     * disptaching it accordingly.
-     * \param[in] receiveOptions - Socket receive option to control the use of broadcasts/unicast.
-     * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
+     * \param[in] messageReceivedHandler - Function object capable of handling a received message
+     * and dispatching it accordingly.
+     * \param[in] receiveOptions - Socket receive option to control
+     * the use of broadcasts/unicast.
+     * \param[in] receiveBufferSize - Socket receive option to
+     * control receive buffer size.
+     * \param[in] listenAddress - Specific NIC IP address to bind the socket to,
+     * empty string will bind to all NICs
+     * \param[in] messageReceivedHandlerEx - Special callback for when socket is used for special
+     * use cases where the message handler needs the endpoint details passed to it. If this is
+     * defined then you ideally would set messageReceivedHandler = {}.
+     * \param[in] checkBytesLeftToReadEx - Function object capable of decoding the message and
+     * computing how many bytes are left until a complete message. Extended to take endpoint
+     * details.
      *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommened.
+     * external IO service constructor is recommended.
      */
-    UdpReceiver(uint16_t listenPort, const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                const defs::message_received_handler_t& messageReceivedHandler,
-                eUdpOption                              receiveOptions    = eUdpOption::broadcast,
-                size_t                                  receiveBufferSize = DEFAULT_UDP_BUF_SIZE);
-    /*! \brief Copy constructor - deleted. */
-    UdpReceiver(const UdpReceiver&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    UdpReceiver& operator=(const UdpReceiver&) = delete;
-    /*! \brief Move constructor - deleted. */
-    UdpReceiver(UdpReceiver&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    UdpReceiver& operator=(UdpReceiver&&) = delete;
+    UdpReceiver(uint16_t listenPort, 
+	         defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+			 defs::message_received_handler_t const& messageReceivedHandler,
+			 eUdpOption receiveOptions = eUdpOption::broadcast,
+			 size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
+			 std::string const& listenAddress = "",
+			 defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
+			 defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
     /*! \brief Destructor. */
     ~UdpReceiver();
     /*!
@@ -106,6 +134,12 @@ public:
      * \return The listen port.
      */
     uint16_t ListenPort() const;
+    /*!
+     * \brief Retrieve this receiver's listen address.
+     * \return The listen address.
+     */
+    std::string ListenAddress() const;
+
     /*! \brief Close the socket. */
     void CloseSocket();
 
@@ -124,42 +158,41 @@ private:
      * \param[in] bytesReceived - Number of bytes received.
      */
     void ReadComplete(const boost_sys::error_code& error, size_t bytesReceived);
+    /*! \brief Are we closing. */
+    bool Closing() const NO_EXCEPT_;
     /*!
-     * \brief Set closing state.
-     * \param[in] closing - Closing socket flag.
+     * \brief Set closing.
+     * \param[in] close - True or false to set if closing.
      */
-    void SetClosing(bool closing);
-    /*!
-     * \brief Get closing state.
-     * \return True if closing socket, false otherwise.
-     */
-    bool IsClosing() const;
-    /*! \brief Process asynchronous close socket. */
-    void ProcessCloseSocket();
+    void SetClosing(bool close) NO_EXCEPT_;
 
 private:
     /*! \brief Mutex to protect shutdown of receiver. */
     mutable std::mutex m_closingMutex;
-    /*! \brief Event to synchronise shutdown of receiver. */
-    threads::SyncEvent m_closedEvent{};
     /*! \brief Flag to show were are closing socket. */
     bool m_closing{false};
-    /*! \brief I/O context thread group. */
+    /*! \brief Close event. */
+    SyncEvent m_closeEvent;
+    /*! \brief I/O service thread group. */
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
-    /*! \brief I/O context strand. */
-    boost_iocontext_t::strand m_strand;
+    /*! \brief I/O service strand. */
+    asio_compat::strand_t m_strand;
     /*! \brief Receiver listen port. */
     uint16_t m_listenPort{0};
+    /*! \brief Receiver listen address. */
+    std::string m_listenAddress{};
     /*! \brief Callback to check number of bytes left to read. */
-    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead{};
+    defs::check_bytes_left_to_read_t m_checkBytesLeftToRead;
+    /*! \brief Callback to check number of bytes left to read. */
+    defs::check_bytes_left_to_read_ex_t m_checkBytesLeftToReadEx;
     /*! \brief Callback to handle received message. */
-    defs::message_received_handler_t m_messageReceivedHandler{};
+    defs::message_received_handler_t m_messageReceivedHandler;
+    /*! \brief Callback to pass endpoint details to message handler. */
+    defs::message_received_handler_ex_t m_messageReceivedHandlerEx;
     /*! \brief Socket receive buffer. */
-    defs::char_buffer_t m_receiveBuffer{};
-    /*! \brief Message buffer. */
-    defs::char_buffer_t m_messageBuffer{};
+    defs::char_buffer_t m_receiveBuffer;
     /*! \brief Sender end-point. */
-    boost_udp_t::endpoint m_senderEndpoint{};
+    boost_udp_t::endpoint m_senderEndpoint;
     /*! \brief UDP socket. */
     boost_udp_t::socket m_socket;
 };

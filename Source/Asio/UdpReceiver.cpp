@@ -24,8 +24,12 @@
  * \brief File containing UDP receiver class definition.
  */
 
-#include "Asio/UdpReceiver.h"
+#include "UdpReceiver.h"
 #include <boost/bind.hpp>
+#if defined(USE_SOCKET_DEBUG)
+#include <boost/exception/all.hpp>
+#include "DebugLog/DebugLogging.h"
+#endif
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -37,35 +41,54 @@ namespace asio
 namespace udp
 {
 
+CONSTEXPR_ uint32_t CLOSE_WAIT_MS = 1000;
+
 // ****************************************************************************
 // 'class UdpReceiver' definition
 // ****************************************************************************
-UdpReceiver::UdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
-                         const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                         const defs::message_received_handler_t& messageReceivedHandler,
-                         eUdpOption receiveOptions, size_t receiveBufferSize)
-    : m_strand(ioContext)
+UdpReceiver::UdpReceiver(asio_compat::io_service_t& ioService, 
+                    uint16_t listenPort,
+					defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+					defs::message_received_handler_t const& messageReceivedHandler,
+					eUdpOption receiveOptions, size_t receiveBufferSize,
+					std::string const& listenAddress,
+					defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
+					defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
+    : m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
+                   eIntialCondition::notSignalled)
+    , m_strand(asio_compat::make_strand(ioService))
     , m_listenPort{listenPort}
+    , m_listenAddress{listenAddress}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_checkBytesLeftToReadEx(checkBytesLeftToReadEx)
     , m_messageReceivedHandler{messageReceivedHandler}
+    , m_messageReceivedHandlerEx(messageReceivedHandlerEx)
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
-    , m_socket{ioContext}
+    , m_socket{ioService}
 {
     CreateUdpSocket(receiveOptions, receiveBufferSize);
 }
 
-UdpReceiver::UdpReceiver(uint16_t                                listenPort,
-                         const defs::check_bytes_left_to_read_t& checkBytesLeftToRead,
-                         const defs::message_received_handler_t& messageReceivedHandler,
-                         eUdpOption receiveOptions, size_t receiveBufferSize)
-    : m_ioThreadGroup{new IoContextThreadGroup(1)}
+UdpReceiver::UdpReceiver(uint16_t listenPort,
+                    defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
+                    defs::message_received_handler_t const& messageReceivedHandler,
+                    eUdpOption receiveOptions, size_t receiveBufferSize,
+                    std::string const& listenAddress,
+                    defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
+                    defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
+    : m_closeEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
+                   eIntialCondition::notSignalled)
+    , m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
-    , m_strand(m_ioThreadGroup->IoContext())
+    , m_strand(asio_compat::make_strand(m_ioThreadGroup->IoService()))
     , m_listenPort{listenPort}
+    , m_listenAddress{listenAddress}
     , m_checkBytesLeftToRead{checkBytesLeftToRead}
+    , m_checkBytesLeftToReadEx(checkBytesLeftToReadEx)
     , m_messageReceivedHandler{messageReceivedHandler}
+    , m_messageReceivedHandlerEx(messageReceivedHandlerEx)
     , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
-    , m_socket{m_ioThreadGroup->IoContext()}
+    , m_socket{m_ioThreadGroup->IoService()}
 {
     CreateUdpSocket(receiveOptions, receiveBufferSize);
 }
@@ -80,27 +103,56 @@ uint16_t UdpReceiver::ListenPort() const
     return m_listenPort;
 }
 
+std::string UdpReceiver::ListenAddress() const
+{
+    return m_listenAddress;
+}
+
 void UdpReceiver::CloseSocket()
 {
+    SetClosing(true);
+
     if (!m_socket.is_open())
     {
         return;
     }
 
-    SetClosing(true);
+    try
+    {
+        m_socket.shutdown(m_socket.shutdown_both);
+    }
+    catch (...)
+    {
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("Error shutting down sends and receives for socket, error: "
+                           << boost::current_exception_diagnostic_information());
+#endif
+        // Do nothing consume error.
+    }
 
-    boost_asio::post(m_strand, boost::bind(&UdpReceiver::ProcessCloseSocket, this));
+    try
+    {
+        m_socket.close();
+    }
+    catch (...)
+    {
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR(
+            "Error closing socket, error: " << boost::current_exception_diagnostic_information());
+#endif
+        // Do nothing consume error.
+    }
 
-    m_closedEvent.Wait();
+    // Wait for socket to finish closing so we don't have a race
+    // condition in ReadComplete.
+
+    m_closeEvent.WaitForTime(CLOSE_WAIT_MS);
+    m_closeEvent.Reset();
 }
 
 void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBufferSize)
 {
-    m_messageBuffer.reserve(UDP_DATAGRAM_MAX_SIZE);
-
-    boost_udp_t::endpoint receiveEndpoint(boost_udp_t::v4(), m_listenPort);
-
-    m_socket.open(receiveEndpoint.protocol());
+    m_socket.open(boost_udp_t::v4());
 
     boost_udp_t::socket::reuse_address reuseAddrOption(receiveOptions == eUdpOption::broadcast);
     m_socket.set_option(reuseAddrOption);
@@ -109,34 +161,48 @@ void UdpReceiver::CreateUdpSocket(eUdpOption receiveOptions, size_t receiveBuffe
         static_cast<int>(receiveBufferSize));
     m_socket.set_option(receiveBufOption);
 
+    auto receiveEndpoint =
+        m_listenAddress.empty()
+            ? boost_udp_t::endpoint(boost_udp_t::v4(), m_listenPort)
+            : boost_udp_t::endpoint(asio_compat::make_address(m_listenAddress), m_listenPort);
+
     m_socket.bind(receiveEndpoint);
 
-    boost_asio::post(m_strand, boost::bind(&UdpReceiver::StartAsyncRead, this));
+    StartAsyncRead();
 }
 
 void UdpReceiver::StartAsyncRead()
 {
-    if (IsClosing())
-    {
-        return;
-    }
-
-    m_messageBuffer.clear();
+    // This won't be expensive to resize as we initially sized it in constructor.
+    // We need to set back to full datagram size again after a read because we always
+    // clear the buffer down after a read.
+    m_receiveBuffer.resize(UDP_DATAGRAM_MAX_SIZE);
 
     m_socket.async_receive_from(
         boost_asio::buffer(m_receiveBuffer),
         m_senderEndpoint,
-        boost::asio::bind_executor(m_strand,
-                                   boost::bind(&UdpReceiver::ReadComplete,
-                                               this,
-                                               boost_placeholders::error,
-                                               boost_placeholders::bytes_transferred)));
+        asio_compat::wrap(m_strand,
+                          boost::bind(&UdpReceiver::ReadComplete,
+                                      this,
+                                      boost_placeholders::error,
+                                      boost_placeholders::bytes_transferred)));
 }
 
 void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesReceived)
 {
-    if (IsClosing() || error)
+    if (error)
     {
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("ReadComplete called but error reported: "
+                               << error.message() << ", on connection: " << m_listenAddress << ":"
+                               << m_listenPort);
+#endif
+
+        if (Closing())
+        {
+            m_closeEvent.Signal();
+        }
+
         // This will be because we are closing our socket.
         return;
     }
@@ -145,57 +211,87 @@ void UdpReceiver::ReadComplete(const boost_sys::error_code& error, size_t bytesR
 
     try
     {
-        std::copy(m_receiveBuffer.begin(),
-                  std::next(m_receiveBuffer.begin(), static_cast<int32_t>(bytesReceived)),
-                  std::back_inserter(m_messageBuffer));
+        // NOTE: Boost UDP sockets only ever give complete datagrams
+        // to user level code so we do not need to handle partial reads
+        // from the socket like we have to do with TCP. No need for double
+        // buffering like we need for TCP version.
+        //
+        // Initially before read we pass the socket the receive buffer at max
+        // datagram size. Need to efficiently truncate the receive buffer to
+        // actual num bytes received.
+        m_receiveBuffer.resize(bytesReceived);
 
-        const size_t numBytesLeft = m_checkBytesLeftToRead(m_messageBuffer);
+        size_t numBytesLeft = 0;
+
+        if (m_checkBytesLeftToReadEx)
+        {
+            numBytesLeft = m_checkBytesLeftToReadEx(
+                m_receiveBuffer, m_senderEndpoint.address().to_string(), m_senderEndpoint.port());
+        }
+        else
+        {
+            if (m_checkBytesLeftToRead)
+            {
+                numBytesLeft = m_checkBytesLeftToRead(m_receiveBuffer);
+            }
+        }
 
         if (numBytesLeft == 0)
         {
-            m_messageReceivedHandler(m_messageBuffer);
+            // Ideally only one of m_messageReceivedHandler or m_messageReceivedHandlerEx should
+            // be defined at any one time.
+
+            if (m_messageReceivedHandlerEx)
+            {
+                m_messageReceivedHandlerEx(m_receiveBuffer,
+                                           m_senderEndpoint.address().to_string(),
+                                           m_senderEndpoint.port());
+            }
+            else
+            {
+                if (m_messageReceivedHandler)
+                {
+                    m_messageReceivedHandler(m_receiveBuffer);
+                }
+            }
+
+            clearMsgBuf = true;
+        }
+        else if (std::numeric_limits<size_t>::max() == numBytesLeft)
+        {
+            // We have a problem.
             clearMsgBuf = true;
         }
     }
     catch (...)
     {
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR(
+            "Error in ReadComplete, error: " << boost::current_exception_diagnostic_information());
+#endif
         // Nothing to do here for now.
         clearMsgBuf = true;
     }
 
     if (clearMsgBuf)
     {
-        m_messageBuffer.clear();
+        m_receiveBuffer.clear();
     }
-
-    boost_asio::post(m_strand, boost::bind(&UdpReceiver::StartAsyncRead, this));
+    StartAsyncRead();
 }
 
-void UdpReceiver::SetClosing(bool closing)
+bool UdpReceiver::Closing() const NO_EXCEPT_
 {
     std::lock_guard<std::mutex> lock(m_closingMutex);
-    m_closing = closing;
-}
 
-bool UdpReceiver::IsClosing() const
-{
-    std::lock_guard<std::mutex> lock(m_closingMutex);
     return m_closing;
 }
 
-void UdpReceiver::ProcessCloseSocket()
+void UdpReceiver::SetClosing(bool close) NO_EXCEPT_
 {
-    try
-    {
-        m_socket.shutdown(m_socket.shutdown_both);
-        m_socket.close();
-    }
-    catch (...)
-    {
-        // Consume error...do nothing.
-    }
+    std::lock_guard<std::mutex> lock(m_closingMutex);
 
-    m_closedEvent.Signal();
+    m_closing = close;
 }
 
 } // namespace udp
