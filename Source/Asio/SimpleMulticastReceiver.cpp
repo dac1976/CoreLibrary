@@ -37,41 +37,50 @@ namespace udp
 {
 
 SimpleMulticastReceiver::SimpleMulticastReceiver(
-    boost_iocontext_t& ioContext, const defs::connection_t& multicastConnection,
+    asio_compat::io_service_t& ioService, 
+	const defs::connection_t& multicastConnection,
     const defs::default_message_dispatcher_t& messageDispatcher,
-    const std::string& interfaceAddress, size_t receiveBufferSize, size_t memPoolMsgCount,
+    const std::string& interfaceAddress, 
+	size_t receiveBufferSize, 
+	size_t memPoolMsgCount,
     size_t recvPoolMsgSize)
     : m_messageHandler{messageDispatcher,
-                       defs::DEFAULT_MAGIC_STRING,
-                       memPoolMsgCount,
-                       recvPoolMsgSize}
-    , m_mcastReceiver{ioContext,
-                      multicastConnection,
-                      std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
-                                std::placeholders::_1),
-                      std::bind(&messages::MessageHandler::MessageReceivedHandler,
-                                &m_messageHandler, std::placeholders::_1),
-                      interfaceAddress,
-                      receiveBufferSize}
+				   defs::DEFAULT_MAGIC_STRING,
+				   memPoolMsgCount,
+				   recvPoolMsgSize}
+    , m_mcastReceiver{ioService,
+				  multicastConnection,
+				  std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
+							std::placeholders::_1),
+				  std::bind(&messages::MessageHandler::MessageReceivedHandler,
+							&m_messageHandler, std::placeholders::_1),
+				  interfaceAddress,
+				  receiveBufferSize,
+				  defs::message_received_handler_ex_t(),
+				  defs::check_bytes_left_to_read_ex_t()}
 {
 }
 
 SimpleMulticastReceiver::SimpleMulticastReceiver(
-    const defs::connection_t&                 multicastConnection,
+    const defs::connection_t& multicastConnection,
     const defs::default_message_dispatcher_t& messageDispatcher,
-    const std::string& interfaceAddress, size_t receiveBufferSize, size_t memPoolMsgCount,
+    const std::string& interfaceAddress, 
+	size_t receiveBufferSize, 
+	size_t memPoolMsgCount,
     size_t recvPoolMsgSize)
     : m_messageHandler{messageDispatcher,
-                       defs::DEFAULT_MAGIC_STRING,
-                       memPoolMsgCount,
-                       recvPoolMsgSize}
+				   defs::DEFAULT_MAGIC_STRING,
+				   memPoolMsgCount,
+				   recvPoolMsgSize}
     , m_mcastReceiver{multicastConnection,
-                      std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
-                                std::placeholders::_1),
-                      std::bind(&messages::MessageHandler::MessageReceivedHandler,
-                                &m_messageHandler, std::placeholders::_1),
-                      interfaceAddress,
-                      receiveBufferSize}
+				  std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
+							std::placeholders::_1),
+				  std::bind(&messages::MessageHandler::MessageReceivedHandler,
+							&m_messageHandler, std::placeholders::_1),
+				  interfaceAddress,
+				  receiveBufferSize,
+				  defs::message_received_handler_ex_t(),
+				  defs::check_bytes_left_to_read_ex_t()}
 {
 }
 

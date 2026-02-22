@@ -49,9 +49,17 @@ class CORE_LIBRARY_DLL_SHARED_API SimpleMulticastReceiver final
 public:
     /*! \brief Default constructor - deleted. */
     SimpleMulticastReceiver() = delete;
+    /*! \brief Deleted copy constructor. */
+    SimpleMulticastReceiver(const SimpleMulticastReceiver&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    SimpleMulticastReceiver& operator=(const SimpleMulticastReceiver&) = delete;
+    /*! \brief Deleted move constructor. */
+    SimpleMulticastReceiver(SimpleMulticastReceiver&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    SimpleMulticastReceiver& operator=(SimpleMulticastReceiver&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] multicastConnection - Connection object describing target multicast group address
      * and port.
      * \param[in] messageDispatcher - Callback to use to dispatch received messages.
@@ -63,23 +71,23 @@ public:
      *                              when memPoolMsgCount > 0.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
-     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * in the dispatcher to use process the messages as quickly as possibly so the pool
      * doesn't fill and start overwriting older messages. If the messages need to be kept
      * then it is the dispatchers job to make a suitable copy of the received message.
      */
-    SimpleMulticastReceiver(boost_iocontext_t&                        ioContext,
-                            const defs::connection_t&                 multicastConnection,
-                            const defs::default_message_dispatcher_t& messageDispatcher,
-                            const std::string&                        interfaceAddress = "",
-                            size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-                            size_t memPoolMsgCount   = 0,
-                            size_t recvPoolMsgSize   = defs::RECV_POOL_DEFAULT_MSG_SIZE);
+    SimpleMulticastReceiver(asio_compat::io_service_t& ioService,
+						const defs::connection_t& multicastConnection,
+						const defs::default_message_dispatcher_t& messageDispatcher,
+						const std::string& interfaceAddress = "",
+						size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
+						size_t memPoolMsgCount = 0,
+						size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address
@@ -92,31 +100,23 @@ public:
      * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
      *                              when memPoolMsgCount > 0.
      *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommended.
+     * external IO service constructor is recommended.
      *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
-     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * in the dispatcher to use process the messages as quickly as possibly so the pool
      * doesn't fill and start overwriting older messages. If the messages need to be kept
      * then it is the dispatchers job to make a suitable copy of the received message.
      */
-    SimpleMulticastReceiver(const defs::connection_t&                 multicastConnection,
-                            const defs::default_message_dispatcher_t& messageDispatcher,
-                            const std::string&                        interfaceAddress = "",
-                            size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-                            size_t memPoolMsgCount   = 0,
-                            size_t recvPoolMsgSize   = defs::RECV_POOL_DEFAULT_MSG_SIZE);
-    /*! \brief Copy constructor - deleted. */
-    SimpleMulticastReceiver(const SimpleMulticastReceiver&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    SimpleMulticastReceiver& operator=(SimpleMulticastReceiver&&) = delete;
-    /*! \brief Move constructor - deleted. */
-    SimpleMulticastReceiver(SimpleMulticastReceiver&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    SimpleMulticastReceiver& operator=(const SimpleMulticastReceiver&) = delete;
+    SimpleMulticastReceiver(const defs::connection_t& multicastConnection,
+						const defs::default_message_dispatcher_t& messageDispatcher,
+						const std::string& interfaceAddress = "",
+						size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
+						size_t memPoolMsgCount = 0,
+						size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*! \brief Default destructor. */
     ~SimpleMulticastReceiver() = default;
     /*!
@@ -131,8 +131,8 @@ public:
     std::string InterfaceAddress() const;
 
 private:
-    /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
-    messages::MessageHandler m_messageHandler{};
+    /*! \brief Default message handler object of type asio::messages::MessageHandler. */
+    messages::MessageHandler m_messageHandler;
     /*! \brief Our actual typed multicast receiver object. */
     MulticastReceiver m_mcastReceiver;
 };
