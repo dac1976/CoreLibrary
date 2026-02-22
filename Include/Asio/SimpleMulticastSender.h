@@ -46,9 +46,17 @@ class CORE_LIBRARY_DLL_SHARED_API SimpleMulticastSender final
 public:
     /*! \brief Default constructor - deleted. */
     SimpleMulticastSender() = delete;
+    /*! \brief Deleted copy constructor. */
+    SimpleMulticastSender(const SimpleMulticastSender&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    SimpleMulticastSender& operator=(const SimpleMulticastSender&) = delete;
+    /*! \brief Deleted move constructor. */
+    SimpleMulticastSender(SimpleMulticastSender&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    SimpleMulticastSender& operator=(SimpleMulticastSender&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] multicastConnection - Connection object describing target multicast group address
      * and port.
      * \param[in] interfaceAddress - Optional interface IP address for outgoing network messages.
@@ -57,15 +65,16 @@ public:
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
+     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleMulticastSender(boost_iocontext_t&        ioContext,
-                          const defs::connection_t& multicastConnection,
-                          const std::string& interfaceAddress = "", bool enableLoopback = true,
-                          eMulticastTTL ttl            = eMulticastTTL::sameSubnet,
-                          size_t        sendBufferSize = DEFAULT_UDP_BUF_SIZE);
+    SimpleMulticastSender(asio_compat::io_service_t& ioService,
+					  const defs::connection_t& multicastConnection,
+					  const std::string& interfaceAddress = "", 
+					  bool enableLoopback = true,
+					  int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
+					  size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
      * \brief Initialisation constructor.
      * \param[in] multicastConnection - Connection object describing target multicast group address
@@ -76,23 +85,15 @@ public:
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
+     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     explicit SimpleMulticastSender(const defs::connection_t& multicastConnection,
-                                   const std::string&        interfaceAddress = "",
-                                   bool                      enableLoopback   = true,
-                                   eMulticastTTL             ttl = eMulticastTTL::sameSubnet,
-                                   size_t                    sendBufferSize = DEFAULT_UDP_BUF_SIZE);
-    /*! \brief Copy constructor - deleted. */
-    SimpleMulticastSender(const SimpleMulticastSender&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    SimpleMulticastSender& operator=(const SimpleMulticastSender&) = delete;
-    /*! \brief Move constructor - deleted. */
-    SimpleMulticastSender(SimpleMulticastSender&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    SimpleMulticastSender& operator=(SimpleMulticastSender&&) = delete;
+						     const std::string& interfaceAddress = "",
+						     bool enableLoopback   = true,
+						     int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
+						     size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*! \brief Default destructor. */
     ~SimpleMulticastSender() = default;
     /*!
@@ -113,8 +114,8 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(int32_t                   messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    bool SendMsg(int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a header plus message buffer to the receiver.
      * \param[in] message - The message buffer.
@@ -124,8 +125,9 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const defs::char_buffer_t& message, int32_t messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    bool SendMsg(const defs::char_buffer_t& message, 
+	           int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a full message to the server.
      * \param[in] message - The message of type T to send behind the header serialized to an
@@ -137,28 +139,22 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message, int32_t messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(const T& message, 
+	           int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
-        return m_multicastTypedSender.SendMessage<T, A>(message, messageId, responseAddress);
+        return m_multicastTypedSender.SendMsg<T, A>(message, messageId, responseAddress);
     }
     /*!
      * \brief Send a message buffer to the receiver.
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const defs::char_buffer_t& message);
-    /*!
-     * \brief Send a message buffer to the receiver.
-     * \param[in] message - The message buffer pointer.
-     * \param[in] message - The message buffer size in bytes.
-     * \return Returns the success state of the send as a boolean.
-     */
-    bool SendMessage(const char* message, size_t length);
+    bool SendMsg(const defs::char_buffer_t& message);
 
 private:
-    /*! \brief Default message builder object of type core_lib::asio::messages::MessageBuilder. */
-    messages::MessageBuilder m_messageBuilder{};
+    /*! \brief Default message builder object of type hgl::asio::messages::MessageBuilder. */
+    messages::MessageBuilder m_messageBuilder;
     /*! \brief Our actual typed Multicast sender object. */
     MulticastTypedSender<messages::MessageBuilder> m_multicastTypedSender;
 };

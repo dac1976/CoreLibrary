@@ -36,12 +36,13 @@ namespace asio
 namespace udp
 {
 
-SimpleMulticastSender::SimpleMulticastSender(boost_iocontext_t&        ioContext,
-                                             const defs::connection_t& multicastConnection,
-                                             const std::string&        interfaceAddress,
-                                             bool enableLoopback, eMulticastTTL ttl,
-                                             size_t sendBufferSize)
-    : m_multicastTypedSender{ioContext,
+SimpleMulticastSender::SimpleMulticastSender(asio_compat::io_service_t& ioService,
+									 const defs::connection_t&  multicastConnection,
+									 const std::string& interfaceAddress,
+									 bool enableLoopback, 
+									 int32_t ttl,
+									 size_t sendBufferSize)
+    : m_multicastTypedSender{ioService,
                              multicastConnection,
                              m_messageBuilder,
                              interfaceAddress,
@@ -52,9 +53,10 @@ SimpleMulticastSender::SimpleMulticastSender(boost_iocontext_t&        ioContext
 }
 
 SimpleMulticastSender::SimpleMulticastSender(const defs::connection_t& multicastConnection,
-                                             const std::string&        interfaceAddress,
-                                             bool enableLoopback, eMulticastTTL ttl,
-                                             size_t sendBufferSize)
+									 const std::string& interfaceAddress,
+									 bool enableLoopback, 
+									 int32_t ttl,
+									 size_t sendBufferSize)
     : m_multicastTypedSender{multicastConnection,
                              m_messageBuilder,
                              interfaceAddress,
@@ -74,26 +76,22 @@ std::string SimpleMulticastSender::InterfaceAddress() const
     return m_multicastTypedSender.InterfaceAddress();
 }
 
-bool SimpleMulticastSender::SendMessage(int32_t                   messageId,
-                                        const defs::connection_t& responseAddress)
+bool SimpleMulticastSender::SendMsg(int32_t messageId, 
+                             const defs::connection_t& responseAddress)
 {
-    return m_multicastTypedSender.SendMessage(messageId, responseAddress);
+    return m_multicastTypedSender.SendMsg(messageId, responseAddress);
 }
 
-bool SimpleMulticastSender::SendMessage(const defs::char_buffer_t& message, int32_t messageId,
-                                        const defs::connection_t& responseAddress)
+bool SimpleMulticastSender::SendMsg(const defs::char_buffer_t& message, 
+                              int32_t messageId,
+                              const defs::connection_t& responseAddress)
 {
-    return m_multicastTypedSender.SendMessage(message, messageId, responseAddress);
+    return m_multicastTypedSender.SendMsg(message, messageId, responseAddress);
 }
 
-bool SimpleMulticastSender::SendMessage(const defs::char_buffer_t& message)
+bool SimpleMulticastSender::SendMsg(const defs::char_buffer_t& message)
 {
-    return m_multicastTypedSender.SendMessage(message);
-}
-
-bool SimpleMulticastSender::SendMessage(const char* message, size_t length)
-{
-    return m_multicastTypedSender.SendMessage(message, length);
+    return m_multicastTypedSender.SendMsg(message);
 }
 
 } // namespace udp
