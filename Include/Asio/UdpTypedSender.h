@@ -124,7 +124,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMsg(int32_t                   messageId,
-                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
         return m_udpSender.SendMsg(m_messageBuilder.Build(messageId, responseAddress));
@@ -138,57 +138,13 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message, int32_t messageId,
-                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(const defs::char_buffer_t& message, 
+	           int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
         return m_udpSender.SendMsg(m_messageBuilder.Build(message, messageId, responseAddress));
     }
-
-    /*!
-     * \brief Send a header plus message buffer to the receiver.
-     * \param[in] message - The message buffer.
-     * \param[in] messageLength - The message buffer length (so header excluded).
-     * \param[in] messageCommand - Unique message command ID to insert into message header
-     * \param[in] msgID - message ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
-     * the response, the default value will mean the response address will point to this client
-     * socket.
-     * \return Returns the success state of the send as a boolean.
-     */
-    bool SendMsg(const char* message, size_t messageLength, int32_t messageCommand, int32_t msgID,
-                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-    {
-        std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_udpSender.SendMsg(m_messageBuilder.Build(message,
-                                                          messageLength,
-                                                          messageCommand,
-                                                          msgID,
-                                                          0, // packet ID
-                                                          responseAddress));
-    }
-
-    /*!
-     * \brief Send a header plus message buffer to the receiver.
-     * \param[in] message - The message buffer.
-     * \param[in] messageLength - The message buffer length (so header excluded).
-     * \param[in] messageCommand - Unique message command ID to insert into message header
-     * \param[in] msgID - message ID to insert into message header.
-     * \param[in] packetID - packet ID to insert into message header.
-     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
-     * the response, the default value will mean the response address will point to this client
-     * socket.
-     * \return Returns the success state of the send as a boolean.
-     */
-    bool SendMsg(const char* message, size_t messageLength, int32_t messageCommand, int32_t msgID,
-                 int32_t                   packetID,
-                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
-    {
-        std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_udpSender.SendMsg(m_messageBuilder.Build(
-            message, messageLength, messageCommand, msgID, packetID, responseAddress));
-    }
-
     /*!
      * \brief Send a full message to the server.
      * \param[in] message - The message of type T to send behind the header serialized to an
@@ -200,8 +156,9 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMsg(const T& message, int32_t messageId,
-                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(const T& message, 
+	           int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
         return m_udpSender.SendMsg(

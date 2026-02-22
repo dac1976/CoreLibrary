@@ -45,7 +45,7 @@ namespace udp
  *
  * The template argument defines a message builder object that
  * must have an interface compatible with that of the class
- * core_lib::asio::messages::MessageBuilder.
+ * asio::messages::MessageBuilder.
  *
  * This class forms the underpinnings of the SimpleMulticastSender class.
  *
@@ -57,9 +57,17 @@ template <typename MsgBldr> class MulticastTypedSender final
 public:
     /*! \brief Default constructor - deleted. */
     MulticastTypedSender() = delete;
+    /*! \brief Deleted copy constructor. */
+    MulticastTypedSender(const MulticastTypedSender&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    MulticastTypedSender& operator=(const MulticastTypedSender&) = delete;
+    /*! \brief Deleted move constructor. */
+    MulticastTypedSender(MulticastTypedSender&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    MulticastTypedSender& operator=(MulticastTypedSender&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] multicastConnection - Connection object describing target multicast group address
      * and port.
      * \param[in] interfaceAddress - Optional interface IP address for outgoing network messages.
@@ -69,18 +77,20 @@ public:
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    MulticastTypedSender(boost_iocontext_t&        ioContext,
-                         const defs::connection_t& multicastConnection,
-                         const MsgBldr& messageBuilder, const std::string& interfaceAddress = "",
-                         bool enableLoopback = true, eMulticastTTL ttl = eMulticastTTL::sameSubnet,
-                         size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+    MulticastTypedSender(asio_compat::io_service_t& ioService,
+					 const defs::connection_t&  multicastConnection,
+					 const MsgBldr& messageBuilder, 
+					 const std::string& interfaceAddress = "",
+					 bool enableLoopback = true,
+					 int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
+					 size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
         : m_messageBuilder{messageBuilder}
         , m_multicastSender{
-              ioContext, multicastConnection, interfaceAddress, enableLoopback, ttl, sendBufferSize}
+              ioService, multicastConnection, interfaceAddress, enableLoopback, ttl, sendBufferSize}
     {
     }
     /*!
@@ -94,27 +104,21 @@ public:
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     MulticastTypedSender(const defs::connection_t& multicastConnection,
-                         const MsgBldr& messageBuilder, const std::string& interfaceAddress = "",
-                         bool enableLoopback = true, eMulticastTTL ttl = eMulticastTTL::sameSubnet,
-                         size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
+					 const MsgBldr& messageBuilder, 
+					 const std::string& interfaceAddress = "",
+					 bool enableLoopback = true,
+					 int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
+					 size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
         : m_messageBuilder{messageBuilder}
         , m_multicastSender{
               multicastConnection, interfaceAddress, enableLoopback, ttl, sendBufferSize}
     {
     }
-    /*! \brief Copy constructor - deleted. */
-    MulticastTypedSender(const MulticastTypedSender&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    MulticastTypedSender& operator=(const MulticastTypedSender&) = delete;
-    /*! \brief Move constructor - deleted. */
-    MulticastTypedSender(MulticastTypedSender&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    MulticastTypedSender& operator=(MulticastTypedSender&&) = delete;
     /*! \brief Default destructor. */
     ~MulticastTypedSender() = default;
     /*!
@@ -141,11 +145,11 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(int32_t                   messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_multicastSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
+        return m_multicastSender.SendMsg(m_messageBuilder.Build(messageId, responseAddress));
     }
     /*!
      * \brief Send a header plus message buffer to the receiver.
@@ -156,11 +160,12 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const defs::char_buffer_t& message, int32_t messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(const defs::char_buffer_t& message, 
+	           int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_multicastSender.SendMessage(
+        return m_multicastSender.SendMsg(
             m_messageBuilder.Build(message, messageId, responseAddress));
     }
     /*!
@@ -174,11 +179,12 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message, int32_t messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(const T& message, 
+	           int32_t messageId,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_multicastSender.SendMessage(
+        return m_multicastSender.SendMsg(
             m_messageBuilder.template Build<T, A>(message, messageId, responseAddress));
     }
     /*!
@@ -186,19 +192,10 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const defs::char_buffer_t& message)
+    bool SendMsg(const defs::char_buffer_t& message)
     {
-        return m_multicastSender.SendMessage(message);
-    }
-    /*!
-     * \brief Send a raw message buffer to the receiver.
-     * \param[in] message - The message buffer pointer.
-     * \param[in] message - The message buffer size in bytes.
-     * \return Returns the success state of the send as a boolean.
-     */
-    bool SendMessage(const char* message, size_t length)
-    {
-        return m_multicastSender.SendMessage(message, length);
+        // Do not need mutex here as we're not using the m_messageBuilder.
+        return m_multicastSender.SendMsg(message);
     }
 
 private:
