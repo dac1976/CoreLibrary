@@ -19,7 +19,7 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
-#include "String/StringUtils.h"
+#include "StringUtils/StringUtils.h"
 #if defined(NOT_USING_BOOST_LOCALE)
 #if (_MSC_VER >= 1800) || defined(__clang__) || defined(__GNUC__)
 #include <locale>

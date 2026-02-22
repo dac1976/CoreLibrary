@@ -78,37 +78,21 @@ template <typename P> struct ArrayDeleter
 /*!
  * \brief Class defining a concurrent queue.
  *
- * This class implements a fully thread-safe queue that can be
- * used with single/multiple producer thread(s) and single/multiple
- * consumer thread(s).
+ * This class implements a fully thread-safe queue, that can be
+ * used as single/multiple producer and single/multiple consumer,
+ * in any combination.
  *
  * It is up to the caller to make sure individual queue items
- * get deallocated correctly. Preferably by using RAII objects
- * as queue items or wrapping  underlying data in std::shared_ptr
- * (using a custom deallocator if necessary - see example custom
- * deleters: SingleItemDeleter and ArrayDeleter).
+ * get deallocated correctly. Preferable by using RAII objects
+ * or wrapping in std::shared_ptr (using a custom deallocator if
+ * necessary).
  *
- * The template T must be a copyable and movable type.
+ * The template T must be to a copyable and movable type.
  */
 template <typename T> class ConcurrentQueue final
 {
-	/*! \brief Enumeration controlling end of queue to pop from. */
-    enum class eQueueEnd
-    {
-        /*! \brief Pop front of the queue. */
-        front,
-        /*! \brief Pop back of the queue. */
-        back
-    };
-	
 public:
-    /*! \brief Typedef for container type. */
-    using container_type = std::deque<T>;
-    /*! \brief Typedef for paramteter type. */
-    using value_type = T;
-    /*!
-     * \brief Default constructor.
-     */
+    /*! \brief Default constructor. */
     ConcurrentQueue() = default;
     /*! \brief Copy constructor deleted.*/
     ConcurrentQueue(const ConcurrentQueue&) = delete;
@@ -122,9 +106,10 @@ public:
      * \brief Destructor
      *
      * If the queue items aren't RAII-like objects and so don't
-     * manager their own memory then make sure you call the
+     * manage their own memory then make sure you call the
      * second Clear method, defined later, that takes a
-     * deleter functor to tidy up the memory of each queue item.
+     * deleter functor to tidy up the memory of each queue item
+     * and do this before destructing the ConcurrentQueue.
      */
     ~ConcurrentQueue() = default;
     /*!
@@ -148,6 +133,8 @@ public:
     /*!
      * \brief Push an item onto the queue.
      * \param[in] item - Object of type T to push onto queue.
+     * \param[out] optQueueSize - optional argument to retrieve current queue size after inserting
+     * this message.
      *
      * The arg item must be moveable either implicitly or by
      * passing it to Push wrapped in a std::move() and item
@@ -157,35 +144,59 @@ public:
      * It is preferred to use this version when performance
      * matters as move semantics are enforced.
      */
-    void Push(T&& item)
+    void Push(T&& item, size_t* optQueueSize = nullptr)
     {
         {
             std::lock_guard<std::mutex> lock{m_mutex};
             m_queue.emplace_back(std::move(item));
+
+            if (nullptr != optQueueSize)
+            {
+                *optQueueSize = m_queue.size();
+            }
         }
 
         m_itemEvent.Signal();
     }
+
+    void Put(T&& item, size_t* optQueueSize = nullptr)
+    {
+        Push(std::forward<T>(item), optQueueSize);
+    }
+
     /*!
      * \brief Push an item onto the queue.
      * \param[in] item - Object of type T to push onto queue.
+     * \param[out] optQueueSize - optional argument to retrieve current queue size after inserting
+     * this message.
      *
      * Use this version only when you want to push a copy of
-     * the item arg onto the innternal queue because maybe
+     * the item arg onto the internal queue because maybe
      * you want to use item afterwards.
      *
      * This option is not as efficient as the first version
      * of Push because move semantics are not enforced.
      */
-    void Push(const T& item)
+    void Push(const T& item, size_t* optQueueSize = nullptr)
     {
         {
             std::lock_guard<std::mutex> lock{m_mutex};
             m_queue.emplace_back(item);
+
+            if (nullptr != optQueueSize)
+            {
+                *optQueueSize = m_queue.size();
+            }
         }
 
         m_itemEvent.Signal();
     }
+
+    void Put(const T& item, size_t* optQueueSize = nullptr)
+    {
+        Push(item, optQueueSize);
+    }
+
     /*!
      * \brief Break out of waiting on a Pop method.
      *
@@ -211,12 +222,12 @@ public:
     }
     /*!
      * \brief Pop an item off the queue if there are any else wait.
-     * \param[out] item - The popped item, only valid if returns true.
+     * \param[out] item - The popped item, only valid if no exception is thrown.
      *
      * Method will block forever or until an item is placed on the
      * queue.
      *
-     * This will throw std::runtime_error if there are no items
+     * This will throw xQueuePopQueueEmptyError if there are no items
      * on the queue when called.
      */
     void PopThrow(T& item)
@@ -225,13 +236,17 @@ public:
 
         if (!PopNow(item))
         {
-            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
+            throw std::runtime_error("queue is empty");
         }
     }
     /*!
      * \brief Pop an item off the queue if there are any else return.
      * \param[out] item - The popped item, only valid if returns true.
      * \return True if item popped off queue, false otherwise.
+     *
+     * This is a non-blocking function and is useful if spinning
+     * round in a timer checking the queue. You can just keep
+     * calling this on each timer tick.
      */
     bool TryPop(T& item)
     {
@@ -241,21 +256,25 @@ public:
      * \brief Pop an item off the queue.
      * \param[out] item - The popped item.
      *
-     * This will throw std::runtime_error if there are no items
+     * This is a non-blocking function and is useful if spinning
+     * round in a timer checking the queue. You can just keep
+     * calling this on each timer tick.
+     *
+     * This will throw xQueuePopQueueEmptyError if there are no items
      * on the queue when called.
      */
     void TryPopThrow(T& item)
     {
         if (!PopNow(item))
         {
-            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
+            throw std::runtime_error("queue is empty");
         }
     }
     /*!
      * \brief Pop an item off the queue but only wait for a given amount of time.
      * \param[in] timeoutMilliseconds - Amount of time to wait.
      * \param[out] item - The popped item, only valid if returns true.
-     * \return True if item popped successfully, false if timed out.
+     * \return True if item popped successfully, false if timed out or nothing to pop.
      */
     bool TimedPop(unsigned int timeoutMilliseconds, T& item)
     {
@@ -274,18 +293,18 @@ public:
      * \param[out] item - The popped item.
      *
      * If no items have been put onto the queue after the specified amount to time
-     * then a std::runtime_error exception is throw.
+     * then a xQueuePopTimeoutError exception is throw.
      */
     void TimedPopThrow(unsigned int timeoutMilliseconds, T& item)
     {
         if (!m_itemEvent.WaitForTime(timeoutMilliseconds))
         {
-            BOOST_THROW_EXCEPTION(std::runtime_error("item event timed out"));
+            throw std::runtime_error("timed out");
         }
 
         if (!PopNow(item))
         {
-            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
+            throw std::runtime_error("queue is empty");
         }
     }
     /*!
@@ -301,14 +320,14 @@ public:
      * \brief Steal an item from the back of the queue.
      * \param[out] item - The stolen item.
      *
-     * This will throw std::runtime_error if there are no items
+     * This will throw xQueuePopQueueEmptyError if there are no items
      * on the queue when called.
      */
     void TryStealThrow(T& item)
     {
         if (!PopNow(item, eQueueEnd::back))
         {
-            BOOST_THROW_EXCEPTION(std::runtime_error("no item to pop"));
+            throw std::runtime_error("queue is empty");
         }
     }
     /*!
@@ -337,7 +356,7 @@ public:
      * \brief Clear the queue.
      *
      * If this method is called while a thread is blocking on
-     * the item event then due to interleving of calls and mutex
+     * the item event then due to interleaving of calls and mutex
      * lock timings this may cause the list to be cleared before
      * a waiting pop function has had a chance to pop anything from
      * the queue. This is safe but what it means is the pop function
@@ -355,17 +374,17 @@ public:
      *                      up after themselves then you can pass in a suitable
      *                      deleter to delete each queue item.
      *
-     * It is also expected that the queue items are raw pointers.
+     * It is also expected in this case that the queue items are raw pointers.
      *
      * If this method is called while a thread is blocking on
-     * the item event then due to interleving of calls and mutex
+     * the item event then due to interleaving of calls and mutex
      * lock timings this may cause the list to be cleared before
      * a waiting pop function has had a chance to pop anything from
      * the queue. This is safe but what it means is the pop function
      * will not find anything to pop and will either throw or return
      * false to indicate that nothing was popped off the queue.
      */
-    template <typename F> void Clear(F&& deleter)
+    template <typename F> void Clear(F deleter)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
 
@@ -376,11 +395,15 @@ public:
 
         m_queue.clear();
     }
+    /*! \brief Typedef for container type. */
+    using container_type = std::deque<T>;
+    /*! \brief Typedef for paramteter type. */
+    using value_type = T;
     /*!
      * \brief Take all items from the queue and return them, thus clearing down the internal queue.
      *
      * If this method is called while a thread is blocking on
-     * the item event then due to interleving of calls and mutex
+     * the item event then due to interleaving of calls and mutex
      * lock timings this may cause the list to be cleared before
      * a waiting pop function has had a chance to pop anything from
      * the queue. This is safe but what it means is the pop function
@@ -389,7 +412,7 @@ public:
      */
     container_type TakeAll()
     {
-        container_type q{};
+        container_type q;
 
         {
             std::lock_guard<std::mutex> lock{m_mutex};
@@ -400,16 +423,33 @@ public:
     }
 
 private:
+    /*! \brief Synchronization mutex. */
+    mutable std::mutex m_mutex;
+    /*! \brief Synchronization event. */
+    SyncEvent m_itemEvent{
+        eNotifyType::signalOneThread, eResetCondition::manualReset, eIntialCondition::notSignalled};
+    /*! \brief Underlying deque container acting as the queue. */
+    container_type m_queue;
+
+    /*! \brief Enumeration controlling end of queue to pop from. */
+    enum class eQueueEnd
+    {
+        /*! \brief Pop front of the queue. */
+        front,
+        /*! \brief Pop back of the queue. */
+        back
+    };
+
     /*!
      * \brief Pop an item off the queue.
      * \param[out] item - Item popped off queue.
-     * \param[out] whichEnd - WHich end of queue tp pop from.
+     * \param[out] whichEnd - Which end of queue tp pop from.
      * \return True if not empty, false if queue empty.
      */
     bool PopNow(T& item, eQueueEnd whichEnd = eQueueEnd::front)
     {
         std::lock_guard<std::mutex> lock{m_mutex};
-        auto                        isEmpty = m_queue.empty();
+        const bool                  isEmpty = m_queue.empty();
 
         if (!isEmpty)
         {
@@ -450,15 +490,6 @@ private:
         item = std::move(m_queue.back());
         m_queue.pop_back();
     }
-
-private:
-    /*! \brief Synchronization mutex. */
-    mutable std::mutex m_mutex;
-    /*! \brief Synchronization event. */
-    SyncEvent m_itemEvent{
-        eNotifyType::signalOneThread, eResetCondition::manualReset, eIntialCondition::notSignalled};
-    /*! \brief Underlying deque container acting as the queue. */
-    container_type m_queue{};
 };
 
 } // namespace threads

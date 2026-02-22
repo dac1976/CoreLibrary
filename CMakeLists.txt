@@ -45,16 +45,12 @@ foreach(v CORELIB_BOOST_ROOT CORELIB_BOOST_LIB CORELIB_CEREAL_ROOT CORELIB_LOKI_
   endif()
 endforeach()
 
-
-
-# Find packages
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  find_package(Threads REQUIRED)
-endif()
+# Find packages (safe on all platforms)
+find_package(Threads REQUIRED)
 
 # Define the module
 add_library(CoreLibrary
-  Source/Threads/DeadlineTime.cpp
+  Source/Threads/DeadlineTimer.cpp
   Source/Threads/EventThread.cpp
   Source/Threads/SyncEvent.cpp
   Source/Threads/ThreadBase.cpp
@@ -96,8 +92,8 @@ add_library(CoreLibrary
 
 # Public preprocessor options
 target_compile_definitions(CoreLibrary PRIVATE
-  $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,STATIC_LIBRARY>:CORE_LIBRARY_LIB=1>
-  $<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,SHARED_LIBRARY>:CORE_LIBRARY_DLL=1>
+  $<$<STREQUAL:$<TARGET_PROPERTY:CoreLibrary,TYPE>,STATIC_LIBRARY>:CORE_LIBRARY_LIB=1>
+  $<$<STREQUAL:$<TARGET_PROPERTY:CoreLibrary,TYPE>,SHARED_LIBRARY>:CORE_LIBRARY_DLL=1>
 )
 
 target_compile_definitions(CoreLibrary PUBLIC
@@ -115,52 +111,56 @@ target_compile_definitions(CoreLibrary PUBLIC
 )
 
 if(MSVC)
-  target_compile_options(CoreLibrary PUBLIC 
+  target_compile_options(CoreLibrary PUBLIC
     /wd4251 /wd4275 /wd4100 /wd4068 /bigobj
   )
-  
-  target_compile_definitions(CoreLibrary PUBLIC 
+  target_compile_definitions(CoreLibrary PUBLIC
     _CRT_SECURE_NO_WARNINGS
   )
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-  target_compile_options(CoreLibrary PUBLIC 
+  target_compile_options(CoreLibrary PUBLIC
     -Wno-unknown-pragmas
-	-Wno-cast-function-type
-	-Wno-deprecated-declarations
-	-Wno-trigraphs
+    -Wno-cast-function-type
+    -Wno-deprecated-declarations
+    -Wno-trigraphs
   )
 endif()
 
 # Include Paths
 target_include_directories(CoreLibrary PUBLIC
-  "${CORELIB_BOOST_ROOT}"  
-  "${CORELIB_LOKI_ROOT}/include"
-  "${CORELIB_CEREAL_ROOT}/include"
+  "${CORELIB_BOOST_ROOT}"
+  "${CORELIB_LOKI_ROOT}"
+  "${CORELIB_CEREAL_ROOT}"
   Include
 )
 
-# Keep the directories private
-#target_link_directories(CoreLibrary PRIVATE
-#  "${CORELIB_BOOST_LIB}"
-#)
+# --- Generator-expression helpers ---
+set(_CORELIB_WIN   "$<PLATFORM_ID:Windows>")
+set(_CORELIB_LINUX "$<PLATFORM_ID:Linux>")
+set(_CORELIB_DBG   "$<CONFIG:Debug>")
+set(_CORELIB_REL   "$<IN_LIST:$<CONFIG>,Release;RelWithDebInfo;MinSizeRel>")
+set(_CORELIB_NEED_BOOST_FS "$<NOT:$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>>")
 
-# Linking Dependencies publicly
 target_link_libraries(CoreLibrary PUBLIC
-  $<$<PLATFORM_ID:Linux>:${CORELIB_BOOST_LIB}/libboost_system.a>
-  $<$<PLATFORM_ID:Linux>:${CORELIB_BOOST_LIB}/libboost_thread.a>
-  $<$<PLATFORM_ID:Linux>:${CORELIB_BOOST_LIB}/libboost_locale.a>
-  $<$<AND:$<PLATFORM_ID:Linux>,$<NOT:$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>>>:${CORELIB_BOOST_LIB}/libboost_filesystem.a>
-  $<$<PLATFORM_ID:Linux>:${CORELIB_BOOST_LIB}/libboost_program_options.a>
-  $<$<PLATFORM_ID:Linux>:Threads::Threads>    
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Release;RelWithDebInfo;MinSizeRel>:${CORELIB_BOOST_LIB}/libboost_system-vc143-mt-x64-1_85.lib>>
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Release;RelWithDebInfo;MinSizeRel>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-x64-1_85.lib>>
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Release;RelWithDebInfo;MinSizeRel>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-x64-1_85.lib>>
-  $<$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Release;RelWithDebInfo;MinSizeRel>,$<NOT:$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>>>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-x64-1_85.lib>>
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Release;RelWithDebInfo;MinSizeRel>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-x64-1_85.lib>>	
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Debug>:${CORELIB_BOOST_LIB}/libboost_system-vc143-mt-gd-x64-1_85.lib>>
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Debug>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-gd-x64-1_85.lib>>
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Debug>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-gd-x64-1_85.lib>>
-  $<$<AND:$<PLATFORM_ID:Windows>,$<CONFIG:Debug>,$<NOT:$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>>>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-gd-x64-1_85.lib>>
-  $<$<PLATFORM_ID:Windows>:$<$<CONFIG:Debug>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-gd-x64-1_85.lib>>
-)
+  # Linux
+  $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_system.a>
+  $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_thread.a>
+  $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_locale.a>
+  $<$<AND:${_CORELIB_LINUX},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem.a>
+  $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_program_options.a>
+  $<${_CORELIB_LINUX}:Threads::Threads>
 
+  # Windows Release-ish
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_system-vc143-mt-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-x64-1_85.lib>
+
+  # Windows Debug
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_system-vc143-mt-gd-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-gd-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-gd-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-gd-x64-1_85.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-gd-x64-1_85.lib>
+)

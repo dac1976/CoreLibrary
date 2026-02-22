@@ -1042,7 +1042,7 @@ private:
     /*! \brief Pointer to buffer to copy log into.*/
     std::vector<char>* m_logBufPtr{nullptr};
     /*! \brief Event to signal when log has been copied to buffer.*/
-    SyncEvent m_logCopyEvent;
+    threads::SyncEvent m_logCopyEvent;
 #ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief String for unknown message level.*/
     std::string m_unknownLogMsgLevel;
@@ -1091,11 +1091,11 @@ private:
     /*! \brief Status of mirror log.*/
     bool m_mirrorLogStatus{false};
     /*! \brief Typedef for message queue thread.*/
-    using log_msg_queue = core_lib::MessageQueueThread<int, dl_private::LogQueueMessage>;
+    using log_msg_queue = threads::MessageQueueThread<int, dl_private::LogQueueMessage>;
     /*! \brief Unique_ptr holding message queue thread.*/
     std::unique_ptr<log_msg_queue> m_logMsgQueueThread{
         new log_msg_queue(std::bind(&DebugLog<Formatter>::MessageDecoder, std::placeholders::_1),
-                          core_lib::eOnDestroyOptions::processRemainingItems)};
+                          threads::eOnDestroyOptions::processRemainingItems)};
 };
 
 /*! \brief Typedef defining our default log's type. */

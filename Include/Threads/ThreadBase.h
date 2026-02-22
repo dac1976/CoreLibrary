@@ -54,9 +54,9 @@ public:
     /*! \brief Copy assignment operator deleted.*/
     ThreadBase& operator=(const ThreadBase&) = delete;
     /*! \brief Move constructor deleted.*/
-    ThreadBase(ThreadBase&&) = default;
+    ThreadBase(ThreadBase&&) = delete;
     /*! \brief Move assignment operator deleted.*/
-    ThreadBase& operator=(ThreadBase&&) = default;
+    ThreadBase& operator=(ThreadBase&&) = delete;
     /*! \brief Destructor.*/
     virtual ~ThreadBase() = default;
     /*!
@@ -89,12 +89,15 @@ public:
      */
     std::thread::id ThreadID() const;
     /*!
-     * \brief Get the underlying std::thread's native handle.
+     * \brief Get this thread's native handle.
      * \return Returns native thread handle if supported.
      *
-     * This function throws a std::runtime_error exception
+     * This function throws a xThreadNotStartedError exception
      * if thread not fully started and so has not got a handle
      * assigned.
+     *
+     * You can cast this to a HANDLE and use it in OS API
+     * specific calls to name a thread in the debugger.
      */
     std::thread::native_handle_type NativeHandle() const;
 
@@ -115,33 +118,42 @@ protected:
      * \brief Make this thread sleep for a period of time.
      * \param[in] milliSecs - Time period in milliseconds.
      *
-     * This function throws a std::runtime_error exception
+     * This function throws a xThreadNotStartedError exception
      * if thread not fully started and therefore cannot be
      * made to sleep.
      */
     void SleepForTime(unsigned int milliSecs) const;
     /*!
-     * \brief Execute a single iteration of the thread.
+     * \brief Execute a single tick of the thread.
      *
      * This function is purely virtual and must be defined
-     * in the derived class. ThreadBase::Run continually
-     * loops until the thread is stopped or destructed so
-     * this function will be called each time the Run function
-     * loops round. Hence this function can be thought of
-     * what needs to be run in a single iteratation of the
-     * threads run loop.
+     * in the derived class and should perform only a single
+     * iteration's worth of actions.
+     *
+     * This function is called in the loop within Run();
      */
-    virtual void ThreadIteration() NO_EXCEPT_ = 0;
+    virtual void ThreadFunction() NO_EXCEPT_ = 0;
     /*!
      * \brief Perform any special termination actions.
      *
      * This function performs no actions in the base class
-     * definition but can be overriden in the dervied class
+     * definition but can be overridden in the derived class
      * to perform any special termination actions that are
-     * required after the terminting flag is set but before
+     * required after the terminating flag is set but before
      * we call join on our underlying std::thread object.
      */
     virtual void ProcessTerminationConditions() NO_EXCEPT_;
+
+	/*!
+	 * \brief Perform any special actions in the context of the thread, 
+	*  before it terminates
+	 *
+	 * This function performs no actions in the base class
+	 * definition but can be overridden in the derived class
+	 * to perform any special actions in the context of the thread,
+	 * before it terminates (this function is called just after the thread loop)
+	 */
+	virtual void OnThreadTermination() NO_EXCEPT_;
 
 private:
     /*!
@@ -161,7 +173,7 @@ private:
      *
      * This function loops calling ThreadIteration() to
      * perform a single iterations actions. It stops looping
-     * when the thread is termainted.
+     * when the thread is terminated.
      */
     void Run();
 
@@ -169,9 +181,9 @@ private:
     /*! \brief Access mutex to protect private data.*/
     mutable std::mutex m_mutex;
     /*! \brief Boolean flag to mark thread as started.*/
-    bool m_started{false};
+    bool m_started{};
     /*! \brief Boolean flag to mark thread as terminating.*/
-    bool m_terminating{false};
+    bool m_terminating{};
     /*! \brief Thread ID of started thread object.*/
     std::thread::id m_threadId{};
     /*! \brief Native thread handle (where supported) of started thread.*/

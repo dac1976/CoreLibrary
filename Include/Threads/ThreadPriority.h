@@ -29,6 +29,7 @@
 
 #include <thread>
 #include <boost/predef.h>
+#include "CoreLibraryDllGlobal.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib

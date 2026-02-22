@@ -76,7 +76,7 @@ void ThreadGroup::AddThread(std::thread* threadPtr)
 
     if (IsThreadInNoMutex(threadPtr->get_id()))
     {
-        BOOST_THROW_EXCEPTION(std::runtime_error("thread already in group"));
+        throw std::runtime_error("thread already in group");
     }
 
     m_threadGroup.push_back(threadPtr);

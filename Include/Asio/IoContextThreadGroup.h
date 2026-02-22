@@ -28,6 +28,7 @@
 #define IoContextThreadGroup_H
 
 #include "asio/AsioCompatibility.hpp"
+#include "Threads/ThreadGroup.h"
 #include "AsioDefines.h"
 
 /*! \brief The core_lib namespace. */
@@ -50,10 +51,7 @@ class CORE_LIBRARY_DLL_SHARED_API IoContextThreadGroup final
 public:
     /*!
      * \brief Initialising constuctor.
-     * \param[in] numThreads - (Optional) Number of threads to create.
-     *
-     * If the number of threads is not specified then the value
-     * will be assigned using std::thread::hardware_concurrency().
+     * \param[in] numThreads - Number of threads to create.
      */
     explicit IoContextThreadGroup(unsigned int numThreads = std::thread::hardware_concurrency());
     /*! \brief Copy constructor deleted.*/
@@ -67,10 +65,10 @@ public:
     /*! \brief Destructor.*/
     ~IoContextThreadGroup();
     /*!
-     * \brief Get the I/O context.
-     * \return A reference to the I/O context.
+     * \brief Get the I/O service.
+     * \return A reference to the I/O service.
      */
-    asio_compat::io_context_t& IoContext();
+    asio_compat::io_service_t& IoService();
     /*!
      * \brief Post a function object to be run by one of our threads.
      * \param[in] function - Function to be run by one of our threads.
@@ -79,26 +77,18 @@ public:
     {
         asio_compat::post(m_ioService, std::forward<F>(function));
     }
-	/*!
-     * \brief Dispatch a function object to be run by one of our threads.
-     * \param[in] function - Function to be run by one of our threads.
-     */
-    template <typename F> void Dispatch(F&& function)
-    {
-        asio_compat::dispatch(m_ioService, std::forward<F>(function));
-    }
-	/*!
+    /*!
      * \brief Stop function optional to call, as called in destructor anyway.
      */
     void Stop();
 
 private:
-    /*! \brief Boost ASIO I/O context.*/
-    asio_compat::io_context_t m_ioContext;
-    /*! \brief Boost ASIO I/O context work guard object.*/
+    /*! \brief Boost ASIO I/O service.*/
+    asio_compat::io_service_t m_ioService;
+    /*! \brief Boost ASIO I/O service work object.*/
     asio_compat::work_guard_t m_ioWork;
     /*! \brief Our thread group.*/
-    threads::ThreadGroup m_threadGroup;
+    ThreadGroup m_threadGroup;
 };
 
 } // namespace asio

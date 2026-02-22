@@ -138,6 +138,12 @@ public:
     void Clear();
 
 private:
+    /*! \brief Access mutex for private data. */
+    mutable std::mutex m_mutex;
+    /*! \brief Typedef for thread list type. */
+    using thread_list = std::list<std::thread*>;
+    /*! \brief List containing threads. */
+    thread_list m_threadGroup;
     /*!
      * \brief Is current thread in group (no mutex).
      * \return True if in group, false otherwise.
@@ -149,14 +155,6 @@ private:
      * \return True if in group, false otherwise.
      */
     bool IsThreadInNoMutex(const std::thread::id& id) const;
-	
-private:
-    /*! \brief Access mutex for private data. */
-    mutable std::mutex m_mutex;
-    /*! \brief Typedef for thread list type. */
-    using thread_list = std::list<std::thread*>;
-    /*! \brief List containing threads. */
-    thread_list m_threadGroup;	
 };
 
 } // namespace threads

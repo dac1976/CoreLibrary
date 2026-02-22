@@ -39,36 +39,36 @@ using ip_octets_t = std::vector<unsigned char>;
 
 // Give an IP address, e.g. 192.168.1.1, get a vector of the octets,
 // e.g. {192, 168, 1, 1}.
-ip_octets_t CORE_LIBRARY_DLL_SHARED_API OctetsFromIpAddress(std::string const& ipAddress);
+CORE_LIBRARY_DLL_SHARED_API ip_octets_t OctetsFromIpAddress(std::string const& ipAddress);
 
 // Give a vector of octets, e.g. {192, 168, 1, 1}, get an IP address,
 // e.g. 192.168.1.1.
-std::string CORE_LIBRARY_DLL_SHARED_API IpAddressFromOctets(ip_octets_t const& octets);
+CORE_LIBRARY_DLL_SHARED_API std::string IpAddressFromOctets(ip_octets_t const& octets);
 
 // Check if an IP address is valid. Disallows multicast addresses.
-bool CORE_LIBRARY_DLL_SHARED_API IsValidIpAddress(std::string const& address);
+CORE_LIBRARY_DLL_SHARED_API bool IsValidIpAddress(std::string const& address);
 
 // Check if a broadcast address is valid. Disallows multicast addresses.
 // Can also be used to check if a subnet mask is valid.
-bool CORE_LIBRARY_DLL_SHARED_API IsValidBroadcastAddress(std::string const& address);
+CORE_LIBRARY_DLL_SHARED_API bool IsValidBroadcastAddress(std::string const& address);
 
 // Check if address is valid muticast group address.
 // 224.0.0.0 to 239.255.255.255.
-bool CORE_LIBRARY_DLL_SHARED_API IsValidMulticastGroupAddress(std::string const& address);
+CORE_LIBRARY_DLL_SHARED_API bool IsValidMulticastGroupAddress(std::string const& address);
 
 // Given an IP address and subnet mask create the appropriat ebroadcast address, e.g. 160.50.100.76
 // and 255.255.0.0 becomes 160.50.255.255.
-std::string CORE_LIBRARY_DLL_SHARED_API BuildBroadcastAddress(std::string const& address, std::string const& subnetMask);
+CORE_LIBRARY_DLL_SHARED_API std::string BuildBroadcastAddress(std::string const& address, std::string const& subnetMask);
 
-bool CORE_LIBRARY_DLL_SHARED_API IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
+CORE_LIBRARY_DLL_SHARED_API bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
                                               std::string const& netmask,
                                               std::string const& adapterAddress,
                                               std::string const& adapterNetmask);
-											  
-std::string CORE_LIBRARY_DLL_SHARED_API ConvertToCIDRAddress(std::string const& ipAddress, std::string const& netmask);		
+
+CORE_LIBRARY_DLL_SHARED_API std::string ConvertToCIDRAddress(std::string const& ipAddress, std::string const& netmask);
 
 // This functions require root access in Linux and Administartor access in Windows.
-std::pair<std::string, std::string> CORE_LIBRARY_DLL_SHARED_API GetIpAddressAndNetmask(std::string const& adapterName);
+CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName);
 
 } // namespace core_lib
 

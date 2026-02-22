@@ -55,7 +55,7 @@ void ThreadRunner::SleepThreadForTime(unsigned int milliSecs) const
     SleepForTime(milliSecs);
 }
 
-void ThreadRunner::ThreadIteration() NO_EXCEPT_
+void ThreadRunner::ThreadFunction() NO_EXCEPT_
 {
     if (m_threadFunction)
     {

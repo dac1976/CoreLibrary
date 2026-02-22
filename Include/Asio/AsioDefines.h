@@ -63,6 +63,88 @@ namespace asio
 /*! \brief The asio_defs namespace. */
 namespace defs
 {
+	
+/*! \brief Constant defining response IP address length in bytes. */
+enum eRespAddressLen : uint32_t
+{
+    RESPONSE_ADDRESS_LEN = 16
+};
+/*! \brief Constant defining message header magic string length in bytes. */
+enum eMagicStringLen : uint32_t
+{
+    MAGIC_STRING_LEN = 16
+};
+/*! \brief Constant defining default magic string as "_BEGIN_MESSAGE_". */
+extern const char DEFAULT_MAGIC_STRING[];
+
+/*! \brief Message serialization archive type enumeration. See SerializeToVector.h.*/
+enum class eArchiveType : uint8_t
+{
+	 /*! \brief Portable binary archive, requires Cereal serialization. */
+	portableBinary,
+	/*! \brief Binary archive, requires Cereal serialization. */
+	binary,
+	/*! \brief JSON archive, requires Cereal serialization. */
+	json,
+	/*! \brief XML archive, requires Cereal serialization. */
+	xml,
+	/*! \brief Raw data, only for POD objects. */
+	raw,
+	/*! \brief Google protocol buffer. */
+	protobuf
+};
+	
+// Push single byte alignment for the MessageHeader strcuture for maximum portability.
+#pragma pack(push, 1)
+/*!
+ * \brief Default message header structure that is also POD.
+ *
+ * This structure is used for all the network classes prepended with Simple, e.g.
+ * SimpleTcpClient, SimpleTcpServer etc.
+ */
+struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
+{
+    /*! \brief Magic string to identify message start. */
+    char magicString[MAGIC_STRING_LEN]{};
+    /*! \brief Response address; can be used by receiver to identify sender. */
+    char responseAddress[RESPONSE_ADDRESS_LEN]{};
+    /*! \brief Response port. */
+    uint16_t responsePort{0};
+    /*! \brief Unique message identifier. */
+    int32_t messageId{0};
+    /*! \brief Archive type used to serialize payload following this header. */
+    eArchiveType archiveType{eArchiveType::portableBinary};
+    /*! \brief Total message length including this header. */
+    uint32_t totalLength{sizeof(*this)};
+
+    /*! \brief Default constructor. */
+    MessageHeader();
+    /*! \brief Destructor. */
+    ~MessageHeader() = default;
+    /*! \brief Default copy constructor. */
+    MessageHeader(const MessageHeader&) = default;
+    /*! \brief Default copy assignment operator. */
+    MessageHeader& operator=(const MessageHeader&) = default;
+#ifdef USE_EXPLICIT_MOVE_
+    /*! \brief Default move constructor. */
+    MessageHeader(MessageHeader&& header);
+    /*! \brief Default move assignment operator. */
+    MessageHeader& operator=(MessageHeader&& header);
+#else
+    /*! \brief Default move constructor. */
+    MessageHeader(MessageHeader&&) = default;
+    /*! \brief Default move assignment operator. */
+    MessageHeader& operator=(MessageHeader&&) = default;
+#endif
+};
+// Pop single byte alignment.
+#pragma pack(pop)
+
+/*! \brief Constant defining message header magic string length in bytes. */
+enum eMessageHeaderLen : size_t
+{
+    MESSAGE_HEADER_LEN = sizeof(MessageHeader)
+};
 
 /*! \brief Thi is the default/initial reserved message size for each message on the recevie mesasge
  *         pool (if pool is used) */
@@ -117,7 +199,7 @@ enum eDefTcpConnectTimeout : uint32_t
 struct CORE_LIBRARY_DLL_SHARED_API TcpConnSettings
 {
     /*! \brief Minimum amount of data to read on each receive, typical size of header block. */
-    size_t minAmountToRead{sizeof(MessageHeader)};
+    size_t minAmountToRead{defs::MESSAGE_HEADER_LEN};
     /*! \brief Socket send option. */
     eSendOption sendOption{eSendOption::nagleOn};
     /*! \brief Maximum allowed number of unsent async messages.*/
@@ -400,87 +482,6 @@ using connection_t = std::pair<std::string, uint16_t>;
 extern const connection_t NULL_CONNECTION;
 /*! \brief Typedef describing shared_ptr to a TcpConnection object. */
 using tcp_conn_ptr_t = std::shared_ptr<tcp::TcpConnection>;
-/*! \brief Constant defining response IP address length in bytes. */
-enum eRespAddressLen : uint32_t
-{
-    RESPONSE_ADDRESS_LEN = 16
-};
-/*! \brief Constant defining message header magic string length in bytes. */
-enum eMagicStringLen : uint32_t
-{
-    MAGIC_STRING_LEN = 16
-};
-/*! \brief Constant defining default magic string as "_BEGIN_MESSAGE_". */
-extern const char DEFAULT_MAGIC_STRING[];
-
-/*! \brief Message serialization archive type enumeration. See SerializeToVector.h.*/
-enum class eArchiveType : uint8_t
-{
-	 /*! \brief Portable binary archive, requires Cereal serialization. */
-	portableBinary,
-	/*! \brief Binary archive, requires Cereal serialization. */
-	binary,
-	/*! \brief JSON archive, requires Cereal serialization. */
-	json,
-	/*! \brief XML archive, requires Cereal serialization. */
-	xml,
-	/*! \brief Raw data, only for POD objects. */
-	raw,
-	/*! \brief Google protocol buffer. */
-	protobuf
-};
-
-// Push single byte alignment for the MessageHeader strcuture for maximum portability.
-#pragma pack(push, 1)
-/*!
- * \brief Default message header structure that is also POD.
- *
- * This structure is used for all the network classes prepended with Simple, e.g.
- * SimpleTcpClient, SimpleTcpServer etc.
- */
-struct CORE_LIBRARY_DLL_SHARED_API MessageHeader
-{
-    /*! \brief Magic string to identify message start. */
-    char magicString[MAGIC_STRING_LEN]{};
-    /*! \brief Response address; can be used by receiver to identify sender. */
-    char responseAddress[RESPONSE_ADDRESS_LEN]{};
-    /*! \brief Response port. */
-    uint16_t responsePort{0};
-    /*! \brief Unique message identifier. */
-    int32_t messageId{0};
-    /*! \brief Archive type used to serialize payload following this header. */
-    eArchiveType archiveType{eArchiveType::portableBinary};
-    /*! \brief Total message length including this header. */
-    uint32_t totalLength{sizeof(*this)};
-
-    /*! \brief Default constructor. */
-    MessageHeader();
-    /*! \brief Destructor. */
-    ~MessageHeader() = default;
-    /*! \brief Default copy constructor. */
-    MessageHeader(const MessageHeader&) = default;
-    /*! \brief Default copy assignment operator. */
-    MessageHeader& operator=(const MessageHeader&) = default;
-#ifdef USE_EXPLICIT_MOVE_
-    /*! \brief Default move constructor. */
-    MessageHeader(MessageHeader&& header);
-    /*! \brief Default move assignment operator. */
-    MessageHeader& operator=(MessageHeader&& header);
-#else
-    /*! \brief Default move constructor. */
-    MessageHeader(MessageHeader&&) = default;
-    /*! \brief Default move assignment operator. */
-    MessageHeader& operator=(MessageHeader&&) = default;
-#endif
-};
-// Pop single byte alignment.
-#pragma pack(pop)
-
-/*! \brief Constant defining message header magic string length in bytes. */
-enum eMessageHeaderLen : size_t
-{
-    MESSAGE_HEADER_LEN = sizeof(MessageHeader)
-};
 
 /*! \brief Typedef to generic char buffer based on s std::vector<char>. */
 using char_buffer_t = std::vector<char>;

@@ -296,7 +296,7 @@ private:
     /*! \brief Message handler function Map. */
     msg_map_t m_msgHandlerMap;
     /*! \brief Message queue. */
-    HGLConcurrentQueue<MessageType> m_messageQueue;
+    ConcurrentQueue<MessageType> m_messageQueue;
 };
 
 } // namespace threads

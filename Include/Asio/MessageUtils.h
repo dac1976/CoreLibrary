@@ -144,14 +144,14 @@ private:
  * \param[in] archiveType - Type of archive used.
  * \return The human readable name of the archive type.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API ArchiveTypeToString(defs::eArchiveType archiveType);
+CORE_LIBRARY_DLL_SHARED_API std::string ArchiveTypeToString(defs::eArchiveType archiveType);
 
 /*!
  * \brief Unstringify archive type.
  * \param[in] archiveName - Type of archive used as a string.
  * \return The archive type.
  */
-defs::eArchiveType CORE_LIBRARY_DLL_SHARED_API StringToArchiveType(std::string const& archiveName);
+CORE_LIBRARY_DLL_SHARED_API defs::eArchiveType StringToArchiveType(std::string const& archiveName);
 
 /*!
  * \brief Header filler function.
@@ -170,7 +170,7 @@ defs::eArchiveType CORE_LIBRARY_DLL_SHARED_API StringToArchiveType(std::string c
  *
  * This function only works with headers of the type MessageHeader.
  */
-void CORE_LIBRARY_DLL_SHARED_API FillHeader(const std::string& magicString,
+CORE_LIBRARY_DLL_SHARED_API void FillHeader(const std::string& magicString,
                                             defs::eArchiveType archiveType, int32_t messageId,
                                             const defs::connection_t& responseAddress,
                                             uint32_t messageLength, defs::MessageHeader& header);

@@ -27,6 +27,7 @@
 #define EVENTTHREAD_H
 
 #include <functional>
+#include "Platform/PlatformDefines.h"
 #include "Threads/ThreadBase.h"
 #include "Threads/SyncEvent.h"
 
@@ -51,12 +52,16 @@ public:
      * \param[in] eventPeriod - Period between event being triggered.
      * \param[in] delayedStart - When true user must called Start() manually.
      * \param[in] timeUnit - The unit of time associated with the period.
+     *
+     * If eventPeriod is 0 then the thread uses a blocking Wait() instead of a
+     * WaitForTime. In this case you must trigger the event to wait up from
+     * outside this object using ForceTick().
      */
     EventThread(event_callback_t const& eventCallback, unsigned int eventPeriod, bool delayedStart,
                 eWaitTimeUnit timeUnit = eWaitTimeUnit::milliseconds);
 
     /*! \brief EventThread destructor. */
-    ~EventThread() override;
+    ~EventThread() OVERRIDE_;
 
     /*! \brief Copy constructor deleted.*/
     EventThread(const EventThread&) = delete;
@@ -72,28 +77,30 @@ public:
      * \param[in] eventPeriod - Period between event being triggered.
      * \param[in] timeUnit - The unit of time associated with the period.
      */
-    void EventPeriod(unsigned int  eventPeriod,
-                     eWaitTimeUnit timeUnit = eWaitTimeUnit::milliseconds);
+    void SetEventPeriod(unsigned int  eventPeriod,
+                        eWaitTimeUnit timeUnit = eWaitTimeUnit::milliseconds);
     /*!
      * \brief Set the time period between ticks of the event.
      * \return Period between event being triggered, in milliseconds.
      */
     unsigned int EventPeriod(eWaitTimeUnit* timeUnit = nullptr) const;
 
-    /*! \brief Forces the thread to tick. */
+    /*!
+     * \brief Force signal the thread to tick.
+     */
     void ForceTick();
 
 private:
-    /*! \brief Thread iteration function.*/
-    void ThreadIteration() NO_EXCEPT_ override;
+    /*! \brief Thread function.*/
+    void ThreadFunction() NO_EXCEPT_ OVERRIDE_;
     /*! \brief Function to process termination conditions.*/
-    void ProcessTerminationConditions() NO_EXCEPT_ override;
+    void ProcessTerminationConditions() NO_EXCEPT_ OVERRIDE_;
 
 private:
+	/*! \brief Event period mutex.*/
+	mutable std::mutex m_eventPeriodMutex{};
     /*! \brief Update event.*/
-    mutable std::mutex m_eventPeriodMutex;
-    /*! \brief Update event.*/
-    core_lib::threads::SyncEvent m_updateEvent{};
+    SyncEvent m_updateEvent{};
     /*! \brief Callback fires on event.*/
     event_callback_t m_eventCallback{};
     /*! \brief Event tick period.*/

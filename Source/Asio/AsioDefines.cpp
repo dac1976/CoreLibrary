@@ -33,8 +33,6 @@ namespace asio
 {
 namespace defs
 {
-
-const connection_t NULL_CONNECTION("0.0.0.0", 0);
 const char         DEFAULT_MAGIC_STRING[]{"_BEGIN_MESSAGE_"};
 
 MessageHeader::MessageHeader()
@@ -69,6 +67,9 @@ MessageHeader& MessageHeader::operator=(MessageHeader&& header)
     return *this;
 }
 #endif
+
+
+const connection_t NULL_CONNECTION("0.0.0.0", 0);
 
 } // namespace defs
 } // namespace asio

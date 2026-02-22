@@ -100,7 +100,7 @@ private:
      * what needs to be run in a single iteratation of the
      * threads run loop.
      */
-    void ThreadIteration() NO_EXCEPT_ override;
+    void ThreadFunction() NO_EXCEPT_ override;
     /*!
      * \brief Perform any special termination actions.
      *

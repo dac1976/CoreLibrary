@@ -172,19 +172,19 @@ template <typename T> std::string AutoFormatFloatString(const T value, int decim
  * \return Copy of text with illegal chars replaced.
  */
 #if defined(IS_CPP17)
-std::string CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(std::string_view text,
+CORE_LIBRARY_DLL_SHARED_API std::string ReplaceIllegalChars(std::string_view text,
                                 std::string_view illegalChars    = "~#%&*{}\\:<>?/+|\"",
                                 char             replacementChar = '_');
 
-std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(std::wstring_view text,
+CORE_LIBRARY_DLL_SHARED_API std::wstring ReplaceIllegalChars(std::wstring_view text,
                                  std::wstring_view illegalChars    = L"~#%&*{}\\:<>?/+|\"",
                                  wchar_t           replacementChar = L'_');
 #else
-std::string CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(const std::string& text,
+CORE_LIBRARY_DLL_SHARED_API std::string ReplaceIllegalChars(const std::string& text,
                                 const std::string& illegalChars    = "~#%&*{}\\:<>?/+|\"",
                                 char               replacementChar = '_');
 
-std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(const std::wstring& text,
+CORE_LIBRARY_DLL_SHARED_API std::wstring ReplaceIllegalChars(const std::wstring& text,
                                  const std::wstring& illegalChars    = L"~#%&*{}\\:<>?/+|\"",
                                  wchar_t             replacementChar = L'_');
 #endif
@@ -196,16 +196,16 @@ std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceIllegalChars(const std::wstring&
  * \return True if contains illegal chars, false otherwise.
  */
 #if defined(IS_CPP17)
-bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(std::string_view text,
+CORE_LIBRARY_DLL_SHARED_API bool ContainsIllegalChars(std::string_view text,
                           std::string_view illegalChars = "~#%&*{}\\:<>?/+|\"");
 
-bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(std::wstring_view text,
+CORE_LIBRARY_DLL_SHARED_API bool ContainsIllegalChars(std::wstring_view text,
                           std::wstring_view illegalChars = L"~#%&*{}\\:<>?/+|\"");
 #else
-bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(const std::string& text,
+CORE_LIBRARY_DLL_SHARED_API bool ContainsIllegalChars(const std::string& text,
                                   const std::string& illegalChars = "~#%&*{}\\:<>?/+|\"");
 
-bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(const std::wstring& text,
+CORE_LIBRARY_DLL_SHARED_API bool ContainsIllegalChars(const std::wstring& text,
                           const std::wstring& illegalChars = L"~#%&*{}\\:<>?/+|\"");
 #endif
 
@@ -215,11 +215,11 @@ bool CORE_LIBRARY_DLL_SHARED_API ContainsIllegalChars(const std::wstring& text,
  * \return True if contains only alphanumeric chars, false otherwise.
  */
 #if defined(IS_CPP17)
-bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(std::string_view text);
-bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(std::wstring_view text);
+CORE_LIBRARY_DLL_SHARED_API bool IsAlphaNumeric(std::string_view text);
+CORE_LIBRARY_DLL_SHARED_API bool IsAlphaNumeric(std::wstring_view text);
 #else
-bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::string& text);
-bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::wstring& text);
+CORE_LIBRARY_DLL_SHARED_API bool IsAlphaNumeric(const std::string& text);
+CORE_LIBRARY_DLL_SHARED_API bool IsAlphaNumeric(const std::wstring& text);
 #endif
 
 #if defined(NOT_USING_BOOST_LOCALE)
@@ -229,14 +229,14 @@ bool CORE_LIBRARY_DLL_SHARED_API IsAlphaNumeric(const std::wstring& text);
  * \param[in] text - Source string.
  * \return Converted string.
  */
-std::wstring CORE_LIBRARY_DLL_SHARED_API StringToWString(const std::string& text);
+CORE_LIBRARY_DLL_SHARED_API std::wstring StringToWString(const std::string& text);
 
 /*!
  * \brief Convert a std::wstring to std::string.
  * \param[in] text - Source string
  * \return Converted string.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API WStringToString(const std::wstring& text);
+CORE_LIBRARY_DLL_SHARED_API std::string WStringToString(const std::wstring& text);
 #endif
 #else
 /*!
@@ -245,7 +245,7 @@ std::string CORE_LIBRARY_DLL_SHARED_API WStringToString(const std::wstring& text
  * \param[in] encoding - Source string encoding, e.g. "ISO-8859-1", "Latin1" etc.
  * \return Converted string.
  */
-std::wstring CORE_LIBRARY_DLL_SHARED_API StringToWString(const std::string& text, const std::string& encoding = "ISO-8859-1");
+CORE_LIBRARY_DLL_SHARED_API std::wstring StringToWString(const std::string& text, const std::string& encoding = "ISO-8859-1");
 
 /*!
  * \brief Convert a std::wstring to std::string.
@@ -253,7 +253,7 @@ std::wstring CORE_LIBRARY_DLL_SHARED_API StringToWString(const std::string& text
  * \param[in] encoding - Result string encoding, e.g. "ISO-8859-1", "Latin1" etc.
  * \return Converted string.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API WStringToString(const std::wstring& text, const std::string& encoding = "ISO-8859-1");
+CORE_LIBRARY_DLL_SHARED_API std::string WStringToString(const std::wstring& text, const std::string& encoding = "ISO-8859-1");
 #endif
 
 /*!
@@ -357,8 +357,8 @@ std::string MakeHexString(T value, bool useUppercase = true, bool insertLeadingS
  * The following is supported (when separator = ","):
  *    Field 1,Field 2,Field 3
  */
-std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(std::string const& text, std::string const& separator,
-                                        bool keepEmptyTokens = false);
+CORE_LIBRARY_DLL_SHARED_API std::vector<std::string> TokeniseString(std::string const& text, std::string const& separator,
+                                 bool keepEmptyTokens = false);
 
 /*!
  * \brief Tokenise a string separated by a separator substring and split it into tokens,
@@ -376,7 +376,7 @@ std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseString(std::string 
  *    Field 1, Field 2 with \n new line,Field 3
  *    Field 1, Field 2 with embedded \\ ,Field 3
  */
-std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseEscapedString(std::string const& text,
+CORE_LIBRARY_DLL_SHARED_API std::vector<std::string> TokeniseEscapedString(std::string const& text,
                                                std::string const& separator,
                                                bool               keepEmptyTokens = false);
 
@@ -387,9 +387,9 @@ std::vector<std::string> CORE_LIBRARY_DLL_SHARED_API TokeniseEscapedString(std::
  *                       'text' arg. \return Vector of string tokens.
  * \return Copy of text with tokens replaced.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API ReplaceTokens(std::string const&                        text,
+CORE_LIBRARY_DLL_SHARED_API std::string ReplaceTokens(std::string const&                        text,
                            std::map<std::string, std::string> const& tokenMap);
-std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceTokens(std::wstring const&                         text,
+CORE_LIBRARY_DLL_SHARED_API std::wstring ReplaceTokens(std::wstring const&                         text,
                            std::map<std::wstring, std::wstring> const& tokenMap);
 
 /*!
@@ -397,7 +397,7 @@ std::wstring CORE_LIBRARY_DLL_SHARED_API ReplaceTokens(std::wstring const&      
  * \param[in] text - string to remove quotes from.
  * \return Copy of text with quotes removed.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API RemoveSurroundingQuotes(std::string const& text);
+CORE_LIBRARY_DLL_SHARED_API std::string RemoveSurroundingQuotes(std::string const& text);
 
 /*!
  * \brief Given a char array that may or may not have a null terminator convert to std::string.
@@ -407,7 +407,7 @@ std::string CORE_LIBRARY_DLL_SHARED_API RemoveSurroundingQuotes(std::string cons
  *
  * Function throws if text is null.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API SafeConvertCharArrayToStdString(const char* text, size_t length);
+CORE_LIBRARY_DLL_SHARED_API std::string SafeConvertCharArrayToStdString(const char* text, size_t length);
 
 /*!
  * \brief Given a char array that may or may not have a null terminator convert to std::string.
@@ -458,7 +458,7 @@ bool SafeCompareCharArrays(const char (&text1)[length1], const char (&text2)[len
  *
  * Function throws if dest is null.
  */
-void CORE_LIBRARY_DLL_SHARED_API SafeCopyCharArray(char* dest, size_t destLen, char const* src, size_t srcLen,
+CORE_LIBRARY_DLL_SHARED_API void SafeCopyCharArray(char* dest, size_t destLen, char const* src, size_t srcLen,
                        bool forceNull = false);
 
 /*!
@@ -554,9 +554,9 @@ void SafeCopyCharArray(char (&dest)[destLen], std::string const& src, bool force
  * Function throws if dest is null.
  */
 #if defined(IS_CPP17)
-void CORE_LIBRARY_DLL_SHARED_API SafeCopyCharArray(char* dest, size_t destLen, std::string_view src, bool forceNull = false);
+CORE_LIBRARY_DLL_SHARED_API void SafeCopyCharArray(char* dest, size_t destLen, std::string_view src, bool forceNull = false);
 #else
-void CORE_LIBRARY_DLL_SHARED_API SafeCopyCharArray(char* dest, size_t destLen, std::string const& src, bool forceNull = false);
+CORE_LIBRARY_DLL_SHARED_API void SafeCopyCharArray(char* dest, size_t destLen, std::string const& src, bool forceNull = false);
 #endif
 
 /*!
@@ -710,7 +710,7 @@ FastConcatenateStrings(std::string& workspace, Args... args)
  * \param[in] args - std::vector of std::string_views to concatenate
  * \return A std::string containing the concatenation of the inputs.
  */
-std::string CORE_LIBRARY_DLL_SHARED_API ConcatenateStrings(std::vector<std::string_view> const& args);
+CORE_LIBRARY_DLL_SHARED_API std::string ConcatenateStrings(std::vector<std::string_view> const& args);
 
 /*!
  * \brief Concatenation of strings, faster than std::stringstream and other methods.
@@ -718,7 +718,7 @@ std::string CORE_LIBRARY_DLL_SHARED_API ConcatenateStrings(std::vector<std::stri
  * \param[in] args - std::vector of std::string_views to concatenate
  * \return A std::string const& containing the concatenation of the inputs contained in workspace.
  */
-std::string const& CORE_LIBRARY_DLL_SHARED_API ConcatenateStrings(std::string&                         workspace,
+CORE_LIBRARY_DLL_SHARED_API std::string const& ConcatenateStrings(std::string& workspace,
                                       std::vector<std::string_view> const& args);
 
 // ****************************************************************************
@@ -736,8 +736,8 @@ std::string const& CORE_LIBRARY_DLL_SHARED_API ConcatenateStrings(std::string&  
  * Vectors are equal if they are the same size and contain the same
  * strings regardless of their order.
  */
-bool CORE_LIBRARY_DLL_SHARED_API CompareUnorderedVectors(std::vector<std::string> const& v1,
-                             std::vector<std::string> const& v2);
+CORE_LIBRARY_DLL_SHARED_API bool CompareUnorderedVectors(std::vector<std::string> const& v1,
+                                                std::vector<std::string> const& v2);
 #endif
 
 } // namespace string_utils

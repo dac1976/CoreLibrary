@@ -52,7 +52,7 @@ EventThread::~EventThread()
     Stop();
 }
 
-void EventThread::EventPeriod(unsigned int eventPeriod, eWaitTimeUnit timeUnit)
+void EventThread::SetEventPeriod(unsigned int eventPeriod, eWaitTimeUnit timeUnit)
 {
     std::lock_guard<std::mutex> lock(m_eventPeriodMutex);
     m_eventPeriod = eventPeriod;

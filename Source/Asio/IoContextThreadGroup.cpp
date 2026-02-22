@@ -57,9 +57,9 @@ IoContextThreadGroup::~IoContextThreadGroup()
     Stop();
 }
 
-asio_compat::io_context_t& IoContextThreadGroup::IoContext()
+asio_compat::io_service_t& IoContextThreadGroup::IoService()
 {
-    return m_ioContext;
+    return m_ioService;
 }
 
 void IoContextThreadGroup::Stop()
@@ -71,9 +71,7 @@ void IoContextThreadGroup::Stop()
 #endif
 
     if (!m_ioService.stopped())
-	{
         m_ioService.stop();
-	}
 
     m_threadGroup.JoinAll();
 }

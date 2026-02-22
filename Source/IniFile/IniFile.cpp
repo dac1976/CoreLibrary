@@ -36,6 +36,8 @@
 
 namespace core_lib
 {
+namespace ini_file
+{
 
 void PackStdString(std::string& line)
 {
@@ -51,9 +53,6 @@ void PackStdString(std::string& line)
 // ****************************************************************************
 // 'class IniFile' definition
 // ****************************************************************************
-namespace
-{
-
 static bool IsBlankLine(const std::string& line)
 {
     return line.empty() || (line == "");
@@ -98,8 +97,6 @@ static bool IsKeyLine(const std::string& line, std::string& key, std::string& va
 
     return true;
 }
-
-} // namespace
 
 #ifdef USE_DEFAULT_CONSTRUCTOR_
 IniFile::IniFile()

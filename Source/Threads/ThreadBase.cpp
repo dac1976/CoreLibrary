@@ -47,7 +47,7 @@ bool ThreadBase::Start()
     if (!IsStarted() && !IsTerminating())
     {
         m_thread = std::thread(&ThreadBase::Run, this);
-        SetStarted(true);
+		SetStarted(true);
         SetThreadIdAndNativeHandle(m_thread.get_id(), m_thread.native_handle());
     }
 
@@ -78,7 +78,7 @@ std::thread::id ThreadBase::ThreadID() const
 {
     if (!IsStarted() || IsTerminating())
     {
-        BOOST_THROW_EXCEPTION(std::runtime_error("thread not running"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("thread not started"));
     }
 
     std::lock_guard<std::mutex> lock{m_mutex};
@@ -89,7 +89,7 @@ std::thread::native_handle_type ThreadBase::NativeHandle() const
 {
     if (!IsStarted() || IsTerminating())
     {
-        BOOST_THROW_EXCEPTION(std::runtime_error("thread not running"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("thread not started"));
     }
 
     std::lock_guard<std::mutex> lock{m_mutex};
@@ -106,15 +106,20 @@ void ThreadBase::SleepForTime(unsigned int milliSecs) const
 {
     if (!IsStarted() || IsTerminating())
     {
-        BOOST_THROW_EXCEPTION(std::runtime_error("thread not running"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("thread not started"));
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));
+	std::this_thread::sleep_for(std::chrono::milliseconds(milliSecs));
 }
 
 void ThreadBase::ProcessTerminationConditions() NO_EXCEPT_
 {
-    // nothing required here but override in derived class
+	// nothing required here but override in derived class
+}
+
+void ThreadBase::OnThreadTermination() NO_EXCEPT_
+{
+	// nothing required here but override in derived class
 }
 
 void ThreadBase::SetThreadIdAndNativeHandle(const std::thread::id&                 threadId,
@@ -125,7 +130,7 @@ void ThreadBase::SetThreadIdAndNativeHandle(const std::thread::id&              
     m_nativeHandle = nativeHandle;
 }
 
-void ThreadBase::SetStarted(bool started)
+void ThreadBase::SetStarted(const bool started)
 {
     std::lock_guard<std::mutex> lock{m_mutex};
     m_started = started;
@@ -140,11 +145,12 @@ void ThreadBase::SetTerminating(bool terminating)
 void ThreadBase::Run()
 {
 	SetStarted(true);
-	
+		
     while (!IsTerminating())
     {
-        ThreadIteration();
-    }
+        ThreadFunction();
+	}
+    OnThreadTermination();
 
     SetStarted(false);
     SetTerminating(false);
