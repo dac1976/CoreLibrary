@@ -65,29 +65,7 @@ bool CORE_LIBRARY_DLL_SHARED_API IsAddressAndNetmaskOnSameSubnetAsAdapter(std::s
                                               std::string const& adapterAddress,
                                               std::string const& adapterNetmask);
 											  
-std::string CORE_LIBRARY_DLL_SHARED_API ConvertToCIDRAddress(std::string const& ipAddress, std::string const& netmask);											  
-											  
-// This functions require root access in Linux and Administartor access in Windows.
-#if BOOST_OS_LINUX
-// On Linux we allow for possibility of multi-homing a NIC.
-// To set primary address to DHCP specify it as "dhcp" or "DHCP" , it's case insensitive
-// and leave the netmask blank. The secondary address and netmask can only be static.
-bool CORE_LIBRARY_DLL_SHARED_API SetupNetwork(std::string const& ipAddress, std::string const& netmask,
-                  std::string const& adapterName, std::string const& ipAddress2 = "",
-                  std::string const& netmask2 = "");
-
-std::vector<std::pair<std::string, std::string>>
-CORE_LIBRARY_DLL_SHARED_API GetAllIpAddressesAndNetmasks(std::string const& adapterName);
-
-bool CORE_LIBRARY_DLL_SHARED_API IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
-                                              std::string const& netmask,
-                                              std::string const& adapterName);
-
-std::string CORE_LIBRARY_DLL_SHARED_API GetMacAddressForAdapter(std::string const& adapterName);
-#else
-bool CORE_LIBRARY_DLL_SHARED_API SetupNetwork(std::string const& ipAddress, std::string const& netmask,
-                  std::string const& adapterName);
-#endif
+std::string CORE_LIBRARY_DLL_SHARED_API ConvertToCIDRAddress(std::string const& ipAddress, std::string const& netmask);		
 
 // This functions require root access in Linux and Administartor access in Windows.
 std::pair<std::string, std::string> CORE_LIBRARY_DLL_SHARED_API GetIpAddressAndNetmask(std::string const& adapterName);
