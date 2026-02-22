@@ -36,29 +36,39 @@ namespace asio
 namespace udp
 {
 
-SimpleUdpReceiver::SimpleUdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
-                                     const defs::default_message_dispatcher_t& messageDispatcher,
-                                     eUdpOption receiveOptions, size_t receiveBufferSize,
-                                     size_t memPoolMsgCount, size_t recvPoolMsgSize)
+SimpleUdpReceiver::SimpleUdpReceiver(asio_compat::io_service_t& ioService, 
+                              uint16_t listenPort,
+							  const defs::default_message_dispatcher_t& messageDispatcher,
+							  eUdpOption receiveOptions, 
+							  size_t receiveBufferSize,
+							  size_t memPoolMsgCount, 
+							  size_t recvPoolMsgSize,
+							  std::string const& listenAddress)
     : m_messageHandler{messageDispatcher,
                        defs::DEFAULT_MAGIC_STRING,
                        memPoolMsgCount,
                        recvPoolMsgSize}
-    , m_udpReceiver{ioContext,
+    , m_udpReceiver{ioService,
                     listenPort,
                     std::bind(&messages::MessageHandler::CheckBytesLeftToRead, &m_messageHandler,
                               std::placeholders::_1),
                     std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler,
                               std::placeholders::_1),
                     receiveOptions,
-                    receiveBufferSize}
+                    receiveBufferSize,
+                    listenAddress,
+                    defs::message_received_handler_ex_t(),
+                    defs::check_bytes_left_to_read_ex_t()}
 {
 }
 
-SimpleUdpReceiver::SimpleUdpReceiver(uint16_t                                  listenPort,
-                                     const defs::default_message_dispatcher_t& messageDispatcher,
-                                     eUdpOption receiveOptions, size_t receiveBufferSize,
-                                     size_t memPoolMsgCount, size_t recvPoolMsgSize)
+SimpleUdpReceiver::SimpleUdpReceiver(uint16_t listenPort,
+							  const defs::default_message_dispatcher_t& messageDispatcher,
+							  eUdpOption receiveOptions, 
+							  size_t receiveBufferSize,
+							  size_t memPoolMsgCount, 
+							  size_t recvPoolMsgSize,
+							  std::string const& listenAddress)
     : m_messageHandler{messageDispatcher,
                        defs::DEFAULT_MAGIC_STRING,
                        memPoolMsgCount,
@@ -69,13 +79,21 @@ SimpleUdpReceiver::SimpleUdpReceiver(uint16_t                                  l
                     std::bind(&messages::MessageHandler::MessageReceivedHandler, &m_messageHandler,
                               std::placeholders::_1),
                     receiveOptions,
-                    receiveBufferSize}
+                    receiveBufferSize,
+                    listenAddress,
+                    defs::message_received_handler_ex_t(),
+                    defs::check_bytes_left_to_read_ex_t()}
 {
 }
 
 uint16_t SimpleUdpReceiver::ListenPort() const
 {
     return m_udpReceiver.ListenPort();
+}
+
+std::string SimpleUdpReceiver::ListenAddress() const
+{
+    return m_udpReceiver.ListenAddress();
 }
 
 } // namespace udp

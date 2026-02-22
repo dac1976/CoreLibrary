@@ -47,6 +47,14 @@ class CORE_LIBRARY_DLL_SHARED_API SimpleUdpReceiver final
 public:
     /*! \brief Default constructor - deleted. */
     SimpleUdpReceiver() = delete;
+    /*! \brief Deleted copy constructor. */
+    SimpleUdpReceiver(const SimpleUdpReceiver&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    SimpleUdpReceiver& operator=(const SimpleUdpReceiver&) = delete;
+    /*! \brief Deleted move constructor. */
+    SimpleUdpReceiver(SimpleUdpReceiver&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    SimpleUdpReceiver& operator=(SimpleUdpReceiver&&) = delete;
     /*!
      * \brief Initialisation constructor.
      * \param[in] ioService - External boost IO service to manage ASIO.
@@ -58,10 +66,12 @@ public:
      *                              defaults to 0, which implies no pool used.
      * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
      *                              when memPoolMsgCount > 0.
+     * \param[in] listenAddress - Specific NIC IP address to bind the socket to,
+     * empty string will bind to all NICs
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * hgl::IoContextThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be exectued
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      *
      * NOTE: When the message pool feature is used then all messages passed to the
@@ -70,11 +80,14 @@ public:
      * doesn't fill and start overwriting older messages. If the messages need to be kept
      * then it is the dispatchers job to make a suitable copy of the received message.
      */
-    SimpleUdpReceiver(boost_iocontext_t& ioContext, uint16_t listenPort,
-                      const defs::default_message_dispatcher_t& messageDispatcher,
-                      eUdpOption receiveOptions = eUdpOption::broadcast,
-                      size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, size_t memPoolMsgCount = 0,
-                      size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
+    SimpleUdpReceiver(asio_compat::io_service_t& ioService, 
+	              uint16_t listenPort,
+				  const defs::default_message_dispatcher_t& messageDispatcher,
+				  eUdpOption receiveOptions = eUdpOption::broadcast,
+				  size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, 
+				  size_t memPoolMsgCount = 0,
+				  size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE,
+				  std::string const& listenAddress   = "");
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
@@ -83,33 +96,29 @@ public:
      * \param[in] receiveBufferSize - Socket receive option to control receive buffer size.
      * \param[in] memPoolMsgCount - Number of messages in pool for received message handling,
      *                              defaults to 0, which implies no pool used.
-     * \param[in] recvPoolMsgSize - Default size of message in received
-     *                              message pool. Only used when memPoolMsgCount > 0.
+     * \param[in] recvPoolMsgSize - Default size of message in received message pool. Only used
+     *                              when memPoolMsgCount > 0.
+     * \param[in] listenAddress - Specific NIC IP address to bind the socket to,
+     * empty string will bind to all NICs
      *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommend.
+     * external IO service constructor is recommended.
      *
      * NOTE: When the message pool feature is used then all messages passed to the
      * the registered dispatcher are managed by the internal pool. Care must be taken
-     * in the dispatcher to process the messages as quickly as possibly so the pool
+     * in the dispatcher to use process the messages as quickly as possibly so the pool
      * doesn't fill and start overwriting older messages. If the messages need to be kept
      * then it is the dispatchers job to make a suitable copy of the received message.
      */
-    SimpleUdpReceiver(uint16_t                                  listenPort,
-                      const defs::default_message_dispatcher_t& messageDispatcher,
-                      eUdpOption receiveOptions = eUdpOption::broadcast,
-                      size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, size_t memPoolMsgCount = 0,
-                      size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
-    /*! \brief Copy constructor - deleted. */
-    SimpleUdpReceiver(const SimpleUdpReceiver&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    SimpleUdpReceiver& operator=(const SimpleUdpReceiver&) = delete;
-    /*! \brief Move constructor - deleted. */
-    SimpleUdpReceiver(SimpleUdpReceiver&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    SimpleUdpReceiver& operator=(SimpleUdpReceiver&&) = delete;
+    SimpleUdpReceiver(uint16_t listenPort,
+				  const defs::default_message_dispatcher_t& messageDispatcher,
+				  eUdpOption receiveOptions = eUdpOption::broadcast,
+				  size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, 
+				  size_t memPoolMsgCount = 0,
+				  size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE,
+				  std::string const& listenAddress = "");
     /*! \brief Default destructor. */
     ~SimpleUdpReceiver() = default;
     /*!
@@ -117,10 +126,15 @@ public:
      * \return The listen port.
      */
     uint16_t ListenPort() const;
+    /*!
+     * \brief Retrieve this receiver's listen address.
+     * \return The listen address.
+     */
+    std::string ListenAddress() const;
 
 private:
-    /*! \brief Default message handler object of type core_lib::asio::messages::MessageHandler. */
-    messages::MessageHandler m_messageHandler{};
+    /*! \brief Default message handler object of type asio::messages::MessageHandler. */
+    messages::MessageHandler m_messageHandler;
     /*! \brief Our actual typed UDP receiver object. */
     UdpReceiver m_udpReceiver;
 };
