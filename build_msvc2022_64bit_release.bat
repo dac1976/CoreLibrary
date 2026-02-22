@@ -18,7 +18,8 @@ rmdir /s /q build
 del /s /q bin\RelWithDebInfo\*.*
 rmdir /s /q bin\RelWithDebInfo
 
-mkdir bin\RelWithDebInfo
+mkdir bin\RelWithDebInfo\static
+mkdir bin\RelWithDebInfo\dynamic
 
 REM Create build files
 cmake -G "Visual Studio 17 2022" -A x64 -T v143 -Bbuild -DBUILD_SHARED_LIBS=ON -DCORELIB_USE_STD_FILESYSTEM=ON -DCMAKE_INSTALL_PREFIX=./ -DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO="/DEBUG:FULL /OPT:REF /OPT:ICF"
@@ -27,7 +28,22 @@ REM Perform build
 cmake --build build --config RelWithDebInfo --target ALL_BUILD --parallel
 
 REM copy files to bin64 output folder
-copy .\build\RelWithDebInfo\CoreLibrary.dll /B .\bin\RelWithDebInfo\CoreLibrary.dll
-copy .\build\RelWithDebInfo\CoreLibrary.pdb /B .\bin\RelWithDebInfo\CoreLibrary.pdb
+copy .\build\RelWithDebInfo\CoreLibrary.dll /B .\bin\RelWithDebInfo\dynamic\CoreLibrary.dll
+copy .\build\RelWithDebInfo\CoreLibrary.pdb /B .\bin\RelWithDebInfo\dynamic\CoreLibrary.pdb
+
+del /s /q build\*.*
+rmdir /s /q build
+
+REM Create build files
+cmake -G "Visual Studio 17 2022" -A x64 -T v143 -Bbuild -DBUILD_SHARED_LIBS=OFF -DCORELIB_USE_STD_FILESYSTEM=ON -DCMAKE_INSTALL_PREFIX=./ -DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO="/DEBUG:FULL /OPT:REF /OPT:ICF"
+
+REM Perform build
+cmake --build build --config RelWithDebInfo --target ALL_BUILD --parallel
+
+copy .\build\RelWithDebInfo\CoreLibrary.lib /B .\bin\RelWithDebInfo\static\CoreLibrary.lib
+copy .\build\RelWithDebInfo\CoreLibrary.pdb /B .\bin\RelWithDebInfo\static\CoreLibrary.pdb
+
+del /s /q build\*.*
+rmdir /s /q build
 
 endlocal
