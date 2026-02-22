@@ -1,5 +1,7 @@
 # CoreLibrary #
 ## News ##
+2026/02/22 - Update to the code is complete. CMake support included and some example build scripts. Still to come is a CMake based build for the unit tests. Cereal 3.3.1 and Loki 0.1.7 now included as part of the library, no external dependencies required for these 2 items.
+
 2026/02/16 - Currently in the middle of doing a refresh to most of the library code. Some things will be broken while I do this work. Some of the highlights are new network/ASIO features. Updated Threading code. Big improvements to the debug logging classes. Support for wider range of Boost versions from about 1.55 up to the lastest (1.90), bug fixes and genreal tweaks. Also including CMake support.
 
 2020/05/04 - A bit of code tidying and refactoring and removal of warnings flagged by certain compilers. Over last few months I've moved to newer Boost due to updates to Boost ASIO code.
@@ -42,10 +44,6 @@ CORELIB_BOOST_ROOT -> Path that is parent to the /boost include directory.
 
 CORELIB_BOOST_LIB -> Path to the correct Boost lib folder for your compiler and platform.
 
-CORELIB_CEREAL_ROOT -> Path (inclusive) for the Cereal /include directory.
-
-CORELIB_LOKI_ROOT -> Path (inclusive) for the Loki /include directory.
-
 CORELIB_BOOST_LIB_NAME_STUB -> On Windows using MSVC Build Tools sets the name stub for Boost libraries built in release, e.g. vc143-mt-x64-1_90.
 
 CORELIB_BOOST_LIB_NAME_STUB -> On Windows using MSVC Build Tools sets the name stub for Boost libraries built in debug, e.g. vc143-mt-gd-x64-1_90.
@@ -55,8 +53,8 @@ Note that CMake will cache the environment variables so if you need to change th
 This library requires some third-party open source libraries for it to compile and function. These are as follows: 
 
 * Boost (tested with 1.55+ or greater - 1.90 recommended): http://www.boost.org/
-* Cereal (tested with 1.2.1+ or greater): http://uscilab.github.io/cereal/
-* Loki: http://loki-lib.sourceforge.net/
+* Cereal (tested with 1.2.1+ or greater): http://uscilab.github.io/cereal/ - Included with CoreLibrary in Include/cereal.
+* Loki: http://loki-lib.sourceforge.net/ - Included with CoreLibrary in Include/loki.
 * Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest/graphs/contributors
 * Google Protocol Buffers (tested with 3.7.1 or greater): https://developers.google.com/protocol-buffers/ 
 
@@ -74,6 +72,9 @@ For usage examples I recommend looking at the unit test code in the /UnitTests/G
 The networking unit tests require network connectivity and expects 2 adapters setup, one on 10.34.6.1/255.255.0.0 and another on 10.35.6.1/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
 
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
+
+
+
 
 
 
