@@ -1,30 +1,24 @@
 # CoreLibrary #
 ## News ##
-2026/02/22 - Update to the code is complete. CMake support included and some example build scripts. Still to come is a CMake based build for the unit tests. Cereal 3.3.1 and Loki 0.1.7 now included as part of the library, no external dependencies required for these 2 items.
-
-2026/02/16 - Currently in the middle of doing a refresh to most of the library code. Some things will be broken while I do this work. Some of the highlights are new network/ASIO features. Updated Threading code. Big improvements to the debug logging classes. Support for wider range of Boost versions from about 1.55 up to the lastest (1.90), bug fixes and genreal tweaks. Also including CMake support.
-
-2020/05/04 - A bit of code tidying and refactoring and removal of warnings flagged by certain compilers. Over last few months I've moved to newer Boost due to updates to Boost ASIO code.
-
-2019/08/29 - Added extra string utility functions.
-
-2019/04/11 - Added support for Google Protocol Buffers in serialization utilities. Therefore support automatically achieved in all ASIO classes, such as TCP, UDP and multicast classes.
+2026/02/22 - Update to the code is complete. This veriso nwill become 2.0.0.0. CMake support included and some example build scripts. Still to come is a CMake based build for the unit tests. Cereal 3.3.1 and Loki 0.1.7 now included as part of the library, no external dependencies required for these 2 items. Boost, preferably 1.90 or newer, and optionally, Google Protobuf are external dependencies that the user will have to build themselves.
 
 ## Introduction ##
-This library (CoreLibrary) is a collection of useful C++1x utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on. In other words a general collection of code that is very useful in many different C++ coding projects.
+This library (CoreLibrary) is a collection of useful C++1x and C++2x utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on. In other words a general collection of code that is very useful in many different C++ coding projects.
 
 If you find any of this code useful and use it in your software or take parts of it to base your own work on then please give credit and respect the licence.
 
 It is licensed under the terms of LGPL 3.0 and the relevant documentation for this can be found at the top of each source file and in the LICENSE text file.
 
-The code is the work of me (Duncan Crutchley) (<dac1976github@outlook.com>).
+The code is the work of Duncan Crutchley.
+
+📧 Email me: [email me](mailto:15799155+dac1976@users.noreply.github.com).
 
 Copyright (C) 2014 onwards Duncan Crutchley.
 
 ## Requirements ##
-This library's code is compatible with modern compilers on Windows and Linux. It has also been used on x86 and ARM architectures. The latest versions of the code requires at least a C++17 compatible compiler but to get the full feature set a C++20 compatible compiler is strongly recommended. On Windows it is tested against MSVC 2022 Build Tools and for Linux it is tested against G++ 11 and greater. It has also been tested more recently with Clang 15 and Clang 20. The recommended way to build the library is with CMake 3.16 or greater.
+This library's code is compatible with modern compilers on Windows and Linux. It has also been used on x86 and ARM architectures. The latest versions of the code requires at least a C++17 compatible compiler but to get the full feature set a C++20 compatible compiler is strongly recommended. On Windows it is tested against MSVC 2022 Build Tools and for Linux it is tested against G++ 11.4 and G++ 14. It has also been tested more recently with Clang 15 and Clang 20, within Embarcadero C++ Builder. The recommended way to build the library is with CMake 3.16 or greater.
 
-Use the following CMake options to control the build:
+Included are the CMakeLists.txt and example build scripts for Linux (build_linux_64bit_release.sh) and Windows (build_msvc2022_64bit_release.bat). You can also manually build th elibrary yourself and use the following CMake options to control the build:
 
 -DBUILD_SHARED_LIBS=ON -> (Default)  SHARED (.dll, .so)
 
@@ -42,28 +36,28 @@ The first time you configure CMake to build this library you must first define t
 
 CORELIB_BOOST_ROOT -> Path that is parent to the /boost include directory.
 
-CORELIB_BOOST_LIB -> Path to the correct Boost lib folder for your compiler and platform.
+CORELIB_BOOST_LIB -> Path to the correct Boost lib folder for your compiler and platform, containing the correct builds of Boost's system, program_options, filesystem and local libraries.
 
-CORELIB_BOOST_LIB_NAME_STUB -> On Windows using MSVC Build Tools sets the name stub for Boost libraries built in release, e.g. vc143-mt-x64-1_90.
+CORELIB_BOOST_LIB_NAME_STUB -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in release, e.g. vc143-mt-x64-1_90.
 
-CORELIB_BOOST_LIB_NAME_STUB -> On Windows using MSVC Build Tools sets the name stub for Boost libraries built in debug, e.g. vc143-mt-gd-x64-1_90.
+CORELIB_BOOST_LIB_NAME_STUB -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in debug, e.g. vc143-mt-gd-x64-1_90.
 
 Note that CMake will cache the environment variables so if you need to change them make sure you clear the CMake cache before rebuilding.
 
-This library requires some third-party open source libraries for it to compile and function. These are as follows: 
+As mentioned earlier, the library requires some third-party open source libraries for it to compile and function. These are as follows: 
 
 * Boost (tested with 1.55+ or greater - 1.90 recommended): http://www.boost.org/
-* (Included) Cereal (tested with 1.2.1+ or greater): http://uscilab.github.io/cereal/ - Included with CoreLibrary in Include/cereal.
-* (Included) Loki: http://loki-lib.sourceforge.net/ - Included with CoreLibrary in Include/loki.
+* (Included) Cereal (tested with 1.2.1+ or greater): http://uscilab.github.io/cereal/ - included with CoreLibrary in Include/cereal.
+* (Included) Loki: http://loki-lib.sourceforge.net/ - included with CoreLibrary in Include/loki.
 * Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest/graphs/contributors
-* (Optional) Google Protocol Buffers (tested with 3.7.1 or greater): https://developers.google.com/protocol-buffers/ 
+* (Optional) Google Protocol Buffers (tested with 3.7.1 or greater): https://developers.google.com/protocol-buffers/ - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.
 
 ## Notes ##
 This is largely a hobby project based on the knowledge I've gained in my many years of experience working in software development and academia since 1999. I started the development of this code in early 2014. This represents a collection of, hopefully, straightforward to use and useful classes for commonly occurring software development needs.
 
-All the code has been unit tested with good coverage and I've used this code in my own projects without issue. I also have used much of this code and similar code written by me in commercial projects, often with (soft) real-time requirements, and have not had any issues so feel free to use this in commercial projects as long as you adhere to the license.
+All the code has been unit tested with good coverage and I've used this code in my own projects without issue. I  have used much of this code, or rtaher versions thereof, in commercial projects in my day job as a Principal Software Engineer, often with (soft) real-time requirements, on Linux, Windows, x86 and ARM. Feel free to use this in commercial projects as long as you adhere to the license.
 
-I fix bugs and improve the code when necessary but make no guarantees on how often this happens. I provide no warranty or support for any issues that are encountered while using it. Although if you are really stuck email me at the provided address and if I have the time I will try to help or fix the issue if it's within my power to do so
+I'll try to fix bugs and improve the code when necessary but make no guarantees on how often this happens. I'm usually pretty busy with my day job. I provide no warranty or support for any issues that are encountered while using it. Although if you are really stuck email me at the provided address and if I have the time I will try to help or fix the issue if it's within my power to do so
 
 The code is commented using Doxygen style comments so check the documentation in the /docs/html/ folder and open index.html in your browser of choice.
 
@@ -74,6 +68,7 @@ The networking unit tests require network connectivity and expects 2 adapters se
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
 
 Note, the Wiki is not currently up-to-date but the Doxygen genreated doc htmls are.
+
 
 
 
