@@ -45,7 +45,7 @@ namespace udp
  *
  * The template argument defines a message builder object that
  * must have an interface compatible with that of the class
- * core_lib::asio::messages::MessageBuilder.
+ * asio::messages::MessageBuilder.
  *
  * This class forms the underpinnings of the SimpleUdpSender class.
  *
@@ -57,24 +57,32 @@ template <typename MsgBldr> class UdpTypedSender final
 public:
     /*! \brief Default constructor - deleted. */
     UdpTypedSender() = delete;
+    /*! \brief Deleted copy constructor. */
+    UdpTypedSender(const UdpTypedSender&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    UdpTypedSender& operator=(const UdpTypedSender&) = delete;
+    /*! \brief Deleted move constructor. */
+    UdpTypedSender(UdpTypedSender&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    UdpTypedSender& operator=(UdpTypedSender&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] receiver - Connection object describing target receiver's address and port.
      * \param[in] messageBuilder - Message builder object reference.
      * \param[in] sendOption - Socket send option to control the use of broadcasts/unicast.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of std::threads.
-     * This means you can use a single thread pool and all ASIO operations will be exectued
-     * using this thread pool managed by a single IO context. This is the recommended constructor.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be executed
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    UdpTypedSender(boost_iocontext_t& ioContext, const defs::connection_t& receiver,
+    UdpTypedSender(asio_compat::io_service_t& ioService, const defs::connection_t& receiver,
                    const MsgBldr& messageBuilder, eUdpOption sendOption = eUdpOption::broadcast,
                    size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
         : m_messageBuilder{messageBuilder}
-        , m_udpSender{ioContext, receiver, sendOption, sendBufferSize}
+        , m_udpSender{ioService, receiver, sendOption, sendBufferSize}
     {
     }
     /*!
@@ -84,10 +92,10 @@ public:
      * \param[in] sendOption - Socket send option to control the use of broadcasts/unicast.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommened.
+     * external IO service constructor is recommended.
      */
     UdpTypedSender(const defs::connection_t& receiver, const MsgBldr& messageBuilder,
                    eUdpOption sendOption     = eUdpOption::broadcast,
@@ -97,14 +105,6 @@ public:
         , m_udpSender{receiver, sendOption, sendBufferSize}
     {
     }
-    /*! \brief Copy constructor - deleted. */
-    UdpTypedSender(const UdpTypedSender&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    UdpTypedSender& operator=(const UdpTypedSender&) = delete;
-    /*! \brief Move constructor - deleted. */
-    UdpTypedSender(UdpTypedSender&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    UdpTypedSender& operator=(UdpTypedSender&&) = delete;
     /*! \brief Default destructor. */
     ~UdpTypedSender() = default;
     /*!
@@ -123,11 +123,11 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(int32_t                   messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(int32_t                   messageId,
+                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_udpSender.SendMessage(m_messageBuilder.Build(messageId, responseAddress));
+        return m_udpSender.SendMsg(m_messageBuilder.Build(messageId, responseAddress));
     }
     /*!
      * \brief Send a header plus message buffer to the receiver.
@@ -138,12 +138,57 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const defs::char_buffer_t& message, int32_t messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(const defs::char_buffer_t& message, int32_t messageId,
+                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_udpSender.SendMessage(m_messageBuilder.Build(message, messageId, responseAddress));
+        return m_udpSender.SendMsg(m_messageBuilder.Build(message, messageId, responseAddress));
     }
+
+    /*!
+     * \brief Send a header plus message buffer to the receiver.
+     * \param[in] message - The message buffer.
+     * \param[in] messageLength - The message buffer length (so header excluded).
+     * \param[in] messageCommand - Unique message command ID to insert into message header
+     * \param[in] msgID - message ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
+     * the response, the default value will mean the response address will point to this client
+     * socket.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMsg(const char* message, size_t messageLength, int32_t messageCommand, int32_t msgID,
+                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        std::lock_guard<std::mutex> lock(m_sendMutex);
+        return m_udpSender.SendMsg(m_messageBuilder.Build(message,
+                                                          messageLength,
+                                                          messageCommand,
+                                                          msgID,
+                                                          0, // packet ID
+                                                          responseAddress));
+    }
+
+    /*!
+     * \brief Send a header plus message buffer to the receiver.
+     * \param[in] message - The message buffer.
+     * \param[in] messageLength - The message buffer length (so header excluded).
+     * \param[in] messageCommand - Unique message command ID to insert into message header
+     * \param[in] msgID - message ID to insert into message header.
+     * \param[in] packetID - packet ID to insert into message header.
+     * \param[in] responseAddress - (Optional) The address and port where the receiver should send
+     * the response, the default value will mean the response address will point to this client
+     * socket.
+     * \return Returns the success state of the send as a boolean.
+     */
+    bool SendMsg(const char* message, size_t messageLength, int32_t messageCommand, int32_t msgID,
+                 int32_t                   packetID,
+                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    {
+        std::lock_guard<std::mutex> lock(m_sendMutex);
+        return m_udpSender.SendMsg(m_messageBuilder.Build(
+            message, messageLength, messageCommand, msgID, packetID, responseAddress));
+    }
+
     /*!
      * \brief Send a full message to the server.
      * \param[in] message - The message of type T to send behind the header serialized to an
@@ -155,31 +200,22 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMessage(const T& message, int32_t messageId,
-                     const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
+    bool SendMsg(const T& message, int32_t messageId,
+                 const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
-        return m_udpSender.SendMessage(
+        return m_udpSender.SendMsg(
             m_messageBuilder.template Build<T, A>(message, messageId, responseAddress));
     }
     /*!
-     * \brief Send a raw message buffer to the receiver.
+     * \brief Send a message buffer to the receiver.
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const defs::char_buffer_t& message)
+    bool SendMsg(const defs::char_buffer_t& message)
     {
-        return m_udpSender.SendMessage(message);
-    }
-    /*!
-     * \brief Send a raw message buffer to the receiver.
-     * \param[in] message - The message buffer pointer.
-     * \param[in] message - The message buffer size in bytes.
-     * \return Returns the success state of the send as a boolean.
-     */
-    bool SendMessage(const char* message, size_t length)
-    {
-        return m_udpSender.SendMessage(message, length);
+        // Do not need mutex here as we're not using the m_messageBuilder.
+        return m_udpSender.SendMsg(message);
     }
 
 private:
