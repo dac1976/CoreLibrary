@@ -24,8 +24,12 @@
  * \brief File containing multicast sender class definition.
  */
 
-#include "Asio/MulticastSender.h"
+#include "MulticastSender.h"
 #include <boost/bind.hpp>
+#if defined(USE_SOCKET_DEBUG)
+#include <boost/exception/all.hpp>
+#include "DebugLogging.h"
+#endif
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -40,31 +44,30 @@ namespace udp
 // ****************************************************************************
 // 'class MulticastSender' definition
 // ****************************************************************************
-MulticastSender::MulticastSender(boost_iocontext_t&        ioContext,
-                                 const defs::connection_t& multicastConnection,
-                                 const std::string& interfaceAddress, bool enableLoopback,
-                                 eMulticastTTL ttl, size_t sendBufferSize)
+// cppcheck-suppress constParameter
+MulticastSender::MulticastSender(asio_compat::io_service_t& ioService,
+                                 defs::connection_t const&  multicastConnection,
+                                 std::string const& interfaceAddress, bool enableLoopback,
+                                 int32_t ttl, size_t sendBufferSize)
     : m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-    , m_multicastEndpoint(boost_address_t::from_string(multicastConnection.first),
-                          multicastConnection.second)
-
-    , m_socket{ioContext}
+    , m_multicastEndpoint(asio_compat::make_address(m_multicastConnection.first),
+                          m_multicastConnection.second)
+    , m_socket(ioService)
 {
     CreateMulticastSocket(enableLoopback, ttl, sendBufferSize);
 }
 
-MulticastSender::MulticastSender(const defs::connection_t& multicastConnection,
-                                 const std::string& interfaceAddress, bool enableLoopback,
-                                 eMulticastTTL ttl, size_t sendBufferSize)
+MulticastSender::MulticastSender(defs::connection_t const& multicastConnection,
+                                 std::string const& interfaceAddress, bool enableLoopback,
+                                 int32_t ttl, size_t sendBufferSize)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
-    , m_multicastEndpoint(boost_address_t::from_string(multicastConnection.first),
-                          multicastConnection.second)
-
-    , m_socket{m_ioThreadGroup->IoContext()}
+    , m_multicastEndpoint(asio_compat::make_address(m_multicastConnection.first),
+                          m_multicastConnection.second)
+    , m_socket(m_ioThreadGroup->IoService())
 {
     CreateMulticastSocket(enableLoopback, ttl, sendBufferSize);
 }
@@ -79,22 +82,16 @@ auto MulticastSender::InterfaceAddress() const -> std::string
     return m_interfaceAddress;
 }
 
-bool MulticastSender::SendMessage(const defs::char_buffer_t& message)
+bool MulticastSender::SendMsg(const defs::char_buffer_t& message)
 {
-    return SyncSendTo(message.data(), message.size());
+    return SyncSendTo(message);
 }
 
-bool MulticastSender::SendMessage(const char* message, size_t length)
-{
-    return SyncSendTo(message, length);
-}
-
-void MulticastSender::CreateMulticastSocket(bool enableLoopback, eMulticastTTL ttl,
-                                            size_t sendBufferSize)
+void MulticastSender::CreateMulticastSocket(bool enableLoopback, int32_t ttl, size_t sendBufferSize)
 {
     m_socket.open(m_multicastEndpoint.protocol());
 
-    m_socket.set_option(boost_mcast::hops(static_cast<int>(ttl)));
+    m_socket.set_option(boost_mcast::hops(ttl));
 
     boost_mcast::enable_loopback option(enableLoopback);
     m_socket.set_option(option);
@@ -108,18 +105,22 @@ void MulticastSender::CreateMulticastSocket(bool enableLoopback, eMulticastTTL t
     if (!m_interfaceAddress.empty())
     {
         m_socket.set_option(
-            boost_mcast::outbound_interface(boost_address_v4_t::from_string(m_interfaceAddress)));
+            boost_mcast::outbound_interface(asio_compat::make_address(m_interfaceAddress).to_v4()));
     }
 }
 
-bool MulticastSender::SyncSendTo(const char* message, size_t length)
+bool MulticastSender::SyncSendTo(const defs::char_buffer_t& message)
 {
     try
     {
-        return length == m_socket.send_to(boost_asio::buffer(message, length), m_multicastEndpoint);
+        return message.size() == m_socket.send_to(boost_asio::buffer(message), m_multicastEndpoint);
     }
     catch (...)
     {
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR(
+            "Error in SyncSendTo, error: " << boost::current_exception_diagnostic_information());
+#endif
         return false;
     }
 }
