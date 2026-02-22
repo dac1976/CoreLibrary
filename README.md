@@ -53,8 +53,8 @@ Note that CMake will cache the environment variables so if you need to change th
 This library requires some third-party open source libraries for it to compile and function. These are as follows: 
 
 * Boost (tested with 1.55+ or greater - 1.90 recommended): http://www.boost.org/
-* Cereal (tested with 1.2.1+ or greater): http://uscilab.github.io/cereal/ '''- Included with CoreLibrary in Include/cereal.'''
-* Loki: http://loki-lib.sourceforge.net/ '''- Included with CoreLibrary in Include/loki.'''
+* Cereal (tested with 1.2.1+ or greater): http://uscilab.github.io/cereal/ - Included with CoreLibrary in Include/cereal.
+* Loki: http://loki-lib.sourceforge.net/ - Included with CoreLibrary in Include/loki.
 * Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest/graphs/contributors
 * Google Protocol Buffers (tested with 3.7.1 or greater): https://developers.google.com/protocol-buffers/ 
 
@@ -72,6 +72,7 @@ For usage examples I recommend looking at the unit test code in the /UnitTests/G
 The networking unit tests require network connectivity and expects 2 adapters setup, one on 10.34.6.1/255.255.0.0 and another on 10.35.6.1/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
 
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
+
 
 
 
