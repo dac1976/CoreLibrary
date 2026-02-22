@@ -27,10 +27,8 @@
 #ifndef UDPSENDER
 #define UDPSENDER
 
-#include "IoContextThreadGroup.h"
 #include "AsioDefines.h"
-#include "boost/asio/buffer.hpp"
-#include "boost/asio/registered_buffer.hpp"
+#include "IoContextThreadGroup.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -52,20 +50,27 @@ class CORE_LIBRARY_DLL_SHARED_API UdpSender final
 public:
     /*! \brief Default constructor - deleted. */
     UdpSender() = delete;
+    /*! \brief Deleted copy constructor. */
+    UdpSender(const UdpSender&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    UdpSender& operator=(const UdpSender&) = delete;
+    /*! \brief Deleted move constructor. */
+    UdpSender(UdpSender&&) = delete;
+    /*! \brief Deleted move assignment operator. */
+    UdpSender& operator=(UdpSender&&) = delete;
     /*!
      * \brief Initialisation constructor.
-     * \param[in] ioContext - External boost IO context to manage ASIO.
+     * \param[in] ioService - External boost IO service to manage ASIO.
      * \param[in] receiver - Connection object describing target receiver's address and port.
      * \param[in] sendOption - Socket send option to control the use of broadcasts/unicast.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a bool of threads using an instance of
-     * core_lib::asio::IoContextThreadGroup in your application to manage a pool of
-     * std::threads. This means you can use a single thread pool and all ASIO operations will be
-     * exectued using this thread pool managed by a single IO context. This is the recommended
-     * constructor.
+     * IoContextThreadGroup in your application to manage a pool of std::threads.
+     * This means you can use a single thread pool and all ASIO operations will be executed
+     * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    UdpSender(boost_iocontext_t& ioContext, const defs::connection_t& receiver,
+    UdpSender(asio_compat::io_service_t& ioService, defs::connection_t const& receiver,
               eUdpOption sendOption     = eUdpOption::broadcast,
               size_t     sendBufferSize = DEFAULT_UDP_BUF_SIZE);
     /*!
@@ -74,23 +79,14 @@ public:
      * \param[in] sendOption - Socket send option to control the use of broadcasts/unicast.
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
-     * This constructor does not require an external IO context to run instead it creates
-     * its own IO context object along with its own thread. For very simple cases this
+     * This constructor does not require an external IO service to run instead it creates
+     * its own IO service object along with its own thread. For very simple cases this
      * version will be fine but in more performance and resource critical situations the
-     * external IO context constructor is recommened.
+     * external IO service constructor is recommended.
      */
-    explicit UdpSender(const defs::connection_t& receiver,
+    explicit UdpSender(defs::connection_t const& receiver,
                        eUdpOption                sendOption     = eUdpOption::broadcast,
                        size_t                    sendBufferSize = DEFAULT_UDP_BUF_SIZE);
-
-    /*! \brief Copy constructor - deleted. */
-    UdpSender(const UdpSender&) = delete;
-    /*! \brief Copy assignment operator - deleted. */
-    UdpSender& operator=(const UdpSender&) = delete;
-    /*! \brief Move constructor - deleted. */
-    UdpSender(UdpSender&&) = delete;
-    /*! \brief Move assignment operator - deleted. */
-    UdpSender& operator=(UdpSender&&) = delete;
     /*! \brief Default destructor. */
     ~UdpSender() = default;
     /*!
@@ -103,14 +99,7 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessage(const defs::char_buffer_t& message);
-    /*!
-     * \brief Send a message buffer to the receiver.
-     * \param[in] message - The message buffer pointer.
-     * \param[in] message - The message buffer size in bytes.
-     * \return Returns the success state of the send as a boolean.
-     */
-    bool SendMessage(const char* message, size_t length);
+    bool SendMsg(const defs::char_buffer_t& message);
 
 private:
     /*!
@@ -121,21 +110,22 @@ private:
     void CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize);
     /*!
      * \brief Synchronised send to method.
-     * \param[in] message - The message buffer pointer.
-     * \param[in] message - The message buffer size in bytes.
+     * \param[in] message - Message buffer to send.
      * \return True if successfully sent, false otherwise.
      */
-    bool SyncSendTo(const char* message, size_t length);
+    bool SyncSendTo(const defs::char_buffer_t& message);
 
 private:
-    /*! \brief I/O context thread group. */
+    /*! \brief I/O service thread group. */
     std::unique_ptr<IoContextThreadGroup> m_ioThreadGroup{};
     /*! \brief Receiver connection details. */
-    defs::connection_t m_receiver{};
-    /*! \brief Recevier end-point. */
-    boost_udp_t::endpoint m_receiverEndpoint{};
+    defs::connection_t m_receiver;
+    /*! \brief Receiver end-point. */
+    boost_udp_t::endpoint m_receiverEndpoint;
     /*! \brief End-point resolver. */
     boost_udp_t::resolver m_receiverResolver;
+    /*! \brief End-point resolver query. */
+    asio_compat::udp_resolve_spec m_resolverQuery;
     /*! \brief UDP socket. */
     boost_udp_t::socket m_socket;
 };

@@ -26,6 +26,10 @@
 
 #include "Asio/UdpSender.h"
 #include <boost/bind.hpp>
+#if defined(USE_SOCKET_DEBUG)
+#include <boost/exception/all.hpp>
+#include "DebugLog/DebugLogging.h"
+#endif
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -40,22 +44,25 @@ namespace udp
 // ****************************************************************************
 // 'class UdpSender' definition
 // ****************************************************************************
-UdpSender::UdpSender(boost_iocontext_t& ioContext, const defs::connection_t& receiver,
+UdpSender::UdpSender(asio_compat::io_service_t& ioService, defs::connection_t const& receiver,
                      eUdpOption sendOption, size_t sendBufferSize)
     : m_receiver{receiver}
-    , m_receiverResolver{ioContext}
-    , m_socket{ioContext}
+    , m_receiverResolver{ioService}
+    , m_resolverQuery{boost_udp_t::v4(), receiver.first, std::to_string(receiver.second)}
+    , m_socket{ioService}
 {
     CreateUdpSocket(sendOption, sendBufferSize);
 }
 
-UdpSender::UdpSender(const defs::connection_t& receiver, eUdpOption sendOption,
+UdpSender::UdpSender(defs::connection_t const& receiver, eUdpOption sendOption,
                      size_t sendBufferSize)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
     , m_receiver{receiver}
-    , m_receiverResolver{m_ioThreadGroup->IoContext()}
-    , m_socket{m_ioThreadGroup->IoContext()}
+    , m_receiverResolver{m_ioThreadGroup->IoService()}
+    , m_resolverQuery(asio_compat::make_udp_resolve_spec(boost_udp_t::v4(), receiver.first,
+                                                         std::to_string(receiver.second)))
+    , m_socket{m_ioThreadGroup->IoService()}
 {
     CreateUdpSocket(sendOption, sendBufferSize);
 }
@@ -65,14 +72,9 @@ auto UdpSender::ReceiverConnection() const -> defs::connection_t
     return m_receiver;
 }
 
-bool UdpSender::SendMessage(const defs::char_buffer_t& message)
+bool UdpSender::SendMsg(const defs::char_buffer_t& message)
 {
-    return SyncSendTo(message.data(), message.size());
-}
-
-bool UdpSender::SendMessage(const char* message, size_t length)
-{
-    return SyncSendTo(message, length);
+    return SyncSendTo(message);
 }
 
 void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
@@ -86,22 +88,26 @@ void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
     m_socket.set_option(sendBufOption);
 }
 
-bool UdpSender::SyncSendTo(const char* message, size_t length)
+bool UdpSender::SyncSendTo(const defs::char_buffer_t& message)
 {
-    try
+    if (m_receiverEndpoint.port() != m_receiver.second)
     {
-        if (m_receiverEndpoint.port() != m_receiver.second)
+        boost::system::error_code ec;
+
+        auto ep = asio_compat::resolve_udp_first_endpoint(m_receiverResolver, m_resolverQuery, ec);
+
+        if (ec)
         {
-            m_receiverEndpoint = *m_receiverResolver.resolve(
-                boost_udp_t::v4(), m_receiver.first, std::to_string(m_receiver.second));
+#if defined(USE_SOCKET_DEBUG)
+            DEBUG_MESSAGE_EX_ERROR("Error in SyncSendTo, error: " << ec.message()));
+#endif
+            return false;
         }
 
-        return length == m_socket.send_to(boost_asio::buffer(message, length), m_receiverEndpoint);
+        m_receiverEndpoint = ep;
     }
-    catch (...)
-    {
-        return false;
-    }
+
+    return message.size() == m_socket.send_to(boost_asio::buffer(message), m_receiverEndpoint);
 }
 
 } // namespace udp
