@@ -1,5 +1,7 @@
 # CoreLibrary #
 ## News ##
+2026/02/22 - Update to the code is complete. CMake support included and some example build scripts. Still to come is a CMake based build for the unit tests.
+
 2026/02/16 - Currently in the middle of doing a refresh to most of the library code. Some things will be broken while I do this work. Some of the highlights are new network/ASIO features. Updated Threading code. Big improvements to the debug logging classes. Support for wider range of Boost versions from about 1.55 up to the lastest (1.90), bug fixes and genreal tweaks. Also including CMake support.
 
 2020/05/04 - A bit of code tidying and refactoring and removal of warnings flagged by certain compilers. Over last few months I've moved to newer Boost due to updates to Boost ASIO code.
@@ -74,6 +76,7 @@ For usage examples I recommend looking at the unit test code in the /UnitTests/G
 The networking unit tests require network connectivity and expects 2 adapters setup, one on 10.34.6.1/255.255.0.0 and another on 10.35.6.1/255.255.0.0. These can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
 
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
+
 
 
 
