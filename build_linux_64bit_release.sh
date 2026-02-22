@@ -9,6 +9,8 @@ export CORELIB_BOOST_ROOT=${CORELIB_ROOT}/../ThirdParty/boost_1_90_0
 export CORELIB_BOOST_LIB=${CORELIB_ROOT}/../ThirdParty/boost_1_90_0/lib64-msvc-14.3
 export CORELIB_CEREAL_ROOT=${CORELIB_ROOT}/../ThirdParty/cereal/include
 export CORELIB_LOKI_ROOT=${CORELIB_ROOT}/../ThirdParty/loki/include
+export CORELIB_BOOST_LIB_NAME_STUB=
+export CORELIB_BOOST_LIB_NAME_STUB_D=
 
 # Tidy previous installation/build folders.
 rm -rf build

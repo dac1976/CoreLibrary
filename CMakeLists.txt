@@ -32,6 +32,10 @@ set(CORELIB_BOOST_LIB $ENV{CORELIB_BOOST_LIB} CACHE PATH "Boost libs")
 set(CORELIB_CEREAL_ROOT $ENV{CORELIB_CEREAL_ROOT} CACHE PATH "Cereal root")
 # Path (inclusive) for the Loki /include directory.
 set(CORELIB_LOKI_ROOT $ENV{CORELIB_LOKI_ROOT} CACHE PATH "Loki root")
+# Name modifier for boost libs.
+set (CORELIB_BOOST_LIB_NAME_STUB $ENV{CORELIB_BOOST_LIB_NAME_STUB} CACHE PATH "Boost lib name stub")
+# Name modifier for boost libs in debug mode.
+set (CORELIB_BOOST_LIB_NAME_STUB_D $ENV{CORELIB_BOOST_LIB_NAME_STUB_D} CACHE PATH "Boost lib name stub (debug)")
 
 # Check required paths are configured and exist on disk.
 foreach(v CORELIB_BOOST_ROOT CORELIB_BOOST_LIB CORELIB_CEREAL_ROOT CORELIB_LOKI_ROOT)
@@ -152,14 +156,14 @@ target_link_libraries(CoreLibrary PUBLIC
   # Windows
   $<$<PLATFORM_ID:Windows>:iphlpapi>
   # Windows Release-ish
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-x64-1_90.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-x64-1_90.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-x64-1_90.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_thread-${CORELIB_BOOST_LIB_NAME_STUB}.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_locale-${CORELIB_BOOST_LIB_NAME_STUB}.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-${CORELIB_BOOST_LIB_NAME_STUB}.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_program_options-${CORELIB_BOOST_LIB_NAME_STUB}.lib>
 
   # Windows Debug
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_thread-vc143-mt-gd-x64-1_90.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_locale-vc143-mt-gd-x64-1_90.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-vc143-mt-gd-x64-1_90.lib>
-  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_program_options-vc143-mt-gd-x64-1_90.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_thread-${CORELIB_BOOST_LIB_NAME_STUB_D}.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_locale-${CORELIB_BOOST_LIB_NAME_STUB_D}.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem-${CORELIB_BOOST_LIB_NAME_STUB_D}.lib>
+  $<$<AND:${_CORELIB_WIN},${_CORELIB_DBG}>:${CORELIB_BOOST_LIB}/libboost_program_options-${CORELIB_BOOST_LIB_NAME_STUB_D}.lib>
 )
