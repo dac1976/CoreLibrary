@@ -27,9 +27,8 @@
 #ifndef IoContextThreadGroup_H
 #define IoContextThreadGroup_H
 
-#include "asio/AsioCompatibility.hpp"
-#include "Threads/ThreadGroup.h"
 #include "AsioDefines.h"
+#include "Threads/ThreadGroup.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -88,7 +87,7 @@ private:
     /*! \brief Boost ASIO I/O service work object.*/
     asio_compat::work_guard_t m_ioWork;
     /*! \brief Our thread group.*/
-    ThreadGroup m_threadGroup;
+    threads::ThreadGroup m_threadGroup;
 };
 
 } // namespace asio

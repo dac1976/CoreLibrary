@@ -66,39 +66,32 @@ public:
      * \brief Initialisation constructor.
      * \param[in] messageDispatcher - Function object defining the message dispatcher callback
      * \param[in] magicString - Magic string used to identify the start of valid messages.
-	 * \param[in] memPoolMsgCount - (Optional) Pool size as number of messages.
+     * \param[in] memPoolMsgCount - (Optional) Pool size as number of messages.
      * \param[in] defaultMsgSize - (Optional) Initial size of a message in the pool.
-	 *
-	 *  If you want to use a memory pool rather that dynamic allocations
-     *  then set memPoolMsgCount > 0 and the pool will allow for the specified
-     *  number of messages. If memPollMsgCount == 0 then dynamic memory allocation
-     *  is used when handling each new message.
+     *
+     * NOTE: We deliberately pass string by value and use std::move to make the copy.
+     *       In C++11 onwards this is more efficient.
+     *
+     *       If you want to use a memory pool rather that dynamic allocations
+     *       then set memPoolMsgCount > 0 and the pool will allow for the specified
+     *       number of messages. If memPollMsgCount == 0 then dynamic memory allocation
+     *       is used when handling each new message.
      */
     MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher,
-                   const std::string&                        magicString, 
-				   size_t memPoolMsgCount = 0,
-                   size_t defaultMsgSize = udp::RECV_POOL_DEFAULT_MSG_SIZE);
+                 std::string const& magicString, 
+				 size_t memPoolMsgCount = 0,
+                 size_t defaultMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*! \brief Default destructor. */
     ~MessageHandler() = default;
-    /*! \brief Default copy constructor. */
-    MessageHandler(const MessageHandler&) = default;
-    /*! \brief Default copy assignment operator. */
-    MessageHandler& operator=(const MessageHandler&) = default;
-
-#ifdef USE_EXPLICIT_MOVE_
-    /*! \brief Default move constructor. */
-    MessageHandler(MessageHandler&& mh);
-    /*! \brief Default move assignment operator. */
-    MessageHandler& operator=(MessageHandler&& mh);
-#else
-    /*! \brief Default move constructor. */
-    MessageHandler(MessageHandler&&) = default;
-    /*! \brief Default move assignment operator. */
-    MessageHandler& operator=(MessageHandler&&) = default;
-#endif
+    /*! \brief Deleted copy constructor. */
+    MessageHandler(const MessageHandler&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    MessageHandler& operator=(const MessageHandler&) = delete;
     /*!
      * \brief Check bytes left to read method.
      * \param[in] message - A received message buffer.
+     * \return Num bytes left to read or std::numeric_limits<size_t>::max()
+     *         if there is a problem.
      */
     size_t CheckBytesLeftToRead(const defs::char_buffer_t& message) const;
     /*!
@@ -106,7 +99,7 @@ public:
      * \param[in] message - A received message buffer.
      */
     void MessageReceivedHandler(const defs::char_buffer_t& message) const;
-	
+
 private:
     /*!
      * \brief Check message method.
@@ -120,23 +113,24 @@ private:
      */
     void InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize);
     /*!
-     * \brief Initialise message pool.
+     * \brief Get next message to use from pool.
      * \return A new message object or a one from the pool.
      */
     defs::default_received_message_ptr_t GetNewMessgeObject() const;
 
 private:
+    mutable std::mutex m_mutex;
     /*! \brief Message dispatcher function object. */
     defs::default_message_dispatcher_t m_messageDispatcher;
-#ifdef USE_DEFAULT_CONSTRUCTOR_
+#if defined(USE_DEFAULT_CONSTRUCTOR_)
     /*! \brief Magic string. */
     std::string m_magicString;
 #else
     /*! \brief Magic string. */
     std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
 #endif
-    mutable size_t                                    m_msgPoolIndex{0};
-    std::vector<defs::default_received_message_ptr_t> m_msgPool;
+    mutable size_t  m_msgPoolIndex{0};
+    std::vector<asio::defs::default_received_message_ptr_t> m_msgPool;
 };
 
 /*!
@@ -171,9 +165,9 @@ CORE_LIBRARY_DLL_SHARED_API defs::eArchiveType StringToArchiveType(std::string c
  * This function only works with headers of the type MessageHeader.
  */
 CORE_LIBRARY_DLL_SHARED_API void FillHeader(const std::string& magicString,
-                                            defs::eArchiveType archiveType, int32_t messageId,
-                                            const defs::connection_t& responseAddress,
-                                            uint32_t messageLength, defs::MessageHeader& header);
+									defs::eArchiveType archiveType, int32_t messageId,
+									const defs::connection_t& responseAddress,
+									uint32_t messageLength, defs::MessageHeader& header);
 
 /*!
  * \brief Archive type enumerator as a template class.

@@ -43,7 +43,9 @@
 namespace core_lib
 {
 
-#if defined(IS_CPP20)	
+#if defined(IS_CPP20)
+using char_cspan_t = std::span<const char>;
+	
 template <class T, class F>
 T BitCast(const F& src) noexcept
 {

@@ -41,17 +41,17 @@ namespace asio_compat
 // io_service / io_context + strand/work-guard compatibility
 // -----------------------------------------------------------------------------
 #if BOOST_VERSION >= 106600
-using io_context_t = boost::asio::io_context;
-using executor_t   = io_context_t::executor_type;
+using io_service_t = boost::asio::io_context;
+using executor_t   = io_service_t::executor_type;
 using work_guard_t = boost::asio::executor_work_guard<executor_t>;
 using strand_t     = boost::asio::strand<executor_t>;
 
-inline work_guard_t make_work_guard(io_context_t& svc)
+inline work_guard_t make_work_guard(io_service_t& svc)
 {
     return boost::asio::make_work_guard(svc);
 }
 
-inline strand_t make_strand(io_context_t& io)
+inline strand_t make_strand(io_service_t& io)
 {
     return strand_t(io.get_executor());
 }
@@ -61,7 +61,7 @@ template <class F> inline void post(strand_t& s, F&& f)
     boost::asio::post(s, std::forward<F>(f));
 }
 
-template <class F> inline void post(io_context_t& io, F&& f)
+template <class F> inline void post(io_service_t& io, F&& f)
 {
     boost::asio::post(io, std::forward<F>(f));
 }
@@ -71,7 +71,7 @@ template <class F> inline void dispatch(strand_t& s, F&& f)
     boost::asio::dispatch(s, std::forward<F>(f));
 }
 
-template <class F> inline void dispatch(io_context_t& io, F&& f)
+template <class F> inline void dispatch(io_service_t& io, F&& f)
 {
     boost::asio::dispatch(io, std::forward<F>(f));
 }
@@ -81,16 +81,16 @@ template <class Handler> inline auto wrap(strand_t& s, Handler&& h)
     return boost::asio::bind_executor(s, std::forward<Handler>(h));
 }
 #else
-using io_context_t = boost::asio::io_service;
+using io_service_t = boost::asio::io_service;
 using work_guard_t = boost::asio::io_service::work;
 using strand_t     = boost::asio::io_service::strand;
 
-inline work_guard_t make_work_guard(io_context_t& svc)
+inline work_guard_t make_work_guard(io_service_t& svc)
 {
     return work_guard_t(svc);
 }
 
-inline strand_t make_strand(io_context_t& io)
+inline strand_t make_strand(io_service_t& io)
 {
     return strand_t(io);
 }
@@ -100,7 +100,7 @@ template <class F> inline void post(strand_t& s, F&& f)
     s.post(std::forward<F>(f));
 }
 
-template <class F> inline void post(io_context_t& io, F&& f)
+template <class F> inline void post(io_service_t& io, F&& f)
 {
     io.post(std::forward<F>(f));
 }
@@ -110,7 +110,7 @@ template <class F> inline void dispatch(strand_t& s, F&& f)
     s.dispatch(std::forward<F>(f));
 }
 
-template <class F> inline void dispatch(io_context_t& io, F&& f)
+template <class F> inline void dispatch(io_service_t& io, F&& f)
 {
     io.dispatch(std::forward<F>(f));
 }
@@ -219,7 +219,6 @@ inline boost::asio::ip::udp::endpoint resolve_udp_first_endpoint(
     return it->endpoint();
 #endif
 }
-
 
 } // namespace asio_compat
 } // namespace core_lib

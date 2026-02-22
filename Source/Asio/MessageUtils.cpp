@@ -34,9 +34,8 @@
 #endif
 #include <boost/throw_exception.hpp>
 #include "DebugLog/DebugLogging.h"
-#include "StringConversion/StringUtils.h"
-
-#include "MemoryUtils.hpp"
+#include "StringUtils/StringUtils.h"
+#include "Asio/MemoryUtils.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -241,11 +240,11 @@ std::string ArchiveTypeToString(defs::eArchiveType archiveType)
 
     switch (archiveType)
     {
-    case defs::eArchiveType::bin:
-        archiveName = "bin";
+    case defs::eArchiveType::binary:
+        archiveName = "binary";
         break;
-    case defs::eArchiveType::portBin:
-        archiveName = "portBin";
+    case defs::eArchiveType::portableBinary:
+        archiveName = "portableBinary";
         break;
     case defs::eArchiveType::raw:
         archiveName = "raw";
@@ -268,13 +267,13 @@ defs::eArchiveType StringToArchiveType(std::string const& archiveName)
 {
     defs::eArchiveType archiveType;
 
-    if (archiveName.compare("bin") == 0)
+    if (archiveName.compare("binary") == 0)
     {
-        archiveType = defs::eArchiveType::bin;
+        archiveType = defs::eArchiveType::binary;
     }
-    else if (archiveName.compare("portBin") == 0)
+    else if (archiveName.compare("portableBinary") == 0)
     {
-        archiveType = defs::eArchiveType::portBin;
+        archiveType = defs::eArchiveType::portableBinary;
     }
     else if (archiveName.compare("raw") == 0)
     {
