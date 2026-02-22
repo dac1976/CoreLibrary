@@ -37,11 +37,11 @@ using namespace core_lib::asio::messages;
 
 // NOTE: Change these 2 match 2 adapter addresses o the test PC
 #if BOOST_OS_WINDOWS
-const std::string ADDRESS_ONE = "160.51.100.100";
-const std::string ADDRESS_TWO = "10.34.0.1";
+const std::string ADDRESS_ONE = "160.50.0.1";
+const std::string ADDRESS_TWO = "160.51.0.1";
 #else
 const std::string ADDRESS_ONE = "160.50.0.1";
-const std::string ADDRESS_TWO = "10.34.0.2";
+const std::string ADDRESS_TWO = "160.51.0.1";
 #endif
 
 // ****************************************************************************
