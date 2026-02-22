@@ -1,24 +1,13 @@
 #ifndef DISABLE_CSVGRID_TESTS
 
 #include "CsvGrid/CsvGrid.h"
-#include <limits>
-#include <fstream>
-#include <string>
-#include <boost/predef.h>
-#include <boost/filesystem.hpp>
-
+#include "FileUtils/SelectFileSystemLibrary.hpp" 
 #include "gtest/gtest.h"
 
 using namespace core_lib::csv_grid;
-namespace bfs = boost::filesystem;
 
-#if BOOST_OS_LINUX
-static const std::string path1 = "../data/testfile1.csv";
-static const std::string path2 = "../data/testfile2.csv";
-#else
-static const std::string path1 = "../../../data/testfile1.csv";
-static const std::string path2 = "../../../data/testfile2.csv";
-#endif
+const std::string path1 = "data/testfile1.csv";
+const std::string path2 = "data/testfile2.csv";
 
 TEST(CsvGridTest, Cell_DefaultConstructor)
 {
@@ -936,7 +925,7 @@ TEST(CsvGridTest, CsvGrid_SaveToCSVFile_1)
             }
         }
 
-        bfs::remove("testSave.csv");
+        filesys::remove("testSave.csv");
     }
     catch (...)
     {
@@ -978,7 +967,7 @@ TEST(CsvGridTest, CsvGrid_SaveToCSVFile_2)
             }
         }
 
-        bfs::remove("testSave.csv");
+        filesys::remove("testSave.csv");
     }
     catch (...)
     {
@@ -1191,7 +1180,7 @@ TEST(CsvGridTest, CsvGridD_SaveLoad)
     EXPECT_DOUBLE_EQ(grid[2][1], gridIn[2][1]);
     EXPECT_DOUBLE_EQ(grid[2][2], gridIn[2][2]);
 
-    bfs::remove("testSave.csv");
+    filesys::remove("testSave.csv");
 }
 
 //-----------------------------------------------------------------------------

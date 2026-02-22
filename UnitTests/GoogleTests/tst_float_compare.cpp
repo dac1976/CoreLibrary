@@ -2,9 +2,8 @@
 
 #include <vector>
 #include "Comparison/FloatCompare.hpp"
-
 #include "gtest/gtest.h"
-#include "gtest/gtest_cout.h"
+#include "gtest_cout.h"
 
 TEST(FloatCompare, testCase_CompareZero_Success_Float)
 {

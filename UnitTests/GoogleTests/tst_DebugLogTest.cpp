@@ -1,12 +1,9 @@
 #ifndef DISABLE_DEBUGLOG_TESTS
 
 #include <ostream>
-#include "DebugLogging.h"
-#include <boost/filesystem.hpp>
-
+#include "Debug/Log/DebugLogging.h"
+#include "FileUtils/SelectFileSystemLibrary.hpp" 
 #include "gtest/gtest.h"
-
-namespace bfs = boost::filesystem;
 
 // ****************************************************************************
 // DebugLogTest Fixture
@@ -19,8 +16,8 @@ class DebugLogTest : public ::testing::Test
 protected:
     DebugLogTest()
     {
-        bfs::remove("test_log.txt");
-        bfs::remove("test_log_old.txt");
+        filesys::remove("test_log.txt");
+        filesys::remove("test_log_old.txt");
     }
 };
 
@@ -161,7 +158,7 @@ TEST_F(DebugLogTest, testCase_DebugLog2)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog3a)
@@ -229,7 +226,7 @@ TEST_F(DebugLogTest, testCase_DebugLog3a)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog3b)
@@ -291,7 +288,7 @@ TEST_F(DebugLogTest, testCase_DebugLog3b)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog3c)
@@ -362,7 +359,7 @@ TEST_F(DebugLogTest, testCase_DebugLog3c)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog4)
@@ -431,10 +428,10 @@ TEST_F(DebugLogTest, testCase_DebugLog4)
                          core_lib::log::eMsgTarget::both);
     }
 
-    bool filesExist = bfs::exists("test_log.txt") && bfs::exists("test_log_old.txt");
+    bool filesExist = filesys::exists("test_log.txt") && filesys::exists("test_log_old.txt");
 
-    bfs::remove("test_log.txt");
-    bfs::remove("test_log_old.txt");
+    filesys::remove("test_log.txt");
+    filesys::remove("test_log_old.txt");
 
     EXPECT_TRUE(filesExist);
 }
@@ -499,7 +496,7 @@ TEST_F(DebugLogTest, testCase_DebugLog5)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog6)
@@ -555,7 +552,7 @@ TEST_F(DebugLogTest, testCase_DebugLog6)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog7)
@@ -611,7 +608,7 @@ TEST_F(DebugLogTest, testCase_DebugLog7)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog8)
@@ -658,7 +655,7 @@ TEST_F(DebugLogTest, testCase_DebugLog8)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog9)
@@ -713,7 +710,7 @@ TEST_F(DebugLogTest, testCase_DebugLog9)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 TEST_F(DebugLogTest, testCase_DebugLog10)
@@ -776,7 +773,7 @@ TEST_F(DebugLogTest, testCase_DebugLog10)
         FAIL() << "Too many lines";
     }
 
-    bfs::remove("test_log.txt");
+    filesys::remove("test_log.txt");
 }
 
 #endif // DISABLE_DEBUGLOG_TESTS

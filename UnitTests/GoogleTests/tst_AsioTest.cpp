@@ -3,9 +3,10 @@
 #include <cstring>
 #include <algorithm>
 #include <iterator>
+#include <numeric>
 
+#include "Threads/EventThread.h"
 #include "Serialization/SerializeToVector.h"
-#include "Asio/IoContextThreadGroup.h"
 #include "Asio/TcpServer.h"
 #include "Asio/TcpClient.h"
 #include "Asio/TcpTypedServer.h"
@@ -23,56 +24,29 @@
 #include "Asio/SimpleMulticastReceiver.h"
 #include "Asio/SimpleMulticastSender.h"
 #include <cereal/types/string.hpp>
-#include <cereal/types/vector.hpp>
-
 #include "gtest/gtest.h"
+#include "gtest_cout.h"
 
 using namespace core_lib::asio;
 using namespace core_lib::asio::defs;
 using namespace core_lib::asio::tcp;
 using namespace core_lib::asio::udp;
 using namespace core_lib::serialize;
-using namespace core_lib::threads;
+using namespace core_lib;
 using namespace core_lib::asio::messages;
 
-// TODO: Set these to match host PC's network setup, else certain tests will fail.
-static const std::string adapterIp  = "160.50.100.76";
-static const std::string adapterIp2 = "160.51.100.76";
+// NOTE: Change these 2 match 2 adapter addresses o the test PC
+#if BOOST_OS_WINDOWS
+const std::string ADDRESS_ONE = "160.51.100.100";
+const std::string ADDRESS_TWO = "10.34.0.1";
+#else
+const std::string ADDRESS_ONE = "160.50.0.1";
+const std::string ADDRESS_TWO = "10.34.0.2";
+#endif
 
 // ****************************************************************************
 // Helper classes/functions
 // ****************************************************************************
-class Sum
-{
-public:
-    Sum()           = default;
-    Sum(const Sum&) = delete;
-    Sum& operator=(const Sum&) = delete;
-
-    void Add(const uint64_t n)
-    {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        m_total += n;
-        m_threadIds.insert(std::this_thread::get_id());
-    }
-
-    uint64_t Total() const
-    {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        return m_total;
-    }
-
-    size_t NumThreadsUsed() const
-    {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        return m_threadIds.size();
-    }
-
-private:
-    mutable std::mutex        m_mutex;
-    uint64_t                  m_total{0};
-    std::set<std::thread::id> m_threadIds;
-};
 
 #pragma pack(push, 1)
 struct MyHeader
@@ -83,7 +57,7 @@ struct MyHeader
 
     MyHeader()
     {
-#if defined(_MSC_VER)
+#if BOOST_COMP_MSVC
         strncpy_s(magicString, sizeof(magicString), "MyHeader", 8);
         magicString[8] = 0;
 #else
@@ -104,16 +78,22 @@ struct MyMessage
         return (name == m.name) && (data == m.data);
     }
 
-    void FillMessage()
+    void FillMessage(size_t length = 5)
     {
         name = "MyMessage";
-        data = std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0};
+        data.resize(length);
+        std::iota(data.begin(), data.end(), 1.0);
     }
 
     template <class Archive> void serialize(Archive& ar, const unsigned int /*version*/)
     {
-        ar& CEREAL_NVP(name);
-        ar& CEREAL_NVP(data);
+#if defined(USE_BOOST_SERIALIZATION)
+        ar& BOOST_SERIALIZATION_NVP(name);
+        ar& BOOST_SERIALIZATION_NVP(data);
+#else
+        ar(CEREAL_NVP(name));
+        ar(CEREAL_NVP(data));
+#endif
     }
 };
 
@@ -159,7 +139,10 @@ public:
 
         {
             char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
-            m_myMessage = DeserializeMessage<MyMessage>(body, eArchiveType::portableBinary);
+            m_myMessage = DeserializeMessageBuffer<MyMessage>(body, eArchiveType::portBin);
+
+            std::lock_guard<std::mutex> lock(m_mutex);
+            ++m_messageCounter;
         }
 
         m_messageEvent.Signal();
@@ -167,7 +150,7 @@ public:
 
     bool WaitForMessage(const size_t milliseconds)
     {
-        return m_messageEvent.WaitForTime(milliseconds);
+        return m_messageEvent.WaitForTime(static_cast<unsigned int>(milliseconds));
     }
 
     const MyMessage& Message() const
@@ -175,9 +158,149 @@ public:
         return m_myMessage;
     }
 
+    size_t MessageCount() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_messageCounter;
+    }
+
 private:
-    SyncEvent m_messageEvent;
-    MyMessage m_myMessage;
+    mutable std::mutex m_mutex;
+    SyncEvent          m_messageEvent;
+    MyMessage          m_myMessage;
+    size_t             m_messageCounter{0};
+
+    static void CheckMessage(const char_buffer_t& message)
+    {
+        if (message.size() < sizeof(MyHeader))
+        {
+            throw std::length_error("message buffer contains too few bytes");
+        }
+    }
+};
+
+struct MyLargeMessage
+{
+    std::string         name;
+    std::vector<double> data;
+
+    bool operator==(const MyLargeMessage& m) const
+    {
+        return (name == m.name) && (data == m.data);
+    }
+
+    void FillMessage(size_t length = 100000)
+    {
+        name = "MyLargeMessage";
+        data = std::vector<double>(length);
+
+        size_t chunkLen = length / 4;
+
+        for (size_t i = 0; i < chunkLen; ++i)
+        {
+            data[i] = 1.0;
+        }
+
+        for (size_t i = chunkLen; i < 2 * chunkLen; ++i)
+        {
+            data[i] = 2.0;
+        }
+
+        for (size_t i = 2 * chunkLen; i < 3 * chunkLen; ++i)
+        {
+            data[i] = 3.0;
+        }
+
+        for (size_t i = 3 * chunkLen; i < length; ++i)
+        {
+            data[i] = 4.0;
+        }
+    }
+
+    template <class Archive> void serialize(Archive& ar, const unsigned int /*version*/)
+    {
+#if defined(USE_BOOST_SERIALIZATION)
+        ar& BOOST_SERIALIZATION_NVP(name);
+        ar& BOOST_SERIALIZATION_NVP(data);
+#else
+        ar(CEREAL_NVP(name));
+        ar(CEREAL_NVP(data));
+#endif
+    }
+};
+
+char_buffer_t BuildLargeMessage(size_t length = 100000)
+{
+    MyHeader       header;
+    MyLargeMessage myMessage;
+    myMessage.FillMessage(length);
+    char_buffer_t body = ToCharVector(myMessage);
+    header.totalLength += static_cast<unsigned int>(body.size());
+    const char*   headCharBuf = reinterpret_cast<const char*>(&header);
+    char_buffer_t message;
+    std::copy(headCharBuf, headCharBuf + sizeof(header), std::back_inserter(message));
+    std::copy(body.begin(), body.end(), std::back_inserter(message));
+    return message;
+}
+
+class LargeMessageReceiver
+{
+public:
+    static size_t CheckBytesLeftToRead(const char_buffer_t& message)
+    {
+        CheckMessage(message);
+
+        const MyHeader* pHeader = reinterpret_cast<const MyHeader*>(&message.front());
+
+        if (std::string(pHeader->magicString) != "MyHeader")
+        {
+            throw std::runtime_error("cannot find magic string");
+        }
+
+        if (pHeader->totalLength < message.size())
+        {
+            throw std::length_error("invalid total length in header");
+        }
+
+        return pHeader->totalLength - message.size();
+    }
+
+    void MessageReceivedHandler(const char_buffer_t& message)
+    {
+        CheckMessage(message);
+
+        {
+            char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
+            m_myMessage = DeserializeMessageBuffer<MyLargeMessage>(body, eArchiveType::portBin);
+
+            std::lock_guard<std::mutex> lock(m_mutex);
+            ++m_messageCounter;
+        }
+
+        m_messageEvent.Signal();
+    }
+
+    bool WaitForMessage(const size_t milliseconds)
+    {
+        return m_messageEvent.WaitForTime(static_cast<unsigned int>(milliseconds));
+    }
+
+    const MyLargeMessage& Message() const
+    {
+        return m_myMessage;
+    }
+
+    size_t MessageCount() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_messageCounter;
+    }
+
+private:
+    mutable std::mutex m_mutex;
+    SyncEvent          m_messageEvent;
+    MyLargeMessage     m_myMessage;
+    size_t             m_messageCounter{0};
 
     static void CheckMessage(const char_buffer_t& message)
     {
@@ -195,7 +318,9 @@ public:
 
     void DispatchMessage(default_received_message_ptr_t message)
     {
-        if (message->header.messageId == 666)
+        int command = std::stoi(message->header.MessageCommand);
+
+        if (command == 666)
         {
             m_header = message->header;
 
@@ -208,12 +333,12 @@ public:
         m_messageEvent.Signal();
     }
 
-    bool WaitForMessage(const size_t milliseconds)
+    bool WaitForMessage(const unsigned int milliseconds)
     {
         return m_messageEvent.WaitForTime(milliseconds);
     }
 
-    const MessageHeader& Header() const
+    const HGL_MSG_HDR& Header() const
     {
         return m_header;
     }
@@ -224,13 +349,12 @@ public:
     }
 
 private:
-    SyncEvent     m_messageEvent;
-    MessageHeader m_header;
-    T             m_myMessage;
+    SyncEvent   m_messageEvent;
+    HGL_MSG_HDR m_header;
+    T           m_myMessage;
 };
 
-using MessageDispatcher =
-    TMessageDispatcher<MyMessage, core_lib::serialize::archives::in_port_bin_t>;
+typedef TMessageDispatcher<MyMessage, core_lib::serialize::archives::in_port_bin_t> MessageDispatcher;
 
 #pragma pack(push, 1)
 struct MyPodMessage
@@ -252,58 +376,20 @@ MyPodMessage PodMessageFactory()
     return message;
 }
 
-using PodMessageDispatcher =
-    TMessageDispatcher<MyPodMessage, core_lib::serialize::archives::in_raw_t>;
+typedef TMessageDispatcher<MyPodMessage, core_lib::serialize::archives::in_raw_t> PodMessageDispatcher;
+
+TEST(AsioTest, testCase_SerializationLibUsed)
+{
+#if defined(USE_BOOST_SERIALIZATION)
+    GOUT("*** USING BOOST SERIALIZATION ***");
+#else
+    GOUT("*** USING CEREAL ***");
+#endif
+}
 
 // ****************************************************************************
 // Asio tests
 // ****************************************************************************
-TEST(AsioTest, testCase_IoThreadGroup1)
-{
-    Sum sum1{};
-    Sum sum2{};
-
-    {
-        core_lib::asio::IoContextThreadGroup ioThreadGroup{};
-
-        for (uint64_t i = 1; i <= 10000; ++i)
-        {
-            boost_asio::post(ioThreadGroup.IoContext(), std::bind(&Sum::Add, &sum1, i));
-            boost_asio::post(ioThreadGroup.IoContext(), std::bind(&Sum::Add, &sum2, i));
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
-    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
-    EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
-}
-
-TEST(AsioTest, testCase_IoThreadGroup2)
-{
-    Sum sum1{};
-    Sum sum2{};
-
-    {
-        core_lib::asio::IoContextThreadGroup ioThreadGroup{};
-
-        for (uint64_t i = 1; i <= 10000; ++i)
-        {
-            ioThreadGroup.Post(std::bind(&Sum::Add, &sum1, i));
-            ioThreadGroup.Post(std::bind(&Sum::Add, &sum2, i));
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
-    EXPECT_TRUE(sum1.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(50005000));
-    EXPECT_TRUE(sum1.NumThreadsUsed() == std::thread::hardware_concurrency());
-    EXPECT_TRUE(sum2.NumThreadsUsed() == std::thread::hardware_concurrency());
-}
-
 TEST(AsioTest, testCase_TestAsync)
 {
     char_buffer_t   message = BuildMessage();
@@ -370,9 +456,202 @@ TEST(AsioTest, testCase_TestSync)
     EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
-TEST(AsioTest, testCase_TestBadConnect_InvalidTarget)
+TEST(AsioTest, testCase_TestKeepAlive)
 {
     char_buffer_t   message = BuildMessage();
+    MessageReceiver svrReceiver;
+
+    core_lib::asio::tcp::TcpConnSettings connSettings(sizeof(MyHeader),
+                                                 core_lib::asio::tcp::eSendOption::nagleOff,
+                                                 core_lib::asio::tcp::MAX_UNSENT_ASYNC_MSG_COUNT,
+                                                 0,
+                                                 core_lib::asio::tcp::MAX_TCP_CONNECT_TIMEOUT,
+                                                 1024 * 1024,
+                                                 1024 * 1024,
+                                                 core_lib::asio::tcp::eKeepAliveOption::on);
+
+    TcpServer server(
+        22222,
+        std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+        std::bind(&MessageReceiver::MessageReceivedHandler, &svrReceiver, std::placeholders::_1),
+        connSettings);
+
+    MessageReceiver cltReceiver;
+    TcpClient       client(
+        std::make_pair("127.0.0.1", 22222),
+        std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+        std::bind(&MessageReceiver::MessageReceivedHandler, &cltReceiver, std::placeholders::_1),
+        connSettings);
+
+    EXPECT_TRUE(client.SendMessageToServerSync(message) == true);
+
+    svrReceiver.WaitForMessage(3000);
+    MyMessage expectedMessage;
+    expectedMessage.FillMessage();
+    MyMessage receivedMessage = svrReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+
+    auto clientConn = client.GetClientDetailsForServer();
+    EXPECT_TRUE(server.SendMessageToClientSync(clientConn, message) == true);
+
+    cltReceiver.WaitForMessage(3000);
+    receivedMessage = cltReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+}
+
+TEST(AsioTest, testCase_TestSync_LargeMessage)
+{
+    char_buffer_t        message = BuildLargeMessage();
+    LargeMessageReceiver svrReceiver;
+    TcpServer            server(22222,
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &svrReceiver,
+                               std::placeholders::_1));
+
+    LargeMessageReceiver cltReceiver;
+    TcpClient            client(std::make_pair("127.0.0.1", 22222),
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &cltReceiver,
+                               std::placeholders::_1));
+
+    EXPECT_TRUE(client.SendMessageToServerSync(message) == true);
+
+    svrReceiver.WaitForMessage(3000);
+    MyLargeMessage expectedMessage;
+    expectedMessage.FillMessage();
+    MyLargeMessage receivedMessage = svrReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+
+    auto clientConn = client.GetClientDetailsForServer();
+    EXPECT_TRUE(server.SendMessageToClientSync(clientConn, message) == true);
+
+    cltReceiver.WaitForMessage(3000);
+    receivedMessage = cltReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+}
+
+TEST(AsioTest, testCase_TestAsync_LargeMessage)
+{
+    char_buffer_t        message = BuildLargeMessage();
+    LargeMessageReceiver svrReceiver;
+    TcpServer            server(22222,
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &svrReceiver,
+                               std::placeholders::_1));
+
+    LargeMessageReceiver cltReceiver;
+    TcpClient            client(std::make_pair("127.0.0.1", 22222),
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &cltReceiver,
+                               std::placeholders::_1));
+
+    EXPECT_TRUE(client.SendMessageToServerAsync(message) == true);
+
+    svrReceiver.WaitForMessage(3000);
+    MyLargeMessage expectedMessage;
+    expectedMessage.FillMessage();
+    MyLargeMessage receivedMessage = svrReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+
+    auto clientConn = client.GetClientDetailsForServer();
+    EXPECT_TRUE(server.SendMessageToClientAsync(clientConn, message) == true);
+
+    cltReceiver.WaitForMessage(3000);
+    receivedMessage = cltReceiver.Message();
+    EXPECT_TRUE(receivedMessage == expectedMessage);
+}
+
+TEST(AsioTest, testCase_TestSync_LargeMessage_2)
+{
+    char_buffer_t        message = BuildLargeMessage(625000);
+    LargeMessageReceiver svrReceiver;
+    TcpServer            server(22222,
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &svrReceiver,
+                               std::placeholders::_1));
+
+    LargeMessageReceiver cltReceiver;
+    TcpClient            client(std::make_pair("127.0.0.1", 22222),
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &cltReceiver,
+                               std::placeholders::_1));
+
+    MyLargeMessage expectedMessage;
+    expectedMessage.FillMessage(625000);
+
+    for (size_t i = 0; i < 100; ++i)
+    {
+        EXPECT_TRUE(client.SendMessageToServerSync(message) == true);
+
+        svrReceiver.WaitForMessage(3000);
+
+        MyLargeMessage receivedMessage = svrReceiver.Message();
+        EXPECT_TRUE(receivedMessage == expectedMessage);
+
+        auto clientConn = client.GetClientDetailsForServer();
+        EXPECT_TRUE(server.SendMessageToClientSync(clientConn, message) == true);
+
+        cltReceiver.WaitForMessage(3000);
+        receivedMessage = cltReceiver.Message();
+        EXPECT_TRUE(receivedMessage == expectedMessage);
+    }
+}
+
+TEST(AsioTest, testCase_TestAsync_LargeMessage_2)
+{
+    char_buffer_t        message = BuildLargeMessage(625000);
+    LargeMessageReceiver svrReceiver;
+    TcpServer            server(22222,
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &svrReceiver,
+                               std::placeholders::_1));
+
+    LargeMessageReceiver cltReceiver;
+    TcpClient            client(std::make_pair("127.0.0.1", 22222),
+                     sizeof(MyHeader),
+                     std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+                     std::bind(&LargeMessageReceiver::MessageReceivedHandler,
+                               &cltReceiver,
+                               std::placeholders::_1));
+
+    MyLargeMessage expectedMessage;
+    expectedMessage.FillMessage(625000);
+
+    for (size_t i = 0; i < 100; ++i)
+    {
+        EXPECT_TRUE(client.SendMessageToServerAsync(message) == true);
+
+        svrReceiver.WaitForMessage(3000);
+
+        MyLargeMessage receivedMessage = svrReceiver.Message();
+        EXPECT_TRUE(receivedMessage == expectedMessage);
+
+        auto clientConn = client.GetClientDetailsForServer();
+        EXPECT_TRUE(server.SendMessageToClientAsync(clientConn, message) == true);
+
+        cltReceiver.WaitForMessage(3000);
+        receivedMessage = cltReceiver.Message();
+        EXPECT_TRUE(receivedMessage == expectedMessage);
+    }
+}
+
+TEST(AsioTest, testCase_TestBadConnect_InvalidTarget)
+{
+    char_buffer_t message = BuildMessage();
 
     MessageReceiver cltReceiver;
     TcpClient       client(
@@ -386,7 +665,7 @@ TEST(AsioTest, testCase_TestBadConnect_InvalidTarget)
 
 TEST(AsioTest, testCase_TestBadConnect_LateTarget)
 {
-    char_buffer_t   message = BuildMessage();
+    char_buffer_t message = BuildMessage();
 
     MessageReceiver cltReceiver;
     TcpClient       client(
@@ -420,14 +699,14 @@ TEST(AsioTest, testCase_TestBadConnect_LateTarget)
     EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
-TEST(AsioTest, testCase_TestAsync_ExternalIocontext)
+TEST(AsioTest, testCase_TestAsync_ExternalIoService)
 {
-    IoContextThreadGroup ioThreadGroup;
+    IoServiceThreadGroup ioThreadGroup;
 
     char_buffer_t   message = BuildMessage();
     MessageReceiver svrReceiver;
     TcpServer       server(
-        ioThreadGroup.IoContext(),
+        ioThreadGroup.IoService(),
         22222,
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -435,7 +714,7 @@ TEST(AsioTest, testCase_TestAsync_ExternalIocontext)
 
     MessageReceiver cltReceiver;
     TcpClient       client(
-        ioThreadGroup.IoContext(),
+        ioThreadGroup.IoService(),
         std::make_pair("127.0.0.1", 22222),
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -457,14 +736,14 @@ TEST(AsioTest, testCase_TestAsync_ExternalIocontext)
     EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
-TEST(AsioTest, testCase_TestSync_ExternalIocontext)
+TEST(AsioTest, testCase_TestSync_ExternalIoService)
 {
-    IoContextThreadGroup ioThreadGroup;
+    IoServiceThreadGroup ioThreadGroup;
 
     char_buffer_t   message = BuildMessage();
     MessageReceiver svrReceiver;
     TcpServer       server(
-        ioThreadGroup.IoContext(),
+        ioThreadGroup.IoService(),
         22222,
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -472,7 +751,7 @@ TEST(AsioTest, testCase_TestSync_ExternalIocontext)
 
     MessageReceiver cltReceiver;
     TcpClient       client(
-        ioThreadGroup.IoContext(),
+        ioThreadGroup.IoService(),
         std::make_pair("127.0.0.1", 22222),
         sizeof(MyHeader),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -503,7 +782,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -516,7 +795,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -526,21 +805,23 @@ TEST(AsioTest, testCase_TestTypedAsync)
     messageToSend.FillMessage();
 
     client.SendMessageToServerAsync(messageToSend, 666);
-    serverDispatcher.WaitForMessage(300000);
+    serverDispatcher.WaitForMessage(3000);
 
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     server.SendMessageToClientAsync(messageToSend, respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
     receivedMessage = clientDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -554,7 +835,7 @@ TEST(AsioTest, testCase_TestTypedSync)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -567,7 +848,7 @@ TEST(AsioTest, testCase_TestTypedSync)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -582,16 +863,18 @@ TEST(AsioTest, testCase_TestTypedSync)
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
     receivedMessage = clientDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -605,7 +888,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -619,7 +902,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -632,7 +915,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -661,16 +944,16 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestTyped_SendToAll_2)
@@ -682,7 +965,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -696,7 +979,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -709,7 +992,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -738,16 +1021,16 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestTypedAsync_Hdr)
@@ -759,7 +1042,7 @@ TEST(AsioTest, testCase_TestTypedAsync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -772,7 +1055,7 @@ TEST(AsioTest, testCase_TestTypedAsync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -781,13 +1064,15 @@ TEST(AsioTest, testCase_TestTypedAsync_Hdr)
     client.SendMessageToServerAsync(666);
     serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     server.SendMessageToClientAsync(respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -801,7 +1086,7 @@ TEST(AsioTest, testCase_TestTypedSync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -814,7 +1099,7 @@ TEST(AsioTest, testCase_TestTypedSync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -823,13 +1108,15 @@ TEST(AsioTest, testCase_TestTypedSync_Hdr)
     EXPECT_TRUE(client.SendMessageToServerSync(666) == true);
     serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     EXPECT_TRUE(server.SendMessageToClientSync(respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -843,7 +1130,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -857,7 +1144,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -870,7 +1157,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -887,13 +1174,13 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
@@ -905,7 +1192,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -919,7 +1206,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -932,7 +1219,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(MessageHeader),
+        sizeof(HGL_MSG_HDR),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -949,13 +1236,13 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 //*************
@@ -965,13 +1252,15 @@ TEST(AsioTest, testCase_TestSimpleAsync)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t      serverConn = std::make_pair("127.0.0.1", 22222);
     MessageDispatcher clientDispatcher;
     SimpleTcpClient   client(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -982,16 +1271,18 @@ TEST(AsioTest, testCase_TestSimpleAsync)
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     server.SendMessageToClientAsync(messageToSend, respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
     receivedMessage = clientDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1001,13 +1292,15 @@ TEST(AsioTest, testCase_TestSimpleSync)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t      serverConn = std::make_pair("127.0.0.1", 22222);
     MessageDispatcher clientDispatcher;
     SimpleTcpClient   client(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -1018,18 +1311,160 @@ TEST(AsioTest, testCase_TestSimpleSync)
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
     receivedMessage = clientDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
+}
+
+TEST(AsioTest, testCase_TestSimpleSync_OnCloseCallback)
+{
+    MessageDispatcher serverDispatcher;
+    SimpleTcpServer   server(
+        22222,
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
+
+    server.SetOnCloseCallback(
+        [](connection_t const& clientConn)
+        {
+            GOUT("*** OnClose Callback ***");
+            EXPECT_EQ(clientConn.first, "127.0.0.1");
+        });
+
+    // Reduce scope of client
+    {
+        connection_t      serverConn = std::make_pair("127.0.0.1", 22222);
+        MessageDispatcher clientDispatcher;
+        SimpleTcpClient   client(serverConn,
+                               std::bind(&MessageDispatcher::DispatchMessage,
+                                         &clientDispatcher,
+                                         std::placeholders::_1),
+                               SimpleTcpSettings());
+
+        MyMessage messageToSend;
+        messageToSend.FillMessage();
+
+        EXPECT_TRUE(client.SendMessageToServerSync(messageToSend, 666) == true);
+        serverDispatcher.WaitForMessage(3000);
+
+        MyMessage receivedMessage = serverDispatcher.Message();
+        EXPECT_TRUE(receivedMessage == messageToSend);
+
+        HGL_MSG_HDR  header      = serverDispatcher.Header();
+        connection_t respAddress = std::make_pair(
+            header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
+        clientDispatcher.WaitForMessage(3000);
+
+        receivedMessage = clientDispatcher.Message();
+        EXPECT_TRUE(receivedMessage == messageToSend);
+
+        header      = clientDispatcher.Header();
+        respAddress = std::make_pair(header.ReturnAddress,
+                                     static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+
+        EXPECT_TRUE(respAddress == serverConn);
+    }
+
+    core_lib::SyncEvent pause;
+    pause.WaitForTime(1000);
+}
+
+TEST(AsioTest, testCase_TestSimpleAsync_Large)
+{
+    MessageDispatcher serverDispatcher;
+    SimpleTcpServer   server(
+        22222,
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
+
+    connection_t      serverConn = std::make_pair("127.0.0.1", 22222);
+    MessageDispatcher clientDispatcher;
+    SimpleTcpClient   client(
+        serverConn,
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
+
+    MyMessage messageToSend;
+    messageToSend.FillMessage(625000);
+
+    for (size_t i = 0; i < 100; ++i)
+    {
+        client.SendMessageToServerAsync(messageToSend, 666);
+        serverDispatcher.WaitForMessage(3000);
+
+        MyMessage receivedMessage = serverDispatcher.Message();
+        EXPECT_TRUE(receivedMessage == messageToSend);
+
+        HGL_MSG_HDR  header      = serverDispatcher.Header();
+        connection_t respAddress = std::make_pair(
+            header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        server.SendMessageToClientAsync(messageToSend, respAddress, 666);
+        clientDispatcher.WaitForMessage(3000);
+
+        receivedMessage = clientDispatcher.Message();
+        EXPECT_TRUE(receivedMessage == messageToSend);
+
+        header      = clientDispatcher.Header();
+        respAddress = std::make_pair(header.ReturnAddress,
+                                     static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+
+        EXPECT_TRUE(respAddress == serverConn);
+    }
+}
+
+TEST(AsioTest, testCase_TestSimpleSync_Large)
+{
+    MessageDispatcher serverDispatcher;
+    SimpleTcpServer   server(
+        22222,
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
+
+    connection_t      serverConn = std::make_pair("127.0.0.1", 22222);
+    MessageDispatcher clientDispatcher;
+    SimpleTcpClient   client(
+        serverConn,
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
+
+    MyMessage messageToSend;
+    messageToSend.FillMessage(625000);
+
+    for (size_t i = 0; i < 100; ++i)
+    {
+        EXPECT_TRUE(client.SendMessageToServerSync(messageToSend, 666) == true);
+        serverDispatcher.WaitForMessage(3000);
+
+        MyMessage receivedMessage = serverDispatcher.Message();
+        EXPECT_TRUE(receivedMessage == messageToSend);
+
+        HGL_MSG_HDR  header      = serverDispatcher.Header();
+        connection_t respAddress = std::make_pair(
+            header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
+        clientDispatcher.WaitForMessage(3000);
+
+        receivedMessage = clientDispatcher.Message();
+        EXPECT_TRUE(receivedMessage == messageToSend);
+
+        header      = clientDispatcher.Header();
+        respAddress = std::make_pair(header.ReturnAddress,
+                                     static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+
+        EXPECT_TRUE(respAddress == serverConn);
+    }
 }
 
 TEST(AsioTest, testCase_TestSimple_SendToAll_1)
@@ -1037,19 +1472,22 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_1)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
     MessageDispatcher clientDispatcher1;
     SimpleTcpClient   client1(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MessageDispatcher clientDispatcher2;
     SimpleTcpClient   client2(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -1073,16 +1511,16 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_1)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestSimple_SendToAll_2)
@@ -1090,19 +1528,22 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_2)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
     MessageDispatcher clientDispatcher1;
     SimpleTcpClient   client1(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MessageDispatcher clientDispatcher2;
     SimpleTcpClient   client2(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
@@ -1126,16 +1567,16 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_2)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestSimpleAsync_Hdr)
@@ -1143,24 +1584,28 @@ TEST(AsioTest, testCase_TestSimpleAsync_Hdr)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t      serverConn = std::make_pair("127.0.0.1", 22222);
     MessageDispatcher clientDispatcher;
     SimpleTcpClient   client(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     client.SendMessageToServerAsync(666);
     serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     server.SendMessageToClientAsync(respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1170,24 +1615,28 @@ TEST(AsioTest, testCase_TestSimpleSync_Hdr)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t      serverConn = std::make_pair("127.0.0.1", 22222);
     MessageDispatcher clientDispatcher;
     SimpleTcpClient   client(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     EXPECT_TRUE(client.SendMessageToServerSync(666) == true);
     serverDispatcher.WaitForMessage(3000);
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     EXPECT_TRUE(server.SendMessageToClientSync(respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1197,19 +1646,22 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_1_Hdr)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
     MessageDispatcher clientDispatcher1;
     SimpleTcpClient   client1(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MessageDispatcher clientDispatcher2;
     SimpleTcpClient   client2(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1),
+        SimpleTcpSettings());
 
     client1.SendMessageToServerAsync(666);
     serverDispatcher.WaitForMessage(3000);
@@ -1221,13 +1673,13 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_1_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestSimple_SendToAll_2_Hdr)
@@ -1235,19 +1687,22 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_2_Hdr)
     MessageDispatcher serverDispatcher;
     SimpleTcpServer   server(
         22222,
-        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t serverConn = std::make_pair("127.0.0.1", 22222);
 
     MessageDispatcher clientDispatcher1;
     SimpleTcpClient   client1(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher1, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MessageDispatcher clientDispatcher2;
     SimpleTcpClient   client2(
         serverConn,
-        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1));
+        std::bind(&MessageDispatcher::DispatchMessage, &clientDispatcher2, std::placeholders::_1),
+        SimpleTcpSettings());
 
     client1.SendMessageToServerAsync(666);
     serverDispatcher.WaitForMessage(3000);
@@ -1259,13 +1714,13 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_2_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    MessageHeader header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    HGL_MSG_HDR header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
-    EXPECT_TRUE(header.responsePort == serverConn.second);
+    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
+    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestUdpBroadcast)
@@ -1278,7 +1733,7 @@ TEST(AsioTest, testCase_TestUdpBroadcast)
         std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1));
     UdpSender udpSender(std::make_pair("255.255.255.255", 22222));
 
-    EXPECT_TRUE(udpSender.SendMessage(message) == true);
+    EXPECT_TRUE(udpSender.SendMsg(message) == true);
 
     receiver.WaitForMessage(3000);
     MyMessage expectedMessage;
@@ -1287,7 +1742,7 @@ TEST(AsioTest, testCase_TestUdpBroadcast)
     EXPECT_TRUE(receivedMessage == expectedMessage);
 }
 
-TEST(AsioTest, testCase_TestUdpUnicast)
+TEST(AsioTest, testCase_TestUdpUnicast1)
 {
     char_buffer_t   message = BuildMessage();
     MessageReceiver receiver;
@@ -1299,13 +1754,145 @@ TEST(AsioTest, testCase_TestUdpUnicast)
 
     UdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
 
-    EXPECT_TRUE(udpSender.SendMessage(message) == true);
+    EXPECT_TRUE(udpSender.SendMsg(message) == true);
 
     receiver.WaitForMessage(3000);
     MyMessage expectedMessage;
     expectedMessage.FillMessage();
     MyMessage receivedMessage = receiver.Message();
     EXPECT_TRUE(receivedMessage == expectedMessage);
+}
+
+TEST(AsioTest, testCase_TestUdpUnicast2)
+{
+    char_buffer_t message = BuildMessage();
+
+    UdpSender udpSender(std::make_pair("127.0.0.1", 26262), eUdpOption::unicast);
+
+    EXPECT_TRUE(udpSender.SendMsg(message));
+}
+
+TEST(AsioTest, testCase_TestUdpUnicast_ExternalIOService_StopAndCloseDelay)
+{
+    char_buffer_t message = BuildMessage();
+
+    GOUT("Starting UdpReceiver external IO close socket tests (with stop and delay)...may take 60s "
+         "or more.");
+
+    for (size_t i = 0; i < 60; ++i)
+    {
+        UdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
+        size_t    numSent = 0;
+
+        auto sendTick = [&]()
+        {
+            if (udpSender.SendMsg(message))
+            {
+                ++numSent;
+            }
+        };
+
+        MessageReceiver              receiver;
+        IoServiceThreadGroup         ioThreadGroup(1);
+        SyncEvent                    recvEvent;
+        std::unique_ptr<UdpReceiver> udpReceiver = std::make_unique<UdpReceiver>(
+            ioThreadGroup.IoService(),
+            22223,
+            std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+            std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1),
+            eUdpOption::unicast);
+
+        EventThread evt(sendTick, 100, false);
+
+        recvEvent.WaitForTime(1050);
+        auto count = receiver.MessageCount();
+
+        EXPECT_TRUE(count >= 10);
+
+        ioThreadGroup.IoService().stop();
+        recvEvent.WaitForTime(250);
+    }
+}
+
+TEST(AsioTest, testCase_TestUdpUnicast_ExternalIOService_NoCloseDelayOrStop)
+{
+    char_buffer_t message = BuildMessage();
+
+    GOUT("Starting UdpReceiver external IO close socket tests (no stop, no delay)...may take 60s "
+         "or more.");
+
+    for (size_t i = 0; i < 60; ++i)
+    {
+        UdpSender udpSender(std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
+        size_t    numSent = 0;
+
+        auto sendTick = [&]()
+        {
+            if (udpSender.SendMsg(message))
+            {
+                ++numSent;
+            }
+        };
+
+        MessageReceiver              receiver;
+        IoServiceThreadGroup         ioThreadGroup(1);
+        SyncEvent                    recvEvent;
+        std::unique_ptr<UdpReceiver> udpReceiver = std::make_unique<UdpReceiver>(
+            ioThreadGroup.IoService(),
+            22223,
+            std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+            std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1),
+            eUdpOption::unicast);
+
+        EventThread evt(sendTick, 100, false);
+
+        recvEvent.WaitForTime(1050);
+        auto count = receiver.MessageCount();
+
+        EXPECT_TRUE(count >= 10);
+    }
+}
+
+TEST(AsioTest, testCase_TestUdpUnicast_ExternalSharedIOService_NoCloseDelayOrStop)
+{
+    char_buffer_t message = BuildMessage();
+
+    GOUT("Starting UdpReceiver external shared IO close socket tests (no stop, no delay)...may "
+         "take 60s "
+         "or more.");
+
+    for (size_t i = 0; i < 60; ++i)
+    {
+        IoServiceThreadGroup ioThreadGroup(1);
+
+        UdpSender udpSender(
+            ioThreadGroup.IoService(), std::make_pair("127.0.0.1", 22223), eUdpOption::unicast);
+        size_t numSent = 0;
+
+        auto sendTick = [&]()
+        {
+            if (udpSender.SendMsg(message))
+            {
+                ++numSent;
+            }
+        };
+
+        MessageReceiver              receiver;
+        SyncEvent                    recvEvent;
+        std::unique_ptr<UdpReceiver> udpReceiver = std::make_unique<UdpReceiver>(
+            ioThreadGroup.IoService(),
+            22223,
+            std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
+            std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1),
+            eUdpOption::unicast);
+
+        EventThread evt(sendTick, 100, false);
+
+        recvEvent.WaitForTime(1050);
+        auto count = receiver.MessageCount();
+
+        EXPECT_TRUE(count >= 10);
+    }
 }
 
 TEST(AsioTest, testCase_TestTypedUdpBroadcast)
@@ -1328,7 +1915,7 @@ TEST(AsioTest, testCase_TestTypedUdpBroadcast)
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(udpSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1357,7 +1944,7 @@ TEST(AsioTest, testCase_TestTypedUdpUnicast)
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(udpSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1377,7 +1964,7 @@ TEST(AsioTest, testCase_TestSimpleUdpBroadcast)
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(udpSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1398,7 +1985,7 @@ TEST(AsioTest, testCase_TestSimpleUdpUnicast)
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(udpSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(udpSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1409,17 +1996,17 @@ TEST(AsioTest, testCase_TestSimpleUdpUnicast)
 TEST(AsioTest, testCase_TestSerializePOD)
 {
     PodMessageDispatcher serverDispatcher;
-    SimpleTcpServer      server(22222,
-                           std::bind(&PodMessageDispatcher::DispatchMessage,
-                                     &serverDispatcher,
-                                     std::placeholders::_1));
+    SimpleTcpServer      server(
+        22222,
+        std::bind(&PodMessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     connection_t         serverConn = std::make_pair("127.0.0.1", 22222);
     PodMessageDispatcher clientDispatcher;
-    SimpleTcpClient      client(serverConn,
-                           std::bind(&PodMessageDispatcher::DispatchMessage,
-                                     &clientDispatcher,
-                                     std::placeholders::_1));
+    SimpleTcpClient      client(
+        serverConn,
+        std::bind(&PodMessageDispatcher::DispatchMessage, &clientDispatcher, std::placeholders::_1),
+        SimpleTcpSettings());
 
     MyPodMessage messageToSend = PodMessageFactory();
     client.SendMessageToServerAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(
@@ -1430,8 +2017,9 @@ TEST(AsioTest, testCase_TestSerializePOD)
     EXPECT_TRUE(receivedMessage.value == messageToSend.value);
     EXPECT_TRUE(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
 
-    MessageHeader header      = serverDispatcher.Header();
-    connection_t  respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    HGL_MSG_HDR  header = serverDispatcher.Header();
+    connection_t respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
     server.SendMessageToClientAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(
         messageToSend, respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
@@ -1440,8 +2028,9 @@ TEST(AsioTest, testCase_TestSerializePOD)
     EXPECT_TRUE(receivedMessage.value == messageToSend.value);
     EXPECT_TRUE(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
 
-    header      = clientDispatcher.Header();
-    respAddress = std::make_pair(header.responseAddress, header.responsePort);
+    header = clientDispatcher.Header();
+    respAddress =
+        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1458,7 +2047,7 @@ TEST(AsioTest, testCase_TestMulticast_DefaultAdapter)
 
     MulticastSender mcSender(std::make_pair("226.0.0.1", 19191));
 
-    EXPECT_TRUE(mcSender.SendMessage(message) == true);
+    EXPECT_TRUE(mcSender.SendMsg(message) == true);
 
     receiver.WaitForMessage(3000);
     MyMessage expectedMessage;
@@ -1487,7 +2076,7 @@ TEST(AsioTest, testCase_TestTypedMulticast_DefaultAdapter)
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(mcSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(mcSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1507,7 +2096,7 @@ TEST(AsioTest, testCase_TestSimpleMulticast_DefaultAdapter)
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(mcSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(mcSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1518,7 +2107,7 @@ TEST(AsioTest, testCase_TestSimpleMulticast_DefaultAdapter)
 TEST(AsioTest, testCase_TestMulticast_SpecificAdapter)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 10.34.6.1/255.255.0.0.
+    // with settings 160.51.100.100/255.255.0.0.
     char_buffer_t   message = BuildMessage();
     MessageReceiver receiver;
 
@@ -1526,11 +2115,11 @@ TEST(AsioTest, testCase_TestMulticast_SpecificAdapter)
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
         std::bind(&MessageReceiver::MessageReceivedHandler, &receiver, std::placeholders::_1),
-        adapterIp);
+        ADDRESS_ONE);
 
-    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), adapterIp);
+    MulticastSender mcSender(std::make_pair("226.0.0.1", 19191), ADDRESS_ONE);
 
-    EXPECT_TRUE(mcSender.SendMessage(message) == true);
+    EXPECT_TRUE(mcSender.SendMsg(message) == true);
 
     receiver.WaitForMessage(3000);
     MyMessage expectedMessage;
@@ -1542,7 +2131,7 @@ TEST(AsioTest, testCase_TestMulticast_SpecificAdapter)
 TEST(AsioTest, testCase_TestTypedMulticast_SpecificAdapter)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 10.34.6.1/255.255.0.0.
+    // with settings 160.51.100.100/255.255.0.0.
     MessageBuilder    messageBuilder;
     MessageDispatcher rcvrDispatcher;
     MessageHandler    rcvrMessageHandler(
@@ -1554,15 +2143,15 @@ TEST(AsioTest, testCase_TestTypedMulticast_SpecificAdapter)
             &MessageHandler::CheckBytesLeftToRead, &rcvrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &rcvrMessageHandler, std::placeholders::_1),
-        adapterIp);
+        ADDRESS_ONE);
 
     MulticastTypedSender<MessageBuilder> mcSender(
-        std::make_pair("226.0.0.1", 19191), messageBuilder, adapterIp);
+        std::make_pair("226.0.0.1", 19191), messageBuilder, ADDRESS_ONE);
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(mcSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(mcSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1573,19 +2162,19 @@ TEST(AsioTest, testCase_TestTypedMulticast_SpecificAdapter)
 TEST(AsioTest, testCase_TestSimpleMulticast_SpecificAdapter)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 10.34.6.1/255.255.0.0.
+    // with settings 160.51.100.100/255.255.0.0.
     MessageDispatcher       rcvrDispatcher;
     SimpleMulticastReceiver mcReceiver(
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1),
-        adapterIp);
+        ADDRESS_ONE);
 
-    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), adapterIp);
+    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), ADDRESS_ONE);
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(mcSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(mcSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 
@@ -1596,20 +2185,20 @@ TEST(AsioTest, testCase_TestSimpleMulticast_SpecificAdapter)
 TEST(AsioTest, testCase_TestSimpleMulticast_DifferentAdapters)
 {
     // This test requires a "loopback" test adapter to exist
-    // with settings 10.34.6.1/255.255.0.0 and another
-    // adapter on IP address 10.35.6.1/255.255.0.0.
+    // with settings 160.51.100.100/255.255.0.0 and another
+    // adapter on IP address 10.192.44.1/255.255.0.0.
     MessageDispatcher       rcvrDispatcher;
     SimpleMulticastReceiver mcReceiver(
         std::make_pair("226.0.0.1", 19191),
         std::bind(&MessageDispatcher::DispatchMessage, &rcvrDispatcher, std::placeholders::_1),
-        adapterIp);
+        ADDRESS_ONE);
 
-    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), adapterIp2);
+    SimpleMulticastSender mcSender(std::make_pair("226.0.0.1", 19191), ADDRESS_TWO);
 
     MyMessage messageToSend;
     messageToSend.FillMessage();
 
-    EXPECT_TRUE(mcSender.SendMessage(messageToSend, 666) == true);
+    EXPECT_TRUE(mcSender.SendMsg(messageToSend, 666) == true);
 
     rcvrDispatcher.WaitForMessage(3000);
 

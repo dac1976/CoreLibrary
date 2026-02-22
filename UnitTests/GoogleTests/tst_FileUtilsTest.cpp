@@ -2,28 +2,18 @@
 
 #include "FileUtils/FileUtils.h"
 #include <boost/predef.h>
-#include <boost/filesystem.hpp>
+#include "FileUtils/SelectFileSystemLibrary.hpp" 
 #include "gtest/gtest.h"
 
 using namespace core_lib::file_utils;
 
-#if BOOST_OS_WINDOWS
-const filesys::path data_base_path = L"../data";
-const filesys::path alt_base_path  = L"../tests";
-const filesys::path copy_base_path = L"../data_copy";
-const filesys::path alt_copy_base_path = L"../data_copy";
-const filesys::path move_base_path = L"../data_move";
-const filesys::path alt_move_base_path = L"../../data_move";
-const filesys::path subdirs_path       = L"../";
-#else
-const filesys::path data_base_path = L"../data";
-const filesys::path alt_base_path  = L"../tests";
-const filesys::path copy_base_path = L"../data_copy";
-const filesys::path alt_copy_base_path = L"../data_copy";
-const filesys::path move_base_path = L"../data_move";
-const filesys::path alt_move_base_path = L"../../data_move";
-const filesys::path subdirs_path       = L"../";
-#endif
+const filesys::path data_base_path = L"./data";
+const filesys::path alt_base_path  = L"./";
+const filesys::path copy_base_path = L"./data_copy";
+const filesys::path alt_copy_base_path = L"./alt_data_copy";
+const filesys::path move_base_path = L"./data_move";
+const filesys::path alt_move_base_path = L"C:/Projects/Common/Utils/Platform/FileSystem/alt_data_move";
+const filesys::path subdirs_path      = L"./";
 
 TEST(FileUtilsTest, Case1_CommonRoot_SameLevel)
 {
