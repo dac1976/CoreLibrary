@@ -3,7 +3,7 @@
 // classes.
 //
 // Copyright (C) 2014 to present, Duncan Crutchley
-// Contact <dac1976github@outlook.com>
+// Contact <15799155+dac1976@users.noreply.github.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published
