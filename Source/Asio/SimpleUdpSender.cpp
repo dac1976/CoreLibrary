@@ -36,14 +36,17 @@ namespace asio
 namespace udp
 {
 
-SimpleUdpSender::SimpleUdpSender(boost_iocontext_t& ioContext, const defs::connection_t& receiver,
-                                 eUdpOption sendOption, size_t sendBufferSize)
-    : m_udpTypedSender{ioContext, receiver, m_messageBuilder, sendOption, sendBufferSize}
+SimpleUdpSender::SimpleUdpSender(asio_compat::io_service_t& ioService,
+						   const defs::connection_t& receiver, 
+						   eUdpOption sendOption,
+						   size_t sendBufferSize)
+    : m_udpTypedSender{ioService, receiver, m_messageBuilder, sendOption, sendBufferSize}
 {
 }
 
-SimpleUdpSender::SimpleUdpSender(const defs::connection_t& receiver, eUdpOption sendOption,
-                                 size_t sendBufferSize)
+SimpleUdpSender::SimpleUdpSender(const defs::connection_t& receiver, 
+                           eUdpOption sendOption,
+                           size_t sendBufferSize)
     : m_udpTypedSender{receiver, m_messageBuilder, sendOption, sendBufferSize}
 {
 }
@@ -53,25 +56,22 @@ auto SimpleUdpSender::ReceiverConnection() const -> defs::connection_t
     return m_udpTypedSender.ReceiverConnection();
 }
 
-bool SimpleUdpSender::SendMessage(int32_t messageId, const defs::connection_t& responseAddress)
+bool SimpleUdpSender::SendMsg(int32_t messageId, 
+                         const defs::connection_t& responseAddress)
 {
-    return m_udpTypedSender.SendMessage(messageId, responseAddress);
+    return m_udpTypedSender.SendMsg(messageId, responseAddress);
 }
 
-bool SimpleUdpSender::SendMessage(const defs::char_buffer_t& message, int32_t messageId,
-                                  const defs::connection_t& responseAddress)
+bool SimpleUdpSender::SendMsg(const defs::char_buffer_t& message, 
+                         int32_t messageId,
+                         const defs::connection_t& responseAddress)
 {
-    return m_udpTypedSender.SendMessage(message, messageId, responseAddress);
+    return m_udpTypedSender.SendMsg(message, messageId, responseAddress);
 }
 
-bool SimpleUdpSender::SendMessage(const defs::char_buffer_t& message)
+bool SimpleUdpSender::SendMsg(const defs::char_buffer_t& message)
 {
-    return m_udpTypedSender.SendMessage(message);
-}
-
-bool SimpleUdpSender::SendMessage(const char* message, size_t length)
-{
-    return m_udpTypedSender.SendMessage(message, length);
+    return m_udpTypedSender.SendMsg(message);
 }
 
 } // namespace udp
