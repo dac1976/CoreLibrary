@@ -23,6 +23,7 @@
 #define STRINGUTILS_H
 
 #include <string>
+#include <cstring>
 #include <vector>
 #include <sstream>
 #include <iomanip>
@@ -577,7 +578,18 @@ std::pair<TInt, bool> SafeConvertCharArrayToInt(const char* text, size_t length)
         return result;
     }
 
-#if defined(IS_CPP17) && !defined(NO_FROM_CHARS)
+    // Adjust length to the first NULL within [text, text + length), if any.
+    if (const void* p = std::memchr(text, '\0', length))
+    {
+        length = static_cast<const char*>(p) - text;
+    }
+
+    if (0 == length)
+    {
+        return result;
+    }
+
+#if defined(HGL_CPP17) && !defined(NO_FROM_CHARS)
     auto [ptr, res] = std::from_chars(text, text + length, result.first);
     result.second   = res == std::errc();
 #else
@@ -744,3 +756,4 @@ CORE_LIBRARY_DLL_SHARED_API bool CompareUnorderedVectors(std::vector<std::string
 } // namespace core_lib
 
 #endif // STRINGUTILS_H
+
