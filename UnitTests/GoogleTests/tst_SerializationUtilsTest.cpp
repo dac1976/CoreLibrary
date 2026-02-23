@@ -158,8 +158,8 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectTxtArch)
     std::vector<unsigned int> vec{1, 2, 3, 4, 5};
     objectIn.George(vec);
     char_vector_t charVector;
-    charVector = ToCharVector<MyObject, archives::out_txt_t>(objectIn);
-    objectOut  = ToObject<MyObject, archives::in_txt_t>(charVector);
+    charVector = ToCharVector<MyObject, archives::out_json_t>(objectIn);
+    objectOut  = ToObject<MyObject, archives::in_json_t>(charVector);
 
     EXPECT_EQ(objectOut, objectIn);
 }
@@ -174,8 +174,8 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectTxtArch_Alt)
     std::vector<unsigned int> vec{1, 2, 3, 4, 5};
     objectIn.George(vec);
     char_vector_t charVector;
-    ToCharVector<MyObject, archives::out_txt_t>(objectIn, charVector);
-    objectOut = ToObject<MyObject, archives::in_txt_t>(charVector);
+    ToCharVector<MyObject, archives::out_json_t>(objectIn, charVector);
+    objectOut = ToObject<MyObject, archives::in_json_t>(charVector);
 
     EXPECT_EQ(objectOut, objectIn);
 }

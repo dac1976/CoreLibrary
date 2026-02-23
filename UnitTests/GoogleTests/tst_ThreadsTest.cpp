@@ -57,7 +57,7 @@ private:
 class ThreadTestHelper2
 {
 public:
-    explicit ThreadTestHelper2(core_lib::SyncEvent& event)
+    explicit ThreadTestHelper2(core_lib::threads::SyncEvent& event)
         : m_event(event)
     {
     }
@@ -96,7 +96,7 @@ public:
     }
 
 private:
-    core_lib::SyncEvent&                 m_event;
+    core_lib::threads::SyncEvent&                 m_event;
     mutable std::mutex              m_mutex;
     std::map<std::thread::id, bool> m_eventSignalledMap;
 
@@ -107,7 +107,7 @@ private:
     }
 };
 
-class ThreadDerived final : public core_lib::ThreadBase
+class ThreadDerived final : public core_lib::threads::ThreadBase
 {
 public:
     explicit ThreadDerived(bool& terminateCondition)
@@ -133,7 +133,7 @@ public:
 
 private:
     mutable std::mutex m_mutex;
-    core_lib::SyncEvent     m_event;
+    core_lib::threads::SyncEvent     m_event;
     size_t             m_counter;
     bool&              m_terminateCondition;
 
@@ -177,7 +177,7 @@ static std::shared_ptr<QueueMsg> CreateQueueMsg(size_t size, int value)
 
 static std::shared_ptr<char> CreateQueueArrayMsg(size_t size)
 {
-    return std::shared_ptr<char>(new char[size], core_lib::ArrayDeleter<char>());
+    return std::shared_ptr<char>(new char[size], core_lib::threads::ArrayDeleter<char>());
 }
 
 static QueueMsg CreateQueueMsgObj(size_t size, int value)
@@ -190,7 +190,7 @@ static QueueMsg* CreateQueueMsgPtr(size_t size, int value)
     return new QueueMsg(size, value);
 }
 
-template <typename T> class QueuedThread1 final : public core_lib::ThreadBase
+template <typename T> class QueuedThread1 final : public core_lib::threads::ThreadBase
 {
 public:
     QueuedThread1()
@@ -219,7 +219,7 @@ public:
     }
 
 private:
-    core_lib::HGLConcurrentQueue<T> m_queue;
+    core_lib::threads::ConcurrentQueue<T> m_queue;
     mutable std::mutex         m_mutex;
     size_t                     m_counter{};
 
@@ -244,7 +244,7 @@ private:
     }
 };
 
-class QueuedThread2 final : public core_lib::ThreadBase
+class QueuedThread2 final : public core_lib::threads::ThreadBase
 {
 public:
     QueuedThread2()
@@ -273,7 +273,7 @@ public:
     }
 
 private:
-    core_lib::HGLConcurrentQueue<QueueMsg*> m_queue;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> m_queue;
     mutable std::mutex                 m_mutex;
     size_t                             m_counter{};
 
@@ -300,10 +300,10 @@ private:
     }
 };
 
-class QueuedThread3 final : public core_lib::ThreadBase
+class QueuedThread3 final : public core_lib::threads::ThreadBase
 {
 public:
-    QueuedThread3(core_lib::SyncEvent& readyEvent, int maxCount)
+    QueuedThread3(core_lib::threads::SyncEvent& readyEvent, int maxCount)
         : ThreadBase()
         , m_readyEvent(readyEvent)
         , m_maxCount(maxCount)
@@ -331,9 +331,9 @@ public:
     }
 
 private:
-    core_lib::SyncEvent&                    m_readyEvent;
+    core_lib::threads::SyncEvent&                    m_readyEvent;
     int                                m_maxCount;
-    core_lib::HGLConcurrentQueue<QueueMsg*> m_queue;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> m_queue;
     mutable std::mutex                 m_mutex;
     size_t                             m_counter{};
 
@@ -422,7 +422,7 @@ public:
 
 private:
     typedef std::shared_ptr<Message>        message_t;
-    core_lib::MessageQueueThread<int, message_t> m_mqt;
+    core_lib::threads::MessageQueueThread<int, message_t> m_mqt;
     std::map<int, size_t>                   m_countMap;
 
     static int MessageDecoder(const message_t& message)
@@ -495,7 +495,7 @@ public:
     }
 
 private:
-    core_lib::SyncEvent m_event;
+    core_lib::threads::SyncEvent m_event;
 };
 
 // ****************************************************************************
@@ -521,14 +521,14 @@ protected:
 TEST_F(ThreadsTest, testCase_ThreadGroup1)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup tg;
+    core_lib::threads::ThreadGroup tg;
     EXPECT_FALSE(tg.IsThisThreadIn());
 }
 
 TEST_F(ThreadsTest, testCase_ThreadGroup2)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup             tg;
+    core_lib::threads::ThreadGroup             tg;
     std::unique_ptr<std::thread> t(new std::thread(&ThreadTestHelper::ThreadFunction, &m_helper));
     std::thread::id              tId = t->get_id();
     EXPECT_FALSE(tg.IsThreadIn(tId));
@@ -543,7 +543,7 @@ TEST_F(ThreadsTest, testCase_ThreadGroup2)
 TEST_F(ThreadsTest, testCase_ThreadGroup3)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup             tg;
+    core_lib::threads::ThreadGroup             tg;
     std::unique_ptr<std::thread> t(new std::thread(&ThreadTestHelper::ThreadFunction, &m_helper));
     std::thread::id              tId = t->get_id();
     EXPECT_FALSE(tg.IsThreadIn(t.get()));
@@ -559,7 +559,7 @@ TEST_F(ThreadsTest, testCase_ThreadGroup3)
 TEST_F(ThreadsTest, testCase_ThreadGroup4)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup             tg;
+    core_lib::threads::ThreadGroup             tg;
     std::unique_ptr<std::thread> t(new std::thread(&ThreadTestHelper::ThreadFunction, &m_helper));
     std::thread::id              tId = t->get_id();
     EXPECT_FALSE(tg.IsThreadIn(tId));
@@ -577,7 +577,7 @@ TEST_F(ThreadsTest, testCase_ThreadGroup4)
 TEST_F(ThreadsTest, testCase_ThreadGroup5)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup             tg;
+    core_lib::threads::ThreadGroup             tg;
     std::unique_ptr<std::thread> t(new std::thread(&ThreadTestHelper::ThreadFunction, &m_helper));
     std::thread::id              tId = t->get_id();
     EXPECT_FALSE(tg.IsThreadIn(t.get()));
@@ -594,7 +594,7 @@ TEST_F(ThreadsTest, testCase_ThreadGroup5)
 TEST_F(ThreadsTest, testCase_ThreadGroup6)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup tg;
+    core_lib::threads::ThreadGroup tg;
     std::thread::id  tId =
         tg.CreateThread(std::bind(&ThreadTestHelper::ThreadFunction, &m_helper))->get_id();
     EXPECT_TRUE(tg.IsThreadIn(tId));
@@ -606,7 +606,7 @@ TEST_F(ThreadsTest, testCase_ThreadGroup6)
 TEST_F(ThreadsTest, testCase_ThreadGroup7)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup             tg;
+    core_lib::threads::ThreadGroup             tg;
     std::vector<std::thread::id> tIds;
 
     for (size_t i = 0; i < 10; ++i)
@@ -627,7 +627,7 @@ TEST_F(ThreadsTest, testCase_ThreadGroup7)
 TEST_F(ThreadsTest, testCase_ThreadGroup8)
 {
     m_helper.Clear();
-    core_lib::ThreadGroup tg;
+    core_lib::threads::ThreadGroup tg;
     std::thread*     t   = tg.CreateThread(std::bind(&ThreadTestHelper::ThreadFunction, &m_helper));
     std::thread::id  tId = t->get_id();
     EXPECT_TRUE(tg.IsThreadIn(t));
@@ -656,9 +656,9 @@ TEST_F(ThreadsTest, testCase_ThreadGroup8)
 
 TEST_F(ThreadsTest, testCase_SyncEvent1)
 {
-    core_lib::SyncEvent    event;
+    core_lib::threads::SyncEvent    event;
     ThreadTestHelper2 helper(event);
-    core_lib::ThreadGroup  tg;
+    core_lib::threads::ThreadGroup  tg;
     std::thread*      t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
@@ -670,11 +670,11 @@ TEST_F(ThreadsTest, testCase_SyncEvent1)
 
 TEST_F(ThreadsTest, testCase_SyncEvent2)
 {
-    core_lib::SyncEvent    event(core_lib::eNotifyType::signalOneThread,
-                         core_lib::eResetCondition::autoReset,
-                         core_lib::eIntialCondition::signalled);
+    core_lib::threads::SyncEvent    event(core_lib::threads::eNotifyType::signalOneThread,
+                         core_lib::threads::eResetCondition::autoReset,
+                         core_lib::threads::eIntialCondition::signalled);
     ThreadTestHelper2 helper(event);
-    core_lib::ThreadGroup  tg;
+    core_lib::threads::ThreadGroup  tg;
     std::thread*      t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
@@ -684,9 +684,9 @@ TEST_F(ThreadsTest, testCase_SyncEvent2)
 
 TEST_F(ThreadsTest, testCase_SyncEvent3)
 {
-    core_lib::SyncEvent    event;
+    core_lib::threads::SyncEvent    event;
     ThreadTestHelper2 helper(event);
-    core_lib::ThreadGroup  tg;
+    core_lib::threads::ThreadGroup  tg;
     std::thread*      t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction2, &helper));
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
@@ -699,9 +699,9 @@ TEST_F(ThreadsTest, testCase_SyncEvent3)
 
 TEST_F(ThreadsTest, testCase_SyncEvent4)
 {
-    core_lib::SyncEvent    event;
+    core_lib::threads::SyncEvent    event;
     ThreadTestHelper2 helper(event);
-    core_lib::ThreadGroup  tg;
+    core_lib::threads::ThreadGroup  tg;
     std::thread*      t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction2, &helper));
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
@@ -712,11 +712,11 @@ TEST_F(ThreadsTest, testCase_SyncEvent4)
 
 TEST_F(ThreadsTest, testCase_SyncEvent5)
 {
-    core_lib::SyncEvent               event(core_lib::eNotifyType::signalAllThreads,
-                         core_lib::eResetCondition::manualReset,
-                         core_lib::eIntialCondition::notSignalled);
+    core_lib::threads::SyncEvent               event(core_lib::threads::eNotifyType::signalAllThreads,
+                         core_lib::threads::eResetCondition::manualReset,
+                         core_lib::threads::eIntialCondition::notSignalled);
     ThreadTestHelper2            helper(event);
-    core_lib::ThreadGroup             tg;
+    core_lib::threads::ThreadGroup             tg;
     std::vector<std::thread::id> tIds;
 
     for (size_t i = 0; i < 10; ++i)
@@ -738,11 +738,11 @@ TEST_F(ThreadsTest, testCase_SyncEvent5)
 
 TEST_F(ThreadsTest, testCase_SyncEvent6)
 {
-    core_lib::SyncEvent               event(core_lib::eNotifyType::signalAllThreads,
-                         core_lib::eResetCondition::manualReset,
-                         core_lib::eIntialCondition::signalled);
+    core_lib::threads::SyncEvent               event(core_lib::threads::eNotifyType::signalAllThreads,
+                         core_lib::threads::eResetCondition::manualReset,
+                         core_lib::threads::eIntialCondition::signalled);
     ThreadTestHelper2            helper(event);
-    core_lib::ThreadGroup             tg;
+    core_lib::threads::ThreadGroup             tg;
     std::vector<std::thread::id> tIds;
 
     for (size_t i = 0; i < 10; ++i)
@@ -762,27 +762,24 @@ TEST_F(ThreadsTest, testCase_SyncEvent6)
 
 TEST_F(ThreadsTest, testCase_SyncEvent7)
 {
-    core_lib::SyncEvent    event(core_lib::eNotifyType::signalOneThread,
-                         core_lib::eResetCondition::manualReset,
-                         core_lib::eIntialCondition::notSignalled);
+    core_lib::threads::SyncEvent event(core_lib::threads::eNotifyType::signalOneThread,
+                         core_lib::threads::eResetCondition::manualReset,
+                         core_lib::threads::eIntialCondition::notSignalled);
+						 
     ThreadTestHelper2 helper(event);
-    core_lib::ThreadGroup  tg;
+    core_lib::threads::ThreadGroup  tg;
     std::thread*      t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::thread::id tId = t->get_id();
     EXPECT_FALSE(helper.GetEventSignalledState(tId));
     event.Signal();
     tg.JoinAll();
-    tg.RemoveThread(t);
-    delete t;
     EXPECT_TRUE(helper.GetEventSignalledState(tId));
     t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     tId = t->get_id();
     EXPECT_TRUE(helper.GetEventSignalledState(tId));
     tg.JoinAll();
-    tg.RemoveThread(t);
-    delete t;
     event.Reset();
     helper.Clear();
     t = tg.CreateThread(std::bind(&ThreadTestHelper2::ThreadFunction1, &helper));
@@ -935,7 +932,7 @@ static bool CheckQueueMsg(const QueueMsg& msg, const int compValue = 666)
 
 TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
 {
-    core_lib::HGLConcurrentQueue<std::shared_ptr<QueueMsg>> m_queue;
+    core_lib::threads::ConcurrentQueue<std::shared_ptr<QueueMsg>> m_queue;
     EXPECT_TRUE(m_queue.Empty());
     m_queue.Push(CreateQueueMsg(2, 666));
     m_queue.Push(CreateQueueMsg(3, 666));
@@ -1131,19 +1128,19 @@ TEST_F(ThreadsTest, testCase_ConcurrentQueue5)
 
 TEST(QueueTest, testCase_ConcurrentQueue6)
 {
-    core_lib::HGLConcurrentQueue<QueueMsg*> q;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> q;
     q.Push(CreateQueueMsgPtr(2, 666));
     q.Push(CreateQueueMsgPtr(3, 666));
     q.Push(CreateQueueMsgPtr(4, 666));
     EXPECT_TRUE(q.Size() == 3);
 
-    q.Clear(core_lib::SingleItemDeleter<QueueMsg>());
+    q.Clear(core_lib::threads::SingleItemDeleter<QueueMsg>());
     EXPECT_TRUE(q.Empty());
 }
 
 TEST(QueueTest, testCase_ConcurrentQueue7)
 {
-    core_lib::HGLConcurrentQueue<QueueMsg*> q;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> q;
 
     QueueMsg* m = CreateQueueMsgPtr(2, 666);
 
@@ -1161,7 +1158,7 @@ TEST(QueueTest, testCase_ConcurrentQueue7)
 
 TEST(QueueTest, testCase_ConcurrentQueue8)
 {
-    core_lib::HGLConcurrentQueue<char*> q;
+    core_lib::threads::ConcurrentQueue<char*> q;
 
     char* m = new char[12];
     strcpy(m, "I AM A TEST");
@@ -1180,7 +1177,7 @@ TEST(QueueTest, testCase_ConcurrentQueue8)
 
 TEST(QueueTest, testCase_ConcurrentQueue9)
 {
-    core_lib::HGLConcurrentQueue<QueueMsg*> q;
+    core_lib::threads::ConcurrentQueue<QueueMsg*> q;
 
     QueueMsg* m = CreateQueueMsgPtr(2, 666);
 
@@ -1199,7 +1196,7 @@ TEST(QueueTest, testCase_ConcurrentQueue9)
 
 TEST(QueueTest, testCase_ConcurrentQueue10)
 {
-    core_lib::HGLConcurrentQueue<char*> q;
+    core_lib::threads::ConcurrentQueue<char*> q;
 
     char* m = new char[12];
     strcpy(m, "I AM A TEST");
@@ -1221,7 +1218,7 @@ TEST(QueueStressTest, testCase_ConcurrentQueue11)
 {
     int            max_i         = 10000000;
     int            max_i_quarter = 2500000;
-    core_lib::SyncEvent readyEvent;
+    core_lib::threads::SyncEvent readyEvent;
     QueuedThread3  qt(readyEvent, max_i);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     EXPECT_TRUE(qt.GetCounter() == 0);
@@ -1289,7 +1286,7 @@ TEST_F(ThreadsTest, testCase_MessageQueueThread1)
 TEST(TimerTest, test_DeadlineTimer_1)
 {
     DeadlineTimerHelper helper;
-    core_lib::DeadlineTimer  timer;
+    core_lib::threads::DeadlineTimer  timer;
     timer.Start(1000, std::bind(&DeadlineTimerHelper::OnTimeOut, &helper));
     EXPECT_TRUE(helper.Wait(2000));
 }
@@ -1297,7 +1294,7 @@ TEST(TimerTest, test_DeadlineTimer_1)
 TEST(TimerTest, test_DeadlineTimer_2)
 {
     DeadlineTimerHelper helper;
-    core_lib::DeadlineTimer  timer;
+    core_lib::threads::DeadlineTimer  timer;
     timer.Start(1000, std::bind(&DeadlineTimerHelper::OnTimeOut, &helper));
     timer.Cancel();
     EXPECT_FALSE(helper.Wait(1000));
@@ -1306,7 +1303,7 @@ TEST(TimerTest, test_DeadlineTimer_2)
 TEST(TimerTest, test_DeadlineTimer_3)
 {
     DeadlineTimerHelper helper1;
-    core_lib::DeadlineTimer  timer;
+    core_lib::threads::DeadlineTimer  timer;
     timer.Start(1000, std::bind(&DeadlineTimerHelper::OnTimeOut, &helper1));
     EXPECT_TRUE(helper1.Wait(2000));
 
@@ -1324,12 +1321,12 @@ TEST(AsioTest, testCase_IoThreadGroup1)
     Sum sum2{};
 
     {
-        core_lib::IoContextThreadGroup ioThreadGroup(8);
+        core_lib::asio::IoContextThreadGroup ioThreadGroup(8);
 
         for (uint64_t i = 1; i <= 1000000; ++i)
         {
-            ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum1, i));
-            ioThreadGroup.IoService().post(std::bind(&Sum::Add, &sum2, i));
+            core_lib::asio_compat::post(ioThreadGroup.IoService(), std::bind(&Sum::Add, &sum1, i));
+            core_lib::asio_compat::post(ioThreadGroup.IoService(), std::bind(&Sum::Add, &sum2, i));
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -1347,12 +1344,12 @@ TEST(AsioTest, testCase_IoThreadGroup2)
     Sum sum2{};
 
     {
-        core_lib::IoContextThreadGroup ioThreadGroup(8);
+        core_lib::asio::IoContextThreadGroup ioThreadGroup(8);
 
         for (uint64_t i = 1; i <= 1000000; ++i)
         {
-            ioThreadGroup.Post(std::bind(&Sum::Add, &sum1, i));
-            ioThreadGroup.Post(std::bind(&Sum::Add, &sum2, i));
+            core_lib::asio_compat::post(ioThreadGroup.IoService(), std::bind(&Sum::Add, &sum1, i));
+            core_lib::asio_compat::post(ioThreadGroup.IoService(), std::bind(&Sum::Add, &sum2, i));
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

@@ -101,23 +101,23 @@ TEST(StringUtilsTest, AutoFormatFloatString_3)
     EXPECT_EQ(result, "1.234e+07");
 }
 
-TEST(StringUtilsTest, RemoveIllegalChars_Wide)
+TEST(StringUtilsTest, ReplaceIllegalChars_Wide)
 {
     std::wstring source = L"+I\\contain| bad* chars\" that<need>: to be#removed% and{replaced} "
                           L"with a safe&char/ for file? names~";
     std::wstring check = L"_I_contain_ bad_ chars_ that_need__ to be_removed_ and_replaced_ with a "
                          L"safe_char_ for file_ names_";
-    auto result = core_lib::string_utils::RemoveIllegalChars(source);
+    auto result = core_lib::string_utils::ReplaceIllegalChars(source);
     EXPECT_EQ(result, check);
 }
 
-TEST(StringUtilsTest, RemoveIllegalChars_Narrow)
+TEST(StringUtilsTest, ReplaceIllegalChars_Narrow)
 {
     std::string source = "+I\\contain| bad* chars\" that<need>: to be#removed% and{replaced} "
                          "with a safe&char/ for file? names~";
     std::string check = "_I_contain_ bad_ chars_ that_need__ to be_removed_ and_replaced_ with a "
                         "safe_char_ for file_ names_";
-    auto result = core_lib::string_utils::RemoveIllegalChars(source);
+    auto result = core_lib::string_utils::ReplaceIllegalChars(source);
     EXPECT_EQ(result, check);
 }
 
