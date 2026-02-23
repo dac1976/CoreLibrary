@@ -315,7 +315,24 @@ bool SafeCompareCharArrays(const char* text1, size_t length1, const char* text2,
         throw std::invalid_argument("text2 is null");
     }
 
-    return length1 != length2 ? false : strncmp(text1, text2, length1) == 0;
+    // Adjust length to the first NULL within [text1, text1 + length1), if any.
+    if (const void* p = std::memchr(text1, '\0', length1))
+    {
+        length1 = static_cast<const char*>(p) - text1;
+    }
+
+    // Adjust length to the first NULL within [text, text + length), if any.
+    if (const void* p = std::memchr(text2, '\0', length2))
+    {
+        length2 = static_cast<const char*>(p) - text2;
+    }
+
+    if (length1 != length2)
+    {
+        return false;
+    }
+
+    return std::memcmp(text1, text2, length1) == 0;
 }
 
 // ****************************************************************************
@@ -431,3 +448,4 @@ bool CompareUnorderedVectors(std::vector<std::string> const& v1, std::vector<std
 
 } // namespace string_utils
 } // namespace core_lib
+
