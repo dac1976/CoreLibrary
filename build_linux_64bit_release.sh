@@ -23,7 +23,7 @@ mkdir -p RelWithDebInfo/dynamic/bin
 OUTPUT_DIR="RelWithDebInfo/dynamic"
 
 # Create build files
-cmake -Bbuild  -DCMAKE_INSTALL_PREFIX="${OUTPUT_DIR}"  -DBUILD_SHARED_LIBS=ON  -DCORELIB_USE_STD_FILESYSTEM=ON  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cmake -Bbuild  -DCMAKE_INSTALL_PREFIX="${OUTPUT_DIR}" -DBUILD_SHARED_LIBS=ON  -DCORELIB_USE_STD_FILESYSTEM=ON  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 # Perform build
 cmake --build build -- -j$(nproc)
