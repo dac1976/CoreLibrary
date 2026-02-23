@@ -9,15 +9,15 @@
 
 #include "gtest/gtest.h"
 
-const std::string path1 = "data/test_file_1.ini";
-const std::string path2 = "data/test_file_2.ini";
-const std::string path3 = "data/test_file_3.ini";
-const std::string path4 = "data/test_file_4.ini";
-const std::string path5 = "data/test_file_5.ini";
-const std::string path6 = "data/test_file_6.ini";
-const std::string path_check = "data/test_file_check.ini";
-const std::string path_invalid = "data/test_file.ini";
-const std::string path_temp = "data/test_file_tmp.ini";
+const std::string path1 = "../data/test_file_1.ini";
+const std::string path2 = "../data/test_file_2.ini";
+const std::string path3 = "../data/test_file_3.ini";
+const std::string path4 = "../data/test_file_4.ini";
+const std::string path5 = "../data/test_file_5.ini";
+const std::string path6 = "../data/test_file_6.ini";
+const std::string path_check = "../data/test_file_check.ini";
+const std::string path_invalid = "../data/test_file.ini";
+const std::string path_temp = "../data/test_file_tmp.ini";
 
 TEST(IniFileTest, Case1_InvalidLine)
 {
@@ -25,7 +25,7 @@ TEST(IniFileTest, Case1_InvalidLine)
 
     try
     {
-        core_lib::IniFile iniFile(path1);
+        core_lib::ini_file::IniFile iniFile(path1);
         correctException = false;
     }
     catch (std::runtime_error& e)
@@ -53,7 +53,7 @@ TEST(IniFileTest, Case2_InvalidKey)
 
     try
     {
-        core_lib::IniFile iniFile(path2);
+        core_lib::ini_file::IniFile iniFile(path2);
         correctException = false;
     }
     catch (std::runtime_error& e)
@@ -81,7 +81,7 @@ TEST(IniFileTest, Case3_InvalidSection)
 
     try
     {
-        core_lib::IniFile iniFile(path3);
+        core_lib::ini_file::IniFile iniFile(path3);
         correctException = false;
     }
     catch (std::runtime_error& e)
@@ -109,7 +109,7 @@ TEST(IniFileTest, Case4_DuplicateKey)
 
     try
     {
-        core_lib::IniFile iniFile(path4);
+        core_lib::ini_file::IniFile iniFile(path4);
         correctException = false;
     }
     catch (std::runtime_error& e)
@@ -137,7 +137,7 @@ TEST(IniFileTest, Case5_DuplicateSection)
 
     try
     {
-        core_lib::IniFile iniFile(path5);
+        core_lib::ini_file::IniFile iniFile(path5);
         correctException = false;
     }
     catch (std::runtime_error& e)
@@ -165,7 +165,7 @@ TEST(IniFileTest, Case6_InvalidFile)
 
     try
     {
-        core_lib::IniFile iniFile(path_invalid);
+        core_lib::ini_file::IniFile iniFile(path_invalid);
         correctException = true;
     }
     catch (...)
@@ -182,7 +182,7 @@ TEST(IniFileTest, Case7_ValidFile)
 
     try
     {
-        core_lib::IniFile iniFile(path6);
+        core_lib::ini_file::IniFile iniFile(path6);
         noException = true;
     }
     catch (...)
@@ -200,7 +200,7 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 
     try
     {
-        core_lib::IniFile iniFile;
+        core_lib::ini_file::IniFile iniFile;
         iniFile.LoadFile(path_temp);
         iniFile.WriteInt32("Section 2", "key5", static_cast<int>(1));
         iniFile.UpdateFile();
@@ -237,8 +237,8 @@ TEST(IniFileTest, Case8_ValidFileCompare)
 
 TEST(IniFileTest, Case9_CopyConstructor)
 {
-    core_lib::IniFile iniFile1(path_check);
-    core_lib::IniFile iniFile2(iniFile1);
+    core_lib::ini_file::IniFile iniFile1(path_check);
+    core_lib::ini_file::IniFile iniFile2(iniFile1);
     iniFile2.UpdateFile(path_temp);
 
     std::ifstream iniFileA(path_temp);
@@ -265,7 +265,7 @@ TEST(IniFileTest, Case9_CopyConstructor)
 
 TEST(IniFileTest, Case10_MoveConstructor)
 {
-    core_lib::IniFile iniFile(core_lib::IniFile{path_check});
+    core_lib::ini_file::IniFile iniFile(core_lib::ini_file::IniFile{path_check});
     iniFile.UpdateFile(path_temp);
 
     std::ifstream iniFileA(path_temp);
@@ -292,7 +292,7 @@ TEST(IniFileTest, Case10_MoveConstructor)
 
 TEST(IniFileTest, Case11_GetSections)
 {
-    core_lib::IniFile           iniFile(path_check);
+    core_lib::ini_file::IniFile           iniFile(path_check);
     std::list<std::string> sections(iniFile.GetSections());
 
     EXPECT_EQ(sections.size(), 2U);
@@ -309,15 +309,15 @@ TEST(IniFileTest, Case11_GetSections)
 
 TEST(IniFileTest, Case12_GetSection)
 {
-    core_lib::IniFile   iniFile(path_check);
-    core_lib::keys_list keys(iniFile.GetSection("Section 1"));
+    core_lib::ini_file::IniFile   iniFile(path_check);
+    core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
 
     EXPECT_EQ(keys.size(), 5U);
 }
 
 TEST(IniFileTest, Case13_SectionExists)
 {
-    core_lib::IniFile iniFile(path_check);
+    core_lib::ini_file::IniFile iniFile(path_check);
     EXPECT_TRUE(iniFile.SectionExists("Section 1"));
     EXPECT_TRUE(iniFile.SectionExists("Section 2"));
     EXPECT_FALSE(iniFile.SectionExists("I Don't Exist"));
@@ -325,7 +325,7 @@ TEST(IniFileTest, Case13_SectionExists)
 
 TEST(IniFileTest, Case14_KeyExists)
 {
-    core_lib::IniFile iniFile(path_check);
+    core_lib::ini_file::IniFile iniFile(path_check);
     EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
     EXPECT_TRUE(iniFile.KeyExists("Section 2", "key3"));
     EXPECT_FALSE(iniFile.KeyExists("I Don't Exist", "Nor Do I"));
@@ -333,8 +333,8 @@ TEST(IniFileTest, Case14_KeyExists)
 
 TEST(IniFileTest, Case15_ReadValues)
 {
-    core_lib::IniFile   iniFile(path_check);
-    core_lib::keys_list keys(iniFile.GetSection("Section 1"));
+    core_lib::ini_file::IniFile   iniFile(path_check);
+    core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
 
     EXPECT_EQ(keys.size(), 5U);
 
@@ -380,7 +380,7 @@ TEST(IniFileTest, Case15_ReadValues)
 
 TEST(IniFileTest, Case16_EraseSection)
 {
-    core_lib::IniFile iniFile(path_check);
+    core_lib::ini_file::IniFile iniFile(path_check);
     EXPECT_TRUE(iniFile.SectionExists("Section 1"));
     iniFile.EraseSection("Section 1");
     EXPECT_FALSE(iniFile.SectionExists("Section 1"));
@@ -388,7 +388,7 @@ TEST(IniFileTest, Case16_EraseSection)
 
 TEST(IniFileTest, Case17_EraseKey)
 {
-    core_lib::IniFile iniFile(path_check);
+    core_lib::ini_file::IniFile iniFile(path_check);
     EXPECT_TRUE(iniFile.KeyExists("Section 1", "key1"));
     iniFile.EraseKey("Section 1", "key1");
     EXPECT_FALSE(iniFile.KeyExists("Section 1", "key1"));
@@ -396,8 +396,8 @@ TEST(IniFileTest, Case17_EraseKey)
 
 TEST(IniFileTest, Case18_EraseKeys)
 {
-    core_lib::IniFile   iniFile(path_check);
-    core_lib::keys_list keys(iniFile.GetSection("Section 1"));
+    core_lib::ini_file::IniFile   iniFile(path_check);
+    core_lib::ini_file::keys_list keys(iniFile.GetSection("Section 1"));
     EXPECT_EQ(keys.size(), 5U);
     iniFile.EraseKeys("Section 1");
     keys = iniFile.GetSection("Section 1");
@@ -406,7 +406,7 @@ TEST(IniFileTest, Case18_EraseKeys)
 
 TEST(IniFileTest, Case19_AddKeyAtEndOfLastSection)
 {
-    core_lib::IniFile iniFile(path_check);
+    core_lib::ini_file::IniFile iniFile(path_check);
     iniFile.WriteString("Section 2", "Test Key", "Test Value");
     std::string value = iniFile.ReadString("Section 2", "Test Key", "");
     EXPECT_STREQ(value.c_str(), "Test Value");
