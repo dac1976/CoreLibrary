@@ -1,7 +1,7 @@
 #ifndef DISABLE_DEBUGLOG_TESTS
 
 #include <ostream>
-#include "Debug/Log/DebugLogging.h"
+#include "DebugLog/DebugLogging.h"
 #include "FileUtils/SelectFileSystemLibrary.hpp" 
 #include "gtest/gtest.h"
 
