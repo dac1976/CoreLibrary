@@ -6,8 +6,8 @@
 
 using namespace core_lib::csv_grid;
 
-const std::string path1 = "data/testfile1.csv";
-const std::string path2 = "data/testfile2.csv";
+const std::string path1 = "../data/testfile1.csv";
+const std::string path2 = "../data/testfile2.csv";
 
 TEST(CsvGridTest, Cell_DefaultConstructor)
 {
@@ -1184,32 +1184,32 @@ TEST(CsvGridTest, CsvGridD_SaveLoad)
 }
 
 //-----------------------------------------------------------------------------
-#include "StringUtils.h"
+#include "StringUtils/StringUtils.h"
 
 TEST(StringUtils, Tokenise1)
 {
-    auto                 substrings = core_lib::TokeniseString("1-2-3-4", "-", true);
+    auto                 substrings = core_lib::string_utils::TokeniseString("1-2-3-4", "-", true);
     decltype(substrings) comp       = {"1", "2", "3", "4"};
     EXPECT_EQ(substrings, comp);
 
-    substrings = core_lib::TokeniseString("1-2-3-4", "-", false);
+    substrings = core_lib::string_utils::TokeniseString("1-2-3-4", "-", false);
     EXPECT_EQ(substrings, comp);
 }
 
 TEST(StringUtils, Tokenise2)
 {
-    auto                 substrings = core_lib::TokeniseString("1 - 2 - 3 - 4", " - ", true);
+    auto                 substrings = core_lib::string_utils::TokeniseString("1 - 2 - 3 - 4", " - ", true);
     decltype(substrings) comp       = {"1", "", "", "2", "", "", "3", "", "", "4"};
     EXPECT_EQ(substrings, comp);
 
     comp       = {"1", "2", "3", "4"};
-    substrings = core_lib::TokeniseString("1 - 2 - 3 - 4", " - ", false);
+    substrings = core_lib::string_utils::TokeniseString("1 - 2 - 3 - 4", " - ", false);
     EXPECT_EQ(substrings, comp);
 }
 
 TEST(StringUtils, ReplaceTokens)
 {
-    auto copyText = core_lib::ReplaceTokens(
+    auto copyText = core_lib::string_utils::ReplaceTokens(
         "%1 %2 %3 %4", {{"\\%1", "I"}, {"\\%2", "AM"}, {"\\%3", "THE"}, {"\\%4", "BOMB"}});
 
     EXPECT_EQ(copyText, "I AM THE BOMB");
