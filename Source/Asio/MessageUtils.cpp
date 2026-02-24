@@ -46,7 +46,7 @@ namespace asio
 /*! \brief The tcp namespace. */
 namespace messages
 {
-	
+
 constexpr size_t MESSAGE_LENGTH_OFFSET = sizeof(defs::MessageHeader) - sizeof(uint32_t);
 
 // ****************************************************************************
@@ -109,20 +109,11 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
 #endif
         return std::numeric_limits<size_t>::max();
     }
-	
-	auto totalLengthRes = string_utils::SafeConvertCharArrayToInt<uint32_t>(
-        static_cast<char const*>(message.data() + MESSAGE_LENGTH_OFFSET),
-        sizeof(uint32_t));
-		
-    if (!totalLengthRes.second)
-    {
-#if defined(USE_SOCKET_DEBUG)
-        DEBUG_MESSAGE_EX_ERROR("Failed to convert MessageLength field to size_t.");
-#endif
-        return std::numeric_limits<size_t>::max();
-    }		
 
-    if (totalLengthRes.first < message.size())
+    uint32_t totalLength;
+    std::memcpy(&totalLength, message.data() + MESSAGE_LENGTH_OFFSET, sizeof(totalLength));
+
+    if (totalLength < message.size())
     {
 #if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Message length error, header length field ("
@@ -132,7 +123,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
         return std::numeric_limits<size_t>::max();
     }
 
-    return totalLengthRes.first - message.size();
+    return totalLength - message.size();
 }
 
 void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) const

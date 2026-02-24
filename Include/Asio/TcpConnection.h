@@ -86,7 +86,7 @@ class CORE_LIBRARY_DLL_SHARED_API TcpConnection final
 
         void operator()()
         {
-            self->EnqueuePreparedSendOnStrand(std::move(write));
+-            self->EnqueuePreparedSendOnStrand(std::move(write));
         }
     };
 
@@ -212,7 +212,7 @@ private:
     /*! \brief Release a pool index back to the free-list (thread-safe). */
     void ReleasePoolIndex(size_t idx);
     /*! \brief Start next write on strand */
-    void StartNextWriteOnStrand();  
+    void StartNextWriteOnStrand();
     /*!
      * \brief Do async write on strand.
      * \param[in] w - The pending write object.

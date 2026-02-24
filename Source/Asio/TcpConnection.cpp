@@ -438,9 +438,9 @@ bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
     {
         return false;
     }
-	
+
 	PendingWrite w;
-	
+
 	if (!AcquirePendingWrite(message, w))
 	{
 		return false;
@@ -459,9 +459,9 @@ bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
         {
             ReleasePoolIndex(w.poolIndex);
         }
-		
+
         m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
-		
+
 #if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Error in SendMessageAsync(post), error: "
                                << boost::current_exception_diagnostic_information()
@@ -477,7 +477,7 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
     {
         return false;
     }
-	
+
     size_t bytesSent;
 
     try
@@ -511,7 +511,7 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
 bool TcpConnection::TryAcquirePoolIndex(size_t& idx)
 {
     std::lock_guard<std::mutex> lock{m_poolMutex};
-	
+
     if (m_availablePoolIndices.empty())
     {
         return false;
@@ -741,22 +741,22 @@ size_t TcpConnection::CurrentConnectionId() const NO_EXCEPT_
 bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, PendingWrite& w)
 {
 	 const size_t maxAllowed = m_settings.maxAllowedUnsentAsyncMessages;
-	
+
     if (0 == maxAllowed)
     {
 #if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_DEBUG("Cannot send async message, max allowed unsent async messages is 0, for: "
                                  << m_endPoint.first << ":" << m_endPoint.second);
-#endif		
+#endif
         return false;
     }
 
     const size_t prev = m_numUnsentAsyncMessages.fetch_add(1, std::memory_order_acq_rel);
-	
+
     if (prev >= maxAllowed)
     {
         m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
-		
+
 #if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_WARNING("Cannot send async message, currently at unsent async "
                                  "message count limit, for: "
@@ -774,7 +774,7 @@ bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, Pend
     if (poolEnabled && (poolCap > 0) && (message.size() <= poolCap))
     {
         size_t idx = 0;
-        
+
 		if (TryAcquirePoolIndex(idx))
         {
             // We exclusively own this pool slot now; safe to write off-strand.
@@ -809,7 +809,7 @@ bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, Pend
         {
             // Allocation failure: keep reservation accurate.
             m_numUnsentAsyncMessages.fetch_sub(1, std::memory_order_acq_rel);
-			
+
 #if defined(USE_SOCKET_DEBUG)
             DEBUG_MESSAGE_EX_ERROR("Error allocating dynamic async send buffer, error: "
                                    << boost::current_exception_diagnostic_information()
@@ -818,7 +818,7 @@ bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, Pend
             return false;
         }
     }
-	
+
 	return true;
 }
 

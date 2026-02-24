@@ -8,9 +8,12 @@
 using namespace core_lib::asio;
 using namespace core_lib::asio::defs;
 using namespace core_lib::asio::tcp;
+using namespace core_lib::asio::udp;
 using namespace core_lib::serialize;
+using namespace core_lib;
 using namespace core_lib::threads;
 using namespace core_lib::asio::messages;
+
 
 class ProtoBufMessageDispatcher
 {
