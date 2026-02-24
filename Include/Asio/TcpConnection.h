@@ -86,7 +86,7 @@ class CORE_LIBRARY_DLL_SHARED_API TcpConnection final
 
         void operator()()
         {
--            self->EnqueuePreparedSendOnStrand(std::move(write));
+            self->EnqueuePreparedSendOnStrand(std::move(write));
         }
     };
 
