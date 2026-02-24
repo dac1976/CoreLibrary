@@ -33,6 +33,7 @@ using namespace core_lib::asio::tcp;
 using namespace core_lib::asio::udp;
 using namespace core_lib::serialize;
 using namespace core_lib;
+using namespace core_lib::threads;
 using namespace core_lib::asio::messages;
 
 // NOTE: Change these 2 match 2 adapter addresses o the test PC
@@ -139,7 +140,7 @@ public:
 
         {
             char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
-            m_myMessage = DeserializeMessageBuffer<MyMessage>(body, eArchiveType::portBin);
+            m_myMessage = DeserializeMessage<MyMessage>(body, eArchiveType::portableBinary);
 
             std::lock_guard<std::mutex> lock(m_mutex);
             ++m_messageCounter;
@@ -271,7 +272,7 @@ public:
 
         {
             char_buffer_t body(message.begin() + sizeof(MyHeader), message.end());
-            m_myMessage = DeserializeMessageBuffer<MyLargeMessage>(body, eArchiveType::portBin);
+            m_myMessage = DeserializeMessage<MyLargeMessage>(body, eArchiveType::portableBinary);
 
             std::lock_guard<std::mutex> lock(m_mutex);
             ++m_messageCounter;
@@ -318,7 +319,7 @@ public:
 
     void DispatchMessage(default_received_message_ptr_t message)
     {
-        int command = std::stoi(message->header.MessageCommand);
+        int command = message->header.messageId;
 
         if (command == 666)
         {
@@ -338,7 +339,7 @@ public:
         return m_messageEvent.WaitForTime(milliseconds);
     }
 
-    const HGL_MSG_HDR& Header() const
+    const MessageHeader& Header() const
     {
         return m_header;
     }
@@ -349,8 +350,8 @@ public:
     }
 
 private:
-    SyncEvent   m_messageEvent;
-    HGL_MSG_HDR m_header;
+    SyncEvent    m_messageEvent;
+    MessageHeader m_header;
     T           m_myMessage;
 };
 
@@ -782,7 +783,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -795,7 +796,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -810,9 +811,9 @@ TEST(AsioTest, testCase_TestTypedAsync)
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     server.SendMessageToClientAsync(messageToSend, respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
@@ -821,7 +822,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -835,7 +836,7 @@ TEST(AsioTest, testCase_TestTypedSync)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -848,7 +849,7 @@ TEST(AsioTest, testCase_TestTypedSync)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -863,9 +864,9 @@ TEST(AsioTest, testCase_TestTypedSync)
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
@@ -874,7 +875,7 @@ TEST(AsioTest, testCase_TestTypedSync)
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -888,7 +889,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -902,7 +903,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -915,7 +916,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -944,16 +945,16 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestTyped_SendToAll_2)
@@ -965,7 +966,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -979,7 +980,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -992,7 +993,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -1021,16 +1022,16 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestTypedAsync_Hdr)
@@ -1042,7 +1043,7 @@ TEST(AsioTest, testCase_TestTypedAsync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -1055,7 +1056,7 @@ TEST(AsioTest, testCase_TestTypedAsync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -1064,15 +1065,15 @@ TEST(AsioTest, testCase_TestTypedAsync_Hdr)
     client.SendMessageToServerAsync(666);
     serverDispatcher.WaitForMessage(3000);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     server.SendMessageToClientAsync(respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1086,7 +1087,7 @@ TEST(AsioTest, testCase_TestTypedSync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -1099,7 +1100,7 @@ TEST(AsioTest, testCase_TestTypedSync_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &cltMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &cltMessageHandler, std::placeholders::_1),
@@ -1108,15 +1109,15 @@ TEST(AsioTest, testCase_TestTypedSync_Hdr)
     EXPECT_TRUE(client.SendMessageToServerSync(666) == true);
     serverDispatcher.WaitForMessage(3000);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     EXPECT_TRUE(server.SendMessageToClientSync(respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1130,7 +1131,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -1144,7 +1145,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -1157,7 +1158,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -1174,13 +1175,13 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_1_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
@@ -1192,7 +1193,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedServer<MessageBuilder> server(
         22222,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(&MessageHandler::CheckBytesLeftToRead, &svrMessageHandler, std::placeholders::_1),
         std::bind(
             &MessageHandler::MessageReceivedHandler, &svrMessageHandler, std::placeholders::_1),
@@ -1206,7 +1207,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client1(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler1, std::placeholders::_1),
         std::bind(
@@ -1219,7 +1220,7 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
         DEFAULT_MAGIC_STRING);
     TcpTypedClient<MessageBuilder> client2(
         serverConn,
-        sizeof(HGL_MSG_HDR),
+        sizeof(MessageHeader),
         std::bind(
             &MessageHandler::CheckBytesLeftToRead, &cltMessageHandler2, std::placeholders::_1),
         std::bind(
@@ -1236,13 +1237,13 @@ TEST(AsioTest, testCase_TestTyped_SendToAll_2_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 //*************
@@ -1271,9 +1272,9 @@ TEST(AsioTest, testCase_TestSimpleAsync)
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     server.SendMessageToClientAsync(messageToSend, respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
@@ -1282,7 +1283,7 @@ TEST(AsioTest, testCase_TestSimpleAsync)
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1311,9 +1312,9 @@ TEST(AsioTest, testCase_TestSimpleSync)
     MyMessage receivedMessage = serverDispatcher.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
@@ -1322,7 +1323,7 @@ TEST(AsioTest, testCase_TestSimpleSync)
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1361,9 +1362,9 @@ TEST(AsioTest, testCase_TestSimpleSync_OnCloseCallback)
         MyMessage receivedMessage = serverDispatcher.Message();
         EXPECT_TRUE(receivedMessage == messageToSend);
 
-        HGL_MSG_HDR  header      = serverDispatcher.Header();
+        MessageHeader  header      = serverDispatcher.Header();
         connection_t respAddress = std::make_pair(
-            header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+            header.responseAddress, header.responsePort);
         EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
         clientDispatcher.WaitForMessage(3000);
 
@@ -1371,8 +1372,8 @@ TEST(AsioTest, testCase_TestSimpleSync_OnCloseCallback)
         EXPECT_TRUE(receivedMessage == messageToSend);
 
         header      = clientDispatcher.Header();
-        respAddress = std::make_pair(header.ReturnAddress,
-                                     static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        respAddress = std::make_pair(header.responseAddress,
+                                     header.responsePort);
 
         EXPECT_TRUE(respAddress == serverConn);
     }
@@ -1407,9 +1408,9 @@ TEST(AsioTest, testCase_TestSimpleAsync_Large)
         MyMessage receivedMessage = serverDispatcher.Message();
         EXPECT_TRUE(receivedMessage == messageToSend);
 
-        HGL_MSG_HDR  header      = serverDispatcher.Header();
+        MessageHeader  header      = serverDispatcher.Header();
         connection_t respAddress = std::make_pair(
-            header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+            header.responseAddress, header.responsePort);
         server.SendMessageToClientAsync(messageToSend, respAddress, 666);
         clientDispatcher.WaitForMessage(3000);
 
@@ -1417,8 +1418,8 @@ TEST(AsioTest, testCase_TestSimpleAsync_Large)
         EXPECT_TRUE(receivedMessage == messageToSend);
 
         header      = clientDispatcher.Header();
-        respAddress = std::make_pair(header.ReturnAddress,
-                                     static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        respAddress = std::make_pair(header.responseAddress,
+                                     header.responsePort);
 
         EXPECT_TRUE(respAddress == serverConn);
     }
@@ -1450,9 +1451,9 @@ TEST(AsioTest, testCase_TestSimpleSync_Large)
         MyMessage receivedMessage = serverDispatcher.Message();
         EXPECT_TRUE(receivedMessage == messageToSend);
 
-        HGL_MSG_HDR  header      = serverDispatcher.Header();
+        MessageHeader  header      = serverDispatcher.Header();
         connection_t respAddress = std::make_pair(
-            header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+            header.responseAddress, header.responsePort);
         EXPECT_TRUE(server.SendMessageToClientSync(messageToSend, respAddress, 666) == true);
         clientDispatcher.WaitForMessage(3000);
 
@@ -1460,8 +1461,8 @@ TEST(AsioTest, testCase_TestSimpleSync_Large)
         EXPECT_TRUE(receivedMessage == messageToSend);
 
         header      = clientDispatcher.Header();
-        respAddress = std::make_pair(header.ReturnAddress,
-                                     static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        respAddress = std::make_pair(header.responseAddress,
+                                     header.responsePort);
 
         EXPECT_TRUE(respAddress == serverConn);
     }
@@ -1511,16 +1512,16 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_1)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestSimple_SendToAll_2)
@@ -1567,16 +1568,16 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_2)
     receivedMessage = clientDispatcher1.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     receivedMessage = clientDispatcher2.Message();
     EXPECT_TRUE(receivedMessage == messageToSend);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestSimpleAsync_Hdr)
@@ -1597,15 +1598,15 @@ TEST(AsioTest, testCase_TestSimpleAsync_Hdr)
     client.SendMessageToServerAsync(666);
     serverDispatcher.WaitForMessage(3000);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     server.SendMessageToClientAsync(respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1628,15 +1629,15 @@ TEST(AsioTest, testCase_TestSimpleSync_Hdr)
     EXPECT_TRUE(client.SendMessageToServerSync(666) == true);
     serverDispatcher.WaitForMessage(3000);
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     EXPECT_TRUE(server.SendMessageToClientSync(respAddress, 666) == true);
     clientDispatcher.WaitForMessage(3000);
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
@@ -1673,13 +1674,13 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_1_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == "0.0.0.0");
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == "0.0.0.0");
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestSimple_SendToAll_2_Hdr)
@@ -1714,13 +1715,13 @@ TEST(AsioTest, testCase_TestSimple_SendToAll_2_Hdr)
     clientDispatcher1.WaitForMessage(3000);
     clientDispatcher2.WaitForMessage(3000);
 
-    HGL_MSG_HDR header = clientDispatcher1.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    MessageHeader header = clientDispatcher1.Header();
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 
     header = clientDispatcher2.Header();
-    EXPECT_TRUE(std::string(header.ReturnAddress) == serverConn.first);
-    EXPECT_TRUE(static_cast<uint16_t>(std::stoi(header.ReturnPort)) == serverConn.second);
+    EXPECT_TRUE(std::string(header.responseAddress) == serverConn.first);
+    EXPECT_TRUE(header.responsePort == serverConn.second);
 }
 
 TEST(AsioTest, testCase_TestUdpBroadcast)
@@ -2017,9 +2018,9 @@ TEST(AsioTest, testCase_TestSerializePOD)
     EXPECT_TRUE(receivedMessage.value == messageToSend.value);
     EXPECT_TRUE(std::string(receivedMessage.szString) == std::string(receivedMessage.szString));
 
-    HGL_MSG_HDR  header = serverDispatcher.Header();
+    MessageHeader  header = serverDispatcher.Header();
     connection_t respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
     server.SendMessageToClientAsync<MyPodMessage, core_lib::serialize::archives::out_raw_t>(
         messageToSend, respAddress, 666);
     clientDispatcher.WaitForMessage(3000);
@@ -2030,7 +2031,7 @@ TEST(AsioTest, testCase_TestSerializePOD)
 
     header = clientDispatcher.Header();
     respAddress =
-        std::make_pair(header.ReturnAddress, static_cast<uint16_t>(std::stoi(header.ReturnPort)));
+        std::make_pair(header.responseAddress, header.responsePort);
 
     EXPECT_TRUE(respAddress == serverConn);
 }
