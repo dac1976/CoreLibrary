@@ -7,13 +7,13 @@
 
 using namespace core_lib::file_utils;
 
-const filesys::path data_base_path = L"./data";
-const filesys::path alt_base_path  = L"./";
-const filesys::path copy_base_path = L"./data_copy";
-const filesys::path alt_copy_base_path = L"./alt_data_copy";
-const filesys::path move_base_path = L"./data_move";
-const filesys::path alt_move_base_path = L"C:/Projects/Common/Utils/Platform/FileSystem/alt_data_move";
-const filesys::path subdirs_path      = L"./";
+const filesys::path data_base_path = L"../data";
+const filesys::path alt_base_path  = L"../";
+const filesys::path copy_base_path = L"../data_copy";
+const filesys::path alt_copy_base_path = L"../alt_data_copy";
+const filesys::path move_base_path = L"../data_move";
+const filesys::path alt_move_base_path = L"../alt_data_move";
+const filesys::path subdirs_path      = L"../";
 
 TEST(FileUtilsTest, Case1_CommonRoot_SameLevel)
 {
@@ -108,7 +108,7 @@ TEST(FileUtilsTest, Case7_ListDirectoryEntries_1)
     std::list<std::wstring> files;
     EXPECT_NO_THROW(files = ListDirectoryContents(dir.wstring()));
 
-    EXPECT_EQ(files.size(), 3U);
+    EXPECT_EQ(files.size(), 9U);
 }
 
 TEST(FileUtilsTest, Case8_ListDirectoryEntries_2)
@@ -128,7 +128,7 @@ TEST(FileUtilsTest, Case9_ListDirectoryEntries_3)
     std::list<std::wstring> files;
     EXPECT_NO_THROW(files = ListDirectoryContents(dir.wstring(), L".ini"));
 
-    EXPECT_EQ(files.size(), 1U);
+    EXPECT_EQ(files.size(), 7U);
 }
 
 TEST(FileUtilsTest, Case10_ListDirectoryEntries_4)
@@ -190,7 +190,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_1)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_TRUE(user.empty());
     EXPECT_TRUE(password.empty());
@@ -206,7 +206,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_2)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_TRUE(user.empty());
     EXPECT_TRUE(password.empty());
@@ -222,7 +222,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_3)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_EQ(user, "fred");
     EXPECT_EQ(password, "abc123");
@@ -238,7 +238,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_4)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_EQ(user, "fred");
     EXPECT_EQ(password, "abc123");
@@ -254,7 +254,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_5)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_FALSE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_FALSE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 }
 
 TEST(FileUtilsTest, Case15_CIFSUrlValidator_6)
@@ -265,7 +265,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_6)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_FALSE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_FALSE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 }
 
 TEST(FileUtilsTest, Case15_CIFSUrlValidator_7)
@@ -276,7 +276,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_7)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_FALSE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_FALSE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 }
 
 TEST(FileUtilsTest, Case15_CIFSUrlValidator_8)
@@ -287,7 +287,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_8)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_FALSE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_FALSE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 }
 
 TEST(FileUtilsTest, Case15_CIFSUrlValidator_9)
@@ -298,7 +298,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_9)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_TRUE(user.empty());
     EXPECT_TRUE(password.empty());
@@ -314,7 +314,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_10)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_TRUE(user.empty());
     EXPECT_TRUE(password.empty());
@@ -330,7 +330,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_11)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_EQ(user, "fred");
     EXPECT_EQ(password, "abc123");
@@ -346,7 +346,7 @@ TEST(FileUtilsTest, Case15_CIFSUrlValidator_12)
     std::string hostOrIp;
     std::string truncatedUrl;
 
-    ASSERT_TRUE(hgl::CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
+    ASSERT_TRUE(CheckCifsPath(cifsUrl, user, password, hostOrIp, truncatedUrl));
 
     EXPECT_EQ(user, "fred");
     EXPECT_EQ(password, "abc123");
@@ -358,56 +358,56 @@ TEST(FileUtilsTest, Case16_IsValidCifsPath_1)
 {
     std::string cifsUrl = "//host-pc/share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_IsValidCifsPath_2)
 {
     std::string cifsUrl = "//192.168.1.1/share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_IsValidCifsPath_3)
 {
     std::string cifsUrl = "fred:abc123@//host-pc/share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_IsValidCifsPath_4)
 {
     std::string cifsUrl = "fred:abc123@//192.168.1.1/share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_IsValidCifsPath_5)
 {
     std::string cifsUrl = "\\\\host-pc\\share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_IsValidCifsPath_6)
 {
     std::string cifsUrl = "\\\\192.168.1.1\\share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_IsValidCifsPath_7)
 {
     std::string cifsUrl = "fred:abc123@\\\\host-pc\\share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_IsValidCifsPath_8)
 {
     std::string cifsUrl = "fred:abc123@\\\\192.168.1.1\\share";
 
-    ASSERT_TRUE(hgl::IsValidCifsPath(cifsUrl));
+    ASSERT_TRUE(IsValidCifsPath(cifsUrl));
 }
 
 TEST(FileUtilsTest, Case16_MoveDirectory_SameLevel)
