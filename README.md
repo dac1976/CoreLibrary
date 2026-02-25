@@ -1,6 +1,8 @@
 # CoreLibrary #
 ## News ##
-2026/02/22 - A large update to the code is complete. This verison will become 2.0.0.0 once I've finished getting the unit tests back up and running. CMake support is now included and some example build scripts are provided. Still to come is a CMake based build for the unit tests, currently working on this. Cereal 3.3.1 and Loki 0.1.7 are now included as part of the library, so no external dependencies required for these 2 items. Boost, preferably 1.90 or newer, and optionally, Google Protobuf are external dependencies that the user will have to build themselves.
+2026/02/25 -  Library rework is complete and unit test project and scripts have been updated. All 294 unit test cases are passing. This marks the version 2.0.0 release.
+
+2026/02/22 - A large update to the code is complete. This verison will become 2.0.0 once I've finished getting the unit tests back up and running. CMake support is now included and some example build scripts are provided. Still to come is a CMake based build for the unit tests, currently working on this. Cereal 3.3.1 and Loki 0.1.7 are now included as part of the library, so no external dependencies required for these 2 items. Boost, preferably 1.90 or newer, and optionally, Google Protobuf are external dependencies that the user will have to build themselves.
 
 ## Introduction ##
 This library (CoreLibrary) is a collection of useful C++1x and C++2x utility classes to assist with multi-threading, logging, networking, custom exceptions, file utilities, INI files, serialization, sorting, string utilities and so on. In other words a general collection of code that is very useful in many different C++ coding projects.
@@ -70,6 +72,7 @@ The networking unit tests require network connectivity and expects 2 adapters se
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
 
 Note, the Wiki is not currently up-to-date but the Doxygen genreated doc htmls are.
+
 
 
 
