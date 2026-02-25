@@ -51,6 +51,7 @@ As mentioned earlier, the library requires some third-party open source librarie
 * (Included) Loki: http://loki-lib.sourceforge.net/ - included with CoreLibrary in Include/loki.
 * Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest/graphs/contributors
 * (Optional) Google Protocol Buffers (tested with 3.7.1 or greater): https://developers.google.com/protocol-buffers/ - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.
+* vcpkg is used by the unit test example build scripts to obtain protobuf library but could also be used to acquire boost as well.
 
 ## Notes ##
 This is largely a hobby project based on the knowledge I've gained in my many years of experience working in software development and academia since 1999. I started the development of this code in early 2014. This represents a collection of, hopefully, straightforward to use and useful classes for commonly occurring software development needs.
@@ -68,6 +69,7 @@ The networking unit tests require network connectivity and expects 2 adapters se
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
 
 Note, the Wiki is not currently up-to-date but the Doxygen genreated doc htmls are.
+
 
 
 
