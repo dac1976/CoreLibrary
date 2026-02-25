@@ -7,6 +7,8 @@ SET "CORELIB_BOOST_ROOT=%CORELIB_ROOT%../../../ThirdParty/boost_1_90_0"
 SET "CORELIB_BOOST_LIB=%CORELIB_ROOT%../../../ThirdParty/boost_1_90_0/lib64-msvc-14.3"
 SET "CORELIB_BOOST_LIB_NAME_STUB=vc143-mt-x64-1_90"
 SET "CORELIB_BOOST_LIB_NAME_STUB_D=vc143-mt-gd-x64-1_90"
+SET "CORELIB_PROTOBUF_ROOT=%CORELIB_ROOT%../../../ThirdParty/grpc/grpc_msvc2022_v1.78.1/third_party/protobuf/src"
+SET "CORELIB_PROTOBUF_LIB=%CORELIB_ROOT%../../../ThirdParty/grpc/grpc_msvc2022_v1.78.1/cmake/build/third_party/protobuf/Release"
 
 REM Setup environment.
 call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
