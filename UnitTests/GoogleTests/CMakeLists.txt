@@ -12,7 +12,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #   -DCORELIB_USE_STD_FILESYSTEM=OFF -> use <boost/filesystem.hpp>
 option(CORELIB_USE_STD_FILESYSTEM "Use <filesystem> instead of <boost/filesystem.hpp>" ON)
 
-option(CORELIB_DISABLE_ASIO_SERIAL_TESTS "Disable ASIO serial port tests" ON)
 option(CORELIB_DISABLE_ASIO_TESTS "Disable ASIO tests" ON)
 option(CORELIB_DISABLE_CSVGRID_TESTS "Disable CSV grid tests" ON)
 option(CORELIB_DISABLE_DEBUGLOG_TESTS "Disable debug log tests" ON)
@@ -50,6 +49,11 @@ endforeach()
 
 # Find packages (safe on all platforms)
 find_package(Threads REQUIRED)
+
+# Protobuf packages.
+if(NOT CORELIB_DISABLE_GPROTOBUF_TESTS)
+    find_package(Protobuf CONFIG REQUIRED)
+endif()
 
 include(FetchContent)
 FetchContent_Declare(
@@ -102,7 +106,7 @@ add_executable(
   ../../Source/Asio/TcpServer.cpp
   ../../Source/Asio/UdpReceiver.cpp
   ../../Source/Asio/UdpSender.cpp
-  tst_AsioSerialTest.cpp
+  test.pb.cc
   tst_AsioTest.cpp
   tst_CsvGridTest.cpp
   tst_DebugLogTest.cpp
@@ -118,7 +122,6 @@ add_executable(
 
 target_compile_definitions(CoreLibraryUnitTests PRIVATE
   CORE_LIBRARY_LIB
-  $<$<BOOL:${CORELIB_DISABLE_ASIO_SERIAL_TESTS}>:DISABLE_ASIO_SERIAL_TESTS>
   $<$<BOOL:${CORELIB_DISABLE_ASIO_TESTS}>:DISABLE_ASIO_TESTS>
   $<$<BOOL:${CORELIB_DISABLE_CSVGRID_TESTS}>:DISABLE_CSVGRID_TESTS>
   $<$<BOOL:${CORELIB_DISABLE_DEBUGLOG_TESTS}>:DISABLE_DEBUGLOG_TESTS>
@@ -175,15 +178,15 @@ set(_CORELIB_REL   "$<IN_LIST:$<CONFIG>,Release;RelWithDebInfo;MinSizeRel>")
 set(_CORELIB_NEED_BOOST_FS "$<NOT:$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>>")
 
 target_link_libraries(CoreLibraryUnitTests PRIVATE
-  GTest::gtest_main
+  GTest::gtest_main  
+  $<$<NOT:$<BOOL:${CORELIB_DISABLE_GPROTOBUF_TESTS}>>:protobuf::libprotobuf>
   # Linux
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_system.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_thread.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_locale.a>
   $<$<AND:${_CORELIB_LINUX},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_program_options.a>
-  $<${_CORELIB_LINUX}:Threads::Threads>
-
+  $<${_CORELIB_LINUX}:Threads::Threads>  
   # Windows
   $<$<PLATFORM_ID:Windows>:iphlpapi>
   # Windows Release-ish
