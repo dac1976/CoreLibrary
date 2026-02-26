@@ -1,0 +1,49 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "Windows-MSVC",
+      "intelliSenseMode": "windows-msvc-x64",
+      "compilerPath": "cl.exe",
+      "cppStandard": "c++20",
+      "cStandard": "c17",
+      "defines": ["_WIN32", "_WINDOWS", "NOMINMAX"],
+      "includePath": [
+        "${workspaceFolder}/Include",
+        "${workspaceFolder}/Include/**",
+        "${workspaceFolder}/Source",
+        "${workspaceFolder}/Source/**",
+        "${workspaceFolder}/UnitTests",
+        "${workspaceFolder}/UnitTests/**",
+
+        "${workspaceFolder}/../ThirdParty/boost_1_90_0",
+        "${workspaceFolder}/../ThirdParty/boost_1_90_0/**",
+
+        "${workspaceFolder}/../ThirdParty/vcpkg",
+        "${workspaceFolder}/../ThirdParty/vcpkg/**"
+      ]
+    },
+    {
+      "name": "Linux-GCC",
+      "intelliSenseMode": "linux-gcc-x64",
+      "compilerPath": "/usr/bin/g++",
+      "cppStandard": "c++20",
+      "cStandard": "c17",
+      "defines": ["NOMINMAX"],
+      "includePath": [
+        "${workspaceFolder}/Include",
+        "${workspaceFolder}/Include/**",
+        "${workspaceFolder}/Source",
+        "${workspaceFolder}/Source/**",
+        "${workspaceFolder}/UnitTests",
+        "${workspaceFolder}/UnitTests/**",
+
+        "${workspaceFolder}/../ThirdParty/boost_1_90_0",
+        "${workspaceFolder}/../ThirdParty/boost_1_90_0/**",
+
+        "${workspaceFolder}/../ThirdParty/vcpkg",
+        "${workspaceFolder}/../ThirdParty/vcpkg/**"
+      ]
+    }
+  ]
+}

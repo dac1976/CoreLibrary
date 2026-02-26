@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "name": "CoreLibrary",
+      "path": "."
+    },
+    {
+      "name": "GoogleTests",
+      "path": "UnitTests/GoogleTests"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.vs": true,
+      "**/.cache": true,
+      "**/out": true,
+      "**/build": true,
+      "**/CMakeFiles": true
+    },
+    "svn.ignoreMissingSvnWarning": true
+  }
+}

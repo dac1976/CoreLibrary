@@ -1,0 +1,96 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ==========================================================
+    // Library build (repo root scripts)
+    // ==========================================================
+    {
+      "label": "Win: Build Library (MSVC2022 x64 Release)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "windows": {
+        "command": "cmd.exe",
+        "args": ["/c", "${workspaceFolder}\\build_msvc2022_64bit_release.bat"]
+      },
+      "problemMatcher": "$msCompile",
+      "group": "build"
+    },
+    {
+      "label": "Linux: Build Library (x64 Release)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}" },
+      "linux": {
+        "command": "bash",
+        "args": ["-lc", "${workspaceFolder}/build_linux_64bit_release.sh"]
+      },
+      "problemMatcher": "$gcc",
+      "group": "build"
+    },
+
+    // ==========================================================
+    // Unit tests build (UnitTests/GoogleTests scripts)
+    // ==========================================================
+    {
+      "label": "Win: Build Unit Tests (MSVC2022 x64 Debug)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/UnitTests/GoogleTests" },
+      "windows": {
+        "command": "cmd.exe",
+        "args": ["/c", "${workspaceFolder}\\UnitTests\\GoogleTests\\build_msvc2022_64bit_debug.bat"]
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Win: Build Unit Tests (MSVC2022 x64 Release)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/UnitTests/GoogleTests" },
+      "windows": {
+        "command": "cmd.exe",
+        "args": ["/c", "${workspaceFolder}\\UnitTests\\GoogleTests\\build_msvc2022_64bit_release.bat"]
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Linux: Build Unit Tests (x64 Debug)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/UnitTests/GoogleTests" },
+      "linux": {
+        "command": "bash",
+        "args": ["-lc", "${workspaceFolder}/UnitTests/GoogleTests/build_linux_64bit_debug.sh"]
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Linux: Build Unit Tests (x64 Release)",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/UnitTests/GoogleTests" },
+      "linux": {
+        "command": "bash",
+        "args": ["-lc", "${workspaceFolder}/UnitTests/GoogleTests/build_linux_64bit_release.sh"]
+      },
+      "problemMatcher": "$gcc"
+    },
+
+    // ==========================================================
+    // Convenience composites
+    // ==========================================================
+    {
+      "label": "Win: Build All (Library Release + Tests Release)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Win: Build Library (MSVC2022 x64 Release)",
+        "Win: Build Unit Tests (MSVC2022 x64 Release)"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Linux: Build All (Library Release + Tests Release)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Linux: Build Library (x64 Release)",
+        "Linux: Build Unit Tests (x64 Release)"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

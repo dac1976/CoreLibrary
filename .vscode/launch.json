@@ -1,0 +1,48 @@
+{
+  "version": "0.2.0",
+  "inputs": [
+    {
+      "id": "unitTestProgramWin",
+      "type": "promptString",
+      "description": "Full path to unit test EXE (Windows)",
+      "default": "${workspaceFolder}\\UnitTests\\GoogleTests\\bin\\CoreLibraryUnitTests.exe"
+    },
+    {
+      "id": "unitTestProgramLinux",
+      "type": "promptString",
+      "description": "Full path to unit test executable (Linux)",
+      "default": "${workspaceFolder}/UnitTests/GoogleTests/bin/CoreLibraryUnitTests"
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Win: Debug Unit Tests (prompt for exe)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${input:unitTestProgramWin}",
+      "args": [
+        "--gtest_filter=",
+        "--gtest_break_on_failure",
+        "--gtest_catch_exceptions=0"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "Win: Build Unit Tests (MSVC2022 x64 Debug)"
+    },
+    {
+      "name": "Linux: Debug Unit Tests (prompt for exe)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${input:unitTestProgramLinux}",
+      "args": [
+        "--gtest_filter=",
+        "--gtest_break_on_failure",
+        "--gtest_catch_exceptions=0"
+      ],
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "console": "integratedTerminal",
+      "preLaunchTask": "Linux: Build Unit Tests (x64 Debug)"
+    }
+  ]
+}
