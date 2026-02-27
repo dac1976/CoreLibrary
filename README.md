@@ -24,27 +24,27 @@ This library's code is compatible with modern compilers on Windows and Linux. It
 
 Included are the CMakeLists.txt and example build scripts for Linux (build_linux_64bit_release.sh) and Windows (build_msvc2022_64bit_release.bat). You can also manually build th elibrary yourself and use the following CMake options to control the build:
 
--DBUILD_SHARED_LIBS=ON -> (Default)  SHARED (.dll, .so)
+`-DBUILD_SHARED_LIBS=ON` -> (Default)  SHARED (.dll, .so)
 
--DBUILD_SHARED_LIBS=OFF -> STATIC (.lib, .a)
+`-DBUILD_SHARED_LIBS=OFF` -> STATIC (.lib, .a)
 
--DCORELIB_USE_STD_FILESYSTEM=ON -> (Default) use std::filesystem
+`-DCORELIB_USE_STD_FILESYSTEM=ON` -> (Default) use std::filesystem
 
--DCORELIB_USE_STD_FILESYSTEM=OFF -> use boost::filesystem
+`-DCORELIB_USE_STD_FILESYSTEM=OFF` -> use boost::filesystem
 
--DCORELIB_SOCKET_DEBUG=ON -> Extra debug to log file.
+`-DCORELIB_SOCKET_DEBUG=ON` -> Extra debug to log file.
 
--DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log.
+`-DCORELIB_SOCKET_DEBUG=OFF` -> (Default) No extra debug to log.
 
 The first time you configure CMake to build this library you must first define the following environment variables:
 
-CORELIB_BOOST_ROOT -> Path that is parent to the /boost include directory.
+`CORELIB_BOOST_ROOT` -> Path that is parent to the /boost include directory.
 
-CORELIB_BOOST_LIB -> Path to the correct Boost lib folder for your compiler and platform, containing the correct builds of Boost's system, program_options, filesystem and local libraries.
+`CORELIB_BOOST_LIB` -> Path to the correct Boost lib folder for your compiler and platform, containing the correct builds of Boost's system, program_options, filesystem and local libraries.
 
-CORELIB_BOOST_LIB_NAME_STUB -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in release, e.g. vc143-mt-x64-1_90.
+`CORELIB_BOOST_LIB_NAME_STUB` -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in release, e.g. vc143-mt-x64-1_90.
 
-CORELIB_BOOST_LIB_NAME_STUB -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in debug, e.g. vc143-mt-gd-x64-1_90.
+`CORELIB_BOOST_LIB_NAME_STUB` -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in debug, e.g. vc143-mt-gd-x64-1_90.
 
 Note that CMake will cache the environment variables so if you need to change them make sure you clear the CMake cache before rebuilding.
 
@@ -74,6 +74,7 @@ The networking unit tests require network connectivity and expects 2 adapters se
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
 
 Note, the Wiki is not currently up-to-date but the Doxygen genreated doc htmls are.
+
 
 
 
