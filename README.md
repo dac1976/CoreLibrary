@@ -1,6 +1,8 @@
 # CoreLibrary #
 ## News ##
-2026/02/25 -  Library rework is complete and unit test project and scripts have been updated. All 294 unit test cases are passing. This marks the version 2.0.0 release.
+2026/02/27 - The big library rework has been useful and, as a result, I've been able to make further improvements to the ASIO classes public interfaces so they now use std::string_view instead of std::const& and std::vector<char> const& has been replaced by std::span<const char>. This allows more flexibility in what a user can pass in for arguments such as addresses and message buffers.
+
+2026/02/25 - Library rework is complete and unit test project and scripts have been updated. All 294 unit test cases are passing. This marks the version 2.0.0 release.
 
 2026/02/22 - A large update to the code is complete. This verison will become 2.0.0 once I've finished getting the unit tests back up and running. CMake support is now included and some example build scripts are provided. Still to come is a CMake based build for the unit tests, currently working on this. Cereal 3.3.1 and Loki 0.1.7 are now included as part of the library, so no external dependencies required for these 2 items. Boost, preferably 1.90 or newer, and optionally, Google Protobuf are external dependencies that the user will have to build themselves.
 
@@ -72,6 +74,7 @@ The networking unit tests require network connectivity and expects 2 adapters se
 **See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
 
 Note, the Wiki is not currently up-to-date but the Doxygen genreated doc htmls are.
+
 
 
 
