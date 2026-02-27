@@ -87,7 +87,7 @@ public:
 				   defs::connection_t const& multicastConnection,
 				   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 				   defs::message_received_handler_t const& messageReceivedHandler,
-				   std::string const& interfaceAddress = "",
+				   std::string_view interfaceAddress = "",
 				   size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
 				   defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
 				   defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
@@ -116,7 +116,7 @@ public:
     MulticastReceiver(defs::connection_t const& multicastConnection,
 				   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 				   defs::message_received_handler_t const& messageReceivedHandler,
-				   std::string const& interfaceAddress = "",
+				   std::string_view interfaceAddress = "",
 				   size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
 				   defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
 				   defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});

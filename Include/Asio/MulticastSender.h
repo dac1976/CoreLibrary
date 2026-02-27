@@ -75,7 +75,7 @@ public:
      */
     MulticastSender(asio_compat::io_service_t& ioService,
 				 defs::connection_t const& multicastConnection,
-				 std::string const& interfaceAddress = "", 
+				 std::string_view interfaceAddress = "",
 				 bool enableLoopback = true,
 				 int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
 				 size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
@@ -94,7 +94,7 @@ public:
      * external IO service constructor is recommended.
      */
     explicit MulticastSender(defs::connection_t const& multicastConnection,
-						std::string const& interfaceAddress = "", 
+						std::string_view interfaceAddress = "",
 						bool enableLoopback = true,
 						int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
 						size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
@@ -115,7 +115,7 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message);
+    bool SendMsg(defs::char_buf_cspan_t message);
 
 private:
     /*!
@@ -130,7 +130,7 @@ private:
      * \param[in] message - Message buffer to send.
      * \return True if successfully sent, false otherwise.
      */
-    bool SyncSendTo(const defs::char_buffer_t& message);
+    bool SyncSendTo(defs::char_buf_cspan_t message);
 
 private:
     /*! \brief I/O service thread group. */

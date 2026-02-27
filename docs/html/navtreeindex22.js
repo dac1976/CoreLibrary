@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"structcereal_1_1detail_1_1_polymorphic_casters.html":[2,0,0,0,8],
+"structcereal_1_1detail_1_1_polymorphic_casters.html#a3120704ea7c0a54d8fc5c2a9a032b32d":[2,0,0,0,8,3],
 "structcereal_1_1detail_1_1_polymorphic_casters.html#a34ac3516aa89fde224190d9a5d0c43c6":[2,0,0,0,8,0],
 "structcereal_1_1detail_1_1_polymorphic_casters.html#aa0e37eb2bb9f2f2b9a4e2d0f68dd6a24":[2,0,0,0,8,1],
 "structcereal_1_1detail_1_1_polymorphic_casters.html#aab705357ea4e0494c91a09d14c33efba":[2,0,0,0,8,4],
@@ -247,7 +249,5 @@ var NAVTREEINDEX22 =
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a0b0ead17bc47d5e7faf3724e7aadb918":[2,0,1,4,1,46],
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a0b79d194eefa44b64b00f247a60ca2a4":[1,0,1,2,0,8],
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a0b79d194eefa44b64b00f247a60ca2a4":[2,0,1,4,1,8],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a1134fa2b198afddb8ac1984cc9753c6d":[1,0,1,2,0,27],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a1134fa2b198afddb8ac1984cc9753c6d":[2,0,1,4,1,27],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a12f2c2327d28534fa07c61f41b9ee847":[1,0,1,2,0,31]
+"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a1134fa2b198afddb8ac1984cc9753c6d":[1,0,1,2,0,27]
 };

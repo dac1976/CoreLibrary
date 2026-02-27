@@ -1,7 +1,5 @@
 var NAVTREEINDEX14 =
 {
-"classcore__lib_1_1sorting_1_1_bubble.html#a80c2c867d2f04b5ff57fdcb8ac985adb":[2,0,1,8,0,1],
-"classcore__lib_1_1sorting_1_1_bucket.html":[1,0,1,7,4],
 "classcore__lib_1_1sorting_1_1_bucket.html":[2,0,1,8,4],
 "classcore__lib_1_1sorting_1_1_bucket.html#a17fe9dc60720510954a4059aafdce1e8":[1,0,1,7,4,1],
 "classcore__lib_1_1sorting_1_1_bucket.html#a17fe9dc60720510954a4059aafdce1e8":[2,0,1,8,4,1],
@@ -249,5 +247,7 @@ var NAVTREEINDEX14 =
 "classcore__lib_1_1threads_1_1_message_queue_thread.html#a743c7443b0d90e9aa1ede882ad4b5e4c":[2,0,1,9,8,0],
 "classcore__lib_1_1threads_1_1_message_queue_thread.html#a772a9ad138d83a5dc9b2cb07896cafd0":[1,0,1,9,8,14],
 "classcore__lib_1_1threads_1_1_message_queue_thread.html#a772a9ad138d83a5dc9b2cb07896cafd0":[2,0,1,9,8,14],
-"classcore__lib_1_1threads_1_1_message_queue_thread.html#a81a0b410118da74a4963bb0819de27a9":[1,0,1,9,8,1]
+"classcore__lib_1_1threads_1_1_message_queue_thread.html#a81a0b410118da74a4963bb0819de27a9":[1,0,1,9,8,1],
+"classcore__lib_1_1threads_1_1_message_queue_thread.html#a81a0b410118da74a4963bb0819de27a9":[2,0,1,9,8,1],
+"classcore__lib_1_1threads_1_1_message_queue_thread.html#a8ff010c76f019f584a67fc77144231ea":[1,0,1,9,8,6]
 };

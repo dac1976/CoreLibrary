@@ -110,7 +110,7 @@ char_buffer_t BuildMessage()
 class MessageReceiver
 {
 public:
-    static size_t CheckBytesLeftToRead(const char_buffer_t& message)
+    static size_t CheckBytesLeftToRead(char_buf_cspan_t message)
     {
         CheckMessage(message);
 
@@ -129,7 +129,7 @@ public:
         return pHeader->totalLength - message.size();
     }
 
-    void MessageReceivedHandler(const char_buffer_t& message)
+    void MessageReceivedHandler(char_buf_cspan_t message)
     {
         CheckMessage(message);
 
@@ -166,7 +166,7 @@ private:
     MyMessage          m_myMessage;
     size_t             m_messageCounter{0};
 
-    static void CheckMessage(const char_buffer_t& message)
+    static void CheckMessage(char_buf_cspan_t message)
     {
         if (message.size() < sizeof(MyHeader))
         {
@@ -242,7 +242,7 @@ char_buffer_t BuildLargeMessage(size_t length = 100000)
 class LargeMessageReceiver
 {
 public:
-    static size_t CheckBytesLeftToRead(const char_buffer_t& message)
+    static size_t CheckBytesLeftToRead(char_buf_cspan_t message)
     {
         CheckMessage(message);
 
@@ -261,7 +261,7 @@ public:
         return pHeader->totalLength - message.size();
     }
 
-    void MessageReceivedHandler(const char_buffer_t& message)
+    void MessageReceivedHandler(char_buf_cspan_t message)
     {
         CheckMessage(message);
 
@@ -298,7 +298,7 @@ private:
     MyLargeMessage     m_myMessage;
     size_t             m_messageCounter{0};
 
-    static void CheckMessage(const char_buffer_t& message)
+    static void CheckMessage(char_buf_cspan_t message)
     {
         if (message.size() < sizeof(MyHeader))
         {
@@ -392,7 +392,7 @@ TEST(AsioTest, testCase_TestAsync)
     MessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer server(
         22222,
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -428,7 +428,7 @@ TEST(AsioTest, testCase_TestSync)
     MessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer server(
         22222,
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -506,7 +506,7 @@ TEST(AsioTest, testCase_TestSync_LargeMessage)
     LargeMessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer server(22222,
 				 std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
 				 std::bind(&LargeMessageReceiver::MessageReceivedHandler,
@@ -544,7 +544,7 @@ TEST(AsioTest, testCase_TestAsync_LargeMessage)
     LargeMessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer server(22222,
 				 std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
 				 std::bind(&LargeMessageReceiver::MessageReceivedHandler,
@@ -582,7 +582,7 @@ TEST(AsioTest, testCase_TestSync_LargeMessage_2)
     LargeMessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer server(22222,
                      std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
                      std::bind(&LargeMessageReceiver::MessageReceivedHandler,
@@ -625,7 +625,7 @@ TEST(AsioTest, testCase_TestAsync_LargeMessage_2)
     LargeMessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer server(22222,
 				 std::bind(&LargeMessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
 				 std::bind(&LargeMessageReceiver::MessageReceivedHandler,
@@ -685,7 +685,7 @@ TEST(AsioTest, testCase_TestBadConnect_LateTarget)
     MessageReceiver cltReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpClient       client(
         std::make_pair(ADDRESS_ONE, 22222),
         std::bind(&MessageReceiver::CheckBytesLeftToRead, std::placeholders::_1),
@@ -725,7 +725,7 @@ TEST(AsioTest, testCase_TestAsync_ExternalIoService)
     MessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer       server(
         ioThreadGroup.IoService(),
         22222,
@@ -765,7 +765,7 @@ TEST(AsioTest, testCase_TestSync_ExternalIoService)
     MessageReceiver svrReceiver;
 	core_lib::asio::tcp::TcpConnSettings settings;
 	settings.minAmountToRead = sizeof(MyHeader);
-	
+
     TcpServer       server(
         ioThreadGroup.IoService(),
         22222,
@@ -801,7 +801,7 @@ TEST(AsioTest, testCase_TestTypedAsync)
 {
     MessageBuilder    messageBuilder;
     MessageDispatcher serverDispatcher;
-	
+
     MessageHandler    svrMessageHandler(
         std::bind(&MessageDispatcher::DispatchMessage, &serverDispatcher, std::placeholders::_1),
         DEFAULT_MAGIC_STRING);

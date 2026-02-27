@@ -112,7 +112,7 @@ void TcpClient::Reconnect(defs::connection_t const& server, TcpConnSettings cons
     CreateConnection();
 }
 
-bool TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
+bool TcpClient::SendMessageToServerAsync(defs::char_buf_cspan_t message)
 {
     if (CheckAndCreateConnection())
     {
@@ -122,7 +122,7 @@ bool TcpClient::SendMessageToServerAsync(const defs::char_buffer_t& message)
     return false;
 }
 
-bool TcpClient::SendMessageToServerSync(const defs::char_buffer_t& message)
+bool TcpClient::SendMessageToServerSync(defs::char_buf_cspan_t message)
 {
     if (CheckAndCreateConnection())
     {

@@ -34,6 +34,7 @@
 #include <iterator>
 #include <type_traits>
 #include <algorithm>
+#include <span>
 #include <boost/throw_exception.hpp>
 #include <cereal/types/vector.hpp>
 
@@ -49,6 +50,10 @@ namespace serialize
 
 /*! \brief Typedef for char vector. */
 using char_vector_t = std::vector<char>;
+/*! \brief Typedef for char span. */
+using char_span_buf_t = std::span<char>;
+/*! \brief Typedef for char const span. */
+using char_cspan_buf_t = std::span<const char>;
 
 /*! \brief In archive placeholder struct for serializing POD objects. */
 struct CORE_LIBRARY_DLL_SHARED_API raw_iarchive
@@ -194,7 +199,8 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_raw_t>
         auto len = sizeof(T);
         auto begin = reinterpret_cast<char const*>(&object);
         auto end   = std::next(begin, static_cast<int>(len));
-        result.assign(begin, end);
+        result.resize(len);
+        std::copy(begin, end, result.begin());
     }
 };
 
@@ -253,13 +259,13 @@ template <typename T, typename A> struct ToObjectImpl
 {
     /*!
      * \brief Function operator
-     * \param[in] charVector - Char vector containing serialized object
+     * \param[in] charSpan - Char span containing serialized object
      * \return Deserialized object
      */
-    T operator()(const char_vector_t& charVector) const
+    T operator()(char_cspan_buf_t charSpan) const
     {
         std::stringstream is;
-        std::copy(charVector.begin(), charVector.end(), std::ostream_iterator<char>(is));
+        std::copy(charSpan.begin(), charSpan.end(), std::ostream_iterator<char>(is));
         T object;
         // Reduce scope of archive to make sure it has
         // flushed its contents to the stream before
@@ -279,20 +285,20 @@ template <typename T> struct ToObjectImpl<T, archives::in_raw_t>
 {
     /*!
      * \brief Function operator
-     * \param[in] charVector - Byte vector containing serialized object
+     * \param[in] charSpan - Char span containing serialized object
      * \return Deserialized object
      */
-    T operator()(const char_vector_t& charVector) const
+    T operator()(char_cspan_buf_t charSpan) const
     {
         static_assert(std::is_trivially_copyable<T>::value, "object should be POD");
 
-        if (charVector.size() != sizeof(T))
+        if (charSpan.size() != sizeof(T))
         {
             BOOST_THROW_EXCEPTION(std::invalid_argument("buffer to object size mismatch"));
         }
 
         T object{};
-        memcpy(&object, charVector.data(), charVector.size());
+        memcpy(&object, charSpan.data(), charSpan.size());
         return object;
     }
 };
@@ -305,10 +311,10 @@ template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
      * \param[in] charVector - Char vector containing serialized object
      * \return Deserialized object
      */
-    T operator()(const char_vector_t& charVector) const
+    T operator()(char_cspan_buf_t charSpan) const
     {
         std::stringstream is;
-        std::copy(charVector.begin(), charVector.end(), std::ostream_iterator<char>(is));
+        std::copy(charSpan.begin(), charSpan.end(), std::ostream_iterator<char>(is));
         T object;
 
         if (!object.ParseFromIstream(&is))
@@ -363,9 +369,9 @@ void ToCharVector(const T& object, char_vector_t& result)
  * using ToCharVector). Using this function is preferred to directly using ToObjectImpl functors.
  */
 template <typename T, typename IA = archives::in_port_bin_t>
-T ToObject(const char_vector_t& charVector)
+T ToObject(char_cspan_buf_t charSpan)
 {
-    return impl::ToObjectImpl<T, IA>()(charVector);
+    return impl::ToObjectImpl<T, IA>()(charSpan);
 }
 
 } // namespace serialize

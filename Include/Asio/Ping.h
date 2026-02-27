@@ -61,7 +61,7 @@ public:
 
 private:
     using ping_response_t =
-        std::function<void(std::string const& /*from IP*/, eResult /*result status*/)>;
+        std::function<void(std::string_view /*from IP*/, eResult /*result status*/)>;
 
 public:
     // pingResponseCallback only required for SendSync usage.

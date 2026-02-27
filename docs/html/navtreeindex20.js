@@ -1,5 +1,7 @@
 var NAVTREEINDEX20 =
 {
+"struct_loki_1_1_private_1_1_binder_first_traits.html":[2,0,4,0,2],
+"struct_loki_1_1_private_1_1_binder_first_traits_3_01_functor_3_01_r_00_01_t_list_00_01_threading_model_01_4_01_4.html":[2,0,4,0,3],
 "struct_loki_1_1_private_1_1_conversion_helper.html":[2,0,4,0,23],
 "struct_loki_1_1_private_1_1_conversion_helper_1_1_big.html":[2,0,4,0,23,0],
 "struct_loki_1_1_private_1_1_deleter.html":[2,0,4,0,18],
@@ -247,7 +249,5 @@ var NAVTREEINDEX20 =
 "struct_loki_1_1_smart_ptr_1_1_insipid.html":[0,9,11,2],
 "struct_loki_1_1_smart_ptr_1_1_never_matched.html":[0,9,11,0],
 "struct_loki_1_1_smart_ptr_1_1_tester.html":[0,9,11,1],
-"struct_loki_1_1_smart_ptr_def.html":[1,0,2,236],
-"struct_loki_1_1_smart_ptr_def.html":[2,0,4,239],
-"struct_loki_1_1_static_caster.html":[1,0,2,162]
+"struct_loki_1_1_smart_ptr_def.html":[1,0,2,236]
 };

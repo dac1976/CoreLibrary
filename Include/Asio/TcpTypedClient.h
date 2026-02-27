@@ -242,7 +242,7 @@ public:
 
         try
         {
-            auto const& messageBuffer = messages::BuildMessage(
+            auto messageBuffer = messages::BuildMessage(
                 messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
             return m_tcpClient.SendMessageToServerSync(messageBuffer);
         }
@@ -268,7 +268,7 @@ public:
      * only sends a simple core_lib::asio::HGL_MSG_HDR object to
      * the server.
      */
-    bool SendMessageToServerAsync(const defs::char_buffer_t& message,
+    bool SendMessageToServerAsync(defs::char_buf_cspan_t message,
 	                        int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -276,7 +276,7 @@ public:
 
         try
         {
-            auto const& messageBuffer = messages::BuildMessage(
+            auto messageBuffer = messages::BuildMessage(
                 message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
             return m_tcpClient.SendMessageToServerAsync(messageBuffer);
         }
@@ -294,7 +294,7 @@ public:
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(const defs::char_buffer_t& message,
+    bool SendMessageToServerSync(defs::char_buf_cspan_t message,
 	                        int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -302,7 +302,7 @@ public:
 
         try
         {
-            auto const& messageBuffer = messages::BuildMessage(
+            auto  messageBuffer = messages::BuildMessage(
                 message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
             return m_tcpClient.SendMessageToServerSync(messageBuffer);
         }
@@ -336,7 +336,7 @@ public:
 
         try
         {
-            auto const& messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
+            auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
                 message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
             return m_tcpClient.SendMessageToServerAsync(messageBuffer);
         }
@@ -363,7 +363,7 @@ public:
 
         try
         {
-            auto const& messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
+            auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
                 message, messageId, responseAddress, GetClientDetailsForServer(), m_messageBuilder);
             return m_tcpClient.SendMessageToServerSync(messageBuffer);
         }
@@ -381,7 +381,7 @@ public:
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    bool SendMessageToServerAsync(const defs::char_buffer_t& message)
+    bool SendMessageToServerAsync(defs::char_buf_cspan_t message)
     {
         try
         {
@@ -398,7 +398,7 @@ public:
      * \param[in] message - Message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(const defs::char_buffer_t& message)
+    bool SendMessageToServerSync(defs::char_buf_cspan_t message)
     {
         try
         {

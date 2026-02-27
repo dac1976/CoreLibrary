@@ -99,7 +99,7 @@ public:
      * \return Returns true if posted async message, retruns false if failed to post message.
      */
     bool SendMessageAsync(const defs::connection_t&  target,
-                          const defs::char_buffer_t& message) const;
+                          defs::char_buf_cspan_t message) const;
     /*!
      * \brief Send a synchronous message.
      * \param[in] target - Target connection details.
@@ -107,12 +107,12 @@ public:
      * \return True if sent successfully, false otherwise.
      */
     bool SendMessageSync(const defs::connection_t&  target,
-                         const defs::char_buffer_t& message) const;
+                         defs::char_buf_cspan_t message) const;
     /*!
      * \brief Send an asynchronous message to all connections.
      * \param[in] message - Message buffer to send.
      */
-    void SendMessageToAll(const defs::char_buffer_t& message) const;
+    void SendMessageToAll(defs::char_buf_cspan_t message) const;
     /*!
      * \brief Get the connection details for one of the remote connections.
      * \param[in] remoteEnd - Remote end's connection details.

@@ -36,14 +36,14 @@ namespace asio
 namespace udp
 {
 
-SimpleUdpReceiver::SimpleUdpReceiver(asio_compat::io_service_t& ioService, 
+SimpleUdpReceiver::SimpleUdpReceiver(asio_compat::io_service_t& ioService,
                               uint16_t listenPort,
 							  const defs::default_message_dispatcher_t& messageDispatcher,
-							  eUdpOption receiveOptions, 
+							  eUdpOption receiveOptions,
 							  size_t receiveBufferSize,
-							  size_t memPoolMsgCount, 
+							  size_t memPoolMsgCount,
 							  size_t recvPoolMsgSize,
-							  std::string const& listenAddress)
+							  std::string_view listenAddress)
     : m_messageHandler{messageDispatcher,
                        defs::DEFAULT_MAGIC_STRING,
                        memPoolMsgCount,
@@ -64,11 +64,11 @@ SimpleUdpReceiver::SimpleUdpReceiver(asio_compat::io_service_t& ioService,
 
 SimpleUdpReceiver::SimpleUdpReceiver(uint16_t listenPort,
 							  const defs::default_message_dispatcher_t& messageDispatcher,
-							  eUdpOption receiveOptions, 
+							  eUdpOption receiveOptions,
 							  size_t receiveBufferSize,
-							  size_t memPoolMsgCount, 
+							  size_t memPoolMsgCount,
 							  size_t recvPoolMsgSize,
-							  std::string const& listenAddress)
+							  std::string_view listenAddress)
     : m_messageHandler{messageDispatcher,
                        defs::DEFAULT_MAGIC_STRING,
                        memPoolMsgCount,

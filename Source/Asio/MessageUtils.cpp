@@ -79,7 +79,7 @@ MessageHandler& MessageHandler::operator=(MessageHandler&& mh)
 #endif
 
 MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher,
-                               const std::string& magicString, size_t memPoolMsgCount,
+                               std::string_view magicString, size_t memPoolMsgCount,
                                size_t defaultMsgSize)
     : m_messageDispatcher(messageDispatcher)
     , m_magicString(magicString)
@@ -87,7 +87,7 @@ MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& message
     InitialiseMsgPool(memPoolMsgCount, defaultMsgSize);
 }
 
-size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) const
+size_t MessageHandler::CheckBytesLeftToRead(defs::char_buf_cspan_t message) const
 {
     if (!CheckMessage(message))
     {
@@ -126,7 +126,7 @@ size_t MessageHandler::CheckBytesLeftToRead(const defs::char_buffer_t& message) 
     return totalLength - message.size();
 }
 
-void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) const
+void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) const
 {
     if (!CheckMessage(message))
     {
@@ -147,7 +147,8 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
 
     if (receivedMessage->header.totalLength > defs::MESSAGE_HEADER_LEN)
     {
-        receivedMessage->body.assign(message.begin() + defs::MESSAGE_HEADER_LEN, message.end());
+        receivedMessage->body.resize(message.size() - defs::MESSAGE_HEADER_LEN);
+        std::memcpy(receivedMessage->body.data(), message.data() + defs::MESSAGE_HEADER_LEN, receivedMessage->body.size());
     }
 	else
 	{
@@ -157,7 +158,7 @@ void MessageHandler::MessageReceivedHandler(const defs::char_buffer_t& message) 
     m_messageDispatcher(receivedMessage);
 }
 
-bool MessageHandler::CheckMessage(const defs::char_buffer_t& message)
+bool MessageHandler::CheckMessage(defs::char_buf_cspan_t message)
 {
     return message.size() >= sizeof(defs::MessageHeader);
 }
@@ -225,60 +226,60 @@ defs::default_received_message_ptr_t MessageHandler::GetNewMessgeObject() const
 // Utility functions
 // ****************************************************************************
 
-std::string ArchiveTypeToString(defs::eArchiveType archiveType)
-{
-    std::string archiveName;
+constexpr const char ARCH_BIN[]{"binary"};
+constexpr const char ARCH_PORTBIN[]{"portableBinary"};
+constexpr const char ARCH_JSON[]{"json"};
+constexpr const char ARCH_XML[]{"xml"};
+constexpr const char ARCH_PROTOBUF[]{"protobuf"};
+constexpr const char ARCH_RAW[]{"raw"};
+constexpr const char ARCH_NULL[]{""};
 
+std::string_view ArchiveTypeToString(defs::eArchiveType archiveType)
+{
     switch (archiveType)
     {
     case defs::eArchiveType::binary:
-        archiveName = "binary";
-        break;
+        return ARCH_BIN;
     case defs::eArchiveType::portableBinary:
-        archiveName = "portableBinary";
-        break;
+        return ARCH_PORTBIN;
     case defs::eArchiveType::raw:
-        archiveName = "raw";
-        break;
+        return ARCH_RAW;
     case defs::eArchiveType::json:
-        archiveName = "json";
-        break;
+        return ARCH_JSON;
     case defs::eArchiveType::xml:
-        archiveName = "xml";
-        break;
+        return ARCH_XML;
     case defs::eArchiveType::protobuf:
-        archiveName = "protobuf";
-        break;
+        return ARCH_PROTOBUF;
     }
 
-    return archiveName;
+    return ARCH_NULL;
 }
 
-defs::eArchiveType StringToArchiveType(std::string const& archiveName)
+defs::eArchiveType StringToArchiveType(std::string_view archiveName)
 {
     defs::eArchiveType archiveType;
 
-    if (archiveName.compare("binary") == 0)
+    if (archiveName == "binary")
     {
         archiveType = defs::eArchiveType::binary;
     }
-    else if (archiveName.compare("portableBinary") == 0)
+    else if (archiveName == "portableBinary")
     {
         archiveType = defs::eArchiveType::portableBinary;
     }
-    else if (archiveName.compare("raw") == 0)
+    else if (archiveName == "raw")
     {
         archiveType = defs::eArchiveType::raw;
     }
-    else if (archiveName.compare("json") == 0)
+    else if (archiveName == "json")
     {
         archiveType = defs::eArchiveType::json;
     }
-    else if (archiveName.compare("xml") == 0)
+    else if (archiveName == "xml")
     {
         archiveType = defs::eArchiveType::xml;
     }
-    else if (archiveName.compare("protobuf") == 0)
+    else if (archiveName == "protobuf")
     {
         archiveType = defs::eArchiveType::protobuf;
     }
@@ -290,7 +291,7 @@ defs::eArchiveType StringToArchiveType(std::string const& archiveName)
     return archiveType;
 }
 
-void FillHeader(const std::string& magicString, defs::eArchiveType archiveType, int32_t messageId,
+void FillHeader(std::string_view magicString, defs::eArchiveType archiveType, int32_t messageId,
                 const defs::connection_t& responseAddress, uint32_t messageLength,
                 defs::MessageHeader& header)
 {
@@ -309,13 +310,13 @@ void FillHeader(const std::string& magicString, defs::eArchiveType archiveType, 
     }
 
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
-    std::sprintf(static_cast<char*>(header.magicString), "%s", magicString.c_str());
-    std::sprintf(static_cast<char*>(header.responseAddress), "%s", responseAddress.first.c_str());
+    std::sprintf(static_cast<char*>(header.magicString), "%s", magicString.data());
+    std::sprintf(static_cast<char*>(header.responseAddress), "%s", responseAddress.first.data());
 #else
     std::snprintf(static_cast<char*>(header.magicString),
                   sizeof(header.magicString),
                   "%s",
-                  magicString.c_str());
+                  magicString.data());
     std::snprintf(static_cast<char*>(header.responseAddress),
                   sizeof(header.responseAddress),
                   "%s",
@@ -351,13 +352,13 @@ MessageBuilder& MessageBuilder::operator=(MessageBuilder&& mb)
 }
 #endif
 
-MessageBuilder::MessageBuilder(const std::string& magicString)
+MessageBuilder::MessageBuilder(std::string_view magicString)
     : m_magicString(magicString)
 {
 }
 
 auto MessageBuilder::Build(int32_t messageId, const defs::connection_t& responseAddress) const
-    -> defs::char_buffer_t const&
+    -> defs::char_buf_cspan_t
 {
     // Resize message buffer.
     auto totalLength = sizeof(defs::MessageHeader);
@@ -369,25 +370,17 @@ auto MessageBuilder::Build(int32_t messageId, const defs::connection_t& response
     return m_messageBuffer;
 }
 
-auto MessageBuilder::Build(const defs::char_buffer_t& message, int32_t messageId,
+auto MessageBuilder::Build(defs::char_buf_cspan_t message, int32_t messageId,
                            const defs::connection_t& responseAddress,
-                           defs::eArchiveType archiveType) const -> defs::char_buffer_t const&
+                           defs::eArchiveType archiveType) const -> defs::char_buf_cspan_t
 {
-    return Build(message.data(), message.size(), messageId, responseAddress, archiveType);
-}
-
-auto MessageBuilder::Build(const void* message, size_t messageLength, int32_t messageId,
-                           const defs::connection_t& responseAddress,
-                           defs::eArchiveType archiveType) const -> defs::char_buffer_t const&
-{
-    if (((messageLength > 0) && (message == nullptr)) ||
-        ((0 == messageLength) && (message != nullptr)))
+    if (message.empty())
     {
-        BOOST_THROW_EXCEPTION(std::runtime_error("message pointer or length is invalid"));
+        BOOST_THROW_EXCEPTION(std::runtime_error("message is empty"));
     }
 
     // Resize message buffer.
-    auto totalLength = sizeof(defs::MessageHeader) + messageLength;
+    auto totalLength = sizeof(defs::MessageHeader) + message.size();
     m_messageBuffer.resize(totalLength);
 
     // Fill header.
@@ -396,12 +389,11 @@ auto MessageBuilder::Build(const void* message, size_t messageLength, int32_t me
                archiveType,
                messageId,
                responseAddress,
-               static_cast<uint32_t>(messageLength),
+               static_cast<uint32_t>(message.size()),
                *header);
 
     auto writePosIter = std::next(m_messageBuffer.begin(), sizeof(defs::MessageHeader));
-    auto charMsgPtr   = reinterpret_cast<char const*>(message);
-    std::copy(charMsgPtr, charMsgPtr + messageLength, writePosIter);
+    std::copy(message.data(), message.data() + message.size(), writePosIter);
 
     return m_messageBuffer;
 }

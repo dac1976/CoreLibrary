@@ -169,14 +169,14 @@ public:
      * method gives best performance when sending.
      */
     bool SendMessageToClientAsync(const defs::connection_t&  client,
-                                  const defs::char_buffer_t& message) const;
+                                  defs::char_buf_cspan_t message) const;
     /*!
      * \brief Send a message buffer to a client synchronously.
      * \param[in] client - Client connection details.
      * \param[in] message - Message buffer.
      */
     bool SendMessageToClientSync(const defs::connection_t&  client,
-                                 const defs::char_buffer_t& message) const;
+                                 defs::char_buf_cspan_t message) const;
     /*!
      * \brief Send a message buffer to all clients asynchronously.
      * \param[in] message - Message buffer.
@@ -185,7 +185,7 @@ public:
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    void SendMessageToAllClients(const defs::char_buffer_t& message) const;
+    void SendMessageToAllClients(defs::char_buf_cspan_t message) const;
     /*!
      * \brief Get number of unsent async messages.
      * \param[in] client - Target connection details.

@@ -49,11 +49,11 @@ CONSTEXPR_ uint32_t CLOSE_WAIT_MS = 1000;
 // 'class MulticastReceiver' definition
 // ****************************************************************************
 MulticastReceiver::MulticastReceiver(
-    asio_compat::io_service_t& ioService, 
+    asio_compat::io_service_t& ioService,
 	defs::connection_t const& multicastConnection,
     defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
     defs::message_received_handler_t const& messageReceivedHandler,
-    std::string const& interfaceAddress, 
+    std::string_view interfaceAddress,
 	size_t receiveBufferSize,
     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
@@ -76,7 +76,7 @@ MulticastReceiver::MulticastReceiver(
     defs::connection_t const& multicastConnection,
     defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
     defs::message_received_handler_t const& messageReceivedHandler,
-    std::string const& interfaceAddress, 
+    std::string_view interfaceAddress,
 	size_t receiveBufferSize,
     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)

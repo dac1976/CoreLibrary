@@ -38,8 +38,8 @@ namespace udp
 
 SimpleMulticastSender::SimpleMulticastSender(asio_compat::io_service_t& ioService,
 									 const defs::connection_t&  multicastConnection,
-									 const std::string& interfaceAddress,
-									 bool enableLoopback, 
+									  std::string_view interfaceAddress,
+									 bool enableLoopback,
 									 int32_t ttl,
 									 size_t sendBufferSize)
     : m_multicastTypedSender{ioService,
@@ -53,8 +53,8 @@ SimpleMulticastSender::SimpleMulticastSender(asio_compat::io_service_t& ioServic
 }
 
 SimpleMulticastSender::SimpleMulticastSender(const defs::connection_t& multicastConnection,
-									 const std::string& interfaceAddress,
-									 bool enableLoopback, 
+									 std::string_view interfaceAddress,
+									 bool enableLoopback,
 									 int32_t ttl,
 									 size_t sendBufferSize)
     : m_multicastTypedSender{multicastConnection,
@@ -76,20 +76,20 @@ std::string SimpleMulticastSender::InterfaceAddress() const
     return m_multicastTypedSender.InterfaceAddress();
 }
 
-bool SimpleMulticastSender::SendMsg(int32_t messageId, 
+bool SimpleMulticastSender::SendMsg(int32_t messageId,
                              const defs::connection_t& responseAddress)
 {
     return m_multicastTypedSender.SendMsg(messageId, responseAddress);
 }
 
-bool SimpleMulticastSender::SendMsg(const defs::char_buffer_t& message, 
+bool SimpleMulticastSender::SendMsg(defs::char_buf_cspan_t message,
                               int32_t messageId,
                               const defs::connection_t& responseAddress)
 {
     return m_multicastTypedSender.SendMsg(message, messageId, responseAddress);
 }
 
-bool SimpleMulticastSender::SendMsg(const defs::char_buffer_t& message)
+bool SimpleMulticastSender::SendMsg(defs::char_buf_cspan_t message)
 {
     return m_multicastTypedSender.SendMsg(message);
 }

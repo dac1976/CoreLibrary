@@ -173,7 +173,7 @@ public:
      * the server.
      */
     bool
-    SendMessageToServerAsync(const defs::char_buffer_t& message,
+    SendMessageToServerAsync(defs::char_buf_cspan_t message,
 	                    int32_t messageId,
                         const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
 
@@ -185,7 +185,7 @@ public:
      * response, the default value will mean the response address will point to this client socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(const defs::char_buffer_t& message,
+    bool SendMessageToServerSync(defs::char_buf_cspan_t message,
 	                        int32_t messageId,
                             const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
 
@@ -240,13 +240,13 @@ public:
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    bool SendMessageToServerAsync(const defs::char_buffer_t& message);
+    bool SendMessageToServerAsync(defs::char_buf_cspan_t message);
     /*!
      * \brief Send a message buffer to the server synchronously.
      * \param[in] message - Message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMessageToServerSync(const defs::char_buffer_t& message);
+    bool SendMessageToServerSync(defs::char_buf_cspan_t message);
     /*!
      * \brief Get number of unsent async messages.
      * \return Number of unsent messages

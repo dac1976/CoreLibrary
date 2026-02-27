@@ -221,7 +221,7 @@ public:
         std::lock_guard<std::mutex> lock(m_sendMutex);
         try
         {
-            auto const& messageBuffer = messages::BuildMessage(
+            auto messageBuffer = messages::BuildMessage(
                 messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
             return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
         }
@@ -246,7 +246,7 @@ public:
         std::lock_guard<std::mutex> lock(m_sendMutex);
         try
         {
-            auto const& messageBuffer = messages::BuildMessage(
+            auto messageBuffer = messages::BuildMessage(
                 messageId, responseAddress, GetServerDetailsForClient(client), m_messageBuilder);
             return m_tcpServer.SendMessageToClientSync(client, messageBuffer);
         }
@@ -268,13 +268,13 @@ public:
      */
     bool
     SendMessageToAllClients(int32_t messageId,
-                        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
+                            const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
 
         try
         {
-            auto const& messageBuffer =
+            auto messageBuffer =
                 messages::BuildMessage(messageId,
                                        responseAddress,
                                        GetServerDetailsForClient(defs::NULL_CONNECTION),
@@ -306,18 +306,18 @@ public:
      */
     bool SendMessageToClientAsync(
         const defs::connection_t& client,
-		const defs::char_buffer_t& message,
+		defs::char_buf_cspan_t message,
 		int32_t messageId,
         const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
         try
         {
-            auto const& messageBuffer = messages::BuildMessage(message,
-                                                               messageId,
-                                                               responseAddress,
-                                                               GetServerDetailsForClient(client),
-                                                               m_messageBuilder);
+            auto messageBuffer = messages::BuildMessage(message,
+                                                        messageId,
+                                                        responseAddress,
+                                                        GetServerDetailsForClient(client),
+                                                        m_messageBuilder);
             return m_tcpServer.SendMessageToClientAsync(client, messageBuffer);
         }
         catch (...)
@@ -336,14 +336,14 @@ public:
      */
     bool
     SendMessageToClientSync(const defs::connection_t& client,
-	                   const defs::char_buffer_t& message,
+	                   defs::char_buf_cspan_t message,
                        int32_t messageId,
                        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
         std::lock_guard<std::mutex> lock(m_sendMutex);
         try
         {
-            auto const& messageBuffer = messages::BuildMessage(message,
+            auto messageBuffer = messages::BuildMessage(message,
                                                                messageId,
                                                                responseAddress,
                                                                GetServerDetailsForClient(client),
@@ -367,7 +367,7 @@ public:
      * method gives best performance when sending.
      */
     bool
-    SendMessageToAllClients(const defs::char_buffer_t& message,
+    SendMessageToAllClients(defs::char_buf_cspan_t message,
 	                   int32_t messageId,
                        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const
     {
@@ -375,7 +375,7 @@ public:
 
         try
         {
-            auto const& messageBuffer =
+            auto messageBuffer =
                 messages::BuildMessage(message,
                                        messageId,
                                        responseAddress,
@@ -415,7 +415,7 @@ public:
         std::lock_guard<std::mutex> lock(m_sendMutex);
         try
         {
-            auto const& messageBuffer =
+            auto messageBuffer =
                 messages::BuildMessage<T, A, MsgBldr>(message,
                                                       messageId,
                                                       responseAddress,
@@ -448,7 +448,7 @@ public:
         std::lock_guard<std::mutex> lock(m_sendMutex);
         try
         {
-            auto const& messageBuffer =
+            auto messageBuffer =
                 messages::BuildMessage<T, A, MsgBldr>(message,
                                                       messageId,
                                                       responseAddress,
@@ -483,7 +483,7 @@ public:
 
         try
         {
-            auto const& messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
+            auto messageBuffer = messages::BuildMessage<T, A, MsgBldr>(
                 message,
                 messageId,
                 responseAddress,
@@ -511,7 +511,7 @@ public:
      * This method gives best performance when sending.
      */
     bool SendMessageToClientAsync(const defs::connection_t&  client,
-                             const defs::char_buffer_t& message) const
+                                  defs::char_buf_cspan_t message) const
     {
         try
         {
@@ -529,7 +529,7 @@ public:
      * \param[in] message - Message buffer.
      */
     bool SendMessageToClientSync(const defs::connection_t&  client,
-                            const defs::char_buffer_t& message) const
+                                 defs::char_buf_cspan_t message) const
     {
         try
         {
@@ -550,7 +550,7 @@ public:
      * success or failure reported, unlessa an exception is thrown. This
      * method gives best performance when sending.
      */
-    bool SendMessageToAllClients(const defs::char_buffer_t& message) const
+    bool SendMessageToAllClients(defs::char_buf_cspan_t message) const
     {
         try
         {

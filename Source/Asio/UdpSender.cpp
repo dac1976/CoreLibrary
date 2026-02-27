@@ -72,7 +72,7 @@ auto UdpSender::ReceiverConnection() const -> defs::connection_t
     return m_receiver;
 }
 
-bool UdpSender::SendMsg(const defs::char_buffer_t& message)
+bool UdpSender::SendMsg(defs::char_buf_cspan_t message)
 {
     return SyncSendTo(message);
 }
@@ -88,7 +88,7 @@ void UdpSender::CreateUdpSocket(eUdpOption sendOption, size_t sendBufferSize)
     m_socket.set_option(sendBufOption);
 }
 
-bool UdpSender::SyncSendTo(const defs::char_buffer_t& message)
+bool UdpSender::SyncSendTo(defs::char_buf_cspan_t message)
 {
     if (m_receiverEndpoint.port() != m_receiver.second)
     {
@@ -107,7 +107,7 @@ bool UdpSender::SyncSendTo(const defs::char_buffer_t& message)
         m_receiverEndpoint = ep;
     }
 
-    return message.size() == m_socket.send_to(boost_asio::buffer(message), m_receiverEndpoint);
+    return message.size() == m_socket.send_to(boost_asio::buffer(message.data(), message.size()), m_receiverEndpoint);
 }
 
 } // namespace udp

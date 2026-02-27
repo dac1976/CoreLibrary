@@ -83,8 +83,8 @@ public:
      */
     MulticastTypedSender(asio_compat::io_service_t& ioService,
 					 const defs::connection_t&  multicastConnection,
-					 const MsgBldr& messageBuilder, 
-					 const std::string& interfaceAddress = "",
+					 const MsgBldr& messageBuilder,
+					 std::string_view interfaceAddress = "",
 					 bool enableLoopback = true,
 					 int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
 					 size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
@@ -109,8 +109,8 @@ public:
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
     MulticastTypedSender(const defs::connection_t& multicastConnection,
-					 const MsgBldr& messageBuilder, 
-					 const std::string& interfaceAddress = "",
+					 const MsgBldr& messageBuilder,
+					 std::string_view interfaceAddress = "",
 					 bool enableLoopback = true,
 					 int32_t ttl = static_cast<int32_t>(eMulticastTTL::sameSubnet),
 					 size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE)
@@ -160,7 +160,7 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message, 
+    bool SendMsg(defs::char_buf_cspan_t message,
 	           int32_t messageId,
                const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -179,7 +179,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMsg(const T& message, 
+    bool SendMsg(const T& message,
 	           int32_t messageId,
                const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -192,7 +192,7 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message)
+    bool SendMsg(defs::char_buf_cspan_t message)
     {
         // Do not need mutex here as we're not using the m_messageBuilder.
         return m_multicastSender.SendMsg(message);

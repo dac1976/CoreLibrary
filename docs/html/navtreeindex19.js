@@ -1,5 +1,7 @@
 var NAVTREEINDEX19 =
 {
+"string_8hpp.html":[3,0,0,1,3,20],
+"string_8hpp_source.html":[3,0,0,1,3,20],
 "stringbuffer_8h_source.html":[3,0,0,1,2,0,21],
 "strtod_8h_source.html":[3,0,0,1,2,0,1,10],
 "struct_a_s_c_i_i.html":[2,0,12],
@@ -247,7 +249,5 @@ var NAVTREEINDEX19 =
 "struct_loki_1_1_private_1_1_add_reference_3_01_u_01_6_01_4.html":[2,0,4,0,27],
 "struct_loki_1_1_private_1_1_add_reference_3_01void_01_4.html":[2,0,4,0,28],
 "struct_loki_1_1_private_1_1_binder_first_bound_type_storage.html":[2,0,4,0,4],
-"struct_loki_1_1_private_1_1_binder_first_bound_type_storage_3_01_functor_3_01_r_00_01_t_list_00_01_threading_model_01_4_01_4.html":[2,0,4,0,5],
-"struct_loki_1_1_private_1_1_binder_first_traits.html":[2,0,4,0,2],
-"struct_loki_1_1_private_1_1_binder_first_traits_3_01_functor_3_01_r_00_01_t_list_00_01_threading_model_01_4_01_4.html":[2,0,4,0,3]
+"struct_loki_1_1_private_1_1_binder_first_bound_type_storage_3_01_functor_3_01_r_00_01_t_list_00_01_threading_model_01_4_01_4.html":[2,0,4,0,5]
 };

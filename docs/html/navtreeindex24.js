@@ -1,5 +1,7 @@
 var NAVTREEINDEX24 =
 {
+"traits_8hpp_source.html":[3,0,0,1,1,4],
+"tuple_8hpp.html":[3,0,0,1,3,21],
 "tuple_8hpp_source.html":[3,0,0,1,3,21],
 "union_generic_value_1_1_data.html":[2,0,44,6],
 "union_generic_value_1_1_number.html":[2,0,44,3],

@@ -64,7 +64,7 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    SimpleUdpSender(asio_compat::io_service_t& ioService, 
+    SimpleUdpSender(asio_compat::io_service_t& ioService,
 	             const defs::connection_t& receiver,
 				 eUdpOption sendOption = eUdpOption::broadcast,
 				 size_t sendBufferSize = DEFAULT_UDP_BUF_SIZE);
@@ -110,7 +110,7 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message, 
+    bool SendMsg(defs::char_buf_cspan_t message,
 	           int32_t messageId,
                const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
@@ -124,7 +124,7 @@ public:
      * This method uses the a core_lib::asio::HGL_MSG_HDR object as the header.
      */
     template <typename T, typename A = serialize::archives::out_port_bin_t>
-    bool SendMsg(const T& message, 
+    bool SendMsg(const T& message,
 	           int32_t messageId,
                const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -135,7 +135,7 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message);
+    bool SendMsg(defs::char_buf_cspan_t message);
 
 private:
     /*! \brief Default message builder object of type asio::messages::MessageBuilder. */

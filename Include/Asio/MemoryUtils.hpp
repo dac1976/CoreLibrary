@@ -30,11 +30,11 @@
 #include <iterator>
 #include <cstdint>
 #include <iterator>
-#include <cstring>  
+#include <cstring>
 #include <type_traits>
 #include "Platform/PlatformDefines.h"
 #if defined(IS_CPP20)
-#include <bit>	
+#include <bit>
 #include <optional>
 #include <span>
 #include <cstddef>
@@ -45,7 +45,7 @@ namespace core_lib
 
 #if defined(IS_CPP20)
 using char_cspan_t = std::span<const char>;
-	
+
 template <class T, class F>
 T BitCast(const F& src) noexcept
 {
@@ -113,7 +113,7 @@ template <typename T> bool TryConvertToPod(T& out, char_cspan_t buffer, size_t o
 template <typename T> void ZeroPodObject(T& o)
 {
 	static_assert(std::is_trivially_copyable_v<T>, "T must be trivially copyable");
-	
+
     // We don't use memset because under certain circumstances it can
     // be optimised out by the compiler and end up not filling the
     // bytes with 0s.

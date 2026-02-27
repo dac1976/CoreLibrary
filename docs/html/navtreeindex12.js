@@ -1,13 +1,11 @@
 var NAVTREEINDEX12 =
 {
-"classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad10db14960646600152b41d3125b4dd7":[1,0,1,0,2,9,10],
-"classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad10db14960646600152b41d3125b4dd7":[2,0,1,1,2,9,10],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad2d0b3a1819fa737b21554402fca4448":[1,0,1,0,2,9,7],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad2d0b3a1819fa737b21554402fca4448":[2,0,1,1,2,9,7],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad82c88fa087aae289ac99b47313c3c0b":[1,0,1,0,2,9,1],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ad82c88fa087aae289ac99b47313c3c0b":[2,0,1,1,2,9,1],
-"classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#adaed4a54c17e7347c274671cdbf39bff":[1,0,1,0,2,9,11],
-"classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#adaed4a54c17e7347c274671cdbf39bff":[2,0,1,1,2,9,11],
+"classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#adaed4a54c17e7347c274671cdbf39bff":[1,0,1,0,2,9,9],
+"classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#adaed4a54c17e7347c274671cdbf39bff":[2,0,1,1,2,9,9],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#aed86a1d455d175ee7a23c1632c691547":[1,0,1,0,2,9,13],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#aed86a1d455d175ee7a23c1632c691547":[2,0,1,1,2,9,13],
 "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#af99b3832353e6871fb86da018d35e59b":[1,0,1,0,2,9,0],
@@ -249,5 +247,7 @@ var NAVTREEINDEX12 =
 "classcore__lib_1_1exceptions_1_1_detailed_exception.html#a63f871450f7a4de1c3e87c48193bad8e":[1,0,1,3,0,6],
 "classcore__lib_1_1exceptions_1_1_detailed_exception.html#a63f871450f7a4de1c3e87c48193bad8e":[2,0,1,5,0,6],
 "classcore__lib_1_1exceptions_1_1_detailed_exception.html#a64a4c80994edd1895b3ea5b2d0eb833e":[1,0,1,3,0,3],
-"classcore__lib_1_1exceptions_1_1_detailed_exception.html#a64a4c80994edd1895b3ea5b2d0eb833e":[2,0,1,5,0,3]
+"classcore__lib_1_1exceptions_1_1_detailed_exception.html#a64a4c80994edd1895b3ea5b2d0eb833e":[2,0,1,5,0,3],
+"classcore__lib_1_1exceptions_1_1_detailed_exception.html#a665a0b576883df81eb9a97340a34c098":[1,0,1,3,0,4],
+"classcore__lib_1_1exceptions_1_1_detailed_exception.html#a665a0b576883df81eb9a97340a34c098":[2,0,1,5,0,4]
 };

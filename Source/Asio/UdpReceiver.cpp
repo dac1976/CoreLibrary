@@ -46,12 +46,12 @@ CONSTEXPR_ uint32_t CLOSE_WAIT_MS = 1000;
 // ****************************************************************************
 // 'class UdpReceiver' definition
 // ****************************************************************************
-UdpReceiver::UdpReceiver(asio_compat::io_service_t& ioService, 
+UdpReceiver::UdpReceiver(asio_compat::io_service_t& ioService,
                     uint16_t listenPort,
 					defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 					defs::message_received_handler_t const& messageReceivedHandler,
 					eUdpOption receiveOptions, size_t receiveBufferSize,
-					std::string const& listenAddress,
+					std::string_view listenAddress,
 					defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
 					defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
     : m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
@@ -73,7 +73,7 @@ UdpReceiver::UdpReceiver(uint16_t listenPort,
                     defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                     defs::message_received_handler_t const& messageReceivedHandler,
                     eUdpOption receiveOptions, size_t receiveBufferSize,
-                    std::string const& listenAddress,
+                    std::string_view listenAddress,
                     defs::message_received_handler_ex_t const& messageReceivedHandlerEx,
                     defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx)
     : m_closeEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,

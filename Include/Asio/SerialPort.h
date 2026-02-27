@@ -72,7 +72,7 @@ public:
      * settings.
      */
     SerialPort(asio_compat::io_service_t& ioService,
-	         std::string const& comPort,
+	         std::string_view comPort,
              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
              defs::message_received_handler_t const& messageReceivedHandler,
              SerialPortSettings const& settings = {});
@@ -90,7 +90,7 @@ public:
      *
      * This constructor creates an internal IO service with N threads associated with it.
      */
-    SerialPort(std::string const& comPort,
+    SerialPort(std::string_view comPort,
              defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
              defs::message_received_handler_t const& messageReceivedHandler,
              SerialPortSettings const& settings = {},
@@ -113,7 +113,7 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message);
+    bool SendMsg(defs::char_buf_cspan_t message);
 
 private:
     /*!

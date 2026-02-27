@@ -40,7 +40,7 @@ namespace tcp
 // ****************************************************************************
 // 'class TcpServer' definition
 // ****************************************************************************
-TcpServer::TcpServer(asio_compat::io_service_t& ioService, 
+TcpServer::TcpServer(asio_compat::io_service_t& ioService,
                  uint16_t listenPort,
                  defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
                  defs::message_received_handler_t const& messageReceivedHandler,
@@ -138,18 +138,18 @@ void TcpServer::OpenAcceptor()
 }
 
 bool TcpServer::SendMessageToClientAsync(const defs::connection_t&  client,
-                                         const defs::char_buffer_t& message) const
+                                        defs::char_buf_cspan_t message) const
 {
     return m_clientConnections->SendMessageAsync(client, message);
 }
 
 bool TcpServer::SendMessageToClientSync(const defs::connection_t&  client,
-                                        const defs::char_buffer_t& message) const
+                                        defs::char_buf_cspan_t message) const
 {
     return m_clientConnections->SendMessageSync(client, message);
 }
 
-void TcpServer::SendMessageToAllClients(const defs::char_buffer_t& message) const
+void TcpServer::SendMessageToAllClients(defs::char_buf_cspan_t message) const
 {
     m_clientConnections->SendMessageToAll(message);
 }

@@ -61,10 +61,12 @@ var NAVTREEINDEX18 =
 "namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcacb5e100e5a9a3e7f6d1fd97512215282":[1,0,1,2,3,6],
 "namespacecore__lib_1_1log.html#ad7ce2d6b07e2ed6ac17a19b27f8741bcadf6402fd9ecc60f5a2159fdf45711cd4":[1,0,1,2,3,7],
 "namespacecore__lib_1_1serialize.html":[1,0,1,6],
-"namespacecore__lib_1_1serialize.html#a8316a47202c696fefd9e21c18b31e594":[1,0,1,6,9],
-"namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5":[1,0,1,6,6],
-"namespacecore__lib_1_1serialize.html#ad4aa01ddc0b4571e7442b150cdd10ec8":[1,0,1,6,7],
-"namespacecore__lib_1_1serialize.html#afe773af159db747698f50213bcd4b94e":[1,0,1,6,8],
+"namespacecore__lib_1_1serialize.html#a048d3f75eb3ea333717e5647401b491b":[1,0,1,6,7],
+"namespacecore__lib_1_1serialize.html#a5ac47f823ba924faf367a87aa5984d1a":[1,0,1,6,6],
+"namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5":[1,0,1,6,8],
+"namespacecore__lib_1_1serialize.html#ad4aa01ddc0b4571e7442b150cdd10ec8":[1,0,1,6,9],
+"namespacecore__lib_1_1serialize.html#ae6ef1feb141265863c9804de20640d8f":[1,0,1,6,11],
+"namespacecore__lib_1_1serialize.html#afe773af159db747698f50213bcd4b94e":[1,0,1,6,10],
 "namespacecore__lib_1_1serialize_1_1archives.html":[1,0,1,6,0],
 "namespacecore__lib_1_1serialize_1_1archives.html#a0a9e3e4dbb6af96f1585872dc96d92d4":[1,0,1,6,0,1],
 "namespacecore__lib_1_1serialize_1_1archives.html#a4859337673b03bf0f27a656c6116a736":[1,0,1,6,0,8],
@@ -247,7 +249,5 @@ var NAVTREEINDEX18 =
 "static__object_8hpp_source.html":[3,0,0,1,1,3],
 "stdint_8h_source.html":[3,0,0,1,2,0,2,1],
 "stream_8h_source.html":[3,0,0,1,2,0,20],
-"strfunc_8h_source.html":[3,0,0,1,2,0,1,9],
-"string_8hpp.html":[3,0,0,1,3,20],
-"string_8hpp_source.html":[3,0,0,1,3,20]
+"strfunc_8h_source.html":[3,0,0,1,2,0,1,9]
 };

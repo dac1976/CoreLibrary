@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -100,7 +100,9 @@ $(function(){initNavTree('_asio_defines_8h.html','',''); });
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
 <code>#include &quot;<a class="el" href="_core_library_dll_global_8h_source.html">../CoreLibraryDllGlobal.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_asio_compatibility_8hpp_source.html">AsioCompatibility.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_platform_defines_8h_source.html">Platform/PlatformDefines.h</a>&quot;</code><br />
@@ -161,6 +163,12 @@ using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::tcp_conn_ptr_t
 <tr class="memitem:a99e11fc9841eaccb82b5d683088e130d" id="r_a99e11fc9841eaccb82b5d683088e130d"><td class="memItemLeft"><a id="a99e11fc9841eaccb82b5d683088e130d" name="a99e11fc9841eaccb82b5d683088e130d"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::char_buffer_t</b> = std::vector&lt;char&gt;</td></tr>
 <tr class="memdesc:a99e11fc9841eaccb82b5d683088e130d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to generic char buffer based on s std::vector&lt;char&gt;. <br /></td></tr>
+<tr class="memitem:a4847cea8ad8b68778f254dbef9f9fd84" id="r_a4847cea8ad8b68778f254dbef9f9fd84"><td class="memItemLeft"><a id="a4847cea8ad8b68778f254dbef9f9fd84" name="a4847cea8ad8b68778f254dbef9f9fd84"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::char_buf_span_t</b> = std::span&lt;char&gt;</td></tr>
+<tr class="memdesc:a4847cea8ad8b68778f254dbef9f9fd84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to char buffer span - mutable. <br /></td></tr>
+<tr class="memitem:ad5caed4ac973df35c72a2ad1e1e3bf39" id="r_ad5caed4ac973df35c72a2ad1e1e3bf39"><td class="memItemLeft"><a id="ad5caed4ac973df35c72a2ad1e1e3bf39" name="ad5caed4ac973df35c72a2ad1e1e3bf39"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::char_buf_cspan_t</b> = std::span&lt;const char&gt;</td></tr>
+<tr class="memdesc:ad5caed4ac973df35c72a2ad1e1e3bf39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to char buffer span - const. <br /></td></tr>
 <tr class="memitem:a39c4a530d837ced946bf72498fbf31e4" id="r_a39c4a530d837ced946bf72498fbf31e4"><td class="memItemLeft"><a id="a39c4a530d837ced946bf72498fbf31e4" name="a39c4a530d837ced946bf72498fbf31e4"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::default_received_message_t</b> = <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_received_message.html">ReceivedMessage</a>&lt;<a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">MessageHeader</a>&gt;</td></tr>
 <tr class="memdesc:a39c4a530d837ced946bf72498fbf31e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to default version of received message typed to default message header struct. <br /></td></tr>
@@ -170,16 +178,16 @@ using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::default_receiv
 <tr class="memitem:ab46e95fed38568fcdbc76e29fcffff05" id="r_ab46e95fed38568fcdbc76e29fcffff05"><td class="memItemLeft"><a id="ab46e95fed38568fcdbc76e29fcffff05" name="ab46e95fed38568fcdbc76e29fcffff05"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::default_message_dispatcher_t</b> = std::function&lt;void(<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a259becc59aa2ea5cf30eca9630d62c2e">default_received_message_ptr_t</a> const&amp;)&gt;</td></tr>
 <tr class="memdesc:ab46e95fed38568fcdbc76e29fcffff05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to default message dispatcher function object. <br /></td></tr>
-<tr class="memitem:a662db48499822ec2c68c4e9c57eb595a" id="r_a662db48499822ec2c68c4e9c57eb595a"><td class="memItemLeft"><a id="a662db48499822ec2c68c4e9c57eb595a" name="a662db48499822ec2c68c4e9c57eb595a"></a>
-using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::check_bytes_left_to_read_t</b> = std::function&lt;size_t(const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">char_buffer_t</a>&amp;)&gt;</td></tr>
-<tr class="memdesc:a662db48499822ec2c68c4e9c57eb595a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to bytes left to reading checking utility function object. If there is a problem with the message size this should return std::numeric_limits&lt;size_t&gt;::max(). <br /></td></tr>
-<tr class="memitem:ae6e1a7832a2869af738a2666d281527f" id="r_ae6e1a7832a2869af738a2666d281527f"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ae6e1a7832a2869af738a2666d281527f">core_lib::asio::defs::check_bytes_left_to_read_ex_t</a></td></tr>
-<tr class="memdesc:ae6e1a7832a2869af738a2666d281527f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to bytes left to reading checking utility function object. If there is a problem with the message size this should return std::numeric_limits&lt;size_t&gt;::max().  <br /></td></tr>
-<tr class="memitem:ac6372a5709c23c77100f258b5363a861" id="r_ac6372a5709c23c77100f258b5363a861"><td class="memItemLeft"><a id="ac6372a5709c23c77100f258b5363a861" name="ac6372a5709c23c77100f258b5363a861"></a>
-using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::message_received_handler_t</b> = std::function&lt;void(const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">char_buffer_t</a>&amp;)&gt;</td></tr>
-<tr class="memdesc:ac6372a5709c23c77100f258b5363a861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to message received handler function object. <br /></td></tr>
-<tr class="memitem:a8612516d77529e6f89668a740f46b43e" id="r_a8612516d77529e6f89668a740f46b43e"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a8612516d77529e6f89668a740f46b43e">core_lib::asio::defs::message_received_handler_ex_t</a></td></tr>
-<tr class="memdesc:a8612516d77529e6f89668a740f46b43e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to extended message received handler function object.  <br /></td></tr>
+<tr class="memitem:a9ec5fd8ea8cd5075726bb6821adfe440" id="r_a9ec5fd8ea8cd5075726bb6821adfe440"><td class="memItemLeft"><a id="a9ec5fd8ea8cd5075726bb6821adfe440" name="a9ec5fd8ea8cd5075726bb6821adfe440"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::check_bytes_left_to_read_t</b> = std::function&lt;size_t(<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">char_buf_cspan_t</a>)&gt;</td></tr>
+<tr class="memdesc:a9ec5fd8ea8cd5075726bb6821adfe440"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to bytes left to reading checking utility function object. If there is a problem with the message size this should return std::numeric_limits&lt;size_t&gt;::max(). <br /></td></tr>
+<tr class="memitem:a61d4d9aaa710e8986c7f1dd3ffb7646b" id="r_a61d4d9aaa710e8986c7f1dd3ffb7646b"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a61d4d9aaa710e8986c7f1dd3ffb7646b">core_lib::asio::defs::check_bytes_left_to_read_ex_t</a></td></tr>
+<tr class="memdesc:a61d4d9aaa710e8986c7f1dd3ffb7646b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to bytes left to reading checking utility function object. If there is a problem with the message size this should return std::numeric_limits&lt;size_t&gt;::max().  <br /></td></tr>
+<tr class="memitem:aae2efc8aa58e77edb60f41772241cf46" id="r_aae2efc8aa58e77edb60f41772241cf46"><td class="memItemLeft"><a id="aae2efc8aa58e77edb60f41772241cf46" name="aae2efc8aa58e77edb60f41772241cf46"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::message_received_handler_t</b> = std::function&lt;void(<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">char_buf_cspan_t</a>)&gt;</td></tr>
+<tr class="memdesc:aae2efc8aa58e77edb60f41772241cf46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to message received handler function object. <br /></td></tr>
+<tr class="memitem:a2f190d9e73ce4387957c843ef3abbc12" id="r_a2f190d9e73ce4387957c843ef3abbc12"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a2f190d9e73ce4387957c843ef3abbc12">core_lib::asio::defs::message_received_handler_ex_t</a></td></tr>
+<tr class="memdesc:a2f190d9e73ce4387957c843ef3abbc12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to extended message received handler function object.  <br /></td></tr>
 <tr class="memitem:a108dd385a881ca2bfcd9226fa188731f" id="r_a108dd385a881ca2bfcd9226fa188731f"><td class="memItemLeft"><a id="a108dd385a881ca2bfcd9226fa188731f" name="a108dd385a881ca2bfcd9226fa188731f"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::asio::defs::on_close_t</b> = std::function&lt;void(const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">connection_t</a>&amp;)&gt;</td></tr>
 <tr class="memdesc:a108dd385a881ca2bfcd9226fa188731f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for a TCP connection OnClose callback. <br /></td></tr>

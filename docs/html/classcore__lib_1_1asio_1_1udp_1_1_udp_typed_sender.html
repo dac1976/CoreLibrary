@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -126,13 +126,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9bc50eee477db8421726148badf096ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve receiver connection details.  <br /></td></tr>
 <tr class="memitem:a6a9ffc6b09ba25cbfda1413641666f9f" id="r_a6a9ffc6b09ba25cbfda1413641666f9f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a6a9ffc6b09ba25cbfda1413641666f9f">SendMsg</a> (int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
 <tr class="memdesc:a6a9ffc6b09ba25cbfda1413641666f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to the receiver.  <br /></td></tr>
-<tr class="memitem:ad10db14960646600152b41d3125b4dd7" id="r_ad10db14960646600152b41d3125b4dd7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ad10db14960646600152b41d3125b4dd7">SendMsg</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
-<tr class="memdesc:ad10db14960646600152b41d3125b4dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header plus message buffer to the receiver.  <br /></td></tr>
+<tr class="memitem:ab98d096d7ebae9e4c7983bd6bb294414" id="r_ab98d096d7ebae9e4c7983bd6bb294414"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab98d096d7ebae9e4c7983bd6bb294414">SendMsg</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
+<tr class="memdesc:ab98d096d7ebae9e4c7983bd6bb294414"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header plus message buffer to the receiver.  <br /></td></tr>
 <tr class="memitem:adaed4a54c17e7347c274671cdbf39bff" id="r_adaed4a54c17e7347c274671cdbf39bff"><td class="memTemplParams" colspan="2">template&lt;typename T, class A = serialize::archives::out_port_bin_t&gt; </td></tr>
 <tr class="memitem:adaed4a54c17e7347c274671cdbf39bff template"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#adaed4a54c17e7347c274671cdbf39bff">SendMsg</a> (const T &amp;message, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
 <tr class="memdesc:adaed4a54c17e7347c274671cdbf39bff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a full message to the server.  <br /></td></tr>
-<tr class="memitem:a62dc221f481c4279985b084a76fbb938" id="r_a62dc221f481c4279985b084a76fbb938"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a62dc221f481c4279985b084a76fbb938">SendMsg</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message)</td></tr>
-<tr class="memdesc:a62dc221f481c4279985b084a76fbb938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message buffer to the receiver.  <br /></td></tr>
+<tr class="memitem:aa925bf796b3ef358e9987daefe0d4c3c" id="r_aa925bf796b3ef358e9987daefe0d4c3c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa925bf796b3ef358e9987daefe0d4c3c">SendMsg</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message)</td></tr>
+<tr class="memdesc:aa925bf796b3ef358e9987daefe0d4c3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message buffer to the receiver.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -296,91 +296,8 @@ template&lt;typename MsgBldr&gt; </div>
 
 </div>
 </div>
-<a id="a62dc221f481c4279985b084a76fbb938" name="a62dc221f481c4279985b084a76fbb938"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62dc221f481c4279985b084a76fbb938">&#9670;&#160;</a></span>SendMsg() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename MsgBldr&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::SendMsg </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Send a message buffer to the receiver. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The message buffer. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
-
-</div>
-</div>
-<a id="ad10db14960646600152b41d3125b4dd7" name="ad10db14960646600152b41d3125b4dd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad10db14960646600152b41d3125b4dd7">&#9670;&#160;</a></span>SendMsg() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename MsgBldr&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::SendMsg </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int32_t</td>          <td class="paramname"><span class="paramname"><em>messageId</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>responseAddress</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Send a header plus message buffer to the receiver. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The message buffer. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">messageId</td><td>- Unique message ID to insert into message header. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
-
-</div>
-</div>
 <a id="adaed4a54c17e7347c274671cdbf39bff" name="adaed4a54c17e7347c274671cdbf39bff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adaed4a54c17e7347c274671cdbf39bff">&#9670;&#160;</a></span>SendMsg() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adaed4a54c17e7347c274671cdbf39bff">&#9670;&#160;</a></span>SendMsg() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -419,6 +336,89 @@ template&lt;typename T, class A = serialize::archives::out_port_bin_t&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The message of type T to send behind the header serialized to an boost::serialization-compatible archive of type A. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageId</td><td>- Unique message ID to insert into message header. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
+
+</div>
+</div>
+<a id="aa925bf796b3ef358e9987daefe0d4c3c" name="aa925bf796b3ef358e9987daefe0d4c3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa925bf796b3ef358e9987daefe0d4c3c">&#9670;&#160;</a></span>SendMsg() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::SendMsg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send a message buffer to the receiver. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The message buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the success state of the send as a boolean. </dd></dl>
+
+</div>
+</div>
+<a id="ab98d096d7ebae9e4c7983bd6bb294414" name="ab98d096d7ebae9e4c7983bd6bb294414"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab98d096d7ebae9e4c7983bd6bb294414">&#9670;&#160;</a></span>SendMsg() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MsgBldr&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html">core_lib::asio::udp::UdpTypedSender</a>&lt; MsgBldr &gt;::SendMsg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t</td>          <td class="paramname"><span class="paramname"><em>messageId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>responseAddress</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Send a header plus message buffer to the receiver. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- The message buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">messageId</td><td>- Unique message ID to insert into message header. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the receiver should send the response, the default value will mean the response address will point to this client socket. </td></tr>
   </table>

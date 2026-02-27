@@ -84,7 +84,7 @@ public:
     SimpleMulticastReceiver(asio_compat::io_service_t& ioService,
 						const defs::connection_t& multicastConnection,
 						const defs::default_message_dispatcher_t& messageDispatcher,
-						const std::string& interfaceAddress = "",
+					    std::string_view interfaceAddress = "",
 						size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
 						size_t memPoolMsgCount = 0,
 						size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
@@ -113,7 +113,7 @@ public:
      */
     SimpleMulticastReceiver(const defs::connection_t& multicastConnection,
 						const defs::default_message_dispatcher_t& messageDispatcher,
-						const std::string& interfaceAddress = "",
+						std::string_view interfaceAddress = "",
 						size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
 						size_t memPoolMsgCount = 0,
 						size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);

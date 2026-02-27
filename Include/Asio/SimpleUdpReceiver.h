@@ -80,14 +80,14 @@ public:
      * doesn't fill and start overwriting older messages. If the messages need to be kept
      * then it is the dispatchers job to make a suitable copy of the received message.
      */
-    SimpleUdpReceiver(asio_compat::io_service_t& ioService, 
+    SimpleUdpReceiver(asio_compat::io_service_t& ioService,
 	              uint16_t listenPort,
 				  const defs::default_message_dispatcher_t& messageDispatcher,
 				  eUdpOption receiveOptions = eUdpOption::broadcast,
-				  size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, 
+				  size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
 				  size_t memPoolMsgCount = 0,
 				  size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE,
-				  std::string const& listenAddress   = "");
+				  std::string_view listenAddress   = "");
     /*!
      * \brief Initialisation constructor.
      * \param[in] listenPort - Our listen port for all detected networks.
@@ -115,10 +115,10 @@ public:
     SimpleUdpReceiver(uint16_t listenPort,
 				  const defs::default_message_dispatcher_t& messageDispatcher,
 				  eUdpOption receiveOptions = eUdpOption::broadcast,
-				  size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE, 
+				  size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
 				  size_t memPoolMsgCount = 0,
 				  size_t recvPoolMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE,
-				  std::string const& listenAddress = "");
+				  std::string_view listenAddress = "");
     /*! \brief Default destructor. */
     ~SimpleUdpReceiver() = default;
     /*!

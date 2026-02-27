@@ -37,18 +37,6 @@
 *.pdb
 *.res
 
-# Project user files
-*.pro.user
-MakeFile
-MakeFile.*
-/QtProject/*.pro.user
-/QtProject/MakeFile
-/QtProject/MakeFile.*
-/UnitTests/GoogleTests/QtProject/*.pro.user
-/UnitTests/GoogleTests/QtProject/MakeFile
-/UnitTests/GoogleTests/QtProject/MakeFile.*
+# Build output
+/UnitTests/GoogleTests/build
 
-# Qmake stash
-*.stash
-/QtProject/*.stash
-/UnitTests/GoogleTests/QtProject/*.stash

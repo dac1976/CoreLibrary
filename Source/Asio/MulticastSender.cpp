@@ -47,9 +47,9 @@ namespace udp
 // cppcheck-suppress constParameter
 MulticastSender::MulticastSender(asio_compat::io_service_t& ioService,
 						   defs::connection_t const&  multicastConnection,
-						   std::string const& interfaceAddress, 
+						   std::string_view interfaceAddress,
 						   bool enableLoopback,
-						   int32_t ttl, 
+						   int32_t ttl,
 						   size_t sendBufferSize)
     : m_multicastConnection(multicastConnection)
     , m_interfaceAddress(interfaceAddress)
@@ -61,7 +61,7 @@ MulticastSender::MulticastSender(asio_compat::io_service_t& ioService,
 }
 
 MulticastSender::MulticastSender(defs::connection_t const& multicastConnection,
-							std::string const& interfaceAddress, bool enableLoopback,
+							std::string_view interfaceAddress, bool enableLoopback,
 							int32_t ttl, size_t sendBufferSize)
     : m_ioThreadGroup{new IoContextThreadGroup(1)}
     // 1 thread is sufficient only receive one message at a time
@@ -84,7 +84,7 @@ auto MulticastSender::InterfaceAddress() const -> std::string
     return m_interfaceAddress;
 }
 
-bool MulticastSender::SendMsg(const defs::char_buffer_t& message)
+bool MulticastSender::SendMsg(defs::char_buf_cspan_t message)
 {
     return SyncSendTo(message);
 }
@@ -111,11 +111,11 @@ void MulticastSender::CreateMulticastSocket(bool enableLoopback, int32_t ttl, si
     }
 }
 
-bool MulticastSender::SyncSendTo(const defs::char_buffer_t& message)
+bool MulticastSender::SyncSendTo(defs::char_buf_cspan_t message)
 {
     try
     {
-        return message.size() == m_socket.send_to(boost_asio::buffer(message), m_multicastEndpoint);
+        return message.size() == m_socket.send_to(boost_asio::buffer(message.data(), message.size()), m_multicastEndpoint);
     }
     catch (...)
     {

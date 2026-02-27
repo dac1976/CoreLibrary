@@ -10,6 +10,8 @@ var _serialize_to_vector_8h =
     [ "core_lib::serialize::impl::ToObjectImpl&lt; T, A &gt;", "structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl.html", "structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl" ],
     [ "core_lib::serialize::impl::ToObjectImpl&lt; T, archives::in_raw_t &gt;", "structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__raw__t_01_4.html", "structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__raw__t_01_4" ],
     [ "core_lib::serialize::impl::ToObjectImpl&lt; T, archives::in_protobuf_t &gt;", "structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__protobuf__t_01_4.html", "structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__protobuf__t_01_4" ],
+    [ "core_lib::serialize::char_cspan_buf_t", "namespacecore__lib_1_1serialize.html#a5ac47f823ba924faf367a87aa5984d1a", null ],
+    [ "core_lib::serialize::char_span_buf_t", "namespacecore__lib_1_1serialize.html#a048d3f75eb3ea333717e5647401b491b", null ],
     [ "core_lib::serialize::char_vector_t", "namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5", null ],
     [ "core_lib::serialize::archives::in_bin_t", "namespacecore__lib_1_1serialize_1_1archives.html#aa1ad848d35b8652103bcd8486932aa96", null ],
     [ "core_lib::serialize::archives::in_json_t", "namespacecore__lib_1_1serialize_1_1archives.html#a0a9e3e4dbb6af96f1585872dc96d92d4", null ],
@@ -25,5 +27,5 @@ var _serialize_to_vector_8h =
     [ "core_lib::serialize::archives::out_xml_t", "namespacecore__lib_1_1serialize_1_1archives.html#a8f200a9d4a4fc298ddd0a18c89f5627c", null ],
     [ "core_lib::serialize::ToCharVector", "namespacecore__lib_1_1serialize.html#ad4aa01ddc0b4571e7442b150cdd10ec8", null ],
     [ "core_lib::serialize::ToCharVector", "namespacecore__lib_1_1serialize.html#afe773af159db747698f50213bcd4b94e", null ],
-    [ "core_lib::serialize::ToObject", "namespacecore__lib_1_1serialize.html#a8316a47202c696fefd9e21c18b31e594", null ]
+    [ "core_lib::serialize::ToObject", "namespacecore__lib_1_1serialize.html#ae6ef1feb141265863c9804de20640d8f", null ]
 ];

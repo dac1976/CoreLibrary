@@ -157,7 +157,7 @@ bool TcpClientList::CreateConnectionToServer(defs::connection_t const& server)
 }
 
 bool TcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
-                                             defs::char_buffer_t const& message)
+                                             defs::char_buf_cspan_t message)
 {
     std::lock_guard<std::mutex> lock(m_mapMutex);
 
@@ -177,7 +177,7 @@ bool TcpClientList::SendMessageToServerAsync(defs::connection_t const&  server,
 }
 
 bool TcpClientList::SendMessageToServerSync(defs::connection_t const&  server,
-                                            defs::char_buffer_t const& message)
+                                            defs::char_buf_cspan_t message)
 {
     std::lock_guard<std::mutex> lock(m_mapMutex);
 

@@ -78,7 +78,7 @@ public:
      *       is used when handling each new message.
      */
     MessageHandler(const defs::default_message_dispatcher_t& messageDispatcher,
-                 std::string const& magicString, 
+                 std::string_view magicString,
 				 size_t memPoolMsgCount = 0,
                  size_t defaultMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE);
     /*! \brief Default destructor. */
@@ -93,19 +93,19 @@ public:
      * \return Num bytes left to read or std::numeric_limits<size_t>::max()
      *         if there is a problem.
      */
-    size_t CheckBytesLeftToRead(const defs::char_buffer_t& message) const;
+    size_t CheckBytesLeftToRead(defs::char_buf_cspan_t message) const;
     /*!
      * \brief Message received handler method.
      * \param[in] message - A received message buffer.
      */
-    void MessageReceivedHandler(const defs::char_buffer_t& message) const;
+    void MessageReceivedHandler(defs::char_buf_cspan_t message) const;
 
 private:
     /*!
      * \brief Check message method.
      * \param[in] message - A received message buffer.
      */
-    static bool CheckMessage(const defs::char_buffer_t& message);
+    static bool CheckMessage(defs::char_buf_cspan_t message);
     /*!
      * \brief Initialise message pool.
      * \param[in] memPoolMsgCount - Pool size as number of messages..
@@ -127,7 +127,7 @@ private:
     std::string m_magicString;
 #else
     /*! \brief Magic string. */
-    std::string m_magicString{static_cast<char const*>(defs::DEFAULT_MAGIC_STRING)};
+    std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 #endif
     mutable size_t  m_msgPoolIndex{0};
     std::vector<asio::defs::default_received_message_ptr_t> m_msgPool;
@@ -138,14 +138,14 @@ private:
  * \param[in] archiveType - Type of archive used.
  * \return The human readable name of the archive type.
  */
-CORE_LIBRARY_DLL_SHARED_API std::string ArchiveTypeToString(defs::eArchiveType archiveType);
+CORE_LIBRARY_DLL_SHARED_API std::string_view ArchiveTypeToString(defs::eArchiveType archiveType);
 
 /*!
  * \brief Unstringify archive type.
  * \param[in] archiveName - Type of archive used as a string.
  * \return The archive type.
  */
-CORE_LIBRARY_DLL_SHARED_API defs::eArchiveType StringToArchiveType(std::string const& archiveName);
+CORE_LIBRARY_DLL_SHARED_API defs::eArchiveType StringToArchiveType(std::string_view archiveName);
 
 /*!
  * \brief Header filler function.
@@ -164,7 +164,7 @@ CORE_LIBRARY_DLL_SHARED_API defs::eArchiveType StringToArchiveType(std::string c
  *
  * This function only works with headers of the type MessageHeader.
  */
-CORE_LIBRARY_DLL_SHARED_API void FillHeader(const std::string& magicString,
+CORE_LIBRARY_DLL_SHARED_API void FillHeader(std::string_view magicString,
 									defs::eArchiveType archiveType, int32_t messageId,
 									const defs::connection_t& responseAddress,
 									uint32_t messageLength, defs::MessageHeader& header);
@@ -287,7 +287,7 @@ public:
      * \brief Initialisatn constructor.
      * \param[in] magicString - Magic stirng used to identify start of valid message.
      */
-    explicit MessageBuilder(const std::string& magicString);
+    explicit MessageBuilder(std::string_view magicString);
     /*! \brief Default destructor. */
     ~MessageBuilder() = default;
     /*! \brief Default copy constructor. */
@@ -315,8 +315,8 @@ public:
      * information such as a command to possibly request some data in response. In this case
      * we invoke this Build method.
      */
-    defs::char_buffer_t const& Build(int32_t                   messageId,
-                                     const defs::connection_t& responseAddress) const;
+    defs::char_buf_cspan_t Build(int32_t                   messageId,
+                                 const defs::connection_t& responseAddress) const;
     /*!
      * \brief Build message method for header plus buffer.
      * \param[in] message - Message buffer created outside of the message builder.
@@ -325,21 +325,8 @@ public:
      * \param[in] archiveType - Archive type used to when creating the messageBuffer.
      * \return A const reference to a filled message buffer.
      */
-    defs::char_buffer_t const&
-    Build(const defs::char_buffer_t& message, int32_t messageId,
-          const defs::connection_t& responseAddress,
-          defs::eArchiveType        archiveType = defs::eArchiveType::raw) const;
-    /*!
-     * \brief Build message method for header plus buffer.
-     * \param[in] message - Start of message buffer created outside of the message builder.
-     * \param[in] messageLength - Length of the message buffer in bytes.
-     * \param[in] messageId - Unique ID for this message instance.
-     * \param[in] responseAddress - Connection object describing sender's response address and port.
-     * \param[in] archiveType - Archive type used to when creating the messageBuffer.
-     * \return A const reference to a filled message buffer.
-     */
-    defs::char_buffer_t const&
-    Build(const void* message, size_t messageLength, int32_t messageId,
+    defs::char_buf_cspan_t
+    Build(defs::char_buf_cspan_t message, int32_t messageId,
           const defs::connection_t& responseAddress,
           defs::eArchiveType        archiveType = defs::eArchiveType::raw) const;
     /*!
@@ -357,8 +344,8 @@ public:
      * be sent.
      */
     template <typename T, typename A>
-    defs::char_buffer_t const& Build(const T& message, int32_t messageId,
-                                     const defs::connection_t& responseAddress) const
+    defs::char_buf_cspan_t Build(const T& message, int32_t messageId,
+                                 const defs::connection_t& responseAddress) const
     {
         // Serialise message.
         serialize::ToCharVector<T, A>(message, m_serialisationBuffer);
@@ -416,7 +403,7 @@ private:
  * the MessageBuilder functor.
  */
 template <typename MsgBldr>
-defs::char_buffer_t const&
+defs::char_buf_cspan_t
 BuildMessage(int32_t messageId, const defs::connection_t& responseAddress,
              const defs::connection_t& fallbackResponseAddress, const MsgBldr& messageBuilder)
 {
@@ -440,10 +427,10 @@ BuildMessage(int32_t messageId, const defs::connection_t& responseAddress,
  * the MessageBuilder functor.
  */
 template <typename MsgBldr>
-defs::char_buffer_t const& BuildMessage(defs::char_buffer_t const& message, int32_t messageId,
-                                        const defs::connection_t& responseAddress,
-                                        const defs::connection_t& fallbackResponseAddress,
-                                        const MsgBldr&            messageBuilder)
+defs::char_buf_cspan_t BuildMessage(defs::char_buf_cspan_t message, int32_t messageId,
+                                    const defs::connection_t& responseAddress,
+                                    const defs::connection_t& fallbackResponseAddress,
+                                    const MsgBldr&            messageBuilder)
 {
     auto responseConn =
         (responseAddress == defs::NULL_CONNECTION) ? fallbackResponseAddress : responseAddress;
@@ -466,7 +453,7 @@ defs::char_buffer_t const& BuildMessage(defs::char_buffer_t const& message, int3
  * as the MessageBuilder functor. This variant as stated is for header only messages.
  */
 template <typename T, typename A, typename MsgBldr>
-defs::char_buffer_t const&
+defs::char_buf_cspan_t
 BuildMessage(const T& message, int32_t messageId, const defs::connection_t& responseAddress,
              const defs::connection_t& fallbackResponseAddress, const MsgBldr& messageBuilder)
 {
@@ -482,7 +469,7 @@ BuildMessage(const T& message, int32_t messageId, const defs::connection_t& resp
  * \return The deserialization object T.
  */
 template <typename T>
-T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveType archiveType)
+T DeserializeMessage(defs::char_buf_cspan_t messageBuffer, defs::eArchiveType archiveType)
 {
     assert((archiveType != defs::eArchiveType::raw) &&
            (archiveType != defs::eArchiveType::protobuf));
@@ -513,7 +500,7 @@ T DeserializeMessage(const defs::char_buffer_t& messageBuffer, defs::eArchiveTyp
  * \param[in] messageBuffer - Message buffer to be deserialized.
  * \return The deserialization object T.
  */
-template <typename T> T DeserializeMessage(const defs::char_buffer_t& messageBuffer)
+template <typename T> T DeserializeMessage(defs::char_buf_cspan_t messageBuffer)
 {
     return serialize::ToObject<T, serialize::archives::in_raw_t>(messageBuffer);
 }
@@ -523,7 +510,7 @@ template <typename T> T DeserializeMessage(const defs::char_buffer_t& messageBuf
  * \param[in] messageBuffer - Message buffer to be deserialized.
  * \return The deserialization object T.
  */
-template <typename T> T DeserializeProtobuf(const defs::char_buffer_t& messageBuffer)
+template <typename T> T DeserializeProtobuf(defs::char_buf_cspan_t messageBuffer)
 {
     return serialize::ToObject<T, serialize::archives::in_protobuf_t>(messageBuffer);
 }

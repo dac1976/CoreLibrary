@@ -19,8 +19,10 @@ var namespacecore__lib_1_1serialize =
     [ "raw_oarchive", "structcore__lib_1_1serialize_1_1raw__oarchive.html", null ],
     [ "protobuf_iarchive", "structcore__lib_1_1serialize_1_1protobuf__iarchive.html", null ],
     [ "protobuf_oarchive", "structcore__lib_1_1serialize_1_1protobuf__oarchive.html", null ],
+    [ "char_cspan_buf_t", "namespacecore__lib_1_1serialize.html#a5ac47f823ba924faf367a87aa5984d1a", null ],
+    [ "char_span_buf_t", "namespacecore__lib_1_1serialize.html#a048d3f75eb3ea333717e5647401b491b", null ],
     [ "char_vector_t", "namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5", null ],
     [ "ToCharVector", "namespacecore__lib_1_1serialize.html#ad4aa01ddc0b4571e7442b150cdd10ec8", null ],
     [ "ToCharVector", "namespacecore__lib_1_1serialize.html#afe773af159db747698f50213bcd4b94e", null ],
-    [ "ToObject", "namespacecore__lib_1_1serialize.html#a8316a47202c696fefd9e21c18b31e594", null ]
+    [ "ToObject", "namespacecore__lib_1_1serialize.html#ae6ef1feb141265863c9804de20640d8f", null ]
 ];

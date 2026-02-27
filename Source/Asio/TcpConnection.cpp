@@ -428,7 +428,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
     }
 }
 
-bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
+bool TcpConnection::SendMessageAsync(defs::char_buf_cspan_t message)
 {
     // Copying overload: accepts if we can reserve a slot.
     // We *prepare* the pool/dynamic backing store before posting to the strand to avoid
@@ -471,7 +471,7 @@ bool TcpConnection::SendMessageAsync(const defs::char_buffer_t& message)
     }
 }
 
-bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
+bool TcpConnection::SendMessageSync(defs::char_buf_cspan_t message)
 {
 	if (IsClosing())
     {
@@ -482,7 +482,7 @@ bool TcpConnection::SendMessageSync(const defs::char_buffer_t& message)
 
     try
     {
-        bytesSent = boost_asio::write(m_socket, boost_asio::buffer(message));
+        bytesSent = boost_asio::write(m_socket, boost_asio::buffer(message.data(), message.size()));
     }
     catch (...)
     {
@@ -738,7 +738,7 @@ size_t TcpConnection::CurrentConnectionId() const NO_EXCEPT_
     return m_currentConnectionId;
 }
 
-bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, PendingWrite& w)
+bool TcpConnection::AcquirePendingWrite(defs::char_buf_cspan_t message, PendingWrite& w)
 {
 	 const size_t maxAllowed = m_settings.maxAllowedUnsentAsyncMessages;
 
@@ -802,7 +802,7 @@ bool TcpConnection::AcquirePendingWrite(const defs::char_buffer_t& message, Pend
     {
         try
         {
-            w.dyn = std::make_shared<defs::char_buffer_t>(message); // copy
+            w.dyn = std::make_shared<defs::char_buffer_t>(message.begin(), message.end()); // copy
             w.len = w.dyn->size();
         }
         catch (...)

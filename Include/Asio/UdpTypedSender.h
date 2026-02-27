@@ -138,7 +138,7 @@ public:
      * socket.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message, 
+    bool SendMsg(defs::char_buf_cspan_t message,
 	           int32_t messageId,
                const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -156,7 +156,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     template <typename T, class A = serialize::archives::out_port_bin_t>
-    bool SendMsg(const T& message, 
+    bool SendMsg(const T& message,
 	           int32_t messageId,
                const defs::connection_t& responseAddress = defs::NULL_CONNECTION)
     {
@@ -169,7 +169,7 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message)
+    bool SendMsg(defs::char_buf_cspan_t message)
     {
         // Do not need mutex here as we're not using the m_messageBuilder.
         return m_udpSender.SendMsg(message);

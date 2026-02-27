@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -115,17 +115,31 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abef717d4e9d68d7c71acfe81cb00be1d" id="r_abef717d4e9d68d7c71acfe81cb00be1d"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#abef717d4e9d68d7c71acfe81cb00be1d">core_lib::asio::messages::ArchiveTypeToString</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType)</td></tr>
-<tr class="memdesc:abef717d4e9d68d7c71acfe81cb00be1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringify archive type.  <br /></td></tr>
-<tr class="memitem:a82bb79c579a21f9eb35b75d29e2b8f07" id="r_a82bb79c579a21f9eb35b75d29e2b8f07"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a82bb79c579a21f9eb35b75d29e2b8f07">core_lib::asio::messages::StringToArchiveType</a> (std::string const &amp;archiveName)</td></tr>
-<tr class="memdesc:a82bb79c579a21f9eb35b75d29e2b8f07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unstringify archive type.  <br /></td></tr>
-<tr class="memitem:a1ca67d30790126871d271e19d7c7cc46" id="r_a1ca67d30790126871d271e19d7c7cc46"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API void&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a1ca67d30790126871d271e19d7c7cc46">core_lib::asio::messages::FillHeader</a> (const std::string &amp;magicString, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, uint32_t messageLength, <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">defs::MessageHeader</a> &amp;header)</td></tr>
-<tr class="memdesc:a1ca67d30790126871d271e19d7c7cc46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Header filler function.  <br /></td></tr>
+<tr class="memitem:ad25fa8b6ad839102447d36b6727fc0b2" id="r_ad25fa8b6ad839102447d36b6727fc0b2"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API std::string_view&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#ad25fa8b6ad839102447d36b6727fc0b2">core_lib::asio::messages::ArchiveTypeToString</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType)</td></tr>
+<tr class="memdesc:ad25fa8b6ad839102447d36b6727fc0b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringify archive type.  <br /></td></tr>
+<tr class="memitem:a6caeb05df06be4153778dc50d929eca6" id="r_a6caeb05df06be4153778dc50d929eca6"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#a6caeb05df06be4153778dc50d929eca6">core_lib::asio::messages::StringToArchiveType</a> (std::string_view archiveName)</td></tr>
+<tr class="memdesc:a6caeb05df06be4153778dc50d929eca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unstringify archive type.  <br /></td></tr>
+<tr class="memitem:ad1cf1b763424121f5736faa5f16551e1" id="r_ad1cf1b763424121f5736faa5f16551e1"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API void&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1asio_1_1messages.html#ad1cf1b763424121f5736faa5f16551e1">core_lib::asio::messages::FillHeader</a> (std::string_view magicString, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, uint32_t messageLength, <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">defs::MessageHeader</a> &amp;header)</td></tr>
+<tr class="memdesc:ad1cf1b763424121f5736faa5f16551e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Header filler function.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:aaffdac9fab184caeafce2e92c9836e5c" id="r_aaffdac9fab184caeafce2e92c9836e5c"><td class="memItemLeft"><a id="aaffdac9fab184caeafce2e92c9836e5c" name="aaffdac9fab184caeafce2e92c9836e5c"></a>
 constexpr size_t&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::MESSAGE_LENGTH_OFFSET</b> = sizeof(<a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">defs::MessageHeader</a>) - sizeof(uint32_t)</td></tr>
+<tr class="memitem:a5764ca28753319e4cbd79c4c0e9135f2" id="r_a5764ca28753319e4cbd79c4c0e9135f2"><td class="memItemLeft"><a id="a5764ca28753319e4cbd79c4c0e9135f2" name="a5764ca28753319e4cbd79c4c0e9135f2"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::ARCH_BIN</b> [] {&quot;binary&quot;}</td></tr>
+<tr class="memitem:a6116f56d9bbc624f782ca18146f233a7" id="r_a6116f56d9bbc624f782ca18146f233a7"><td class="memItemLeft"><a id="a6116f56d9bbc624f782ca18146f233a7" name="a6116f56d9bbc624f782ca18146f233a7"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::ARCH_PORTBIN</b> [] {&quot;portableBinary&quot;}</td></tr>
+<tr class="memitem:ab8762f5ac36b1e86632f91050ebf069e" id="r_ab8762f5ac36b1e86632f91050ebf069e"><td class="memItemLeft"><a id="ab8762f5ac36b1e86632f91050ebf069e" name="ab8762f5ac36b1e86632f91050ebf069e"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::ARCH_JSON</b> [] {&quot;json&quot;}</td></tr>
+<tr class="memitem:a4b76017dc09952f90e06c7771f28b344" id="r_a4b76017dc09952f90e06c7771f28b344"><td class="memItemLeft"><a id="a4b76017dc09952f90e06c7771f28b344" name="a4b76017dc09952f90e06c7771f28b344"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::ARCH_XML</b> [] {&quot;xml&quot;}</td></tr>
+<tr class="memitem:a1c13a1ceb0d870dc42006817d99d0f2e" id="r_a1c13a1ceb0d870dc42006817d99d0f2e"><td class="memItemLeft"><a id="a1c13a1ceb0d870dc42006817d99d0f2e" name="a1c13a1ceb0d870dc42006817d99d0f2e"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::ARCH_PROTOBUF</b> [] {&quot;protobuf&quot;}</td></tr>
+<tr class="memitem:a07dadfd5922a6419d117b435c2f96f32" id="r_a07dadfd5922a6419d117b435c2f96f32"><td class="memItemLeft"><a id="a07dadfd5922a6419d117b435c2f96f32" name="a07dadfd5922a6419d117b435c2f96f32"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::ARCH_RAW</b> [] {&quot;raw&quot;}</td></tr>
+<tr class="memitem:a06340992b7e9e8555c90c12d2cbcc5d3" id="r_a06340992b7e9e8555c90c12d2cbcc5d3"><td class="memItemLeft"><a id="a06340992b7e9e8555c90c12d2cbcc5d3" name="a06340992b7e9e8555c90c12d2cbcc5d3"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>core_lib::asio::messages::ARCH_NULL</b> [] {&quot;&quot;}</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing message utils definitions. </p>

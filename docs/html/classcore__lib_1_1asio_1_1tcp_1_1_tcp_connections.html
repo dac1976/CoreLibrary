@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -131,12 +131,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af9a0a18bb3f695a28731dfa9fc6a6532" id="r_af9a0a18bb3f695a28731dfa9fc6a6532"><td class="memItemLeft"><a id="af9a0a18bb3f695a28731dfa9fc6a6532" name="af9a0a18bb3f695a28731dfa9fc6a6532"></a>
 void&#160;</td><td class="memItemRight"><b>CloseConnections</b> ()</td></tr>
 <tr class="memdesc:af9a0a18bb3f695a28731dfa9fc6a6532"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close all connections. <br /></td></tr>
-<tr class="memitem:af5bacb6793749a64f591ae8ac72e9676" id="r_af5bacb6793749a64f591ae8ac72e9676"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af5bacb6793749a64f591ae8ac72e9676">SendMessageAsync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;target, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message) const</td></tr>
-<tr class="memdesc:af5bacb6793749a64f591ae8ac72e9676"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send an asynchronous message.  <br /></td></tr>
-<tr class="memitem:ace7836e2a7e0fbc42c478af1e4f24503" id="r_ace7836e2a7e0fbc42c478af1e4f24503"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ace7836e2a7e0fbc42c478af1e4f24503">SendMessageSync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;target, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message) const</td></tr>
-<tr class="memdesc:ace7836e2a7e0fbc42c478af1e4f24503"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a synchronous message.  <br /></td></tr>
-<tr class="memitem:a292cd0a4e2f3d19b3e37e1ce7ac13b90" id="r_a292cd0a4e2f3d19b3e37e1ce7ac13b90"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a292cd0a4e2f3d19b3e37e1ce7ac13b90">SendMessageToAll</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message) const</td></tr>
-<tr class="memdesc:a292cd0a4e2f3d19b3e37e1ce7ac13b90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send an asynchronous message to all connections.  <br /></td></tr>
+<tr class="memitem:aae1ef34d575e1dbccf4d29926124044a" id="r_aae1ef34d575e1dbccf4d29926124044a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aae1ef34d575e1dbccf4d29926124044a">SendMessageAsync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;target, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message) const</td></tr>
+<tr class="memdesc:aae1ef34d575e1dbccf4d29926124044a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send an asynchronous message.  <br /></td></tr>
+<tr class="memitem:a6e8a4764cbf5ad05dd50f6f74f366f4d" id="r_a6e8a4764cbf5ad05dd50f6f74f366f4d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a6e8a4764cbf5ad05dd50f6f74f366f4d">SendMessageSync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;target, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message) const</td></tr>
+<tr class="memdesc:a6e8a4764cbf5ad05dd50f6f74f366f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a synchronous message.  <br /></td></tr>
+<tr class="memitem:aedfcbefca626427b712dfff5148242a0" id="r_aedfcbefca626427b712dfff5148242a0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aedfcbefca626427b712dfff5148242a0">SendMessageToAll</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message) const</td></tr>
+<tr class="memdesc:aedfcbefca626427b712dfff5148242a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send an asynchronous message to all connections.  <br /></td></tr>
 <tr class="memitem:acbb6c9030c1eee8bcf6281d5cd5d6af6" id="r_acbb6c9030c1eee8bcf6281d5cd5d6af6"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#acbb6c9030c1eee8bcf6281d5cd5d6af6">GetLocalEndForRemoteEnd</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;remoteEnd) const</td></tr>
 <tr class="memdesc:acbb6c9030c1eee8bcf6281d5cd5d6af6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the connection details for one of the remote connections.  <br /></td></tr>
 <tr class="memitem:a314510ef67014f3556cd66bd365d804a" id="r_a314510ef67014f3556cd66bd365d804a"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a314510ef67014f3556cd66bd365d804a">NumberOfUnsentAsyncMessages</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;target) const</td></tr>
@@ -320,8 +320,8 @@ std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
 
 </div>
 </div>
-<a id="af5bacb6793749a64f591ae8ac72e9676" name="af5bacb6793749a64f591ae8ac72e9676"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5bacb6793749a64f591ae8ac72e9676">&#9670;&#160;</a></span>SendMessageAsync()</h2>
+<a id="aae1ef34d575e1dbccf4d29926124044a" name="aae1ef34d575e1dbccf4d29926124044a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae1ef34d575e1dbccf4d29926124044a">&#9670;&#160;</a></span>SendMessageAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,7 +334,7 @@ std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;) const</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;) const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -351,8 +351,8 @@ std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
 
 </div>
 </div>
-<a id="ace7836e2a7e0fbc42c478af1e4f24503" name="ace7836e2a7e0fbc42c478af1e4f24503"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace7836e2a7e0fbc42c478af1e4f24503">&#9670;&#160;</a></span>SendMessageSync()</h2>
+<a id="a6e8a4764cbf5ad05dd50f6f74f366f4d" name="a6e8a4764cbf5ad05dd50f6f74f366f4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e8a4764cbf5ad05dd50f6f74f366f4d">&#9670;&#160;</a></span>SendMessageSync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -365,7 +365,7 @@ std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;) const</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;) const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -382,8 +382,8 @@ std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
 
 </div>
 </div>
-<a id="a292cd0a4e2f3d19b3e37e1ce7ac13b90" name="a292cd0a4e2f3d19b3e37e1ce7ac13b90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a292cd0a4e2f3d19b3e37e1ce7ac13b90">&#9670;&#160;</a></span>SendMessageToAll()</h2>
+<a id="aedfcbefca626427b712dfff5148242a0" name="aedfcbefca626427b712dfff5148242a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedfcbefca626427b712dfff5148242a0">&#9670;&#160;</a></span>SendMessageToAll()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -391,7 +391,7 @@ std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
         <tr>
           <td class="memname">void core_lib::asio::tcp::TcpConnections::SendMessageToAll </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>

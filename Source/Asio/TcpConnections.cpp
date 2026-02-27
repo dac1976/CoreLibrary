@@ -125,7 +125,7 @@ void TcpConnections::CloseConnections()
 }
 
 bool TcpConnections::SendMessageAsync(const defs::connection_t&  target,
-                                      const defs::char_buffer_t& message) const
+                                      defs::char_buf_cspan_t message) const
 {
     defs::tcp_conn_ptr_t conn;
 
@@ -146,7 +146,7 @@ bool TcpConnections::SendMessageAsync(const defs::connection_t&  target,
 }
 
 bool TcpConnections::SendMessageSync(const defs::connection_t&  target,
-                                     const defs::char_buffer_t& message) const
+                                     defs::char_buf_cspan_t message) const
 {
     defs::tcp_conn_ptr_t conn;
 
@@ -166,7 +166,7 @@ bool TcpConnections::SendMessageSync(const defs::connection_t&  target,
     return conn->SendMessageSync(message);
 }
 
-void TcpConnections::SendMessageToAll(const defs::char_buffer_t& message) const
+void TcpConnections::SendMessageToAll(defs::char_buf_cspan_t message) const
 {
     std::vector<defs::tcp_conn_ptr_t> snapshot;
 

@@ -171,7 +171,7 @@ public:
      * method gives best performance when sending.
      */
     bool SendMessageToServerAsync(defs::connection_t const&  server,
-                             defs::char_buffer_t const& message);
+                                  defs::char_buf_cspan_t message);
     /*!
      * \brief Send a message buffer to the server synchronously.
      * \param[in] server - Connection object describing server's address and port.
@@ -179,7 +179,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessageToServerSync(defs::connection_t const&  server,
-                            defs::char_buffer_t const& message);
+                                 defs::char_buf_cspan_t message);
 
     /*! \brief Clear all TCP clients from list. */
     void ClearList();

@@ -85,13 +85,13 @@ public:
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */
-    UdpReceiver(asio_compat::io_service_t& ioService, 
+    UdpReceiver(asio_compat::io_service_t& ioService,
 	         uint16_t listenPort,
 			 defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 			 defs::message_received_handler_t const& messageReceivedHandler,
 			 eUdpOption receiveOptions = eUdpOption::broadcast,
 			 size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-			 std::string const& listenAddress     = "",
+			 std::string_view listenAddress = "",
 			 defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
 			 defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
     /*!
@@ -119,12 +119,12 @@ public:
      * version will be fine but in more performance and resource critical situations the
      * external IO service constructor is recommended.
      */
-    UdpReceiver(uint16_t listenPort, 
+    UdpReceiver(uint16_t listenPort,
 	         defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 			 defs::message_received_handler_t const& messageReceivedHandler,
 			 eUdpOption receiveOptions = eUdpOption::broadcast,
 			 size_t receiveBufferSize = DEFAULT_UDP_BUF_SIZE,
-			 std::string const& listenAddress = "",
+			 std::string_view listenAddress = "",
 			 defs::message_received_handler_ex_t const& messageReceivedHandlerEx = {},
 			 defs::check_bytes_left_to_read_ex_t const& checkBytesLeftToReadEx = {});
     /*! \brief Destructor. */

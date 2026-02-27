@@ -32,7 +32,9 @@
 #include <memory>
 #include <utility>
 #include <string>
+#include <string_view>
 #include <cstdint>
+#include <span>
 #include "../CoreLibraryDllGlobal.h"
 #include "AsioCompatibility.hpp"
 #include "Platform/PlatformDefines.h"
@@ -63,7 +65,7 @@ namespace asio
 /*! \brief The asio_defs namespace. */
 namespace defs
 {
-	
+
 /*! \brief Constant defining response IP address length in bytes. */
 enum eRespAddressLen : uint32_t
 {
@@ -93,7 +95,7 @@ enum class eArchiveType : uint8_t
 	/*! \brief Google protocol buffer. */
 	protobuf
 };
-	
+
 // Push single byte alignment for the MessageHeader strcuture for maximum portability.
 #pragma pack(push, 1)
 /*!
@@ -486,6 +488,12 @@ using tcp_conn_ptr_t = std::shared_ptr<tcp::TcpConnection>;
 /*! \brief Typedef to generic char buffer based on s std::vector<char>. */
 using char_buffer_t = std::vector<char>;
 
+/*! \brief Typedef to char buffer span - mutable */
+using char_buf_span_t = std::span<char>;
+
+/*! \brief Typedef to char buffer span - const */
+using char_buf_cspan_t = std::span<const char>;
+
 /*! \brief Template class to act as a generic wrapper around a received message for a given header
  * type. */
 template <typename Header> struct ReceivedMessage
@@ -541,17 +549,17 @@ using default_message_dispatcher_t = std::function<void(default_received_message
 /*! \brief Typedef to bytes left to reading checking utility function object.
            If there is a problem with the message size this should return
            std::numeric_limits<size_t>::max().*/
-using check_bytes_left_to_read_t = std::function<size_t(const char_buffer_t&)>;
+using check_bytes_left_to_read_t = std::function<size_t(char_buf_cspan_t)>;
 /*! \brief Typedef to bytes left to reading checking utility function object.
            If there is a problem with the message size this should return
            std::numeric_limits<size_t>::max().*/
 using check_bytes_left_to_read_ex_t =
-    std::function<size_t(const char_buffer_t&, std::string const&, uint16_t)>;
+    std::function<size_t(char_buf_cspan_t, std::string_view, uint16_t)>;
 /*! \brief Typedef to message received handler function object. */
-using message_received_handler_t = std::function<void(const char_buffer_t&)>;
+using message_received_handler_t = std::function<void(char_buf_cspan_t)>;
 /*! \brief Typedef to extended message received handler function object. */
 using message_received_handler_ex_t =
-    std::function<void(const char_buffer_t&, std::string const&, uint16_t)>;
+    std::function<void(char_buf_cspan_t, std::string_view, uint16_t)>;
 /*! \brief Typedef for a TCP connection OnClose callback. */
 using on_close_t = std::function<void(const connection_t&)>;
 

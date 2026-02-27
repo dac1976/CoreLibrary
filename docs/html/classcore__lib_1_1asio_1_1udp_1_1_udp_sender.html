@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -124,15 +124,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1ae5c578c423bcaebfe630662307c26c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
 <tr class="memitem:a14203753ed0215c250d55d932caa8a97" id="r_a14203753ed0215c250d55d932caa8a97"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#a14203753ed0215c250d55d932caa8a97">ReceiverConnection</a> () const</td></tr>
 <tr class="memdesc:a14203753ed0215c250d55d932caa8a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve receiver connection details.  <br /></td></tr>
-<tr class="memitem:a70d4930b3a992eff9c6a347ba4e25fdd" id="r_a70d4930b3a992eff9c6a347ba4e25fdd"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a70d4930b3a992eff9c6a347ba4e25fdd">SendMsg</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message)</td></tr>
-<tr class="memdesc:a70d4930b3a992eff9c6a347ba4e25fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message buffer to the receiver.  <br /></td></tr>
+<tr class="memitem:ac8236c5609d38d16a24480f8a79ceaea" id="r_ac8236c5609d38d16a24480f8a79ceaea"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac8236c5609d38d16a24480f8a79ceaea">SendMsg</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message)</td></tr>
+<tr class="memdesc:ac8236c5609d38d16a24480f8a79ceaea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a message buffer to the receiver.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a671fb0e465e83b693fc3861e7ca3fbda" id="r_a671fb0e465e83b693fc3861e7ca3fbda"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a671fb0e465e83b693fc3861e7ca3fbda">CreateUdpSocket</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7">eUdpOption</a> sendOption, size_t sendBufferSize)</td></tr>
 <tr class="memdesc:a671fb0e465e83b693fc3861e7ca3fbda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create UDP socket.  <br /></td></tr>
-<tr class="memitem:a3ed4c01d66af309eb1d170b9ed7bf232" id="r_a3ed4c01d66af309eb1d170b9ed7bf232"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3ed4c01d66af309eb1d170b9ed7bf232">SyncSendTo</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message)</td></tr>
-<tr class="memdesc:a3ed4c01d66af309eb1d170b9ed7bf232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronised send to method.  <br /></td></tr>
+<tr class="memitem:aa165bea68080f6b36367f163fc8e888c" id="r_aa165bea68080f6b36367f163fc8e888c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa165bea68080f6b36367f163fc8e888c">SyncSendTo</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message)</td></tr>
+<tr class="memdesc:aa165bea68080f6b36367f163fc8e888c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronised send to method.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -306,8 +306,8 @@ boost_udp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
 
 </div>
 </div>
-<a id="a70d4930b3a992eff9c6a347ba4e25fdd" name="a70d4930b3a992eff9c6a347ba4e25fdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70d4930b3a992eff9c6a347ba4e25fdd">&#9670;&#160;</a></span>SendMsg()</h2>
+<a id="ac8236c5609d38d16a24480f8a79ceaea" name="ac8236c5609d38d16a24480f8a79ceaea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8236c5609d38d16a24480f8a79ceaea">&#9670;&#160;</a></span>SendMsg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -315,7 +315,7 @@ boost_udp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
         <tr>
           <td class="memname">bool core_lib::asio::udp::UdpSender::SendMsg </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -332,8 +332,8 @@ boost_udp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
 
 </div>
 </div>
-<a id="a3ed4c01d66af309eb1d170b9ed7bf232" name="a3ed4c01d66af309eb1d170b9ed7bf232"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ed4c01d66af309eb1d170b9ed7bf232">&#9670;&#160;</a></span>SyncSendTo()</h2>
+<a id="aa165bea68080f6b36367f163fc8e888c" name="aa165bea68080f6b36367f163fc8e888c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa165bea68080f6b36367f163fc8e888c">&#9670;&#160;</a></span>SyncSendTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -344,7 +344,7 @@ boost_udp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
         <tr>
           <td class="memname">bool core_lib::asio::udp::UdpSender::SyncSendTo </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>

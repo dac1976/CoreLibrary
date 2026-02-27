@@ -198,7 +198,7 @@ public:
      */
     bool
     SendMessageToServerAsync(defs::connection_t const& server,
-	                    const defs::char_buffer_t& message,
+	                    defs::char_buf_cspan_t message,
                         int32_t messageId,
                         defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
     /*!
@@ -214,7 +214,7 @@ public:
      * object to the server.
      */
     bool SendMessageToServerSync(defs::connection_t const& server,
-                            const defs::char_buffer_t& message,
+                            defs::char_buf_cspan_t message,
 							int32_t messageId,
                             defs::connection_t const& responseAddress = defs::NULL_CONNECTION);
 
@@ -302,7 +302,7 @@ public:
      * This method gives best performance when sending.
      */
     bool SendMessageToServerAsync(defs::connection_t const&  server,
-                             const defs::char_buffer_t& message);
+                             defs::char_buf_cspan_t message);
     /*!
      * \brief Send a message buffer to the server synchronously.
      * \param[in] server - Connection object describing server's address and port.
@@ -310,7 +310,7 @@ public:
      * \return Returns the success state of the send as a boolean.
      */
     bool SendMessageToServerSync(defs::connection_t const&  server,
-                            const defs::char_buffer_t& message);
+                            defs::char_buf_cspan_t message);
 
     /*! \brief Clear all TCP clients from list. */
     void ClearList();

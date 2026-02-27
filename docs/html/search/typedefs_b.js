@@ -2,8 +2,8 @@ var searchData=
 [
   ['member_0',['Member',['../class_generic_value.html#a7ccf27c44058b4c11c3efc6473afb886',1,'GenericValue']]],
   ['memberiterator_1',['MemberIterator',['../class_generic_value.html#a349b8faae61edc42b4289726820be439',1,'GenericValue']]],
-  ['message_5freceived_5fhandler_5fex_5ft_2',['message_received_handler_ex_t',['../namespacecore__lib_1_1asio_1_1defs.html#a8612516d77529e6f89668a740f46b43e',1,'core_lib::asio::defs']]],
-  ['message_5freceived_5fhandler_5ft_3',['message_received_handler_t',['../namespacecore__lib_1_1asio_1_1defs.html#ac6372a5709c23c77100f258b5363a861',1,'core_lib::asio::defs']]],
+  ['message_5freceived_5fhandler_5fex_5ft_2',['message_received_handler_ex_t',['../namespacecore__lib_1_1asio_1_1defs.html#a2f190d9e73ce4387957c843ef3abbc12',1,'core_lib::asio::defs']]],
+  ['message_5freceived_5fhandler_5ft_3',['message_received_handler_t',['../namespacecore__lib_1_1asio_1_1defs.html#aae2efc8aa58e77edb60f41772241cf46',1,'core_lib::asio::defs']]],
   ['msg_5fdeleter_5ft_4',['msg_deleter_t',['../classcore__lib_1_1threads_1_1_message_queue_thread.html#a743c7443b0d90e9aa1ede882ad4b5e4c',1,'core_lib::threads::MessageQueueThread']]],
   ['msg_5fhandler_5ft_5',['msg_handler_t',['../classcore__lib_1_1threads_1_1_message_queue_thread.html#a81a0b410118da74a4963bb0819de27a9',1,'core_lib::threads::MessageQueueThread']]],
   ['msg_5fid_5fdecoder_5ft_6',['msg_id_decoder_t',['../classcore__lib_1_1threads_1_1_message_queue_thread.html#a984836335c12cd9d5c5efdffdff91334',1,'core_lib::threads::MessageQueueThread']]],

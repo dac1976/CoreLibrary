@@ -37,11 +37,11 @@ namespace udp
 {
 
 SimpleMulticastReceiver::SimpleMulticastReceiver(
-    asio_compat::io_service_t& ioService, 
+    asio_compat::io_service_t& ioService,
 	const defs::connection_t& multicastConnection,
     const defs::default_message_dispatcher_t& messageDispatcher,
-    const std::string& interfaceAddress, 
-	size_t receiveBufferSize, 
+    std::string_view interfaceAddress,
+	size_t receiveBufferSize,
 	size_t memPoolMsgCount,
     size_t recvPoolMsgSize)
     : m_messageHandler{messageDispatcher,
@@ -64,8 +64,8 @@ SimpleMulticastReceiver::SimpleMulticastReceiver(
 SimpleMulticastReceiver::SimpleMulticastReceiver(
     const defs::connection_t& multicastConnection,
     const defs::default_message_dispatcher_t& messageDispatcher,
-    const std::string& interfaceAddress, 
-	size_t receiveBufferSize, 
+    std::string_view interfaceAddress,
+	size_t receiveBufferSize,
 	size_t memPoolMsgCount,
     size_t recvPoolMsgSize)
     : m_messageHandler{messageDispatcher,

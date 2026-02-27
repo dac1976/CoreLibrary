@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -119,47 +119,61 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abef717d4e9d68d7c71acfe81cb00be1d" id="r_abef717d4e9d68d7c71acfe81cb00be1d"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><a class="el" href="#abef717d4e9d68d7c71acfe81cb00be1d">ArchiveTypeToString</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType)</td></tr>
-<tr class="memdesc:abef717d4e9d68d7c71acfe81cb00be1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringify archive type.  <br /></td></tr>
-<tr class="memitem:a82bb79c579a21f9eb35b75d29e2b8f07" id="r_a82bb79c579a21f9eb35b75d29e2b8f07"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a82bb79c579a21f9eb35b75d29e2b8f07">StringToArchiveType</a> (std::string const &amp;archiveName)</td></tr>
-<tr class="memdesc:a82bb79c579a21f9eb35b75d29e2b8f07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unstringify archive type.  <br /></td></tr>
-<tr class="memitem:a1ca67d30790126871d271e19d7c7cc46" id="r_a1ca67d30790126871d271e19d7c7cc46"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API void&#160;</td><td class="memItemRight"><a class="el" href="#a1ca67d30790126871d271e19d7c7cc46">FillHeader</a> (const std::string &amp;magicString, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, uint32_t messageLength, <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">defs::MessageHeader</a> &amp;header)</td></tr>
-<tr class="memdesc:a1ca67d30790126871d271e19d7c7cc46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Header filler function.  <br /></td></tr>
-<tr class="memitem:a8624eb6c1cd1c800705fc8d16d32e938" id="r_a8624eb6c1cd1c800705fc8d16d32e938"><td class="memTemplParams" colspan="2">template&lt;typename MsgBldr&gt; </td></tr>
-<tr class="memitem:a8624eb6c1cd1c800705fc8d16d32e938 template"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a8624eb6c1cd1c800705fc8d16d32e938">BuildMessage</a> (int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;fallbackResponseAddress, const MsgBldr &amp;messageBuilder)</td></tr>
-<tr class="memdesc:a8624eb6c1cd1c800705fc8d16d32e938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message builder wrapper function for header only messages.  <br /></td></tr>
-<tr class="memitem:ab08cea969ed4d9c426deaf507319e416" id="r_ab08cea969ed4d9c426deaf507319e416"><td class="memTemplParams" colspan="2">template&lt;typename MsgBldr&gt; </td></tr>
-<tr class="memitem:ab08cea969ed4d9c426deaf507319e416 template"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab08cea969ed4d9c426deaf507319e416">BuildMessage</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const &amp;message, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;fallbackResponseAddress, const MsgBldr &amp;messageBuilder)</td></tr>
-<tr class="memdesc:ab08cea969ed4d9c426deaf507319e416"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message builder wrapper function for header plus message buffer.  <br /></td></tr>
-<tr class="memitem:a46488284b48f06b767f227e90c6b8d3d" id="r_a46488284b48f06b767f227e90c6b8d3d"><td class="memTemplParams" colspan="2">template&lt;typename T, typename A, typename MsgBldr&gt; </td></tr>
-<tr class="memitem:a46488284b48f06b767f227e90c6b8d3d template"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a46488284b48f06b767f227e90c6b8d3d">BuildMessage</a> (const T &amp;message, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;fallbackResponseAddress, const MsgBldr &amp;messageBuilder)</td></tr>
-<tr class="memdesc:a46488284b48f06b767f227e90c6b8d3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message builder wrapper function for full messages with a header and a body.  <br /></td></tr>
-<tr class="memitem:a3c3300001093de7061f17f31197e4ef0" id="r_a3c3300001093de7061f17f31197e4ef0"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a3c3300001093de7061f17f31197e4ef0 template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a3c3300001093de7061f17f31197e4ef0">DeserializeMessage</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;messageBuffer, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType)</td></tr>
-<tr class="memdesc:a3c3300001093de7061f17f31197e4ef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for non-POD data.  <br /></td></tr>
-<tr class="memitem:a983fb0e7fe6586288a9abc56edce67c6" id="r_a983fb0e7fe6586288a9abc56edce67c6"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a983fb0e7fe6586288a9abc56edce67c6 template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a983fb0e7fe6586288a9abc56edce67c6">DeserializeMessage</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;messageBuffer)</td></tr>
-<tr class="memdesc:a983fb0e7fe6586288a9abc56edce67c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for POD data.  <br /></td></tr>
-<tr class="memitem:a19253ae9b3f47755c5838dc0613e3051" id="r_a19253ae9b3f47755c5838dc0613e3051"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a19253ae9b3f47755c5838dc0613e3051 template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a19253ae9b3f47755c5838dc0613e3051">DeserializeProtobuf</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;messageBuffer)</td></tr>
-<tr class="memdesc:a19253ae9b3f47755c5838dc0613e3051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for Google protocol buffer data.  <br /></td></tr>
+<tr class="memitem:ad25fa8b6ad839102447d36b6727fc0b2" id="r_ad25fa8b6ad839102447d36b6727fc0b2"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ad25fa8b6ad839102447d36b6727fc0b2">ArchiveTypeToString</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType)</td></tr>
+<tr class="memdesc:ad25fa8b6ad839102447d36b6727fc0b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringify archive type.  <br /></td></tr>
+<tr class="memitem:a6caeb05df06be4153778dc50d929eca6" id="r_a6caeb05df06be4153778dc50d929eca6"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6caeb05df06be4153778dc50d929eca6">StringToArchiveType</a> (std::string_view archiveName)</td></tr>
+<tr class="memdesc:a6caeb05df06be4153778dc50d929eca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unstringify archive type.  <br /></td></tr>
+<tr class="memitem:ad1cf1b763424121f5736faa5f16551e1" id="r_ad1cf1b763424121f5736faa5f16551e1"><td class="memItemLeft">CORE_LIBRARY_DLL_SHARED_API void&#160;</td><td class="memItemRight"><a class="el" href="#ad1cf1b763424121f5736faa5f16551e1">FillHeader</a> (std::string_view magicString, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, uint32_t messageLength, <a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">defs::MessageHeader</a> &amp;header)</td></tr>
+<tr class="memdesc:ad1cf1b763424121f5736faa5f16551e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Header filler function.  <br /></td></tr>
+<tr class="memitem:ae18769b47a7f7e1a60209cec1529c0e0" id="r_ae18769b47a7f7e1a60209cec1529c0e0"><td class="memTemplParams" colspan="2">template&lt;typename MsgBldr&gt; </td></tr>
+<tr class="memitem:ae18769b47a7f7e1a60209cec1529c0e0 template"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae18769b47a7f7e1a60209cec1529c0e0">BuildMessage</a> (int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;fallbackResponseAddress, const MsgBldr &amp;messageBuilder)</td></tr>
+<tr class="memdesc:ae18769b47a7f7e1a60209cec1529c0e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message builder wrapper function for header only messages.  <br /></td></tr>
+<tr class="memitem:ac77edd0971966b9df645031ecd3312ec" id="r_ac77edd0971966b9df645031ecd3312ec"><td class="memTemplParams" colspan="2">template&lt;typename MsgBldr&gt; </td></tr>
+<tr class="memitem:ac77edd0971966b9df645031ecd3312ec template"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac77edd0971966b9df645031ecd3312ec">BuildMessage</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;fallbackResponseAddress, const MsgBldr &amp;messageBuilder)</td></tr>
+<tr class="memdesc:ac77edd0971966b9df645031ecd3312ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message builder wrapper function for header plus message buffer.  <br /></td></tr>
+<tr class="memitem:ac459e962474bd74428c7b048b0870636" id="r_ac459e962474bd74428c7b048b0870636"><td class="memTemplParams" colspan="2">template&lt;typename T, typename A, typename MsgBldr&gt; </td></tr>
+<tr class="memitem:ac459e962474bd74428c7b048b0870636 template"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac459e962474bd74428c7b048b0870636">BuildMessage</a> (const T &amp;message, int32_t messageId, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;responseAddress, const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> &amp;fallbackResponseAddress, const MsgBldr &amp;messageBuilder)</td></tr>
+<tr class="memdesc:ac459e962474bd74428c7b048b0870636"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message builder wrapper function for full messages with a header and a body.  <br /></td></tr>
+<tr class="memitem:ab0d81f0c1926e1fd93800609fe5fbd5f" id="r_ab0d81f0c1926e1fd93800609fe5fbd5f"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ab0d81f0c1926e1fd93800609fe5fbd5f template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#ab0d81f0c1926e1fd93800609fe5fbd5f">DeserializeMessage</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> messageBuffer, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType)</td></tr>
+<tr class="memdesc:ab0d81f0c1926e1fd93800609fe5fbd5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for non-POD data.  <br /></td></tr>
+<tr class="memitem:a89b94df461b342bccc246c220f7be99c" id="r_a89b94df461b342bccc246c220f7be99c"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a89b94df461b342bccc246c220f7be99c template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a89b94df461b342bccc246c220f7be99c">DeserializeMessage</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> messageBuffer)</td></tr>
+<tr class="memdesc:a89b94df461b342bccc246c220f7be99c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for POD data.  <br /></td></tr>
+<tr class="memitem:a38c67a3e2ca8fc1a8b708d788c8c2ecd" id="r_a38c67a3e2ca8fc1a8b708d788c8c2ecd"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a38c67a3e2ca8fc1a8b708d788c8c2ecd template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a38c67a3e2ca8fc1a8b708d788c8c2ecd">DeserializeProtobuf</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> messageBuffer)</td></tr>
+<tr class="memdesc:a38c67a3e2ca8fc1a8b708d788c8c2ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for Google protocol buffer data.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:aaffdac9fab184caeafce2e92c9836e5c" id="r_aaffdac9fab184caeafce2e92c9836e5c"><td class="memItemLeft"><a id="aaffdac9fab184caeafce2e92c9836e5c" name="aaffdac9fab184caeafce2e92c9836e5c"></a>
 constexpr size_t&#160;</td><td class="memItemRight"><b>MESSAGE_LENGTH_OFFSET</b> = sizeof(<a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">defs::MessageHeader</a>) - sizeof(uint32_t)</td></tr>
+<tr class="memitem:a5764ca28753319e4cbd79c4c0e9135f2" id="r_a5764ca28753319e4cbd79c4c0e9135f2"><td class="memItemLeft"><a id="a5764ca28753319e4cbd79c4c0e9135f2" name="a5764ca28753319e4cbd79c4c0e9135f2"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_BIN</b> [] {&quot;binary&quot;}</td></tr>
+<tr class="memitem:a6116f56d9bbc624f782ca18146f233a7" id="r_a6116f56d9bbc624f782ca18146f233a7"><td class="memItemLeft"><a id="a6116f56d9bbc624f782ca18146f233a7" name="a6116f56d9bbc624f782ca18146f233a7"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_PORTBIN</b> [] {&quot;portableBinary&quot;}</td></tr>
+<tr class="memitem:ab8762f5ac36b1e86632f91050ebf069e" id="r_ab8762f5ac36b1e86632f91050ebf069e"><td class="memItemLeft"><a id="ab8762f5ac36b1e86632f91050ebf069e" name="ab8762f5ac36b1e86632f91050ebf069e"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_JSON</b> [] {&quot;json&quot;}</td></tr>
+<tr class="memitem:a4b76017dc09952f90e06c7771f28b344" id="r_a4b76017dc09952f90e06c7771f28b344"><td class="memItemLeft"><a id="a4b76017dc09952f90e06c7771f28b344" name="a4b76017dc09952f90e06c7771f28b344"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_XML</b> [] {&quot;xml&quot;}</td></tr>
+<tr class="memitem:a1c13a1ceb0d870dc42006817d99d0f2e" id="r_a1c13a1ceb0d870dc42006817d99d0f2e"><td class="memItemLeft"><a id="a1c13a1ceb0d870dc42006817d99d0f2e" name="a1c13a1ceb0d870dc42006817d99d0f2e"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_PROTOBUF</b> [] {&quot;protobuf&quot;}</td></tr>
+<tr class="memitem:a07dadfd5922a6419d117b435c2f96f32" id="r_a07dadfd5922a6419d117b435c2f96f32"><td class="memItemLeft"><a id="a07dadfd5922a6419d117b435c2f96f32" name="a07dadfd5922a6419d117b435c2f96f32"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_RAW</b> [] {&quot;raw&quot;}</td></tr>
+<tr class="memitem:a06340992b7e9e8555c90c12d2cbcc5d3" id="r_a06340992b7e9e8555c90c12d2cbcc5d3"><td class="memItemLeft"><a id="a06340992b7e9e8555c90c12d2cbcc5d3" name="a06340992b7e9e8555c90c12d2cbcc5d3"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_NULL</b> [] {&quot;&quot;}</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The tcp namespace. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="abef717d4e9d68d7c71acfe81cb00be1d" name="abef717d4e9d68d7c71acfe81cb00be1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abef717d4e9d68d7c71acfe81cb00be1d">&#9670;&#160;</a></span>ArchiveTypeToString()</h2>
+<a id="ad25fa8b6ad839102447d36b6727fc0b2" name="ad25fa8b6ad839102447d36b6727fc0b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad25fa8b6ad839102447d36b6727fc0b2">&#9670;&#160;</a></span>ArchiveTypeToString()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string core_lib::asio::messages::ArchiveTypeToString </td>
+          <td class="memname">std::string_view core_lib::asio::messages::ArchiveTypeToString </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a></td>          <td class="paramname"><span class="paramname"><em>archiveType</em></span></td><td>)</td>
           <td></td>
@@ -178,8 +192,8 @@ constexpr size_t&#160;</td><td class="memItemRight"><b>MESSAGE_LENGTH_OFFSET</b>
 
 </div>
 </div>
-<a id="a46488284b48f06b767f227e90c6b8d3d" name="a46488284b48f06b767f227e90c6b8d3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46488284b48f06b767f227e90c6b8d3d">&#9670;&#160;</a></span>BuildMessage() <span class="overload">[1/3]</span></h2>
+<a id="ac459e962474bd74428c7b048b0870636" name="ac459e962474bd74428c7b048b0870636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac459e962474bd74428c7b048b0870636">&#9670;&#160;</a></span>BuildMessage() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,7 +201,7 @@ constexpr size_t&#160;</td><td class="memItemRight"><b>MESSAGE_LENGTH_OFFSET</b>
 template&lt;typename T, typename A, typename MsgBldr&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const  &amp; core_lib::asio::messages::BuildMessage </td>
+          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> core_lib::asio::messages::BuildMessage </td>
           <td>(</td>
           <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
         </tr>
@@ -230,8 +244,8 @@ template&lt;typename T, typename A, typename MsgBldr&gt; </div>
 
 </div>
 </div>
-<a id="ab08cea969ed4d9c426deaf507319e416" name="ab08cea969ed4d9c426deaf507319e416"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab08cea969ed4d9c426deaf507319e416">&#9670;&#160;</a></span>BuildMessage() <span class="overload">[2/3]</span></h2>
+<a id="ac77edd0971966b9df645031ecd3312ec" name="ac77edd0971966b9df645031ecd3312ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac77edd0971966b9df645031ecd3312ec">&#9670;&#160;</a></span>BuildMessage() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,9 +253,9 @@ template&lt;typename T, typename A, typename MsgBldr&gt; </div>
 template&lt;typename MsgBldr&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const  &amp; core_lib::asio::messages::BuildMessage </td>
+          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> core_lib::asio::messages::BuildMessage </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -282,8 +296,8 @@ template&lt;typename MsgBldr&gt; </div>
 
 </div>
 </div>
-<a id="a8624eb6c1cd1c800705fc8d16d32e938" name="a8624eb6c1cd1c800705fc8d16d32e938"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8624eb6c1cd1c800705fc8d16d32e938">&#9670;&#160;</a></span>BuildMessage() <span class="overload">[3/3]</span></h2>
+<a id="ae18769b47a7f7e1a60209cec1529c0e0" name="ae18769b47a7f7e1a60209cec1529c0e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae18769b47a7f7e1a60209cec1529c0e0">&#9670;&#160;</a></span>BuildMessage() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -291,7 +305,7 @@ template&lt;typename MsgBldr&gt; </div>
 template&lt;typename MsgBldr&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> const  &amp; core_lib::asio::messages::BuildMessage </td>
+          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> core_lib::asio::messages::BuildMessage </td>
           <td>(</td>
           <td class="paramtype">int32_t</td>          <td class="paramname"><span class="paramname"><em>messageId</em></span>, </td>
         </tr>
@@ -328,8 +342,8 @@ template&lt;typename MsgBldr&gt; </div>
 
 </div>
 </div>
-<a id="a983fb0e7fe6586288a9abc56edce67c6" name="a983fb0e7fe6586288a9abc56edce67c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a983fb0e7fe6586288a9abc56edce67c6">&#9670;&#160;</a></span>DeserializeMessage() <span class="overload">[1/2]</span></h2>
+<a id="a89b94df461b342bccc246c220f7be99c" name="a89b94df461b342bccc246c220f7be99c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89b94df461b342bccc246c220f7be99c">&#9670;&#160;</a></span>DeserializeMessage() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,7 +353,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">T core_lib::asio::messages::DeserializeMessage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>messageBuffer</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>messageBuffer</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -356,8 +370,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a3c3300001093de7061f17f31197e4ef0" name="a3c3300001093de7061f17f31197e4ef0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c3300001093de7061f17f31197e4ef0">&#9670;&#160;</a></span>DeserializeMessage() <span class="overload">[2/2]</span></h2>
+<a id="ab0d81f0c1926e1fd93800609fe5fbd5f" name="ab0d81f0c1926e1fd93800609fe5fbd5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0d81f0c1926e1fd93800609fe5fbd5f">&#9670;&#160;</a></span>DeserializeMessage() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -367,7 +381,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">T core_lib::asio::messages::DeserializeMessage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>messageBuffer</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>messageBuffer</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -389,8 +403,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a19253ae9b3f47755c5838dc0613e3051" name="a19253ae9b3f47755c5838dc0613e3051"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19253ae9b3f47755c5838dc0613e3051">&#9670;&#160;</a></span>DeserializeProtobuf()</h2>
+<a id="a38c67a3e2ca8fc1a8b708d788c8c2ecd" name="a38c67a3e2ca8fc1a8b708d788c8c2ecd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38c67a3e2ca8fc1a8b708d788c8c2ecd">&#9670;&#160;</a></span>DeserializeProtobuf()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -400,7 +414,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">T core_lib::asio::messages::DeserializeProtobuf </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>messageBuffer</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>messageBuffer</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -417,8 +431,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a1ca67d30790126871d271e19d7c7cc46" name="a1ca67d30790126871d271e19d7c7cc46"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ca67d30790126871d271e19d7c7cc46">&#9670;&#160;</a></span>FillHeader()</h2>
+<a id="ad1cf1b763424121f5736faa5f16551e1" name="ad1cf1b763424121f5736faa5f16551e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1cf1b763424121f5736faa5f16551e1">&#9670;&#160;</a></span>FillHeader()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -426,7 +440,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">void core_lib::asio::messages::FillHeader </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>magicString</em></span>, </td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>magicString</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -474,8 +488,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a82bb79c579a21f9eb35b75d29e2b8f07" name="a82bb79c579a21f9eb35b75d29e2b8f07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82bb79c579a21f9eb35b75d29e2b8f07">&#9670;&#160;</a></span>StringToArchiveType()</h2>
+<a id="a6caeb05df06be4153778dc50d929eca6" name="a6caeb05df06be4153778dc50d929eca6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6caeb05df06be4153778dc50d929eca6">&#9670;&#160;</a></span>StringToArchiveType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -483,7 +497,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> core_lib::asio::messages::StringToArchiveType </td>
           <td>(</td>
-          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>archiveName</em></span></td><td>)</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>archiveName</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>

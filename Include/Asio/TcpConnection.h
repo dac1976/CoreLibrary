@@ -152,13 +152,13 @@ public:
      * Note if the unsent count reaches the max level it will block sending new
      * messages and return false.
      */
-    bool SendMessageAsync(const defs::char_buffer_t& message);
+    bool SendMessageAsync(defs::char_buf_cspan_t message);
     /*!
      * \brief Send a synchronous message.
      * \param[in] message - Message buffer to send.
-     * \return True if sent successfuilly, false otherwise.
+     * \return True if sent successfully, false otherwise.
      */
-    bool SendMessageSync(const defs::char_buffer_t& message);
+    bool SendMessageSync(defs::char_buf_cspan_t message);
     /*!
      * \brief Get number of unsent async messages.
      * \return Number of unsent messages
@@ -256,7 +256,7 @@ private:
      * \brief Acquire the next pending write object for async send
      * \param[in] message - Message to send.
      */
-    bool AcquirePendingWrite(const defs::char_buffer_t& message, PendingWrite& w);
+    bool AcquirePendingWrite(defs::char_buf_cspan_t message, PendingWrite& w);
 
 private:
     /*! \brief Access mutex for thread safety. */

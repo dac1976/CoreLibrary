@@ -23,7 +23,7 @@
  * \file SerialPort.cpp
  * \brief File containing useful definitions.
  */
- 
+
 #include "Asio/SerialPort.h"
 #include <stdexcept>
 #include <boost/bind.hpp>
@@ -39,7 +39,7 @@ namespace asio
 namespace serial
 {
 
-SerialPort::SerialPort(asio_compat::io_service_t& ioService, std::string const& comPort,
+SerialPort::SerialPort(asio_compat::io_service_t& ioService, std::string_view comPort,
 				   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 				   defs::message_received_handler_t const& messageReceivedHandler,
 				   SerialPortSettings const& settings)
@@ -54,7 +54,7 @@ SerialPort::SerialPort(asio_compat::io_service_t& ioService, std::string const& 
     CreateSerialPort();
 }
 
-SerialPort::SerialPort(std::string const&                      comPort,
+SerialPort::SerialPort(std::string_view                      comPort,
 				   defs::check_bytes_left_to_read_t const& checkBytesLeftToRead,
 				   defs::message_received_handler_t const& messageReceivedHandler,
 				   SerialPortSettings const& settings, uint32_t numIoSvcThreads)
@@ -92,10 +92,10 @@ void SerialPort::ClosePort()
     m_closedEvent.Wait();
 }
 
-bool SerialPort::SendMsg(const defs::char_buffer_t& message)
+bool SerialPort::SendMsg(defs::char_buf_cspan_t message)
 {
     boost_sys::error_code error;
-    auto bytesWritten = m_serialPort.write_some(boost_asio::buffer(message), error);
+    auto bytesWritten = m_serialPort.write_some(boost_asio::buffer(message.data(), message.size()), error);
 
     if ((bytesWritten != message.size()) || error)
     {

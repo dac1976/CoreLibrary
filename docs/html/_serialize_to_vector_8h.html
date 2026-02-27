@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -102,6 +102,7 @@ $(function(){initNavTree('_serialize_to_vector_8h.html','',''); });
 <code>#include &lt;iterator&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
 <code>#include &lt;boost/throw_exception.hpp&gt;</code><br />
 <code>#include &lt;<a class="el" href="vector_8hpp_source.html">cereal/types/vector.hpp</a>&gt;</code><br />
 </div>
@@ -151,6 +152,12 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a94d854807e73b0e2b885ca1bcc3086f5" id="r_a94d854807e73b0e2b885ca1bcc3086f5"><td class="memItemLeft"><a id="a94d854807e73b0e2b885ca1bcc3086f5" name="a94d854807e73b0e2b885ca1bcc3086f5"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::serialize::char_vector_t</b> = std::vector&lt;char&gt;</td></tr>
 <tr class="memdesc:a94d854807e73b0e2b885ca1bcc3086f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for char vector. <br /></td></tr>
+<tr class="memitem:a048d3f75eb3ea333717e5647401b491b" id="r_a048d3f75eb3ea333717e5647401b491b"><td class="memItemLeft"><a id="a048d3f75eb3ea333717e5647401b491b" name="a048d3f75eb3ea333717e5647401b491b"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::serialize::char_span_buf_t</b> = std::span&lt;char&gt;</td></tr>
+<tr class="memdesc:a048d3f75eb3ea333717e5647401b491b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for char span. <br /></td></tr>
+<tr class="memitem:a5ac47f823ba924faf367a87aa5984d1a" id="r_a5ac47f823ba924faf367a87aa5984d1a"><td class="memItemLeft"><a id="a5ac47f823ba924faf367a87aa5984d1a" name="a5ac47f823ba924faf367a87aa5984d1a"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::serialize::char_cspan_buf_t</b> = std::span&lt;const char&gt;</td></tr>
+<tr class="memdesc:a5ac47f823ba924faf367a87aa5984d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for char const span. <br /></td></tr>
 <tr class="memitem:a4859337673b03bf0f27a656c6116a736" id="r_a4859337673b03bf0f27a656c6116a736"><td class="memItemLeft"><a id="a4859337673b03bf0f27a656c6116a736" name="a4859337673b03bf0f27a656c6116a736"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::out_port_bin_t</b> = <a class="el" href="classcereal_1_1_portable_binary_output_archive.html">cereal::PortableBinaryOutputArchive</a></td></tr>
 <tr class="memdesc:a4859337673b03bf0f27a656c6116a736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output portable binary archive. <br /></td></tr>
@@ -196,9 +203,9 @@ Functions</h2></td></tr>
 <tr class="memitem:afe773af159db747698f50213bcd4b94e" id="r_afe773af159db747698f50213bcd4b94e"><td class="memTemplParams" colspan="2">template&lt;typename T, typename OA = archives::out_port_bin_t&gt; </td></tr>
 <tr class="memitem:afe773af159db747698f50213bcd4b94e template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1serialize.html#afe773af159db747698f50213bcd4b94e">core_lib::serialize::ToCharVector</a> (const T &amp;object, <a class="el" href="namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5">char_vector_t</a> &amp;result)</td></tr>
 <tr class="memdesc:afe773af159db747698f50213bcd4b94e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize an object into a char vector.  <br /></td></tr>
-<tr class="memitem:a8316a47202c696fefd9e21c18b31e594" id="r_a8316a47202c696fefd9e21c18b31e594"><td class="memTemplParams" colspan="2">template&lt;typename T, typename IA = archives::in_port_bin_t&gt; </td></tr>
-<tr class="memitem:a8316a47202c696fefd9e21c18b31e594 template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1serialize.html#a8316a47202c696fefd9e21c18b31e594">core_lib::serialize::ToObject</a> (const <a class="el" href="namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5">char_vector_t</a> &amp;charVector)</td></tr>
-<tr class="memdesc:a8316a47202c696fefd9e21c18b31e594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialize a char vector into a corresponding object.  <br /></td></tr>
+<tr class="memitem:ae6ef1feb141265863c9804de20640d8f" id="r_ae6ef1feb141265863c9804de20640d8f"><td class="memTemplParams" colspan="2">template&lt;typename T, typename IA = archives::in_port_bin_t&gt; </td></tr>
+<tr class="memitem:ae6ef1feb141265863c9804de20640d8f template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1serialize.html#ae6ef1feb141265863c9804de20640d8f">core_lib::serialize::ToObject</a> (<a class="el" href="namespacecore__lib_1_1serialize.html#a5ac47f823ba924faf367a87aa5984d1a">char_cspan_buf_t</a> charSpan)</td></tr>
+<tr class="memdesc:ae6ef1feb141265863c9804de20640d8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialize a char vector into a corresponding object.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing utilities to serialize objects to byte vectors. </p>

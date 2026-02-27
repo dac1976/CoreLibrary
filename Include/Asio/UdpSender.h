@@ -99,7 +99,7 @@ public:
      * \param[in] message - The message buffer.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(const defs::char_buffer_t& message);
+    bool SendMsg(defs::char_buf_cspan_t message);
 
 private:
     /*!
@@ -113,7 +113,7 @@ private:
      * \param[in] message - Message buffer to send.
      * \return True if successfully sent, false otherwise.
      */
-    bool SyncSendTo(const defs::char_buffer_t& message);
+    bool SyncSendTo(defs::char_buf_cspan_t message);
 
 private:
     /*! \brief I/O service thread group. */

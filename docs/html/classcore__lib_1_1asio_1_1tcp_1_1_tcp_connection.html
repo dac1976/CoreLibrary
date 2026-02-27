@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -126,7 +126,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae3b77fdf9c39137699ee64831858298c" id="r_ae3b77fdf9c39137699ee64831858298c"><td class="memItemLeft"><a id="ae3b77fdf9c39137699ee64831858298c" name="ae3b77fdf9c39137699ee64831858298c"></a>
 <a class="el" href="#a2d8fdff0ea2b61f7171a701d05a9ba71">TcpConnection</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="#a2d8fdff0ea2b61f7171a701d05a9ba71">TcpConnection</a> &amp;&amp;)=delete</td></tr>
 <tr class="memdesc:ae3b77fdf9c39137699ee64831858298c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted move assignment operator. <br /></td></tr>
-<tr class="memitem:ae9e942977fba40acaf888b8946b96d06" id="r_ae9e942977fba40acaf888b8946b96d06"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae9e942977fba40acaf888b8946b96d06">TcpConnection</a> (asio_compat::io_service_t &amp;ioService, std::shared_ptr&lt; <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html">TcpConnections</a> &gt; const &amp;connections, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a662db48499822ec2c68c4e9c57eb595a">defs::check_bytes_left_to_read_t</a> const &amp;checkBytesLeftToRead, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ac6372a5709c23c77100f258b5363a861">defs::message_received_handler_t</a> const &amp;messageReceivedHandler, <a class="el" href="structcore__lib_1_1asio_1_1tcp_1_1_tcp_conn_settings.html">TcpConnSettings</a> const &amp;settings={}, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a8612516d77529e6f89668a740f46b43e">defs::message_received_handler_ex_t</a> const &amp;messageReceivedHandlerEx={}, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ae6e1a7832a2869af738a2666d281527f">defs::check_bytes_left_to_read_ex_t</a> const &amp;checkBytesLeftToReadEx={})</td></tr>
+<tr class="memitem:ae9e942977fba40acaf888b8946b96d06" id="r_ae9e942977fba40acaf888b8946b96d06"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae9e942977fba40acaf888b8946b96d06">TcpConnection</a> (asio_compat::io_service_t &amp;ioService, std::shared_ptr&lt; <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html">TcpConnections</a> &gt; const &amp;connections, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9ec5fd8ea8cd5075726bb6821adfe440">defs::check_bytes_left_to_read_t</a> const &amp;checkBytesLeftToRead, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aae2efc8aa58e77edb60f41772241cf46">defs::message_received_handler_t</a> const &amp;messageReceivedHandler, <a class="el" href="structcore__lib_1_1asio_1_1tcp_1_1_tcp_conn_settings.html">TcpConnSettings</a> const &amp;settings={}, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a2f190d9e73ce4387957c843ef3abbc12">defs::message_received_handler_ex_t</a> const &amp;messageReceivedHandlerEx={}, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a61d4d9aaa710e8986c7f1dd3ffb7646b">defs::check_bytes_left_to_read_ex_t</a> const &amp;checkBytesLeftToReadEx={})</td></tr>
 <tr class="memdesc:ae9e942977fba40acaf888b8946b96d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialisation constructor.  <br /></td></tr>
 <tr class="memitem:a51b588d929dd4162f6a446869a664421" id="r_a51b588d929dd4162f6a446869a664421"><td class="memItemLeft"><a id="a51b588d929dd4162f6a446869a664421" name="a51b588d929dd4162f6a446869a664421"></a>
 &#160;</td><td class="memItemRight"><b>~TcpConnection</b> ()=default</td></tr>
@@ -143,10 +143,10 @@ void&#160;</td><td class="memItemRight"><b>CloseConnection</b> ()</td></tr>
 <tr class="memitem:aa50dd4baea3520b789b3caa419f54fb7" id="r_aa50dd4baea3520b789b3caa419f54fb7"><td class="memItemLeft"><a id="aa50dd4baea3520b789b3caa419f54fb7" name="aa50dd4baea3520b789b3caa419f54fb7"></a>
 void&#160;</td><td class="memItemRight"><b>StartAsyncRead</b> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;endPoint)</td></tr>
 <tr class="memdesc:aa50dd4baea3520b789b3caa419f54fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start aysnchronously reading data when available. <br /></td></tr>
-<tr class="memitem:a5dd87848fb45850f669437d0c3cac554" id="r_a5dd87848fb45850f669437d0c3cac554"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5dd87848fb45850f669437d0c3cac554">SendMessageAsync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message)</td></tr>
-<tr class="memdesc:a5dd87848fb45850f669437d0c3cac554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send an asynchronous message.  <br /></td></tr>
-<tr class="memitem:a4e948bda66f01b47d6816d6cbeeea834" id="r_a4e948bda66f01b47d6816d6cbeeea834"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a4e948bda66f01b47d6816d6cbeeea834">SendMessageSync</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message)</td></tr>
-<tr class="memdesc:a4e948bda66f01b47d6816d6cbeeea834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a synchronous message.  <br /></td></tr>
+<tr class="memitem:a955187479d6526cb1bff4e974bc41019" id="r_a955187479d6526cb1bff4e974bc41019"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a955187479d6526cb1bff4e974bc41019">SendMessageAsync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message)</td></tr>
+<tr class="memdesc:a955187479d6526cb1bff4e974bc41019"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send an asynchronous message.  <br /></td></tr>
+<tr class="memitem:a7fd831e41f6f38c47a008bea3c2bb04a" id="r_a7fd831e41f6f38c47a008bea3c2bb04a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a7fd831e41f6f38c47a008bea3c2bb04a">SendMessageSync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message)</td></tr>
+<tr class="memdesc:a7fd831e41f6f38c47a008bea3c2bb04a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a synchronous message.  <br /></td></tr>
 <tr class="memitem:a22154e269840ab1d8cfc85ffcc98fec6" id="r_a22154e269840ab1d8cfc85ffcc98fec6"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a22154e269840ab1d8cfc85ffcc98fec6">NumberOfUnsentAsyncMessages</a> () const</td></tr>
 <tr class="memdesc:a22154e269840ab1d8cfc85ffcc98fec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of unsent async messages.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -207,8 +207,8 @@ size_t&#160;</td><td class="memItemRight"><b>NextConnectionId</b> () <a class="e
 <tr class="memitem:a065c7c4016743ab612760307754ee652" id="r_a065c7c4016743ab612760307754ee652"><td class="memItemLeft"><a id="a065c7c4016743ab612760307754ee652" name="a065c7c4016743ab612760307754ee652"></a>
 size_t&#160;</td><td class="memItemRight"><b>CurrentConnectionId</b> () const <a class="el" href="_platform_defines_8h.html#add5a4c361bd0fe8f1ca88ea5e5d39fea">NO_EXCEPT_</a></td></tr>
 <tr class="memdesc:a065c7c4016743ab612760307754ee652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current connection ID value. return Current connection ID value. <br /></td></tr>
-<tr class="memitem:ac31d44c87af193865e2e79bd3056f015" id="r_ac31d44c87af193865e2e79bd3056f015"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac31d44c87af193865e2e79bd3056f015">AcquirePendingWrite</a> (const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;message, <a class="el" href="structcore__lib_1_1asio_1_1tcp_1_1_tcp_connection_1_1_pending_write.html">PendingWrite</a> &amp;w)</td></tr>
-<tr class="memdesc:ac31d44c87af193865e2e79bd3056f015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire the next pending write object for async send.  <br /></td></tr>
+<tr class="memitem:a65f5b09096b3d1c43fab329f7274b1ce" id="r_a65f5b09096b3d1c43fab329f7274b1ce"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a65f5b09096b3d1c43fab329f7274b1ce">AcquirePendingWrite</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message, <a class="el" href="structcore__lib_1_1asio_1_1tcp_1_1_tcp_connection_1_1_pending_write.html">PendingWrite</a> &amp;w)</td></tr>
+<tr class="memdesc:a65f5b09096b3d1c43fab329f7274b1ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire the next pending write object for async send.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -231,16 +231,16 @@ asio_compat::strand_t&#160;</td><td class="memItemRight"><b>m_strand</b></td></t
 std::weak_ptr&lt; <a class="el" href="classcore__lib_1_1asio_1_1tcp_1_1_tcp_connections.html">TcpConnections</a> &gt;&#160;</td><td class="memItemRight"><b>m_connections</b></td></tr>
 <tr class="memdesc:a80ed4ed969432c1622078b7295a2b795"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to TCP connections object. <br /></td></tr>
 <tr class="memitem:a7e36ce46a7e62cffeb3cbb8339cd1866" id="r_a7e36ce46a7e62cffeb3cbb8339cd1866"><td class="memItemLeft"><a id="a7e36ce46a7e62cffeb3cbb8339cd1866" name="a7e36ce46a7e62cffeb3cbb8339cd1866"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a662db48499822ec2c68c4e9c57eb595a">defs::check_bytes_left_to_read_t</a>&#160;</td><td class="memItemRight"><b>m_checkBytesLeftToRead</b></td></tr>
+<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9ec5fd8ea8cd5075726bb6821adfe440">defs::check_bytes_left_to_read_t</a>&#160;</td><td class="memItemRight"><b>m_checkBytesLeftToRead</b></td></tr>
 <tr class="memdesc:a7e36ce46a7e62cffeb3cbb8339cd1866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check bytes left to read callback. <br /></td></tr>
 <tr class="memitem:a8e295c435d6b0c5a569dc19e0fb21893" id="r_a8e295c435d6b0c5a569dc19e0fb21893"><td class="memItemLeft"><a id="a8e295c435d6b0c5a569dc19e0fb21893" name="a8e295c435d6b0c5a569dc19e0fb21893"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ae6e1a7832a2869af738a2666d281527f">defs::check_bytes_left_to_read_ex_t</a>&#160;</td><td class="memItemRight"><b>m_checkBytesLeftToReadEx</b></td></tr>
+<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a61d4d9aaa710e8986c7f1dd3ffb7646b">defs::check_bytes_left_to_read_ex_t</a>&#160;</td><td class="memItemRight"><b>m_checkBytesLeftToReadEx</b></td></tr>
 <tr class="memdesc:a8e295c435d6b0c5a569dc19e0fb21893"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check bytes left to read callback. <br /></td></tr>
 <tr class="memitem:a755108788b03fd85e9254aa93fa9a4e6" id="r_a755108788b03fd85e9254aa93fa9a4e6"><td class="memItemLeft"><a id="a755108788b03fd85e9254aa93fa9a4e6" name="a755108788b03fd85e9254aa93fa9a4e6"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ac6372a5709c23c77100f258b5363a861">defs::message_received_handler_t</a>&#160;</td><td class="memItemRight"><b>m_messageReceivedHandler</b></td></tr>
+<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aae2efc8aa58e77edb60f41772241cf46">defs::message_received_handler_t</a>&#160;</td><td class="memItemRight"><b>m_messageReceivedHandler</b></td></tr>
 <tr class="memdesc:a755108788b03fd85e9254aa93fa9a4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message received handler callback. <br /></td></tr>
 <tr class="memitem:af0343317cb190ca2ef8230d1fff4a2d2" id="r_af0343317cb190ca2ef8230d1fff4a2d2"><td class="memItemLeft"><a id="af0343317cb190ca2ef8230d1fff4a2d2" name="af0343317cb190ca2ef8230d1fff4a2d2"></a>
-<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a8612516d77529e6f89668a740f46b43e">defs::message_received_handler_ex_t</a>&#160;</td><td class="memItemRight"><b>m_messageReceivedHandlerEx</b></td></tr>
+<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a2f190d9e73ce4387957c843ef3abbc12">defs::message_received_handler_ex_t</a>&#160;</td><td class="memItemRight"><b>m_messageReceivedHandlerEx</b></td></tr>
 <tr class="memdesc:af0343317cb190ca2ef8230d1fff4a2d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message received handler extended callback. <br /></td></tr>
 <tr class="memitem:a3db71139f31d919c6e1f59634282db5e" id="r_a3db71139f31d919c6e1f59634282db5e"><td class="memItemLeft"><a id="a3db71139f31d919c6e1f59634282db5e" name="a3db71139f31d919c6e1f59634282db5e"></a>
 <a class="el" href="structcore__lib_1_1asio_1_1tcp_1_1_tcp_conn_settings.html">TcpConnSettings</a>&#160;</td><td class="memItemRight"><b>m_settings</b></td></tr>
@@ -308,12 +308,12 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a662db48499822ec2c68c4e9c57eb595a">defs::check_bytes_left_to_read_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>checkBytesLeftToRead</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a9ec5fd8ea8cd5075726bb6821adfe440">defs::check_bytes_left_to_read_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>checkBytesLeftToRead</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ac6372a5709c23c77100f258b5363a861">defs::message_received_handler_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>messageReceivedHandler</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aae2efc8aa58e77edb60f41772241cf46">defs::message_received_handler_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>messageReceivedHandler</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -323,12 +323,12 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a8612516d77529e6f89668a740f46b43e">defs::message_received_handler_ex_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>messageReceivedHandlerEx</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a2f190d9e73ce4387957c843ef3abbc12">defs::message_received_handler_ex_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>messageReceivedHandlerEx</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ae6e1a7832a2869af738a2666d281527f">defs::check_bytes_left_to_read_ex_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>checkBytesLeftToReadEx</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a61d4d9aaa710e8986c7f1dd3ffb7646b">defs::check_bytes_left_to_read_ex_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>checkBytesLeftToReadEx</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -350,8 +350,8 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="ac31d44c87af193865e2e79bd3056f015" name="ac31d44c87af193865e2e79bd3056f015"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac31d44c87af193865e2e79bd3056f015">&#9670;&#160;</a></span>AcquirePendingWrite()</h2>
+<a id="a65f5b09096b3d1c43fab329f7274b1ce" name="a65f5b09096b3d1c43fab329f7274b1ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65f5b09096b3d1c43fab329f7274b1ce">&#9670;&#160;</a></span>AcquirePendingWrite()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,7 +362,7 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
         <tr>
           <td class="memname">bool core_lib::asio::tcp::TcpConnection::AcquirePendingWrite </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -680,8 +680,8 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
 
 </div>
 </div>
-<a id="a5dd87848fb45850f669437d0c3cac554" name="a5dd87848fb45850f669437d0c3cac554"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5dd87848fb45850f669437d0c3cac554">&#9670;&#160;</a></span>SendMessageAsync()</h2>
+<a id="a955187479d6526cb1bff4e974bc41019" name="a955187479d6526cb1bff4e974bc41019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a955187479d6526cb1bff4e974bc41019">&#9670;&#160;</a></span>SendMessageAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -689,7 +689,7 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
         <tr>
           <td class="memname">bool core_lib::asio::tcp::TcpConnection::SendMessageAsync </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -707,8 +707,8 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
 
 </div>
 </div>
-<a id="a4e948bda66f01b47d6816d6cbeeea834" name="a4e948bda66f01b47d6816d6cbeeea834"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e948bda66f01b47d6816d6cbeeea834">&#9670;&#160;</a></span>SendMessageSync()</h2>
+<a id="a7fd831e41f6f38c47a008bea3c2bb04a" name="a7fd831e41f6f38c47a008bea3c2bb04a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fd831e41f6f38c47a008bea3c2bb04a">&#9670;&#160;</a></span>SendMessageSync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -716,7 +716,7 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
         <tr>
           <td class="memname">bool core_lib::asio::tcp::TcpConnection::SendMessageSync </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a99e11fc9841eaccb82b5d683088e130d">defs::char_buffer_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -729,7 +729,7 @@ boost_tcp_t::socket&#160;</td><td class="memItemRight"><b>m_socket</b></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if sent successfuilly, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if sent successfully, false otherwise. </dd></dl>
 
 </div>
 </div>

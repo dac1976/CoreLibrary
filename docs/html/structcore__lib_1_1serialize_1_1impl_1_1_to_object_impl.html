@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.0</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -100,16 +100,16 @@ $(function(){initNavTree('structcore__lib_1_1serialize_1_1impl_1_1_to_object_imp
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aec2ed20de0d3ae722ef5b76b7ec48557" id="r_aec2ed20de0d3ae722ef5b76b7ec48557"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#aec2ed20de0d3ae722ef5b76b7ec48557">operator()</a> (const <a class="el" href="namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5">char_vector_t</a> &amp;charVector) const</td></tr>
-<tr class="memdesc:aec2ed20de0d3ae722ef5b76b7ec48557"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator.  <br /></td></tr>
+<tr class="memitem:aff83e996a26bf98826d398f9ad092c56" id="r_aff83e996a26bf98826d398f9ad092c56"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#aff83e996a26bf98826d398f9ad092c56">operator()</a> (<a class="el" href="namespacecore__lib_1_1serialize.html#a5ac47f823ba924faf367a87aa5984d1a">char_cspan_buf_t</a> charSpan) const</td></tr>
+<tr class="memdesc:aff83e996a26bf98826d398f9ad092c56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function operator.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename A&gt;<br />
 struct core_lib::serialize::impl::ToObjectImpl&lt; T, A &gt;</div><p>Deserialization to object implementation. </p>
 <p>Typically the template argument A is one of the input archive typedefs listed above or a custom input archive that is compatible. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="aec2ed20de0d3ae722ef5b76b7ec48557" name="aec2ed20de0d3ae722ef5b76b7ec48557"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec2ed20de0d3ae722ef5b76b7ec48557">&#9670;&#160;</a></span>operator()()</h2>
+<a id="aff83e996a26bf98826d398f9ad092c56" name="aff83e996a26bf98826d398f9ad092c56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff83e996a26bf98826d398f9ad092c56">&#9670;&#160;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +122,7 @@ template&lt;typename T, typename A&gt; </div>
         <tr>
           <td class="memname">T <a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl.html">core_lib::serialize::impl::ToObjectImpl</a>&lt; T, A &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacecore__lib_1_1serialize.html#a94d854807e73b0e2b885ca1bcc3086f5">char_vector_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>charVector</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1serialize.html#a5ac47f823ba924faf367a87aa5984d1a">char_cspan_buf_t</a></td>          <td class="paramname"><span class="paramname"><em>charSpan</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -136,7 +136,7 @@ template&lt;typename T, typename A&gt; </div>
 <p>Function operator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">charVector</td><td>- Char vector containing serialized object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">charSpan</td><td>- Char span containing serialized object </td></tr>
   </table>
   </dd>
 </dl>
