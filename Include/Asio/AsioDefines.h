@@ -93,7 +93,9 @@ enum class eArchiveType : uint8_t
 	/*! \brief Raw data, only for POD objects. */
 	raw,
 	/*! \brief Google protocol buffer. */
-	protobuf
+	protobuf,
+    /*! \brief Google flat buffers. */
+	flatBuffer
 };
 
 // Push single byte alignment for the MessageHeader strcuture for maximum portability.

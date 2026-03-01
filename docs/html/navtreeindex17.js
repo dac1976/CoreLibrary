@@ -211,6 +211,7 @@ var NAVTREEINDEX17 =
 "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a466deec76ecdf5fca6d38571f6324d54":[1,0,1,0,0,15,2],
 "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2":[1,0,1,0,0,15,5],
 "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a9d7183f16acce70658f686ae7f1a4d20":[1,0,1,0,0,15,1],
+"namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313aa2ecbb6182df15776b2e88f73a11498c":[1,0,1,0,0,15,6],
 "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb":[1,0,1,0,0,15,4],
 "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313ae6372e7369f0a79dff977a56d7b2ce2f":[1,0,1,0,0,15,0],
 "namespacecore__lib_1_1asio_1_1defs.html#accb28eaf579a18c8f12b7cacbee9e132":[1,0,1,0,0,19],
@@ -223,9 +224,9 @@ var NAVTREEINDEX17 =
 "namespacecore__lib_1_1asio_1_1messages.html#a89b94df461b342bccc246c220f7be99c":[1,0,1,0,4,13],
 "namespacecore__lib_1_1asio_1_1messages.html#ab0d81f0c1926e1fd93800609fe5fbd5f":[1,0,1,0,4,14],
 "namespacecore__lib_1_1asio_1_1messages.html#ac459e962474bd74428c7b048b0870636":[1,0,1,0,4,10],
-"namespacecore__lib_1_1asio_1_1messages.html#ac77edd0971966b9df645031ecd3312ec":[1,0,1,0,4,11],
 "namespacecore__lib_1_1asio_1_1messages.html#ad1cf1b763424121f5736faa5f16551e1":[1,0,1,0,4,16],
 "namespacecore__lib_1_1asio_1_1messages.html#ad25fa8b6ad839102447d36b6727fc0b2":[1,0,1,0,4,9],
+"namespacecore__lib_1_1asio_1_1messages.html#ad74c9d469ba770feb586f4bee2664a78":[1,0,1,0,4,11],
 "namespacecore__lib_1_1asio_1_1messages.html#ae18769b47a7f7e1a60209cec1529c0e0":[1,0,1,0,4,12],
 "namespacecore__lib_1_1asio_1_1serial.html":[1,0,1,0,3],
 "namespacecore__lib_1_1asio_1_1serial.html#a24f33e446e59610b3f7e26935f5f1ee2":[1,0,1,0,3,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX17 =
 "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aa1119b276d7e6d35b2e6b01590d5224d":[1,0,1,0,2,11,0],
 "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694aaf912756ce627b4ed5ae8a47a30fa965":[1,0,1,0,2,11,4],
 "namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afb73801180f7ddc76f4bed0c7cfd8ded":[1,0,1,0,2,11,2],
-"namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afcbe0e1669da06dbae91a8521ac7f580":[1,0,1,0,2,11,3],
-"namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7":[1,0,1,0,2,13]
+"namespacecore__lib_1_1asio_1_1udp.html#a5b9232b21696edda8f20507150e5c694afcbe0e1669da06dbae91a8521ac7f580":[1,0,1,0,2,11,3]
 };

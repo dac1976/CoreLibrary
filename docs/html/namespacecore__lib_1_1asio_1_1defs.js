@@ -21,7 +21,8 @@ var namespacecore__lib_1_1asio_1_1defs =
       [ "json", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a466deec76ecdf5fca6d38571f6324d54", null ],
       [ "xml", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a0f635d0e0f3874fff8b581c132e6c7a7", null ],
       [ "raw", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb", null ],
-      [ "protobuf", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2", null ]
+      [ "protobuf", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2", null ],
+      [ "flatBuffer", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313aa2ecbb6182df15776b2e88f73a11498c", null ]
     ] ],
     [ "eDefRecvPoolMsgSize", "namespacecore__lib_1_1asio_1_1defs.html#a6e53384104650800684b383a9db99099", null ],
     [ "eMagicStringLen", "namespacecore__lib_1_1asio_1_1defs.html#a76e32fe4d4afed2186ed9deb475724b3", null ],

@@ -7,6 +7,7 @@ SET "CORELIB_BOOST_ROOT=%CORELIB_ROOT%../ThirdParty/boost_1_90_0"
 SET "CORELIB_BOOST_LIB=%CORELIB_ROOT%../ThirdParty/boost_1_90_0/lib64-msvc-14.3"
 SET "CORELIB_BOOST_LIB_NAME_STUB=vc143-mt-x64-1_90"
 SET "CORELIB_BOOST_LIB_NAME_STUB_D=vc143-mt-gd-x64-1_90"
+SET "CORELIB_VCPKG_CMAKE_PATH=%CORELIB_ROOT%../ThirdParty/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
 REM Setup environment.
 call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
@@ -22,7 +23,7 @@ mkdir bin\RelWithDebInfo\static
 mkdir bin\RelWithDebInfo\dynamic
 
 REM Create build files
-cmake -G "Visual Studio 17 2022" -A x64 -T v143 -Bbuild -DBUILD_SHARED_LIBS=ON -DCORELIB_USE_STD_FILESYSTEM=ON -DCMAKE_INSTALL_PREFIX=./ -DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO="/DEBUG:FULL /OPT:REF /OPT:ICF"
+cmake -G "Visual Studio 17 2022" -A x64 -T v143 -Bbuild -DCMAKE_TOOLCHAIN_FILE="%CORELIB_VCPKG_CMAKE_PATH%" -DVCPKG_TARGET_TRIPLET=x64-windows -DBUILD_SHARED_LIBS=ON -DCORELIB_USE_FLATBUFFERS=ON -DCORELIB_USE_STD_FILESYSTEM=ON -DCMAKE_INSTALL_PREFIX=./ -DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO="/DEBUG:FULL /OPT:REF /OPT:ICF"
 
 REM Perform build
 cmake --build build --config RelWithDebInfo --target ALL_BUILD --parallel

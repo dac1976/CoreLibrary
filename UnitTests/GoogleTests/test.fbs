@@ -1,0 +1,9 @@
+namespace core_lib_test_fb;
+
+table TestMessage {
+  name:string;
+  counter:ulong;     // uint64 in protobuf
+  values:[double];   // repeated double
+}
+
+root_type TestMessage;

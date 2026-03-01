@@ -420,9 +420,11 @@ BuildMessage(int32_t messageId, const defs::connection_t& responseAddress,
  * response if the main responseAddress is a NULL_CONNECTION.
  * \param[in] messageBuilder - A message builder object of type MsgBldr that must have an interface
  * compatible with that of the class core_lib::asio::messages::MessageBuilder.
+ * \param[in] archiveType - Archive type used to when creating the messageBuffer. Depends on how
+ * message buffer has been serialised.
  * \return Returns a const reference to a filled message buffer as a vector of bytes.
  *
- * This is the "header only" convenience function to build an outgoing network message in all the
+ * This is the header + payload convenience function to build an outgoing network message in all the
  * network classes. It takes a templated arg to provide an actual message builder functor, such as
  * the MessageBuilder functor.
  */
@@ -430,11 +432,12 @@ template <typename MsgBldr>
 defs::char_buf_cspan_t BuildMessage(defs::char_buf_cspan_t message, int32_t messageId,
                                     const defs::connection_t& responseAddress,
                                     const defs::connection_t& fallbackResponseAddress,
-                                    const MsgBldr&            messageBuilder)
+                                    const MsgBldr&            messageBuilder,
+                                    defs::eArchiveType        archiveType = defs::eArchiveType::raw)
 {
     auto responseConn =
         (responseAddress == defs::NULL_CONNECTION) ? fallbackResponseAddress : responseAddress;
-    return messageBuilder.Build(message, messageId, responseConn);
+    return messageBuilder.Build(message, messageId, responseConn, archiveType);
 }
 /*!
  * \brief Message builder wrapper function for full messages with a header and a body.
@@ -472,7 +475,8 @@ template <typename T>
 T DeserializeMessage(defs::char_buf_cspan_t messageBuffer, defs::eArchiveType archiveType)
 {
     assert((archiveType != defs::eArchiveType::raw) &&
-           (archiveType != defs::eArchiveType::protobuf));
+           (archiveType != defs::eArchiveType::protobuf) &&
+           (archiveType != defs::eArchiveType::flatBuffer));
 
     switch (archiveType)
     {
@@ -480,14 +484,13 @@ T DeserializeMessage(defs::char_buf_cspan_t messageBuffer, defs::eArchiveType ar
         return serialize::ToObject<T, serialize::archives::in_bin_t>(messageBuffer);
     case defs::eArchiveType::portableBinary:
         return serialize::ToObject<T, serialize::archives::in_port_bin_t>(messageBuffer);
-    case defs::eArchiveType::raw:
-        // Do nothing.
-        break;
-    case defs::eArchiveType::json:
+     case defs::eArchiveType::json:
         return serialize::ToObject<T, serialize::archives::in_json_t>(messageBuffer);
     case defs::eArchiveType::xml:
         return serialize::ToObject<T, serialize::archives::in_xml_t>(messageBuffer);
+    case defs::eArchiveType::raw:
     case defs::eArchiveType::protobuf:
+    case defs::eArchiveType::flatBuffer:
         // Do nothing;
         break;
     }

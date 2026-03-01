@@ -17,6 +17,11 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(CORELIB_USE_STD_FILESYSTEM "Use <filesystem> instead of <boost/filesystem.hpp>" ON)
 
 # Custom CMake toggle:
+#   -DCORELIB_USE_FLATBUFFERS=ON  -> support Google flatbuffers
+#   -DCORELIB_USE_FLATBUFFERS=OFF -> do not support Google flatbuffers
+option(CORELIB_USE_FLATBUFFERS "Support Google flatbuffers." OFF)
+
+# Custom CMake toggle:
 #   -DCORELIB_SOCKET_DEBUG=ON  -> Extra debug to log.
 #   -DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log/
 option(CORELIB_SOCKET_DEBUG "Use extra debug output from Asio classes" OFF)
@@ -46,6 +51,11 @@ endforeach()
 
 # Find packages (safe on all platforms)
 find_package(Threads REQUIRED)
+
+# flatbuffer packages.
+if(CORELIB_USE_FLATBUFFERS)
+  find_package(flatbuffers CONFIG REQUIRED)
+endif()
 
 # Define the module
 add_library(CoreLibrary
@@ -102,6 +112,7 @@ target_compile_definitions(CoreLibrary PUBLIC
   $<$<PLATFORM_ID:Windows>:NOMINMAX>
   $<$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>:USE_STD_FILESYSTEM>
   $<$<BOOL:${CORELIB_SOCKET_DEBUG}>:USE_SOCKET_DEBUG>
+  $<$<BOOL:${CORELIB_USE_FLATBUFFERS}>:USE_FLATBUFFERS>
   _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
   NOT_USING_BOOST_LOCALE
   BOOST_BIND_GLOBAL_PLACEHOLDERS
@@ -137,6 +148,7 @@ set(_CORELIB_LINUX "$<PLATFORM_ID:Linux>")
 set(_CORELIB_DBG   "$<CONFIG:Debug>")
 set(_CORELIB_REL   "$<IN_LIST:$<CONFIG>,Release;RelWithDebInfo;MinSizeRel>")
 set(_CORELIB_NEED_BOOST_FS "$<NOT:$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>>")
+set(_CORELIB_NEED_FLATBUFFERS "$<BOOL:${CORELIB_USE_FLATBUFFERS}>")
 
 target_link_libraries(CoreLibrary PUBLIC
   # Linux
@@ -146,6 +158,7 @@ target_link_libraries(CoreLibrary PUBLIC
   $<$<AND:${_CORELIB_LINUX},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_program_options.a>
   $<${_CORELIB_LINUX}:Threads::Threads>
+  $<${_CORELIB_NEED_FLATBUFFERS}:flatbuffers::flatbuffers>
 
   # Windows
   $<$<PLATFORM_ID:Windows>:iphlpapi>

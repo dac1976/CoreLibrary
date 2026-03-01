@@ -12,8 +12,8 @@ var classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender =
     [ "operator=", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#a760dd0a885c6f7019af0946a7e8da55f", null ],
     [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#a45595c18ac74201aee4de9e31ef9846c", null ],
     [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#af2f9474e07ce8fd7cd0f64215b86cdc1", null ],
-    [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#aef7ad11858b4e86012d83aa695601788", null ],
     [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#a5452fec44fa720b6a3206e301ed5f077", null ],
+    [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#aed70c2e893074b0baa2154c65180e86c", null ],
     [ "m_messageBuilder", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#ad0f258b5199d680415a53a479e188436", null ],
     [ "m_multicastTypedSender", "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#a06d78c3a3657fbd3f5d2999f93cba3ce", null ]
 ];

@@ -82,11 +82,12 @@ bool SimpleMulticastSender::SendMsg(int32_t messageId,
     return m_multicastTypedSender.SendMsg(messageId, responseAddress);
 }
 
-bool SimpleMulticastSender::SendMsg(defs::char_buf_cspan_t message,
-                              int32_t messageId,
-                              const defs::connection_t& responseAddress)
+bool SimpleMulticastSender::SendMsg(int32_t messageId,
+                              defs::char_buf_cspan_t message,
+                              const defs::connection_t& responseAddress,
+                              defs::eArchiveType        archiveType)
 {
-    return m_multicastTypedSender.SendMsg(message, messageId, responseAddress);
+    return m_multicastTypedSender.SendMsg(messageId, message, responseAddress, archiveType);
 }
 
 bool SimpleMulticastSender::SendMsg(defs::char_buf_cspan_t message)

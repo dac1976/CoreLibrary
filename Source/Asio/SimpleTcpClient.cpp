@@ -117,18 +117,20 @@ bool SimpleTcpClient::SendMessageToServerSync(int32_t messageId,
     return m_tcpTypedClient.SendMessageToServerSync(messageId, responseAddress);
 }
 
-bool SimpleTcpClient::SendMessageToServerAsync(defs::char_buf_cspan_t message,
-                                       int32_t messageId,
-                                       const defs::connection_t& responseAddress)
+bool SimpleTcpClient::SendMessageToServerAsync(int32_t messageId,
+                                       defs::char_buf_cspan_t message,
+                                       const defs::connection_t& responseAddress,
+                                       defs::eArchiveType        archiveType)
 {
-    return m_tcpTypedClient.SendMessageToServerAsync(message, messageId, responseAddress);
+    return m_tcpTypedClient.SendMessageToServerAsync(messageId, message, responseAddress, archiveType);
 }
 
-bool SimpleTcpClient::SendMessageToServerSync(defs::char_buf_cspan_t message,
-                                      int32_t messageId,
-                                      const defs::connection_t& responseAddress)
+bool SimpleTcpClient::SendMessageToServerSync(int32_t messageId,
+                                      defs::char_buf_cspan_t message,
+                                      const defs::connection_t& responseAddress,
+                                      defs::eArchiveType        archiveType)
 {
-    return m_tcpTypedClient.SendMessageToServerSync(message, messageId, responseAddress);
+    return m_tcpTypedClient.SendMessageToServerSync(messageId, message, responseAddress, archiveType);
 }
 
 bool SimpleTcpClient::SendMessageToServerAsync(defs::char_buf_cspan_t message)

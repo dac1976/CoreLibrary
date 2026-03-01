@@ -10,6 +10,7 @@ export CORELIB_BOOST_LIB=${CORELIB_ROOT}/../ThirdParty/boost_1_90_0/lib64-msvc-1
 # Not nmeeded fo Linux build
 export CORELIB_BOOST_LIB_NAME_STUB=
 export CORELIB_BOOST_LIB_NAME_STUB_D=
+export CORELIB_VCPKG_CMAKE_PATH=${CORELIB_ROOT}/../ThirdParty/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 # Tidy previous installation/build folders.
 rm -rf build
@@ -23,7 +24,7 @@ mkdir -p RelWithDebInfo/dynamic/bin
 OUTPUT_DIR="RelWithDebInfo/dynamic"
 
 # Create build files
-cmake -Bbuild  -DCMAKE_INSTALL_PREFIX="${OUTPUT_DIR}" -DBUILD_SHARED_LIBS=ON  -DCORELIB_USE_STD_FILESYSTEM=ON  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cmake -Bbuild  -DCMAKE_INSTALL_PREFIX="${OUTPUT_DIR}" -DCMAKE_TOOLCHAIN_FILE="${CORELIB_VCPKG_CMAKE_PATH}" -DBUILD_SHARED_LIBS=ON -DCORELIB_USE_FLATBUFFERS=ON -DCORELIB_USE_STD_FILESYSTEM=ON  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
 # Perform build
 cmake --build build -- -j$(nproc)

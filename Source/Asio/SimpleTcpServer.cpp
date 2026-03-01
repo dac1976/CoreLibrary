@@ -132,26 +132,29 @@ bool SimpleTcpServer::SendMessageToAllClients(int32_t messageId,
 }
 
 bool SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t& client,
-                                       defs::char_buf_cspan_t message,
                                        int32_t messageId,
-                                       const defs::connection_t& responseAddress) const
+                                       defs::char_buf_cspan_t message,
+                                       const defs::connection_t& responseAddress,
+                                       defs::eArchiveType        archiveType) const
 {
-    return m_tcpTypedServer.SendMessageToClientAsync(client, message, messageId, responseAddress);
+    return m_tcpTypedServer.SendMessageToClientAsync(client, messageId, message, responseAddress, archiveType);
 }
 
 bool SimpleTcpServer::SendMessageToClientSync(const defs::connection_t& client,
-                                      defs::char_buf_cspan_t message,
 									  int32_t messageId,
-                                      const defs::connection_t& responseAddress) const
+                                      defs::char_buf_cspan_t message,
+                                      const defs::connection_t& responseAddress,
+                                      defs::eArchiveType        archiveType) const
 {
-    return m_tcpTypedServer.SendMessageToClientSync(client, message, messageId, responseAddress);
+    return m_tcpTypedServer.SendMessageToClientSync(client, messageId, message, responseAddress, archiveType);
 }
 
-bool SimpleTcpServer::SendMessageToAllClients(defs::char_buf_cspan_t message,
-                                      int32_t messageId,
-                                      const defs::connection_t& responseAddress) const
+bool SimpleTcpServer::SendMessageToAllClients(int32_t messageId,
+                                      defs::char_buf_cspan_t message,
+                                      const defs::connection_t& responseAddress,
+                                      defs::eArchiveType        archiveType) const
 {
-    return m_tcpTypedServer.SendMessageToAllClients(message, messageId, responseAddress);
+    return m_tcpTypedServer.SendMessageToAllClients(messageId, message, responseAddress, archiveType);
 }
 
 bool SimpleTcpServer::SendMessageToClientAsync(const defs::connection_t& client,

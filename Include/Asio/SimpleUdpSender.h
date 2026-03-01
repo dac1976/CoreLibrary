@@ -103,16 +103,19 @@ public:
                const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
     /*!
      * \brief Send a header plus message buffer to the receiver.
-     * \param[in] message - The message buffer.
      * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] message - The message buffer.
      * \param[in] responseAddress - (Optional) The address and port where the receiver should send
      * the response, the default value will mean the response address will point to this client
      * socket.
+     * \param[in] archiveType - Archive type used to when creating the messageBuffer. Depends on how
+     * message buffer has been serialised.
      * \return Returns the success state of the send as a boolean.
      */
-    bool SendMsg(defs::char_buf_cspan_t message,
-	           int32_t messageId,
-               const defs::connection_t& responseAddress = defs::NULL_CONNECTION);
+    bool SendMsg(int32_t messageId,
+               defs::char_buf_cspan_t message,
+               const defs::connection_t& responseAddress = defs::NULL_CONNECTION,
+               defs::eArchiveType        archiveType = defs::eArchiveType::raw);
     /*!
      * \brief Send a full message to the server.
      * \param[in] message - The message of type T to send behind the header serialized to an

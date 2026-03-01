@@ -185,10 +185,12 @@ public:
     /*!
      * \brief Send a header plus message buffer to a client asynchronously.
      * \param[in] client - Client connection details.
-     * \param[in] message - Message buffer.
      * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] message - Message buffer.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
+     * \param[in] archiveType - Archive type used to when creating the messageBuffer. Depends on how
+     * message buffer has been serialised.
      * \return Returns true if posted async message, retruns false if failed to post message.
      *
      * This function is asynchronous so will return immediately.
@@ -202,15 +204,19 @@ public:
      */
     bool SendMessageToClientAsync(
         const defs::connection_t& client,
-		defs::char_buf_cspan_t message, int32_t messageId,
-        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
+		int32_t messageId,
+        defs::char_buf_cspan_t message,
+        const defs::connection_t& responseAddress = defs::NULL_CONNECTION,
+        defs::eArchiveType        archiveType = defs::eArchiveType::raw) const;
     /*!
      * \brief Send a header plus message buffer to a client synchronously.
      * \param[in] client - Client connection details.
-     * \param[in] message - Message buffer.
      * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] message - Message buffer.
      * \param[in] responseAddress - (Optional) The address and port where the client should send a
      * response, the default value will mean the response address will point to this server socket.
+     * \param[in] archiveType - Archive type used to when creating the messageBuffer. Depends on how
+     * message buffer has been serialised.
      * \return Returns the success state of the send as a boolean.
      *
      * This method only sends a simple core_lib::asio::HGL_MSG_HDR
@@ -218,15 +224,18 @@ public:
      */
     bool SendMessageToClientSync(
         const defs::connection_t& client,
-		defs::char_buf_cspan_t message,
 		int32_t messageId,
-        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
+		defs::char_buf_cspan_t message,
+        const defs::connection_t& responseAddress = defs::NULL_CONNECTION,
+        defs::eArchiveType        archiveType = defs::eArchiveType::raw) const;
     /*!
      * \brief Send a header plus message buffer to all clients asynchronously.
-     * \param[in] message - Message buffer.
      * \param[in] messageId - Unique message ID to insert into message header.
+     * \param[in] message - Message buffer.
      * \param[in] responseAddress - (Optional) The address and port where a client should send a
      * response, the default value will mean the response address will point to this server socket.
+     * \param[in] archiveType - Archive type used to when creating the messageBuffer. Depends on how
+     * message buffer has been serialised.
      * \return Returns true if posted async message, retruns false if failed to post message.
      *
      * This function is asynchronous so will return immediately, with no
@@ -236,9 +245,10 @@ public:
      * the clients.
      */
     bool SendMessageToAllClients(
+        int32_t messageId,
         defs::char_buf_cspan_t message,
-		int32_t messageId,
-        const defs::connection_t& responseAddress = defs::NULL_CONNECTION) const;
+        const defs::connection_t& responseAddress = defs::NULL_CONNECTION,
+        defs::eArchiveType        archiveType = defs::eArchiveType::raw) const;
     /*!
      * \brief Send a full message to a client asynchronously.
      * \param[in] message - The message of type T to send behind the header serialized to an

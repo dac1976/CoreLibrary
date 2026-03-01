@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -159,6 +159,7 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb">raw</a>
 , <a class="el" href="#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2">protobuf</a>
+, <a class="el" href="#aba754c4a2ad0693ec77dfdd50e767313aa2ecbb6182df15776b2e88f73a11498c">flatBuffer</a>
 <br />
  }</td></tr>
 <tr class="memdesc:aba754c4a2ad0693ec77dfdd50e767313"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message serialization archive type enumeration. See <a class="el" href="_serialize_to_vector_8h.html" title="File containing utilities to serialize objects to byte vectors.">SerializeToVector.h</a>.  <a href="#aba754c4a2ad0693ec77dfdd50e767313">More...</a><br /></td></tr>
@@ -199,7 +200,7 @@ const <a class="el" href="#a1a3dfea165dab6a0237e2c40a28fa8c1">connection_t</a>&#
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line"> </div>
 <div class="line">std::function&lt;size_t(<a class="code hl_typedef" href="#ad5caed4ac973df35c72a2ad1e1e3bf39">char_buf_cspan_t</a>, std::string_view, uint16_t)&gt;</div>
-<div class="ttc" id="anamespacecore__lib_1_1asio_1_1defs_html_ad5caed4ac973df35c72a2ad1e1e3bf39"><div class="ttname"><a href="#ad5caed4ac973df35c72a2ad1e1e3bf39">core_lib::asio::defs::char_buf_cspan_t</a></div><div class="ttdeci">std::span&lt; const char &gt; char_buf_cspan_t</div><div class="ttdoc">Typedef to char buffer span - const.</div><div class="ttdef"><b>Definition</b> AsioDefines.h:495</div></div>
+<div class="ttc" id="anamespacecore__lib_1_1asio_1_1defs_html_ad5caed4ac973df35c72a2ad1e1e3bf39"><div class="ttname"><a href="#ad5caed4ac973df35c72a2ad1e1e3bf39">core_lib::asio::defs::char_buf_cspan_t</a></div><div class="ttdeci">std::span&lt; const char &gt; char_buf_cspan_t</div><div class="ttdoc">Typedef to char buffer span - const.</div><div class="ttdef"><b>Definition</b> AsioDefines.h:497</div></div>
 </div><!-- fragment -->
 <p>Typedef to bytes left to reading checking utility function object. If there is a problem with the message size this should return std::numeric_limits&lt;size_t&gt;::max(). </p>
 
@@ -257,6 +258,8 @@ const <a class="el" href="#a1a3dfea165dab6a0237e2c40a28fa8c1">connection_t</a>&#
 <tr><td class="fieldname"><a id="aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb" name="aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb"></a>raw&#160;</td><td class="fielddoc"><p>Raw data, only for POD objects. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2" name="aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2"></a>protobuf&#160;</td><td class="fielddoc"><p>Google protocol buffer. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aba754c4a2ad0693ec77dfdd50e767313aa2ecbb6182df15776b2e88f73a11498c" name="aba754c4a2ad0693ec77dfdd50e767313aa2ecbb6182df15776b2e88f73a11498c"></a>flatBuffer&#160;</td><td class="fielddoc"><p>Google flat buffers. </p>
 </td></tr>
 </table>
 

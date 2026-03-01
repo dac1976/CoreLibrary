@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.1</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -138,10 +138,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8b8dc0c5076d100ffa438e33cca36341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to the server asynchronously.  <br /></td></tr>
 <tr class="memitem:a7899c64cdf4b97909a9fd5887995edde" id="r_a7899c64cdf4b97909a9fd5887995edde"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a7899c64cdf4b97909a9fd5887995edde">SendMessageToServerSync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;server, int32_t messageId, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
 <tr class="memdesc:a7899c64cdf4b97909a9fd5887995edde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header-only message to the server synchronously.  <br /></td></tr>
-<tr class="memitem:a83a1062488f2ba85efecf190bef02e1f" id="r_a83a1062488f2ba85efecf190bef02e1f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a83a1062488f2ba85efecf190bef02e1f">SendMessageToServerAsync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;server, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message, int32_t messageId, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
-<tr class="memdesc:a83a1062488f2ba85efecf190bef02e1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header plus message buffer to the server asynchronously.  <br /></td></tr>
-<tr class="memitem:a8a765c4624ec558729647b434628961a" id="r_a8a765c4624ec558729647b434628961a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a8a765c4624ec558729647b434628961a">SendMessageToServerSync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;server, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message, int32_t messageId, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
-<tr class="memdesc:a8a765c4624ec558729647b434628961a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header plus message buffer to the server synchronously.  <br /></td></tr>
+<tr class="memitem:a27d39ea93b682b2e839f60ab02010df5" id="r_a27d39ea93b682b2e839f60ab02010df5"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a27d39ea93b682b2e839f60ab02010df5">SendMessageToServerAsync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;server, int32_t messageId, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb">defs::eArchiveType::raw</a>)</td></tr>
+<tr class="memdesc:a27d39ea93b682b2e839f60ab02010df5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header plus message buffer to the server asynchronously.  <br /></td></tr>
+<tr class="memitem:a0676f45c22e2c9dfb02395af10ed91d4" id="r_a0676f45c22e2c9dfb02395af10ed91d4"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0676f45c22e2c9dfb02395af10ed91d4">SendMessageToServerSync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;server, int32_t messageId, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a> archiveType=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb">defs::eArchiveType::raw</a>)</td></tr>
+<tr class="memdesc:a0676f45c22e2c9dfb02395af10ed91d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a header plus message buffer to the server synchronously.  <br /></td></tr>
 <tr class="memitem:a75a4dbb1f2f89b082f8e2d9208ab1022" id="r_a75a4dbb1f2f89b082f8e2d9208ab1022"><td class="memTemplParams" colspan="2">template&lt;typename T, typename A = serialize::archives::out_port_bin_t&gt; </td></tr>
 <tr class="memitem:a75a4dbb1f2f89b082f8e2d9208ab1022 template"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a75a4dbb1f2f89b082f8e2d9208ab1022">SendMessageToServerAsync</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;server, T const &amp;message, int32_t messageId, <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;responseAddress=<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a>)</td></tr>
 <tr class="memdesc:a75a4dbb1f2f89b082f8e2d9208ab1022"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a full message to the server asynchronously.  <br /></td></tr>
@@ -573,8 +573,8 @@ client_map_t&#160;</td><td class="memItemRight"><b>m_clientMap</b> {}</td></tr>
 
 </div>
 </div>
-<a id="a83a1062488f2ba85efecf190bef02e1f" name="a83a1062488f2ba85efecf190bef02e1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83a1062488f2ba85efecf190bef02e1f">&#9670;&#160;</a></span>SendMessageToServerAsync() <span class="overload">[2/4]</span></h2>
+<a id="a27d39ea93b682b2e839f60ab02010df5" name="a27d39ea93b682b2e839f60ab02010df5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27d39ea93b682b2e839f60ab02010df5">&#9670;&#160;</a></span>SendMessageToServerAsync() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -587,17 +587,22 @@ client_map_t&#160;</td><td class="memItemRight"><b>m_clientMap</b> {}</td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">int32_t</td>          <td class="paramname"><span class="paramname"><em>messageId</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>responseAddress</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>responseAddress</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a></td>          <td class="paramname"><span class="paramname"><em>archiveType</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb">defs::eArchiveType::raw</a></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -606,12 +611,14 @@ client_map_t&#160;</td><td class="memItemRight"><b>m_clientMap</b> {}</td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">server</td><td>- Connection object describing server's address and port. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">messageId</td><td>- Unique message ID to insert into message header. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message buffer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the server should send theresponse, the default value will mean the response address will point to this client socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">archiveType</td><td>- Archive type used to when creating the messageBuffer. Depends on how message buffer has been serialised. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if posted async message, retruns false if failed to post message.</dd></dl>
 <p>This function is asynchronous so will return immediately return false indicates failure true means the message has been passed in to the io service to be sent out later, but does not indicate that the message has been sent out successfully. This method gives best performance when sending. Furthermore this method only sends a simple core_lib::asio::HGL_MSG_HDR object to the server. </p>
 
 </div>
@@ -737,8 +744,8 @@ template&lt;typename T, typename A = serialize::archives::out_port_bin_t&gt; </d
 
 </div>
 </div>
-<a id="a8a765c4624ec558729647b434628961a" name="a8a765c4624ec558729647b434628961a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a765c4624ec558729647b434628961a">&#9670;&#160;</a></span>SendMessageToServerSync() <span class="overload">[2/4]</span></h2>
+<a id="a0676f45c22e2c9dfb02395af10ed91d4" name="a0676f45c22e2c9dfb02395af10ed91d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0676f45c22e2c9dfb02395af10ed91d4">&#9670;&#160;</a></span>SendMessageToServerSync() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -751,17 +758,22 @@ template&lt;typename T, typename A = serialize::archives::out_port_bin_t&gt; </d
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">int32_t</td>          <td class="paramname"><span class="paramname"><em>messageId</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>responseAddress</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a1a3dfea165dab6a0237e2c40a28fa8c1">defs::connection_t</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>responseAddress</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#af7512945de1835baa4dd56f3f268e922">defs::NULL_CONNECTION</a></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313">defs::eArchiveType</a></td>          <td class="paramname"><span class="paramname"><em>archiveType</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb">defs::eArchiveType::raw</a></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -770,9 +782,10 @@ template&lt;typename T, typename A = serialize::archives::out_port_bin_t&gt; </d
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">server</td><td>- Connection object describing server's address and port. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">messageId</td><td>- Unique message ID to insert into message header. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- Message buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">responseAddress</td><td>- (Optional) The address and port where the server should send the response, the default value will mean the response address will point to this client socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">archiveType</td><td>- Archive type used to when creating the messageBuffer. Depends on how message buffer has been serialised. </td></tr>
   </table>
   </dd>
 </dl>

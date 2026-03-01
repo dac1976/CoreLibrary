@@ -186,9 +186,10 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& serv
 }
 
 bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& server,
-                                          defs::char_buf_cspan_t message,
                                           int32_t messageId,
-                                          defs::connection_t const& responseAddress)
+                                          defs::char_buf_cspan_t message,
+                                          defs::connection_t const& responseAddress,
+                                          defs::eArchiveType        archiveType)
 {
     std::lock_guard<std::mutex> lock(m_mapMutex);
 
@@ -201,15 +202,16 @@ bool SimpleTcpClientList::SendMessageToServerAsync(defs::connection_t const& ser
 
     if (clientPtr)
     {
-        return clientPtr->SendMessageToServerAsync(message, messageId, responseAddress);
+        return clientPtr->SendMessageToServerAsync(messageId, message, responseAddress, archiveType);
     }
     return false;
 }
 
 bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& server,
-                                         defs::char_buf_cspan_t message,
                                          int32_t messageId,
-                                         defs::connection_t const& responseAddress)
+                                         defs::char_buf_cspan_t message,
+                                         defs::connection_t const& responseAddress,
+                                         defs::eArchiveType        archiveType)
 {
     std::lock_guard<std::mutex> lock(m_mapMutex);
 
@@ -223,7 +225,7 @@ bool SimpleTcpClientList::SendMessageToServerSync(defs::connection_t const& serv
 
     if (clientPtr)
     {
-        success = clientPtr->SendMessageToServerSync(message, messageId, responseAddress);
+        success = clientPtr->SendMessageToServerSync(messageId, message, responseAddress, archiveType);
     }
 
     return success;

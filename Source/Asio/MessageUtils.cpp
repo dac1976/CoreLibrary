@@ -231,6 +231,7 @@ constexpr const char ARCH_PORTBIN[]{"portableBinary"};
 constexpr const char ARCH_JSON[]{"json"};
 constexpr const char ARCH_XML[]{"xml"};
 constexpr const char ARCH_PROTOBUF[]{"protobuf"};
+constexpr const char ARCH_FLATBUFFER[]{"flatBuffer"};
 constexpr const char ARCH_RAW[]{"raw"};
 constexpr const char ARCH_NULL[]{""};
 
@@ -250,6 +251,8 @@ std::string_view ArchiveTypeToString(defs::eArchiveType archiveType)
         return ARCH_XML;
     case defs::eArchiveType::protobuf:
         return ARCH_PROTOBUF;
+    case defs::eArchiveType::flatBuffer:
+        return ARCH_FLATBUFFER;
     }
 
     return ARCH_NULL;
@@ -259,29 +262,33 @@ defs::eArchiveType StringToArchiveType(std::string_view archiveName)
 {
     defs::eArchiveType archiveType;
 
-    if (archiveName == "binary")
+    if (archiveName == ARCH_BIN)
     {
         archiveType = defs::eArchiveType::binary;
     }
-    else if (archiveName == "portableBinary")
+    else if (archiveName == ARCH_PORTBIN)
     {
         archiveType = defs::eArchiveType::portableBinary;
     }
-    else if (archiveName == "raw")
+    else if (archiveName == ARCH_RAW)
     {
         archiveType = defs::eArchiveType::raw;
     }
-    else if (archiveName == "json")
+    else if (archiveName == ARCH_JSON)
     {
         archiveType = defs::eArchiveType::json;
     }
-    else if (archiveName == "xml")
+    else if (archiveName == ARCH_XML)
     {
         archiveType = defs::eArchiveType::xml;
     }
-    else if (archiveName == "protobuf")
+    else if (archiveName == ARCH_PROTOBUF)
     {
         archiveType = defs::eArchiveType::protobuf;
+    }
+    else if (archiveName == ARCH_FLATBUFFER)
+    {
+        archiveType = defs::eArchiveType::flatBuffer;
     }
     else
     {

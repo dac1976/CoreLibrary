@@ -1,5 +1,6 @@
 var NAVTREEINDEX18 =
 {
+"namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7":[1,0,1,0,2,13],
 "namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7ab605ea609b9dfcf295cfd5a7803dcd37":[1,0,1,0,2,13,0],
 "namespacecore__lib_1_1asio_1_1udp.html#a9a7c6b341a0c58d700d5dff54c9a5af7aeebe0851cda7f85aeef4229567441a2d":[1,0,1,0,2,13,1],
 "namespacecore__lib_1_1asio_1_1udp.html#aa6c390d5802ea6b88e448abda9f63f3e":[1,0,1,0,2,12],
@@ -248,6 +249,5 @@ var NAVTREEINDEX18 =
 "static__object_8hpp.html#afde52a096f363ebe6869a9c0f9ef4cbb":[3,0,0,1,1,3,2],
 "static__object_8hpp_source.html":[3,0,0,1,1,3],
 "stdint_8h_source.html":[3,0,0,1,2,0,2,1],
-"stream_8h_source.html":[3,0,0,1,2,0,20],
-"strfunc_8h_source.html":[3,0,0,1,2,0,1,9]
+"stream_8h_source.html":[3,0,0,1,2,0,20]
 };

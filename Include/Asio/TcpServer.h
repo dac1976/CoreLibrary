@@ -182,7 +182,7 @@ public:
      * \param[in] message - Message buffer.
      *
      * This function is asynchronous so will return immediately, with no
-     * success or failure reported, unlessa an exception is thrown. This
+     * success or failure reported, unless a an exception is thrown. This
      * method gives best performance when sending.
      */
     void SendMessageToAllClients(defs::char_buf_cspan_t message) const;

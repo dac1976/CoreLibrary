@@ -1,5 +1,7 @@
 # CoreLibrary #
 ## News ##
+2026/03/01 - Added support for Google's flatbuffers. The ASIO network classes in CoreLibrary now support this method of (de)serialisation. Flatbuffer usage is a compile time option for CoreLibrary. This will become release v2.0.2. Also updated doxygen docs to match changes.
+
 2026/02/27 - The big library rework has been useful and, as a result, I've been able to make further improvements to the ASIO classes public interfaces so they now use `std::string_view` instead of `std::string const&` and `std::vector<char> const&` has been replaced by `std::span<const char>`. This allows more flexibility in what a user can pass in for arguments such as addresses and message buffers.
 
 2026/02/25 - Library rework is complete and unit test project and scripts have been updated. All 294 unit test cases are passing. This marks the version 2.0.0 release.
@@ -36,6 +38,10 @@ Included are the CMakeLists.txt and example build scripts for Linux (build_linux
 
 `-DCORELIB_SOCKET_DEBUG=OFF` -> (Default) No extra debug to log.
 
+`-DCORELIB_USE_FLATBUFFERS=ON` -> Enables Google flatbuffer support, requires external dependency.
+
+`-DCORELIB_USE_FLATBUFFERS=OFF` -> (Default) Disables Google flatbuffer support.
+
 The first time you configure CMake to build this library you must first define the following environment variables:
 
 `CORELIB_BOOST_ROOT` -> Path that is parent to the /boost include directory.
@@ -44,24 +50,25 @@ The first time you configure CMake to build this library you must first define t
 
 `CORELIB_BOOST_LIB_NAME_STUB` -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in release, e.g. `vc143-mt-x64-1_90`.
 
-`CORELIB_BOOST_LIB_NAME_STUB` -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in debug, e.g. `vc143-mt-gd-x64-1_90`.
+`CORELIB_BOOST_LIB_NAME_STUB_D` -> On Windows, using MSVC Build Tools, sets the name stub for Boost libraries built in debug, e.g. `vc143-mt-gd-x64-1_90`.
 
 Note that CMake will cache the environment variables so if you need to change them make sure you clear the CMake cache before rebuilding.
 
-As mentioned earlier, the library requires some third-party open source libraries for it to compile and function. These are as follows: 
+As mentioned earlier, the library requires some third-party open source libraries for it to compile and function. These are as follows:
 
-* Boost (tested with 1.55+ or greater - 1.90 recommended): http://www.boost.org/
-* (Included) Cereal (tested with 1.2.1+ or greater): http://uscilab.github.io/cereal/ - included with CoreLibrary in Include/cereal.
+* Boost (tested with 1.55+ and greater - 1.90 recommended): http://www.boost.org/
+* (Included) Cereal (tested with 1.2.1 and greater, 1.3.2 recommended): http://uscilab.github.io/cereal/ - included with CoreLibrary in Include/cereal.
 * (Included) Loki: http://loki-lib.sourceforge.net/ - included with CoreLibrary in Include/loki.
-* Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest/graphs/contributors
-* (Optional) Google Protocol Buffers (tested with 3.7.1 or greater): https://developers.google.com/protocol-buffers/ - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.
+* Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest
+* (Optional) Google Protocol Buffers (tested with 3.7.1 and greater): https://github.com/protocolbuffers/protobuf - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.
+* (Optional) Google flatbuffers Buffers (tested with 25.12.19): https://github.com/google/flatbuffers - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.
 
-NOTE: The unit test project's example build scripts require vcpkg setup with protobuf installed using 'vcpkg install protobuf'. The example bnuild scripts also show how you can manually link to specific Boost libraries. 
+NOTE: The unit test project's example build scripts require vcpkg setup with protobuf and flatbuffers installed using 'vcpkg install protobuf flatbuffers'. The example build scripts also show how you can manually link to specific Boost libraries.
 
 ## Notes ##
 This is largely a hobby project based on the knowledge I've gained in my many years of experience working in software development and academia since 1999. I started the development of this code in early 2014. This represents a collection of, hopefully, straightforward to use and useful classes for commonly occurring software development needs.
 
-All the code has been unit tested with good coverage and I've used this code in my own projects without issue. I  have used much of this code, or rtaher versions thereof, in commercial projects in my day job as a Principal Software Engineer, often with (soft) real-time requirements, on Linux, Windows, x86 and ARM. Feel free to use this in commercial projects as long as you adhere to the license.
+All the code has been unit tested with good coverage and I've used this code in my own projects without issue. I  have used much of this code, or rather versions thereof, in commercial projects in my day job as a Principal Software Engineer, often with (soft) real-time requirements, on Linux, Windows, x86 and ARM. Feel free to use this in commercial projects as long as you adhere to the license.
 
 I'll try to fix bugs and improve the code when necessary but make no guarantees on how often this happens. I'm usually pretty busy with my day job. I provide no warranty or support for any issues that are encountered while using it. Although if you are really stuck email me at the provided address and if I have the time I will try to help or fix the issue if it's within my power to do so
 
@@ -71,7 +78,7 @@ For usage examples I recommend looking at the unit test code in the /UnitTests/G
 
 The networking unit tests require network connectivity and expects 2 adapters setup, one on 160.50.0.1/255.255.0.0 and another on 160.51.0.1/255.255.0.0, edit tst_Asiotest.cpp if you want to use different IP addresses. These adapters can be "virtual" loop-back adapters or physical network adapters but to test multicast group and UDP broadcasts the user must configure their firewalls and security settings appropriately.
 
-**See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples.**
+**See the [wiki](https://github.com/dac1976/CoreLibrary/wiki/Home) for more detailed information and examples...(this is a work in progress)**
 
 Note, the Wiki is not currently up-to-date but the Doxygen genreated doc htmls are.
 

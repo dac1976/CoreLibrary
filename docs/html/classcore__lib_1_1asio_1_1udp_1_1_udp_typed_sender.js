@@ -11,8 +11,8 @@ var classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender =
     [ "ReceiverConnection", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a9bc50eee477db8421726148badf096ba", null ],
     [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#adaed4a54c17e7347c274671cdbf39bff", null ],
     [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#aa925bf796b3ef358e9987daefe0d4c3c", null ],
-    [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ab98d096d7ebae9e4c7983bd6bb294414", null ],
     [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a6a9ffc6b09ba25cbfda1413641666f9f", null ],
+    [ "SendMsg", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#ae843151ad087d6b95467f799a0c7f88d", null ],
     [ "m_messageBuilder", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#aed86a1d455d175ee7a23c1632c691547", null ],
     [ "m_sendMutex", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#a1c2585d8bb859da585ab4949358ca3c4", null ],
     [ "m_udpSender", "classcore__lib_1_1asio_1_1udp_1_1_udp_typed_sender.html#abba9e92cd6253ff51feed2ab238399b1", null ]

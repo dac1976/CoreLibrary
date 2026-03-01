@@ -62,11 +62,12 @@ bool SimpleUdpSender::SendMsg(int32_t messageId,
     return m_udpTypedSender.SendMsg(messageId, responseAddress);
 }
 
-bool SimpleUdpSender::SendMsg(defs::char_buf_cspan_t message,
-                         int32_t messageId,
-                         const defs::connection_t& responseAddress)
+bool SimpleUdpSender::SendMsg(int32_t messageId,
+                         defs::char_buf_cspan_t message,
+                         const defs::connection_t& responseAddress,
+                        defs::eArchiveType        archiveType)
 {
-    return m_udpTypedSender.SendMsg(message, messageId, responseAddress);
+    return m_udpTypedSender.SendMsg(messageId, message, responseAddress, archiveType);
 }
 
 bool SimpleUdpSender::SendMsg(defs::char_buf_cspan_t message)
