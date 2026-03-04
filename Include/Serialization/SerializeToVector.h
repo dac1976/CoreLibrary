@@ -413,7 +413,6 @@ char_vector_t ToCharVectorFlatBuf(const T& object, PackFunc packFunc)
     std::memcpy(out.data(), p, n);
     return out;
 }
-}
 
 /*!
 * \brief Function to serialize object via flatbuffers

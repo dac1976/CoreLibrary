@@ -4,15 +4,9 @@
 #include <cstdio>
 #include <algorithm>
 #include <iterator>
-#include <stdexcept>
-#include <cmath>
-#if __BORLANDC__
-#include <boost/math/special_functions/round.hpp>
-#endif
-#include <thread>
-#include <chrono>
+#include <limits>
+#include <bitset>
 #if BOOST_OS_LINUX
-#include <iterator>
 #include <system_error>      // For std::error_code.
 #include <cstring>           // For calls in GetIpAddressAndNetmask
 #include <unistd.h>          // For calls in GetIpAddressAndNetmask
@@ -24,10 +18,6 @@
 #include <arpa/inet.h>       // For calls in GetIpAddressAndNetmask
 #include <netdb.h>           // For calls in GetIpAddressAndNetmask
 #include <ifaddrs.h>         // For calls in GetIpAddressAndNetmask
-#include <fcntl.h>           // For calls in GetMacAddressForAdapter
-#include <net/if_arp.h>      // For calls in GetMacAddressForAdapter
-#include <boost/process.hpp> // For boost::process::system.
-#include <boost/algorithm/string/case_conv.hpp>
 #else
 #include <winsock2.h>  // For calls in GetIpAddressAndNetmask
 #include <iphlpapi.h>  // For calls in GetIpAddressAndNetmask
@@ -35,9 +25,7 @@
 #include <ws2tcpip.h>  // For calls in GetIpAddressAndNetmask
 #endif
 #include "StringUtils/StringUtils.h"
-#if BOOST_OS_LINUX
-namespace bp = boost::process;
-#else
+#if !BOOST_OS_LINUX
 // Windows needs the library: iphlpapi, linking to the build
 #define MY_MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
 #define MY_FREE(x) HeapFree(GetProcessHeap(), 0, (x))
@@ -46,11 +34,17 @@ namespace bp = boost::process;
 namespace core_lib
 {
 
+#if defined(IS_CPP17)
+ip_octets_t OctetsFromIpAddress(std::string_view ipAddress)
+#else
 ip_octets_t OctetsFromIpAddress(std::string const& ipAddress)
+#endif
 {
     int                octet1, octet2, octet3, octet4;
     char               dot;
-    std::istringstream iss(ipAddress); // input stream that now contains the ip address string
+    // input stream that now contains the ip address string
+    std::stringstream iss;
+    iss << ipAddress;
 
     iss >> octet1 >> dot >> octet2 >> dot >> octet3 >> dot >> octet4;
 
@@ -66,6 +60,26 @@ ip_octets_t OctetsFromIpAddress(std::string const& ipAddress)
             static_cast<unsigned char>(octet4)};
 }
 
+#if defined(IS_CPP17)
+uint32_t Uint32FromIpAddress(std::string_view ipAddress)
+#else
+uint32_t Uint32FromIpAddress(std::string const& ipAddress)
+#endif
+{
+    auto octets = OctetsFromIpAddress(ipAddress);
+
+    if (octets.size() != 4)
+    {
+        return 0;
+    }
+
+    uint32_t ipAsUint32 =
+        (static_cast<uint32_t>(octets[0]) << 24) + (static_cast<uint32_t>(octets[1]) << 16) +
+        (static_cast<uint32_t>(octets[2]) << 8) + static_cast<uint32_t>(octets[3]);
+
+    return ipAsUint32;
+}
+
 std::string IpAddressFromOctets(ip_octets_t const& octets)
 {
     if (octets.size() != 4)
@@ -74,129 +88,185 @@ std::string IpAddressFromOctets(ip_octets_t const& octets)
     }
 
     std::ostringstream oss;
-    oss << static_cast<int>(octets[0]) << "." << static_cast<int>(octets[1]) << "."
-        << static_cast<int>(octets[2]) << "." << static_cast<int>(octets[3]);
+    oss << static_cast<int32_t>(octets[0]) << "." << static_cast<int32_t>(octets[1]) << "."
+        << static_cast<int32_t>(octets[2]) << "." << static_cast<int32_t>(octets[3]);
     return oss.str();
 }
 
+std::string IpAddressFromUint32(uint32_t ipValue)
+{
+    ip_octets_t octets{static_cast<uint8_t>((ipValue & 0xFF000000) >> 24),
+                       static_cast<uint8_t>((ipValue & 0x00FF0000) >> 16),
+                       static_cast<uint8_t>((ipValue & 0x0000FF00) >> 8),
+                       static_cast<uint8_t>(ipValue & 0x000000FF)};
+
+    return IpAddressFromOctets(octets);
+}
+
+#if defined(IS_CPP17)
+bool IsValidIpAddress(std::string_view address)
+#else
 bool IsValidIpAddress(std::string const& address)
+#endif
 {
-    auto octets = OctetsFromIpAddress(address);
+    auto ip = Uint32FromIpAddress(address);
 
-    // 1.0.0.0 to 255.255.255.254 but excluding multicast range.
-    return !(octets.empty() || (octets[0] < 1) || (octets[3] > 254) ||
-             ((octets[0] >= 224) && (octets[0] <= 239)));
+    // This exploits the fact that all valid multicast addresses start
+    // with 0xE-------, e.g. 224.0.0.0 to 239.255.255.255.
+    return (0xE0000000 != (0xF0000000 & ip)) && (0 != ip) &&
+           (std::numeric_limits<uint32_t>::max() != ip);
 }
 
-bool IsValidBroadcastAddress(std::string const& address)
+#if defined(IS_CPP17)
+bool IsValidSubnetMask(std::string_view subnetMask)
+#else
+bool IsValidSubnetMask(std::string const& subnetMask)
+#endif
 {
-    auto octets = OctetsFromIpAddress(address);
+    auto mask = Uint32FromIpAddress(subnetMask);
 
-    // 1.0.0.0 to 255.255.255.255 but excluding multicast range.
-    return !(octets.empty() || (octets[0] < 1) || ((octets[0] >= 224) && (octets[0] <= 239)));
-}
-
-bool IsValidMulticastGroupAddress(std::string const& address)
-{
-    auto octets = OctetsFromIpAddress(address);
-
-    // 224.0.0.0 to 239.255.255.255.
-    return !(octets.empty() || (octets[0] < 224) || (octets[0] > 239));
-}
-
-std::string BuildBroadcastAddress(std::string const& address, std::string const& subnetMask)
-{
-    std::string broadcastAddress;
-    uint32_t    ipOctets[4];
-    uint32_t    subnetOctets[4];
-
-    if ((std::sscanf(address.c_str(),
-                     "%u.%u.%u.%u",
-                     &ipOctets[0],
-                     &ipOctets[1],
-                     &ipOctets[2],
-                     &ipOctets[3]) == 4) &&
-        (std::sscanf(subnetMask.c_str(),
-                     "%u.%u.%u.%u",
-                     &subnetOctets[0],
-                     &subnetOctets[1],
-                     &subnetOctets[2],
-                     &subnetOctets[3]) == 4))
+    // If we are 0.0.0.0 or 255.255.255.255
+    // then these are valid subnet masks.
+    if ((0 == mask) || (std::numeric_limits<uint32_t>::max() == mask))
     {
-        if (std::any_of(
-                std::begin(ipOctets), std::end(ipOctets), [](uint32_t o) { return o > 255; }))
-        {
-            throw std::runtime_error("IP address octets must be between 0 and 255.");
-        }
-
-        if (std::any_of(std::begin(subnetOctets), std::end(subnetOctets), [](uint32_t o) {
-                return o > 255;
-            }))
-        {
-            throw std::runtime_error("Subnet mask octets must be between 0 and 255.");
-        }
-
-        // check subnet is contigious...
-        if (subnetOctets[0] == 0)
-        {
-            if ((subnetOctets[1] != 0) || (subnetOctets[2] != 0) || (subnetOctets[3] != 0))
-            {
-                throw std::runtime_error("Subnet must be contiguous.");
-            }
-        }
-        else
-        {
-            if (subnetOctets[1] == 0)
-            {
-                if ((subnetOctets[2] != 0) || (subnetOctets[3] != 0))
-                {
-                    throw std::runtime_error("Subnet must be contiguous.");
-                }
-            }
-            else
-            {
-                if (subnetOctets[2] == 0)
-                {
-                    if (subnetOctets[3] != 0)
-                    {
-                        throw std::runtime_error("Subnet must be contiguous.");
-                    }
-                }
-            }
-        }
-
-        // build net address...
-        auto octet = static_cast<uint8_t>(ipOctets[0]);
-        auto temp  = static_cast<uint8_t>(subnetOctets[0]);
-        octet |= ~temp;
-        broadcastAddress = std::to_string(octet);
-
-        broadcastAddress += ".";
-        octet = static_cast<uint8_t>(ipOctets[1]);
-        temp  = static_cast<uint8_t>(subnetOctets[1]);
-        octet |= ~temp;
-        broadcastAddress += std::to_string(octet);
-
-        broadcastAddress += ".";
-        octet = static_cast<uint8_t>(ipOctets[2]);
-        temp  = static_cast<uint8_t>(subnetOctets[2]);
-        octet |= ~temp;
-        broadcastAddress += std::to_string(octet);
-
-        broadcastAddress += ".";
-        octet = static_cast<uint8_t>(ipOctets[3]);
-        temp  = static_cast<uint8_t>(subnetOctets[3]);
-        octet |= ~temp;
-        broadcastAddress += std::to_string(octet);
+        return true;
     }
 
-    return broadcastAddress;
+    auto maskBits    = std::bitset<32>(mask);
+    auto numOnes     = static_cast<int32_t>(maskBits.count());
+    auto compNetmask = CidrPrefixToSubnetMask(numOnes);
+
+    if (compNetmask.empty())
+    {
+        return false;
+    }
+
+    return (compNetmask == subnetMask) && (0x80000000 == (0x80000000 & mask));
 }
 
+#if defined(IS_CPP17)
+bool IsValidBroadcastAddress(std::string_view address)
+#else
+bool IsValidBroadcastAddress(std::string const& address)
+#endif
+{
+    auto ip = Uint32FromIpAddress(address);
+
+    // If we are anything in the range 1.0.0.0 to 255.255.255.255
+    // and not in the multicast range 224.0.0.0 to 239.255.255.255
+    // then we are a valid broadcast address.
+    return (0xE0000000 != (0xF0000000 & ip)) && (0 != ip);
+}
+
+#if defined(IS_CPP17)
+bool IsValidMulticastGroupAddress(std::string_view address)
+#else
+bool IsValidMulticastGroupAddress(std::string const& address)
+#endif
+{
+    auto ip = Uint32FromIpAddress(address);
+
+    // This exploits the fact that all valid multicast addresses start
+    // with 0xE-------, e.g. 224.0.0.0 to 239.255.255.255.
+    return 0xE0000000 == (0xF0000000 & ip);
+}
+
+std::string CidrPrefixToSubnetMask(int32_t prefix)
+{
+    if ((prefix < 0) || (prefix > 32))
+    {
+        return "";
+    }
+
+    uint32_t subnetBits = 0;
+
+    if (prefix > 0)
+    {
+        for (int32_t n = 0; n < prefix; ++n)
+        {
+            subnetBits += (1 << n);
+        }
+
+        subnetBits = (subnetBits << (32 - prefix));
+    }
+
+    return IpAddressFromUint32(subnetBits);
+}
+
+#if defined(IS_CPP17)
+int32_t SubnetMaskToCidrPrefix(std::string_view subnetMask)
+#else
+int32_t SubnetMaskToCidrPrefix(std::string const& subnetMask)
+#endif
+{
+    if (!IsValidSubnetMask(subnetMask))
+    {
+        return -1;
+    }
+
+    auto mask     = Uint32FromIpAddress(subnetMask);
+    auto maskBits = std::bitset<32>(mask);
+
+    return static_cast<int32_t>(maskBits.count());
+}
+
+#if defined(IS_CPP17)
+std::string MakeCidrAddress(std::string_view address, std::string_view subnetMask)
+#else
+std::string MakeCidrAddress(std::string const& address, std::string const& subnetMask)
+#endif
+{
+    if (!IsValidIpAddress(address))
+    {
+        throw std::invalid_argument("invalid ip address");
+    }
+
+    if (!IsValidSubnetMask(subnetMask))
+    {
+        throw std::invalid_argument("invalid subnetMask");
+    }
+
+    auto prefix = SubnetMaskToCidrPrefix(subnetMask);
+
+    std::ostringstream ossCidrAddress;
+    ossCidrAddress << address << "/" << prefix;
+
+    return ossCidrAddress.str();
+}
+
+#if defined(IS_CPP17)
+std::string BuildBroadcastAddress(std::string_view address, std::string_view subnetMask)
+#else
+std::string BuildBroadcastAddress(std::string const& address, std::string const& subnetMask)
+#endif
+{
+    if (!IsValidIpAddress(address))
+    {
+        throw std::invalid_argument("invalid ip address");
+    }
+
+    if (!IsValidSubnetMask(subnetMask))
+    {
+        throw std::invalid_argument("invalid subnetMask");
+    }
+
+    auto ip         = Uint32FromIpAddress(address);
+    auto mask       = Uint32FromIpAddress(subnetMask);
+    auto bcastAsU32 = (ip | ~mask);
+
+    return IpAddressFromUint32(bcastAsU32);
+}
+
+#if defined(IS_CPP17)
+bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string_view ipAddress, std::string_view netmask,
+                                              std::string_view adapterAddress,
+                                              std::string_view adapterNetmask)
+#else
 bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
-									  std::string const& netmask,
-									  std::string const& adapterAddress,
-									  std::string const& adapterNetmask)
+                                              std::string const& netmask,
+                                              std::string const& adapterAddress,
+                                              std::string const& adapterNetmask)
+#endif
 {
     if (adapterNetmask.empty())
     {
@@ -207,8 +277,8 @@ bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
         try
         {
             auto tempNetMask       = netmask.empty() ? adapterNetmask : netmask;
-            auto broadcastAddress1 = BuildBroadcastAddress(ipAddress, tempNetMask);
-            auto broadcastAddress2 = BuildBroadcastAddress(adapterAddress, adapterNetmask);
+            auto broadcastAddress1 = core_lib::BuildBroadcastAddress(ipAddress, tempNetMask);
+            auto broadcastAddress2 = core_lib::BuildBroadcastAddress(adapterAddress, adapterNetmask);
 
             return broadcastAddress1 == broadcastAddress2;
         }
@@ -217,38 +287,6 @@ bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
             return false;
         }
     }
-}
-
-std::string ConvertToCIDRAddress(std::string const& ipAddress, std::string const& netmask)
-{
-    if (!IsValidIpAddress(ipAddress))
-    {
-        throw std::invalid_argument("invalid IP address");
-    }
-
-    auto octets = OctetsFromIpAddress(netmask);
-
-    if (octets.empty())
-    {
-        throw std::invalid_argument("invalid netmask");
-    }
-
-    auto netmaskValue = (static_cast<uint32_t>(octets[0]) << 24) +
-                        (static_cast<uint32_t>(octets[1]) << 16) +
-                        (static_cast<uint32_t>(octets[2]) << 8) + static_cast<uint32_t>(octets[3]);
-
-    netmaskValue ^= 0xFFFFFFFF;
-#if __BORLANDC__
-    auto expo =
-        static_cast<int>(boost::math::round(std::log2(static_cast<double>(netmaskValue))) + 0.5);
-#else
-    auto expo = static_cast<int>(std::round(std::log2(static_cast<double>(netmaskValue))) + 0.5);
-#endif
-
-    std::ostringstream ssCidrAddr;
-    ssCidrAddr << ipAddress << "/" << 32 - expo;
-
-    return ssCidrAddr.str();
 }
 
 std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName)

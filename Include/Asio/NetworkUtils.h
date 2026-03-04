@@ -29,47 +29,124 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include <utility>
-#include <boost/predef.h>
+#include "Platform/PlatformDefines.h"
+#if defined(IS_CPP17)
+#include <string_view>
+#endif
 #include "CoreLibraryDllGlobal.h"
 
 namespace core_lib
 {
 
-using ip_octets_t = std::vector<unsigned char>;
+using ip_octets_t = std::vector<uint8_t>;
 
 // Give an IP address, e.g. 192.168.1.1, get a vector of the octets,
 // e.g. {192, 168, 1, 1}.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API ip_octets_t OctetsFromIpAddress(std::string_view ipAddress);
+#else
 CORE_LIBRARY_DLL_SHARED_API ip_octets_t OctetsFromIpAddress(std::string const& ipAddress);
+#endif
+
+// Give an IP address, e.g. 192.168.1.1, get a uint32_t
+// representation of the address, u32 from the addresses octets o[4]
+// as follows:
+// u32 = (o[0] << 24) + (o[1] << 16) + (o[2] << 9) + o[3]
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API uint32_t Uint32FromIpAddress(std::string_view ipAddress);
+#else
+CORE_LIBRARY_DLL_SHARED_API uint32_t Uint32FromIpAddress(std::string const& ipAddress);
+#endif
 
 // Give a vector of octets, e.g. {192, 168, 1, 1}, get an IP address,
 // e.g. 192.168.1.1.
 CORE_LIBRARY_DLL_SHARED_API std::string IpAddressFromOctets(ip_octets_t const& octets);
 
+// Given a uint32_t representing an IP address convert it
+// to the corresponding octets then convert to a string.
+CORE_LIBRARY_DLL_SHARED_API std::string IpAddressFromUint32(uint32_t ipValue);
+
 // Check if an IP address is valid. Disallows multicast addresses.
+// 1.0.0.0 to 255.255.255.254 but excluding multicast
+// range, 224.0.0.0 to 239.255.255.255, an 0.0.0.0 and
+// 255.255.255.255.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API bool IsValidIpAddress(std::string_view address);
+#else
 CORE_LIBRARY_DLL_SHARED_API bool IsValidIpAddress(std::string const& address);
+#endif
+
+// Check to see if the address is a valid subnet mask.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API bool IsValidSubnetMask(std::string_view subnetMask);
+#else
+bCORE_LIBRARY_DLL_SHARED_API ool IsValidSubnetMask(std::string const& subnetMask);
+#endif
 
 // Check if a broadcast address is valid. Disallows multicast addresses.
 // Can also be used to check if a subnet mask is valid.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API bool IsValidBroadcastAddress(std::string_view address);
+#else
 CORE_LIBRARY_DLL_SHARED_API bool IsValidBroadcastAddress(std::string const& address);
+#endif
 
-// Check if address is valid muticast group address.
+// Check if address is valid multicast group address.
 // 224.0.0.0 to 239.255.255.255.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API bool IsValidMulticastGroupAddress(std::string_view address);
+#else
 CORE_LIBRARY_DLL_SHARED_API bool IsValidMulticastGroupAddress(std::string const& address);
+#endif
 
-// Given an IP address and subnet mask create the appropriat ebroadcast address, e.g. 160.50.100.76
+// Convert a CIDR prefix value e.g. 16, 24 etc.
+// to the subnet mask, e.g. 255.255.0.0, 255.255.255.0 etc.
+//
+// Returns empty string is there is no valid conversion.
+CORE_LIBRARY_DLL_SHARED_API std::string CidrPrefixToSubnetMask(int32_t prefix);
+
+// Convert a subnet mask, e.g. 255.255.0.0 to
+// a CIDR prefix e.g. 16.
+//
+// Returns -1 if there is no valid conversion.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API int32_t SubnetMaskToCidrPrefix(std::string_view subnetMask);
+#else
+CORE_LIBRARY_DLL_SHARED_API int32_t SubnetMaskToCidrPrefix(std::string const& subnetMask);
+#endif
+
+// Create a CIDR address from an IP and subnet mask.
+// e.g. 192.168.10.1/255.255.0.0 becomes
+// 192.168.10.1/16
+//
+// Throws std::invalid_argument upon error.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API std::string MakeCidrAddress(std::string_view address, std::string_view subnetMask);
+#else
+CORE_LIBRARY_DLL_SHARED_API std::string MakeCidrAddress(std::string const& address, std::string const& subnetMask);
+#endif
+
+// Given an IP address and subnet mask create the appropriate broadcast address, e.g. 160.50.100.76
 // and 255.255.0.0 becomes 160.50.255.255.
+//
+// Throws if an error occurs, std::invalid_argument
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API std::string BuildBroadcastAddress(std::string_view address, std::string_view subnetMask);
+#else
 CORE_LIBRARY_DLL_SHARED_API std::string BuildBroadcastAddress(std::string const& address, std::string const& subnetMask);
+#endif
 
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string_view ipAddress, std::string_view netmask,
+                                              std::string_view adapterAddress,
+                                              std::string_view adapterNetmask);
+#else
 CORE_LIBRARY_DLL_SHARED_API bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
                                               std::string const& netmask,
                                               std::string const& adapterAddress,
                                               std::string const& adapterNetmask);
+#endif
 
-CORE_LIBRARY_DLL_SHARED_API std::string ConvertToCIDRAddress(std::string const& ipAddress, std::string const& netmask);
-
-// This functions require root access in Linux and Administartor access in Windows.
-CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName);
 
 } // namespace core_lib
 
