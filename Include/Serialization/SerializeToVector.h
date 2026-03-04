@@ -441,15 +441,7 @@ char_vector_t ToCharVectorFlatBuf(const T& object, PackFunc packFunc)
 *
 * auto buf = ToCharVectorFlatBuf(builder);
 */
-char_vector_t ToCharVectorFlatBuf(flatbuffers::FlatBufferBuilder builder)
-{
-    const auto* p = builder.GetBufferPointer(); // const uint8_t*
-    const auto  n = builder.GetSize();          // size_t
-
-    char_vector_t out(n);
-    std::memcpy(out.data(), p, n);
-    return out;
-}
+CORE_LIBRARY_DLL_SHARED_API char_vector_t ToCharVectorFlatBuf(flatbuffers::FlatBufferBuilder builder);
 
 /*!
 * \brief Function to serialize object via flatbuffers
@@ -513,15 +505,7 @@ void ToCharVectorFlatBuf(const T& object, char_vector_t& out, PackFunc packFunc)
 * std::vector<char> out;
 * ToCharVectorFlatBuf(builder, out);
 */
-void ToCharVectorFlatBuf(flatbuffers::FlatBufferBuilder builder, char_vector_t& out)
-{
-    const auto* p = builder.GetBufferPointer(); // const uint8_t*
-    const auto  n = builder.GetSize();          // size_t
-
-    out.resize(n);
-    std::memcpy(out.data(), p, n);
-}
-
+CORE_LIBRARY_DLL_SHARED_API void ToCharVectorFlatBuf(flatbuffers::FlatBufferBuilder builder, char_vector_t& out);
 
 /*!
 * \brief Deserialize a char vector into a corresponding object.

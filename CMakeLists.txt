@@ -7,23 +7,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Standard CMake toggle:
-#   -DBUILD_SHARED_LIBS=ON  -> SHARED
-#   -DBUILD_SHARED_LIBS=OFF -> STATIC
+# -DBUILD_SHARED_LIBS=ON  -> SHARED
+# -DBUILD_SHARED_LIBS=OFF -> STATIC
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 # Custom CMake toggle:
-#   -DCORELIB_USE_STD_FILESYSTEM=ON  -> (Default) use <filesystem>
-#   -DCORELIB_USE_STD_FILESYSTEM=OFF -> use <boost/filesystem.hpp>
+# -DCORELIB_USE_STD_FILESYSTEM=ON  -> (Default) use <filesystem>
+# -DCORELIB_USE_STD_FILESYSTEM=OFF -> use <boost/filesystem.hpp>
 option(CORELIB_USE_STD_FILESYSTEM "Use <filesystem> instead of <boost/filesystem.hpp>" ON)
 
 # Custom CMake toggle:
-#   -DCORELIB_USE_FLATBUFFERS=ON  -> support Google flatbuffers
-#   -DCORELIB_USE_FLATBUFFERS=OFF -> do not support Google flatbuffers
+# -DCORELIB_USE_FLATBUFFERS=ON  -> support Google flatbuffers
+# -DCORELIB_USE_FLATBUFFERS=OFF -> do not support Google flatbuffers
 option(CORELIB_USE_FLATBUFFERS "Support Google flatbuffers." OFF)
 
 # Custom CMake toggle:
-#   -DCORELIB_SOCKET_DEBUG=ON  -> Extra debug to log.
-#   -DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log/
+# -DCORELIB_SOCKET_DEBUG=ON  -> Extra debug to log.
+# -DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log/
 option(CORELIB_SOCKET_DEBUG "Use extra debug output from Asio classes" OFF)
 
 # Local env vars for this CMakelists file, must be set before calling CMake configure
@@ -31,12 +31,15 @@ option(CORELIB_SOCKET_DEBUG "Use extra debug output from Asio classes" OFF)
 #
 # Path that is parent to the /boost include directory.
 set(CORELIB_BOOST_ROOT $ENV{CORELIB_BOOST_ROOT} CACHE PATH "Boost root")
+
 # Path to the correct Boost lib folder for your compiler and platform.
 set(CORELIB_BOOST_LIB $ENV{CORELIB_BOOST_LIB} CACHE PATH "Boost libs")
+
 # Name modifier for boost libs.
-set (CORELIB_BOOST_LIB_NAME_STUB $ENV{CORELIB_BOOST_LIB_NAME_STUB} CACHE PATH "Boost lib name stub")
+set(CORELIB_BOOST_LIB_NAME_STUB $ENV{CORELIB_BOOST_LIB_NAME_STUB} CACHE PATH "Boost lib name stub")
+
 # Name modifier for boost libs in debug mode.
-set (CORELIB_BOOST_LIB_NAME_STUB_D $ENV{CORELIB_BOOST_LIB_NAME_STUB_D} CACHE PATH "Boost lib name stub (debug)")
+set(CORELIB_BOOST_LIB_NAME_STUB_D $ENV{CORELIB_BOOST_LIB_NAME_STUB_D} CACHE PATH "Boost lib name stub (debug)")
 
 # Check required paths are configured and exist on disk.
 foreach(v CORELIB_BOOST_ROOT CORELIB_BOOST_LIB)
@@ -75,6 +78,7 @@ add_library(CoreLibrary
   Source/DebugLog/DebugLogSingleton.cpp
   Source/CsvGrid/CsvGridCell.cpp
   Source/CsvGrid/CsvGridCellDouble.cpp
+  Source/Serialization/SerializeToVector.cpp
   Source/Asio/AsioDefines.cpp
   Source/Asio/IoContextThreadGroup.cpp
   Source/Asio/MessageUtils.cpp
@@ -143,14 +147,15 @@ target_include_directories(CoreLibrary PUBLIC
 )
 
 # --- Generator-expression helpers ---
-set(_CORELIB_WIN   "$<PLATFORM_ID:Windows>")
+set(_CORELIB_WIN "$<PLATFORM_ID:Windows>")
 set(_CORELIB_LINUX "$<PLATFORM_ID:Linux>")
-set(_CORELIB_DBG   "$<CONFIG:Debug>")
-set(_CORELIB_REL   "$<IN_LIST:$<CONFIG>,Release;RelWithDebInfo;MinSizeRel>")
+set(_CORELIB_DBG "$<CONFIG:Debug>")
+set(_CORELIB_REL "$<IN_LIST:$<CONFIG>,Release;RelWithDebInfo;MinSizeRel>")
 set(_CORELIB_NEED_BOOST_FS "$<NOT:$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>>")
 set(_CORELIB_NEED_FLATBUFFERS "$<BOOL:${CORELIB_USE_FLATBUFFERS}>")
 
 target_link_libraries(CoreLibrary PUBLIC
+
   # Linux
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_system.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_thread.a>
@@ -162,6 +167,7 @@ target_link_libraries(CoreLibrary PUBLIC
 
   # Windows
   $<$<PLATFORM_ID:Windows>:iphlpapi>
+
   # Windows Release-ish
   $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_thread-${CORELIB_BOOST_LIB_NAME_STUB}.lib>
   $<$<AND:${_CORELIB_WIN},${_CORELIB_REL}>:${CORELIB_BOOST_LIB}/libboost_locale-${CORELIB_BOOST_LIB_NAME_STUB}.lib>

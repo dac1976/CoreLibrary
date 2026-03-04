@@ -94,6 +94,7 @@ add_executable(
   ../../Source/DebugLog/DebugLogSingleton.cpp
   ../../Source/CsvGrid/CsvGridCell.cpp
   ../../Source/CsvGrid/CsvGridCellDouble.cpp
+  ../../Source/Serialization/SerializeToVector.cpp
   ../../Source/Asio/AsioDefines.cpp
   ../../Source/Asio/IoContextThreadGroup.cpp
   ../../Source/Asio/MessageUtils.cpp
