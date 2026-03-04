@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <utility>
 #include "Platform/PlatformDefines.h"
 #if defined(IS_CPP17)
 #include <string_view>
@@ -136,6 +137,8 @@ CORE_LIBRARY_DLL_SHARED_API std::string BuildBroadcastAddress(std::string_view a
 CORE_LIBRARY_DLL_SHARED_API std::string BuildBroadcastAddress(std::string const& address, std::string const& subnetMask);
 #endif
 
+// Check if 2 addresses (with their subnet masks) are on the same subnet. This is done by checking if the broadcast address
+// for the address and subnet mask is the same as the broadcast address for the adapter address and adapter subnet mask.
 #if defined(IS_CPP17)
 CORE_LIBRARY_DLL_SHARED_API bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string_view ipAddress, std::string_view netmask,
                                               std::string_view adapterAddress,
@@ -145,6 +148,14 @@ CORE_LIBRARY_DLL_SHARED_API bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::s
                                               std::string const& netmask,
                                               std::string const& adapterAddress,
                                               std::string const& adapterNetmask);
+#endif
+
+// Function to look up the IP address and subnet mask for a given adapter name. The adapter name is the friendly name
+// of the adapter, e.g. "Ethernet", "Wi-Fi" etc.
+#if defined(IS_CPP17)
+CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string_view adapterName);
+#else
+CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName);
 #endif
 
 

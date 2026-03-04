@@ -289,7 +289,11 @@ bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
     }
 }
 
-std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName)
+#if defined(IS_CPP17)
+std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string_view adapterName);
+#else
+std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName);
+#endif
 #if BOOST_OS_LINUX
 {
     // Create a temporary socket so we can grab our adapter details.
@@ -301,7 +305,7 @@ std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& ad
 
     // Set the adapter we want to find info for.
     memset(&ifr.ifr_name, 0, sizeof(ifr.ifr_name));
-    adapterName.copy(ifr.ifr_name, IFNAMSIZ - 1);
+    string_utils::SafeCopyCharArray(ifr.ifr_name, IFNAMSIZ, adapterName.data(), adapterName.size());
 
     // Use icotl to retrieve IP address.
     if (ioctl(fd, SIOCGIFADDR, &ifr) < 0)
