@@ -23,6 +23,7 @@
 #include "Asio/MulticastTypedSender.h"
 #include "Asio/SimpleMulticastReceiver.h"
 #include "Asio/SimpleMulticastSender.h"
+#include "Asio/NetworkUtils.h"
 #include <cereal/types/string.hpp>
 #include "gtest/gtest.h"
 #include "gtest_cout.h"
@@ -33,12 +34,19 @@ using namespace core_lib::asio::tcp;
 using namespace core_lib::asio::udp;
 using namespace core_lib::serialize;
 using namespace core_lib;
+using namespace core_lib::net_utils;
 using namespace core_lib::threads;
 using namespace core_lib::asio::messages;
 
 // NOTE: Change these 2 match 2 adapter addresses o the test PC
 const std::string ADDRESS_ONE = "160.50.0.1";
 const std::string ADDRESS_TWO = "160.51.0.1";
+
+const std::string NETMASK_ONE = "255.255.0.0";
+const std::string NETMASK_TWO = "255.255.0.0";
+
+const std::string ADAPTER_ONE = "LOOPBACK1";
+const std::string ADAPTER_TWO = "LOOPBACK2";
 
 // ****************************************************************************
 // Helper classes/functions
@@ -2181,6 +2189,31 @@ TEST(AsioTest, testCase_TestSimpleMulticast_DifferentAdapters)
 
     MyMessage receivedMessage = rcvrDispatcher.Message();
     EXPECT_FALSE(receivedMessage == messageToSend);
+}
+
+TEST(AsioTest, testCase_testNetUtils_GetIpAndSubnetMask)
+{
+    std::pair<std::string, std::string> details;
+    ASSERT_NO_THROW(details = GetIpAddressAndNetmask(ADAPTER_ONE));
+    EXPECT_TRUE(details.first == ADDRESS_ONE);
+    EXPECT_TRUE(details.second == NETMASK_ONE);
+
+    ASSERT_NO_THROW(details = GetIpAddressAndNetmask(ADAPTER_TWO));
+    EXPECT_TRUE(details.first == ADDRESS_TWO);
+    EXPECT_TRUE(details.second == NETMASK_TWO);
+}
+
+TEST(AsioTest, testCase_testNetUtils_GetIpAndSubnetMasks)
+{
+    std::vector<IPv4Adapter> adaptersAll;
+    ASSERT_NO_THROW(adaptersAll = GetIPv4Adapters(eInterfaceFilter::All));
+    EXPECT_FALSE(adaptersAll.empty());
+
+    std::vector<IPv4Adapter> adaptersReal;
+    ASSERT_NO_THROW(adaptersReal = GetIPv4Adapters(eInterfaceFilter::RealOnly));
+    EXPECT_FALSE(adaptersReal.empty());
+
+    EXPECT_TRUE(adaptersAll.size() >= adaptersReal.size());
 }
 
 #endif // DISABLE_ASIO_TESTS

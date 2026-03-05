@@ -21,7 +21,7 @@
       "request": "launch",
       "program": "${input:unitTestProgramWin}",
       "args": [
-        "--gtest_filter=GoogleFlatBuffers.testCase_flatbufferOverTcp",
+        "--gtest_filter=AsioTest.testCase_testNetUtils_GetIpAndSubnetMasks",
         "--gtest_break_on_failure",
         "--gtest_catch_exceptions=0"
       ],

@@ -6,6 +6,7 @@
 #include <iterator>
 #include <limits>
 #include <bitset>
+#include <unordered_map>
 #if BOOST_OS_LINUX
 #include <system_error>      // For std::error_code.
 #include <cstring>           // For calls in GetIpAddressAndNetmask
@@ -32,6 +33,8 @@
 #endif
 
 namespace core_lib
+{
+namespace net_utils
 {
 
 #if defined(IS_CPP17)
@@ -210,6 +213,22 @@ int32_t SubnetMaskToCidrPrefix(std::string const& subnetMask)
     return static_cast<int32_t>(maskBits.count());
 }
 
+uint32_t PrefixToMaskNetworkOrder(uint8_t prefixLength)
+{
+    if (prefixLength == 0)
+    {
+        return 0;
+    }
+
+    if (prefixLength >= 32)
+    {
+        return 0xFFFFFFFFu;
+    }
+
+    return htonl(0xFFFFFFFFu << (32 - prefixLength));
+}
+
+
 #if defined(IS_CPP17)
 std::string MakeCidrAddress(std::string_view address, std::string_view subnetMask)
 #else
@@ -277,8 +296,8 @@ bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
         try
         {
             auto tempNetMask       = netmask.empty() ? adapterNetmask : netmask;
-            auto broadcastAddress1 = core_lib::BuildBroadcastAddress(ipAddress, tempNetMask);
-            auto broadcastAddress2 = core_lib::BuildBroadcastAddress(adapterAddress, adapterNetmask);
+            auto broadcastAddress1 = BuildBroadcastAddress(ipAddress, tempNetMask);
+            auto broadcastAddress2 = BuildBroadcastAddress(adapterAddress, adapterNetmask);
 
             return broadcastAddress1 == broadcastAddress2;
         }
@@ -290,9 +309,9 @@ bool IsAddressAndNetmaskOnSameSubnetAsAdapter(std::string const& ipAddress,
 }
 
 #if defined(IS_CPP17)
-std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string_view adapterName);
+std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string_view adapterName)
 #else
-std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName);
+std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName)
 #endif
 #if BOOST_OS_LINUX
 {
@@ -417,4 +436,254 @@ std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& ad
 }
 #endif
 
+bool IsBadIPv4HostOrder(uint32_t hostIp)
+{
+    if (hostIp == 0)
+        return true;
+
+    if ((hostIp & 0xFF000000u) == 0x7F000000u)
+    {
+        return true;
+    }
+
+    if ((hostIp & 0xFFFF0000u) == 0xA9FE0000u)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+std::string IPv4ToString(const in_addr& address)
+{
+    char buffer[INET_ADDRSTRLEN]{};
+
+    if (!inet_ntop(AF_INET, &address, buffer, sizeof(buffer)))
+    {
+        return {};
+    }
+
+    return buffer;
+}
+
+#if BOOST_OS_LINUX
+bool IsInterfaceUp(const ifaddrs* iface)
+{
+    return iface && (iface->ifa_flags & IFF_UP);
+}
+
+bool SupportsBroadcast(const ifaddrs* iface)
+{
+    return iface && (iface->ifa_flags & IFF_BROADCAST);
+}
+
+bool SupportsMulticast(const ifaddrs* iface)
+{
+    return iface && (iface->ifa_flags & IFF_MULTICAST);
+}
+
+std::vector<IPv4Adapter> GetIPv4Adapters(eInterfaceFilter filter = eInterfaceFilter::All)
+{
+    std::vector<IPv4Adapter> adapters;
+    std::unordered_map<std::string, size_t> adapterIndex;
+
+    ifaddrs* interfaceList = nullptr;
+
+    if (getifaddrs(&interfaceList) != 0 || !interfaceList)
+    {
+        return adapters;
+    }
+
+    for (auto* iface = interfaceList; iface; iface = iface->ifa_next)
+    {
+        if (!iface->ifa_name)
+        {
+            continue;
+        }
+
+        if (!iface->ifa_addr || !iface->ifa_netmask)
+        {
+            continue;
+        }
+
+        if (iface->ifa_addr->sa_family != AF_INET)
+        {
+            continue;
+        }
+
+        if (filter == eInterfaceFilter::RealOnly && !IsInterfaceUp(iface))
+        {
+            continue;
+        }
+
+        auto* address = reinterpret_cast<sockaddr_in*>(iface->ifa_addr);
+        auto* mask = reinterpret_cast<sockaddr_in*>(iface->ifa_netmask);
+
+        uint32_t hostIp = ntohl(address->sin_addr.s_addr);
+
+        if (filter == eInterfaceFilter::RealOnly && IsBadIPv4HostOrder(hostIp))
+        {
+            continue;
+        }
+
+        std::string ipString = IPv4ToString(address->sin_addr);
+        std::string maskString = IPv4ToString(mask->sin_addr);
+
+        if (ipString.empty() || maskString.empty())
+        {
+            continue;
+        }
+
+        std::string adapterName = iface->ifa_name;
+        size_t index;
+
+        auto it = adapterIndex.find(adapterName);
+
+        if (it == adapterIndex.end())
+        {
+            index = adapters.size();
+            adapterIndex.emplace(adapterName, index);
+
+            IPv4Adapter record;
+            record.name = adapterName;
+            record.supportsBroadcast = SupportsBroadcast(iface);
+            record.supportsMulticast = SupportsMulticast(iface);
+
+            adapters.push_back(std::move(record));
+        }
+        else
+        {
+            index = it->second;
+
+            adapters[index].supportsBroadcast =
+                adapters[index].supportsBroadcast || SupportsBroadcast(iface);
+
+            adapters[index].supportsMulticast =
+                adapters[index].supportsMulticast || SupportsMulticast(iface);
+        }
+
+        adapters[index].addresses.push_back({ipString, maskString});
+    }
+
+    freeifaddrs(interfaceList);
+
+    adapters.erase(
+        std::remove_if(
+            adapters.begin(),
+            adapters.end(),
+            [](const IPv4Adapter& adapter)
+            {
+                return adapter.addresses.empty();
+            }),
+        adapters.end());
+
+    return adapters;
+}
+#else
+bool IsAdapterUp(const IP_ADAPTER_ADDRESSES* adapter)
+{
+    return adapter && adapter->OperStatus == IfOperStatusUp;
+}
+
+inline bool SupportsMulticast(const IP_ADAPTER_ADDRESSES* adapter)
+{
+    return adapter && ((adapter->Flags & IP_ADAPTER_NO_MULTICAST) == 0);
+}
+
+std::vector<IPv4Adapter> GetIPv4Adapters(eInterfaceFilter filter)
+{
+    std::vector<IPv4Adapter> adapters;
+
+    ULONG bufferSize = 0;
+
+    GetAdaptersAddresses(AF_INET, GAA_FLAG_INCLUDE_PREFIX, nullptr, nullptr, &bufferSize);
+
+    if (bufferSize == 0)
+    {
+        return adapters;
+    }
+
+    std::vector<unsigned char> buffer(bufferSize);
+
+    auto* adapterList = reinterpret_cast<IP_ADAPTER_ADDRESSES*>(buffer.data());
+
+    if (GetAdaptersAddresses(AF_INET, GAA_FLAG_INCLUDE_PREFIX, nullptr, adapterList, &bufferSize) != NO_ERROR)
+    {
+        return adapters;
+    }
+
+    for (auto* adapter = adapterList; adapter; adapter = adapter->Next)
+    {
+        if ((filter == eInterfaceFilter::RealOnly) && !IsAdapterUp(adapter))
+        {
+            continue;
+        }
+
+        IPv4Adapter record;
+
+        record.name = string_utils::WStringToString(adapter->FriendlyName);
+
+        if (record.name.empty())
+        {
+            continue;
+        }
+
+        record.supportsMulticast = SupportsMulticast(adapter);
+
+        for (auto* address = adapter->FirstUnicastAddress; address; address = address->Next)
+        {
+            auto* socketAddress = address->Address.lpSockaddr;
+
+            if (!socketAddress || (socketAddress->sa_family != AF_INET))
+            {
+                continue;
+            }
+
+            auto* ipv4 = reinterpret_cast<sockaddr_in*>(socketAddress);
+
+            uint32_t hostIp = ntohl(ipv4->sin_addr.s_addr);
+
+            if ((filter == eInterfaceFilter::RealOnly) && IsBadIPv4HostOrder(hostIp))
+            {
+                continue;
+            }
+
+            std::string ipString = IPv4ToString(ipv4->sin_addr);
+
+            if (ipString.empty())
+            {
+                continue;
+            }
+
+            uint32_t maskNetwork = PrefixToMaskNetworkOrder(address->OnLinkPrefixLength);
+
+            in_addr maskAddr{};
+            maskAddr.s_addr = maskNetwork;
+
+            std::string maskString = IPv4ToString(maskAddr);
+
+            if (maskString.empty())
+            {
+                continue;
+            }
+
+            record.addresses.push_back({ipString, maskString});
+        }
+
+        if (record.addresses.empty())
+        {
+            continue;
+        }
+
+        // Broadcast policy — matches your KM loopback usage
+        record.supportsBroadcast = true;
+
+        adapters.emplace_back(std::move(record));
+    }
+
+    return adapters;
+}
+#endif // #if BOOST_OS_LINUX
+
+} // namespace net_utils
 } // namespace core_lib

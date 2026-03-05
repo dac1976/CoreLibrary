@@ -38,7 +38,8 @@
 
 namespace core_lib
 {
-
+namespace net_utils
+{
 using ip_octets_t = std::vector<uint8_t>;
 
 // Give an IP address, e.g. 192.168.1.1, get a vector of the octets,
@@ -116,6 +117,9 @@ CORE_LIBRARY_DLL_SHARED_API int32_t SubnetMaskToCidrPrefix(std::string_view subn
 CORE_LIBRARY_DLL_SHARED_API int32_t SubnetMaskToCidrPrefix(std::string const& subnetMask);
 #endif
 
+// Convert a CIDR prefix length to a uint32_t subnet mask in network byte order.
+CORE_LIBRARY_DLL_SHARED_API uint32_t PrefixToMaskNetworkOrder(uint8_t prefixLength);
+
 // Create a CIDR address from an IP and subnet mask.
 // e.g. 192.168.10.1/255.255.0.0 becomes
 // 192.168.10.1/16
@@ -158,7 +162,31 @@ CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndN
 CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName);
 #endif
 
+struct IPv4Address
+{
+    std::string address;
+    std::string netmask;
+};
 
+struct IPv4Adapter
+{
+    std::string              name;
+    bool                     supportsBroadcast{false};
+    bool                     supportsMulticast{false};
+    std::vector<IPv4Address> addresses;
+};
+
+enum class eInterfaceFilter
+{
+    All,
+    RealOnly
+};
+
+// Get a list of all the IPv4 adapters on the system. If filter is eInterfaceFilter::RealOnly then
+// only return real adapters and not loopback, tunnel etc. interfaces.
+CORE_LIBRARY_DLL_SHARED_API std::vector<IPv4Adapter> GetIPv4Adapters(eInterfaceFilter filter = eInterfaceFilter::All);
+
+} // namespace net_utils
 } // namespace core_lib
 
 #endif // HGLQTNETWORKUTILS_H
