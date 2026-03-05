@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"_tcp_client_8cpp.html":[3,0,1,0,14],
 "_tcp_client_8h.html":[3,0,0,0,19],
 "_tcp_client_8h_source.html":[3,0,0,0,19],
 "_tcp_client_list_8cpp.html":[3,0,1,0,15],
@@ -18,16 +19,16 @@ var NAVTREEINDEX1 =
 "_tcp_typed_client_8h_source.html":[3,0,0,0,24],
 "_tcp_typed_server_8h.html":[3,0,0,0,25],
 "_tcp_typed_server_8h_source.html":[3,0,0,0,25],
-"_thread_base_8cpp.html":[3,0,1,5,3],
+"_thread_base_8cpp.html":[3,0,1,6,3],
 "_thread_base_8h.html":[3,0,0,15,8],
 "_thread_base_8h_source.html":[3,0,0,15,8],
-"_thread_group_8cpp.html":[3,0,1,5,4],
+"_thread_group_8cpp.html":[3,0,1,6,4],
 "_thread_group_8h.html":[3,0,0,15,9],
 "_thread_group_8h_source.html":[3,0,0,15,9],
-"_thread_priority_8cpp.html":[3,0,1,5,5],
+"_thread_priority_8cpp.html":[3,0,1,6,5],
 "_thread_priority_8h.html":[3,0,0,15,10],
 "_thread_priority_8h_source.html":[3,0,0,15,10],
-"_thread_runner_8cpp.html":[3,0,1,5,6],
+"_thread_runner_8cpp.html":[3,0,1,6,6],
 "_thread_runner_8h.html":[3,0,0,15,11],
 "_thread_runner_8h_source.html":[3,0,0,15,11],
 "_threads_8h_source.html":[3,0,0,8,36],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "class_lockable_two_ref_counts.html":[0,9,4,3],
 "class_loki_1_1_abstract_factory.html":[1,0,2,1],
 "class_loki_1_1_abstract_factory.html":[2,0,4,4],
-"class_loki_1_1_abstract_factory_unit.html":[1,0,2,0],
-"class_loki_1_1_abstract_factory_unit.html":[2,0,4,3]
+"class_loki_1_1_abstract_factory_unit.html":[1,0,2,0]
 };

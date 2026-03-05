@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.2</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.3</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -119,11 +119,6 @@ Namespaces</h2></td></tr>
 <tr class="memitem:threads" id="r_threads"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib_1_1threads.html">threads</a></td></tr>
 <tr class="memdesc:namespacecore__lib_1_1threads"><td class="mdescLeft">&#160;</td><td class="mdescRight">The threads namespace. <br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a2478c608776eda6b224b59f8d6a70a7f" id="r_a2478c608776eda6b224b59f8d6a70a7f"><td class="memItemLeft"><a id="a2478c608776eda6b224b59f8d6a70a7f" name="a2478c608776eda6b224b59f8d6a70a7f"></a>
-using&#160;</td><td class="memItemRight"><b>ip_octets_t</b> = std::vector&lt;unsigned char&gt;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a5838be595d92ba3265740590eb276c5e" id="r_a5838be595d92ba3265740590eb276c5e"><td class="memTemplParams" colspan="2"><a id="a5838be595d92ba3265740590eb276c5e" name="a5838be595d92ba3265740590eb276c5e"></a>
@@ -141,24 +136,6 @@ template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a33a52788d42f91745ac8a58ac6029723" id="r_a33a52788d42f91745ac8a58ac6029723"><td class="memTemplParams" colspan="2"><a id="a33a52788d42f91745ac8a58ac6029723" name="a33a52788d42f91745ac8a58ac6029723"></a>
 template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a33a52788d42f91745ac8a58ac6029723 template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><b>EndianSwapValue</b> (T <a class="el" href="document_8h.html#a071cf97155ba72ac9a1fc4ad7e63d481">Value</a>)</td></tr>
-<tr class="memitem:aae89e6df37dc52125da8af0fa8206330" id="r_aae89e6df37dc52125da8af0fa8206330"><td class="memItemLeft"><a id="aae89e6df37dc52125da8af0fa8206330" name="aae89e6df37dc52125da8af0fa8206330"></a>
-CORE_LIBRARY_DLL_SHARED_API ip_octets_t&#160;</td><td class="memItemRight"><b>OctetsFromIpAddress</b> (std::string const &amp;ipAddress)</td></tr>
-<tr class="memitem:ac7336e8a3babd613dc6f6d076a45b0fd" id="r_ac7336e8a3babd613dc6f6d076a45b0fd"><td class="memItemLeft"><a id="ac7336e8a3babd613dc6f6d076a45b0fd" name="ac7336e8a3babd613dc6f6d076a45b0fd"></a>
-CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>IpAddressFromOctets</b> (ip_octets_t const &amp;octets)</td></tr>
-<tr class="memitem:a513c7dc8f640c6bcc44d7e50d4f3024d" id="r_a513c7dc8f640c6bcc44d7e50d4f3024d"><td class="memItemLeft"><a id="a513c7dc8f640c6bcc44d7e50d4f3024d" name="a513c7dc8f640c6bcc44d7e50d4f3024d"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>IsValidIpAddress</b> (std::string const &amp;address)</td></tr>
-<tr class="memitem:a8941a016cd7cc546842e8b4fefe563d0" id="r_a8941a016cd7cc546842e8b4fefe563d0"><td class="memItemLeft"><a id="a8941a016cd7cc546842e8b4fefe563d0" name="a8941a016cd7cc546842e8b4fefe563d0"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>IsValidBroadcastAddress</b> (std::string const &amp;address)</td></tr>
-<tr class="memitem:ab085037226983890ae178bc57a31645d" id="r_ab085037226983890ae178bc57a31645d"><td class="memItemLeft"><a id="ab085037226983890ae178bc57a31645d" name="ab085037226983890ae178bc57a31645d"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>IsValidMulticastGroupAddress</b> (std::string const &amp;address)</td></tr>
-<tr class="memitem:a07131b45fa5e928a3e825407f61a4eed" id="r_a07131b45fa5e928a3e825407f61a4eed"><td class="memItemLeft"><a id="a07131b45fa5e928a3e825407f61a4eed" name="a07131b45fa5e928a3e825407f61a4eed"></a>
-CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>BuildBroadcastAddress</b> (std::string const &amp;address, std::string const &amp;subnetMask)</td></tr>
-<tr class="memitem:ade5380a94537aef5c2b8518f01a583b6" id="r_ade5380a94537aef5c2b8518f01a583b6"><td class="memItemLeft"><a id="ade5380a94537aef5c2b8518f01a583b6" name="ade5380a94537aef5c2b8518f01a583b6"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>IsAddressAndNetmaskOnSameSubnetAsAdapter</b> (std::string const &amp;ipAddress, std::string const &amp;netmask, std::string const &amp;adapterAddress, std::string const &amp;adapterNetmask)</td></tr>
-<tr class="memitem:a9f591514292cf878e5fc0a480fb81a6e" id="r_a9f591514292cf878e5fc0a480fb81a6e"><td class="memItemLeft"><a id="a9f591514292cf878e5fc0a480fb81a6e" name="a9f591514292cf878e5fc0a480fb81a6e"></a>
-CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>ConvertToCIDRAddress</b> (std::string const &amp;ipAddress, std::string const &amp;netmask)</td></tr>
-<tr class="memitem:a97b4a3116253146769f9ce84f39190e6" id="r_a97b4a3116253146769f9ce84f39190e6"><td class="memItemLeft"><a id="a97b4a3116253146769f9ce84f39190e6" name="a97b4a3116253146769f9ce84f39190e6"></a>
-CORE_LIBRARY_DLL_SHARED_API std::pair&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><b>GetIpAddressAndNetmask</b> (std::string const &amp;adapterName)</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="namespacecore__lib.html" title="The core_lib namespace.">core_lib</a> namespace. </p>

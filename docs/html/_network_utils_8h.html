@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.2</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.3</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -99,11 +99,16 @@ $(function(){initNavTree('_network_utils_8h.html','',''); });
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;boost/predef.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="_platform_defines_8h_source.html">Platform/PlatformDefines.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_core_library_dll_global_8h_source.html">CoreLibraryDllGlobal.h</a>&quot;</code><br />
 </div>
 <p><a href="_network_utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:core_5Flib_3A_3Anet_5Futils_3A_3AIPv4Address" id="r_core_5Flib_3A_3Anet_5Futils_3A_3AIPv4Address"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1net__utils_1_1_i_pv4_address.html">core_lib::net_utils::IPv4Address</a></td></tr>
+<tr class="memitem:core_5Flib_3A_3Anet_5Futils_3A_3AIPv4Adapter" id="r_core_5Flib_3A_3Anet_5Futils_3A_3AIPv4Adapter"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1net__utils_1_1_i_pv4_adapter.html">core_lib::net_utils::IPv4Adapter</a></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:core_5Flib" id="r_core_5Flib"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib.html">core_lib</a></td></tr>
@@ -111,29 +116,49 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a2478c608776eda6b224b59f8d6a70a7f" id="r_a2478c608776eda6b224b59f8d6a70a7f"><td class="memItemLeft"><a id="a2478c608776eda6b224b59f8d6a70a7f" name="a2478c608776eda6b224b59f8d6a70a7f"></a>
-using&#160;</td><td class="memItemRight"><b>core_lib::ip_octets_t</b> = std::vector&lt;unsigned char&gt;</td></tr>
+<tr class="memitem:a5ecd96b3c2e3466732d107bd6da05152" id="r_a5ecd96b3c2e3466732d107bd6da05152"><td class="memItemLeft"><a id="a5ecd96b3c2e3466732d107bd6da05152" name="a5ecd96b3c2e3466732d107bd6da05152"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::net_utils::ip_octets_t</b> = std::vector&lt;uint8_t&gt;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ab3d2f7af22535ef8eee7c492e7c085b5" id="r_ab3d2f7af22535ef8eee7c492e7c085b5"><td class="memItemLeft"><a id="ab3d2f7af22535ef8eee7c492e7c085b5" name="ab3d2f7af22535ef8eee7c492e7c085b5"></a>enum class &#160;</td><td class="memItemRight"><b>eInterfaceFilter</b> { <b>All</b>
+, <b>RealOnly</b>
+ }</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aae89e6df37dc52125da8af0fa8206330" id="r_aae89e6df37dc52125da8af0fa8206330"><td class="memItemLeft"><a id="aae89e6df37dc52125da8af0fa8206330" name="aae89e6df37dc52125da8af0fa8206330"></a>
-CORE_LIBRARY_DLL_SHARED_API ip_octets_t&#160;</td><td class="memItemRight"><b>core_lib::OctetsFromIpAddress</b> (std::string const &amp;ipAddress)</td></tr>
-<tr class="memitem:ac7336e8a3babd613dc6f6d076a45b0fd" id="r_ac7336e8a3babd613dc6f6d076a45b0fd"><td class="memItemLeft"><a id="ac7336e8a3babd613dc6f6d076a45b0fd" name="ac7336e8a3babd613dc6f6d076a45b0fd"></a>
-CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::IpAddressFromOctets</b> (ip_octets_t const &amp;octets)</td></tr>
-<tr class="memitem:a513c7dc8f640c6bcc44d7e50d4f3024d" id="r_a513c7dc8f640c6bcc44d7e50d4f3024d"><td class="memItemLeft"><a id="a513c7dc8f640c6bcc44d7e50d4f3024d" name="a513c7dc8f640c6bcc44d7e50d4f3024d"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::IsValidIpAddress</b> (std::string const &amp;address)</td></tr>
-<tr class="memitem:a8941a016cd7cc546842e8b4fefe563d0" id="r_a8941a016cd7cc546842e8b4fefe563d0"><td class="memItemLeft"><a id="a8941a016cd7cc546842e8b4fefe563d0" name="a8941a016cd7cc546842e8b4fefe563d0"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::IsValidBroadcastAddress</b> (std::string const &amp;address)</td></tr>
-<tr class="memitem:ab085037226983890ae178bc57a31645d" id="r_ab085037226983890ae178bc57a31645d"><td class="memItemLeft"><a id="ab085037226983890ae178bc57a31645d" name="ab085037226983890ae178bc57a31645d"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::IsValidMulticastGroupAddress</b> (std::string const &amp;address)</td></tr>
-<tr class="memitem:a07131b45fa5e928a3e825407f61a4eed" id="r_a07131b45fa5e928a3e825407f61a4eed"><td class="memItemLeft"><a id="a07131b45fa5e928a3e825407f61a4eed" name="a07131b45fa5e928a3e825407f61a4eed"></a>
-CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::BuildBroadcastAddress</b> (std::string const &amp;address, std::string const &amp;subnetMask)</td></tr>
-<tr class="memitem:ade5380a94537aef5c2b8518f01a583b6" id="r_ade5380a94537aef5c2b8518f01a583b6"><td class="memItemLeft"><a id="ade5380a94537aef5c2b8518f01a583b6" name="ade5380a94537aef5c2b8518f01a583b6"></a>
-CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::IsAddressAndNetmaskOnSameSubnetAsAdapter</b> (std::string const &amp;ipAddress, std::string const &amp;netmask, std::string const &amp;adapterAddress, std::string const &amp;adapterNetmask)</td></tr>
-<tr class="memitem:a9f591514292cf878e5fc0a480fb81a6e" id="r_a9f591514292cf878e5fc0a480fb81a6e"><td class="memItemLeft"><a id="a9f591514292cf878e5fc0a480fb81a6e" name="a9f591514292cf878e5fc0a480fb81a6e"></a>
-CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::ConvertToCIDRAddress</b> (std::string const &amp;ipAddress, std::string const &amp;netmask)</td></tr>
-<tr class="memitem:a97b4a3116253146769f9ce84f39190e6" id="r_a97b4a3116253146769f9ce84f39190e6"><td class="memItemLeft"><a id="a97b4a3116253146769f9ce84f39190e6" name="a97b4a3116253146769f9ce84f39190e6"></a>
-CORE_LIBRARY_DLL_SHARED_API std::pair&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><b>core_lib::GetIpAddressAndNetmask</b> (std::string const &amp;adapterName)</td></tr>
+<tr class="memitem:a11eba7f755826d4fa2c27d89b84b19dc" id="r_a11eba7f755826d4fa2c27d89b84b19dc"><td class="memItemLeft"><a id="a11eba7f755826d4fa2c27d89b84b19dc" name="a11eba7f755826d4fa2c27d89b84b19dc"></a>
+CORE_LIBRARY_DLL_SHARED_API ip_octets_t&#160;</td><td class="memItemRight"><b>core_lib::net_utils::OctetsFromIpAddress</b> (std::string const &amp;ipAddress)</td></tr>
+<tr class="memitem:a87ccde25b0fd645b5ac8ecf7194a9a15" id="r_a87ccde25b0fd645b5ac8ecf7194a9a15"><td class="memItemLeft"><a id="a87ccde25b0fd645b5ac8ecf7194a9a15" name="a87ccde25b0fd645b5ac8ecf7194a9a15"></a>
+CORE_LIBRARY_DLL_SHARED_API uint32_t&#160;</td><td class="memItemRight"><b>core_lib::net_utils::Uint32FromIpAddress</b> (std::string const &amp;ipAddress)</td></tr>
+<tr class="memitem:abeb16957488ef38953bd6d81c69a851e" id="r_abeb16957488ef38953bd6d81c69a851e"><td class="memItemLeft"><a id="abeb16957488ef38953bd6d81c69a851e" name="abeb16957488ef38953bd6d81c69a851e"></a>
+CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::net_utils::IpAddressFromOctets</b> (ip_octets_t const &amp;octets)</td></tr>
+<tr class="memitem:a907fdaf86f02ddbbde13ade53869651f" id="r_a907fdaf86f02ddbbde13ade53869651f"><td class="memItemLeft"><a id="a907fdaf86f02ddbbde13ade53869651f" name="a907fdaf86f02ddbbde13ade53869651f"></a>
+CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::net_utils::IpAddressFromUint32</b> (uint32_t ipValue)</td></tr>
+<tr class="memitem:a6bc87757dee43dcb7924b9170cfb4ecf" id="r_a6bc87757dee43dcb7924b9170cfb4ecf"><td class="memItemLeft"><a id="a6bc87757dee43dcb7924b9170cfb4ecf" name="a6bc87757dee43dcb7924b9170cfb4ecf"></a>
+CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::net_utils::IsValidIpAddress</b> (std::string const &amp;address)</td></tr>
+<tr class="memitem:a44eb6331030ef9065d5f15bf68af67c6" id="r_a44eb6331030ef9065d5f15bf68af67c6"><td class="memItemLeft"><a id="a44eb6331030ef9065d5f15bf68af67c6" name="a44eb6331030ef9065d5f15bf68af67c6"></a>
+bCORE_LIBRARY_DLL_SHARED_API ool&#160;</td><td class="memItemRight"><b>core_lib::net_utils::IsValidSubnetMask</b> (std::string const &amp;subnetMask)</td></tr>
+<tr class="memitem:ab34fc7a3fdaaa101df808ca682bddc8e" id="r_ab34fc7a3fdaaa101df808ca682bddc8e"><td class="memItemLeft"><a id="ab34fc7a3fdaaa101df808ca682bddc8e" name="ab34fc7a3fdaaa101df808ca682bddc8e"></a>
+CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::net_utils::IsValidBroadcastAddress</b> (std::string const &amp;address)</td></tr>
+<tr class="memitem:a85e83ebcf7d077ed469bb7f969f58516" id="r_a85e83ebcf7d077ed469bb7f969f58516"><td class="memItemLeft"><a id="a85e83ebcf7d077ed469bb7f969f58516" name="a85e83ebcf7d077ed469bb7f969f58516"></a>
+CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::net_utils::IsValidMulticastGroupAddress</b> (std::string const &amp;address)</td></tr>
+<tr class="memitem:a1e09f6e1d946adcc9d362c9256571755" id="r_a1e09f6e1d946adcc9d362c9256571755"><td class="memItemLeft"><a id="a1e09f6e1d946adcc9d362c9256571755" name="a1e09f6e1d946adcc9d362c9256571755"></a>
+CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::net_utils::CidrPrefixToSubnetMask</b> (int32_t prefix)</td></tr>
+<tr class="memitem:a673ebba57355b7af28a7a01b3c4c3249" id="r_a673ebba57355b7af28a7a01b3c4c3249"><td class="memItemLeft"><a id="a673ebba57355b7af28a7a01b3c4c3249" name="a673ebba57355b7af28a7a01b3c4c3249"></a>
+CORE_LIBRARY_DLL_SHARED_API int32_t&#160;</td><td class="memItemRight"><b>core_lib::net_utils::SubnetMaskToCidrPrefix</b> (std::string const &amp;subnetMask)</td></tr>
+<tr class="memitem:abe495ab81cf4ea4ab241506e8c7ea779" id="r_abe495ab81cf4ea4ab241506e8c7ea779"><td class="memItemLeft"><a id="abe495ab81cf4ea4ab241506e8c7ea779" name="abe495ab81cf4ea4ab241506e8c7ea779"></a>
+CORE_LIBRARY_DLL_SHARED_API uint32_t&#160;</td><td class="memItemRight"><b>core_lib::net_utils::PrefixToMaskNetworkOrder</b> (uint8_t prefixLength)</td></tr>
+<tr class="memitem:ab447baabcfc9af7c2f10aed933d189df" id="r_ab447baabcfc9af7c2f10aed933d189df"><td class="memItemLeft"><a id="ab447baabcfc9af7c2f10aed933d189df" name="ab447baabcfc9af7c2f10aed933d189df"></a>
+CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::net_utils::MakeCidrAddress</b> (std::string const &amp;address, std::string const &amp;subnetMask)</td></tr>
+<tr class="memitem:a0c618c4123cc7c8263af220fd99c5d11" id="r_a0c618c4123cc7c8263af220fd99c5d11"><td class="memItemLeft"><a id="a0c618c4123cc7c8263af220fd99c5d11" name="a0c618c4123cc7c8263af220fd99c5d11"></a>
+CORE_LIBRARY_DLL_SHARED_API std::string&#160;</td><td class="memItemRight"><b>core_lib::net_utils::BuildBroadcastAddress</b> (std::string const &amp;address, std::string const &amp;subnetMask)</td></tr>
+<tr class="memitem:a6e38aa241a3ef76852d1f4edf5beebfa" id="r_a6e38aa241a3ef76852d1f4edf5beebfa"><td class="memItemLeft"><a id="a6e38aa241a3ef76852d1f4edf5beebfa" name="a6e38aa241a3ef76852d1f4edf5beebfa"></a>
+CORE_LIBRARY_DLL_SHARED_API bool&#160;</td><td class="memItemRight"><b>core_lib::net_utils::IsAddressAndNetmaskOnSameSubnetAsAdapter</b> (std::string const &amp;ipAddress, std::string const &amp;netmask, std::string const &amp;adapterAddress, std::string const &amp;adapterNetmask)</td></tr>
+<tr class="memitem:a84703ea73ec0d072435422e94672f020" id="r_a84703ea73ec0d072435422e94672f020"><td class="memItemLeft"><a id="a84703ea73ec0d072435422e94672f020" name="a84703ea73ec0d072435422e94672f020"></a>
+CORE_LIBRARY_DLL_SHARED_API std::pair&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight"><b>core_lib::net_utils::GetIpAddressAndNetmask</b> (std::string const &amp;adapterName)</td></tr>
+<tr class="memitem:a1a4452bebc94784eba34ef296331e894" id="r_a1a4452bebc94784eba34ef296331e894"><td class="memItemLeft"><a id="a1a4452bebc94784eba34ef296331e894" name="a1a4452bebc94784eba34ef296331e894"></a>
+CORE_LIBRARY_DLL_SHARED_API std::vector&lt; <a class="el" href="structcore__lib_1_1net__utils_1_1_i_pv4_adapter.html">IPv4Adapter</a> &gt;&#160;</td><td class="memItemRight"><b>core_lib::net_utils::GetIPv4Adapters</b> (eInterfaceFilter filter=eInterfaceFilter::All)</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing declaration of network utilities. </p>

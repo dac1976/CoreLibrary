@@ -5,5 +5,6 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "DebugLog", "dir_b61cbc7fed6afc1384d5b46e15359d7d.html", "dir_b61cbc7fed6afc1384d5b46e15359d7d" ],
     [ "FileUtils", "dir_0dc7331be2fb93cd6bb4017c504c019a.html", "dir_0dc7331be2fb93cd6bb4017c504c019a" ],
     [ "IniFile", "dir_39f070db9466871944b534c763006460.html", "dir_39f070db9466871944b534c763006460" ],
+    [ "Serialization", "dir_e46fa0fa5ebb7e38410164117f1fd992.html", "dir_e46fa0fa5ebb7e38410164117f1fd992" ],
     [ "Threads", "dir_5c3bb04f5a2a30452a8e349ffde726fa.html", "dir_5c3bb04f5a2a30452a8e349ffde726fa" ]
 ];

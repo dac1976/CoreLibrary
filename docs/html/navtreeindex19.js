@@ -1,5 +1,7 @@
 var NAVTREEINDEX19 =
 {
+"stdint_8h_source.html":[3,0,0,1,2,0,2,1],
+"stream_8h_source.html":[3,0,0,1,2,0,20],
 "strfunc_8h_source.html":[3,0,0,1,2,0,1,9],
 "string_8hpp.html":[3,0,0,1,3,20],
 "string_8hpp_source.html":[3,0,0,1,3,20],
@@ -247,7 +249,5 @@ var NAVTREEINDEX19 =
 "struct_loki_1_1_private_1_1_add_pointer.html":[2,0,4,0,24],
 "struct_loki_1_1_private_1_1_add_pointer_3_01_u_01_6_01_4.html":[2,0,4,0,25],
 "struct_loki_1_1_private_1_1_add_reference.html":[2,0,4,0,26],
-"struct_loki_1_1_private_1_1_add_reference_3_01_u_01_6_01_4.html":[2,0,4,0,27],
-"struct_loki_1_1_private_1_1_add_reference_3_01void_01_4.html":[2,0,4,0,28],
-"struct_loki_1_1_private_1_1_binder_first_bound_type_storage.html":[2,0,4,0,4]
+"struct_loki_1_1_private_1_1_add_reference_3_01_u_01_6_01_4.html":[2,0,4,0,27]
 };

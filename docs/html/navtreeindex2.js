@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"class_loki_1_1_abstract_factory_unit.html":[2,0,4,3],
 "class_loki_1_1_allocator_singleton.html":[0,8,0,1],
 "class_loki_1_1_allocator_singleton.html#a033978d127f16d2da0fd79d31ee75713":[0,8,0,1,8],
 "class_loki_1_1_allocator_singleton.html#a082b4ba1c6574c5bed916c55ecf46e82":[0,8,0,1,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "class_loki_1_1_level_mutex.html#a553a379257af57ceaef9ed48b0dc8b70":[2,0,4,157,11],
 "class_loki_1_1_level_mutex.html#a586b73ed6f7649adec1e829d59c011c2":[1,0,2,154,7],
 "class_loki_1_1_level_mutex.html#a586b73ed6f7649adec1e829d59c011c2":[2,0,4,157,7],
-"class_loki_1_1_level_mutex.html#a71fa3706612a543f6d08cdfe6b1158a1":[1,0,2,154,12],
-"class_loki_1_1_level_mutex.html#a71fa3706612a543f6d08cdfe6b1158a1":[2,0,4,157,12]
+"class_loki_1_1_level_mutex.html#a71fa3706612a543f6d08cdfe6b1158a1":[1,0,2,154,12]
 };

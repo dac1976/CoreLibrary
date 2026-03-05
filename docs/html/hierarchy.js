@@ -527,6 +527,8 @@ var hierarchy =
     [ "Loki::Private::InvocationTraits&lt; SomeLhs, SomeRhs, Executor, ResultType &gt;", "struct_loki_1_1_private_1_1_invocation_traits.html", null ],
     [ "core_lib::asio::IoContextThreadGroup", "classcore__lib_1_1asio_1_1_io_context_thread_group.html", null ],
     [ "ipv4_header", "classipv4__header.html", null ],
+    [ "core_lib::net_utils::IPv4Adapter", "structcore__lib_1_1net__utils_1_1_i_pv4_adapter.html", null ],
+    [ "core_lib::net_utils::IPv4Address", "structcore__lib_1_1net__utils_1_1_i_pv4_address.html", null ],
     [ "yasli_nstd::is_class&lt; T &gt;", "structyasli__nstd_1_1is__class.html", null ],
     [ "cereal::traits::is_default_constructible&lt; T &gt;", "structcereal_1_1traits_1_1is__default__constructible.html", null ],
     [ "cereal::common_detail::is_enum&lt; T &gt;", "classcereal_1_1common__detail_1_1is__enum.html", null ],

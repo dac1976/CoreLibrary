@@ -9,7 +9,7 @@ var dir_cd8f788b2c3d76b815cf5350446e93a9 =
     [ "MulticastReceiver.h", "_multicast_receiver_8h.html", "_multicast_receiver_8h" ],
     [ "MulticastSender.h", "_multicast_sender_8h.html", "_multicast_sender_8h" ],
     [ "MulticastTypedSender.h", "_multicast_typed_sender_8h.html", "_multicast_typed_sender_8h" ],
-    [ "NetworkUtils.h", "_network_utils_8h.html", null ],
+    [ "NetworkUtils.h", "_network_utils_8h.html", "_network_utils_8h" ],
     [ "Ping.h", "_ping_8h.html", "_ping_8h" ],
     [ "SerialPort.h", "_serial_port_8h.html", "_serial_port_8h" ],
     [ "SimpleMulticastReceiver.h", "_simple_multicast_receiver_8h.html", "_simple_multicast_receiver_8h" ],

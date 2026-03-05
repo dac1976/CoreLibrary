@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"class_loki_1_1_level_mutex.html#a71fa3706612a543f6d08cdfe6b1158a1":[2,0,4,157,12],
 "class_loki_1_1_level_mutex.html#a95d3742db062548201986f482a9c9b9d":[1,0,2,154,6],
 "class_loki_1_1_level_mutex.html#a95d3742db062548201986f482a9c9b9d":[2,0,4,157,6],
 "class_loki_1_1_level_mutex.html#a9ad4465baeea64dfa99e0ecc29c4af17":[1,0,2,154,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "class_loki_1_1_mutex_exception.html#a4d093d50bffe24f50a40278f20ec1ae8":[2,0,4,158,4],
 "class_loki_1_1_mutex_exception.html#a83db7c4cea71a007dd597061833f40ea":[1,0,2,155,6],
 "class_loki_1_1_mutex_exception.html#a83db7c4cea71a007dd597061833f40ea":[2,0,4,158,6],
-"class_loki_1_1_mutex_exception.html#adaec9dbd8aa24021594d45b67dc34390":[1,0,2,155,2],
-"class_loki_1_1_mutex_exception.html#adaec9dbd8aa24021594d45b67dc34390":[2,0,4,158,2]
+"class_loki_1_1_mutex_exception.html#adaec9dbd8aa24021594d45b67dc34390":[1,0,2,155,2]
 };

@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"class_loki_1_1_throw_on_bad_design_mutex_error.html":[2,0,4,149],
 "class_loki_1_1_two_ref_counts.html":[0,9,4,2],
 "class_loki_1_1_two_ref_counts.html#a66b5b302258aae61996f43fd4d541440":[0,9,4,2,0],
 "class_loki_1_1_two_ref_counts.html#ab38347caf12f3c81e0fda8239af4d4eb":[0,9,4,2,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "classcereal_1_1_j_s_o_n_output_archive.html#afa65afebe41f5089a71aa2a7b27566fd":[2,0,0,15,27],
 "classcereal_1_1_j_s_o_n_output_archive.html#afb683b1f868478d1797b1c19bb5d6375":[1,0,0,6,20],
 "classcereal_1_1_j_s_o_n_output_archive.html#afb683b1f868478d1797b1c19bb5d6375":[2,0,0,15,20],
-"classcereal_1_1_j_s_o_n_output_archive_1_1_options.html":[1,0,0,6,0],
-"classcereal_1_1_j_s_o_n_output_archive_1_1_options.html":[2,0,0,15,0]
+"classcereal_1_1_j_s_o_n_output_archive_1_1_options.html":[1,0,0,6,0]
 };

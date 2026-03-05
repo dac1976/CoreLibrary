@@ -208,6 +208,10 @@ var annotated_dup =
         ] ],
         [ "IoContextThreadGroup", "classcore__lib_1_1asio_1_1_io_context_thread_group.html", "classcore__lib_1_1asio_1_1_io_context_thread_group" ]
       ] ],
+      [ "net_utils", null, [
+        [ "IPv4Address", "structcore__lib_1_1net__utils_1_1_i_pv4_address.html", null ],
+        [ "IPv4Adapter", "structcore__lib_1_1net__utils_1_1_i_pv4_adapter.html", null ]
+      ] ],
       [ "comp", null, [
         [ "FloatEpsilon", "structcore__lib_1_1comp_1_1_float_epsilon.html", null ],
         [ "FloatEpsilon&lt; long double &gt;", "structcore__lib_1_1comp_1_1_float_epsilon_3_01long_01double_01_4.html", null ],

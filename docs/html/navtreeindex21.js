@@ -1,5 +1,7 @@
 var NAVTREEINDEX21 =
 {
+"struct_loki_1_1_smart_ptr_1_1_never_matched.html":[0,9,11,0],
+"struct_loki_1_1_smart_ptr_1_1_tester.html":[0,9,11,1],
 "struct_loki_1_1_smart_ptr_def.html":[1,0,2,236],
 "struct_loki_1_1_smart_ptr_def.html":[2,0,4,239],
 "struct_loki_1_1_static_caster.html":[1,0,2,162],
@@ -247,7 +249,5 @@ var NAVTREEINDEX21 =
 "structcereal_1_1detail_1_1_output_binding_map_1_1_serializers.html":[2,0,0,0,12,0],
 "structcereal_1_1detail_1_1_output_binding_map_1_1_serializers.html#a8602064aeec6a847f1fe81fe9461ea18":[2,0,0,0,12,0,0],
 "structcereal_1_1detail_1_1_output_binding_map_1_1_serializers.html#ab4c2f8544bdbe179ef4664de9589f825":[2,0,0,0,12,0,1],
-"structcereal_1_1detail_1_1_polymorphic_caster.html":[2,0,0,0,7],
-"structcereal_1_1detail_1_1_polymorphic_caster.html#a0343cafc5560566a81cf7216d1adf96f":[2,0,0,0,7,1],
-"structcereal_1_1detail_1_1_polymorphic_caster.html#a771ea4d4bdc3e5e8992f3cb4ffeb5022":[2,0,0,0,7,2]
+"structcereal_1_1detail_1_1_polymorphic_caster.html":[2,0,0,0,7]
 };
