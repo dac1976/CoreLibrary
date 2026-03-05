@@ -162,13 +162,13 @@ CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndN
 CORE_LIBRARY_DLL_SHARED_API std::pair<std::string, std::string> GetIpAddressAndNetmask(std::string const& adapterName);
 #endif
 
-struct IPv4Address
+CORE_LIBRARY_DLL_SHARED_API struct IPv4Address
 {
     std::string address;
     std::string netmask;
 };
 
-struct IPv4Adapter
+CORE_LIBRARY_DLL_SHARED_API struct IPv4Adapter
 {
     std::string              name;
     bool                     supportsBroadcast{false};
