@@ -182,7 +182,7 @@ private:
     /*! \brief Callback to pass endpoint details to message handler. */
     defs::message_received_handler_ex_t m_messageReceivedHandlerEx;
     /*! \brief Socket receive buffer. */
-    std::array<char, MAX_UDP_DATAGRAM_SIZE> m_receiveBuffer;
+    std::array<char, UDP_DATAGRAM_MAX_SIZE> m_receiveBuffer;
     /*! \brief Sender end-point. */
     boost_udp_t::endpoint m_senderEndpoint;
     /*! \brief The multicast socket. */
