@@ -44,11 +44,11 @@ namespace tcp
 // ****************************************************************************
 // 'class TcpConnection' definition
 // ****************************************************************************
-TcpConnection::TcpConnection(asio_compat::io_service_t&                    ioService,
+TcpConnection::TcpConnection(asio_compat::io_service_t&                 ioService,
                              const std::shared_ptr<TcpConnections>&     connections,
                              const defs::check_bytes_left_to_read_t&    checkBytesLeftToRead,
                              const defs::message_received_handler_t&    messageReceivedHandler,
-                             const TcpConnSettings&                  settings,
+                             const TcpConnSettings&                     settings,
                              const defs::message_received_handler_ex_t& messageReceivedHandlerEx,
                              const defs::check_bytes_left_to_read_ex_t& checkBytesLeftToReadEx)
     : m_closing{false}
@@ -60,14 +60,16 @@ TcpConnection::TcpConnection(asio_compat::io_service_t&                    ioSer
     , m_messageReceivedHandlerEx{messageReceivedHandlerEx}
     , m_settings{settings}
     , m_connectEvent(threads::eNotifyType::signalOneThread, threads::eResetCondition::manualReset,
-                  threads::eIntialCondition::notSignalled)
+                     threads::eIntialCondition::notSignalled)
     , m_socket{ioService}
 {
     InitialiseMsgPool();
 
 #if defined(USE_SOCKET_DEBUG)
-    DEBUG_MESSAGE_EX_DEBUG(
-        "Reserving memory for receive and send buffers as: " << DEFAULT_RESERVED_SIZE << " bytes");
+    DEBUG_MESSAGE_EX_DEBUG("Reserving memory for receive buffer as: "
+                           << static_cast<int32_t>(DEFAULT_SMALL_RESERVED_SIZE)
+                           << " bytes, and accumulated message buffer as: "
+                           << static_cast<int32_t>(DEFAULT_LARGE_RESERVED_SIZE) << " bytes");
 #endif
 
     m_messageBuffer.reserve(DEFAULT_LARGE_RESERVED_SIZE);
@@ -356,8 +358,8 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
             {
                 numBytes =
                     m_checkBytesLeftToReadEx(m_messageBuffer,
-										 m_socket.remote_endpoint().address().to_string(),
-										 m_socket.remote_endpoint().port());
+                                             m_socket.remote_endpoint().address().to_string(),
+                                             m_socket.remote_endpoint().port());
             }
             else
             {
@@ -375,8 +377,8 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
                 if (m_messageReceivedHandlerEx)
                 {
                     m_messageReceivedHandlerEx(m_messageBuffer,
-										   m_socket.remote_endpoint().address().to_string(),
-										   m_socket.remote_endpoint().port());
+                                               m_socket.remote_endpoint().address().to_string(),
+                                               m_socket.remote_endpoint().port());
                 }
                 else
                 {
@@ -454,12 +456,12 @@ bool TcpConnection::SendMessageAsync(defs::char_buf_cspan_t message)
         return false;
     }
 
-	PendingWrite w;
+    PendingWrite w;
 
-	if (!AcquirePendingWrite(message, w))
-	{
-		return false;
-	}
+    if (!AcquirePendingWrite(message, w))
+    {
+        return false;
+    }
 
     try
     {
@@ -488,7 +490,7 @@ bool TcpConnection::SendMessageAsync(defs::char_buf_cspan_t message)
 
 bool TcpConnection::SendMessageSync(defs::char_buf_cspan_t message)
 {
-	if (IsClosing())
+    if (IsClosing())
     {
         return false;
     }
@@ -587,10 +589,7 @@ void TcpConnection::DoAsyncWriteOnStrand(const PendingWrite& w)
             boost_asio::buffer(block.data(), w.len),
             asio_compat::wrap(
                 m_strand,
-                boost::bind(&TcpConnection::WriteCompleteOnStrand,
-                            shared_from_this(),
-                            _1,
-                            _2)));
+                boost::bind(&TcpConnection::WriteCompleteOnStrand, shared_from_this(), _1, _2)));
     }
     else
     {
@@ -603,8 +602,8 @@ void TcpConnection::DoAsyncWriteOnStrand(const PendingWrite& w)
     }
 }
 
-void TcpConnection::WriteCompleteOnStrand(const boost_sys::error_code& error,
-                                          CORELIB_ARG_MAYBE_UNUSED size_t  bytesTransferred)
+void TcpConnection::WriteCompleteOnStrand(const boost_sys::error_code&    error,
+                                          CORELIB_ARG_MAYBE_UNUSED size_t bytesTransferred)
 {
     CORELIB_UNUSED_ARG(bytesTransferred)
 
@@ -755,13 +754,14 @@ size_t TcpConnection::CurrentConnectionId() const NO_EXCEPT_
 
 bool TcpConnection::AcquirePendingWrite(defs::char_buf_cspan_t message, PendingWrite& w)
 {
-	 const size_t maxAllowed = m_settings.maxAllowedUnsentAsyncMessages;
+    const size_t maxAllowed = m_settings.maxAllowedUnsentAsyncMessages;
 
     if (0 == maxAllowed)
     {
 #if defined(USE_SOCKET_DEBUG)
-        DEBUG_MESSAGE_EX_DEBUG("Cannot send async message, max allowed unsent async messages is 0, for: "
-                                 << m_endPoint.first << ":" << m_endPoint.second);
+        DEBUG_MESSAGE_EX_DEBUG(
+            "Cannot send async message, max allowed unsent async messages is 0, for: "
+            << m_endPoint.first << ":" << m_endPoint.second);
 #endif
         return false;
     }
@@ -790,7 +790,7 @@ bool TcpConnection::AcquirePendingWrite(defs::char_buf_cspan_t message, PendingW
     {
         size_t idx = 0;
 
-		if (TryAcquirePoolIndex(idx))
+        if (TryAcquirePoolIndex(idx))
         {
             // We exclusively own this pool slot now; safe to write off-strand.
             auto& block = m_msgPool[idx];
@@ -834,7 +834,7 @@ bool TcpConnection::AcquirePendingWrite(defs::char_buf_cspan_t message, PendingW
         }
     }
 
-	return true;
+    return true;
 }
 
 } // namespace tcp
