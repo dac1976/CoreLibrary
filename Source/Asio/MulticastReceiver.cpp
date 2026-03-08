@@ -66,7 +66,6 @@ MulticastReceiver::MulticastReceiver(
     , m_checkBytesLeftToReadEx(checkBytesLeftToReadEx)
     , m_messageReceivedHandler(messageReceivedHandler)
     , m_messageReceivedHandlerEx(messageReceivedHandlerEx)
-    , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
     , m_socket(ioService)
 {
     CreateMulticastSocket(receiveBufferSize);
@@ -91,7 +90,6 @@ MulticastReceiver::MulticastReceiver(
     , m_checkBytesLeftToReadEx(checkBytesLeftToReadEx)
     , m_messageReceivedHandler(messageReceivedHandler)
     , m_messageReceivedHandlerEx(messageReceivedHandlerEx)
-    , m_receiveBuffer(UDP_DATAGRAM_MAX_SIZE, 0)
     , m_socket(m_ioThreadGroup->IoService())
 {
     CreateMulticastSocket(receiveBufferSize);
@@ -186,10 +184,8 @@ void MulticastReceiver::StartAsyncRead()
     // This won't be expensive to resize as we initially sized it in constructor.
     // We need to set back to full datagram size again after a read because we always
     // clear the buffer down after a read.
-    m_receiveBuffer.resize(UDP_DATAGRAM_MAX_SIZE);
-
     m_socket.async_receive_from(
-        boost_asio::buffer(m_receiveBuffer),
+        boost_asio::buffer(m_receiveBuffer.data(), m_receiveBuffer.size()),
         m_senderEndpoint,
         asio_compat::wrap(m_strand,
                           boost::bind(&MulticastReceiver::ReadComplete,
@@ -229,20 +225,20 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         // Initially before read we pass the socket the receive buffer at max
         // datagram size. Need to efficiently truncate the receive buffer to
         // actual num bytes received.
-        m_receiveBuffer.resize(bytesReceived);
+        defs::char_buf_cspan_t receivedData{m_receiveBuffer.data(), bytesReceived};
 
         size_t numBytesLeft = 0;
 
         if (m_checkBytesLeftToReadEx)
         {
             numBytesLeft = m_checkBytesLeftToReadEx(
-                m_receiveBuffer, m_senderEndpoint.address().to_string(), m_senderEndpoint.port());
+                receivedData, m_senderEndpoint.address().to_string(), m_senderEndpoint.port());
         }
         else
         {
             if (m_checkBytesLeftToRead)
             {
-                numBytesLeft = m_checkBytesLeftToRead(m_receiveBuffer);
+                numBytesLeft = m_checkBytesLeftToRead(receivedData);
             }
         }
 
@@ -253,7 +249,7 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
 
             if (m_messageReceivedHandlerEx)
             {
-                m_messageReceivedHandlerEx(m_receiveBuffer,
+                m_messageReceivedHandlerEx(receivedData,
                                            m_senderEndpoint.address().to_string(),
                                            m_senderEndpoint.port());
             }
@@ -261,16 +257,9 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
             {
                 if (m_messageReceivedHandler)
                 {
-                    m_messageReceivedHandler(m_receiveBuffer);
+                    m_messageReceivedHandler(receivedData);
                 }
             }
-
-            clearMsgBuf = true;
-        }
-        else if (std::numeric_limits<size_t>::max() == numBytesLeft)
-        {
-            // We have a problem.
-            clearMsgBuf = true;
         }
     }
     catch (...)
@@ -279,13 +268,6 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         DEBUG_MESSAGE_EX_ERROR(
             "Error in ReadComplete, error: " << boost::current_exception_diagnostic_information());
 #endif
-        // Nothing to do here for now.
-        clearMsgBuf = true;
-    }
-
-    if (clearMsgBuf)
-    {
-        m_receiveBuffer.clear();
     }
 
     StartAsyncRead();
