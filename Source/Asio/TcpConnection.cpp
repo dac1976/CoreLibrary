@@ -70,8 +70,7 @@ TcpConnection::TcpConnection(asio_compat::io_service_t&                    ioSer
         "Reserving memory for receive and send buffers as: " << DEFAULT_RESERVED_SIZE << " bytes");
 #endif
 
-    m_receiveBuffer.reserve(DEFAULT_RESERVED_SIZE);
-    m_messageBuffer.reserve(DEFAULT_RESERVED_SIZE);
+    m_messageBuffer.reserve(DEFAULT_LARGE_RESERVED_SIZE);
 }
 
 boost_tcp_t::socket& TcpConnection::Socket()
@@ -301,11 +300,9 @@ void TcpConnection::StartAsyncRead(const defs::connection_t& endPoint)
 
 void TcpConnection::AsyncReadFromSocket(size_t amountToRead)
 {
-    m_receiveBuffer.resize(amountToRead);
-
     // Wrap in strand just to be safe in case of multiple threads running the IO service.
     boost_asio::async_read(m_socket,
-                           boost_asio::buffer(m_receiveBuffer),
+                           boost_asio::buffer(m_receiveBuffer.data(), amountToRead),
                            asio_compat::wrap(m_strand,
                                              boost::bind(&TcpConnection::ReadComplete,
                                                          shared_from_this(),
@@ -351,6 +348,7 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
             // back_inserter solution.
             auto const currentSize = m_messageBuffer.size();
             m_messageBuffer.resize(currentSize + bytesReceived);
+
             auto dataWritePos = m_messageBuffer.data() + currentSize;
             std::copy(m_receiveBuffer.data(), m_receiveBuffer.data() + bytesReceived, dataWritePos);
 
@@ -394,7 +392,15 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
             else if (std::numeric_limits<size_t>::max() == numBytes)
             {
                 // We have a problem.
+                numBytes    = m_settings.minAmountToRead;
                 clearMsgBuf = true;
+            }
+            else
+            {
+                // We do not want to ever reallocate the m_receiveBuffer beyond its initial
+                // size, as this would cause a significant performance hit. We will always
+                // read in up to DEFAULT_SMALL_RESERVED_SIZE chunks.
+                numBytes = std::min(numBytes, static_cast<size_t>(DEFAULT_SMALL_RESERVED_SIZE));
             }
         }
         catch (...)
@@ -411,7 +417,16 @@ void TcpConnection::ReadComplete(const boost_sys::error_code& error, size_t byte
 
     if (clearMsgBuf)
     {
-        m_messageBuffer.clear();
+        if (m_messageBuffer.capacity() > DEFAULT_LARGE_RESERVED_SIZE)
+        {
+            defs::char_buffer_t tmp;
+            tmp.reserve(DEFAULT_LARGE_RESERVED_SIZE);
+            m_messageBuffer.swap(tmp);
+        }
+        else
+        {
+            m_messageBuffer.clear();
+        }
     }
 
     if (numBytes > 0)

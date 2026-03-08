@@ -125,7 +125,7 @@ var searchData=
   ['getmutex_122',['GetMutex',['../class_loki_1_1_mutex_locker.html#a8de313e1397844ef3f21cd01f598ad08',1,'Loki::MutexLocker']]],
   ['getmutexes_123',['GetMutexes',['../class_loki_1_1_multi_mutex_locker.html#a187aa857e8f3f9eae9973c2e5adfb17a',1,'Loki::MultiMutexLocker']]],
   ['getmutexpolicy_124',['GetMutexPolicy',['../class_loki_1_1_level_mutex.html#a4db92715deafb395024ffbb6624906e0',1,'Loki::LevelMutex']]],
-  ['getnewmessgeobject_125',['GetNewMessgeObject',['../classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#ab144ef43a9aaee2f75e7eb19727b3532',1,'core_lib::asio::messages::MessageHandler']]],
+  ['getnewmessageobject_125',['GetNewMessageObject',['../classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#aa76eb02410d8f225ffff270bc5d472f5',1,'core_lib::asio::messages::MessageHandler']]],
   ['getnodename_126',['getNodeName',['../classcereal_1_1_j_s_o_n_input_archive.html#a93eb90affbb58ebfd3dbd3485b028372',1,'cereal::JSONInputArchive::getNodeName()'],['../classcereal_1_1_x_m_l_input_archive.html#acba55850d08642d1c5532c91eb360325',1,'cereal::XMLInputArchive::getNodeName() const']]],
   ['getnumchildren_127',['getNumChildren',['../classcereal_1_1_x_m_l_input_archive.html#a1e396aeced2f05e4d76b0e4c7ef3f25d',1,'cereal::XMLInputArchive']]],
   ['getparseerror_128',['GetParseError',['../class_generic_document.html#a9400a5bd3169cc6ed545e681ccc06070',1,'GenericDocument']]],

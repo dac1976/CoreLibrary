@@ -135,7 +135,7 @@ void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) cons
 #endif
     }
 
-    auto receivedMessage = GetNewMessgeObject();
+    auto receivedMessage = GetNewMessageObject();
 
     if (!TryConvertToPod<defs::MessageHeader>(receivedMessage->header, message))
     {
@@ -199,7 +199,7 @@ void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsg
     std::generate(m_msgPool.begin(), m_msgPool.end(), generateMsg);
 }
 
-defs::default_received_message_ptr_t MessageHandler::GetNewMessgeObject() const
+defs::default_received_message_ptr_t MessageHandler::GetNewMessageObject() const
 {
     defs::default_received_message_ptr_t newMessage;
 

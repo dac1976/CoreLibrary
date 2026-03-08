@@ -116,7 +116,7 @@ private:
      * \brief Get next message to use from pool.
      * \return A new message object or a one from the pool.
      */
-    defs::default_received_message_ptr_t GetNewMessgeObject() const;
+    defs::default_received_message_ptr_t GetNewMessageObject() const;
 
 private:
     mutable std::mutex m_mutex;

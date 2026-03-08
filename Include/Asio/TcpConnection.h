@@ -34,6 +34,7 @@
 #include <deque>
 #include <utility>
 #include <atomic>
+#include <array>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -282,7 +283,7 @@ private:
     /*! \brief Structure holding socket connection options and behavioural settings. */
     TcpConnSettings m_settings;
     /*! \brief Socket receive buffer. */
-    defs::char_buffer_t m_receiveBuffer;
+    std::array<char, DEFAULT_SMALL_RESERVED_SIZE> m_receiveBuffer;
     /*! \brief Message buffer. */
     defs::char_buffer_t m_messageBuffer;
     /*! \brief Unsent async message reservation counter (thread-safe). */

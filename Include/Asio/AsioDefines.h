@@ -166,7 +166,8 @@ namespace tcp
 /*! \brief Default internal receive buffer's initial reserved size in bytes. */
 enum eDefReservedSize : size_t
 {
-    DEFAULT_RESERVED_SIZE = 512 * 1024
+    DEFAULT_SMALL_RESERVED_SIZE = 65536,
+    DEFAULT_LARGE_RESERVED_SIZE = 1048576
 };
 
 /*! \brief Maximum number of unsent async messages allowed on TCP socket IO Service queue */
