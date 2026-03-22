@@ -21,9 +21,9 @@
       "request": "launch",
       "program": "${input:unitTestProgramWin}",
       "args": [
-        "--gtest_filter=AsioTest.testCase_TestSimpleSync_Large",
-        "--gtest_break_on_failure",
-        "--gtest_catch_exceptions=0"
+        //"--gtest_filter=",
+        //"--gtest_break_on_failure",
+        //"--gtest_catch_exceptions=0"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
@@ -34,9 +34,9 @@
       "request": "launch",
       "program": "${input:unitTestProgramLinux}",
       "args": [
-        "--gtest_filter=",
-        "--gtest_break_on_failure",
-        "--gtest_catch_exceptions=0"
+        //"--gtest_filter=",
+        // "--gtest_break_on_failure",
+        // "--gtest_catch_exceptions=0"
       ],
       "cwd": "${workspaceFolder}",
       "MIMode": "gdb",

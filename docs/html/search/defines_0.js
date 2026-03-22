@@ -50,10 +50,10 @@ var searchData=
   ['cereal_5fspecialize_5ffor_5farchive_47',['CEREAL_SPECIALIZE_FOR_ARCHIVE',['../specialize_8hpp.html#a9052730c61ed943f726b4dfca1f6f627',1,'specialize.hpp']]],
   ['cereal_5fthread_5fsafe_48',['CEREAL_THREAD_SAFE',['../macros_8hpp.html#a89aa4dfbafa0236d0da6aa7bec573f35',1,'macros.hpp']]],
   ['cereal_5funused_5ffunction_49',['CEREAL_UNUSED_FUNCTION',['../cereal_8hpp.html#ad9c7fcbb092e1279c2babf3c1257e4b6',1,'cereal.hpp']]],
-  ['cereal_5fversion_50',['CEREAL_VERSION',['../version_8hpp.html#a0e0304b1e14992006ebf53d7bb1a23e3',1,'version.hpp']]],
-  ['cereal_5fversion_5fmajor_51',['CEREAL_VERSION_MAJOR',['../version_8hpp.html#acd26ddeafaf9585136f16314872b8f3c',1,'version.hpp']]],
-  ['cereal_5fversion_5fminor_52',['CEREAL_VERSION_MINOR',['../version_8hpp.html#a9b9948b6af1523f4c23e9a5444ed896a',1,'version.hpp']]],
-  ['cereal_5fversion_5fpatch_53',['CEREAL_VERSION_PATCH',['../version_8hpp.html#a7dfd99f03dc990ea04c1542d2a755464',1,'version.hpp']]],
+  ['cereal_5fversion_50',['CEREAL_VERSION',['../cereal_2version_8hpp.html#a0e0304b1e14992006ebf53d7bb1a23e3',1,'version.hpp']]],
+  ['cereal_5fversion_5fmajor_51',['CEREAL_VERSION_MAJOR',['../cereal_2version_8hpp.html#acd26ddeafaf9585136f16314872b8f3c',1,'version.hpp']]],
+  ['cereal_5fversion_5fminor_52',['CEREAL_VERSION_MINOR',['../cereal_2version_8hpp.html#a9b9948b6af1523f4c23e9a5444ed896a',1,'version.hpp']]],
+  ['cereal_5fversion_5fpatch_53',['CEREAL_VERSION_PATCH',['../cereal_2version_8hpp.html#a7dfd99f03dc990ea04c1542d2a755464',1,'version.hpp']]],
   ['cereal_5fxml_5fstring_5fvalue_54',['CEREAL_XML_STRING_VALUE',['../xml_8hpp.html#a44505fe952f8c1f6fef02efc4d7cfefa',1,'xml.hpp']]],
   ['constexpr_5f_55',['CONSTEXPR_',['../_platform_defines_8h.html#acd65826b4da6022756b00160a59e2c77',1,'PlatformDefines.h']]]
 ];

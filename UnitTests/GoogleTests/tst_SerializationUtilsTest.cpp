@@ -13,6 +13,10 @@ namespace
 class MyObject
 {
 public:
+    // This macro is required to make the private serialize method accessible to the
+    // serialization library for MessagePack.
+    MSGPACK_DEFINE_MAP(fred, harry, george);
+
     MyObject()
     {
         // Required to initialise vectors in a way that works with msvc++
@@ -66,6 +70,9 @@ private:
     friend class cereal::access;
 #endif
 
+    // This is needed for Cereal to be able to serialize private members.
+    // It is not needed for MessagePack as the MSGPACK_DEFINE_MAP macro
+    // makes the private members accessible.
     template <class Archive> void serialize(Archive& ar, const unsigned int /*version*/)
     {
 #if defined(USE_BOOST_SERIALIZATION)
@@ -208,6 +215,22 @@ TEST(SerializationUtilsTest, testCase_SerializeObjectXmlArch_Alt)
     char_vector_t charVector;
     ToCharVector<MyObject, archives::out_xml_t>(objectIn, charVector);
     objectOut = ToObject<MyObject, archives::in_xml_t>(charVector);
+
+    EXPECT_EQ(objectOut, objectIn);
+}
+
+TEST(SerializationUtilsTest, testCase_SerializeObjectMessagePack)
+{
+    using namespace core_lib::serialize;
+    MyObject objectIn{};
+    MyObject objectOut{};
+    objectIn.Fred(10.0);
+    objectIn.Harry("jnkjn");
+    std::vector<unsigned int> vec{1, 2, 3, 4, 5};
+    objectIn.George(vec);
+    char_vector_t charVector;
+    ToCharVector<MyObject, archives::out_msgpack_t>(objectIn, charVector);
+    objectOut = ToObject<MyObject, archives::in_msgpack_t>(charVector);
 
     EXPECT_EQ(objectOut, objectIn);
 }

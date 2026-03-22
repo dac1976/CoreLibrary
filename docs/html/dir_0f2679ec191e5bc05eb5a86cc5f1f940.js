@@ -8,5 +8,5 @@ var dir_0f2679ec191e5bc05eb5a86cc5f1f940 =
     [ "cereal.hpp", "cereal_8hpp.html", "cereal_8hpp" ],
     [ "macros.hpp", "macros_8hpp.html", "macros_8hpp" ],
     [ "specialize.hpp", "specialize_8hpp.html", "specialize_8hpp" ],
-    [ "version.hpp", "version_8hpp.html", "version_8hpp" ]
+    [ "version.hpp", "cereal_2version_8hpp.html", "cereal_2version_8hpp" ]
 ];

@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.4</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.5</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -105,7 +105,8 @@ $(function(){initNavTree('_serialize_to_vector_8h.html','',''); });
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
 <code>#include &lt;boost/throw_exception.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="vector_8hpp_source.html">cereal/types/vector.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="cereal_2types_2vector_8hpp_source.html">cereal/types/vector.hpp</a>&gt;</code><br />
+<code>#include &lt;msgpack/msgpack.hpp&gt;</code><br />
 </div>
 <p><a href="_serialize_to_vector_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -119,18 +120,26 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In archive placeholder struct for serializing Google protobufs.  <a href="structcore__lib_1_1serialize_1_1protobuf__iarchive.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aprotobuf_5Foarchive" id="r_core_5Flib_3A_3Aserialize_3A_3Aprotobuf_5Foarchive"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1protobuf__oarchive.html">core_lib::serialize::protobuf_oarchive</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Out archive placeholder struct for serializing Google protobufs.  <a href="structcore__lib_1_1serialize_1_1protobuf__oarchive.html#details">More...</a><br /></td></tr>
+<tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Amsgpack_5Fiarchive" id="r_core_5Flib_3A_3Aserialize_3A_3Amsgpack_5Fiarchive"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1msgpack__iarchive.html">core_lib::serialize::msgpack_iarchive</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In archive placeholder struct for serializing MessagePack.  <a href="structcore__lib_1_1serialize_1_1msgpack__iarchive.html#details">More...</a><br /></td></tr>
+<tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Amsgpack_5Foarchive" id="r_core_5Flib_3A_3Aserialize_3A_3Amsgpack_5Foarchive"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1msgpack__oarchive.html">core_lib::serialize::msgpack_oarchive</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Out archive placeholder struct for serializing MessagePack.  <a href="structcore__lib_1_1serialize_1_1msgpack__oarchive.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20A_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20A_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl.html">core_lib::serialize::impl::ToCharVectorImpl&lt; T, A &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialization to char vector implementation.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20archives_3A_3Aout_5Fraw_5Ft_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20archives_3A_3Aout_5Fraw_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl_3_01_t_00_01archives_1_1out__raw__t_01_4.html">core_lib::serialize::impl::ToCharVectorImpl&lt; T, archives::out_raw_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialization to char vector implementation, specialization for POD.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl_3_01_t_00_01archives_1_1out__raw__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20archives_3A_3Aout_5Fprotobuf_5Ft_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20archives_3A_3Aout_5Fprotobuf_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl_3_01_t_00_01archives_1_1out__protobuf__t_01_4.html">core_lib::serialize::impl::ToCharVectorImpl&lt; T, archives::out_protobuf_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialization to char vector implementation, specialization for Google protocol bufs.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl_3_01_t_00_01archives_1_1out__protobuf__t_01_4.html#details">More...</a><br /></td></tr>
+<tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20archives_3A_3Aout_5Fmsgpack_5Ft_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToCharVectorImpl_3C_20T_2C_20archives_3A_3Aout_5Fmsgpack_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl_3_01_t_00_01archives_1_1out__msgpack__t_01_4.html">core_lib::serialize::impl::ToCharVectorImpl&lt; T, archives::out_msgpack_t &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialization to char vector implementation, specialization for Messagepack bufs.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_char_vector_impl_3_01_t_00_01archives_1_1out__msgpack__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20A_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20A_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl.html">core_lib::serialize::impl::ToObjectImpl&lt; T, A &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialization to object implementation.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20archives_3A_3Ain_5Fraw_5Ft_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20archives_3A_3Ain_5Fraw_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__raw__t_01_4.html">core_lib::serialize::impl::ToObjectImpl&lt; T, archives::in_raw_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialization to object implementation, specialization for POD.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__raw__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20archives_3A_3Ain_5Fprotobuf_5Ft_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20archives_3A_3Ain_5Fprotobuf_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__protobuf__t_01_4.html">core_lib::serialize::impl::ToObjectImpl&lt; T, archives::in_protobuf_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialization to object implementation, specialization for Google protocol buffers.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__protobuf__t_01_4.html#details">More...</a><br /></td></tr>
+<tr class="memitem:core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20archives_3A_3Ain_5Fmsgpack_5Ft_20_3E" id="r_core_5Flib_3A_3Aserialize_3A_3Aimpl_3A_3AToObjectImpl_3C_20T_2C_20archives_3A_3Ain_5Fmsgpack_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__msgpack__t_01_4.html">core_lib::serialize::impl::ToObjectImpl&lt; T, archives::in_msgpack_t &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialization to object implementation, specialization for Google protocol buffers.  <a href="structcore__lib_1_1serialize_1_1impl_1_1_to_object_impl_3_01_t_00_01archives_1_1in__msgpack__t_01_4.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -177,6 +186,9 @@ using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::out_r
 <tr class="memitem:ae9d78358b2662dffc318fda3a19d32f5" id="r_ae9d78358b2662dffc318fda3a19d32f5"><td class="memItemLeft"><a id="ae9d78358b2662dffc318fda3a19d32f5" name="ae9d78358b2662dffc318fda3a19d32f5"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::out_protobuf_t</b> = <a class="el" href="structcore__lib_1_1serialize_1_1protobuf__oarchive.html">protobuf_oarchive</a></td></tr>
 <tr class="memdesc:ae9d78358b2662dffc318fda3a19d32f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output using Google protocol buffers. <br /></td></tr>
+<tr class="memitem:a4a9acbe533cfa5664d2952cfe738a741" id="r_a4a9acbe533cfa5664d2952cfe738a741"><td class="memItemLeft"><a id="a4a9acbe533cfa5664d2952cfe738a741" name="a4a9acbe533cfa5664d2952cfe738a741"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::out_msgpack_t</b> = <a class="el" href="structcore__lib_1_1serialize_1_1msgpack__oarchive.html">msgpack_oarchive</a></td></tr>
+<tr class="memdesc:a4a9acbe533cfa5664d2952cfe738a741"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to output using MessagePack. <br /></td></tr>
 <tr class="memitem:a56f1b6e86000f18d576d9f15ca7713e9" id="r_a56f1b6e86000f18d576d9f15ca7713e9"><td class="memItemLeft"><a id="a56f1b6e86000f18d576d9f15ca7713e9" name="a56f1b6e86000f18d576d9f15ca7713e9"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::in_port_bin_t</b> = <a class="el" href="classcereal_1_1_portable_binary_input_archive.html">cereal::PortableBinaryInputArchive</a></td></tr>
 <tr class="memdesc:a56f1b6e86000f18d576d9f15ca7713e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input portable binary archive. <br /></td></tr>
@@ -195,6 +207,9 @@ using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::in_ra
 <tr class="memitem:acd1c01dd1cc41b87f41a395b4d200ad7" id="r_acd1c01dd1cc41b87f41a395b4d200ad7"><td class="memItemLeft"><a id="acd1c01dd1cc41b87f41a395b4d200ad7" name="acd1c01dd1cc41b87f41a395b4d200ad7"></a>
 using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::in_protobuf_t</b> = <a class="el" href="structcore__lib_1_1serialize_1_1protobuf__iarchive.html">protobuf_iarchive</a></td></tr>
 <tr class="memdesc:acd1c01dd1cc41b87f41a395b4d200ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input using Google protocol buffers. <br /></td></tr>
+<tr class="memitem:af1a01fab776ca881d53c06038d008349" id="r_af1a01fab776ca881d53c06038d008349"><td class="memItemLeft"><a id="af1a01fab776ca881d53c06038d008349" name="af1a01fab776ca881d53c06038d008349"></a>
+using&#160;</td><td class="memItemRight"><b>core_lib::serialize::archives::in_msgpack_t</b> = <a class="el" href="structcore__lib_1_1serialize_1_1msgpack__iarchive.html">msgpack_iarchive</a></td></tr>
+<tr class="memdesc:af1a01fab776ca881d53c06038d008349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef to input using MessagePack. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>

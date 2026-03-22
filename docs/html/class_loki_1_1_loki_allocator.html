@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.4</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.5</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -107,15 +107,15 @@ typedef ::std::size_t&#160;</td><td class="memItemRight"><b>size_type</b></td></
 <tr class="memitem:a8160d93d1777e704ec2a210a3bf275a5" id="r_a8160d93d1777e704ec2a210a3bf275a5"><td class="memItemLeft"><a id="a8160d93d1777e704ec2a210a3bf275a5" name="a8160d93d1777e704ec2a210a3bf275a5"></a>
 typedef ::std::ptrdiff_t&#160;</td><td class="memItemRight"><b>difference_type</b></td></tr>
 <tr class="memitem:aae09ea567738ddcefabf38d568bde0b5" id="r_aae09ea567738ddcefabf38d568bde0b5"><td class="memItemLeft"><a id="aae09ea567738ddcefabf38d568bde0b5" name="aae09ea567738ddcefabf38d568bde0b5"></a>
-typedef <a class="el" href="struct_loki_1_1_seq.html">Type</a> *&#160;</td><td class="memItemRight"><b>pointer</b></td></tr>
+typedef Type *&#160;</td><td class="memItemRight"><b>pointer</b></td></tr>
 <tr class="memitem:a246c6466f4ffbabfbacb7eb9bcbc3225" id="r_a246c6466f4ffbabfbacb7eb9bcbc3225"><td class="memItemLeft"><a id="a246c6466f4ffbabfbacb7eb9bcbc3225" name="a246c6466f4ffbabfbacb7eb9bcbc3225"></a>
-typedef const <a class="el" href="struct_loki_1_1_seq.html">Type</a> *&#160;</td><td class="memItemRight"><b>const_pointer</b></td></tr>
+typedef const Type *&#160;</td><td class="memItemRight"><b>const_pointer</b></td></tr>
 <tr class="memitem:a3c0e84862b9fdf9eb20e5b950d7ec13a" id="r_a3c0e84862b9fdf9eb20e5b950d7ec13a"><td class="memItemLeft"><a id="a3c0e84862b9fdf9eb20e5b950d7ec13a" name="a3c0e84862b9fdf9eb20e5b950d7ec13a"></a>
-typedef <a class="el" href="struct_loki_1_1_seq.html">Type</a> &amp;&#160;</td><td class="memItemRight"><b>reference</b></td></tr>
+typedef Type &amp;&#160;</td><td class="memItemRight"><b>reference</b></td></tr>
 <tr class="memitem:abf623fcffd35ec6ddc95b87112a586ab" id="r_abf623fcffd35ec6ddc95b87112a586ab"><td class="memItemLeft"><a id="abf623fcffd35ec6ddc95b87112a586ab" name="abf623fcffd35ec6ddc95b87112a586ab"></a>
-typedef const <a class="el" href="struct_loki_1_1_seq.html">Type</a> &amp;&#160;</td><td class="memItemRight"><b>const_reference</b></td></tr>
+typedef const Type &amp;&#160;</td><td class="memItemRight"><b>const_reference</b></td></tr>
 <tr class="memitem:ad811fbe72e96b093d78fd47b0f655caf" id="r_ad811fbe72e96b093d78fd47b0f655caf"><td class="memItemLeft"><a id="ad811fbe72e96b093d78fd47b0f655caf" name="ad811fbe72e96b093d78fd47b0f655caf"></a>
-typedef <a class="el" href="struct_loki_1_1_seq.html">Type</a>&#160;</td><td class="memItemRight"><b>value_type</b></td></tr>
+typedef Type&#160;</td><td class="memItemRight"><b>value_type</b></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -146,14 +146,14 @@ void&#160;</td><td class="memItemRight"><b>deallocate</b> (pointer p, size_type 
 size_type&#160;</td><td class="memItemRight"><b>max_size</b> (void) const  throw ()</td></tr>
 <tr class="memdesc:a7777f48dd97bc0c3ec6a5d9bba8a0238"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate max # of elements allocator can handle. <br /></td></tr>
 <tr class="memitem:af6f7b3cb7e64ee71a2bda37e78c08654" id="r_af6f7b3cb7e64ee71a2bda37e78c08654"><td class="memItemLeft"><a id="af6f7b3cb7e64ee71a2bda37e78c08654" name="af6f7b3cb7e64ee71a2bda37e78c08654"></a>
-void&#160;</td><td class="memItemRight"><b>construct</b> (pointer p, const <a class="el" href="struct_loki_1_1_seq.html">Type</a> &amp;value)</td></tr>
+void&#160;</td><td class="memItemRight"><b>construct</b> (pointer p, const Type &amp;value)</td></tr>
 <tr class="memdesc:af6f7b3cb7e64ee71a2bda37e78c08654"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an element at the pointer. <br /></td></tr>
 <tr class="memitem:a213cb5506ab35d29ad8a626165d2b03a" id="r_a213cb5506ab35d29ad8a626165d2b03a"><td class="memItemLeft"><a id="a213cb5506ab35d29ad8a626165d2b03a" name="a213cb5506ab35d29ad8a626165d2b03a"></a>
 void&#160;</td><td class="memItemRight"><b>destroy</b> (pointer p)</td></tr>
 <tr class="memdesc:a213cb5506ab35d29ad8a626165d2b03a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destruct the object at pointer. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename <a class="el" href="struct_loki_1_1_seq.html">Type</a>, typename AllocT = Loki::AllocatorSingleton&lt;&gt;&gt;<br />
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Type, typename AllocT = Loki::AllocatorSingleton&lt;&gt;&gt;<br />
 class Loki::LokiAllocator&lt; Type, AllocT &gt;</div><p>Adapts <a class="el" href="namespace_loki.html">Loki</a>'s Small-Object <a class="el" href="classrapidjson_1_1_allocator.html" title="Concept for allocating, resizing and freeing memory block.">Allocator</a> for STL container classes. This class provides all the functionality required for STL allocators, but uses <a class="el" href="namespace_loki.html">Loki</a>'s Small-Object <a class="el" href="classrapidjson_1_1_allocator.html" title="Concept for allocating, resizing and freeing memory block.">Allocator</a> to perform actual memory operations. Implementation comes from a post in <a class="el" href="namespace_loki.html">Loki</a> forums (by Rasmus Ekman?). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a856c0d1e1f32b786421c02d468020758" name="a856c0d1e1f32b786421c02d468020758"></a>
@@ -162,13 +162,13 @@ class Loki::LokiAllocator&lt; Type, AllocT &gt;</div><p>Adapts <a class="el" hre
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename <a class="el" href="struct_loki_1_1_seq.html">Type</a>, typename AllocT = Loki::AllocatorSingleton&lt;&gt;&gt; </div>
+template&lt;typename Type, typename AllocT = Loki::AllocatorSingleton&lt;&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">pointer <a class="el" href="class_loki_1_1_loki_allocator.html">Loki::LokiAllocator</a>&lt; <a class="el" href="struct_loki_1_1_seq.html">Type</a>, AllocT &gt;::allocate </td>
+          <td class="memname">pointer <a class="el" href="class_loki_1_1_loki_allocator.html">Loki::LokiAllocator</a>&lt; Type, AllocT &gt;::allocate </td>
           <td>(</td>
           <td class="paramtype">size_type</td>          <td class="paramname"><span class="paramname"><em>count</em></span>, </td>
         </tr>

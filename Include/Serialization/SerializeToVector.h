@@ -38,8 +38,9 @@
 #include <span>
 #include <boost/throw_exception.hpp>
 #include <cereal/types/vector.hpp>
+#include <msgpack/msgpack.hpp>
 #if defined(USE_FLATBUFFERS)
-#include "flatbuffers/flatbuffers.h"
+#include <flatbuffers/flatbuffers.h>
 #endif
 
 #define SERIALIZE_TO_STREAM_ARCHIVE(osa, o) osa(CEREAL_NVP(o))
@@ -79,6 +80,16 @@ struct CORE_LIBRARY_DLL_SHARED_API protobuf_oarchive
 {
 };
 
+/*! \brief In archive placeholder struct for serializing MessagePack. */
+struct CORE_LIBRARY_DLL_SHARED_API msgpack_iarchive
+{
+};
+
+/*! \brief Out archive placeholder struct for serializing MessagePack. */
+struct CORE_LIBRARY_DLL_SHARED_API msgpack_oarchive
+{
+};
+
 /*! \brief The archives namespace. */
 namespace archives
 {
@@ -94,6 +105,8 @@ using out_json_t = cereal::JSONOutputArchive;
 using out_raw_t = raw_oarchive;
 /*! \brief Typedef to output using Google protocol buffers. */
 using out_protobuf_t = protobuf_oarchive;
+/*! \brief Typedef to output using MessagePack. */
+using out_msgpack_t = msgpack_oarchive;
 /*! \brief Typedef to input portable binary archive. */
 using in_port_bin_t = cereal::PortableBinaryInputArchive;
 /*! \brief Typedef to input binary archive. */
@@ -106,6 +119,8 @@ using in_json_t = cereal::JSONInputArchive;
 using in_raw_t = raw_iarchive;
 /*! \brief Typedef to input using Google protocol buffers. */
 using in_protobuf_t = protobuf_iarchive;
+/*! \brief Typedef to input using MessagePack. */
+using in_msgpack_t = msgpack_iarchive;
 
 } // namespace archives
 
@@ -252,6 +267,41 @@ template <typename T> struct ToCharVectorImpl<T, archives::out_protobuf_t>
     }
 };
 
+/*! \brief Serialization to char vector implementation, specialization for Messagepack bufs. */
+template <typename T>
+struct ToCharVectorImpl<T, archives::out_msgpack_t>
+{
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialize
+     * \return Char vector containing serialized object
+     *
+     * This overload creates new memory.
+     */
+    char_vector_t operator()(const T& object) const
+    {
+        msgpack::sbuffer buffer;
+        msgpack::pack(buffer, object);
+
+        return char_vector_t(buffer.data(), buffer.data() + buffer.size());
+    }
+
+    /*!
+     * \brief Function operator
+     * \param[in] object - Object to serialize
+     * \param[out] result - Char vector containing serialized object
+     *
+     * This overload uses the memory passed in and resizes if necessary.
+     */
+    void operator()(const T& object, char_vector_t& result) const
+    {
+        msgpack::sbuffer buffer;
+        msgpack::pack(buffer, object);
+
+        result.assign(buffer.data(), buffer.data() + buffer.size());
+    }
+};
+
 /*!
  * \brief Deserialization to object implementation.
  *
@@ -325,6 +375,31 @@ template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
         {
             BOOST_THROW_EXCEPTION(std::runtime_error("failed to deserialize to protocol buffer"));
         }
+
+        return object;
+    }
+};
+
+/*! \brief Deserialization to object implementation, specialization for Google protocol buffers. */
+template <typename T>
+struct ToObjectImpl<T, archives::in_msgpack_t>
+{
+    /*!
+     * \brief Function operator
+     * \param[in] charSpan - Char span containing serialized object
+     * \return Deserialized object
+     */
+    T operator()(char_cspan_buf_t charSpan) const
+    {
+        if (charSpan.empty())
+        {
+            BOOST_THROW_EXCEPTION(std::runtime_error("Cannot deserialize MessagePack object from empty buffer."));
+        }
+
+        msgpack::object_handle oh = msgpack::unpack(charSpan.data(), charSpan.size());
+
+        T object;
+        oh.get().convert(object);
 
         return object;
     }
@@ -416,7 +491,7 @@ char_vector_t ToCharVectorFlatBuf(const T& object, PackFunc packFunc)
 
 /*!
 * \brief Function to serialize object via flatbuffers
-* \param[in] builder - A falttbuffer builder already initialised with the message fields.
+* \param[in] builder - A flatbuffer builder already initialised with the message fields.
 * \return Char vector containing serialized object
 *
 * This overload creates new memory but has best performance regarding creating a message view object

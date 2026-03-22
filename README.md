@@ -1,5 +1,7 @@
 # CoreLibrary #
 ## News ##
+2026/03/22 - Added support for MessagePack. The ASIO network classes in CoreLibrary now support this method of (de)serialisation. Version 7.0.0 of MessagePack is included in the CoreLibrary. Bumped the library version to v2.0.5.
+
 2026/03/01 - Added support for Google's flatbuffers. The ASIO network classes in CoreLibrary now support this method of (de)serialisation. Flatbuffer usage is a compile time option for CoreLibrary. This will become release v2.0.2. Also updated doxygen docs to match changes.
 
 2026/02/27 - The big library rework has been useful and, as a result, I've been able to make further improvements to the ASIO classes public interfaces so they now use `std::string_view` instead of `std::string const&` and `std::vector<char> const&` has been replaced by `std::span<const char>`. This allows more flexibility in what a user can pass in for arguments such as addresses and message buffers.

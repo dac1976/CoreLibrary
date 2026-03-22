@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.4</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.5</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -140,7 +140,7 @@ $(function(){initNavTree('polymorphic__impl_8hpp_source.html','',''); });
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;<a class="code" href="polymorphic__impl__fwd_8hpp.html">cereal/details/polymorphic_impl_fwd.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="static__object_8hpp.html">cereal/details/static_object.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="memory_8hpp.html">cereal/types/memory.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="string_8hpp.html">cereal/types/string.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="cereal_2types_2string_8hpp.html">cereal/types/string.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &lt;typeindex&gt;</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &lt;map&gt;</span></div>
@@ -828,6 +828,7 @@ $(function(){initNavTree('polymorphic__impl_8hpp_source.html','',''); });
 <div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>} <span class="comment">// namespace cereal</span></div>
 <div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span> </div>
 <div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span><span class="preprocessor">#endif </span><span class="comment">// CEREAL_DETAILS_POLYMORPHIC_IMPL_HPP_</span></div>
+<div class="ttc" id="acereal_2types_2string_8hpp_html"><div class="ttname"><a href="cereal_2types_2string_8hpp.html">string.hpp</a></div><div class="ttdoc">Support for types found in &lt;string&gt;.</div></div>
 <div class="ttc" id="aclasscereal_1_1detail_1_1_input_archive_base_html"><div class="ttname"><a href="classcereal_1_1detail_1_1_input_archive_base.html">cereal::detail::InputArchiveBase</a></div><div class="ttdef"><b>Definition</b> helpers.hpp:282</div></div>
 <div class="ttc" id="aclasscereal_1_1detail_1_1_output_archive_base_html"><div class="ttname"><a href="classcereal_1_1detail_1_1_output_archive_base.html">cereal::detail::OutputArchiveBase</a></div><div class="ttdef"><b>Definition</b> helpers.hpp:270</div></div>
 <div class="ttc" id="aclasscereal_1_1detail_1_1_output_binding_creator_1_1_polymorphic_shared_pointer_wrapper_html"><div class="ttname"><a href="classcereal_1_1detail_1_1_output_binding_creator_1_1_polymorphic_shared_pointer_wrapper.html">cereal::detail::OutputBindingCreator::PolymorphicSharedPointerWrapper</a></div><div class="ttdoc">Holds a properly typed shared_ptr to the polymorphic type.</div><div class="ttdef"><b>Definition</b> polymorphic_impl.hpp:598</div></div>
@@ -848,7 +849,6 @@ $(function(){initNavTree('polymorphic__impl_8hpp_source.html','',''); });
 <div class="ttc" id="apolymorphic__impl__fwd_8hpp_html"><div class="ttname"><a href="polymorphic__impl__fwd_8hpp.html">polymorphic_impl_fwd.hpp</a></div><div class="ttdoc">Internal polymorphism support forward declarations.</div></div>
 <div class="ttc" id="astatic__object_8hpp_html"><div class="ttname"><a href="static__object_8hpp.html">static_object.hpp</a></div><div class="ttdoc">Internal polymorphism static object support.</div></div>
 <div class="ttc" id="astatic__object_8hpp_html_afde52a096f363ebe6869a9c0f9ef4cbb"><div class="ttname"><a href="static__object_8hpp.html#afde52a096f363ebe6869a9c0f9ef4cbb">CEREAL_DLL_EXPORT</a></div><div class="ttdeci">#define CEREAL_DLL_EXPORT</div><div class="ttdoc">Prevent link optimization from removing non-referenced static objects.</div><div class="ttdef"><b>Definition</b> static_object.hpp:51</div></div>
-<div class="ttc" id="astring_8hpp_html"><div class="ttname"><a href="string_8hpp.html">string.hpp</a></div><div class="ttdoc">Support for types found in &lt;string&gt;.</div></div>
 <div class="ttc" id="astructcereal_1_1detail_1_1_empty_deleter_html"><div class="ttname"><a href="structcereal_1_1detail_1_1_empty_deleter.html">cereal::detail::EmptyDeleter</a></div><div class="ttdoc">An empty noop deleter.</div><div class="ttdef"><b>Definition</b> polymorphic_impl.hpp:490</div></div>
 <div class="ttc" id="astructcereal_1_1detail_1_1_input_binding_creator_html"><div class="ttname"><a href="structcereal_1_1detail_1_1_input_binding_creator.html">cereal::detail::InputBindingCreator</a></div><div class="ttdoc">Creates a binding (map entry) between an input archive type and a polymorphic type.</div><div class="ttdef"><b>Definition</b> polymorphic_impl.hpp:531</div></div>
 <div class="ttc" id="astructcereal_1_1detail_1_1_input_binding_creator_html_a0844036ce968019290e32f9ab183e9e1"><div class="ttname"><a href="structcereal_1_1detail_1_1_input_binding_creator.html#a0844036ce968019290e32f9ab183e9e1">cereal::detail::InputBindingCreator::InputBindingCreator</a></div><div class="ttdeci">InputBindingCreator()</div><div class="ttdoc">Initialize the binding.</div><div class="ttdef"><b>Definition</b> polymorphic_impl.hpp:533</div></div>
