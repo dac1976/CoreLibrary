@@ -61,6 +61,7 @@ As mentioned earlier, the library requires some third-party open source librarie
 * Boost (tested with 1.55+ and greater - 1.90 recommended): http://www.boost.org/
 * (Included) Cereal (tested with 1.2.1 and greater, 1.3.2 recommended): http://uscilab.github.io/cereal/ - included with CoreLibrary in Include/cereal.
 * (Included) Loki: http://loki-lib.sourceforge.net/ - included with CoreLibrary in Include/loki.
+* (Included) MessagePack v7.0.0: https://github.com/msgpack/msgpack-c/tree/cpp_master - included with the CoreLibrary in include/msgpack.
 * Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest
 * (Optional) Google Protocol Buffers (tested with 3.7.1 and greater): https://github.com/protocolbuffers/protobuf - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.
 * (Optional) Google flatbuffers Buffers (tested with 25.12.19): https://github.com/google/flatbuffers - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.
