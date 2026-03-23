@@ -95,7 +95,9 @@ enum class eArchiveType : uint8_t
 	/*! \brief Google protocol buffer. */
 	protobuf,
     /*! \brief Google flat buffers. */
-	flatBuffer
+	flatBuffer,
+	/*! \brief MessagePack serialisation. */
+	messagePack
 };
 
 // Push single byte alignment for the MessageHeader strcuture for maximum portability.

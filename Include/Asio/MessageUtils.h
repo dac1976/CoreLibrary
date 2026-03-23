@@ -267,6 +267,19 @@ template <> struct ArchiveTypeToEnum<serialize::archives::out_xml_t>
     }
 };
 
+/*! \brief Archive type enumerators as a specialized template class for MessagePack archives. */
+template <> struct ArchiveTypeToEnum<serialize::archives::out_msgpack_t>
+{
+    /*!
+     * \brief Enumerate method.
+     * \return The enumerated type.
+     */
+    static defs::eArchiveType Enumerate()
+    {
+        return defs::eArchiveType::messagePack;
+    }
+};
+
 /*!
  * \brief Default message builder class.
  *
@@ -493,6 +506,8 @@ T DeserializeMessage(defs::char_buf_cspan_t messageBuffer, defs::eArchiveType ar
     case defs::eArchiveType::flatBuffer:
         // Do nothing;
         break;
+	case defs::eArchiveType::messagePack:
+        return serialize::ToObject<T, serialize::archives::in_msgpack_t>(messageBuffer);
     }
 
     return T();

@@ -232,6 +232,7 @@ constexpr const char ARCH_JSON[]{"json"};
 constexpr const char ARCH_XML[]{"xml"};
 constexpr const char ARCH_PROTOBUF[]{"protobuf"};
 constexpr const char ARCH_FLATBUFFER[]{"flatBuffer"};
+constexpr const char ARCH_MSGPACK[]{"messagePack"};
 constexpr const char ARCH_RAW[]{"raw"};
 constexpr const char ARCH_NULL[]{""};
 
@@ -253,6 +254,8 @@ std::string_view ArchiveTypeToString(defs::eArchiveType archiveType)
         return ARCH_PROTOBUF;
     case defs::eArchiveType::flatBuffer:
         return ARCH_FLATBUFFER;
+	case defs::eArchiveType::messagePack:
+        return ARCH_MSGPACK;
     }
 
     return ARCH_NULL;
@@ -289,6 +292,10 @@ defs::eArchiveType StringToArchiveType(std::string_view archiveName)
     else if (archiveName == ARCH_FLATBUFFER)
     {
         archiveType = defs::eArchiveType::flatBuffer;
+    }
+	else if (archiveName == ARCH_MSGPACK)
+    {
+        archiveType = defs::eArchiveType::messagePack;
     }
     else
     {
