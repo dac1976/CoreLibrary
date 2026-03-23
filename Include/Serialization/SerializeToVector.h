@@ -380,7 +380,7 @@ template <typename T> struct ToObjectImpl<T, archives::in_protobuf_t>
     }
 };
 
-/*! \brief Deserialization to object implementation, specialization for Google protocol buffers. */
+/*! \brief Deserialization to object implementation, specialization for MessagePack. */
 template <typename T>
 struct ToObjectImpl<T, archives::in_msgpack_t>
 {
