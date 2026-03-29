@@ -1,6 +1,7 @@
 @echo off
 
 call test.proto_gen.bat
+call test.flatbuffer_gen.bat
 
 setlocal enabledelayedexpansion
 

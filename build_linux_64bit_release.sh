@@ -18,8 +18,8 @@ rm -rf build
 rm -rf RelWithDebInfo
 mkdir -p RelWithDebInfo
 
-mkdir -p RelWithDebInfo/static/bin
-mkdir -p RelWithDebInfo/dynamic/bin
+mkdir -p RelWithDebInfo/static
+mkdir -p RelWithDebInfo/dynamic
 
 # Create build files
 cmake -Bbuild  -DCMAKE_INSTALL_PREFIX="./RelWithDebInfo/dynamic" -DCMAKE_TOOLCHAIN_FILE="${CORELIB_VCPKG_CMAKE_PATH}" -DBUILD_SHARED_LIBS=ON -DCORELIB_USE_FLATBUFFERS=ON -DCORELIB_USE_STD_FILESYSTEM=ON  -DCMAKE_BUILD_TYPE=RelWithDebInfo
@@ -28,9 +28,8 @@ cmake -Bbuild  -DCMAKE_INSTALL_PREFIX="./RelWithDebInfo/dynamic" -DCMAKE_TOOLCHA
 cmake --build build -- -j$(nproc)
 
 # Install
-cmake --install build --prefix "./RelWithDebInfo/dynamic"
+cp ./build/libCoreLibrary.so ./RelWithDebInfo/dynamic
 
-# Static build
 rm -rf build
 
 # Create build files
@@ -40,4 +39,6 @@ cmake -Bbuild  -DCMAKE_INSTALL_PREFIX="./RelWithDebInfo/static"  -DBUILD_SHARED_
 cmake --build build -- -j$(nproc)
 
 # Install
-cmake --install build --prefix "./RelWithDebInfo/static"
+cp ./build/libCoreLibrary.a ./RelWithDebInfo/static
+
+rm -rf build

@@ -165,6 +165,7 @@ target_compile_definitions(CoreLibraryUnitTests PUBLIC
 target_include_directories(CoreLibraryUnitTests PUBLIC
   "${CORELIB_BOOST_ROOT}"
   ../../Include
+  ../../Include/msgpack
 )
 
 if(MSVC)
