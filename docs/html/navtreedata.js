@@ -88,15 +88,15 @@ var NAVTREEINDEX =
 "functions_vars_m.html",
 "macros_8hpp.html#ac018dce5e1c47d8948842e8eaa08815e",
 "namespacecore__lib_1_1asio_1_1defs.html#a8c8a1638bc2fd93ff3310beac91241d5",
-"parse__return_8hpp_source.html",
-"struct_loki_1_1_deep_copy.html",
-"struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p021dd7ae99df7898137ae5616f1a6f1ebb.html",
-"struct_loki_1_1_t_l_1_1nameof__type.html",
-"structcereal_1_1traits_1_1detail_1_1is__string_3_01std_1_1basic__string_3_01_char_t_00_01_traits_00_01_alloc_01_4_01_4.html",
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#ac033159e400566a921ff99747682a02f",
-"structmsgpack_1_1adaptor_1_1convert_3_01unsigned_01long_01_4.html",
-"structmsgpack_1_1object.html#a7124ac7bcd3b9ebf5b97e1fcef58f794",
-"v1_2versioning_8hpp_source.html"
+"parse_8hpp_source.html",
+"struct_loki_1_1_create_using_malloc.html",
+"struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p02151b0c105e9893046f8a6ba141e4f4c7.html",
+"struct_loki_1_1_t_l_1_1_type_at_non_strict_3_01_typelist_3_01_head_00_01_tail_01_4_00_010_00_01_default_type_01_4.html",
+"structcereal_1_1traits_1_1detail_1_1has__minimal__base__class__serialization__impl_3_01_cast_00_770f151cf1f8dcf8b74cd811c88827e1.html",
+"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#ab4402781be796b5c6bde621ab43432ad",
+"structmsgpack_1_1adaptor_1_1convert_3_01type_1_1size__equal__only_3_01_t_01_4_01_4.html",
+"structmsgpack_1_1object.html#a1aca54313a4c7e7d570a5f01831e5036",
+"v1_2parse__return_8hpp_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

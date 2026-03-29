@@ -48,6 +48,7 @@ var hierarchy =
     [ "core_lib::asio::messages::ArchiveTypeToEnum&lt; A &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_bin_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_json_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html", null ],
+    [ "core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_msgpack_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_port_bin_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__port__bin__t_01_4.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_protobuf_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__protobuf__t_01_4.html", null ],
     [ "core_lib::asio::messages::ArchiveTypeToEnum&lt; serialize::archives::out_raw_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__raw__t_01_4.html", null ],

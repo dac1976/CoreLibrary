@@ -30,7 +30,8 @@ var _asio_defines_8h =
       [ "core_lib::asio::defs::eArchiveType::xml", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a0f635d0e0f3874fff8b581c132e6c7a7", null ],
       [ "core_lib::asio::defs::eArchiveType::raw", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313abdd166af3a63f7be696dd17a218a6ffb", null ],
       [ "core_lib::asio::defs::eArchiveType::protobuf", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313a606eaf846c6579916354199b45953ee2", null ],
-      [ "core_lib::asio::defs::eArchiveType::flatBuffer", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313aa2ecbb6182df15776b2e88f73a11498c", null ]
+      [ "core_lib::asio::defs::eArchiveType::flatBuffer", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313aa2ecbb6182df15776b2e88f73a11498c", null ],
+      [ "core_lib::asio::defs::eArchiveType::messagePack", "namespacecore__lib_1_1asio_1_1defs.html#aba754c4a2ad0693ec77dfdd50e767313aeeee5f52c2dd030fa9c42514ec88324c", null ]
     ] ],
     [ "core_lib::asio::udp::eDefaultUdpSize", "namespacecore__lib_1_1asio_1_1udp.html#aeebf42fbff9d8aee0bc7460ad8dfdd6c", null ],
     [ "core_lib::asio::defs::eDefRecvPoolMsgSize", "namespacecore__lib_1_1asio_1_1defs.html#a6e53384104650800684b383a9db99099", null ],

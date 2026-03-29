@@ -1,5 +1,7 @@
 var NAVTREEINDEX25 =
 {
+"structcereal_1_1traits_1_1detail_1_1has__minimal__base__class__serialization__impl_3_01_cast_00_770f151cf1f8dcf8b74cd811c88827e1.html":[2,0,0,1,0,26],
+"structcereal_1_1traits_1_1detail_1_1is__string.html":[2,0,0,1,0,9],
 "structcereal_1_1traits_1_1detail_1_1is__string_3_01std_1_1basic__string_3_01_char_t_00_01_traits_00_01_alloc_01_4_01_4.html":[2,0,0,1,0,10],
 "structcereal_1_1traits_1_1detail_1_1meta__bool__and.html":[2,0,0,1,0,1],
 "structcereal_1_1traits_1_1detail_1_1meta__bool__and_3_01_b_01_4.html":[2,0,0,1,0,2],
@@ -97,6 +99,10 @@ var NAVTREEINDEX25 =
 "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html":[2,0,1,1,4,6],
 "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html#a7a5ada73896ec385f8729ec3f36b6103":[1,0,1,0,4,6,0],
 "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html#a7a5ada73896ec385f8729ec3f36b6103":[2,0,1,1,4,6,0],
+"structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html":[1,0,1,0,4,8],
+"structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html":[2,0,1,1,4,8],
+"structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html#ab5576a2dcb8b9718428faf3fde488b76":[1,0,1,0,4,8,0],
+"structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html#ab5576a2dcb8b9718428faf3fde488b76":[2,0,1,1,4,8,0],
 "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__port__bin__t_01_4.html":[1,0,1,0,4,3],
 "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__port__bin__t_01_4.html":[2,0,1,1,4,3],
 "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__port__bin__t_01_4.html#a0f3d7480a28604d5681a858fddc66e75":[1,0,1,0,4,3,0],
@@ -243,11 +249,5 @@ var NAVTREEINDEX25 =
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#aa734d9ae457e44b350c0ab7a5b26d265":[1,0,1,2,0,20],
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#aa734d9ae457e44b350c0ab7a5b26d265":[2,0,1,5,1,20],
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#aadbfba6392a4065c484b6d23fec900e6":[1,0,1,2,0,57],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#aadbfba6392a4065c484b6d23fec900e6":[2,0,1,5,1,57],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#ab4402781be796b5c6bde621ab43432ad":[1,0,1,2,0,0],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#ab4402781be796b5c6bde621ab43432ad":[2,0,1,5,1,0],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#abe30ef35a6768b7832fa5f74f78a3944":[1,0,1,2,0,50],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#abe30ef35a6768b7832fa5f74f78a3944":[2,0,1,5,1,50],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#abeeb9a291e8a64f6415df3b60d5e754c":[1,0,1,2,0,41],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#abeeb9a291e8a64f6415df3b60d5e754c":[2,0,1,5,1,41]
+"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#aadbfba6392a4065c484b6d23fec900e6":[2,0,1,5,1,57]
 };

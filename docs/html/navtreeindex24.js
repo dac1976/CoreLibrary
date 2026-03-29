@@ -1,5 +1,7 @@
 var NAVTREEINDEX24 =
 {
+"struct_loki_1_1_t_l_1_1_type_at_non_strict_3_01_typelist_3_01_head_00_01_tail_01_4_00_010_00_01_default_type_01_4.html":[2,0,4,1,14],
+"struct_loki_1_1_t_l_1_1_type_at_non_strict_3_01_typelist_3_01_head_00_01_tail_01_4_00_01i_00_01_default_type_01_4.html":[2,0,4,1,15],
 "struct_loki_1_1_t_l_1_1nameof__type.html":[2,0,4,1,0],
 "struct_loki_1_1_t_l_1_1sizeof__type.html":[2,0,4,1,1],
 "struct_loki_1_1_throw_logic_error.html":[1,0,2,32],
@@ -247,7 +249,5 @@ var NAVTREEINDEX24 =
 "structcereal_1_1traits_1_1detail_1_1get__output__from__input.html":[2,0,0,1,0,7],
 "structcereal_1_1traits_1_1detail_1_1has__member__load__and__construct__impl.html":[2,0,0,1,0,15],
 "structcereal_1_1traits_1_1detail_1_1has__member__versioned__load__and__construct__impl.html":[2,0,0,1,0,16],
-"structcereal_1_1traits_1_1detail_1_1has__minimal__base__class__serialization__impl.html":[2,0,0,1,0,25],
-"structcereal_1_1traits_1_1detail_1_1has__minimal__base__class__serialization__impl_3_01_cast_00_770f151cf1f8dcf8b74cd811c88827e1.html":[2,0,0,1,0,26],
-"structcereal_1_1traits_1_1detail_1_1is__string.html":[2,0,0,1,0,9]
+"structcereal_1_1traits_1_1detail_1_1has__minimal__base__class__serialization__impl.html":[2,0,0,1,0,25]
 };

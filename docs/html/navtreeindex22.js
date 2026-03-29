@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"struct_loki_1_1_create_using_malloc.html":[0,7,0,2],
+"struct_loki_1_1_create_using_new.html":[0,7,0,0],
 "struct_loki_1_1_deep_copy.html":[0,9,0,3],
 "struct_loki_1_1_default_catch_all.html":[1,0,2,288],
 "struct_loki_1_1_default_catch_all.html":[2,0,4,291],
@@ -247,7 +249,5 @@ var NAVTREEINDEX22 =
 "struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p020f5c344483eff254f006ee041ed03abf.html":[2,0,4,0,96],
 "struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p02127a7582f42f29edf025d5aff6bbd8e5.html":[2,0,4,0,83],
 "struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p0213288969884543bf13ab559528827fe7.html":[2,0,4,0,213],
-"struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p0214ca85a9c33382b1f623161563f57d95.html":[2,0,4,0,185],
-"struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p02151b0c105e9893046f8a6ba141e4f4c7.html":[2,0,4,0,206],
-"struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p02167d99ce6af1092e2d74352b305b78dc.html":[2,0,4,0,155]
+"struct_loki_1_1_private_1_1_is_member_function_pointer_raw_3_01_t_07_s_1_1_5_08_07_p01_00_01_p0214ca85a9c33382b1f623161563f57d95.html":[2,0,4,0,185]
 };

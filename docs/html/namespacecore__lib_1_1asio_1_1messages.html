@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.5</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.6</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -114,6 +114,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerator as a specialized template class for json archives.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ArchiveTypeToEnum_3C_20serialize_3A_3Aarchives_3A_3Aout_5Fxml_5Ft_20_3E" id="r_ArchiveTypeToEnum_3C_20serialize_3A_3Aarchives_3A_3Aout_5Fxml_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__xml__t_01_4.html">ArchiveTypeToEnum&lt; serialize::archives::out_xml_t &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerators as a specialized template class for xml archives.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__xml__t_01_4.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ArchiveTypeToEnum_3C_20serialize_3A_3Aarchives_3A_3Aout_5Fmsgpack_5Ft_20_3E" id="r_ArchiveTypeToEnum_3C_20serialize_3A_3Aarchives_3A_3Aout_5Fmsgpack_5Ft_20_3E"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html">ArchiveTypeToEnum&lt; serialize::archives::out_msgpack_t &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Archive type enumerators as a specialized template class for MessagePack archives.  <a href="structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MessageBuilder" id="r_MessageBuilder"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html">MessageBuilder</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default message builder class.  <a href="classcore__lib_1_1asio_1_1messages_1_1_message_builder.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -143,6 +145,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a38c67a3e2ca8fc1a8b708d788c8c2ecd" id="r_a38c67a3e2ca8fc1a8b708d788c8c2ecd"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a38c67a3e2ca8fc1a8b708d788c8c2ecd template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a38c67a3e2ca8fc1a8b708d788c8c2ecd">DeserializeProtobuf</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> messageBuffer)</td></tr>
 <tr class="memdesc:a38c67a3e2ca8fc1a8b708d788c8c2ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for Google protocol buffer data.  <br /></td></tr>
+<tr class="memitem:ad8ab1ef92034ae620494d279e131884f" id="r_ad8ab1ef92034ae620494d279e131884f"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad8ab1ef92034ae620494d279e131884f template"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#ad8ab1ef92034ae620494d279e131884f">DeserializeMessagePack</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> messageBuffer)</td></tr>
+<tr class="memdesc:ad8ab1ef92034ae620494d279e131884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Templated message deserializer function for MessagePack data.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -160,6 +165,8 @@ constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_XML</b> [] {&quo
 constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_PROTOBUF</b> [] {&quot;protobuf&quot;}</td></tr>
 <tr class="memitem:a09b85b557554c462a31b6c83156e8e55" id="r_a09b85b557554c462a31b6c83156e8e55"><td class="memItemLeft"><a id="a09b85b557554c462a31b6c83156e8e55" name="a09b85b557554c462a31b6c83156e8e55"></a>
 constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_FLATBUFFER</b> [] {&quot;flatBuffer&quot;}</td></tr>
+<tr class="memitem:aa0e23f058bd7ce3b511b736f91ca6f9e" id="r_aa0e23f058bd7ce3b511b736f91ca6f9e"><td class="memItemLeft"><a id="aa0e23f058bd7ce3b511b736f91ca6f9e" name="aa0e23f058bd7ce3b511b736f91ca6f9e"></a>
+constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_MSGPACK</b> [] {&quot;messagePack&quot;}</td></tr>
 <tr class="memitem:a07dadfd5922a6419d117b435c2f96f32" id="r_a07dadfd5922a6419d117b435c2f96f32"><td class="memItemLeft"><a id="a07dadfd5922a6419d117b435c2f96f32" name="a07dadfd5922a6419d117b435c2f96f32"></a>
 constexpr const char&#160;</td><td class="memItemRight"><b>ARCH_RAW</b> [] {&quot;raw&quot;}</td></tr>
 <tr class="memitem:a06340992b7e9e8555c90c12d2cbcc5d3" id="r_a06340992b7e9e8555c90c12d2cbcc5d3"><td class="memItemLeft"><a id="a06340992b7e9e8555c90c12d2cbcc5d3" name="a06340992b7e9e8555c90c12d2cbcc5d3"></a>
@@ -404,6 +411,34 @@ template&lt;typename T&gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">messageBuffer</td><td>- Message buffer to be deserialized. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">archiveType</td><td>- Serialization archive type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The deserialization object T. </dd></dl>
+
+</div>
+</div>
+<a id="ad8ab1ef92034ae620494d279e131884f" name="ad8ab1ef92034ae620494d279e131884f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8ab1ef92034ae620494d279e131884f">&#9670;&#160;</a></span>DeserializeMessagePack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T core_lib::asio::messages::DeserializeMessagePack </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a></td>          <td class="paramname"><span class="paramname"><em>messageBuffer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Templated message deserializer function for MessagePack data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">messageBuffer</td><td>- Message buffer to be deserialized. </td></tr>
   </table>
   </dd>
 </dl>

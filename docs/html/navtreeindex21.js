@@ -1,5 +1,7 @@
 var NAVTREEINDEX21 =
 {
+"parse_8hpp_source.html":[3,0,0,11,0,27],
+"parse__decl_8hpp_source.html":[3,0,0,11,0,28],
 "parse__return_8hpp_source.html":[3,0,0,11,0,29],
 "pgi_8h_source.html":[3,0,0,11,0,1,1,24],
 "platform_2cloudabi_8h_source.html":[3,0,0,11,0,1,8,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX21 =
 "struct_loki_1_1_conversion_3_01void_00_01void_01_4.html":[2,0,4,267],
 "struct_loki_1_1_create_static.html":[0,7,0,3],
 "struct_loki_1_1_create_using.html":[0,7,0,1],
-"struct_loki_1_1_create_using_1_1_allocator.html":[0,7,0,1,0],
-"struct_loki_1_1_create_using_malloc.html":[0,7,0,2],
-"struct_loki_1_1_create_using_new.html":[0,7,0,0]
+"struct_loki_1_1_create_using_1_1_allocator.html":[0,7,0,1,0]
 };

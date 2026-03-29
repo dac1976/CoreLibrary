@@ -201,6 +201,7 @@ var annotated_dup =
           [ "ArchiveTypeToEnum&lt; serialize::archives::out_protobuf_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__protobuf__t_01_4.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__protobuf__t_01_4" ],
           [ "ArchiveTypeToEnum&lt; serialize::archives::out_json_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__json__t_01_4" ],
           [ "ArchiveTypeToEnum&lt; serialize::archives::out_xml_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__xml__t_01_4.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__xml__t_01_4" ],
+          [ "ArchiveTypeToEnum&lt; serialize::archives::out_msgpack_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__msgpack__t_01_4" ],
           [ "MessageBuilder", "classcore__lib_1_1asio_1_1messages_1_1_message_builder.html", "classcore__lib_1_1asio_1_1messages_1_1_message_builder" ]
         ] ],
         [ "icmp", "namespacecore__lib_1_1asio_1_1icmp.html", [
