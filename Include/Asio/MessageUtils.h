@@ -489,7 +489,8 @@ T DeserializeMessage(defs::char_buf_cspan_t messageBuffer, defs::eArchiveType ar
 {
     assert((archiveType != defs::eArchiveType::raw) &&
            (archiveType != defs::eArchiveType::protobuf) &&
-           (archiveType != defs::eArchiveType::flatBuffer));
+           (archiveType != defs::eArchiveType::flatBuffer) &&
+           (archiveType != defs::eArchiveType::messagePack));
 
     switch (archiveType)
     {
@@ -504,10 +505,10 @@ T DeserializeMessage(defs::char_buf_cspan_t messageBuffer, defs::eArchiveType ar
     case defs::eArchiveType::raw:
     case defs::eArchiveType::protobuf:
     case defs::eArchiveType::flatBuffer:
-        // Do nothing;
-        break;
 	case defs::eArchiveType::messagePack:
-        return serialize::ToObject<T, serialize::archives::in_msgpack_t>(messageBuffer);
+    // Do nothing;
+        break;
+
     }
 
     return T();
@@ -531,6 +532,16 @@ template <typename T> T DeserializeMessage(defs::char_buf_cspan_t messageBuffer)
 template <typename T> T DeserializeProtobuf(defs::char_buf_cspan_t messageBuffer)
 {
     return serialize::ToObject<T, serialize::archives::in_protobuf_t>(messageBuffer);
+}
+
+/*!
+ * \brief Templated message deserializer function for MessagePack data.
+ * \param[in] messageBuffer - Message buffer to be deserialized.
+ * \return The deserialization object T.
+ */
+template <typename T> T DeserializeMessagePack(defs::char_buf_cspan_t messageBuffer)
+{
+    return serialize::ToObject<T, serialize::archives::in_msgpack_t>(messageBuffer);
 }
 
 } // namespace messages
