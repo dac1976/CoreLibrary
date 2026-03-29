@@ -33,6 +33,7 @@
 #include <stdexcept>
 #include <utility>
 #include <map>
+#include <cmath>
 #include "CoreLibraryDllGlobal.h"
 #include "Platform/PlatformDefines.h"
 #if defined(IS_CPP17) && !defined(NO_FROM_CHARS)

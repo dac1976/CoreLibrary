@@ -482,7 +482,7 @@ bool SupportsMulticast(const ifaddrs* iface)
     return iface && (iface->ifa_flags & IFF_MULTICAST);
 }
 
-std::vector<IPv4Adapter> GetIPv4Adapters(eInterfaceFilter filter = eInterfaceFilter::All)
+std::vector<IPv4Adapter> GetIPv4Adapters(eInterfaceFilter filter)
 {
     std::vector<IPv4Adapter> adapters;
     std::unordered_map<std::string, size_t> adapterIndex;

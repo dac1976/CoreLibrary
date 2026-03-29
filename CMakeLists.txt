@@ -144,6 +144,7 @@ endif()
 target_include_directories(CoreLibrary PUBLIC
   "${CORELIB_BOOST_ROOT}"
   Include
+  Include/msgpack
 )
 
 # --- Generator-expression helpers ---
@@ -157,7 +158,6 @@ set(_CORELIB_NEED_FLATBUFFERS "$<BOOL:${CORELIB_USE_FLATBUFFERS}>")
 target_link_libraries(CoreLibrary PUBLIC
 
   # Linux
-  $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_system.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_thread.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_locale.a>
   $<$<AND:${_CORELIB_LINUX},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem.a>
