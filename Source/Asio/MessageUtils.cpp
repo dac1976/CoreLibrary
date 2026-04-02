@@ -83,8 +83,9 @@ MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& message
                                size_t defaultMsgSize)
     : m_messageDispatcher(messageDispatcher)
     , m_magicString(magicString)
+	, m_defaultMsgSize(defaultMsgSize)
 {
-    InitialiseMsgPool(memPoolMsgCount, defaultMsgSize);
+    InitialiseMsgPool(memPoolMsgCount);
 }
 
 size_t MessageHandler::CheckBytesLeftToRead(defs::char_buf_cspan_t message) const
@@ -112,8 +113,10 @@ size_t MessageHandler::CheckBytesLeftToRead(defs::char_buf_cspan_t message) cons
 
     uint32_t totalLength;
     std::memcpy(&totalLength, message.data() + MESSAGE_LENGTH_OFFSET, sizeof(totalLength));
+	
+	auto msgSize = static_cast<uint32_t>(message.size());
 
-    if (totalLength < message.size())
+    if (totalLength < msgSize)
     {
 #if defined(USE_SOCKET_DEBUG)
         DEBUG_MESSAGE_EX_ERROR("Message length error, header length field ("
@@ -123,7 +126,7 @@ size_t MessageHandler::CheckBytesLeftToRead(defs::char_buf_cspan_t message) cons
         return std::numeric_limits<size_t>::max();
     }
 
-    return totalLength - message.size();
+    return static_cast<size_t>(totalLength - msgSize);
 }
 
 void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) const
@@ -134,8 +137,13 @@ void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) cons
         DEBUG_MESSAGE_EX_ERROR("Incomplete message header");
 #endif
     }
+	
+	uint32_t totalLength;
+    std::memcpy(&totalLength, message.data() + MESSAGE_LENGTH_OFFSET, sizeof(totalLength));
 
-    auto receivedMessage = GetNewMessageObject();
+    auto hdrLength       = static_cast<uint32_t>(defs::MESSAGE_HEADER_LEN);
+    auto requiredLength  = totalLength > hdrLength ? totalLength - hdrLength : 0;
+    auto receivedMessage = GetNewMessageObject(requiredLength);
 
     if (!TryConvertToPod<defs::MessageHeader>(receivedMessage->header, message))
     {
@@ -145,10 +153,10 @@ void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) cons
         return;
     }
 
-    if (receivedMessage->header.totalLength > defs::MESSAGE_HEADER_LEN)
+    if (requiredLength > 0)
     {
-        receivedMessage->body.resize(message.size() - defs::MESSAGE_HEADER_LEN);
-        std::memcpy(receivedMessage->body.data(), message.data() + defs::MESSAGE_HEADER_LEN, receivedMessage->body.size());
+        receivedMessage->body.resize(requiredLength);
+        std::memcpy(receivedMessage->body.data(), message.data() + defs::MESSAGE_HEADER_LEN, requiredLength);
     }
 	else
 	{
@@ -163,7 +171,7 @@ bool MessageHandler::CheckMessage(defs::char_buf_cspan_t message)
     return message.size() >= sizeof(defs::MessageHeader);
 }
 
-void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize)
+void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount)
 {
     m_msgPoolIndex = 0;
 
@@ -183,6 +191,13 @@ void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsg
 #endif
 
     m_msgPool.resize(memPoolMsgCount);
+	
+	if (0 == m_defaultMsgSize)
+	{
+		m_defaultMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE;
+	}
+	
+	auto defaultMsgSize = m_defaultMsgSize;
 
     auto generateMsg = [defaultMsgSize]()
     {
@@ -199,11 +214,11 @@ void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsg
     std::generate(m_msgPool.begin(), m_msgPool.end(), generateMsg);
 }
 
-defs::default_received_message_ptr_t MessageHandler::GetNewMessageObject() const
+defs::default_received_message_ptr_t MessageHandler::GetNewMessageObject(size_t requiredSize) const
 {
     defs::default_received_message_ptr_t newMessage;
 
-    if (m_msgPool.empty())
+    if (m_msgPool.empty() || (requiredSize > m_defaultMsgSize))
     {
         newMessage = std::make_shared<defs::default_received_message_t>();
     }

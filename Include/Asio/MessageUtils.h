@@ -108,15 +108,14 @@ private:
     static bool CheckMessage(defs::char_buf_cspan_t message);
     /*!
      * \brief Initialise message pool.
-     * \param[in] memPoolMsgCount - Pool size as number of messages..
-     * \param[in] defaultMsgSize - Initial size of a message in the pool.
+     * \param[in] memPoolMsgCount - Pool size as number of messages.
      */
-    void InitialiseMsgPool(size_t memPoolMsgCount, size_t defaultMsgSize);
+    void InitialiseMsgPool(size_t memPoolMsgCount);
     /*!
      * \brief Get next message to use from pool.
      * \return A new message object or a one from the pool.
      */
-    defs::default_received_message_ptr_t GetNewMessageObject() const;
+    defs::default_received_message_ptr_t GetNewMessageObject(size_t requiredSize) const;
 
 private:
     mutable std::mutex m_mutex;
@@ -129,7 +128,11 @@ private:
     /*! \brief Magic string. */
     std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 #endif
+    /*! \brief Default pool message size. */
+    size_t m_defaultMsgSize{defs::RECV_POOL_DEFAULT_MSG_SIZE};
+	/*! \brief Message pool index tracker */
     mutable size_t  m_msgPoolIndex{0};
+	/*! \brief The message pool. */
     std::vector<asio::defs::default_received_message_ptr_t> m_msgPool;
 };
 
