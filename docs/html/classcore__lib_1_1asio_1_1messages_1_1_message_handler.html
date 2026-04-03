@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.6</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.7</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -119,12 +119,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9c42091ba0450c01227657e8f733cd49" id="r_a9c42091ba0450c01227657e8f733cd49"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9c42091ba0450c01227657e8f733cd49">MessageReceivedHandler</a> (<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#ad5caed4ac973df35c72a2ad1e1e3bf39">defs::char_buf_cspan_t</a> message) const</td></tr>
 <tr class="memdesc:a9c42091ba0450c01227657e8f733cd49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message received handler method.  <br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a05e4c8b355ff6c6c9117b9b208f3557c" id="r_a05e4c8b355ff6c6c9117b9b208f3557c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a05e4c8b355ff6c6c9117b9b208f3557c">InitialiseMsgPool</a> (size_t memPoolMsgCount, size_t defaultMsgSize)</td></tr>
-<tr class="memdesc:a05e4c8b355ff6c6c9117b9b208f3557c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise message pool.  <br /></td></tr>
-<tr class="memitem:aa76eb02410d8f225ffff270bc5d472f5" id="r_aa76eb02410d8f225ffff270bc5d472f5"><td class="memItemLeft"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a259becc59aa2ea5cf30eca9630d62c2e">defs::default_received_message_ptr_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa76eb02410d8f225ffff270bc5d472f5">GetNewMessageObject</a> () const</td></tr>
-<tr class="memdesc:aa76eb02410d8f225ffff270bc5d472f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get next message to use from pool.  <br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:a306bba927c63e487dc05094f51b9358c" id="r_a306bba927c63e487dc05094f51b9358c"><td class="memItemLeft"><a id="a306bba927c63e487dc05094f51b9358c" name="a306bba927c63e487dc05094f51b9358c"></a>
+using&#160;</td><td class="memItemRight"><b>msg_pool_t</b> = <a class="el" href="classcore__lib_1_1asio_1_1messages_1_1_received_message_pool.html">ReceivedMessagePool</a>&lt;<a class="el" href="structcore__lib_1_1asio_1_1defs_1_1_message_header.html">defs::MessageHeader</a>&gt;</td></tr>
+<tr class="memdesc:a306bba927c63e487dc05094f51b9358c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialisation of the message pool. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -141,10 +140,9 @@ std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
 <tr class="memitem:a586e10d977f8172fdbe04c63f3d3cae3" id="r_a586e10d977f8172fdbe04c63f3d3cae3"><td class="memItemLeft"><a id="a586e10d977f8172fdbe04c63f3d3cae3" name="a586e10d977f8172fdbe04c63f3d3cae3"></a>
 std::string&#160;</td><td class="memItemRight"><b>m_magicString</b> {<a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a8c8a1638bc2fd93ff3310beac91241d5">defs::DEFAULT_MAGIC_STRING</a>}</td></tr>
 <tr class="memdesc:a586e10d977f8172fdbe04c63f3d3cae3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic string. <br /></td></tr>
-<tr class="memitem:ab2206bc2b1bb517bc35925c43ac78c70" id="r_ab2206bc2b1bb517bc35925c43ac78c70"><td class="memItemLeft"><a id="ab2206bc2b1bb517bc35925c43ac78c70" name="ab2206bc2b1bb517bc35925c43ac78c70"></a>
-size_t&#160;</td><td class="memItemRight"><b>m_msgPoolIndex</b> {0}</td></tr>
-<tr class="memitem:af481ca30783be389e050cb7aae115d1e" id="r_af481ca30783be389e050cb7aae115d1e"><td class="memItemLeft"><a id="af481ca30783be389e050cb7aae115d1e" name="af481ca30783be389e050cb7aae115d1e"></a>
-std::vector&lt; <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a259becc59aa2ea5cf30eca9630d62c2e">asio::defs::default_received_message_ptr_t</a> &gt;&#160;</td><td class="memItemRight"><b>m_msgPool</b></td></tr>
+<tr class="memitem:a93b8cdec5e900d0db26343a092c056d2" id="r_a93b8cdec5e900d0db26343a092c056d2"><td class="memItemLeft"><a id="a93b8cdec5e900d0db26343a092c056d2" name="a93b8cdec5e900d0db26343a092c056d2"></a>
+std::shared_ptr&lt; <a class="el" href="#a306bba927c63e487dc05094f51b9358c">msg_pool_t</a> &gt;&#160;</td><td class="memItemRight"><b>m_msgPool</b></td></tr>
+<tr class="memdesc:a93b8cdec5e900d0db26343a092c056d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The message pool. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Default message handler class. </p>
@@ -248,72 +246,6 @@ std::vector&lt; <a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a259
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>- A received message buffer. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="aa76eb02410d8f225ffff270bc5d472f5" name="aa76eb02410d8f225ffff270bc5d472f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa76eb02410d8f225ffff270bc5d472f5">&#9670;&#160;</a></span>GetNewMessageObject()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacecore__lib_1_1asio_1_1defs.html#a259becc59aa2ea5cf30eca9630d62c2e">defs::default_received_message_ptr_t</a> core_lib::asio::messages::MessageHandler::GetNewMessageObject </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get next message to use from pool. </p>
-<dl class="section return"><dt>Returns</dt><dd>A new message object or a one from the pool. </dd></dl>
-
-</div>
-</div>
-<a id="a05e4c8b355ff6c6c9117b9b208f3557c" name="a05e4c8b355ff6c6c9117b9b208f3557c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05e4c8b355ff6c6c9117b9b208f3557c">&#9670;&#160;</a></span>InitialiseMsgPool()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void core_lib::asio::messages::MessageHandler::InitialiseMsgPool </td>
-          <td>(</td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>memPoolMsgCount</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>defaultMsgSize</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Initialise message pool. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">memPoolMsgCount</td><td>- Pool size as number of messages.. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">defaultMsgSize</td><td>- Initial size of a message in the pool. </td></tr>
   </table>
   </dd>
 </dl>

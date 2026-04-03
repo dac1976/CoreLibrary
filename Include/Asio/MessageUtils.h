@@ -47,8 +47,21 @@ namespace asio
 namespace messages
 {
 
-// TODO: tidy this up and reuse it in TcpConnection and in MessageHandler.
-// Add proper doxygen comments!
+/*!
+ * \brief Reusable message pool class.
+ *
+ * The MessageHandler class now uses this specialised to our MessageHeader.
+ * This pool is smart, if it cannot acquire a message from the pool, either
+ * because there are no free messages or the required message size is too bg
+ * then it falls back to dynamic allocation.
+ *
+ * The really nice thing is the pool messages release themselves pack to the
+ * pool once the last instance of the shared_ptr to the message goes out of
+ * scope. Dynamically allocated "fallback" messages self-destruct as normal
+ * through the shared_ptr's default destruction logic.
+ *
+ * Header must be default constructable.
+ */
 template <typename Header>
 class ReceivedMessagePool : public std::enable_shared_from_this<ReceivedMessagePool<Header>>
 {
@@ -59,6 +72,19 @@ public:
     using msg_t = defs::ReceivedMessage<Header>;
     using msg_sh_ptr_t = std::shared_ptr<msg_t>;
 
+#ifdef USE_DEFAULT_CONSTRUCTOR_
+    /*! \brief Default constructor. */
+    ReceivedMessagePool() {}
+#else
+    /*! \brief Default constructor. */
+    ReceivedMessagePool() = default;
+#endif
+
+    /*!
+     * \brief Initialisation constructor.
+     * \param[in] poolSize - How many messages to have in the pool.
+     * \param[in] reservedBodySize - The maximum size allowed per message.
+     */
     ReceivedMessagePool(size_t poolSize, size_t reservedBodySize)
         : m_pool(poolSize)
         , m_reservedBodySize(reservedBodySize)
@@ -71,20 +97,45 @@ public:
         }
     }
 
+    /*! \brief Default destructor. */
+    ~ReceivedMessagePool() = default;
+    /*! \brief Deleted copy constructor. */
+    ReceivedMessagePool(const ReceivedMessagePool&) = delete;
+    /*! \brief Deleted copy assignment operator. */
+    ReceivedMessagePool& operator=(const ReceivedMessagePool&) = delete;
+
+    /*!
+     * \brief Get the pool size
+     * \return Return the number of messages in the pool.
+     */
     size_t PoolSize() const
     {
         STD_SHARED_LOCK(m_mutex);
         return m_pool.size();
     }
 
+    /*!
+     * \brief Get the reserved message size.
+     * \return Return the number of bytes reserved per message.
+     */
     size_t ReservedBodySize() const
     {
         return m_reservedBodySize;
     }
 
-    msg_sh_ptr_t Acquire(std::size_t requiredBodySize)
+    /*!
+     * \brief Acquire a message from the pool.
+     * \param[in] requiredBodySize - The amount of bytes needed to be reserved in the returned message.
+     * \return Returns a shared_ptr to a pool message.
+     *
+     * If the requiredBodySize is larger than ReservedBodySize() or the pool is
+     * currently exhausted then it returns a dynamically allocated message instead.
+     */
+    msg_sh_ptr_t Acquire(size_t requiredBodySize)
     {
-        if (requiredBodySize <= m_reservedBodySize)
+        auto actualReservedBodySize = ReservedBodySize();
+
+        if (requiredBodySize <= actualReservedBodySize)
         {
             STD_UNIQUE_LOCK(m_mutex);
 
@@ -112,6 +163,11 @@ public:
     }
 
 private:
+    /*!
+     * \brief Make a message dynamically.
+     * \param[in] requiredBodySize - The amount of bytes needed to be reserved in the returned message.
+     * \return Returns a shared_ptr to a dynamically allocated message.
+     */
     msg_sh_ptr_t MakeDynamic(size_t requiredBodySize)
     {
         auto msg = std::make_shared<msg_t>();
@@ -119,6 +175,11 @@ private:
         return msg;
     }
 
+    /*!
+     * \brief Release a message back to the pool for re-use.
+     * \param[in] index - The pool index to make available again.
+     * \param[in] msg - The message being released to the pool.
+     */
     void ReleaseToPool(size_t index, msg_t* msg)
     {
         // Guard against null pointer shenanigans.
@@ -130,15 +191,17 @@ private:
         msg->header = Header{};
         msg->body.clear();
 
+        auto actualReservedBodySize = ReservedBodySize();
+
         // Shrink oversized buffers before reusing.
         //
         // This should never get called unless someone tampered with the
         // message body after acquiring from the pool, but we can be
-        // defensive here.
-        if (msg->body.capacity() > m_reservedBodySize)
+        // defensive here anyway, best to be safe.
+        if (msg->body.capacity() > actualReservedBodySize)
         {
             defs::char_buffer_t tmp;
-            tmp.reserve(m_reservedBodySize);
+            tmp.reserve(actualReservedBodySize);
             msg->body.swap(tmp);
         }
 
@@ -150,10 +213,15 @@ private:
     }
 
 private:
+    /*! \brief Shared mutex. */
     mutable std::shared_mutex m_mutex;
+    /*! \brief Message pointer definition. */
     using msg_ptr_t = std::unique_ptr<msg_t>;
+    /*! \brief The actual message pool */
     std::vector<msg_ptr_t> m_pool;
+    /*! \brief Deque to track available pool indices. */
     std::deque<size_t> m_available;
+    /*! \brief The reserved size in bytes for pool messages. */
     size_t m_reservedBodySize{0};
 };
 
@@ -166,6 +234,7 @@ private:
  */
 class CORE_LIBRARY_DLL_SHARED_API MessageHandler final
 {
+    /*! \brief Specialisation of the message pool. */
     using msg_pool_t = ReceivedMessagePool<defs::MessageHeader>;
 
 public:

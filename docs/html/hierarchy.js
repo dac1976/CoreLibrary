@@ -439,6 +439,8 @@ var hierarchy =
       [ "cereal::traits::detail::EnableIfHelper< Conditions >", "structcereal_1_1traits_1_1detail_1_1_enable_if_helper.html", null ]
     ] ],
     [ "std::enable_shared_from_this", null, [
+      [ "core_lib::asio::messages::ReceivedMessagePool< defs::MessageHeader >", "classcore__lib_1_1asio_1_1messages_1_1_received_message_pool.html", null ],
+      [ "core_lib::asio::messages::ReceivedMessagePool< Header >", "classcore__lib_1_1asio_1_1messages_1_1_received_message_pool.html", null ],
       [ "core_lib::asio::tcp::TcpConnection", "classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html", null ]
     ] ],
     [ "cereal::memory_detail::EnableSharedStateHelper&lt; T &gt;", "classcereal_1_1memory__detail_1_1_enable_shared_state_helper.html", null ],
@@ -1077,6 +1079,7 @@ var hierarchy =
     [ "mallocator&lt; T &gt;", "classmallocator.html", null ],
     [ "yasli_nstd::mallocator&lt; T &gt;", "classyasli__nstd_1_1mallocator.html", null ],
     [ "mallocator&lt; void &gt;", "classmallocator_3_01void_01_4.html", null ],
+    [ "core_lib::ManagedSingleton_Legacy&lt; T &gt;", "classcore__lib_1_1_managed_singleton___legacy.html", null ],
     [ "cereal::MapItem&lt; Key, Value &gt;", "structcereal_1_1_map_item.html", null ],
     [ "Loki::CreateStatic&lt; T &gt;::MaxAlign", "union_loki_1_1_create_static_1_1_max_align.html", null ],
     [ "yasli_protocols::memmove_traits&lt; T &gt;", "structyasli__protocols_1_1memmove__traits.html", null ],

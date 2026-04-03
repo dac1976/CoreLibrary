@@ -36,7 +36,7 @@ var searchData=
   ['inifilesectiondetails_2ecpp_33',['IniFileSectionDetails.cpp',['../_ini_file_section_details_8cpp.html',1,'']]],
   ['inifilesectiondetails_2eh_34',['IniFileSectionDetails.h',['../_ini_file_section_details_8h.html',1,'']]],
   ['init_5fbinding_35',['init_binding',['../structcereal_1_1detail_1_1init__binding.html',1,'cereal::detail']]],
-  ['initialisemsgpool_36',['InitialiseMsgPool',['../classcore__lib_1_1asio_1_1messages_1_1_message_handler.html#a05e4c8b355ff6c6c9117b9b208f3557c',1,'core_lib::asio::messages::MessageHandler::InitialiseMsgPool()'],['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a299249ec95db47520c9de8c2da0df939',1,'core_lib::asio::tcp::TcpConnection::InitialiseMsgPool()']]],
+  ['initialisemsgpool_36',['InitialiseMsgPool',['../classcore__lib_1_1asio_1_1tcp_1_1_tcp_connection.html#a299249ec95db47520c9de8c2da0df939',1,'core_lib::asio::tcp::TcpConnection']]],
   ['initpointertype_37',['InitPointerType',['../class_loki_1_1_heap_storage.html#a533bd38c232cba5193b2588f868cd3e7',1,'Loki::HeapStorage::InitPointerType'],['../class_loki_1_1_locked_storage.html#a77b3c2a08c0d43a83b447d9c2c34bbb6',1,'Loki::LockedStorage::InitPointerType'],['../class_loki_1_1_function_storage.html#a08681726c77c6a7492a375de7c34a1be',1,'Loki::FunctionStorage::InitPointerType']]],
   ['inner_5fbuffer_38',['inner_buffer',['../structmsgpack_1_1vrefbuffer_1_1inner__buffer.html',1,'msgpack::vrefbuffer']]],
   ['inputarchive_39',['InputArchive',['../classcereal_1_1_input_archive.html',1,'cereal::InputArchive&lt; ArchiveType, Flags &gt;'],['../classcereal_1_1_input_archive.html#a76455fba49795d1676664f634918c580',1,'cereal::InputArchive::InputArchive()']]],

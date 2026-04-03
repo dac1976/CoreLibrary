@@ -193,6 +193,7 @@ var annotated_dup =
           [ "SerialPort", "classcore__lib_1_1asio_1_1serial_1_1_serial_port.html", "classcore__lib_1_1asio_1_1serial_1_1_serial_port" ]
         ] ],
         [ "messages", "namespacecore__lib_1_1asio_1_1messages.html", [
+          [ "ReceivedMessagePool", "classcore__lib_1_1asio_1_1messages_1_1_received_message_pool.html", "classcore__lib_1_1asio_1_1messages_1_1_received_message_pool" ],
           [ "MessageHandler", "classcore__lib_1_1asio_1_1messages_1_1_message_handler.html", "classcore__lib_1_1asio_1_1messages_1_1_message_handler" ],
           [ "ArchiveTypeToEnum", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum" ],
           [ "ArchiveTypeToEnum&lt; serialize::archives::out_bin_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4" ],
@@ -288,7 +289,8 @@ var annotated_dup =
         [ "ThreadBase", "classcore__lib_1_1threads_1_1_thread_base.html", "classcore__lib_1_1threads_1_1_thread_base" ],
         [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html", "classcore__lib_1_1threads_1_1_thread_group" ],
         [ "ThreadRunner", "classcore__lib_1_1threads_1_1_thread_runner.html", "classcore__lib_1_1threads_1_1_thread_runner" ]
-      ] ]
+      ] ],
+      [ "ManagedSingleton_Legacy", "classcore__lib_1_1_managed_singleton___legacy.html", null ]
     ] ],
     [ "flex_string_details", null, [
       [ "get_unsigned", "structflex__string__details_1_1get__unsigned.html", null ],

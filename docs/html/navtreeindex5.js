@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"class_loki_1_1_safe_bit_field.html#a43de993b941f89ac7d6a630713f04f3c":[2,0,4,184,6],
 "class_loki_1_1_safe_bit_field.html#a6eede7024bdf0cec80283046eee71657":[1,0,2,181,2],
 "class_loki_1_1_safe_bit_field.html#a6eede7024bdf0cec80283046eee71657":[2,0,4,184,2],
 "class_loki_1_1_safe_bit_field.html#a7cd8f882c46d5e018e88657817a90487":[1,0,2,181,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "classcereal_1_1_input_archive.html#a5a8c43c2803faa0b78cfb42e10c91d93":[2,0,0,22,28],
 "classcereal_1_1_input_archive.html#a74ec8f1eab19703af75612e32d0a95b4":[1,0,0,13,7],
 "classcereal_1_1_input_archive.html#a74ec8f1eab19703af75612e32d0a95b4":[2,0,0,22,7],
-"classcereal_1_1_input_archive.html#a76455fba49795d1676664f634918c580":[1,0,0,13,2],
-"classcereal_1_1_input_archive.html#a76455fba49795d1676664f634918c580":[2,0,0,22,2]
+"classcereal_1_1_input_archive.html#a76455fba49795d1676664f634918c580":[1,0,0,13,2]
 };

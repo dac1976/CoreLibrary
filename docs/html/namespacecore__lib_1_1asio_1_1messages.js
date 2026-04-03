@@ -1,5 +1,6 @@
 var namespacecore__lib_1_1asio_1_1messages =
 [
+    [ "ReceivedMessagePool", "classcore__lib_1_1asio_1_1messages_1_1_received_message_pool.html", "classcore__lib_1_1asio_1_1messages_1_1_received_message_pool" ],
     [ "MessageHandler", "classcore__lib_1_1asio_1_1messages_1_1_message_handler.html", "classcore__lib_1_1asio_1_1messages_1_1_message_handler" ],
     [ "ArchiveTypeToEnum", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum" ],
     [ "ArchiveTypeToEnum&lt; serialize::archives::out_bin_t &gt;", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4.html", "structcore__lib_1_1asio_1_1messages_1_1_archive_type_to_enum_3_01serialize_1_1archives_1_1out__bin__t_01_4" ],

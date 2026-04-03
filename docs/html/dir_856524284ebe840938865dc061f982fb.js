@@ -14,6 +14,7 @@ var dir_856524284ebe840938865dc061f982fb =
     [ "msgpack", "dir_bb05980e610c4c8730a5cfa189546ee5.html", "dir_bb05980e610c4c8730a5cfa189546ee5" ],
     [ "Platform", "dir_5b9acf90d48ec4b1765d1bc4d04cd6ee.html", "dir_5b9acf90d48ec4b1765d1bc4d04cd6ee" ],
     [ "Serialization", "dir_175fde1093034a3276b493a112c34406.html", "dir_175fde1093034a3276b493a112c34406" ],
+    [ "Singleton", "dir_c4309e3314e17b54a9b6f56d95ce691c.html", "dir_c4309e3314e17b54a9b6f56d95ce691c" ],
     [ "Sorting", "dir_3ec16627243fa1ff372be279a1017f0d.html", "dir_3ec16627243fa1ff372be279a1017f0d" ],
     [ "StringUtils", "dir_7198da9437b6881c7be7f0b1db0fab6f.html", "dir_7198da9437b6881c7be7f0b1db0fab6f" ],
     [ "Threads", "dir_66fb55a5566bd2c243f99b6fb708ad7b.html", "dir_66fb55a5566bd2c243f99b6fb708ad7b" ],

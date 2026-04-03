@@ -56,5 +56,6 @@ var namespacecore__lib =
       [ "TokeniseString", "namespacecore__lib_1_1string__utils.html#a36d0d357a5ce98dc84a5030f869a01c7", null ],
       [ "WStringToString", "namespacecore__lib_1_1string__utils.html#a0a5bb28a15d7aa41af40f3b0cf325d35", null ]
     ] ],
-    [ "threads", "namespacecore__lib_1_1threads.html", "namespacecore__lib_1_1threads" ]
+    [ "threads", "namespacecore__lib_1_1threads.html", "namespacecore__lib_1_1threads" ],
+    [ "ManagedSingleton_Legacy", "classcore__lib_1_1_managed_singleton___legacy.html", null ]
 ];

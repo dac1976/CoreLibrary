@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"class_loki_1_1_deletable_singleton.html":[0,7,1,3],
 "class_loki_1_1_deletable_singleton.html#a626c2dc57146f1aea6bf911682f8e3e9":[0,7,1,3,0],
 "class_loki_1_1_delete_array.html":[0,9,5,3],
 "class_loki_1_1_delete_array.html#a380d2f3709e399755f52f6da3b2fb8ab":[0,9,5,3,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "class_loki_1_1_locking_ptr.html#a1455d7cfb38f79551b5edf927da4ed20":[2,0,4,161,7],
 "class_loki_1_1_locking_ptr.html#a5cd5237bb696148914f3419c62563f96":[1,0,2,158,6],
 "class_loki_1_1_locking_ptr.html#a5cd5237bb696148914f3419c62563f96":[2,0,4,161,6],
-"class_loki_1_1_locking_ptr.html#a72ca595078f8f910966752d573267eed":[1,0,2,158,2],
-"class_loki_1_1_locking_ptr.html#a72ca595078f8f910966752d573267eed":[2,0,4,161,2]
+"class_loki_1_1_locking_ptr.html#a72ca595078f8f910966752d573267eed":[1,0,2,158,2]
 };
