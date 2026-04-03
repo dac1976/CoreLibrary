@@ -56,16 +56,16 @@ constexpr size_t MESSAGE_LENGTH_OFFSET = sizeof(defs::MessageHeader) - sizeof(ui
 #ifdef USE_DEFAULT_CONSTRUCTOR_
 MessageHandler::MessageHandler()
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
+    , m_msgPool(std::make_shared<msg_pool_t>(0, defs::RECV_POOL_DEFAULT_MSG_SIZE))
 {
-    InitialiseMsgPool(0, 0);
 }
 #endif
 
 #ifdef USE_EXPLICIT_MOVE_
 MessageHandler::MessageHandler(MessageHandler&& mh)
     : m_magicString(defs::DEFAULT_MAGIC_STRING)
+    , m_msgPool(std::make_shared<msg_pool_t>(0, defs::RECV_POOL_DEFAULT_MSG_SIZE))
 {
-    InitialiseMsgPool(0, 0);
     *this = std::move(mh);
 }
 
@@ -73,7 +73,6 @@ MessageHandler& MessageHandler::operator=(MessageHandler&& mh)
 {
     std::swap(m_messageDispatcher, mh.m_messageDispatcher);
     m_magicString.swap(mh.m_magicString);
-    std::swap(m_msgPoolIndex, mh.m_msgPoolIndex);
     m_msgPool.swap(mh.m_msgPool);
 }
 #endif
@@ -83,9 +82,8 @@ MessageHandler::MessageHandler(const defs::default_message_dispatcher_t& message
                                size_t defaultMsgSize)
     : m_messageDispatcher(messageDispatcher)
     , m_magicString(magicString)
-	, m_defaultMsgSize(defaultMsgSize)
+    , m_msgPool(std::make_shared<msg_pool_t>(memPoolMsgCount, defaultMsgSize))
 {
-    InitialiseMsgPool(memPoolMsgCount);
 }
 
 size_t MessageHandler::CheckBytesLeftToRead(defs::char_buf_cspan_t message) const
@@ -113,7 +111,7 @@ size_t MessageHandler::CheckBytesLeftToRead(defs::char_buf_cspan_t message) cons
 
     uint32_t totalLength;
     std::memcpy(&totalLength, message.data() + MESSAGE_LENGTH_OFFSET, sizeof(totalLength));
-	
+
 	auto msgSize = static_cast<uint32_t>(message.size());
 
     if (totalLength < msgSize)
@@ -137,13 +135,13 @@ void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) cons
         DEBUG_MESSAGE_EX_ERROR("Incomplete message header");
 #endif
     }
-	
+
 	uint32_t totalLength;
     std::memcpy(&totalLength, message.data() + MESSAGE_LENGTH_OFFSET, sizeof(totalLength));
 
     auto hdrLength       = static_cast<uint32_t>(defs::MESSAGE_HEADER_LEN);
     auto requiredLength  = totalLength > hdrLength ? totalLength - hdrLength : 0;
-    auto receivedMessage = GetNewMessageObject(requiredLength);
+    auto receivedMessage = m_msgPool->Acquire(requiredLength);
 
     if (!TryConvertToPod<defs::MessageHeader>(receivedMessage->header, message))
     {
@@ -169,72 +167,6 @@ void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) cons
 bool MessageHandler::CheckMessage(defs::char_buf_cspan_t message)
 {
     return message.size() >= sizeof(defs::MessageHeader);
-}
-
-void MessageHandler::InitialiseMsgPool(size_t memPoolMsgCount)
-{
-    m_msgPoolIndex = 0;
-
-    if (0 == memPoolMsgCount)
-    {
-#if defined(USE_SOCKET_DEBUG)
-        DEBUG_MESSAGE_EX_DEBUG("Receive message pool NOT being used because memPoolMsgCount = "
-                               << memPoolMsgCount << " and defaultMsgSize = " << defaultMsgSize);
-#endif
-        m_msgPool.clear();
-        return;
-    }
-
-#if defined(USE_SOCKET_DEBUG)
-    DEBUG_MESSAGE_EX_DEBUG("Receive message pool will be used with memPoolMsgCount = "
-                           << memPoolMsgCount << " and defaultMsgSize = " << defaultMsgSize);
-#endif
-
-    m_msgPool.resize(memPoolMsgCount);
-	
-	if (0 == m_defaultMsgSize)
-	{
-		m_defaultMsgSize = defs::RECV_POOL_DEFAULT_MSG_SIZE;
-	}
-	
-	auto defaultMsgSize = m_defaultMsgSize;
-
-    auto generateMsg = [defaultMsgSize]()
-    {
-        auto msg = std::make_shared<defs::default_received_message_t>();
-
-        if (defaultMsgSize > 0)
-        {
-            msg->body.reserve(defaultMsgSize);
-        }
-
-        return msg;
-    };
-
-    std::generate(m_msgPool.begin(), m_msgPool.end(), generateMsg);
-}
-
-defs::default_received_message_ptr_t MessageHandler::GetNewMessageObject(size_t requiredSize) const
-{
-    defs::default_received_message_ptr_t newMessage;
-
-    if (m_msgPool.empty() || (requiredSize > m_defaultMsgSize))
-    {
-        newMessage = std::make_shared<defs::default_received_message_t>();
-    }
-    else
-    {
-        std::lock_guard<std::mutex> lock(m_mutex);
-
-        newMessage = m_msgPool[m_msgPoolIndex];
-
-        if (++m_msgPoolIndex >= m_msgPool.size())
-        {
-            m_msgPoolIndex = 0;
-        }
-    }
-
-    return newMessage;
 }
 
 // ****************************************************************************

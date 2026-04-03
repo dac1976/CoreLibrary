@@ -32,8 +32,10 @@
 #include <algorithm>
 #include <cstring>
 #include <cassert>
+#include <type_traits>
 #include "AsioDefines.h"
 #include "Serialization/SerializeToVector.h"
+#include "Threads/MutexHelpers.hpp"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -45,6 +47,116 @@ namespace asio
 namespace messages
 {
 
+// TODO: tidy this up and reuse it in TcpConnection and in MessageHandler.
+// Add proper doxygen comments!
+template <typename Header>
+class ReceivedMessagePool : public std::enable_shared_from_this<ReceivedMessagePool<Header>>
+{
+    static_assert(std::is_default_constructible<Header>::value,
+              "ReceivedMessagePool requires Header to be default constructible");
+
+public:
+    using msg_t = defs::ReceivedMessage<Header>;
+    using msg_sh_ptr_t = std::shared_ptr<msg_t>;
+
+    ReceivedMessagePool(size_t poolSize, size_t reservedBodySize)
+        : m_pool(poolSize)
+        , m_reservedBodySize(reservedBodySize)
+    {
+        for (size_t i = 0; i < poolSize; ++i)
+        {
+            m_pool[i] = std::make_unique<msg_t>();
+            m_pool[i]->body.reserve(reservedBodySize);
+            m_available.push_back(i);
+        }
+    }
+
+    size_t PoolSize() const
+    {
+        STD_SHARED_LOCK(m_mutex);
+        return m_pool.size();
+    }
+
+    size_t ReservedBodySize() const
+    {
+        return m_reservedBodySize;
+    }
+
+    msg_sh_ptr_t Acquire(std::size_t requiredBodySize)
+    {
+        if (requiredBodySize <= m_reservedBodySize)
+        {
+            STD_UNIQUE_LOCK(m_mutex);
+
+            if (!m_available.empty())
+            {
+                const auto index = m_available.front();
+                m_available.pop_front();
+
+                auto* msg = m_pool[index].get();
+                msg->header = Header{};
+                msg->body.clear();
+
+                auto self = this->shared_from_this();
+
+                return msg_sh_ptr_t(
+                    msg,
+                    [self, index](msg_t* p)
+                    {
+                        self->ReleaseToPool(index, p);
+                    });
+            }
+        }
+
+        return MakeDynamic(requiredBodySize);
+    }
+
+private:
+    msg_sh_ptr_t MakeDynamic(size_t requiredBodySize)
+    {
+        auto msg = std::make_shared<msg_t>();
+        msg->body.reserve(requiredBodySize);
+        return msg;
+    }
+
+    void ReleaseToPool(size_t index, msg_t* msg)
+    {
+        // Guard against null pointer shenanigans.
+        if (nullptr == msg)
+        {
+            return;
+        }
+
+        msg->header = Header{};
+        msg->body.clear();
+
+        // Shrink oversized buffers before reusing.
+        //
+        // This should never get called unless someone tampered with the
+        // message body after acquiring from the pool, but we can be
+        // defensive here.
+        if (msg->body.capacity() > m_reservedBodySize)
+        {
+            defs::char_buffer_t tmp;
+            tmp.reserve(m_reservedBodySize);
+            msg->body.swap(tmp);
+        }
+
+        // Reduce scope of lock to just when we return the index to the pool.
+        STD_UNIQUE_LOCK(m_mutex);
+
+        // Return index to pool of available messages.
+        m_available.push_back(index);
+    }
+
+private:
+    mutable std::shared_mutex m_mutex;
+    using msg_ptr_t = std::unique_ptr<msg_t>;
+    std::vector<msg_ptr_t> m_pool;
+    std::deque<size_t> m_available;
+    size_t m_reservedBodySize{0};
+};
+
 /*!
  * \brief Default message handler class.
  *
@@ -54,6 +166,8 @@ namespace messages
  */
 class CORE_LIBRARY_DLL_SHARED_API MessageHandler final
 {
+    using msg_pool_t = ReceivedMessagePool<defs::MessageHeader>;
+
 public:
 #ifdef USE_DEFAULT_CONSTRUCTOR_
     /*! \brief Default constructor. */
@@ -106,16 +220,6 @@ private:
      * \param[in] message - A received message buffer.
      */
     static bool CheckMessage(defs::char_buf_cspan_t message);
-    /*!
-     * \brief Initialise message pool.
-     * \param[in] memPoolMsgCount - Pool size as number of messages.
-     */
-    void InitialiseMsgPool(size_t memPoolMsgCount);
-    /*!
-     * \brief Get next message to use from pool.
-     * \return A new message object or a one from the pool.
-     */
-    defs::default_received_message_ptr_t GetNewMessageObject(size_t requiredSize) const;
 
 private:
     mutable std::mutex m_mutex;
@@ -128,12 +232,8 @@ private:
     /*! \brief Magic string. */
     std::string m_magicString{defs::DEFAULT_MAGIC_STRING};
 #endif
-    /*! \brief Default pool message size. */
-    size_t m_defaultMsgSize{defs::RECV_POOL_DEFAULT_MSG_SIZE};
-	/*! \brief Message pool index tracker */
-    mutable size_t  m_msgPoolIndex{0};
 	/*! \brief The message pool. */
-    std::vector<asio::defs::default_received_message_ptr_t> m_msgPool;
+    std::shared_ptr<msg_pool_t> m_msgPool;
 };
 
 /*!
