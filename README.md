@@ -1,5 +1,7 @@
 # CoreLibrary #
 ## News ##
+2026/04/13 - Bumped versio nto v2.0.8, since v2.0.5 have reworked the ASIO network class MessageHandler message pool implementation and behaviour. Have also added a new ManagedSingleton class (2 variants - one older C++11 compilers and the other for C++14 or newer compilers). The longer term goal is to remove the all dependencies on Loki's singleton.
+
 2026/03/22 - Added support for MessagePack. The ASIO network classes in CoreLibrary now support this method of (de)serialisation. Version 7.0.0 of MessagePack is included in the CoreLibrary. Bumped the library version to v2.0.5.
 
 2026/03/01 - Added support for Google's flatbuffers. The ASIO network classes in CoreLibrary now support this method of (de)serialisation. Flatbuffer usage is a compile time option for CoreLibrary. This will become release v2.0.2. Also updated doxygen docs to match changes.
