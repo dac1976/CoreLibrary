@@ -12,7 +12,7 @@ var searchData=
   ['insertcolumninallrows_9',['InsertColumnInAllRows',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#aef10590f4fb7904a2b6a2e6026de3b4a',1,'core_lib::csv_grid::TCsvGrid']]],
   ['insertrow_10',['InsertRow',['../classcore__lib_1_1csv__grid_1_1_t_csv_grid.html#a5a2638668b990bd953169ced677586eb',1,'core_lib::csv_grid::TCsvGrid']]],
   ['inserttype_11',['insertType',['../classcereal_1_1_x_m_l_output_archive.html#a4af064c2dc6a9451ef9a4dd93bdd304e',1,'cereal::XMLOutputArchive']]],
-  ['instance_12',['Instance',['../class_loki_1_1_singleton_holder.html#a43e4ea5cb6291a8bb14eb7cdc2bcb7bf',1,'Loki::SingletonHolder::Instance()'],['../class_loki_1_1_allocator_singleton.html#abe8cebf2eb29b022af0f3ff881948379',1,'Loki::AllocatorSingleton::Instance()']]],
+  ['instance_12',['Instance',['../class_loki_1_1_singleton_holder.html#a43e4ea5cb6291a8bb14eb7cdc2bcb7bf',1,'Loki::SingletonHolder::Instance()'],['../class_loki_1_1_allocator_singleton.html#abe8cebf2eb29b022af0f3ff881948379',1,'Loki::AllocatorSingleton::Instance()'],['../classcore__lib_1_1_managed_singleton___legacy.html#a5a1af3a00a1061bbd3c17f9e09fba764',1,'core_lib::ManagedSingleton_Legacy::Instance()']]],
   ['instantiate_13',['Instantiate',['../structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a9e75dbf665d5db97bd83c1fcbfb4193f',1,'core_lib::log::FINAL_']]],
   ['instantiate_14',['instantiate',['../structcereal_1_1detail_1_1polymorphic__serialization__support.html#af36d034f2aa70a683dc198fc4de9192d',1,'cereal::detail::polymorphic_serialization_support']]],
   ['instantiate_5fpolymorphic_5fbinding_15',['instantiate_polymorphic_binding',['../polymorphic__impl_8hpp.html#a9c34d32da6bee20cb6609e78efc69174',1,'cereal::detail']]],

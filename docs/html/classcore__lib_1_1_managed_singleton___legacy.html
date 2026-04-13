@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.7</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.8</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -92,31 +92,200 @@ $(function(){initNavTree('classcore__lib_1_1_managed_singleton___legacy.html',''
   <div class="headertitle"><div class="title">core_lib::ManagedSingleton_Legacy&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Legacy thread-safe managed singleton implementation.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_managed_singleton_8hpp_source.html">ManagedSingleton.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a5a1af3a00a1061bbd3c17f9e09fba764" id="r_a5a1af3a00a1061bbd3c17f9e09fba764"><td class="memTemplParams" colspan="2"><a id="a5a1af3a00a1061bbd3c17f9e09fba764" name="a5a1af3a00a1061bbd3c17f9e09fba764"></a>
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:a5a1af3a00a1061bbd3c17f9e09fba764 template"><td class="memItemLeft">static T &amp;&#160;</td><td class="memItemRight"><b>Instance</b> (Args &amp;&amp;... args)</td></tr>
-<tr class="memitem:a03d0f0dc9be223ad28aa317719759930" id="r_a03d0f0dc9be223ad28aa317719759930"><td class="memItemLeft"><a id="a03d0f0dc9be223ad28aa317719759930" name="a03d0f0dc9be223ad28aa317719759930"></a>
-static T *&#160;</td><td class="memItemRight"><b>TryInstance</b> ()</td></tr>
-<tr class="memitem:a48baa1dca63ccfb4a57e04c2eab554c8" id="r_a48baa1dca63ccfb4a57e04c2eab554c8"><td class="memItemLeft"><a id="a48baa1dca63ccfb4a57e04c2eab554c8" name="a48baa1dca63ccfb4a57e04c2eab554c8"></a>
-static void&#160;</td><td class="memItemRight"><b>Destroy</b> ()</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:aec1357a479d551b73d74d32e323c7f42" id="r_aec1357a479d551b73d74d32e323c7f42"><td class="memItemLeft"><a id="aec1357a479d551b73d74d32e323c7f42" name="aec1357a479d551b73d74d32e323c7f42"></a>
-static T &amp;&#160;</td><td class="memItemRight"><b>DestroyedFallback</b> ()</td></tr>
+<tr class="memitem:a5a1af3a00a1061bbd3c17f9e09fba764" id="r_a5a1af3a00a1061bbd3c17f9e09fba764"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a5a1af3a00a1061bbd3c17f9e09fba764 template"><td class="memItemLeft">static T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a5a1af3a00a1061bbd3c17f9e09fba764">Instance</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a5a1af3a00a1061bbd3c17f9e09fba764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the singleton instance.  <br /></td></tr>
+<tr class="memitem:a03d0f0dc9be223ad28aa317719759930" id="r_a03d0f0dc9be223ad28aa317719759930"><td class="memItemLeft">static T *&#160;</td><td class="memItemRight"><a class="el" href="#a03d0f0dc9be223ad28aa317719759930">TryInstance</a> ()</td></tr>
+<tr class="memdesc:a03d0f0dc9be223ad28aa317719759930"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to get the current singleton instance.  <br /></td></tr>
+<tr class="memitem:a48baa1dca63ccfb4a57e04c2eab554c8" id="r_a48baa1dca63ccfb4a57e04c2eab554c8"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a48baa1dca63ccfb4a57e04c2eab554c8">Destroy</a> ()</td></tr>
+<tr class="memdesc:a48baa1dca63ccfb4a57e04c2eab554c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the current managed singleton instance.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-attribs" class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a1a75f4cde57f5461c9d4d11908762ced" id="r_a1a75f4cde57f5461c9d4d11908762ced"><td class="memItemLeft"><a id="a1a75f4cde57f5461c9d4d11908762ced" name="a1a75f4cde57f5461c9d4d11908762ced"></a>
-static std::unique_ptr&lt; T &gt;&#160;</td><td class="memItemRight"><b>m_instance</b></td></tr>
-<tr class="memitem:af65fb06357f5162b92e8c58a9020ebeb" id="r_af65fb06357f5162b92e8c58a9020ebeb"><td class="memItemLeft"><a id="af65fb06357f5162b92e8c58a9020ebeb" name="af65fb06357f5162b92e8c58a9020ebeb"></a>
-static std::mutex&#160;</td><td class="memItemRight"><b>m_mutex</b></td></tr>
-<tr class="memitem:afd52eb01b6bfab570121c1a8828908ff" id="r_afd52eb01b6bfab570121c1a8828908ff"><td class="memItemLeft"><a id="afd52eb01b6bfab570121c1a8828908ff" name="afd52eb01b6bfab570121c1a8828908ff"></a>
-static std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight"><b>m_destroyed</b></td></tr>
+<tr class="memitem:a1a75f4cde57f5461c9d4d11908762ced" id="r_a1a75f4cde57f5461c9d4d11908762ced"><td class="memItemLeft">static std::unique_ptr&lt; T &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1a75f4cde57f5461c9d4d11908762ced">m_instance</a></td></tr>
+<tr class="memitem:af65fb06357f5162b92e8c58a9020ebeb" id="r_af65fb06357f5162b92e8c58a9020ebeb"><td class="memItemLeft">static std::mutex&#160;</td><td class="memItemRight"><a class="el" href="#af65fb06357f5162b92e8c58a9020ebeb">m_mutex</a></td></tr>
 </table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+class core_lib::ManagedSingleton_Legacy&lt; T &gt;</div><p>Legacy thread-safe managed singleton implementation. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td><a class="el" href="rapidjson_8h.html#a1d1cfd8ffb84e947f82999c682b666a7" title="Type of JSON value.">Type</a> of the singleton instance.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This implementation uses a mutex for all access and is intended for environments where the modern atomic-based implementation is not available.</p>
+<p>Behaviour:</p><ul>
+<li><a class="el" href="#a5a1af3a00a1061bbd3c17f9e09fba764" title="Access the singleton instance.">Instance()</a> lazily constructs the singleton on first call.</li>
+<li><a class="el" href="#a03d0f0dc9be223ad28aa317719759930" title="Attempt to get the current singleton instance.">TryInstance()</a> returns nullptr if not yet constructed.</li>
+<li><a class="el" href="#a48baa1dca63ccfb4a57e04c2eab554c8" title="Destroy the current managed singleton instance.">Destroy()</a> destroys the current managed instance.</li>
+<li>A subsequent call to <a class="el" href="#a5a1af3a00a1061bbd3c17f9e09fba764" title="Access the singleton instance.">Instance()</a> creates a new managed instance. </li>
+</ul>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a48baa1dca63ccfb4a57e04c2eab554c8" name="a48baa1dca63ccfb4a57e04c2eab554c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48baa1dca63ccfb4a57e04c2eab554c8">&#9670;&#160;</a></span>Destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classcore__lib_1_1_managed_singleton___legacy.html">core_lib::ManagedSingleton_Legacy</a>&lt; T &gt;::Destroy </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destroy the current managed singleton instance. </p>
+<p>After destruction, a later call to <a class="el" href="#a5a1af3a00a1061bbd3c17f9e09fba764" title="Access the singleton instance.">Instance()</a> creates a fresh singleton instance.</p>
+<dl class="section warning"><dt>Warning</dt><dd>Must only be called when no other threads are accessing <a class="el" href="#a5a1af3a00a1061bbd3c17f9e09fba764" title="Access the singleton instance.">Instance()</a> or <a class="el" href="#a03d0f0dc9be223ad28aa317719759930" title="Attempt to get the current singleton instance.">TryInstance()</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a5a1af3a00a1061bbd3c17f9e09fba764" name="a5a1af3a00a1061bbd3c17f9e09fba764"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a1af3a00a1061bbd3c17f9e09fba764">&#9670;&#160;</a></span>Instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classcore__lib_1_1_managed_singleton___legacy.html">core_lib::ManagedSingleton_Legacy</a>&lt; T &gt;::Instance </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Access the singleton instance. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Args</td><td>Constructor argument types. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>Arguments forwarded to T's constructor on first initialisation after a create/destroy cycle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the singleton instance. </dd></dl>
+
+</div>
+</div>
+<a id="a03d0f0dc9be223ad28aa317719759930" name="a03d0f0dc9be223ad28aa317719759930"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03d0f0dc9be223ad28aa317719759930">&#9670;&#160;</a></span>TryInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="classcore__lib_1_1_managed_singleton___legacy.html">core_lib::ManagedSingleton_Legacy</a>&lt; T &gt;::TryInstance </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Attempt to get the current singleton instance. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the instance if it exists, otherwise nullptr. </dd></dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a1a75f4cde57f5461c9d4d11908762ced" name="a1a75f4cde57f5461c9d4d11908762ced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a75f4cde57f5461c9d4d11908762ced">&#9670;&#160;</a></span>m_instance</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;T&gt; <a class="el" href="classcore__lib_1_1_managed_singleton___legacy.html">core_lib::ManagedSingleton_Legacy</a>&lt; T &gt;::m_instance</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Owning pointer to instance </p>
+
+</div>
+</div>
+<a id="af65fb06357f5162b92e8c58a9020ebeb" name="af65fb06357f5162b92e8c58a9020ebeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af65fb06357f5162b92e8c58a9020ebeb">&#9670;&#160;</a></span>m_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex <a class="el" href="classcore__lib_1_1_managed_singleton___legacy.html">core_lib::ManagedSingleton_Legacy</a>&lt; T &gt;::m_mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Mutex protecting all access </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Projects/cpp/CoreLibrary/Include/Singleton/<a class="el" href="_managed_singleton_8hpp_source.html">ManagedSingleton.hpp</a></li>
 </ul>

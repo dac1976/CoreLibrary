@@ -1,5 +1,17 @@
 var NAVTREEINDEX24 =
 {
+"struct_loki_1_1_t_l_1_1_append_3_01_null_type_00_01_null_type_01_4.html":[2,0,4,1,21],
+"struct_loki_1_1_t_l_1_1_append_3_01_null_type_00_01_t_01_4.html":[2,0,4,1,22],
+"struct_loki_1_1_t_l_1_1_append_3_01_null_type_00_01_typelist_3_01_head_00_01_tail_01_4_01_4.html":[2,0,4,1,23],
+"struct_loki_1_1_t_l_1_1_append_3_01_typelist_3_01_head_00_01_tail_01_4_00_01_t_01_4.html":[2,0,4,1,24],
+"struct_loki_1_1_t_l_1_1_derived_to_front.html":[2,0,4,1,50],
+"struct_loki_1_1_t_l_1_1_derived_to_front_3_01_null_type_01_4.html":[2,0,4,1,51],
+"struct_loki_1_1_t_l_1_1_derived_to_front_3_01_typelist_3_01_head_00_01_tail_01_4_01_4.html":[2,0,4,1,52],
+"struct_loki_1_1_t_l_1_1_erase.html":[2,0,4,1,25],
+"struct_loki_1_1_t_l_1_1_erase_3_01_null_type_00_01_t_01_4.html":[2,0,4,1,26],
+"struct_loki_1_1_t_l_1_1_erase_3_01_typelist_3_01_head_00_01_tail_01_4_00_01_t_01_4.html":[2,0,4,1,28],
+"struct_loki_1_1_t_l_1_1_erase_3_01_typelist_3_01_t_00_01_tail_01_4_00_01_t_01_4.html":[2,0,4,1,27],
+"struct_loki_1_1_t_l_1_1_erase_all.html":[2,0,4,1,29],
 "struct_loki_1_1_t_l_1_1_erase_all_3_01_null_type_00_01_t_01_4.html":[2,0,4,1,30],
 "struct_loki_1_1_t_l_1_1_erase_all_3_01_typelist_3_01_head_00_01_tail_01_4_00_01_t_01_4.html":[2,0,4,1,32],
 "struct_loki_1_1_t_l_1_1_erase_all_3_01_typelist_3_01_t_00_01_tail_01_4_00_01_t_01_4.html":[2,0,4,1,31],
@@ -237,17 +249,5 @@ var NAVTREEINDEX24 =
 "structcereal_1_1detail_1_1bind__to__archives.html":[2,0,0,0,20],
 "structcereal_1_1detail_1_1bind__to__archives.html#a1dcd0adc16df7ab299b83862d8ab2755":[2,0,0,0,20,0],
 "structcereal_1_1detail_1_1bind__to__archives.html#a691a82f3c9926493923725dd468779c1":[2,0,0,0,20,1],
-"structcereal_1_1detail_1_1bind__to__archives.html#a6c61fc1dddb581a47b331eda2b366083":[2,0,0,0,20,2],
-"structcereal_1_1detail_1_1binding__name.html":[2,0,0,0,11],
-"structcereal_1_1detail_1_1create__bindings.html":[2,0,0,0,18],
-"structcereal_1_1detail_1_1init__binding.html":[2,0,0,0,21],
-"structcereal_1_1detail_1_1instantiate__function.html":[2,0,0,0,19],
-"structcereal_1_1detail_1_1polymorphic__serialization__support.html":[2,0,0,0,4],
-"structcereal_1_1detail_1_1polymorphic__serialization__support.html#af32ebd1e93fee3dbed819bf1cfbfd073":[2,0,0,0,4,0],
-"structcereal_1_1detail_1_1polymorphic__serialization__support.html#af36d034f2aa70a683dc198fc4de9192d":[2,0,0,0,4,1],
-"structcereal_1_1memory__detail_1_1_load_and_construct_load_wrapper.html":[2,0,0,6,1],
-"structcereal_1_1memory__detail_1_1_load_and_construct_load_wrapper.html#a4a5d6680bcd070710a252ac285d96217":[2,0,0,6,1,0],
-"structcereal_1_1memory__detail_1_1_ptr_wrapper.html":[2,0,0,6,0],
-"structcereal_1_1rapidxml_1_1memory__pool_1_1header.html":[2,0,0,2,4,0],
-"structcereal_1_1rapidxml_1_1xml__document_1_1attribute__name__pred.html":[2,0,0,2,3,2]
+"structcereal_1_1detail_1_1bind__to__archives.html#a6c61fc1dddb581a47b331eda2b366083":[2,0,0,0,20,2]
 };

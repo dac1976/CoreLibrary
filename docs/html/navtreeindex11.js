@@ -1,5 +1,16 @@
 var NAVTREEINDEX11 =
 {
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a0f7947a006b8aadd89eeb9cd98c359f6":[1,0,1,0,1,11,5],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a0f7947a006b8aadd89eeb9cd98c359f6":[2,0,1,1,1,11,5],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a15af61f24cb0a5d7ae07890217df6d26":[1,0,1,0,1,11,4],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a15af61f24cb0a5d7ae07890217df6d26":[2,0,1,1,1,11,4],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a27a1dd3e883c734b3903ca9a739357f0":[1,0,1,0,1,11,28],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a27a1dd3e883c734b3903ca9a739357f0":[2,0,1,1,1,11,28],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a388c809906147769e05d160fb6902465":[1,0,1,0,1,11,25],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a388c809906147769e05d160fb6902465":[2,0,1,1,1,11,25],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a467f78dd896d22c7a333573c80e0e364":[1,0,1,0,1,11,14],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a467f78dd896d22c7a333573c80e0e364":[2,0,1,1,1,11,14],
+"classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a5aa55dca98463a037d58ead20034a172":[1,0,1,0,1,11,23],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a5aa55dca98463a037d58ead20034a172":[2,0,1,1,1,11,23],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a5ec297a10abe0ce345cb91165cfffb05":[1,0,1,0,1,11,30],
 "classcore__lib_1_1asio_1_1tcp_1_1_tcp_typed_server.html#a5ec297a10abe0ce345cb91165cfffb05":[2,0,1,1,1,11,30],
@@ -238,16 +249,5 @@ var NAVTREEINDEX11 =
 "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#ab09d0c8cedfe0862909facf9504cd0a3":[1,0,1,0,2,4,1],
 "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#ab09d0c8cedfe0862909facf9504cd0a3":[2,0,1,1,2,4,1],
 "classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#ad0f258b5199d680415a53a479e188436":[1,0,1,0,2,4,14],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#ad0f258b5199d680415a53a479e188436":[2,0,1,1,2,4,14],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#aed70c2e893074b0baa2154c65180e86c":[1,0,1,0,2,4,13],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#aed70c2e893074b0baa2154c65180e86c":[2,0,1,1,2,4,13],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#af2f9474e07ce8fd7cd0f64215b86cdc1":[1,0,1,0,2,4,11],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#af2f9474e07ce8fd7cd0f64215b86cdc1":[2,0,1,1,2,4,11],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html":[1,0,1,0,2,5],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html":[2,0,1,1,2,5],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a09f4ad1bbbb3ee165cfe88c30e6ac2b5":[1,0,1,0,2,5,5],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a09f4ad1bbbb3ee165cfe88c30e6ac2b5":[2,0,1,1,2,5,5],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a257c6bf0b54362c707412135c856af66":[1,0,1,0,2,5,11],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a257c6bf0b54362c707412135c856af66":[2,0,1,1,2,5,11],
-"classcore__lib_1_1asio_1_1udp_1_1_simple_udp_receiver.html#a289bdd19fbc5d099552eb61dc453b621":[1,0,1,0,2,5,7]
+"classcore__lib_1_1asio_1_1udp_1_1_simple_multicast_sender.html#ad0f258b5199d680415a53a479e188436":[2,0,1,1,2,4,14]
 };

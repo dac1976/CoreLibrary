@@ -57,5 +57,6 @@ var namespacecore__lib =
       [ "WStringToString", "namespacecore__lib_1_1string__utils.html#a0a5bb28a15d7aa41af40f3b0cf325d35", null ]
     ] ],
     [ "threads", "namespacecore__lib_1_1threads.html", "namespacecore__lib_1_1threads" ],
-    [ "ManagedSingleton_Legacy", "classcore__lib_1_1_managed_singleton___legacy.html", null ]
+    [ "ManagedSingleton_Legacy", "classcore__lib_1_1_managed_singleton___legacy.html", "classcore__lib_1_1_managed_singleton___legacy" ],
+    [ "ManagedSingleton", "namespacecore__lib.html#a033723c9d63fe00e386913d361857667", null ]
 ];

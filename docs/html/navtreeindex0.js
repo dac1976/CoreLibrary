@@ -174,6 +174,7 @@ var NAVTREEINDEX0 =
 "_loki_export_8h_source.html":[3,0,0,8,18],
 "_loki_singleton_8hpp_source.html":[3,0,0,9,0],
 "_loki_type_info_8h_source.html":[3,0,0,8,19],
+"_managed_singleton_8hpp.html":[3,0,0,14,0],
 "_managed_singleton_8hpp_source.html":[3,0,0,14,0],
 "_memory_utils_8hpp.html":[3,0,0,0,4],
 "_memory_utils_8hpp_source.html":[3,0,0,0,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "_simple_udp_sender_8h.html":[3,0,0,0,18],
 "_simple_udp_sender_8h_source.html":[3,0,0,0,18],
 "_singleton_8h_source.html":[3,0,0,8,30],
-"_small_obj_8h_source.html":[3,0,0,8,31],
-"_smart_ptr_8h_source.html":[3,0,0,8,32]
+"_small_obj_8h_source.html":[3,0,0,8,31]
 };

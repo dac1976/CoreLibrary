@@ -1,5 +1,17 @@
 var NAVTREEINDEX25 =
 {
+"structcereal_1_1detail_1_1binding__name.html":[2,0,0,0,11],
+"structcereal_1_1detail_1_1create__bindings.html":[2,0,0,0,18],
+"structcereal_1_1detail_1_1init__binding.html":[2,0,0,0,21],
+"structcereal_1_1detail_1_1instantiate__function.html":[2,0,0,0,19],
+"structcereal_1_1detail_1_1polymorphic__serialization__support.html":[2,0,0,0,4],
+"structcereal_1_1detail_1_1polymorphic__serialization__support.html#af32ebd1e93fee3dbed819bf1cfbfd073":[2,0,0,0,4,0],
+"structcereal_1_1detail_1_1polymorphic__serialization__support.html#af36d034f2aa70a683dc198fc4de9192d":[2,0,0,0,4,1],
+"structcereal_1_1memory__detail_1_1_load_and_construct_load_wrapper.html":[2,0,0,6,1],
+"structcereal_1_1memory__detail_1_1_load_and_construct_load_wrapper.html#a4a5d6680bcd070710a252ac285d96217":[2,0,0,6,1,0],
+"structcereal_1_1memory__detail_1_1_ptr_wrapper.html":[2,0,0,6,0],
+"structcereal_1_1rapidxml_1_1memory__pool_1_1header.html":[2,0,0,2,4,0],
+"structcereal_1_1rapidxml_1_1xml__document_1_1attribute__name__pred.html":[2,0,0,2,3,2],
 "structcereal_1_1rapidxml_1_1xml__document_1_1attribute__value__pred.html":[2,0,0,2,3,6],
 "structcereal_1_1rapidxml_1_1xml__document_1_1attribute__value__pure__pred.html":[2,0,0,2,3,7],
 "structcereal_1_1rapidxml_1_1xml__document_1_1node__name__pred.html":[2,0,0,2,3,1],
@@ -237,17 +249,5 @@ var NAVTREEINDEX25 =
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a3b52651f4d7827822140e3e254a5f5c4":[1,0,1,2,0,13],
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a3b52651f4d7827822140e3e254a5f5c4":[2,0,1,5,1,13],
 "structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a45a385c9515d993151a3f83fe280523a":[1,0,1,2,0,25],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a45a385c9515d993151a3f83fe280523a":[2,0,1,5,1,25],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a4c709135755d9a4efa5260c5a0a46685":[1,0,1,2,0,36],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a4c709135755d9a4efa5260c5a0a46685":[2,0,1,5,1,36],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a4d1a98418b186a338f071af6fb46ba7b":[1,0,1,2,0,40],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a4d1a98418b186a338f071af6fb46ba7b":[2,0,1,5,1,40],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a53ae4f0f6151c796d9c9366ebdb0a1a2":[1,0,1,2,0,6],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a53ae4f0f6151c796d9c9366ebdb0a1a2":[2,0,1,5,1,6],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a581405664132207a66b68e539c1bd75e":[1,0,1,2,0,4],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a581405664132207a66b68e539c1bd75e":[2,0,1,5,1,4],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a5f7dfe491a60d63cf51a21b4c7890c2c":[1,0,1,2,0,38],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a5f7dfe491a60d63cf51a21b4c7890c2c":[2,0,1,5,1,38],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a65fc92b9da1abb153c1af4fe555a0a3d":[1,0,1,2,0,45],
-"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a65fc92b9da1abb153c1af4fe555a0a3d":[2,0,1,5,1,45]
+"structcore__lib_1_1log_1_1_f_i_n_a_l__.html#a45a385c9515d993151a3f83fe280523a":[2,0,1,5,1,25]
 };

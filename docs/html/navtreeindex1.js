@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"_smart_ptr_8h_source.html":[3,0,0,8,32],
 "_string_utils_8h_source.html":[3,0,0,16,0],
 "_strong_ptr_8h_source.html":[3,0,0,8,35],
 "_sync_event_8cpp.html":[3,0,1,6,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "class_generic_document.html#a13f68b1896a24eea4cdbc03a3916225f":[2,0,32,18],
 "class_generic_document.html#a3182978743c2e82408c76a3e3b9a83be":[2,0,32,24],
 "class_generic_document.html#a35155b912da66ced38d22e2551364c57":[2,0,32,1],
-"class_generic_document.html#a3c3977dcf15fafe17d57f6784e0ce2b5":[2,0,32,15],
-"class_generic_document.html#a3da21e72ec8f26b9da77d86cc1d41cdd":[2,0,32,4]
+"class_generic_document.html#a3c3977dcf15fafe17d57f6784e0ce2b5":[2,0,32,15]
 };

@@ -290,7 +290,7 @@ var annotated_dup =
         [ "ThreadGroup", "classcore__lib_1_1threads_1_1_thread_group.html", "classcore__lib_1_1threads_1_1_thread_group" ],
         [ "ThreadRunner", "classcore__lib_1_1threads_1_1_thread_runner.html", "classcore__lib_1_1threads_1_1_thread_runner" ]
       ] ],
-      [ "ManagedSingleton_Legacy", "classcore__lib_1_1_managed_singleton___legacy.html", null ]
+      [ "ManagedSingleton_Legacy", "classcore__lib_1_1_managed_singleton___legacy.html", "classcore__lib_1_1_managed_singleton___legacy" ]
     ] ],
     [ "flex_string_details", null, [
       [ "get_unsigned", "structflex__string__details_1_1get__unsigned.html", null ],

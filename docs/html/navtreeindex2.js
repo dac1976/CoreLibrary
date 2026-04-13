@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"class_generic_document.html#a3da21e72ec8f26b9da77d86cc1d41cdd":[2,0,32,4],
 "class_generic_document.html#a510a0588db4eb372f5d81bc3646578fb":[2,0,32,11],
 "class_generic_document.html#a52e66069197b23731a723b933869c013":[2,0,32,23],
 "class_generic_document.html#a54d96ce0902d2afe033faebfd2863bbc":[2,0,32,20],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "class_loki_1_1_contract_checker.html#affec5da0ee1dba4a8bcd8d4fc4667ca5":[1,0,2,26,11],
 "class_loki_1_1_contract_checker.html#affec5da0ee1dba4a8bcd8d4fc4667ca5":[2,0,4,29,11],
 "class_loki_1_1_cyclic_visitor.html":[0,11,2],
-"class_loki_1_1_default_s_p_storage.html":[0,9,1,1],
-"class_loki_1_1_default_s_p_storage.html#a70074a5e2fe5b95668d4e5bb0f0909a8":[0,9,1,1,0]
+"class_loki_1_1_default_s_p_storage.html":[0,9,1,1]
 };

@@ -1,4 +1,3 @@
-
 #ifndef DISABLE_MANAGED_SINGLETON_TESTS
 
 #include "Singleton/ManagedSingleton.hpp"
@@ -67,6 +66,21 @@ struct ThreadType
 
 std::atomic<int> ThreadType::ctorCount{0};
 
+struct ReinitType
+{
+    ReinitType()
+    : value(-1)
+    {
+    }
+
+    explicit ReinitType(int v)
+    : value(v)
+    {
+    }
+
+    int value;
+};
+
 } // anonymous namespace
 
 // -----------------------------------------------------------------------------
@@ -77,15 +91,15 @@ TEST(ManagedSingletonTest, TryInstanceReturnsNullBeforeCreation)
 {
     using Singleton = core_lib::ManagedSingleton<TryType>;
 
-    EXPECT_EQ(nullptr, Singleton::TryInstance());
-
-    // Cleanup just in case a prior failed run left state around.
     Singleton::Destroy();
+    EXPECT_EQ(nullptr, Singleton::TryInstance());
 }
 
 TEST(ManagedSingletonTest, InstanceCreatesObjectOnFirstUse)
 {
     using Singleton = core_lib::ManagedSingleton<DefaultType>;
+
+    Singleton::Destroy();
 
     DefaultType& instance = Singleton::Instance();
 
@@ -104,6 +118,8 @@ TEST(ManagedSingletonTest, InstanceReturnsSameObjectEachTime)
 
     using Singleton = core_lib::ManagedSingleton<SameType>;
 
+    Singleton::Destroy();
+
     SameType& a = Singleton::Instance();
     SameType& b = Singleton::Instance();
 
@@ -116,6 +132,8 @@ TEST(ManagedSingletonTest, InstanceReturnsSameObjectEachTime)
 TEST(ManagedSingletonTest, FirstCallCanUseConstructorArguments)
 {
     using Singleton = core_lib::ManagedSingleton<ArgType>;
+
+    Singleton::Destroy();
 
     ArgType& instance = Singleton::Instance(123);
 
@@ -144,6 +162,8 @@ TEST(ManagedSingletonTest, SubsequentCallsIgnoreDifferentConstructorArguments)
 
     using Singleton = core_lib::ManagedSingleton<StickyArgType>;
 
+    Singleton::Destroy();
+
     StickyArgType& first = Singleton::Instance(10);
     StickyArgType& second = Singleton::Instance(999);
 
@@ -158,6 +178,8 @@ TEST(ManagedSingletonTest, DestroyResetsLiveInstanceAndTryInstanceReturnsNull)
 {
     using Singleton = core_lib::ManagedSingleton<DestroyType>;
 
+    Singleton::Destroy();
+
     DestroyType& instance = Singleton::Instance(88);
     EXPECT_EQ(88, instance.value);
     EXPECT_NE(nullptr, Singleton::TryInstance());
@@ -167,31 +189,73 @@ TEST(ManagedSingletonTest, DestroyResetsLiveInstanceAndTryInstanceReturnsNull)
     EXPECT_EQ(nullptr, Singleton::TryInstance());
 }
 
-TEST(ManagedSingletonTest, InstanceAfterDestroyReturnsFallbackObject)
+TEST(ManagedSingletonTest, InstanceAfterDestroyRecreatesNewObject)
 {
-    using Singleton = core_lib::ManagedSingleton<DestroyType>;
+    using Singleton = core_lib::ManagedSingleton<ReinitType>;
 
-    DestroyType& original = Singleton::Instance(321);
-    EXPECT_EQ(321, original.value);
+    Singleton::Destroy();
+
+    ReinitType& first = Singleton::Instance(321);
+    EXPECT_EQ(321, first.value);
+    EXPECT_EQ(&first, Singleton::TryInstance());
 
     Singleton::Destroy();
 
     EXPECT_EQ(nullptr, Singleton::TryInstance());
 
-    // After destroy, Instance() should return the fallback default-constructed object.
-    DestroyType& fallback1 = Singleton::Instance();
-    DestroyType& fallback2 = Singleton::Instance();
+    ReinitType& second = Singleton::Instance(654);
+    EXPECT_EQ(654, second.value);
+    EXPECT_EQ(&second, Singleton::TryInstance());
 
-    EXPECT_EQ(7, fallback1.value);
-    EXPECT_EQ(&fallback1, &fallback2);
-    EXPECT_NE(&original, &fallback1);
+    Singleton::Destroy();
+}
+
+TEST(ManagedSingletonTest, ReinitUsesNewConstructorArgumentsAfterDestroy)
+{
+    using Singleton = core_lib::ManagedSingleton<ReinitType>;
+
+    Singleton::Destroy();
+
+    ReinitType& first = Singleton::Instance(10);
+    EXPECT_EQ(10, first.value);
+    EXPECT_EQ(&first, Singleton::TryInstance());
+
+    Singleton::Destroy();
+
     EXPECT_EQ(nullptr, Singleton::TryInstance());
+
+    ReinitType& second = Singleton::Instance(42);
+    EXPECT_EQ(42, second.value);
+    EXPECT_EQ(&second, Singleton::TryInstance());
+
+    Singleton::Destroy();
+}
+
+TEST(ManagedSingletonTest, TryInstanceReturnsRecreatedObjectAfterDestroyAndReinit)
+{
+    using Singleton = core_lib::ManagedSingleton<ReinitType>;
+
+    Singleton::Destroy();
+
+    ReinitType& first = Singleton::Instance(77);
+    EXPECT_EQ(77, first.value);
+    EXPECT_EQ(&first, Singleton::TryInstance());
+
+    Singleton::Destroy();
+    EXPECT_EQ(nullptr, Singleton::TryInstance());
+
+    ReinitType& second = Singleton::Instance(88);
+    EXPECT_EQ(88, second.value);
+    EXPECT_EQ(&second, Singleton::TryInstance());
+
+    Singleton::Destroy();
 }
 
 TEST(ManagedSingletonTest, ConcurrentInstanceCallsStillYieldSingleObject)
 {
     using Singleton = core_lib::ManagedSingleton<ThreadType>;
 
+    Singleton::Destroy();
     ThreadType::ctorCount.store(0);
 
     constexpr int threadCount = 16;

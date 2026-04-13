@@ -1,5 +1,16 @@
 var NAVTREEINDEX20 =
 {
+"namespacecereal.html#acb1f17a3cae999a9be34889fd2c509a0":[1,0,0,155],
+"namespacecereal.html#acb582097a98c0558c1a6b3cf0ef52270":[1,0,0,140],
+"namespacecereal.html#accec39647fd17ad5470e42a5c371701c":[1,0,0,168],
+"namespacecereal.html#ad05ab834a18302c852181802b22d30ec":[1,0,0,120],
+"namespacecereal.html#ad178feaa536101818dbed91f516d7a3d":[1,0,0,100],
+"namespacecereal.html#ad1956f9852b727abcb5ee439dd8abf39":[1,0,0,33],
+"namespacecereal.html#ad1957ae53b8fc963c0ed3e831deae7ca":[1,0,0,95],
+"namespacecereal.html#ad4a9fc2e4a59628aca00743710cf238f":[1,0,0,62],
+"namespacecereal.html#ad5738ab4196d02509a5b69a58c7ca6ba":[1,0,0,93],
+"namespacecereal.html#ad67f92a71f4318dd69e6dec516fe57dd":[1,0,0,149],
+"namespacecereal.html#ad6d7ca1d179cff040e96656467c821c8":[1,0,0,99],
 "namespacecereal.html#ad8cfa5e251b7a85343f0a92e93f50a60":[1,0,0,37],
 "namespacecereal.html#ada32ad49436ba6eadf59fe88c9ffc6d8":[1,0,0,49],
 "namespacecereal.html#adacd1c15f7ed1793453e56a675bd0a78":[1,0,0,176],
@@ -24,6 +35,7 @@ var NAVTREEINDEX20 =
 "namespacecereal.html#afa97ef85d3c72b1bb9398c8c197fdd57":[1,0,0,108],
 "namespacecereal.html#afdc7cefa0f45ae9d873598fdc607320e":[1,0,0,40],
 "namespacecore__lib.html":[1,0,1],
+"namespacecore__lib.html#a033723c9d63fe00e386913d361857667":[1,0,1,11],
 "namespacecore__lib_1_1asio.html":[1,0,1,0],
 "namespacecore__lib_1_1asio_1_1defs.html":[1,0,1,0,0],
 "namespacecore__lib_1_1asio_1_1defs.html#a108dd385a881ca2bfcd9226fa188731f":[1,0,1,0,0,13],
@@ -237,17 +249,5 @@ var NAVTREEINDEX20 =
 "namespacemembers_func_u.html":[1,1,1,15],
 "namespacemembers_func_w.html":[1,1,1,16],
 "namespacemembers_g.html":[1,1,0,6],
-"namespacemembers_i.html":[1,1,0,7],
-"namespacemembers_k.html":[1,1,0,8],
-"namespacemembers_l.html":[1,1,0,9],
-"namespacemembers_m.html":[1,1,0,10],
-"namespacemembers_n.html":[1,1,0,11],
-"namespacemembers_o.html":[1,1,0,12],
-"namespacemembers_p.html":[1,1,0,13],
-"namespacemembers_r.html":[1,1,0,14],
-"namespacemembers_s.html":[1,1,0,15],
-"namespacemembers_t.html":[1,1,0,16],
-"namespacemembers_type.html":[1,1,3],
-"namespacemembers_u.html":[1,1,0,17],
-"namespacemembers_vars.html":[1,1,2]
+"namespacemembers_i.html":[1,1,0,7]
 };
