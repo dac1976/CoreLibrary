@@ -19,6 +19,21 @@
 // and GNU Lesser General Public License along with this program. If
 // not, see <http://www.gnu.org/licenses/>.
 
+/*!
+ * \file ManagedSingleton.hpp
+ * \brief File containing definition of ManagedSingleton class.
+ *
+ * Provides a thread-safe, lazily initialised singleton wrapper with
+ * explicit lifetime management via Destroy().
+ *
+ * Two implementations are provided:
+ * - ManagedSingleton_Modern: lock-free fast path using atomics (C++14+)
+ * - ManagedSingleton_Legacy: mutex-based implementation (pre-C++14 fallback)
+ *
+ * The public alias ManagedSingleton<T> resolves to the appropriate
+ * implementation depending on IS_CPP14.
+ */
+
 #ifndef MANAGED_SINGLETON_HPP
 #define MANAGED_SINGLETON_HPP
 
@@ -29,14 +44,35 @@
 #include <type_traits>
 #include "Platform/PlatformDefines.h"
 
-// TODO: This needs testing and maybe tweaking, it is a work-in-progress as a
-// hopeful replacement for the Loki singleton.
-
+/*! \brief The core_lib namespace. */
 namespace core_lib
 {
 
 #if defined(IS_CPP14)
-// NOTE: T must be default-constructible for fallback instance.
+/*!
+ * \brief Modern thread-safe managed singleton implementation.
+ *
+ * \tparam T Type of the singleton instance.
+ *
+ * This implementation uses a double-checked locking pattern with
+ * std::atomic for a fast lock-free read path after initialisation.
+ *
+ * Requirements:
+ * - T must be default constructible (for fallback instance).
+ *
+ * Behaviour:
+ * - Instance() lazily constructs the singleton on first call.
+ * - TryInstance() returns nullptr if not yet constructed or after destruction.
+ * - Destroy() destroys the managed instance and permanently marks it as destroyed.
+ * - After Destroy(), Instance() returns a static fallback instance.
+ *
+ * Thread Safety:
+ * - Instance() is thread-safe.
+ * - Destroy() must only be called when no other threads are accessing the singleton.
+ *
+ * Memory Ordering:
+ * - Acquire/Release semantics are used to ensure proper publication of the instance.
+ */
 template <typename T>
 class ManagedSingleton_Modern
 {
@@ -44,6 +80,18 @@ class ManagedSingleton_Modern
               "ManagedSingleton requires T to be default constructible");
 
 public:
+    /*!
+     * \brief Access the singleton instance.
+     *
+     * \tparam Args Constructor argument types.
+     * \param args Arguments forwarded to T's constructor on first initialisation.
+     * \return Reference to the singleton instance, or fallback instance if destroyed.
+     *
+     * Notes:
+     * - Constructor arguments are only used on first initialisation.
+     * - Subsequent calls ignore provided arguments.
+     * - If Destroy() has been called, a fallback instance is returned.
+     */
     template <typename... Args>
     static T& Instance(Args&&... args)
     {
@@ -64,7 +112,7 @@ public:
             {
                 if (m_destroyed.load(std::memory_order_relaxed))
                 {
-                    return destroyed_fallback();
+                    return DestroyedFallback();
                 }
 
                 std::unique_ptr<T> newInstance =
@@ -80,13 +128,30 @@ public:
         return *ptr;
     }
 
+    /*!
+     * \brief Attempt to get the current singleton instance.
+     *
+     * \return Pointer to the instance if it exists, otherwise nullptr.
+     *
+     * This function does not create the instance.
+     */
     static T* TryInstance()
     {
         return m_instance.load(std::memory_order_acquire);
     }
 
-    // Destroy() must only be called when no other threads
-    // are accessing Instance() or TryInstance().
+    /*!
+     * \brief Destroy the managed singleton instance.
+     *
+     * After destruction:
+     * - TryInstance() returns nullptr.
+     * - Instance() returns a fallback default-constructed instance.
+     *
+     * \warning Must only be called when no other threads are accessing
+     *          Instance() or TryInstance().
+     *
+     * \note Destruction is permanent; the managed instance cannot be recreated.
+     */
     static void Destroy()
     {
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -97,6 +162,13 @@ public:
     }
 
 private:
+    /*!
+     * \brief Fallback instance returned after destruction.
+     *
+     * \return Reference to a static default-constructed instance of T.
+     *
+     * This instance is independent of the managed singleton lifecycle.
+     */
     static T& DestroyedFallback()
     {
         static T fallbackInstance{};
@@ -104,10 +176,10 @@ private:
     }
 
 private:
-    static std::atomic<T*>    m_instance;
-    static std::unique_ptr<T> m_owned;
-    static std::mutex         m_mutex;
-    static std::atomic<bool>  m_destroyed;
+    static std::atomic<T*>    m_instance;   /*!< Raw pointer to managed instance */
+    static std::unique_ptr<T> m_owned;      /*!< Owning pointer for lifetime management */
+    static std::mutex         m_mutex;      /*!< Mutex for initialisation and destruction */
+    static std::atomic<bool>  m_destroyed;  /*!< Indicates whether Destroy() has been called */
 };
 
 template <typename T>
@@ -122,10 +194,24 @@ std::mutex ManagedSingleton_Modern<T>::m_mutex;
 template <typename T>
 std::atomic<bool> ManagedSingleton_Modern<T>::m_destroyed{false};
 
+/*!
+ * \brief Alias selecting modern singleton implementation.
+ */
 template <typename T>
 using ManagedSingleton = ManagedSingleton_Modern<T>;
+
 #else
-// NOTE: T must be default-constructible for fallback instance.
+/*!
+ * \brief Legacy thread-safe managed singleton implementation.
+ *
+ * \tparam T Type of the singleton instance.
+ *
+ * This implementation uses a mutex for all access and is intended
+ * for environments where the modern atomic-based implementation
+ * is not available.
+ *
+ * Behaviour and constraints match ManagedSingleton_Modern.
+ */
 template <typename T>
 class ManagedSingleton_Legacy
 {
@@ -133,6 +219,13 @@ class ManagedSingleton_Legacy
               "ManagedSingleton requires T to be default constructible");
 
 public:
+    /*!
+     * \brief Access the singleton instance.
+     *
+     * \tparam Args Constructor argument types.
+     * \param args Arguments forwarded to T's constructor on first initialisation.
+     * \return Reference to the singleton instance, or fallback instance if destroyed.
+     */
     template <typename... Args>
     static T& Instance(Args&&... args)
     {
@@ -156,14 +249,23 @@ public:
         return *m_instance;
     }
 
+    /*!
+     * \brief Attempt to get the current singleton instance.
+     *
+     * \return Pointer to the instance if it exists, otherwise nullptr.
+     */
     static T* TryInstance()
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_instance.get();
     }
 
-    // Destroy() must only be called when no other threads are
-    // accessing Instance() or TryInstance().
+    /*!
+     * \brief Destroy the managed singleton instance.
+     *
+     * \warning Must only be called when no other threads are accessing
+     *          Instance() or TryInstance().
+     */
     static void Destroy()
     {
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -173,6 +275,9 @@ public:
     }
 
 private:
+    /*!
+     * \brief Fallback instance returned after destruction.
+     */
     static T& DestroyedFallback()
     {
         static T fallbackInstance{};
@@ -180,9 +285,9 @@ private:
     }
 
 private:
-    static std::unique_ptr<T> m_instance;
-    static std::mutex m_mutex;
-    static std::atomic<bool>  m_destroyed;
+    static std::unique_ptr<T> m_instance; /*!< Owning pointer to instance */
+    static std::mutex m_mutex;            /*!< Mutex protecting all access */
+    static std::atomic<bool>  m_destroyed;/*!< Indicates destruction state */
 };
 
 template <typename T>
@@ -194,6 +299,9 @@ std::mutex ManagedSingleton_Legacy<T>::m_mutex;
 template <typename T>
 std::atomic<bool> ManagedSingleton_Legacy<T>::m_destroyed{false};
 
+/*!
+ * \brief Alias selecting legacy singleton implementation.
+ */
 template <typename T>
 using ManagedSingleton = ManagedSingleton_Legacy<T>;
 #endif

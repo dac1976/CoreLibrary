@@ -24,6 +24,7 @@ option(CORELIB_DISABLE_INIFILE_TESTS "Disable INI file tests" ON)
 option(CORELIB_DISABLE_SERIALIZATION_TESTS "Disable serialization tests" ON)
 option(CORELIB_DISABLE_STRINGUTILS_TESTS "Disable string utils tests" ON)
 option(CORELIB_DISABLE_THREADS_TESTS "Disable threads tests" ON)
+option(CORELIB_DISABLE_MANAGED_SINGLETON_TESTS "Disable managed singleton tests" ON)
 
 # Local env vars for this CMakelists file, must be set before calling CMake configure
 # and as these are cached will be rememebr until the CMake cache is cleared.
@@ -118,6 +119,7 @@ add_executable(
   ../../Source/Asio/UdpReceiver.cpp
   ../../Source/Asio/UdpSender.cpp
   test.pb.cc
+  tst_ManagedSingleton.cpp
   tst_AsioTest.cpp
   tst_CsvGridTest.cpp
   tst_DebugLogTest.cpp
@@ -145,6 +147,7 @@ target_compile_definitions(CoreLibraryUnitTests PRIVATE
   $<$<BOOL:${CORELIB_DISABLE_SERIALIZATION_TESTS}>:DISABLE_SERIALIZATION_TESTS>
   $<$<BOOL:${CORELIB_DISABLE_STRINGUTILS_TESTS}>:DISABLE_STRINGUTILS_TESTS>
   $<$<BOOL:${CORELIB_DISABLE_THREADS_TESTS}>:DISABLE_THREADS_TESTS>
+  $<$<BOOL:${CORELIB_DISABLE_MANAGED_SINGLETON_TESTS}>:DISABLE_MANAGED_SINGLETON_TESTS>
 )
 
 target_compile_definitions(CoreLibraryUnitTests PUBLIC
