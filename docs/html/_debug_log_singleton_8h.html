@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.8</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.9</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -96,17 +96,22 @@ $(function(){initNavTree('_debug_log_singleton_8h.html','',''); });
 <p>File containing declaration of DebugLog Singleton.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_debug_log_8h_source.html">DebugLog.h</a>&quot;</code><br />
-<code>#include &quot;LokiPatch/LokiSingleton.hpp&quot;</code><br />
+<code>#include &quot;<a class="el" href="_managed_singleton_8hpp_source.html">Singleton/ManagedSingleton.hpp</a>&quot;</code><br />
 </div>
 <p><a href="_debug_log_singleton_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:core_5Flib" id="r_core_5Flib"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecore__lib.html">core_lib</a></td></tr>
+<tr class="memdesc:namespacecore__lib"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="namespacecore__lib.html" title="The core_lib namespace.">core_lib</a> namespace. <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ad7048a4318c043865ee61e5132427eb5" id="r_ad7048a4318c043865ee61e5132427eb5"><td class="memItemLeft"><a id="ad7048a4318c043865ee61e5132427eb5" name="ad7048a4318c043865ee61e5132427eb5"></a>
-#define&#160;</td><td class="memItemRight"><b>DEBUG_LOG_SINGLETON</b>&#160;&#160;&#160;DebugLogInstance()</td></tr>
+#define&#160;</td><td class="memItemRight"><b>DEBUG_LOG_SINGLETON</b>&#160;&#160;&#160;core_lib::DebugLogInstance()</td></tr>
 <tr class="memdesc:ad7048a4318c043865ee61e5132427eb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro defining our actual log's singelton. <br /></td></tr>
 <tr class="memitem:ab1791f794a07dc97a171aec59562d01b" id="r_ab1791f794a07dc97a171aec59562d01b"><td class="memItemLeft"><a id="ab1791f794a07dc97a171aec59562d01b" name="ab1791f794a07dc97a171aec59562d01b"></a>
-#define&#160;</td><td class="memItemRight"><b>DEBUG_LOG_SINGLETON_EXISTS</b>&#160;&#160;&#160;DebugLogExists()</td></tr>
+#define&#160;</td><td class="memItemRight"><b>DEBUG_LOG_SINGLETON_EXISTS</b>&#160;&#160;&#160;core_lib::DebugLogExists()</td></tr>
 <tr class="memdesc:ab1791f794a07dc97a171aec59562d01b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro tetsing existence of log's singelton. <br /></td></tr>
 <tr class="memitem:a5be27ade98ae8f3517b60054b820ba82" id="r_a5be27ade98ae8f3517b60054b820ba82"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a5be27ade98ae8f3517b60054b820ba82">DEBUG_LOG_SINGLETON_INSTANTIATE</a>(v,  p,  f)</td></tr>
 <tr class="memdesc:a5be27ade98ae8f3517b60054b820ba82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to help instantiate singleton.  <br /></td></tr>
@@ -121,23 +126,22 @@ Macros</h2></td></tr>
 <tr class="memitem:a6b0857c26a1834a5c82e936b978a5cc2" id="r_a6b0857c26a1834a5c82e936b978a5cc2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a6b0857c26a1834a5c82e936b978a5cc2">DEBUG_LOG_SINGLETON_INSTANTIATE_EX5</a>(v,  p,  f,  s,  e,  u,  z,  m)</td></tr>
 <tr class="memdesc:a6b0857c26a1834a5c82e936b978a5cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to help instantiate singleton (extended version 5).  <br /></td></tr>
 <tr class="memitem:a11a216c0921fdfc5497cd0be82c306a7" id="r_a11a216c0921fdfc5497cd0be82c306a7"><td class="memItemLeft"><a id="a11a216c0921fdfc5497cd0be82c306a7" name="a11a216c0921fdfc5497cd0be82c306a7"></a>
-#define&#160;</td><td class="memItemRight"><b>DEBUG_LOG_SINGLETON_DELETER</b>&#160;&#160;&#160;DebugLogGracefulDelete()</td></tr>
+#define&#160;</td><td class="memItemRight"><b>DEBUG_LOG_SINGLETON_DELETER</b>&#160;&#160;&#160;core_lib::DebugLogGracefulDelete()</td></tr>
 <tr class="memdesc:a11a216c0921fdfc5497cd0be82c306a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro defining a singleton deleter. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a5e52da30184750dca4846aad880aefe6" id="r_a5e52da30184750dca4846aad880aefe6"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a5e52da30184750dca4846aad880aefe6">debug_singelton_t</a></td></tr>
-<tr class="memitem:a50807b16d13dd97d2d97acd2cf00429d" id="r_a50807b16d13dd97d2d97acd2cf00429d"><td class="memItemLeft"><a id="a50807b16d13dd97d2d97acd2cf00429d" name="a50807b16d13dd97d2d97acd2cf00429d"></a>
-using&#160;</td><td class="memItemRight"><b>debug_singelton_deleter_t</b> = <a class="el" href="class_loki_1_1_deletable_singleton.html">Loki::DeletableSingleton</a>&lt;<a class="el" href="namespacecore__lib_1_1log.html#a963ebe5892dfd28a583d1cc68dbbfa9d">core_lib::log::default_log_t</a>&gt;</td></tr>
+<tr class="memitem:a571f6fc47c04b6ea07b56a2fed783851" id="r_a571f6fc47c04b6ea07b56a2fed783851"><td class="memItemLeft"><a id="a571f6fc47c04b6ea07b56a2fed783851" name="a571f6fc47c04b6ea07b56a2fed783851"></a>
+using&#160;</td><td class="memItemRight"><b>debug_singelton_t</b> = <a class="el" href="namespacecore__lib.html#a033723c9d63fe00e386913d361857667">core_lib::ManagedSingleton</a>&lt;<a class="el" href="namespacecore__lib_1_1log.html#a963ebe5892dfd28a583d1cc68dbbfa9d">core_lib::log::default_log_t</a>&gt;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a60ab3c3662d163390691913c423c6332" id="r_a60ab3c3662d163390691913c423c6332"><td class="memItemLeft"><a id="a60ab3c3662d163390691913c423c6332" name="a60ab3c3662d163390691913c423c6332"></a>
-<a class="el" href="namespacecore__lib_1_1log.html#a963ebe5892dfd28a583d1cc68dbbfa9d">core_lib::log::default_log_t</a> &amp;&#160;</td><td class="memItemRight"><b>DebugLogInstance</b> ()</td></tr>
-<tr class="memitem:ae38961c4e9efd25b2d358b21174057b4" id="r_ae38961c4e9efd25b2d358b21174057b4"><td class="memItemLeft"><a id="ae38961c4e9efd25b2d358b21174057b4" name="ae38961c4e9efd25b2d358b21174057b4"></a>
-bool&#160;</td><td class="memItemRight"><b>DebugLogExists</b> ()</td></tr>
-<tr class="memitem:a3f91ad34ea54b555e5cc3d69767669ca" id="r_a3f91ad34ea54b555e5cc3d69767669ca"><td class="memItemLeft"><a id="a3f91ad34ea54b555e5cc3d69767669ca" name="a3f91ad34ea54b555e5cc3d69767669ca"></a>
-void&#160;</td><td class="memItemRight"><b>DebugLogGracefulDelete</b> ()</td></tr>
+<tr class="memitem:a91aa3ca1f78b294961a933989314ede7" id="r_a91aa3ca1f78b294961a933989314ede7"><td class="memItemLeft"><a id="a91aa3ca1f78b294961a933989314ede7" name="a91aa3ca1f78b294961a933989314ede7"></a>
+<a class="el" href="namespacecore__lib_1_1log.html#a963ebe5892dfd28a583d1cc68dbbfa9d">core_lib::log::default_log_t</a> &amp;&#160;</td><td class="memItemRight"><b>core_lib::DebugLogInstance</b> ()</td></tr>
+<tr class="memitem:adff0af3ee0ab9faed1f779e1ff14739b" id="r_adff0af3ee0ab9faed1f779e1ff14739b"><td class="memItemLeft"><a id="adff0af3ee0ab9faed1f779e1ff14739b" name="adff0af3ee0ab9faed1f779e1ff14739b"></a>
+bool&#160;</td><td class="memItemRight"><b>core_lib::DebugLogExists</b> ()</td></tr>
+<tr class="memitem:ab6693e6aa03f3177c30b308386c36ca5" id="r_ab6693e6aa03f3177c30b308386c36ca5"><td class="memItemLeft"><a id="ab6693e6aa03f3177c30b308386c36ca5" name="ab6693e6aa03f3177c30b308386c36ca5"></a>
+void&#160;</td><td class="memItemRight"><b>core_lib::DebugLogGracefulDelete</b> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing declaration of DebugLog Singleton. </p>
@@ -166,7 +170,7 @@ void&#160;</td><td class="memItemRight"><b>DebugLogGracefulDelete</b> ()</td></t
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#ad7048a4318c043865ee61e5132427eb5">DEBUG_LOG_SINGLETON</a>.Instantiate(v, p, f)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_ad7048a4318c043865ee61e5132427eb5"><div class="ttname"><a href="#ad7048a4318c043865ee61e5132427eb5">DEBUG_LOG_SINGLETON</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON</div><div class="ttdoc">Macro defining our actual log&#39;s singelton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:48</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_ad7048a4318c043865ee61e5132427eb5"><div class="ttname"><a href="#ad7048a4318c043865ee61e5132427eb5">DEBUG_LOG_SINGLETON</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON</div><div class="ttdoc">Macro defining our actual log&#39;s singelton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:55</div></div>
 </div><!-- fragment -->
 <p>Macro to help instantiate singleton. </p>
 
@@ -380,24 +384,6 @@ void&#160;</td><td class="memItemRight"><b>DebugLogGracefulDelete</b> ()</td></t
 </div><!-- fragment -->
 <p>Macro to help instantiate singleton (extended version 5). </p>
 
-</div>
-</div>
-<a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
-<a id="a5e52da30184750dca4846aad880aefe6" name="a5e52da30184750dca4846aad880aefe6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e52da30184750dca4846aad880aefe6">&#9670;&#160;</a></span>debug_singelton_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using debug_singelton_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"> </div>
-<div class="line"><a class="code hl_class" href="class_loki_1_1_singleton_holder.html">Loki::SingletonHolder&lt;core_lib::log::default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton&gt;</a></div>
-<div class="ttc" id="aclass_loki_1_1_singleton_holder_html"><div class="ttname"><a href="class_loki_1_1_singleton_holder.html">Loki::SingletonHolder</a></div><div class="ttdef"><b>Definition</b> Singleton.h:727</div></div>
-</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

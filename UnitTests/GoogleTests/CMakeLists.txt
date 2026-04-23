@@ -12,6 +12,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # -DCORELIB_USE_STD_FILESYSTEM=OFF -> use <boost/filesystem.hpp>
 option(CORELIB_USE_STD_FILESYSTEM "Use <filesystem> instead of <boost/filesystem.hpp>" ON)
 
+# Custom CMake toggle:
+# -CORE_LIB_USE_LOKI=ON  -> Use Loki for singletons.
+# -CORE_LIB_USE_LOKI=OFF -> (Default) Use ManageSingleton instead.
+option(CORE_LIB_USE_LOKI "Use Loki for singletons" OFF)
+
 option(CORELIB_DISABLE_ASIO_TESTS "Disable ASIO tests" ON)
 option(CORELIB_DISABLE_CSVGRID_TESTS "Disable CSV grid tests" ON)
 option(CORELIB_DISABLE_DEBUGLOG_TESTS "Disable debug log tests" ON)
@@ -157,11 +162,12 @@ target_compile_definitions(CoreLibraryUnitTests PUBLIC
   $<$<PLATFORM_ID:Windows>:NOMINMAX>
   $<$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>:USE_STD_FILESYSTEM>
   $<$<NOT:$<BOOL:${CORELIB_DISABLE_FLATBUFFER_TESTS}>>:USE_FLATBUFFERS>
+  $<$<BOOL:${CORE_LIB_USE_LOKI}>:CORE_LIB_LOKI>
   _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
   NOT_USING_BOOST_LOCALE
   BOOST_BIND_GLOBAL_PLACEHOLDERS
   BOOST_THREAD_USE_LIB
-  LOKI_CLASS_LEVEL_THREADING
+  $<$<BOOL:${CORE_LIB_USE_LOKI}>:LOKI_CLASS_LEVEL_THREADING>
 )
 
 # Include Paths

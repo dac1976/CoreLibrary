@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.8</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.9</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -1354,8 +1354,8 @@ Variables</h2></td></tr>
 <div class="line">        DEBUG_LOG_EX_INFO(<a class="code hl_define" href="_debug_log_singleton_8h.html#ad7048a4318c043865ee61e5132427eb5">DEBUG_LOG_SINGLETON</a>, m);                                             \</div>
 <div class="line">    }                                                                                          \</div>
 <div class="line">} <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_ab1791f794a07dc97a171aec59562d01b"><div class="ttname"><a href="_debug_log_singleton_8h.html#ab1791f794a07dc97a171aec59562d01b">DEBUG_LOG_SINGLETON_EXISTS</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_EXISTS</div><div class="ttdoc">Macro tetsing existence of log&#39;s singelton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:51</div></div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_ad7048a4318c043865ee61e5132427eb5"><div class="ttname"><a href="_debug_log_singleton_8h.html#ad7048a4318c043865ee61e5132427eb5">DEBUG_LOG_SINGLETON</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON</div><div class="ttdoc">Macro defining our actual log&#39;s singelton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:48</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_ab1791f794a07dc97a171aec59562d01b"><div class="ttname"><a href="_debug_log_singleton_8h.html#ab1791f794a07dc97a171aec59562d01b">DEBUG_LOG_SINGLETON_EXISTS</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_EXISTS</div><div class="ttdoc">Macro tetsing existence of log&#39;s singelton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:58</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_ad7048a4318c043865ee61e5132427eb5"><div class="ttname"><a href="_debug_log_singleton_8h.html#ad7048a4318c043865ee61e5132427eb5">DEBUG_LOG_SINGLETON</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON</div><div class="ttdoc">Macro defining our actual log&#39;s singelton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:55</div></div>
 </div><!-- fragment -->
 <p>Simple macro to simplify logging, file only. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2050,7 +2050,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="_debug_log_singleton_8h.html#a11a216c0921fdfc5497cd0be82c306a7">DEBUG_LOG_SINGLETON_DELETER</a></div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_a11a216c0921fdfc5497cd0be82c306a7"><div class="ttname"><a href="_debug_log_singleton_8h.html#a11a216c0921fdfc5497cd0be82c306a7">DEBUG_LOG_SINGLETON_DELETER</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_DELETER</div><div class="ttdoc">Macro defining a singleton deleter.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:76</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_a11a216c0921fdfc5497cd0be82c306a7"><div class="ttname"><a href="_debug_log_singleton_8h.html#a11a216c0921fdfc5497cd0be82c306a7">DEBUG_LOG_SINGLETON_DELETER</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_DELETER</div><div class="ttdoc">Macro defining a singleton deleter.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:83</div></div>
 </div><!-- fragment -->
 <p>Macro to gracefully delete the debug singleton. </p>
 <p>This macro should rarely need to be used and only in the case where you do not want to let the singleton manage the destruction of the debug log object. </p>
@@ -2284,7 +2284,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="_debug_log_singleton_8h.html#a5be27ade98ae8f3517b60054b820ba82">DEBUG_LOG_SINGLETON_INSTANTIATE</a>(v, p, f)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_a5be27ade98ae8f3517b60054b820ba82"><div class="ttname"><a href="_debug_log_singleton_8h.html#a5be27ade98ae8f3517b60054b820ba82">DEBUG_LOG_SINGLETON_INSTANTIATE</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE(v, p, f)</div><div class="ttdoc">Macro to help instantiate singleton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:54</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_a5be27ade98ae8f3517b60054b820ba82"><div class="ttname"><a href="_debug_log_singleton_8h.html#a5be27ade98ae8f3517b60054b820ba82">DEBUG_LOG_SINGLETON_INSTANTIATE</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE(v, p, f)</div><div class="ttdoc">Macro to help instantiate singleton.</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:61</div></div>
 </div><!-- fragment -->
 <p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2328,7 +2328,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="_debug_log_singleton_8h.html#ac6d8f2a24a4d98c40925b0ed491b73c9">DEBUG_LOG_SINGLETON_INSTANTIATE_EX</a>(v, p, f, s)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_ac6d8f2a24a4d98c40925b0ed491b73c9"><div class="ttname"><a href="_debug_log_singleton_8h.html#ac6d8f2a24a4d98c40925b0ed491b73c9">DEBUG_LOG_SINGLETON_INSTANTIATE_EX</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX(v, p, f, s)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 1).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:57</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_ac6d8f2a24a4d98c40925b0ed491b73c9"><div class="ttname"><a href="_debug_log_singleton_8h.html#ac6d8f2a24a4d98c40925b0ed491b73c9">DEBUG_LOG_SINGLETON_INSTANTIATE_EX</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX(v, p, f, s)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 1).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:64</div></div>
 </div><!-- fragment -->
 <p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2378,7 +2378,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="_debug_log_singleton_8h.html#a91d9e418972064beffa3ee7a9eb80f40">DEBUG_LOG_SINGLETON_INSTANTIATE_EX2</a>(v, p, f, s, e)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_a91d9e418972064beffa3ee7a9eb80f40"><div class="ttname"><a href="_debug_log_singleton_8h.html#a91d9e418972064beffa3ee7a9eb80f40">DEBUG_LOG_SINGLETON_INSTANTIATE_EX2</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX2(v, p, f, s, e)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 2).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:60</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_a91d9e418972064beffa3ee7a9eb80f40"><div class="ttname"><a href="_debug_log_singleton_8h.html#a91d9e418972064beffa3ee7a9eb80f40">DEBUG_LOG_SINGLETON_INSTANTIATE_EX2</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX2(v, p, f, s, e)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 2).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:67</div></div>
 </div><!-- fragment -->
 <p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2424,7 +2424,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="_debug_log_singleton_8h.html#a15de79aaea4a1d7cf61d525ee4ab6560">DEBUG_LOG_SINGLETON_INSTANTIATE_EX3</a>(v, p, f, e)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_a15de79aaea4a1d7cf61d525ee4ab6560"><div class="ttname"><a href="_debug_log_singleton_8h.html#a15de79aaea4a1d7cf61d525ee4ab6560">DEBUG_LOG_SINGLETON_INSTANTIATE_EX3</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX3(v, p, f, e)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 3).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:64</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_a15de79aaea4a1d7cf61d525ee4ab6560"><div class="ttname"><a href="_debug_log_singleton_8h.html#a15de79aaea4a1d7cf61d525ee4ab6560">DEBUG_LOG_SINGLETON_INSTANTIATE_EX3</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX3(v, p, f, e)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 3).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:71</div></div>
 </div><!-- fragment -->
 <p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2484,7 +2484,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="_debug_log_singleton_8h.html#a15746e32708a8a65d783d3ec38f80cde">DEBUG_LOG_SINGLETON_INSTANTIATE_EX4</a>(v, p, f, s, e, u, z)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_a15746e32708a8a65d783d3ec38f80cde"><div class="ttname"><a href="_debug_log_singleton_8h.html#a15746e32708a8a65d783d3ec38f80cde">DEBUG_LOG_SINGLETON_INSTANTIATE_EX4</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX4(v, p, f, s, e, u, z)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 4).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:68</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_a15746e32708a8a65d783d3ec38f80cde"><div class="ttname"><a href="_debug_log_singleton_8h.html#a15746e32708a8a65d783d3ec38f80cde">DEBUG_LOG_SINGLETON_INSTANTIATE_EX4</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX4(v, p, f, s, e, u, z)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 4).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:75</div></div>
 </div><!-- fragment -->
 <p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2552,7 +2552,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="_debug_log_singleton_8h.html#a6b0857c26a1834a5c82e936b978a5cc2">DEBUG_LOG_SINGLETON_INSTANTIATE_EX5</a>(v, p, f, s, e, u, z, m)</div>
-<div class="ttc" id="a_debug_log_singleton_8h_html_a6b0857c26a1834a5c82e936b978a5cc2"><div class="ttname"><a href="_debug_log_singleton_8h.html#a6b0857c26a1834a5c82e936b978a5cc2">DEBUG_LOG_SINGLETON_INSTANTIATE_EX5</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX5(v, p, f, s, e, u, z, m)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 5).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:72</div></div>
+<div class="ttc" id="a_debug_log_singleton_8h_html_a6b0857c26a1834a5c82e936b978a5cc2"><div class="ttname"><a href="_debug_log_singleton_8h.html#a6b0857c26a1834a5c82e936b978a5cc2">DEBUG_LOG_SINGLETON_INSTANTIATE_EX5</a></div><div class="ttdeci">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX5(v, p, f, s, e, u, z, m)</div><div class="ttdoc">Macro to help instantiate singleton (extended version 5).</div><div class="ttdef"><b>Definition</b> DebugLogSingleton.h:79</div></div>
 </div><!-- fragment -->
 <p>Macro to simplify instantiation of debug log. </p>
 <dl class="params"><dt>Parameters</dt><dd>

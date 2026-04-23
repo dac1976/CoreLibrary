@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.8</span>
+   <div id="projectname">Core Library<span id="projectnumber">&#160;2.0.9</span>
    </div>
    <div id="projectbrief">Library containing core utilities and tools for threading, networking, logging, INI and CSV file management etc.</div>
   </td>
@@ -119,56 +119,66 @@ $(function(){initNavTree('_debug_log_singleton_8h_source.html','',''); });
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &quot;<a class="code" href="_debug_log_8h.html">DebugLog.h</a>&quot;</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#if !defined(CORE_LIB_NO_LOKI)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#if defined(CORE_LIB_LOKI)</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;LokiPatch/LokiSingleton.hpp&quot;</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">using </span>debug_singelton_t =</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_class" href="class_loki_1_1_singleton_holder.html">Loki::SingletonHolder&lt;core_lib::log::default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton&gt;</a>;</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">using </span>debug_singelton_deleter_t = <a class="code hl_struct" href="class_loki_1_1_deletable_singleton.html">Loki::DeletableSingleton&lt;core_lib::log::default_log_t&gt;</a>;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#endif </span><span class="comment">// CORE_LIB_NO_LOKI</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><a class="code hl_typedef" href="namespacecore__lib_1_1log.html#a963ebe5892dfd28a583d1cc68dbbfa9d">core_lib::log::default_log_t</a>&amp; DebugLogInstance();</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keywordtype">bool</span> DebugLogExists();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &quot;<a class="code" href="_managed_singleton_8hpp.html">Singleton/ManagedSingleton.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">using </span>debug_singelton_t = <a class="code hl_typedef" href="namespacecore__lib.html#a033723c9d63fe00e386913d361857667">core_lib::ManagedSingleton&lt;core_lib::log::default_log_t&gt;</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#endif </span><span class="comment">// CORE_LIB_LOKI</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keywordtype">void</span> DebugLogGracefulDelete();</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#ad7048a4318c043865ee61e5132427eb5">   48</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON DebugLogInstance()</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#ab1791f794a07dc97a171aec59562d01b">   51</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_EXISTS DebugLogExists()</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a5be27ade98ae8f3517b60054b820ba82">   54</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE(v, p, f) DEBUG_LOG_SINGLETON.Instantiate(v, p, f)</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#ac6d8f2a24a4d98c40925b0ed491b73c9">   57</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX(v, p, f, s) DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s)</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span></div>
-<div class="foldopen" id="foldopen00060" data-start="" data-end="">
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a91d9e418972064beffa3ee7a9eb80f40">   60</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX2(v, p, f, s, e)                                         \</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e)</span></div>
-</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecore__lib.html">core_lib</a></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>{</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><a class="code hl_typedef" href="namespacecore__lib_1_1log.html#a963ebe5892dfd28a583d1cc68dbbfa9d">core_lib::log::default_log_t</a>&amp; DebugLogInstance();</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">bool</span> DebugLogExists();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keywordtype">void</span> DebugLogGracefulDelete();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#ad7048a4318c043865ee61e5132427eb5">   55</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON core_lib::DebugLogInstance()</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#ab1791f794a07dc97a171aec59562d01b">   58</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_EXISTS core_lib::DebugLogExists()</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a5be27ade98ae8f3517b60054b820ba82">   61</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE(v, p, f) DEBUG_LOG_SINGLETON.Instantiate(v, p, f)</span></div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span></div>
-<div class="foldopen" id="foldopen00064" data-start="" data-end="">
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a15de79aaea4a1d7cf61d525ee4ab6560">   64</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX3(v, p, f, e)                                            \</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, 5 * core_lib::log::BYTES_IN_MEBIBYTE, e)</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#ac6d8f2a24a4d98c40925b0ed491b73c9">   64</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX(v, p, f, s) DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s)</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span></div>
+<div class="foldopen" id="foldopen00067" data-start="" data-end="">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a91d9e418972064beffa3ee7a9eb80f40">   67</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX2(v, p, f, s, e)                                         \</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e)</span></div>
 </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span></div>
-<div class="foldopen" id="foldopen00068" data-start="" data-end="">
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a15746e32708a8a65d783d3ec38f80cde">   68</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX4(v, p, f, s, e, u, z)                                   \</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e, u, z)</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span></div>
+<div class="foldopen" id="foldopen00071" data-start="" data-end="">
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a15de79aaea4a1d7cf61d525ee4ab6560">   71</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX3(v, p, f, e)                                            \</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, 5 * core_lib::log::BYTES_IN_MEBIBYTE, e)</span></div>
 </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
-<div class="foldopen" id="foldopen00072" data-start="" data-end="">
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a6b0857c26a1834a5c82e936b978a5cc2">   72</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX5(v, p, f, s, e, u, z, m)                                \</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e, u, z, m)</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span></div>
+<div class="foldopen" id="foldopen00075" data-start="" data-end="">
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a15746e32708a8a65d783d3ec38f80cde">   75</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX4(v, p, f, s, e, u, z)                                   \</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e, u, z)</span></div>
 </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a11a216c0921fdfc5497cd0be82c306a7">   76</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_DELETER DebugLogGracefulDelete()</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#endif </span><span class="comment">// DEBUGLOGSINGLETON</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
+<div class="foldopen" id="foldopen00079" data-start="" data-end="">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a6b0857c26a1834a5c82e936b978a5cc2">   79</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_INSTANTIATE_EX5(v, p, f, s, e, u, z, m)                                \</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">    DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e, u, z, m)</span></div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="_debug_log_singleton_8h.html#a11a216c0921fdfc5497cd0be82c306a7">   83</a></span><span class="preprocessor">#define DEBUG_LOG_SINGLETON_DELETER core_lib::DebugLogGracefulDelete()</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#endif </span><span class="comment">// DEBUGLOGSINGLETON</span></div>
 <div class="ttc" id="a_debug_log_8h_html"><div class="ttname"><a href="_debug_log_8h.html">DebugLog.h</a></div><div class="ttdoc">File containing declaration of DebugLog class.</div></div>
+<div class="ttc" id="a_managed_singleton_8hpp_html"><div class="ttname"><a href="_managed_singleton_8hpp.html">ManagedSingleton.hpp</a></div><div class="ttdoc">File containing definition of ManagedSingleton class.</div></div>
 <div class="ttc" id="aclass_loki_1_1_deletable_singleton_html"><div class="ttname"><a href="class_loki_1_1_deletable_singleton.html">Loki::DeletableSingleton</a></div><div class="ttdef"><b>Definition</b> Singleton.h:419</div></div>
 <div class="ttc" id="aclass_loki_1_1_singleton_holder_html"><div class="ttname"><a href="class_loki_1_1_singleton_holder.html">Loki::SingletonHolder</a></div><div class="ttdef"><b>Definition</b> Singleton.h:727</div></div>
 <div class="ttc" id="anamespacecore__lib_1_1log_html_a963ebe5892dfd28a583d1cc68dbbfa9d"><div class="ttname"><a href="namespacecore__lib_1_1log.html#a963ebe5892dfd28a583d1cc68dbbfa9d">core_lib::log::default_log_t</a></div><div class="ttdeci">core_lib::log::DebugLog&lt; DefaultLogFormat &gt; default_log_t</div><div class="ttdoc">Typedef defining our default log&#39;s type.</div><div class="ttdef"><b>Definition</b> DebugLog.h:1102</div></div>
+<div class="ttc" id="anamespacecore__lib_html"><div class="ttname"><a href="namespacecore__lib.html">core_lib</a></div><div class="ttdoc">The core_lib namespace.</div><div class="ttdef"><b>Definition</b> AsioCompatibility.hpp:36</div></div>
+<div class="ttc" id="anamespacecore__lib_html_a033723c9d63fe00e386913d361857667"><div class="ttname"><a href="namespacecore__lib.html#a033723c9d63fe00e386913d361857667">core_lib::ManagedSingleton</a></div><div class="ttdeci">ManagedSingleton_Legacy&lt; T &gt; ManagedSingleton</div><div class="ttdoc">Alias selecting legacy singleton implementation.</div><div class="ttdef"><b>Definition</b> ManagedSingleton.hpp:249</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

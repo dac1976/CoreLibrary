@@ -1,6 +1,8 @@
 # CoreLibrary #
 ## News ##
-2026/04/13 - Bumped versio nto v2.0.8, since v2.0.5 have reworked the ASIO network class MessageHandler message pool implementation and behaviour. Have also added a new ManagedSingleton class (2 variants - one older C++11 compilers and the other for C++14 or newer compilers). The longer term goal is to remove the all dependencies on Loki's singleton.
+2026/04/23 - Now use new ManagedSingleton by default for DebugLog instead of Loki.
+
+2026/04/13 - Bumped version to v2.0.8, since v2.0.5 have reworked the ASIO network class MessageHandler message pool implementation and behaviour. Have also added a new ManagedSingleton class (2 variants - one older C++11 compilers and the other for C++14 or newer compilers). The longer term goal is to remove the all dependencies on Loki's singleton.
 
 2026/03/22 - Added support for MessagePack. The ASIO network classes in CoreLibrary now support this method of (de)serialisation. Version 7.0.0 of MessagePack is included in the CoreLibrary. Bumped the library version to v2.0.5.
 
@@ -46,6 +48,10 @@ Included are the CMakeLists.txt and example build scripts for Linux (build_linux
 
 `-DCORELIB_USE_FLATBUFFERS=OFF` -> (Default) Disables Google flatbuffer support.
 
+`-DCORE_LIB_USE_LOKI=ON` -> Enable Loki for singletons.
+
+`-DCORE_LIB_USE_LOKI=OFF` -> (Default ) Use ManagedSingleton for singletons.
+
 The first time you configure CMake to build this library you must first define the following environment variables:
 
 `CORELIB_BOOST_ROOT` -> Path that is parent to the /boost include directory.
@@ -62,7 +68,7 @@ As mentioned earlier, the library requires some third-party open source librarie
 
 * Boost (tested with 1.55+ and greater - 1.90 recommended): http://www.boost.org/
 * (Included) Cereal (tested with 1.2.1 and greater, 1.3.2 recommended): http://uscilab.github.io/cereal/ - included with CoreLibrary in Include/cereal.
-* (Included) Loki: http://loki-lib.sourceforge.net/ - included with CoreLibrary in Include/loki.
+* (Included, Optional) Loki: http://loki-lib.sourceforge.net/ - included with CoreLibrary in Include/loki.
 * (Included) MessagePack v7.0.0: https://github.com/msgpack/msgpack-c/tree/cpp_master - included with the CoreLibrary in include/msgpack.
 * Google Test (tested with 1.7.0+ or greater): https://github.com/google/googletest
 * (Optional) Google Protocol Buffers (tested with 3.7.1 and greater): https://github.com/protocolbuffers/protobuf - only needed if you want to plug-in protocol buffers into the networking classes to serialize messages over-the-wire.

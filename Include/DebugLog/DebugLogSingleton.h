@@ -29,26 +29,33 @@
 
 #include "DebugLog.h"
 
-#if !defined(CORE_LIB_NO_LOKI)
+#if defined(CORE_LIB_LOKI)
 #include "LokiPatch/LokiSingleton.hpp"
 
 using debug_singelton_t =
     Loki::SingletonHolder<core_lib::log::default_log_t, Loki::CreateUsingNew, Loki::DeletableSingleton>;
 
 using debug_singelton_deleter_t = Loki::DeletableSingleton<core_lib::log::default_log_t>;
-#endif // CORE_LIB_NO_LOKI
+#else
+#include "Singleton/ManagedSingleton.hpp"
 
+using debug_singelton_t = core_lib::ManagedSingleton<core_lib::log::default_log_t>;
+#endif // CORE_LIB_LOKI
+
+namespace core_lib
+{
 core_lib::log::default_log_t& DebugLogInstance();
 
 bool DebugLogExists();
 
 void DebugLogGracefulDelete();
+}
 
 /*! \brief Macro defining our actual log's singelton. */
-#define DEBUG_LOG_SINGLETON DebugLogInstance()
+#define DEBUG_LOG_SINGLETON core_lib::DebugLogInstance()
 
 /*! \brief Macro tetsing existence of log's singelton. */
-#define DEBUG_LOG_SINGLETON_EXISTS DebugLogExists()
+#define DEBUG_LOG_SINGLETON_EXISTS core_lib::DebugLogExists()
 
 /*! \brief Macro to help instantiate singleton. */
 #define DEBUG_LOG_SINGLETON_INSTANTIATE(v, p, f) DEBUG_LOG_SINGLETON.Instantiate(v, p, f)
@@ -73,6 +80,6 @@ void DebugLogGracefulDelete();
     DEBUG_LOG_SINGLETON.Instantiate(v, p, f, s, e, u, z, m)
 
 /*! \brief Macro defining a singleton deleter. */
-#define DEBUG_LOG_SINGLETON_DELETER DebugLogGracefulDelete()
+#define DEBUG_LOG_SINGLETON_DELETER core_lib::DebugLogGracefulDelete()
 
 #endif // DEBUGLOGSINGLETON

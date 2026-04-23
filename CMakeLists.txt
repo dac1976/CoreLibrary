@@ -23,8 +23,13 @@ option(CORELIB_USE_FLATBUFFERS "Support Google flatbuffers." OFF)
 
 # Custom CMake toggle:
 # -DCORELIB_SOCKET_DEBUG=ON  -> Extra debug to log.
-# -DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log/
+# -DCORELIB_SOCKET_DEBUG=OFF -> (Default) No extra debug to log.
 option(CORELIB_SOCKET_DEBUG "Use extra debug output from Asio classes" OFF)
+
+# Custom CMake toggle:
+# -CORE_LIB_USE_LOKI=ON  -> Use Loki for singletons.
+# -CORE_LIB_USE_LOKI=OFF -> (Default) Use ManageSingleton instead.
+option(CORE_LIB_USE_LOKI "Use Loki for singletons" OFF)
 
 # Local env vars for this CMakelists file, must be set before calling CMake configure
 # and as these are cached will be rememebr until the CMake cache is cleared.
@@ -117,11 +122,12 @@ target_compile_definitions(CoreLibrary PUBLIC
   $<$<BOOL:${CORELIB_USE_STD_FILESYSTEM}>:USE_STD_FILESYSTEM>
   $<$<BOOL:${CORELIB_SOCKET_DEBUG}>:USE_SOCKET_DEBUG>
   $<$<BOOL:${CORELIB_USE_FLATBUFFERS}>:USE_FLATBUFFERS>
+  $<$<BOOL:${CORE_LIB_USE_LOKI}>:CORE_LIB_LOKI>
   _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
   NOT_USING_BOOST_LOCALE
   BOOST_BIND_GLOBAL_PLACEHOLDERS
   BOOST_THREAD_USE_LIB
-  LOKI_CLASS_LEVEL_THREADING
+  $<$<BOOL:${CORE_LIB_USE_LOKI}>:LOKI_CLASS_LEVEL_THREADING>
 )
 
 if(MSVC)

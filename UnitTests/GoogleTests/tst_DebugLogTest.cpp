@@ -2,7 +2,7 @@
 
 #include <ostream>
 #include "DebugLog/DebugLogging.h"
-#include "FileUtils/SelectFileSystemLibrary.hpp" 
+#include "FileUtils/SelectFileSystemLibrary.hpp"
 #include "gtest/gtest.h"
 
 // ****************************************************************************
@@ -614,11 +614,8 @@ TEST_F(DebugLogTest, testCase_DebugLog7)
 TEST_F(DebugLogTest, testCase_DebugLog8)
 {
     DEBUG_MESSAGE_INSTANTIATE("1.0.0.0", "", "test_log");
-#if defined(HGL_NO_LOKI)
-    DebugLogGracefulDelete();
-#else
-    Loki::DeletableSingleton<core_lib::log::default_log_t>::GracefulDelete();
-#endif
+
+    core_lib::DebugLogGracefulDelete();
 
     std::ifstream ifs("test_log.txt");
     EXPECT_TRUE(ifs.is_open());
