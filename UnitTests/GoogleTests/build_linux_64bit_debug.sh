@@ -8,12 +8,12 @@ bash test.flatbuffer_gen.sh
 set -e
 
 export CORELIB_ROOT=/home/$USER/Projects/cpp/CoreLibrary
-export CORELIB_BOOST_ROOT=${CORELIB_ROOT}/../../../ThirdParty/boost_1_90_0
-export CORELIB_BOOST_LIB=${CORELIB_ROOT}/../../../ThirdParty/boost_1_90_0/lib
+export CORELIB_BOOST_ROOT=${CORELIB_ROOT}/../ThirdParty/Boost
+export CORELIB_BOOST_LIB=${CORELIB_ROOT}/../ThirdParty/Boost/lib
 # Not nmeeded fo Linux build
 export CORELIB_BOOST_LIB_NAME_STUB=
 export CORELIB_BOOST_LIB_NAME_STUB_D=
-export CORELIB_VCPKG_CMAKE_PATH=${CORELIB_ROOT}/../../../ThirdParty/vcpkg/scripts/buildsystems/vcpkg.cmake
+export CORELIB_VCPKG_CMAKE_PATH=/home/$USER/Applications/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 # Tidy previous installation/build folders.
 rm -rf build
