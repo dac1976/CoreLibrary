@@ -70,15 +70,21 @@ CommentLine::CommentLine(CommentLine&& line)
 
 CommentLine& CommentLine::operator=(CommentLine&& line)
 {
+    std::swap(m_delimiter, line.m_delimiter);
     std::swap(m_comment, line.m_comment);
 	Line::operator=(std::move(line));
     return *this;
 }
 #endif
 
-CommentLine::CommentLine(const std::string& comment)
-    : m_comment(comment)
+CommentLine::CommentLine(char delimiter, const std::string& comment)
+    : m_delimiter(delimiter), m_comment(comment)
 {
+}
+
+char CommentLine::Delimiter() const
+{
+    return m_delimiter;
 }
 
 const std::string& CommentLine::Comment() const
@@ -88,7 +94,7 @@ const std::string& CommentLine::Comment() const
 
 void CommentLine::Print(std::ostream& os, bool addLineFeed) const
 {
-    os << ";" << m_comment;
+    os << m_delimiter << m_comment;
 
     if (addLineFeed)
     {
@@ -168,7 +174,7 @@ void KeyLine::Value(const std::string& value)
 
 void KeyLine::Value(std::string&& value)
 {
-    m_value = value;
+    m_value = std::move(value);
 }
 
 void KeyLine::Print(std::ostream& os, bool addLineFeed) const
