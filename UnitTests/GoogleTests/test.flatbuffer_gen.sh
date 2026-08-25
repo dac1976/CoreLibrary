@@ -4,7 +4,9 @@ set -e
 # Directory of this script (equivalent to %~dp0)
 CORELIB_TESTS_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-VCPKG_ROOT="${CORELIB_TESTS_ROOT}/../../../ThirdParty/vcpkg"
+DEFAULT_VCPKG_CMAKE_PATH="/home/$USER/Applications/Tools/vcpkg"
+
+VCPKG_ROOT="${1:-$DEFAULT_VCPKG_CMAKE_PATH}"
 FLATC="${VCPKG_ROOT}/installed/x64-linux/tools/flatbuffers/flatc"
 FLATBUFFER_FILE="${CORELIB_TESTS_ROOT}/test.fbs"
 

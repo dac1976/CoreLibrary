@@ -4,13 +4,15 @@
 
 set -e
 
+DEFAULT_VCPKG_CMAKE_PATH="/home/$USER/Applications/Tools/vcpkg"
+
 export CORELIB_ROOT=/home/$USER/Projects/cpp/CoreLibrary
 export CORELIB_BOOST_ROOT=${CORELIB_ROOT}/../ThirdParty/Boost
 export CORELIB_BOOST_LIB=${CORELIB_ROOT}/../ThirdParty/Boost/lib
 # Not nmeeded fo Linux build
 export CORELIB_BOOST_LIB_NAME_STUB=
 export CORELIB_BOOST_LIB_NAME_STUB_D=
-export CORELIB_VCPKG_CMAKE_PATH=/home/$USER/Applications/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake
+export CORELIB_VCPKG_CMAKE_PATH="${1:-$DEFAULT_VCPKG_CMAKE_PATH}/scripts/buildsystems/vcpkg.cmake"
 
 # Tidy previous installation/build folders.
 rm -rf build

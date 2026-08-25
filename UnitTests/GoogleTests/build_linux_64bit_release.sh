@@ -1,7 +1,10 @@
 #!/bin/bash
 
-bash test.proto_gen.sh
-bash test.flatbuffer_gen.sh
+DEFAULT_VCPKG_CMAKE_PATH="/home/$USER/Applications/Tools/vcpkg"
+VCPKG_ROOT="${1:-$DEFAULT_VCPKG_CMAKE_PATH}"
+
+bash test.proto_gen.sh ${VCPKG_ROOT}
+bash test.flatbuffer_gen.sh ${VCPKG_ROOT}
 
 # Make sure you go to /Projvects/ThirdParty/libbacktrace and build and install libbacktrace.
 
@@ -13,7 +16,7 @@ export CORELIB_BOOST_LIB=${CORELIB_ROOT}/../ThirdParty/Boost/lib
 # Not nmeeded fo Linux build
 export CORELIB_BOOST_LIB_NAME_STUB=
 export CORELIB_BOOST_LIB_NAME_STUB_D=
-export CORELIB_VCPKG_CMAKE_PATH=/home/$USER/Applications/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake
+export CORELIB_VCPKG_CMAKE_PATH="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
 
 # Tidy previous installation/build folders.
 rm -rf build
