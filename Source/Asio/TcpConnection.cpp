@@ -146,25 +146,9 @@ bool TcpConnection::Connect(const defs::connection_t& endPoint)
             return false;
         }
 
-        boost_tcp_t::no_delay nagleOption(m_settings.sendOption == eSendOption::nagleOff);
-        m_socket.set_option(nagleOption);
-
-        boost::asio::socket_base::keep_alive option(m_settings.keepAliveOption ==
-                                                    eKeepAliveOption::on);
-        m_socket.set_option(option);
-
-        if (m_settings.recvBufferSize > 0)
+        if (!ApplySocketOptions(endPoint))
         {
-            boost::asio::socket_base::receive_buffer_size recvBufOption(
-                static_cast<int>(m_settings.recvBufferSize));
-            m_socket.set_option(recvBufOption);
-        }
-
-        if (m_settings.sendBufferSize > 0)
-        {
-            boost::asio::socket_base::send_buffer_size sendBufOption(
-                static_cast<int>(m_settings.sendBufferSize));
-            m_socket.set_option(sendBufOption);
+            return false;
         }
 
 #if defined(USE_SOCKET_DEBUG)
@@ -222,6 +206,69 @@ void TcpConnection::CloseConnection()
     }
 
     m_closedEvent.Wait();
+}
+
+bool TcpConnection::ApplySocketOptions(defs::connection_t const& endPoint)
+{
+    try
+    {
+        bool                  nagleOff = m_settings.sendOption == eSendOption::nagleOff;
+        boost_tcp_t::no_delay nagleOption(nagleOff);
+        m_socket.set_option(nagleOption);
+
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_INFO("Setting socket option for: " << endPoint.first << ":"
+                                                            << endPoint.second << ", nagle off: "
+                                                            << std::boolalpha << nagleOff);
+#endif
+
+        bool keepAliveOn = m_settings.keepAliveOption == eKeepAliveOption::on;
+        boost::asio::socket_base::keep_alive option(keepAliveOn);
+        m_socket.set_option(option);
+
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_INFO("Setting socket option for: "
+                              << endPoint.first << ":" << endPoint.second
+                              << ", keep-alive on: " << std::boolalpha << keepAliveOn);
+#endif
+
+        if (m_settings.recvBufferSize > 0)
+        {
+            boost::asio::socket_base::receive_buffer_size recvBufOption(
+                static_cast<int>(m_settings.recvBufferSize));
+            m_socket.set_option(recvBufOption);
+
+#if defined(USE_SOCKET_DEBUG)
+            DEBUG_MESSAGE_EX_ERROR("Setting socket option for: "
+                                   << endPoint.first << ":" << endPoint.second
+                                   << ", recv buf size: " << m_settings.recvBufferSize);
+#endif
+        }
+
+        if (m_settings.sendBufferSize > 0)
+        {
+            boost::asio::socket_base::send_buffer_size sendBufOption(
+                static_cast<int>(m_settings.sendBufferSize));
+            m_socket.set_option(sendBufOption);
+
+#if defined(USE_SOCKET_DEBUG)
+            DEBUG_MESSAGE_EX_ERROR("Setting socket option for: "
+                                   << endPoint.first << ":" << endPoint.second
+                                   << ", send buf size: " << m_settings.sendBufferSize);
+#endif
+        }
+    }
+    catch (...)
+    {
+#if defined(USE_SOCKET_DEBUG)
+        DEBUG_MESSAGE_EX_ERROR("Exception caught while setting socket options for: "
+                               << endPoint.first << ":" << endPoint.second
+                               << ", error: " << boost::current_exception_diagnostic_information());
+#endif
+        return false;
+    }
+
+    return true;
 }
 
 bool TcpConnection::IsClosing() const

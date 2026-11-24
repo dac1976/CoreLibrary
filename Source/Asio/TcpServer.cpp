@@ -191,7 +191,11 @@ void TcpServer::AcceptHandler(const defs::tcp_conn_ptr_t&  connection,
         if (!ec)
         {
             auto endpoint = std::make_pair(rep.address().to_string(), rep.port());
-            connection->StartAsyncRead(endpoint);
+            
+			if (connection->ApplySocketOptions(endpoint))
+            {
+                connection->StartAsyncRead(endpoint);
+            }
         }
         else
         {

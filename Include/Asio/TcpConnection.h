@@ -143,7 +143,13 @@ public:
     bool Connect(const defs::connection_t& endPoint);
     /*! \brief Close this connection. */
     void CloseConnection();
-    /*! \brief Start aysnchronously reading data when available. */
+	/*!
+     * \brief Apply the socket options must be called after successful connect
+     *        (in client mode) or successful accept (in server mode).
+     * \return success flag.
+     */
+    bool ApplySocketOptions(defs::connection_t const& endPoint);
+    /*! \brief Start asynchronously reading data when available. */
     void StartAsyncRead(defs::connection_t const& endPoint);
     /*!
      * \brief Send an asynchronous message.
