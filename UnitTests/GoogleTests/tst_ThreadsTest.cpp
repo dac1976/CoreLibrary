@@ -1452,6 +1452,8 @@ MakePeriodicTestSettings(int64_t            period   = 20,
     return settings;
 }
 
+}
+
 TEST(PeriodicThreadTests, ConstructWithSimpleCallback)
 {
     auto settings = MakePeriodicTestSettings();
