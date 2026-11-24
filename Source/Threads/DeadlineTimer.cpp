@@ -35,9 +35,8 @@ namespace threads
 {
 
 DeadlineTimer::DeadlineTimer()
-    : m_timeoutMillisecs(0)
-    , m_timeoutEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
-                     eIntialCondition::notSignalled)
+    : m_timeoutEvent(hgl::eNotifyType::signalOneThread, hgl::eResetCondition::manualReset,
+                     hgl::eIntialCondition::notSignalled)
 {
 }
 
@@ -46,17 +45,41 @@ DeadlineTimer::~DeadlineTimer()
     Cancel();
 }
 
-void DeadlineTimer::Start(uint32_t timeoutMillisecs, callback_t const& onTimedOut)
+void DeadlineTimer::Start(int64_t timeout, callback_t const& onTimedOut, eWaitTimeUnit timeoutUnits)
 {
-    Cancel();
-
-    m_timeoutMillisecs = timeoutMillisecs;
-    m_onTimedOut       = onTimedOut;
-
-    if (m_timeoutMillisecs == 0)
+    if (timeout <= 0)
     {
         throw std::invalid_argument("incorrect timeout period");
     }
+
+    time_point_t wakeupTime;
+
+    switch (timeoutUnits)
+    {
+    case eWaitTimeUnit::microseconds:
+        wakeupTime = std::chrono::steady_clock::now() + std::chrono::microseconds{timeout};
+        break;
+    case eWaitTimeUnit::nanoseconds:
+        wakeupTime = std::chrono::steady_clock::now() + std::chrono::nanoseconds{timeout};
+        break;
+    case eWaitTimeUnit::seconds:
+        wakeupTime = std::chrono::steady_clock::now() + std::chrono::seconds{timeout};
+        break;
+    case eWaitTimeUnit::milliseconds:
+    default:
+        wakeupTime = std::chrono::steady_clock::now() + std::chrono::milliseconds{timeout};
+        break;
+    }
+
+    StartTP(wakeupTime, onTimedOut);
+}
+
+void DeadlineTimer::StartTP(time_point_t const& wakeupTime, callback_t const& onTimedOut)
+{
+    Cancel();
+
+    m_wakeupTime = wakeupTime;
+    m_onTimedOut = onTimedOut;
 
     if (!m_onTimedOut)
     {
@@ -80,7 +103,7 @@ void DeadlineTimer::Cancel()
 
 void DeadlineTimer::TimeoutThread()
 {
-    if (!m_timeoutEvent.WaitForTime(m_timeoutMillisecs))
+    if (!m_timeoutEvent.WaitUntilTime(m_wakeupTime))
     {
         if (m_onTimedOut)
         {

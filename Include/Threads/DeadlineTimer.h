@@ -44,22 +44,25 @@ namespace threads
 class CORE_LIBRARY_DLL_SHARED_API DeadlineTimer final
 {
     using callback_t = std::function<void()>;
+    using time_point_t = std::chrono::steady_clock::time_point;
 
 public:
     DeadlineTimer();
     ~DeadlineTimer();
 
-    void Start(uint32_t timeoutMillisecs, callback_t const& onTimedOut);
+    void Start(int64_t timeout, callback_t const& onTimedOut,
+               eWaitTimeUnit timeoutUnits = eWaitTimeUnit::milliseconds);
+    void StartTP(time_point_t const& wakeupTime, callback_t const& onTimedOut);
     void Cancel();
 
 private:
     void TimeoutThread();
 
 private:
-    uint32_t    m_timeoutMillisecs;
-    callback_t  m_onTimedOut;
-    SyncEvent   m_timeoutEvent;
-    std::thread m_timeoutThread;
+    time_point_t   m_wakeupTime;
+    callback_t     m_onTimedOut;
+    hgl::SyncEvent m_timeoutEvent;
+    std::thread    m_timeoutThread;
 };
 
 } // namespace threads
