@@ -213,8 +213,6 @@ void MulticastReceiver::ReadComplete(const boost_sys::error_code& error, size_t 
         return;
     }
 
-    bool clearMsgBuf = false;
-
     try
     {
         // NOTE: Boost UDP sockets only ever give complete datagrams

@@ -206,7 +206,7 @@ target_link_libraries(CoreLibraryUnitTests PRIVATE
   $<$<NOT:$<BOOL:${CORELIB_DISABLE_FLATBUFFER_TESTS}>>:flatbuffers::flatbuffers>
 
   # Linux
-  $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_system.a>
+  #$<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_system.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_thread.a>
   $<${_CORELIB_LINUX}:${CORELIB_BOOST_LIB}/libboost_locale.a>
   $<$<AND:${_CORELIB_LINUX},${_CORELIB_NEED_BOOST_FS}>:${CORELIB_BOOST_LIB}/libboost_filesystem.a>

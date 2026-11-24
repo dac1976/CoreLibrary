@@ -30,6 +30,7 @@
 #include <sstream>
 #include <iterator>
 #include <stdexcept>
+#include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/throw_exception.hpp>
 #include "StringUtils/StringUtils.h"
@@ -58,16 +59,22 @@ static bool IsBlankLine(const std::string& line)
     return line.empty() || (line == "");
 }
 
-static bool IsCommentLine(const std::string& line, std::string& comment)
+static bool IsCommentLine(const std::string& line, char& delimiter, std::string& comment)
 {
-    bool isComment = line.front() == ';';
-
-    if (isComment)
+    if (line.empty())
     {
-        comment = line.substr(1, line.size() - 1);
+        return false;
     }
 
-    return isComment;
+    if (line.front() != ';' && line.front() != '#')
+    {
+        return false;
+    }
+
+    delimiter = line.front();
+    comment   = line.substr(1);
+
+    return true;
 }
 
 static bool IsSectionLine(const std::string& line, std::string& section)
@@ -96,6 +103,119 @@ static bool IsKeyLine(const std::string& line, std::string& key, std::string& va
     value = boost::trim_copy(line.substr(pos + 1, std::string::npos));
 
     return true;
+}
+
+static bool StringToBool(const std::string& text)
+{
+    const std::string value = boost::algorithm::to_lower_copy(
+        boost::algorithm::trim_copy(text));
+
+    if ((value == "1") ||
+        (value == "true") ||
+        (value == "yes") ||
+        (value == "on"))
+    {
+        return true;
+    }
+
+    if ((value == "0") ||
+        (value == "false") ||
+        (value == "no") ||
+        (value == "off"))
+    {
+        return false;
+    }
+
+    BOOST_THROW_EXCEPTION(
+        std::runtime_error(
+            "failed to convert '" + text + "' to bool"));
+}
+
+static int32_t StringToInt32(const std::string& text)
+{
+    std::size_t pos{};
+
+    const auto value = std::stoi(text, &pos);
+
+    if (pos != text.size())
+    {
+        BOOST_THROW_EXCEPTION(std::runtime_error("invalid int32 value"));
+    }
+
+    return static_cast<int32_t>(value);
+}
+
+static int64_t StringToInt64(const std::string& text)
+{
+    std::size_t pos{};
+
+    const auto value = std::stoll(text, &pos);
+
+    if (pos != text.size())
+    {
+        BOOST_THROW_EXCEPTION(std::runtime_error("invalid int64 value"));
+    }
+
+    return static_cast<int64_t>(value);
+}
+
+static double StringToDouble(const std::string& text)
+{
+    std::size_t pos{};
+
+    const auto value = std::stod(text, &pos);
+
+    if (pos != text.size())
+    {
+        BOOST_THROW_EXCEPTION(std::runtime_error("invalid double value"));
+    }
+
+    return value;
+}
+
+static long double StringToLongDouble(const std::string& text)
+{
+    std::size_t pos{};
+
+    const auto value = std::stold(text, &pos);
+
+    if (pos != text.size())
+    {
+        BOOST_THROW_EXCEPTION(std::runtime_error("invalid long double value"));
+    }
+
+    return value;
+}
+
+static void RemoveUtf8Bom(std::string& line)
+{
+    constexpr unsigned char bom0 = 0xEF;
+    constexpr unsigned char bom1 = 0xBB;
+    constexpr unsigned char bom2 = 0xBF;
+
+    if (line.size() >= 3 &&
+        static_cast<unsigned char>(line[0]) == bom0 &&
+        static_cast<unsigned char>(line[1]) == bom1 &&
+        static_cast<unsigned char>(line[2]) == bom2)
+    {
+        line.erase(0, 3);
+    }
+}
+
+static std::runtime_error ParseError(
+    size_t line,
+    const std::string& message)
+{
+    std::ostringstream os;
+    os << "INI parse error at line " << line << ": " << message;
+    return std::runtime_error(os.str());
+}
+
+static bool IsEmptyString(const std::string& str)
+{
+    // Both checks are intentional for compatibility with older
+    // C++Builder/Clang STL implementations.
+    return str.empty() || (str == "");
 }
 
 #ifdef USE_DEFAULT_CONSTRUCTOR_
@@ -141,7 +261,7 @@ void IniFile::LoadFile(const std::string& iniFilePath)
     if (!iniFile.is_open() || !iniFile.good())
     {
         // INI file doesn't exist but don't want to sto pus being able to
-        // fill out one in memeory and create one on disk.
+        // fill out one in memory and create one on disk.
         return;
     }
 
@@ -153,63 +273,78 @@ void IniFile::LoadFile(const std::string& iniFilePath)
 
     auto sectIt = m_sectionMap.end();
 
-    while (iniStream.good())
+    std::string line;
+    size_t lineNumber{0};
+
+    while (std::getline(iniStream, line))
     {
-        std::string line;
-        std::getline(iniStream, line);
+        ++lineNumber;
+
+        // Gracefully handle UTF-8 with BOM, if we find BOM remove it.
+        if (1 == lineNumber)
+        {
+            RemoveUtf8Bom(line);
+        }
+
         PackStdString(line);
         boost::trim(line);
         std::string str1, str2;
+        char commentDelim;
 
         if (IsBlankLine(line))
         {
             // Remove blank lines on load. We'll put them back between sections
-            // upon writing back to disk.
+            // upon writing back to disk.l
             //
             // If we wanted to keep blank lines we could do:
             // m_lines.insert(m_lines.end(), std::make_shared<BlankLine>());
         }
-        else if (IsCommentLine(line, str1))
+        else if (IsCommentLine(line, commentDelim, str1))
         {
-            m_lines.insert(m_lines.end(), std::make_shared<if_private::CommentLine>(str1));
+            m_lines.insert(m_lines.end(),
+                           std::make_shared<if_private::CommentLine>(commentDelim, str1));
         }
         else if (IsSectionLine(line, str1))
         {
             if (str1 == "")
             {
-                BOOST_THROW_EXCEPTION(std::runtime_error("file contains invalid section"));
+                BOOST_THROW_EXCEPTION(ParseError(lineNumber, "invalid section '" + str1 + "'"));
             }
 
             if (m_sectionMap.find(str1) != m_sectionMap.end())
             {
-                BOOST_THROW_EXCEPTION(std::runtime_error("file contains duplicate section"));
+                BOOST_THROW_EXCEPTION(ParseError(lineNumber, "duplicate section '" + str1 + "'"));
             }
 
             auto sectLineIter =
                 m_lines.insert(m_lines.end(), std::make_shared<if_private::SectionLine>(str1));
+
             std::pair<section_iter, bool> result{m_sectionMap.insert(
                 std::make_pair(str1, if_private::SectionDetails(sectLineIter)))};
+
             sectIt = result.first;
         }
         else if (IsKeyLine(line, str1, str2))
         {
-            if (str1.empty() || (str1 == "") || (sectIt == m_sectionMap.end()))
+            if (IsEmptyString(str1) || (sectIt == m_sectionMap.end()))
             {
-                BOOST_THROW_EXCEPTION(std::runtime_error("file contains invalid key"));
+                BOOST_THROW_EXCEPTION(ParseError(lineNumber, "invalid key '" + str1 + "'"));
             }
 
             if (sectIt->second.KeyExists(str1))
             {
-                BOOST_THROW_EXCEPTION(std::runtime_error("file contains duplicate key"));
+                BOOST_THROW_EXCEPTION(ParseError(lineNumber, "duplicate key '" + str1
+                                                 + "' in section '" + sectIt->first + "'"));
             }
 
             auto keyLineIter =
                 m_lines.insert(m_lines.end(), std::make_shared<if_private::KeyLine>(str1, str2));
+
             sectIt->second.AddKey(keyLineIter);
         }
         else
         {
-            BOOST_THROW_EXCEPTION(std::runtime_error("file contains invalid line"));
+            BOOST_THROW_EXCEPTION(ParseError(lineNumber, "invalid line '" + line + "'"));
         }
     }
 }
@@ -314,88 +449,31 @@ bool IniFile::KeyExists(const std::string& section, const std::string& key) cons
 
 bool IniFile::ReadBool(const std::string& section, const std::string& key, bool defaultValue) const
 {
-    int value{};
-
-    try
-    {
-        value = std::stoi(ReadValueString(section, key, std::to_string(defaultValue ? 1 : 0)));
-    }
-    catch (...)
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to bool"));
-    }
-
-    return value == 1;
+    return StringToBool(ReadValueString(section, key, std::to_string(defaultValue ? 1 : 0)));
 }
 
 int32_t IniFile::ReadInt32(const std::string& section, const std::string& key,
                            int32_t defaultValue) const
 {
-    int32_t value{};
-
-    try
-    {
-        value = std::stoi(ReadValueString(section, key, std::to_string(defaultValue)));
-    }
-    catch (...)
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to int"));
-    }
-
-    return value;
+    return StringToInt32(ReadValueString(section, key, std::to_string(defaultValue)));
 }
 
 int64_t IniFile::ReadInt64(const std::string& section, const std::string& key,
                            int64_t defaultValue) const
 {
-    int64_t value{};
-
-    try
-    {
-        value = std::stoll(ReadValueString(section, key, std::to_string(defaultValue)));
-    }
-    catch (...)
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to int64_t"));
-    }
-
-    return value;
+    return StringToInt64(ReadValueString(section, key, std::to_string(defaultValue)));
 }
 
 double IniFile::ReadDouble(const std::string& section, const std::string& key,
                            double defaultValue) const
 {
-    double value{};
-
-    try
-    {
-        value =
-            std::stod(ReadValueString(section, key, string_utils::FormatFloatString(defaultValue)));
-    }
-    catch (...)
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to double"));
-    }
-
-    return value;
+    return StringToDouble(ReadValueString(section, key, string_utils::FormatFloatString(defaultValue)));
 }
 
 long double IniFile::ReadLongDouble(const std::string& section, const std::string& key,
                                     long double defaultValue) const
 {
-    long double value{};
-
-    try
-    {
-        value = std::stold(
-            ReadValueString(section, key, string_utils::FormatFloatString(defaultValue, 30)));
-    }
-    catch (...)
-    {
-        BOOST_THROW_EXCEPTION(std::runtime_error("failed to convert to long double"));
-    }
-
-    return value;
+    return StringToLongDouble(ReadValueString(section, key, string_utils::FormatFloatString(defaultValue, 30)));
 }
 
 std::string IniFile::ReadString(const std::string& section, const std::string& key,
@@ -420,7 +498,7 @@ std::string IniFile::ReadValueString(const std::string& section, const std::stri
 
 void IniFile::WriteBool(const std::string& section, const std::string& key, bool value)
 {
-    WriteValueString(section, key, std::to_string(value ? 1 : 0));
+    WriteValueString(section, key, value ? "1" : "0");
 }
 
 void IniFile::WriteInt32(const std::string& section, const std::string& key, int32_t value)

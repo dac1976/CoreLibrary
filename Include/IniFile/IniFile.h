@@ -61,13 +61,17 @@ Section2_Key3=Section2_Value3
 ; I am yet another comment in a section.
 \endverbatim
  *
- * Please note that the supported comment delimiter is ';'.
+ * Please note that the supported comment delimiters are ';' and '#'.
  * Also note that comments are preserved when loading an ini file.
  * However, unnecessary whitespace in sections, key or value items
  * is removed.
  *
  * Only flat heirarchy INI files are supported; nested
- * sections are not supported.
+ * sections are not supported as that is not standard INI file
+ * format, even though some implementations allow it as an extension.
+ *
+ * Also note that we support ASCII, UTF-8 and UTF-8 with BOM. UTF-16
+ * and UTF-32 are not supported.
  */
 class CORE_LIBRARY_DLL_SHARED_API IniFile final
 {

@@ -110,8 +110,10 @@ public:
     CommentLine() = default;
     /*! \brief Copy constructor. */
     CommentLine(const CommentLine&) = default;
-    /*! \brief Initialising constructor. */
-    explicit CommentLine(const std::string& comment);
+    /*! \brief Initialising constructor.
+     * \param[in] delimiter - comment delimiter.
+     * \param[in] comment - comment text. */
+    CommentLine(char delimiter, const std::string& comment);
     /*! \brief Virtual destructor. */
     ~CommentLine() override = default;
     /*! \brief Copy assignment operator. */
@@ -133,6 +135,11 @@ public:
     CommentLine& operator=(CommentLine&&) = default;
 #endif
     /*!
+     * \brief Get the comment delimiter.
+     * \return The comment delimiter.
+     */
+    char Delimiter() const;
+    /*!
      * \brief Get the comment.
      * \return The comment.
      */
@@ -145,6 +152,8 @@ public:
     void Print(std::ostream& os, bool addLineFeed = true) const override;
 
 private:
+    /*! \brief The comment delimiter. */
+    char m_delimiter{';'};
     /*! \brief The comment. */
     std::string m_comment{};
 };
