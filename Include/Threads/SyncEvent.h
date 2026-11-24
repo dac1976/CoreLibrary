@@ -31,6 +31,7 @@
 #include <mutex>
 #include <functional>
 #include <condition_variable>
+#include <chrono>
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -82,6 +83,7 @@ class CORE_LIBRARY_DLL_SHARED_API SyncEvent final
 {
     using get_condition_t = std::function<bool()>;
     using set_condition_t = std::function<void(bool)>;
+	using time_point_t    = std::chrono::steady_clock::time_point;
 
 public:
 	/*! \brief Struct to pass in get and set callbacks. */
@@ -151,6 +153,21 @@ public:
      * else we use the internally tracked condition.
      */
     bool WaitForTime(unsigned int period, eWaitTimeUnit timeUnit = eWaitTimeUnit::milliseconds);
+	/*!
+     * \brief Wait until a given timepoint to signal the event.
+     * \param[in] wakeupTime - Time in the future to wake up at.
+     * \return true if signalled, false if timed out.
+     *
+     * Blocking function that waits until underlying condition
+     * variable is signalled at which point this function returns
+     * or if not signalled this function returns after a defined
+     * number of milliseconds.
+     *
+     * If an external condition argument was specified in the
+     * constructor then the getter for that condition is used
+     * else we use the internally tracked condition.
+     */
+    bool WaitUntilTime(time_point_t const& wakeupTime);
     /*!
      * \brief Signal event.
      *

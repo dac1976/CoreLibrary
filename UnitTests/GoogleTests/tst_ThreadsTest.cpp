@@ -791,6 +791,27 @@ TEST_F(ThreadsTest, testCase_SyncEvent7)
     EXPECT_TRUE(helper.GetEventSignalledState(tId));
 }
 
+TEST(ThreadsTest_Alt, testCase_SyncEvent8)
+{
+    core_lib::threads::SyncEvent event;
+
+    auto startTime = std::chrono::steady_clock::now();
+
+    auto wakeupTime = startTime + std::chrono::seconds{3};
+    bool result     = false;
+    ASSERT_NO_THROW(result = event.WaitUntilTime(wakeupTime));
+    EXPECT_FALSE(result);
+
+    auto endTime = std::chrono::steady_clock::now();
+
+    using namespace std::chrono_literals;
+
+    auto elapsed = endTime - startTime;
+
+    bool approximatelyThreeSeconds = std::chrono::abs(elapsed - 3s) <= 10ms;
+    EXPECT_TRUE(approximatelyThreeSeconds);
+}
+
 // ****************************************************************************
 // ThreadBase tests
 // ****************************************************************************

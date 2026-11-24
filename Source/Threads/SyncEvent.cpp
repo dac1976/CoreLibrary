@@ -25,7 +25,6 @@
  */
 
 #include "Threads/SyncEvent.h"
-#include <chrono>
 
 namespace core_lib
 {
@@ -84,6 +83,23 @@ bool SyncEvent::WaitForTime(unsigned int period, eWaitTimeUnit timeUnit)
             lock, std::chrono::milliseconds(period), [this] { return m_getCondition(); });
         break;
     }
+
+    if (m_autoReset && m_getCondition())
+    {
+        m_setCondition(false);
+    }
+
+    return result;
+}
+
+bool SyncEvent::WaitUntilTime(time_point_t const& wakeupTime)
+{
+    std::unique_lock<std::mutex> lock(m_signalMutex);
+
+    bool result = m_signalCondVar.wait_until(
+        lock,
+        wakeupTime,
+        [this] { return m_getCondition(); });
 
     if (m_autoReset && m_getCondition())
     {
