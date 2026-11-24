@@ -69,7 +69,7 @@ public:
      * \param[in] sendBufferSize - Socket send option to control send buffer size.
      *
      * Typically use this constructor when managing a pool of threads using an instance of
-     * hgl::IoServiceThreadGroup in your application to manage a pool of std::threads.
+     * IoServiceThreadGroup in your application to manage a pool of std::threads.
      * This means you can use a single thread pool and all ASIO operations will be executed
      * using this thread pool managed by a single IO service. This is the recommended constructor.
      */

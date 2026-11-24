@@ -61,7 +61,7 @@ private:
 private:
     time_point_t   m_wakeupTime;
     callback_t     m_onTimedOut;
-    hgl::SyncEvent m_timeoutEvent;
+    SyncEvent m_timeoutEvent;
     std::thread    m_timeoutThread;
 };
 

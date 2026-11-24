@@ -35,8 +35,8 @@ namespace threads
 {
 
 DeadlineTimer::DeadlineTimer()
-    : m_timeoutEvent(hgl::eNotifyType::signalOneThread, hgl::eResetCondition::manualReset,
-                     hgl::eIntialCondition::notSignalled)
+    : m_timeoutEvent(eNotifyType::signalOneThread, eResetCondition::manualReset,
+                     eIntialCondition::notSignalled)
 {
 }
 

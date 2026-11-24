@@ -196,7 +196,7 @@ private:
     /*! \brief Event period mutex.*/
     mutable std::mutex m_settingsMutex{};
     /*! \brief Update event.*/
-    hgl::SyncEvent m_updateEvent{};
+    SyncEvent m_updateEvent{};
     /*! \brief Settings.*/
     PeriodicThreadSettings m_settings;
     /*! \brief Event tick period in native clock duration. */
