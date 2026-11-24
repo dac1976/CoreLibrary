@@ -10,7 +10,15 @@
 #include <algorithm>
 #include <future>
 #include <cstring>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <cstdint>
+#include <mutex>
+#include <stdexcept>
+#include <thread>
 #include "Threads/SyncEvent.h"
+#include "Threads/PeriodicThread.h"
 #include "Threads/ThreadBase.h"
 #include "Threads/ThreadGroup.h"
 #include "Threads/ConcurrentQueue.h"
@@ -1380,6 +1388,1278 @@ TEST(AsioTest, testCase_IoThreadGroup2)
     EXPECT_TRUE(sum2.Total() == static_cast<uint64_t>(500000500000));
     EXPECT_TRUE(sum1.NumThreadsUsed() == 8);
     EXPECT_TRUE(sum2.NumThreadsUsed() == 8);
+}
+
+// ****************************************************************************
+// PeriodicThread tests
+// ****************************************************************************
+namespace
+{
+
+using PeriodicTestClock = std::chrono::steady_clock;
+
+class PeriodicTickRecorder
+{
+public:
+    void Record(core_lib::threads::PeriodicTickInfo const& info)
+    {
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_ticks.push_back(info);
+        }
+
+        m_condition.notify_all();
+    }
+
+    bool WaitForTicks(std::size_t               count,
+                      std::chrono::milliseconds timeout = std::chrono::milliseconds(5000))
+    {
+        std::unique_lock<std::mutex> lock(m_mutex);
+
+        return m_condition.wait_for(
+            lock, timeout, [this, count]() { return m_ticks.size() >= count; });
+    }
+
+    std::vector<core_lib::threads::PeriodicTickInfo> Ticks() const
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_ticks;
+    }
+
+    void Clear()
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_ticks.clear();
+    }
+
+private:
+    mutable std::mutex                 m_mutex;
+    std::condition_variable            m_condition;
+    std::vector<core_lib::threads::PeriodicTickInfo> m_ticks;
+};
+
+core_lib::threads::PeriodicThreadSettings
+MakePeriodicTestSettings(int64_t            period   = 20,
+                         core_lib::threads::eWaitTimeUnit timeUnit = core_lib::threads::eWaitTimeUnit::milliseconds)
+{
+    core_lib::threads::PeriodicThreadSettings settings;
+
+    settings.period        = period;
+    settings.timeUnit      = timeUnit;
+    settings.delayedStart  = true;
+    settings.overrunPolicy = core_lib::threads::eOverrunPolicy::skipMissedTicks;
+
+    return settings;
+}
+
+TEST(PeriodicThreadTests, ConstructWithSimpleCallback)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallback = []() {};
+
+    EXPECT_NO_THROW({
+        core_lib::threads::PeriodicThread thread(settings);
+        EXPECT_FALSE(thread.IsStarted());
+    });
+}
+
+TEST(PeriodicThreadTests, ConstructWithExtendedCallback)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallbackEx = [](core_lib::threads::PeriodicTickInfo const&) {};
+
+    EXPECT_NO_THROW({
+        core_lib::threads::PeriodicThread thread(settings);
+        EXPECT_FALSE(thread.IsStarted());
+    });
+}
+
+TEST(PeriodicThreadTests, RejectMissingCallback)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    EXPECT_THROW(core_lib::threads::PeriodicThread thread(settings), std::invalid_argument);
+}
+
+TEST(PeriodicThreadTests, RejectMultipleCallbacks)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallback = []() {};
+
+    settings.eventCallbackEx = [](core_lib::threads::PeriodicTickInfo const&) {};
+
+    EXPECT_THROW(core_lib::threads::PeriodicThread thread(settings), std::invalid_argument);
+}
+
+TEST(PeriodicThreadTests, RejectZeroPeriod)
+{
+    auto settings = MakePeriodicTestSettings(0);
+
+    settings.eventCallback = []() {};
+
+    EXPECT_THROW(core_lib::threads::PeriodicThread thread(settings), std::invalid_argument);
+}
+
+TEST(PeriodicThreadTests, RejectNegativePeriod)
+{
+    auto settings = MakePeriodicTestSettings(-100);
+
+    settings.eventCallback = []() {};
+
+    EXPECT_THROW(core_lib::threads::PeriodicThread thread(settings), std::invalid_argument);
+}
+
+TEST(PeriodicThreadTests, RejectInvalidTimeUnit)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallback = []() {};
+    settings.timeUnit      = static_cast<core_lib::threads::eWaitTimeUnit>(999);
+
+    EXPECT_THROW(core_lib::threads::PeriodicThread thread(settings), std::invalid_argument);
+}
+
+TEST(PeriodicThreadTests, RejectDurationOverflow)
+{
+    auto settings = MakePeriodicTestSettings((std::numeric_limits<int64_t>::max)(),
+                                             core_lib::threads::eWaitTimeUnit::seconds);
+
+    settings.eventCallback = []() {};
+
+    EXPECT_THROW(core_lib::threads::PeriodicThread thread(settings), std::overflow_error);
+}
+
+TEST(PeriodicThreadTests, AcceptLargeValidPeriod)
+{
+    auto settings = MakePeriodicTestSettings(86400, core_lib::threads::eWaitTimeUnit::seconds);
+
+    settings.eventCallback = []() {};
+
+    EXPECT_NO_THROW({ core_lib::threads::PeriodicThread thread(settings); });
+}
+
+TEST(PeriodicThreadTests, GetConfiguredPeriod)
+{
+    auto settings = MakePeriodicTestSettings(4992, core_lib::threads::eWaitTimeUnit::microseconds);
+
+    settings.eventCallback = []() {};
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    core_lib::threads::eWaitTimeUnit unit = core_lib::threads::eWaitTimeUnit::seconds;
+
+    EXPECT_EQ(4992, thread.Period(&unit));
+    EXPECT_EQ(core_lib::threads::eWaitTimeUnit::microseconds, unit);
+
+    EXPECT_EQ(4992, thread.Period());
+}
+
+TEST(PeriodicThreadTests, SetPeriodAndTimeUnit)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallback = []() {};
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    thread.SetPeriod(2500, core_lib::threads::eWaitTimeUnit::microseconds);
+
+    core_lib::threads::eWaitTimeUnit unit;
+
+    EXPECT_EQ(2500, thread.Period(&unit));
+    EXPECT_EQ(core_lib::threads::eWaitTimeUnit::microseconds, unit);
+
+    thread.SetPeriod(2, core_lib::threads::eWaitTimeUnit::seconds);
+
+    EXPECT_EQ(2, thread.Period(&unit));
+    EXPECT_EQ(core_lib::threads::eWaitTimeUnit::seconds, unit);
+}
+
+TEST(PeriodicThreadTests, InvalidPeriodChangePreservesSettings)
+{
+    auto settings = MakePeriodicTestSettings(100, core_lib::threads::eWaitTimeUnit::milliseconds);
+
+    settings.eventCallback = []() {};
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    EXPECT_THROW(thread.SetPeriod(0), std::invalid_argument);
+
+    EXPECT_THROW(thread.SetPeriod(-1), std::invalid_argument);
+
+    EXPECT_THROW(
+        thread.SetPeriod((std::numeric_limits<int64_t>::max)(), core_lib::threads::eWaitTimeUnit::seconds),
+        std::overflow_error);
+
+    core_lib::threads::eWaitTimeUnit unit;
+
+    EXPECT_EQ(100, thread.Period(&unit));
+    EXPECT_EQ(core_lib::threads::eWaitTimeUnit::milliseconds, unit);
+}
+
+TEST(PeriodicThreadTests, SetOverrunPolicy)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallback = []() {};
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    EXPECT_EQ(core_lib::threads::eOverrunPolicy::skipMissedTicks, thread.OverrunPolicy());
+
+    thread.SetOverrunPolicy(core_lib::threads::eOverrunPolicy::catchUp);
+
+    EXPECT_EQ(core_lib::threads::eOverrunPolicy::catchUp, thread.OverrunPolicy());
+
+    thread.SetOverrunPolicy(core_lib::threads::eOverrunPolicy::resynchronise);
+
+    EXPECT_EQ(core_lib::threads::eOverrunPolicy::resynchronise, thread.OverrunPolicy());
+
+    thread.SetOverrunPolicy(core_lib::threads::eOverrunPolicy::skipMissedTicks);
+
+    EXPECT_EQ(core_lib::threads::eOverrunPolicy::skipMissedTicks, thread.OverrunPolicy());
+}
+
+TEST(PeriodicThreadTests, SetMaximumCatchUpTicks)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallback   = []() {};
+    settings.maxCatchUpTicks = 4;
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    EXPECT_EQ(4U, thread.MaxCatchUpTicks());
+
+    thread.SetMaxCatchUpTicks(10);
+
+    EXPECT_EQ(10U, thread.MaxCatchUpTicks());
+
+    thread.SetMaxCatchUpTicks(0);
+
+    EXPECT_EQ(0U, thread.MaxCatchUpTicks());
+}
+
+TEST(PeriodicThreadTests, DelayedStart)
+{
+    std::atomic<uint32_t> count{0};
+
+    auto settings = MakePeriodicTestSettings(10);
+
+    settings.eventCallback = [&count]() { ++count; };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    EXPECT_FALSE(thread.IsStarted());
+    EXPECT_EQ(0U, count.load());
+}
+
+TEST(PeriodicThreadTests, AutomaticStart)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.delayedStart = false;
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    EXPECT_TRUE(thread.IsStarted());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+    EXPECT_TRUE(received);
+    EXPECT_FALSE(thread.IsStarted());
+}
+
+TEST(PeriodicThreadTests, SimpleCallbackExecution)
+{
+    std::mutex              mutex;
+    std::condition_variable condition;
+    uint32_t                count = 0;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallback = [&]()
+    {
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            ++count;
+        }
+
+        condition.notify_all();
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool received;
+
+    {
+        std::unique_lock<std::mutex> lock(mutex);
+
+        received =
+            condition.wait_for(lock, std::chrono::seconds(5), [&count]() { return count >= 5; });
+    }
+
+    EXPECT_TRUE(thread.Stop());
+    EXPECT_TRUE(received);
+    EXPECT_GE(count, 5U);
+}
+
+TEST(PeriodicThreadTests, ExtendedCallbackExecution)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 5U);
+
+    EXPECT_EQ(0U, ticks.front().tickIndex);
+    EXPECT_EQ(0U, ticks.front().skippedTicks);
+    EXPECT_FALSE(ticks.front().catchUpTick);
+    EXPECT_FALSE(ticks.front().resynchronised);
+
+    EXPECT_EQ(core_lib::threads::PeriodicTickInfo::duration_t::zero(), ticks.front().previousCallbackDuration);
+
+    for (auto const& tick : ticks)
+    {
+        EXPECT_EQ(std::chrono::milliseconds(20), tick.period);
+
+        EXPECT_GE(tick.actualTime, tick.scheduledTime);
+
+        EXPECT_EQ(tick.actualTime - tick.scheduledTime, tick.wakeupLatency);
+    }
+}
+
+TEST(PeriodicThreadTests, NoCallbacksAfterStop)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(10);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    ASSERT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const count = recorder.Ticks().size();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    EXPECT_EQ(count, recorder.Ticks().size());
+    EXPECT_FALSE(thread.IsStarted());
+}
+
+TEST(PeriodicThreadTests, RepeatedStartAndStop)
+{
+    auto settings = MakePeriodicTestSettings();
+
+    settings.eventCallback = []() {};
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    EXPECT_TRUE(thread.Start());
+    EXPECT_TRUE(thread.Start());
+
+    EXPECT_TRUE(thread.IsStarted());
+
+    EXPECT_TRUE(thread.Stop());
+    EXPECT_TRUE(thread.Stop());
+
+    EXPECT_FALSE(thread.IsStarted());
+}
+
+TEST(PeriodicThreadTests, AbsoluteDeadlineProgression)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(20);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 20U);
+
+    auto const referenceTime = ticks.front().scheduledTime;
+
+    for (auto const& tick : ticks)
+    {
+        auto const expectedTime =
+            referenceTime + std::chrono::milliseconds(20 * static_cast<int64_t>(tick.tickIndex));
+
+        EXPECT_EQ(expectedTime, tick.scheduledTime);
+    }
+}
+
+TEST(PeriodicThreadTests, CallbackDoesNotAccumulateDrift)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(30);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 30U);
+
+    auto const& first = ticks.front();
+    auto const& last  = ticks[29];
+
+    auto const expectedElapsed =
+        std::chrono::milliseconds(20 * static_cast<int64_t>(last.tickIndex - first.tickIndex));
+
+    auto const scheduledElapsed = last.scheduledTime - first.scheduledTime;
+
+    auto const actualElapsed = last.actualTime - first.actualTime;
+
+    EXPECT_EQ(expectedElapsed, scheduledElapsed);
+
+    auto const error = actualElapsed - expectedElapsed;
+
+    // Allow for operating system scheduling latency.
+    EXPECT_GE(error, -std::chrono::milliseconds(50));
+    EXPECT_LE(error, std::chrono::milliseconds(50));
+}
+
+TEST(PeriodicThreadTests, PreviousCallbackDuration)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(100);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 5U);
+
+    EXPECT_EQ(core_lib::threads::PeriodicTickInfo::duration_t::zero(), ticks.front().previousCallbackDuration);
+
+    for (std::size_t i = 1; i < ticks.size(); ++i)
+    {
+        EXPECT_GE(ticks[i].previousCallbackDuration, std::chrono::milliseconds(20));
+    }
+}
+
+TEST(PeriodicThreadTests, UnlimitedCatchUp)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.overrunPolicy   = core_lib::threads::eOverrunPolicy::catchUp;
+    settings.maxCatchUpTicks = 0;
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        if (info.tickIndex == 0)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(10);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 10U);
+
+    EXPECT_FALSE(ticks[0].catchUpTick);
+    EXPECT_TRUE(ticks[1].catchUpTick);
+    EXPECT_TRUE(ticks[2].catchUpTick);
+    EXPECT_TRUE(ticks[3].catchUpTick);
+
+    for (std::size_t i = 0; i < ticks.size(); ++i)
+    {
+        EXPECT_EQ(static_cast<uint64_t>(i), ticks[i].tickIndex);
+        EXPECT_EQ(0U, ticks[i].skippedTicks);
+        EXPECT_FALSE(ticks[i].resynchronised);
+
+        EXPECT_EQ(ticks.front().scheduledTime +
+                      std::chrono::milliseconds(20 * static_cast<int64_t>(i)),
+                  ticks[i].scheduledTime);
+    }
+}
+
+TEST(PeriodicThreadTests, BoundedCatchUp)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.overrunPolicy   = core_lib::threads::eOverrunPolicy::catchUp;
+    settings.maxCatchUpTicks = 2;
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        if (info.tickIndex == 0)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(8);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 8U);
+
+    EXPECT_EQ(0U, ticks[0].tickIndex);
+    EXPECT_FALSE(ticks[0].catchUpTick);
+
+    EXPECT_EQ(1U, ticks[1].tickIndex);
+    EXPECT_TRUE(ticks[1].catchUpTick);
+
+    EXPECT_EQ(2U, ticks[2].tickIndex);
+    EXPECT_TRUE(ticks[2].catchUpTick);
+
+    // Catch-up limit reached: remaining expired ticks skipped.
+    EXPECT_FALSE(ticks[3].catchUpTick);
+    EXPECT_GT(ticks[3].skippedTicks, 0U);
+
+    EXPECT_EQ(ticks[2].tickIndex + 1 + ticks[3].skippedTicks, ticks[3].tickIndex);
+
+    uint32_t consecutiveCatchUpTicks = 0;
+
+    for (auto const& tick : ticks)
+    {
+        if (tick.catchUpTick)
+        {
+            ++consecutiveCatchUpTicks;
+
+            EXPECT_LE(consecutiveCatchUpTicks, 2U);
+        }
+        else
+        {
+            consecutiveCatchUpTicks = 0;
+        }
+
+        EXPECT_FALSE(tick.resynchronised);
+
+        EXPECT_EQ(ticks.front().scheduledTime +
+                      std::chrono::milliseconds(20 * static_cast<int64_t>(tick.tickIndex)),
+                  tick.scheduledTime);
+    }
+
+    // The temporary recovery policy must not modify settings.
+    EXPECT_EQ(core_lib::threads::eOverrunPolicy::catchUp, thread.OverrunPolicy());
+}
+
+TEST(PeriodicThreadTests, SkipMissedTicks)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.overrunPolicy = core_lib::threads::eOverrunPolicy::skipMissedTicks;
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        if (info.tickIndex == 0)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 5U);
+
+    EXPECT_EQ(0U, ticks[0].tickIndex);
+    EXPECT_GE(ticks[1].skippedTicks, 7U);
+
+    for (std::size_t i = 1; i < ticks.size(); ++i)
+    {
+        auto const& previous = ticks[i - 1];
+        auto const& current  = ticks[i];
+
+        EXPECT_EQ(previous.tickIndex + 1 + current.skippedTicks, current.tickIndex);
+
+        EXPECT_EQ(ticks.front().scheduledTime +
+                      std::chrono::milliseconds(20 * static_cast<int64_t>(current.tickIndex)),
+                  current.scheduledTime);
+
+        EXPECT_FALSE(current.catchUpTick);
+        EXPECT_FALSE(current.resynchronised);
+    }
+}
+
+TEST(PeriodicThreadTests, ResynchroniseAfterOverrun)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.overrunPolicy = core_lib::threads::eOverrunPolicy::resynchronise;
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        if (info.tickIndex == 0)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 5U);
+
+    EXPECT_FALSE(ticks[0].resynchronised);
+    EXPECT_TRUE(ticks[1].resynchronised);
+
+    EXPECT_FALSE(ticks[1].catchUpTick);
+    EXPECT_GE(ticks[1].skippedTicks, 7U);
+
+    auto const expectedDeadline =
+        ticks[0].actualTime + ticks[1].previousCallbackDuration + std::chrono::milliseconds(20);
+
+    EXPECT_EQ(expectedDeadline, ticks[1].scheduledTime);
+
+    for (std::size_t i = 1; i < ticks.size(); ++i)
+    {
+        auto const& previous = ticks[i - 1];
+        auto const& current  = ticks[i];
+
+        EXPECT_EQ(previous.tickIndex + 1 + current.skippedTicks, current.tickIndex);
+
+        EXPECT_FALSE(current.catchUpTick);
+
+        if (!current.resynchronised)
+        {
+            EXPECT_EQ(previous.scheduledTime + std::chrono::milliseconds(20),
+                      current.scheduledTime);
+        }
+    }
+}
+
+TEST(PeriodicThreadTests, SustainedOverload)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(10);
+
+    settings.overrunPolicy   = core_lib::threads::eOverrunPolicy::catchUp;
+    settings.maxCatchUpTicks = 2;
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(15);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 15U);
+
+    uint32_t consecutiveCatchUpTicks = 0;
+    uint64_t totalSkippedTicks       = 0;
+    uint64_t totalCatchUpTicks       = 0;
+
+    for (auto const& tick : ticks)
+    {
+        totalSkippedTicks += tick.skippedTicks;
+
+        if (tick.catchUpTick)
+        {
+            ++totalCatchUpTicks;
+            ++consecutiveCatchUpTicks;
+
+            EXPECT_LE(consecutiveCatchUpTicks, 2U);
+        }
+        else
+        {
+            consecutiveCatchUpTicks = 0;
+        }
+    }
+
+    EXPECT_GT(totalSkippedTicks, 0U);
+    EXPECT_GT(totalCatchUpTicks, 0U);
+}
+
+TEST(PeriodicThreadTests, ChangePeriodWhileRunning)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    ASSERT_TRUE(recorder.WaitForTicks(5));
+
+    thread.SetPeriod(40, core_lib::threads::eWaitTimeUnit::milliseconds);
+
+    auto const targetCount = recorder.Ticks().size() + 10;
+
+    bool const received = recorder.WaitForTicks(targetCount);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    EXPECT_EQ(std::chrono::milliseconds(20), ticks.front().period);
+
+    EXPECT_EQ(std::chrono::milliseconds(40), ticks.back().period);
+
+    bool newPeriodObserved = false;
+
+    for (std::size_t i = 0; i < ticks.size(); ++i)
+    {
+        auto const& tick = ticks[i];
+
+        if (tick.period == std::chrono::milliseconds(40))
+        {
+            newPeriodObserved = true;
+        }
+
+        if (newPeriodObserved)
+        {
+            EXPECT_EQ(std::chrono::milliseconds(40), tick.period);
+        }
+
+        if (i > 0)
+        {
+            auto const& previous = ticks[i - 1];
+
+            auto const expectedInterval =
+                previous.period * static_cast<int64_t>(tick.tickIndex - previous.tickIndex);
+
+            EXPECT_EQ(expectedInterval, tick.scheduledTime - previous.scheduledTime);
+        }
+    }
+
+    EXPECT_TRUE(newPeriodObserved);
+}
+
+TEST(PeriodicThreadTests, ChangeSettingsFromCallback)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    core_lib::threads::PeriodicThread* threadPtr = nullptr;
+
+    settings.eventCallbackEx = [&recorder, &threadPtr](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        if (info.tickIndex == 0)
+        {
+            threadPtr->SetPeriod(40, core_lib::threads::eWaitTimeUnit::milliseconds);
+
+            threadPtr->SetOverrunPolicy(core_lib::threads::eOverrunPolicy::catchUp);
+
+            threadPtr->SetMaxCatchUpTicks(3);
+        }
+
+        recorder.Record(info);
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    threadPtr = &thread;
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 5U);
+
+    EXPECT_EQ(std::chrono::milliseconds(20), ticks[0].period);
+
+    EXPECT_EQ(std::chrono::milliseconds(40), ticks[1].period);
+
+    EXPECT_EQ(core_lib::threads::eOverrunPolicy::catchUp, thread.OverrunPolicy());
+
+    EXPECT_EQ(3U, thread.MaxCatchUpTicks());
+}
+
+TEST(PeriodicThreadTests, ChangeOverrunPolicyWhileRunning)
+{
+    PeriodicTickRecorder recorder;
+
+    std::atomic<bool> induceOverrun{false};
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.overrunPolicy = core_lib::threads::eOverrunPolicy::catchUp;
+
+    settings.eventCallbackEx = [&recorder, &induceOverrun](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        if (induceOverrun.exchange(false))
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+    ASSERT_TRUE(recorder.WaitForTicks(5));
+
+    thread.SetOverrunPolicy(core_lib::threads::eOverrunPolicy::resynchronise);
+
+    // Allow the worker to adopt the new policy before
+    // deliberately inducing an overrun.
+    auto targetCount = recorder.Ticks().size() + 3;
+
+    ASSERT_TRUE(recorder.WaitForTicks(targetCount));
+
+    induceOverrun.store(true);
+
+    targetCount = recorder.Ticks().size() + 5;
+
+    bool const received = recorder.WaitForTicks(targetCount);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    bool resynchronisationObserved = false;
+
+    for (auto const& tick : ticks)
+    {
+        if (tick.resynchronised)
+        {
+            resynchronisationObserved = true;
+            EXPECT_FALSE(tick.catchUpTick);
+            EXPECT_GT(tick.skippedTicks, 0U);
+        }
+    }
+
+    EXPECT_TRUE(resynchronisationObserved);
+}
+
+TEST(PeriodicThreadTests, CallbackExceptionDoesNotStopThread)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        if (info.tickIndex == 0)
+        {
+            throw std::runtime_error("Intentional callback exception");
+        }
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 5U);
+
+    EXPECT_EQ(0U, ticks.front().tickIndex);
+    EXPECT_GT(ticks.back().tickIndex, 0U);
+}
+
+TEST(PeriodicThreadTests, StopInterruptsLongWait)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(10, core_lib::threads::eWaitTimeUnit::seconds);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+    ASSERT_TRUE(recorder.WaitForTicks(1));
+
+    // Give the worker time to enter its timed wait.
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    auto const start = PeriodicTestClock::now();
+
+    EXPECT_TRUE(thread.Stop());
+
+    auto const elapsed = PeriodicTestClock::now() - start;
+
+    EXPECT_LT(elapsed, std::chrono::seconds(1));
+    EXPECT_FALSE(thread.IsStarted());
+    EXPECT_EQ(1U, recorder.Ticks().size());
+}
+
+TEST(PeriodicThreadTests, StopDuringCallback)
+{
+    PeriodicTickRecorder recorder;
+
+    std::atomic<bool> callbackCompleted{false};
+
+    auto settings = MakePeriodicTestSettings(10, core_lib::threads::eWaitTimeUnit::seconds);
+
+    settings.eventCallbackEx = [&recorder, &callbackCompleted](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+        callbackCompleted.store(true);
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+    ASSERT_TRUE(recorder.WaitForTicks(1));
+
+    auto const start = PeriodicTestClock::now();
+
+    EXPECT_TRUE(thread.Stop());
+
+    auto const elapsed = PeriodicTestClock::now() - start;
+
+    EXPECT_TRUE(callbackCompleted.load());
+    EXPECT_LT(elapsed, std::chrono::seconds(2));
+
+    EXPECT_EQ(1U, recorder.Ticks().size());
+    EXPECT_FALSE(thread.IsStarted());
+}
+
+TEST(PeriodicThreadTests, StopDuringUnlimitedCatchUp)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(5);
+
+    settings.overrunPolicy   = core_lib::threads::eOverrunPolicy::catchUp;
+    settings.maxCatchUpTicks = 0;
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    {
+        recorder.Record(info);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+    ASSERT_TRUE(recorder.WaitForTicks(5));
+
+    auto const start = PeriodicTestClock::now();
+
+    EXPECT_TRUE(thread.Stop());
+
+    auto const elapsed = PeriodicTestClock::now() - start;
+
+    EXPECT_LT(elapsed, std::chrono::seconds(1));
+    EXPECT_FALSE(thread.IsStarted());
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 5U);
+
+    EXPECT_TRUE(ticks[1].catchUpTick);
+}
+
+TEST(PeriodicThreadTests, RestartResetsTimingInformation)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    ASSERT_TRUE(thread.Start());
+    ASSERT_TRUE(recorder.WaitForTicks(5));
+    ASSERT_TRUE(thread.Stop());
+
+    auto const firstRun = recorder.Ticks();
+
+    ASSERT_GE(firstRun.size(), 5U);
+
+    recorder.Clear();
+
+    // Deliberately leave the thread stopped for several periods.
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    auto const restartTime = PeriodicTestClock::now();
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(5);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const secondRun = recorder.Ticks();
+
+    ASSERT_GE(secondRun.size(), 5U);
+
+    auto const& firstTick = secondRun.front();
+
+    EXPECT_EQ(0U, firstTick.tickIndex);
+    EXPECT_EQ(0U, firstTick.skippedTicks);
+
+    EXPECT_FALSE(firstTick.catchUpTick);
+    EXPECT_FALSE(firstTick.resynchronised);
+
+    EXPECT_EQ(core_lib::threads::PeriodicTickInfo::duration_t::zero(), firstTick.previousCallbackDuration);
+
+    EXPECT_GE(firstTick.scheduledTime, restartTime);
+
+    EXPECT_GT(firstTick.scheduledTime, firstRun.back().scheduledTime);
+}
+
+TEST(PeriodicThreadTests, RepeatedRestartsMaintainTiming)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(20);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    for (uint32_t iteration = 0; iteration < 20; ++iteration)
+    {
+        SCOPED_TRACE(iteration);
+
+        recorder.Clear();
+
+        ASSERT_TRUE(thread.Start());
+
+        bool const received = recorder.WaitForTicks(2);
+
+        ASSERT_TRUE(thread.Stop());
+        ASSERT_TRUE(received);
+
+        auto const ticks = recorder.Ticks();
+
+        ASSERT_GE(ticks.size(), 2U);
+
+        EXPECT_EQ(0U, ticks.front().tickIndex);
+        EXPECT_EQ(0U, ticks.front().skippedTicks);
+
+        for (auto const& tick : ticks)
+        {
+            EXPECT_GE(tick.actualTime, tick.scheduledTime);
+
+            EXPECT_GE(tick.wakeupLatency, core_lib::threads::PeriodicTickInfo::duration_t::zero());
+        }
+    }
+}
+
+TEST(PeriodicThreadTests, RapidStartStopCycles)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(100);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    core_lib::threads::PeriodicThread thread(settings);
+
+    for (uint32_t iteration = 0; iteration < 100; ++iteration)
+    {
+        SCOPED_TRACE(iteration);
+
+        ASSERT_TRUE(thread.Start());
+        ASSERT_TRUE(thread.Stop());
+
+        EXPECT_FALSE(thread.IsStarted());
+    }
+
+    recorder.Clear();
+
+    ASSERT_TRUE(thread.Start());
+
+    bool const received = recorder.WaitForTicks(3);
+
+    EXPECT_TRUE(thread.Stop());
+    ASSERT_TRUE(received);
+
+    auto const ticks = recorder.Ticks();
+
+    ASSERT_GE(ticks.size(), 3U);
+
+    EXPECT_EQ(0U, ticks.front().tickIndex);
+
+    for (auto const& tick : ticks)
+    {
+        EXPECT_GE(tick.actualTime, tick.scheduledTime);
+    }
+}
+
+TEST(PeriodicThreadTests, DestructorStopsRunningThread)
+{
+    PeriodicTickRecorder recorder;
+
+    auto settings = MakePeriodicTestSettings(10, core_lib::threads::eWaitTimeUnit::seconds);
+
+    settings.eventCallbackEx = [&recorder](core_lib::threads::PeriodicTickInfo const& info)
+    { recorder.Record(info); };
+
+    PeriodicTestClock::time_point destructionStart;
+
+    {
+        core_lib::threads::PeriodicThread thread(settings);
+
+        ASSERT_TRUE(thread.Start());
+        ASSERT_TRUE(recorder.WaitForTicks(1));
+
+        destructionStart = PeriodicTestClock::now();
+    }
+
+    auto const elapsed = PeriodicTestClock::now() - destructionStart;
+
+    EXPECT_LT(elapsed, std::chrono::seconds(1));
+
+    auto const count = recorder.Ticks().size();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    EXPECT_EQ(count, recorder.Ticks().size());
 }
 
 #endif // DISABLE_THREADS_TESTS

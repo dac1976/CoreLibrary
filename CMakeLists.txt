@@ -69,6 +69,7 @@ endif()
 add_library(CoreLibrary
   Source/Threads/DeadlineTimer.cpp
   Source/Threads/EventThread.cpp
+  Source/Threads/PeriodicThread.cpp
   Source/Threads/SyncEvent.cpp
   Source/Threads/ThreadBase.cpp
   Source/Threads/ThreadGroup.cpp
