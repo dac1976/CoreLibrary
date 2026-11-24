@@ -30,9 +30,9 @@
 #include <cstdint>
 #include <functional>
 #include <mutex>
-#include "features/PlatformFeatures.h" // $(HGLPRJ)/Common/Utils/Platform
-#include "ThreadBase.h"
-#include "SyncEvent.h"
+#include "Platform/PlatformDefines.h"
+#include "Threads/ThreadBase.h"
+#include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
