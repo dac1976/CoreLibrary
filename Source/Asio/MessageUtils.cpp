@@ -164,6 +164,19 @@ void MessageHandler::MessageReceivedHandler(defs::char_buf_cspan_t message) cons
     m_messageDispatcher(receivedMessage);
 }
 
+MessagePoolStatistics MessageHandler::GetMessagePoolStats() const
+{
+    return m_msgPool ? m_msgPool->GetStatistics() : MessagePoolStatistics{};
+}
+
+void MessageHandler::ResetMessagePoolStats()
+{
+    if (m_msgPool)
+    {
+        m_msgPool->ResetStatistics();
+    }
+}
+
 bool MessageHandler::CheckMessage(defs::char_buf_cspan_t message)
 {
     return message.size() >= sizeof(defs::MessageHeader);

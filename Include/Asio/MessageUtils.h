@@ -109,7 +109,16 @@ public:
      * \brief Message received handler method.
      * \param[in] message - A received message buffer.
      */
-    void MessageReceivedHandler(defs::char_buf_cspan_t message) const;
+    void MessageReceivedHandler(defs::char_buf_cspan_t message) const;	
+	/*!
+     * \brief Get message pool statistics.
+     * \return Thread-safe snapshot of the receive pool statistics.
+     */
+    MessagePoolStatistics GetMessagePoolStats() const;
+    /*!
+     * \brief Reset receive message pool statistics.
+     */
+    void ResetMessagePoolStats();
 
 private:
     /*!
