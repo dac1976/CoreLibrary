@@ -30,9 +30,9 @@
 #include <cstdint>
 #include <functional>
 #include <mutex>
-#include "features/PlatformFeatures.h" // $(HGLPRJ)/Common/Utils/Platform
-#include "ThreadBase.h"
-#include "SyncEvent.h"
+#include "Platform/PlatformDefines.h"
+#include "Threads/ThreadBase.h"
+#include "Threads/SyncEvent.h"
 
 /*! \brief The core_lib namespace. */
 namespace core_lib
@@ -196,7 +196,7 @@ private:
     /*! \brief Event period mutex.*/
     mutable std::mutex m_settingsMutex{};
     /*! \brief Update event.*/
-    hgl::SyncEvent m_updateEvent{};
+    SyncEvent m_updateEvent{};
     /*! \brief Settings.*/
     PeriodicThreadSettings m_settings;
     /*! \brief Event tick period in native clock duration. */

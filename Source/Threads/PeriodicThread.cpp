@@ -24,7 +24,7 @@
  * \file PeriodicThread.cpp
  * \brief File containing definition of PeriodicThread class.
  */
-#include "PeriodicThread.h"
+#include "Threads/PeriodicThread.h"
 #include <stdexcept>
 #include <limits>
 
